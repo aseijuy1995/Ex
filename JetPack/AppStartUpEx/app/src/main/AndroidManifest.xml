@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="edu.yujie.appstartupex">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppStartUpEx">
+        <activity android:name="edu.yujie.appstartupex.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- You don't need to add a <meta-data> entry for WorkManagerInitializer,
+        because WorkManagerInitializer is a dependency of ExampleLoggerInitializer.
+        This means that if ExampleLoggerInitializer is discoverable, then so is WorkManagerInitializer. -->
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.android-startUp"
+            android:exported="false"
+            tools:node="merge"
+            tools:replace="android:authorities">
+
+            <meta-data
+                android:name="edu.yujie.appstartupex.ExampleLoggerInitializer"
+                android:value="androidx.startUp" />
+            <!--            tools:node="remove"-->
+        </provider>
+    </application>
+
+</manifest>

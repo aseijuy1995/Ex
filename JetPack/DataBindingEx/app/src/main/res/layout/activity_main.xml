@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <!--        <variable-->
+        <!--            name="user"-->
+        <!--            type="edu.yujie.databindingext.User" />-->
+
+        <!--        <import type="java.util.List" />-->
+
+        <!--        <variable-->
+        <!--            name="list"-->
+        <!--            type="java.util.List&lt;Integer>" />-->
+
+        <!--        <variable-->
+        <!--            name="handlers"-->
+        <!--            type="edu.yujie.databindingext.MyHandlers" />-->
+
+        <import
+            alias="view"
+            type="android.view.View" />
+
+        <!--        <variable-->
+        <!--            name="bindingAdapterOnToastClickStr"-->
+        <!--            type="String" />-->
+
+        <!--        <variable-->
+        <!--            name="isError"-->
+        <!--            type="Boolean" />-->
+
+        <variable
+            name="viewModel"
+            type="edu.yujie.databindingex.MainViewModel" />
+
+        <variable
+            name="converter"
+            type="edu.yujie.databindingex.Converter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@{viewModel.isError ? @color/white : @android:color/holo_purple}"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{viewModel.handlers::onClickClick}"
+            android:text="@{@string/format(viewModel.user.firstName,viewModel.user.lastName, viewModel.list[0])}"
+            android:visibility="@{viewModel.user.adult?view.VISIBLE:view.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <edu.yujie.databindingex.TextView2
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="TextView2 BindingMethods"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:OnToastClick="@{viewModel.bindingAdapterOnToastClickStr}"
+            android:text="BindingAdapter setOnToastClick"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text='@{converter.intToString(123)}'
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

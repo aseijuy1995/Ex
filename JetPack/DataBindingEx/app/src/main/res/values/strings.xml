@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">DataBindingEx</string>
+    <string name="format">%s, %s, list[0] = %s</string>
+</resources>
