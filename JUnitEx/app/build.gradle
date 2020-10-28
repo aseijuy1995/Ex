@@ -1,0 +1,73 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "edu.yujie.junitex"
+        minSdkVersion 16
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    //test
+    testOptions {
+        unitTests {
+            //dependency on resource (robolectric)
+            includeAndroidResources = true
+            //when android api method while trigger exception, configuration value when method return null or 0
+            returnDefaultValues = true
+        }
+    }
+}
+
+dependencies {
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    androidTestImplementation "androidx.test.ext:junit:1.1.2"
+    androidTestImplementation "androidx.test.espresso:espresso-core:3.3.0"
+    //JUnit
+    testImplementation "junit:junit:4.13.1"
+    //robolectric
+    testImplementation "org.robolectric:robolectric:4.2.1"//4.4have bug
+//    //mockito
+//    testImplementation "org.mockito:mockito-core:3.3.0"
+//    //
+//    testImplementation "androidx.test:core-ktx:1.3.0"
+//    testImplementation "io.mockk:mockk:1.10.2"
+    //
+//    testImplementation "android.arch.core:core-testing:1.1.1"
+}
+
+//preBuild.doFirst {
+//    transformClassesWithJacocoForDebug.doLast {
+//        copy {
+//            from "${buildDir}/intermediates/classes/debug/META-INF"
+//            into "${buildDir}/intermediates/transforms/jacoco/debug/folders/1/1/main/META-INF"
+//        }
+//    }
+//}
