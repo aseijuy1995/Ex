@@ -1,4 +1,4 @@
-package edu.yujie.datastoreext
+package edu.yujie.datastoreex
 
 import org.junit.Test
 

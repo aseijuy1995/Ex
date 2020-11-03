@@ -1,17 +1,14 @@
-package edu.yujie.datastoreext
+package edu.yujie.datastoreex
 
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.datastore.DataStore
 import androidx.datastore.createDataStore
 import androidx.lifecycle.lifecycleScope
 import com.example.application.Settings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch

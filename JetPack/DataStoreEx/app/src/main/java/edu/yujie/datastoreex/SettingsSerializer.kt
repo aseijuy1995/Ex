@@ -1,4 +1,4 @@
-package edu.yujie.datastoreext
+package edu.yujie.datastoreex
 
 import androidx.datastore.CorruptionException
 import androidx.datastore.Serializer

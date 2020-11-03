@@ -1,4 +1,4 @@
-package edu.yujie.datastoreext
+package edu.yujie.datastoreex
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

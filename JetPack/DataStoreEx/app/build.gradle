@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    //data store - proto
+    //protobuf
     id 'com.google.protobuf'
 }
 
@@ -10,7 +10,7 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId 'edu.yujie.datastoreext'
+        applicationId 'edu.yujie.datastoreex'
         minSdkVersion 16
         targetSdkVersion 29
         versionCode 1
@@ -50,13 +50,14 @@ dependencies {
     //data store
     implementation "androidx.datastore:datastore-preferences:1.0.0-alpha02"
     implementation "androidx.datastore:datastore-core:1.0.0-alpha02"
+    //protobuf
     implementation "com.google.protobuf:protobuf-javalite:3.10.0"
     //lifecycle
     def lifecycle_version = "2.2.0"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
 }
 
-//data store - proto
+//proto
 // Generates the java Protobuf-lite code for the Protobufs in this project. See
 // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
 // for more information.
