@@ -9,6 +9,11 @@ class MainActivity : AppCompatActivity() {
 //        setContentView(R.layout.activity_main)
 //        setContentView(R.layout.activity_main2)
 //        setContentView(R.layout.activity_main3)
-        setContentView(R.layout.activity_main4)
+//        setContentView(R.layout.activity_main4)
+//        setContentView(R.layout.activity_main5)
+//        setContentView(R.layout.activity_main6)
+//        setContentView(R.layout.activity_main7)
+//        supportFragmentManager.beginTransaction().replace(R.id.tflLayout, MyFragment()).commit()
+        setContentView(R.layout.activity_main8)
     }
 }
