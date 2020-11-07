@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragment_first">
+
+    <fragment
+        android:id="@+id/fragment_first"
+        android:name="edu.yujie.navigationex.FirstFragment"
+        android:label="fragment_first">
+        <action
+            android:id="@+id/action_fragment_first_to_fragment_second"
+            app:destination="@id/fragment_second" >
+<!--            <argument-->
+<!--                android:name="arg"-->
+<!--                app:argType="string" />-->
+        </action>
+        <action
+            android:id="@+id/action_fragment_first_to_fragment_profile"
+            app:destination="@id/fragment_profile" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_second"
+        android:name="edu.yujie.navigationex.SecondFragment"
+        android:label="fragment_second">
+        <action
+            android:id="@+id/action_fragment_second_to_myDialogFragment"
+            app:destination="@id/fragment_dialog_my" />
+    </fragment>
+    <dialog
+        android:id="@+id/fragment_dialog_my"
+        android:name="edu.yujie.navigationex.MyDialogFragment"
+        android:label="fragment_dialog_my">
+
+        <action
+            android:id="@+id/action_fragment_dialog_my_to_fragment_third"
+            app:destination="@+id/nav_graph2" />
+    </dialog>
+
+    <include app:graph="@navigation/nav_graph3" />
+    <deepLink
+        android:id="@+id/deepLink"
+        android:autoVerify="true"
+        app:uri="https://www.google.com" />
+    <fragment
+        android:id="@+id/fragment_login"
+        android:name="edu.yujie.navigationex.ex.LoginFragment"
+        android:label="fragment_login" />
+    <fragment
+        android:id="@+id/fragment_profile"
+        android:name="edu.yujie.navigationex.ex.ProfileFragment"
+        android:label="fragment_profile" />
+</navigation>
