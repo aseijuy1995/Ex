@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/dl_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/abl_layout"
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:id="@+id/ctl_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:contentScrim="?attr/colorPrimary"
+                    app:layout_scrollFlags="scroll|snap"
+                    app:toolbarId="@id/tb_bar">
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/tb_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        app:layout_collapseMode="pin" />
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".MainActivity">
+
+                <androidx.core.widget.NestedScrollView
+                    android:id="@+id/nsv_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:fillViewport="true"
+                    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+                    app:layout_constraintBottom_toTopOf="@id/bnv_view"
+                    app:layout_constraintEnd_toEndOf="@id/cl_layout"
+                    app:layout_constraintStart_toStartOf="@id/cl_layout"
+                    app:layout_constraintTop_toTopOf="@id/cl_layout">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_layout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <androidx.fragment.app.FragmentContainerView
+                            android:id="@+id/fcv_view"
+                            android:name="androidx.navigation.fragment.NavHostFragment"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            app:defaultNavHost="true"
+                            app:layout_constraintBottom_toBottomOf="@id/cl_layout2"
+                            app:layout_constraintEnd_toEndOf="@id/cl_layout2"
+                            app:layout_constraintStart_toStartOf="@id/cl_layout2"
+                            app:layout_constraintTop_toBottomOf="@id/cl_layout2"
+                            app:navGraph="@navigation/nav_graph" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.core.widget.NestedScrollView>
+
+                <com.google.android.material.bottomnavigation.BottomNavigationView
+                    android:id="@+id/bnv_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@id/cl_layout"
+                    app:layout_constraintEnd_toEndOf="@id/cl_layout"
+                    app:layout_constraintStart_toStartOf="@id/cl_layout"
+                    app:layout_constraintTop_toBottomOf="@id/nsv_view"
+                    app:menu="@menu/bottom_nav" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nv_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_layout3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_dsl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Kotlin DSL"
+                    android:textSize="20dp"
+                    android:layout_marginStart="10dp"
+                    app:layout_constraintBottom_toBottomOf="@id/cl_layout3"
+                    app:layout_constraintEnd_toEndOf="@id/cl_layout3"
+                    app:layout_constraintStart_toStartOf="@id/cl_layout3"
+                    app:layout_constraintTop_toTopOf="@id/cl_layout3"
+                    android:layout_marginLeft="10dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.navigation.NavigationView>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>
