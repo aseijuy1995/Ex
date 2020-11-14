@@ -1,5 +1,6 @@
 package edu.yujie.navigationex
 
+<<<<<<< HEAD
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -12,10 +13,17 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import edu.yujie.navigationex.databinding.ActivityMainBinding
+=======
+import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.ActivityNavigator
+>>>>>>> 5353c08b8648ab256f1ef3dde1fdfbf3127f072e
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+<<<<<<< HEAD
         val binding =
             DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
 
@@ -67,5 +75,14 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val navController = findNavController(R.id.fcv_view)
         return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
+=======
+        setContentView(R.layout.activity_main)
+
+    }
+
+    override fun finish() {
+        super.finish()
+        ActivityNavigator.applyPopAnimationsToPendingTransition(this)
+>>>>>>> 5353c08b8648ab256f1ef3dde1fdfbf3127f072e
     }
 }

@@ -2,13 +2,18 @@ package edu.yujie.navigationex
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+<<<<<<< HEAD
 import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
+=======
+import android.content.Context.NOTIFICATION_SERVICE
+>>>>>>> 5353c08b8648ab256f1ef3dde1fdfbf3127f072e
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+<<<<<<< HEAD
 import androidx.activity.addCallback
 import androidx.core.app.NotificationCompat
 import androidx.core.net.toUri
@@ -27,11 +32,26 @@ import edu.yujie.navigationex.databinding.FragFirstBinding
  */
 class FirstFragment : Fragment() {
 
+=======
+import androidx.core.app.NotificationCompat
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavDeepLinkBuilder
+import androidx.navigation.fragment.findNavController
+import edu.yujie.navigationex.databinding.FragmentFirstBinding
+import edu.yujie.navigationex.ex.UserViewModel
+
+class FirstFragment : Fragment() {
+
+
+>>>>>>> 5353c08b8648ab256f1ef3dde1fdfbf3127f072e
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+<<<<<<< HEAD
         val binding = FragFirstBinding.inflate(inflater, container, false)
 
         //transition-extras
@@ -90,10 +110,61 @@ class FirstFragment : Fragment() {
                     NavOptions.Builder().setPopUpTo(R.id.frag_dialog, true).build()
                 )
             }
+=======
+        val binding = FragmentFirstBinding.inflate(inflater, container, false)
+
+        binding.tvText.setOnClickListener {
+            val direction = FirstFragmentDirections.actionFragmentFirstToFragmentSecond()
+
+            //NavHostFragment
+//            findNavController().navigate(direction)
+            findNavController().navigate(R.id.fragment_second, bundleOf("arg" to "20"))
+
+//            //FragmentControllerView
+//            val nacFragment =
+//                parentFragmentManager.findFragmentById(R.id.fcv_view) as NavHostFragment
+//            val navController = nacFragment.navController
+//            navController.navigate(direction)
+        }
+
+        //explicit deep link
+        binding.btnNotification.setOnClickListener {
+            val intent = NavDeepLinkBuilder(requireContext())
+                .setGraph(R.navigation.nav_graph)
+                .setDestination(R.id.fragment_second)
+//                .setArguments(args)
+                .createPendingIntent()
+
+            val builder = NotificationCompat.Builder(requireContext())
+                .setContentTitle("Title")
+                .setContentText("Context")
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentIntent(intent)
+                .setChannelId("1")
+                .setAutoCancel(true)
+            (requireContext().getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
+                .apply {
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        createNotificationChannel(
+                            NotificationChannel(
+                                "1",
+                                "name",
+                                NotificationManager.IMPORTANCE_HIGH
+                            )
+                        )
+                    }
+                    notify(1, builder.build())
+                }
+        }
+
+        binding.btnCondition.setOnClickListener {
+            findNavController().navigate(FirstFragmentDirections.actionFragmentFirstToFragmentProfile())
+>>>>>>> 5353c08b8648ab256f1ef3dde1fdfbf3127f072e
         }
 
         return binding.root
     }
+<<<<<<< HEAD
 
     private fun createNotification(intent: PendingIntent) {
         val channelId = "1"
@@ -120,3 +191,6 @@ class FirstFragment : Fragment() {
 }
 
 var ENABLED = true
+=======
+}
+>>>>>>> 5353c08b8648ab256f1ef3dde1fdfbf3127f072e

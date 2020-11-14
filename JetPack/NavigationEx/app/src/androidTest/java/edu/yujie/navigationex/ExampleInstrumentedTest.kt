@@ -1,5 +1,6 @@
 package edu.yujie.navigationex
 
+<<<<<<< HEAD
 import androidx.fragment.app.testing.FragmentScenario
 import androidx.fragment.app.testing.launchFragmentInContainer
 import androidx.navigation.NavController
@@ -13,6 +14,10 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.mockk.mockk
 import io.mockk.verify
+=======
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.ext.junit.runners.AndroidJUnit4
+>>>>>>> 5353c08b8648ab256f1ef3dde1fdfbf3127f072e
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,6 +37,7 @@ class ExampleInstrumentedTest {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("edu.yujie.navigationex", appContext.packageName)
     }
+<<<<<<< HEAD
 
 //    @Test
 //    fun testNavigationToFragFour() {
@@ -54,4 +60,6 @@ class ExampleInstrumentedTest {
 
 
 
+=======
+>>>>>>> 5353c08b8648ab256f1ef3dde1fdfbf3127f072e
 }

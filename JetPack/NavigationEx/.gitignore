@@ -12,4 +12,7 @@
 /captures
 .externalNativeBuild
 .cxx
+<<<<<<< HEAD
 local.properties
+=======
+>>>>>>> 5353c08b8648ab256f1ef3dde1fdfbf3127f072e

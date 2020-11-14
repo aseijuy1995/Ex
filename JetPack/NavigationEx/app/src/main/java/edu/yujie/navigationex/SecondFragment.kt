@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+<<<<<<< HEAD
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -21,12 +22,19 @@ import edu.yujie.navigationex.databinding.FragSecondBinding
 class SecondFragment : Fragment() {
     private val viewModel by activityViewModels<UserViewModel>()
     private val args by navArgs<SecondFragmentArgs>()
+=======
+import androidx.fragment.app.Fragment
+import edu.yujie.navigationex.databinding.FragmentSecondBinding
+
+class SecondFragment : Fragment() {
+>>>>>>> 5353c08b8648ab256f1ef3dde1fdfbf3127f072e
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+<<<<<<< HEAD
         val binding = FragSecondBinding.inflate(inflater, container, false)
         binding.textView.setOnClickListener {
             val bundle = bundleOf("args" to 3)
@@ -68,4 +76,22 @@ class SecondFragment : Fragment() {
 
         return binding.root
     }
+=======
+        val binding = FragmentSecondBinding.inflate(inflater, container, false)
+        binding.tvText.setOnClickListener {
+//            findNavController().navigate(SecondFragmentDirections.actionFragmentSecondToMyDialogFragment())
+//            if (findNavController().popBackStack())
+//                requireActivity().finish()
+//            else
+//                Toast.makeText(requireContext(), "popBackStack:false", Toast.LENGTH_SHORT).show()
+
+//                findNavController().navigateUp()
+        }
+
+        binding.tvArg.text = arguments?.getString("arg")
+        return binding.root
+    }
+
+
+>>>>>>> 5353c08b8648ab256f1ef3dde1fdfbf3127f072e
 }
