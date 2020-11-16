@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+<<<<<<< HEAD
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph2" />
+=======
+    android:id="@+id/nav_graph2"
+    app:startDestination="@id/fragment_third">
+
+
+    <action
+        android:id="@+id/action_to_fragment_first"
+        app:popUpTo="@+id/fragment_first"
+        app:popUpToInclusive="true"/>
+
+    <fragment
+        android:id="@+id/fragment_third"
+        android:name="edu.yujie.navigationex.ThirdFragment"
+        android:label="fragment_third">
+
+    </fragment>
+
+</navigation>
+>>>>>>> 5353c08b8648ab256f1ef3dde1fdfbf3127f072e

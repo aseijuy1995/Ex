@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph2"
+    app:startDestination="@id/frag_third">
+
+    <action
+        android:id="@+id/action_pop_out_nav_graph"
+        app:destination="@id/nav_graph"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/nav_graph"
+        app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/frag_third"
+        android:name="edu.yujie.navigationex.ThirdFragment"
+        android:label="ThirdFragment"
+        tools:layout="@layout/frag_third">
+        <action
+            android:id="@+id/action_frag_third_to_frag_fourth"
+            app:destination="@id/frag_fourth"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <deepLink
+            android:id="@+id/deepLink"
+            android:autoVerify="true"
+            app:uri="https://www.yujie1995.com/{value}" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/frag_fourth"
+        android:name="edu.yujie.navigationex.FourthFragment"
+        android:label="FourthFragment"
+        tools:layout="@layout/frag_fourth">
+
+        <action
+            android:id="@+id/action_frag_fourth_to_nav_graph"
+            app:destination="@id/nav_graph"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+</navigation>
