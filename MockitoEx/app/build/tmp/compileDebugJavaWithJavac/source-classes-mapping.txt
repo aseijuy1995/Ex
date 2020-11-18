@@ -1,0 +1,2 @@
+edu/yujie/mockitoex/BuildConfig.java
+ edu.yujie.mockitoex.BuildConfig

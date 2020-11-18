@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">EspressoEx</string>
+    <string name="STRONG">STRONG</string>
+    <string name="MEDIUM">MEDIUM</string>
+    <string name="WEAK">WEAK</string>
+
+
+    <array name="spinner_items">
+        <item>one</item>
+        <item>two</item>
+        <item>three</item>
+        <item>four</item>
+        <item>dive</item>
+    </array>
+</resources>

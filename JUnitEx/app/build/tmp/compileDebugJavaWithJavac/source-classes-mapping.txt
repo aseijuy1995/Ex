@@ -1,0 +1,2 @@
+edu/yujie/junitex/BuildConfig.java
+ edu.yujie.junitex.BuildConfig

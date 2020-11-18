@@ -10,7 +10,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PagingEx">
-        <activity android:name=".MainActivity">
+        <activity android:name=".paging3.Paging3_2Activity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".paging3.Paging3Activity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".paging2.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,11 +1,9 @@
 package edu.yujie.pagingex
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PagedList
+import androidx.lifecycle.*
+import androidx.paging.*
+import edu.yujie.pagingex.paging2.ConcertDataSourceFactory
+import edu.yujie.pagingex.paging3.Concert2PagingSource
 
 class PagingViewModel(private val repo: PagingRepository) : ViewModel() {
     val refreshState = MutableLiveData<Boolean>(false)
@@ -28,4 +26,13 @@ class PagingViewModel(private val repo: PagingRepository) : ViewModel() {
     fun invalidate() {
         concertDataSourceFactory.dataSourceLiveData.value?.invalidate()
     }
+
+    //paging3
+    fun getConcertData() = repo.getConcertData().asLiveData()
+
+
+    fun getConcertFlow() =
+        Pager(PagingConfig(pageSize = 10, initialLoadSize = 20)) {
+            Concert2PagingSource()
+        }.flow.cachedIn(viewModelScope)
 }
