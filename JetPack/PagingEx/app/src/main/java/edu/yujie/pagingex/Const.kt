@@ -1,5 +1,10 @@
 package edu.yujie.pagingex
 
+//import edu.yujie.pagingex.paging2.AppDatabase
+import ConcertDao
+import edu.yujie.pagingex.paging2.AppDatabase
+//import edu.yujie.pagingex.paging2.AppDatabase
+import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -14,10 +19,8 @@ fun getConcertList(position: Int, count: Int): List<Concert> {
 }
 
 val appModule = module {
-    single {
-        PagingRepository()
-    }
-    viewModel {
-        PagingViewModel(get())
-    }
+    single<AppDatabase> { AppDatabase.get(androidContext()) }
+    single<ConcertDao> { (get() as AppDatabase).concertDao() }
+    single { PagingRepository(get()) }
+    viewModel { PagingViewModel(get()) }
 }

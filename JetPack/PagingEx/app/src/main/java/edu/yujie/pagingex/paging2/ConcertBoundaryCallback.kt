@@ -7,7 +7,7 @@ import edu.yujie.pagingex.PagingRepository
 class ConcertBoundaryCallback(private val repo: PagingRepository) : PagedList.BoundaryCallback<Concert>() {
     override fun onZeroItemsLoaded() {
         super.onZeroItemsLoaded()
-        repo.loadMore()
+//        repo.loadMore()
     }
 
     override fun onItemAtEndLoaded(itemAtEnd: Concert) {

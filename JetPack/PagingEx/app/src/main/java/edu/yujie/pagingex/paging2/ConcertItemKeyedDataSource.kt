@@ -8,17 +8,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ConcertItemKeyedDataSource(private val scope: CoroutineScope, private val repo: PagingRepository) : ItemKeyedDataSource<Int, Concert>() {
+class ConcertItemKeyedDataSource(private val repo: PagingRepository, private val scope: CoroutineScope) : ItemKeyedDataSource<Int, Concert>() {
+    private val TAG = javaClass.simpleName
     private var mPosition = 0
 
     override fun getKey(item: Concert): Int = item.id
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Concert>) {
-        scope.launch {
-            delay(3500)
-            repo.load(mPosition, params.requestedLoadSize)?.also {
-                println("loadInitial = position:$mPosition, params.requestedLoadSize:${params.requestedLoadSize}")
+        scope.launch(Dispatchers.IO) {
+            delay(1500)
+            val fromIndex = mPosition
+            val toIndex = mPosition + params.requestedLoadSize
+            println("$TAG:loadInitial = fromIndex:$fromIndex, toIndex:$toIndex")
+            repo.load(fromIndex, toIndex).also {
                 callback.onResult(it, mPosition, params.requestedLoadSize)
+                mPosition = toIndex
             }
         }
     }
@@ -26,11 +30,12 @@ class ConcertItemKeyedDataSource(private val scope: CoroutineScope, private val 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Concert>) {
         scope.launch(Dispatchers.IO) {
             delay(500)
-            mPosition += params.requestedLoadSize
-            val count = mPosition + params.requestedLoadSize
-            repo.load(mPosition, count)?.also {
-                println("loadAfter = key:${params.key}, params.requestedLoadSize${params.requestedLoadSize}, position:${mPosition}, count:$count")
+            val fromIndex = mPosition
+            val toIndex = mPosition + params.requestedLoadSize
+            println("$TAG:loadAfter = fromIndex:$fromIndex, toIndex:$toIndex")
+            repo.load(fromIndex, toIndex).also {
                 callback.onResult(it)
+                mPosition = toIndex
             }
         }
     }
@@ -38,4 +43,5 @@ class ConcertItemKeyedDataSource(private val scope: CoroutineScope, private val 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Concert>) {
 
     }
+
 }

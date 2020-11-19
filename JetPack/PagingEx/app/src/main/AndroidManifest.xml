@@ -22,7 +22,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <activity android:name=".paging2.MainActivity">
+        <activity android:name=".paging2.Paging2Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
