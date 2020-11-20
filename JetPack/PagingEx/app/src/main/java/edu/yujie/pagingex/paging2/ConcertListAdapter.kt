@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import edu.yujie.pagingex.Concert
+import edu.yujie.pagingex.constant.Concert
 import edu.yujie.pagingex.R
 import edu.yujie.pagingex.databinding.ItemConcertBinding
 
@@ -14,7 +14,7 @@ class ConcertListAdapter : PagedListAdapter<Concert, ConcertListAdapter.VH>(sDif
     companion object {
         private val sDiffCallback = object : DiffUtil.ItemCallback<Concert>() {
             override fun areItemsTheSame(oldItem: Concert, newItem: Concert): Boolean =
-                oldItem.id == newItem.id
+                oldItem.hashCode() == newItem.hashCode()
 
             override fun areContentsTheSame(oldItem: Concert, newItem: Concert): Boolean =
                 oldItem == newItem

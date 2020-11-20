@@ -1,4 +1,4 @@
-package edu.yujie.pagingex
+package edu.yujie.pagingex.constant
 
 import android.app.Application
 import org.koin.android.ext.koin.androidContext

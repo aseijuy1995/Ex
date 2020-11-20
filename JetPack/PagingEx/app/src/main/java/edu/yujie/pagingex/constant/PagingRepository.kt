@@ -1,15 +1,12 @@
-package edu.yujie.pagingex
-
-import ConcertDao
-import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
-import androidx.paging.toLiveData
+package edu.yujie.pagingex.constant
 
 //import androidx.paging.Pager
 //import androidx.paging.PagingConfig
 //import androidx.paging.cachedIn
 
-class PagingRepository(private val dao: ConcertDao) {
+class PagingRepository(
+//    private val dao: ConcertDao
+) {
     private val TAG = javaClass.simpleName
     private val list = mutableListOf<Concert>()
 
@@ -21,19 +18,18 @@ class PagingRepository(private val dao: ConcertDao) {
     }
 
     //paging2
-    fun load(): LiveData<PagedList<Concert>> = dao.getConcertList().toLiveData(pageSize = 20)
+//    fun load(): LiveData<PagedList<Concert>> = dao.getConcertList().toLiveData(pageSize = 20)
 
-
-//    fun load(fromIndex: Int, toIndex: Int): List<Concert> =
-//        try {
-//            println("$TAG:load = try")
-//            list.subList(fromIndex, toIndex)
-//        } catch (e: Exception) {
-//            if (fromIndex >= list.size && toIndex >= list.size)
-//                emptyList<Concert>()
-//            else
-//                list.subList(fromIndex, list.size)
-//        }
+    fun load(fromIndex: Int, toIndex: Int): List<Concert> =
+        try {
+            println("$TAG:load = try")
+            list.subList(fromIndex, toIndex)
+        } catch (e: Exception) {
+            if (fromIndex >= list.size && toIndex >= list.size)
+                emptyList<Concert>()
+            else
+                list.subList(fromIndex, list.size)
+        }
 
 
 //    fun loadMore() {

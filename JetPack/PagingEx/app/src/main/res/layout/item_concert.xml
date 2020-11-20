@@ -7,7 +7,7 @@
 
         <variable
             name="concert"
-            type="edu.yujie.pagingex.Concert" />
+            type="edu.yujie.pagingex.constant.Concert" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

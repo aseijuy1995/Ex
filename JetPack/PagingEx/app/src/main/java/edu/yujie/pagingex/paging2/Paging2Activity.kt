@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import edu.yujie.pagingex.PagingViewModel
 import edu.yujie.pagingex.R
+import edu.yujie.pagingex.constant.PagingViewModel
 import edu.yujie.pagingex.databinding.ActivityPaging2Binding
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -24,26 +24,16 @@ class Paging2Activity : AppCompatActivity() {
 
         viewModel.concertList.observe(this) {
             adapter.submitList(it)
+            viewModel.setRefresh(false)
         }
 
-//        viewModel.refreshState.observe(this) {
-//            binding.swipeLayout.isRefreshing = it
-//        }
-//
-//        viewModel.concertList.observe(this) {
-//            println("concertList:observe")
-//            adapter.submitList(it)
-//            viewModel.refreshState.postValue(false)
-////            binding.swipeLayout.isRefreshing =
-//
-//        }
-//
-//        binding.swipeLayout.setOnRefreshListener {
-//            viewModel.refreshState.postValue(true)
-//            viewModel.invalidate()
-//        }
+        viewModel.isRefresh.observe(this) {
+            binding.swipeLayout.isRefreshing = it
+        }
 
-//        binding.swipeLayout.isRefreshing = false
+        binding.swipeLayout.setOnRefreshListener {
+            viewModel.invalidateDataSource()
+        }
 
     }
 }

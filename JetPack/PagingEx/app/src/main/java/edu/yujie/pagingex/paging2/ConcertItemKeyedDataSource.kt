@@ -1,16 +1,20 @@
 package edu.yujie.pagingex.paging2
 
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.ItemKeyedDataSource
-import edu.yujie.pagingex.Concert
-import edu.yujie.pagingex.PagingRepository
+import edu.yujie.pagingex.constant.Concert
+import edu.yujie.pagingex.constant.PagingRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+val concertList = MutableLiveData<List<Concert>>()
+
 class ConcertItemKeyedDataSource(private val repo: PagingRepository, private val scope: CoroutineScope) : ItemKeyedDataSource<Int, Concert>() {
     private val TAG = javaClass.simpleName
     private var mPosition = 0
+    private val mTotalCount = 10000
 
     override fun getKey(item: Concert): Int = item.id
 
@@ -21,7 +25,7 @@ class ConcertItemKeyedDataSource(private val repo: PagingRepository, private val
             val toIndex = mPosition + params.requestedLoadSize
             println("$TAG:loadInitial = fromIndex:$fromIndex, toIndex:$toIndex")
             repo.load(fromIndex, toIndex).also {
-                callback.onResult(it, mPosition, params.requestedLoadSize)
+                callback.onResult(it, mPosition, mTotalCount)
                 mPosition = toIndex
             }
         }
