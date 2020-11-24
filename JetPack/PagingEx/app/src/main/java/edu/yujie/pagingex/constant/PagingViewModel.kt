@@ -8,7 +8,6 @@ import androidx.paging.*
 import edu.yujie.pagingex.db.AppDatabase
 import edu.yujie.pagingex.paging2.ConcertBoundaryCallback
 import edu.yujie.pagingex.paging2.ConcertDataSourceFactory
-import edu.yujie.pagingex.paging3.ConcertPagingSource
 import edu.yujie.pagingex.paging3.ConcertRemoteMediator
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
@@ -45,7 +44,7 @@ class PagingViewModel(private val repo: PagingRepository) : ViewModel(), KoinCom
     private val concertDao = db.concertDao
     val concertListFlow = Pager<Int, Concert>(
         PagingConfig(pageSize = 20, initialLoadSize = 20),
-        remoteMediator = ConcertRemoteMediator()
+        remoteMediator = ConcertRemoteMediator("")
     ) {
         //remote
 //        ConcertPagingSource()

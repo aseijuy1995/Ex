@@ -1,5 +1,0 @@
-<resources>
-    <string name="app_name">WebSockerExt</string>
-    <string name="hint_client">Client Input...</string>
-    <string name="hint_server">Server Input...</string>
-</resources>

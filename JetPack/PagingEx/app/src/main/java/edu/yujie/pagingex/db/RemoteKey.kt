@@ -1,9 +1,10 @@
 package edu.yujie.pagingex.db
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "remote_key")
 data class RemoteKey(
-    val label: String,
+    @PrimaryKey val label: String,
     val nextKey: String?
 )

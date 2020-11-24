@@ -1,2 +1,0 @@
-com/wanlian/motionlayoutex/BuildConfig.java
- com.wanlian.motionlayoutex.BuildConfig

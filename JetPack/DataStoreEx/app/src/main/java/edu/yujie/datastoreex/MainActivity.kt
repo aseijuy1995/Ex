@@ -8,6 +8,7 @@ import androidx.datastore.preferences.createDataStore
 import androidx.datastore.preferences.edit
 import androidx.datastore.preferences.preferencesKey
 import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
     private fun read(dataStore: DataStore<Preferences>) {
         val exampleCounterFlow = dataStore.data.map { it[EXAMPLE_COUNTER] ?: 0 }
 
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             exampleCounterFlow.collect {
                 println("$TAG:exampleCounterFlow = $it")
             }
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun write(dataStore: DataStore<Preferences>) {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             dataStore.edit {
                 it[EXAMPLE_COUNTER] = (it[EXAMPLE_COUNTER] ?: 0) + 1
             }
