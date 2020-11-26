@@ -1,12 +1,11 @@
 package edu.yujie.pagingex.constant
 
-//import androidx.paging.Pager
-//import androidx.paging.PagingConfig
-//import androidx.paging.cachedIn
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import edu.yujie.pagingex.db.AppDatabase
+import edu.yujie.pagingex.paging3.ConcertRemoteMediator
 
-class PagingRepository(
-//    private val dao: ConcertDao
-) {
+class PagingRepository(private val db: AppDatabase) {
     private val TAG = javaClass.simpleName
     private val list = mutableListOf<Concert>()
 
@@ -31,24 +30,20 @@ class PagingRepository(
                 list.subList(fromIndex, list.size)
         }
 
-
-//    fun loadMore() {
-//        for (i in 1001..2000 step 3) {
-//            val concert = Concert(id = i, name = "More:Name = $i")
-//            list.add(concert)
-//        }
-//    }
-
     //paging3
-//    fun getConcertData() = Pager(PagingConfig(pageSize = 20, initialLoadSize = 20)) {
-//        ConcertPagingSource(this)
-//    }.flow
-
-    //
-//    fun load2(fromIndex: Int, toIndex: Int): List<Concert> = when {
-//        fromIndex > list.size -> emptyList()
-//        toIndex >= list.size - 1 -> list.subList(fromIndex, list.size)
-//        else -> list.subList(fromIndex, toIndex)
-//    }
+    val concertListFlow =
+        Pager<Int, Concert>(
+            PagingConfig(
+                pageSize = 20,
+//                prefetchDistance = 1,
+                enablePlaceholders = true
+            ),
+            remoteMediator = ConcertRemoteMediator()
+        ) {
+            //remote
+//            ConcertPagingSource()
+            //local || local + remote
+            db.concertDao.queryConcerts()
+        }.flow
 
 }

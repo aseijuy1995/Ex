@@ -7,15 +7,23 @@ interface ApiService {
     suspend fun load(fromIndex: Int, toIndex: Int): List<Concert>
 }
 
-class ApiServiceImpl : ApiService {
 
-    override suspend fun load(fromIndex: Int, toIndex: Int): List<Concert> {
-        delay(1500)
-        val list = mutableListOf<Concert>()
-        for (i in fromIndex..toIndex) {
+class ApiServiceImpl : ApiService {
+    val list = mutableListOf<Concert>()
+
+    init {
+        for (i in 1..147) {
             val concert = Concert(id = i, name = "Name = $i")
             list.add(concert)
         }
-        return list
+    }
+
+    override suspend fun load(fromIndex: Int, toIndex: Int): List<Concert> {
+        delay(500)
+        return when {
+            fromIndex > list.size -> emptyList()
+            toIndex > list.size -> list.subList(fromIndex = fromIndex, toIndex = list.size)
+            else -> list.subList(fromIndex = fromIndex, toIndex = toIndex)
+        }
     }
 }

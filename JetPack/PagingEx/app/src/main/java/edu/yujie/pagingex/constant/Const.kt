@@ -1,5 +1,7 @@
 package edu.yujie.pagingex.constant
 
+import edu.yujie.pagingex.ApiService
+import edu.yujie.pagingex.ApiServiceImpl
 import edu.yujie.pagingex.db.AppDatabase
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.viewmodel.dsl.viewModel
@@ -17,6 +19,9 @@ fun getConcertList(position: Int, count: Int): List<Concert> {
 
 val appModule = module {
     single { AppDatabase.get(androidContext()) }
-    single { PagingRepository() }
+    single<ApiService> { ApiServiceImpl() }
+
+    single { PagingRepository(get()) }
     viewModel { PagingViewModel(get()) }
+
 }

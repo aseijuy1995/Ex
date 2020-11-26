@@ -4,16 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.*
-import edu.yujie.pagingex.db.AppDatabase
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import androidx.paging.cachedIn
 import edu.yujie.pagingex.paging2.ConcertBoundaryCallback
 import edu.yujie.pagingex.paging2.ConcertDataSourceFactory
-import edu.yujie.pagingex.paging3.ConcertRemoteMediator
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 
-class PagingViewModel(private val repo: PagingRepository) : ViewModel(), KoinComponent {
+class PagingViewModel(private val repo: PagingRepository) : ViewModel() {
     //paging2
     private val mIsRefresh = MutableLiveData<Boolean>()
     val isRefresh: LiveData<Boolean> = mIsRefresh
@@ -40,16 +38,6 @@ class PagingViewModel(private val repo: PagingRepository) : ViewModel(), KoinCom
     }
 
     //paging3
-    private val db by inject<AppDatabase>()
-    private val concertDao = db.concertDao
-    val concertListFlow = Pager<Int, Concert>(
-        PagingConfig(pageSize = 20, initialLoadSize = 20),
-        remoteMediator = ConcertRemoteMediator("")
-    ) {
-        //remote
-//        ConcertPagingSource()
-        //local || local + remote
-        concertDao.getConcertList()
-    }.flow.cachedIn(viewModelScope)
+    val concertListFlow = repo.concertListFlow.cachedIn(viewModelScope)
 
 }

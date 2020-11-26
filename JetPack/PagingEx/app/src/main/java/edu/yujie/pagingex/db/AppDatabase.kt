@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import edu.yujie.pagingex.constant.Concert
 
-@Database(entities = [Concert::class, RemoteKey::class], version = 1)
+@Database(entities = [Concert::class, RemoteKey::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract val concertDao: ConcertDao
@@ -18,9 +18,9 @@ abstract class AppDatabase : RoomDatabase() {
         @Volatile
         private var instance: AppDatabase? = null
 
-        fun get(context: Context) =
+        fun get(context: Context): AppDatabase =
             instance ?: synchronized(this) {
-                instance ?: Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "appdatabase")
+                instance ?: Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "appDatabase")
                     .addCallback(AppDatabaseCallback())
                     .build().also {
                         instance = it

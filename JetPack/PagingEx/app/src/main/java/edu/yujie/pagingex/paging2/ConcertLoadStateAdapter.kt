@@ -9,9 +9,8 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import edu.yujie.pagingex.R
 import edu.yujie.pagingex.databinding.ItemLoadBinding
-import edu.yujie.pagingex.paging3.ConcertDataAdapter
 
-class ConcertLoadStateAdapter(private val adapter: ConcertDataAdapter) : LoadStateAdapter<ConcertLoadStateAdapter.VH>() {
+class ConcertLoadStateAdapter(private val retry: () -> Unit) : LoadStateAdapter<ConcertLoadStateAdapter.VH>() {
 
     inner class VH(private val binding: ItemLoadBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(loadState: LoadState) =
@@ -19,7 +18,7 @@ class ConcertLoadStateAdapter(private val adapter: ConcertDataAdapter) : LoadSta
                 tvErr.apply {
                     isVisible = loadState is LoadState.Error
                     setOnClickListener {
-                        adapter.retry()
+                        retry()
                     }
                 }
                 progressBar.isVisible = loadState is LoadState.Loading

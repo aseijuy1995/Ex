@@ -11,10 +11,8 @@ import edu.yujie.pagingex.R
 import edu.yujie.pagingex.constant.PagingViewModel
 import edu.yujie.pagingex.databinding.ActivityPaging3Binding
 import edu.yujie.pagingex.paging2.ConcertLoadStateAdapter
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -27,28 +25,26 @@ class Paging3Activity : AppCompatActivity() {
         val binding = DataBindingUtil.setContentView<ActivityPaging3Binding>(this, R.layout.activity_paging3)
 
         binding.rvView.apply {
-            layoutManager = LinearLayoutManager(this@Paging3Activity, LinearLayoutManager.VERTICAL, false)
-            adapter = this@Paging3Activity.adapter.apply {
-                addLoadStateListener {
-                    binding.swipeLayout.isRefreshing = it.refresh is LoadState.Loading
-                    binding.progressBar.isVisible = it.refresh is LoadState.Loading
-                    binding.rvView.isVisible = it.refresh is LoadState.NotLoading
-                    binding.tvErr.isVisible = it.refresh is LoadState.Error
-                }
-                withLoadStateFooter(ConcertLoadStateAdapter(this))
-            }
+            layoutManager = LinearLayoutManager(this@Paging3Activity)
+            adapter = this@Paging3Activity.adapter.withLoadStateFooter(
+                footer = ConcertLoadStateAdapter(this@Paging3Activity.adapter::retry)
+            )
+        }
+        adapter.addLoadStateListener {
+//            binding.swipeLayout.isRefreshing = it.refresh is LoadState.Loading
+            binding.progressBar.isVisible = it.refresh is LoadState.Loading
+            binding.tvErr.isVisible = it.refresh is LoadState.Error
+            binding.rvView.isVisible = it.refresh is LoadState.NotLoading
         }
 
-        lifecycleScope.launch(Dispatchers.IO) {
+        lifecycleScope.launch {
             viewModel.concertListFlow.collectLatest {
-                withContext(Dispatchers.Main) {
-                    adapter.submitData(it)
-                }
+                adapter.submitData(it)
             }
         }
 
-        binding.swipeLayout.setOnRefreshListener {
-            adapter.refresh()
-        }
+//        binding.swipeLayout.setOnRefreshListener {
+//            adapter.refresh()
+//        }
     }
 }

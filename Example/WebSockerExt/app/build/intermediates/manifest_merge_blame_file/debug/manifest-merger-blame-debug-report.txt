@@ -1,0 +1,343 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.websockerext"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="16"
+8-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="30" />
+9-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:6:5-67
+11-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:6:22-64
+12    <uses-permission android:name="android.permission.REORDER_TASKS" />
+12-->[androidx.fragment:fragment-testing:1.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\47b19839d263e6f2485608d94ba4fd04\jetified-fragment-testing-1.2.5\AndroidManifest.xml:25:5-72
+12-->[androidx.fragment:fragment-testing:1.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\47b19839d263e6f2485608d94ba4fd04\jetified-fragment-testing-1.2.5\AndroidManifest.xml:25:22-69
+13    <uses-permission android:name="android.permission.WAKE_LOCK" />
+13-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:25:5-68
+13-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:25:22-65
+14    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+14-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:26:5-79
+14-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:26:22-76
+15    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+15-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:27:5-81
+15-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:27:22-78
+16    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- <uses-permission android:name= "android.permission.ACCESS_NETWORK_STATE" /> -->
+16-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:28:5-77
+16-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:28:22-74
+17    <!-- <uses-permission android:name= "android.permission.CHANGE_NETWORK_STATE" /> -->
+18    <application
+18-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:10:5-37:19
+19        android:allowBackup="true"
+19-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:11:9-35
+20        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+20-->[androidx.core:core:1.3.2] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\22544ec5a055d6fc4486fdeeb5e2a625\core-1.3.2\AndroidManifest.xml:24:18-86
+21        android:debuggable="true"
+22        android:icon="@mipmap/ic_launcher"
+22-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:12:9-43
+23        android:label="@string/app_name"
+23-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:13:9-41
+24        android:roundIcon="@mipmap/ic_launcher_round"
+24-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:14:9-54
+25        android:supportsRtl="true"
+25-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:15:9-35
+26        android:testOnly="true"
+27        android:theme="@style/AppTheme"
+27-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:16:9-40
+28        android:usesCleartextTraffic="true" >
+28-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:17:9-44
+29        <provider
+30            android:name="androidx.startup.InitializationProvider"
+30-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:19:13-67
+31            android:authorities="com.example.websockerext.androidx-startup"
+31-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:20:13-68
+32            android:exported="false" >
+32-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:21:13-37
+33            <meta-data
+34                android:name="com.example.websockerext.WorkInitializer"
+34-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:24:17-64
+35                android:value="androidx.startup" />
+35-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:25:17-49
+36        </provider>
+37
+38        <activity android:name="com.example.websockerext.MainActivity" >
+38-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:28:9-34:20
+38-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:28:19-47
+39            <intent-filter>
+39-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:29:13-33:29
+40                <action android:name="android.intent.action.MAIN" />
+40-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:30:17-69
+40-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:30:25-66
+41
+42                <category android:name="android.intent.category.LAUNCHER" />
+42-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:32:17-77
+42-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:32:27-74
+43            </intent-filter>
+44        </activity>
+45        <activity
+45-->[androidx.fragment:fragment-testing:1.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\47b19839d263e6f2485608d94ba4fd04\jetified-fragment-testing-1.2.5\AndroidManifest.xml:28:9-37:20
+46            android:name="androidx.fragment.app.testing.FragmentScenario$EmptyFragmentActivity"
+46-->[androidx.fragment:fragment-testing:1.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\47b19839d263e6f2485608d94ba4fd04\jetified-fragment-testing-1.2.5\AndroidManifest.xml:29:13-96
+47            android:exported="true"
+47-->[androidx.fragment:fragment-testing:1.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\47b19839d263e6f2485608d94ba4fd04\jetified-fragment-testing-1.2.5\AndroidManifest.xml:30:13-36
+48            android:multiprocess="true"
+48-->[androidx.fragment:fragment-testing:1.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\47b19839d263e6f2485608d94ba4fd04\jetified-fragment-testing-1.2.5\AndroidManifest.xml:31:13-40
+49            android:taskAffinity=""
+49-->[androidx.fragment:fragment-testing:1.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\47b19839d263e6f2485608d94ba4fd04\jetified-fragment-testing-1.2.5\AndroidManifest.xml:32:13-36
+50            android:theme="@style/FragmentScenarioEmptyFragmentActivityTheme" >
+50-->[androidx.fragment:fragment-testing:1.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\47b19839d263e6f2485608d94ba4fd04\jetified-fragment-testing-1.2.5\AndroidManifest.xml:33:13-78
+51            <intent-filter>
+51-->[androidx.fragment:fragment-testing:1.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\47b19839d263e6f2485608d94ba4fd04\jetified-fragment-testing-1.2.5\AndroidManifest.xml:34:13-36:29
+52                <action android:name="android.intent.action.MAIN" />
+52-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:30:17-69
+52-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:30:25-66
+53            </intent-filter>
+54        </activity>
+55
+56        <provider
+56-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:31:9-37:35
+57            android:name="androidx.work.impl.WorkManagerInitializer"
+57-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:32:13-69
+58            android:authorities="com.example.websockerext.workmanager-init"
+58-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:33:13-68
+59            android:directBootAware="false"
+59-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:34:13-44
+60            android:exported="false"
+60-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:35:13-37
+61            android:multiprocess="true" />
+61-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:36:13-40
+62
+63        <service
+63-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:39:9-44:35
+64            android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+64-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:40:13-88
+65            android:directBootAware="false"
+65-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:41:13-44
+66            android:enabled="@bool/enable_system_alarm_service_default"
+66-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:42:13-72
+67            android:exported="false" />
+67-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:43:13-37
+68        <service
+68-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:45:9-51:35
+69            android:name="androidx.work.impl.background.systemjob.SystemJobService"
+69-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:46:13-84
+70            android:directBootAware="false"
+70-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:47:13-44
+71            android:enabled="@bool/enable_system_job_service_default"
+71-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:48:13-70
+72            android:exported="true"
+72-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:49:13-36
+73            android:permission="android.permission.BIND_JOB_SERVICE" />
+73-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:50:13-69
+74        <service
+74-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:52:9-57:35
+75            android:name="androidx.work.impl.foreground.SystemForegroundService"
+75-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:53:13-81
+76            android:directBootAware="false"
+76-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:54:13-44
+77            android:enabled="@bool/enable_system_foreground_service_default"
+77-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:55:13-77
+78            android:exported="false" />
+78-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:56:13-37
+79
+80        <receiver
+80-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:59:9-64:35
+81            android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
+81-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:60:13-88
+82            android:directBootAware="false"
+82-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:61:13-44
+83            android:enabled="true"
+83-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:62:13-35
+84            android:exported="false" />
+84-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:63:13-37
+85        <receiver
+85-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:65:9-75:20
+86            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
+86-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:66:13-106
+87            android:directBootAware="false"
+87-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:67:13-44
+88            android:enabled="false"
+88-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:68:13-36
+89            android:exported="false" >
+89-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:69:13-37
+90            <intent-filter>
+90-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:71:13-74:29
+91                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+91-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:72:17-87
+91-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:72:25-84
+92                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
+92-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:73:17-90
+92-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:73:25-87
+93            </intent-filter>
+94        </receiver>
+95        <receiver
+95-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:76:9-86:20
+96            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
+96-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:77:13-104
+97            android:directBootAware="false"
+97-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:78:13-44
+98            android:enabled="false"
+98-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:79:13-36
+99            android:exported="false" >
+99-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:80:13-37
+100            <intent-filter>
+100-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:82:13-85:29
+101                <action android:name="android.intent.action.BATTERY_OKAY" />
+101-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:83:17-77
+101-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:83:25-74
+102                <action android:name="android.intent.action.BATTERY_LOW" />
+102-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:84:17-76
+102-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:84:25-73
+103            </intent-filter>
+104        </receiver>
+105        <receiver
+105-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:87:9-97:20
+106            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
+106-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:88:13-104
+107            android:directBootAware="false"
+107-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:89:13-44
+108            android:enabled="false"
+108-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:90:13-36
+109            android:exported="false" >
+109-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:91:13-37
+110            <intent-filter>
+110-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:93:13-96:29
+111                <action android:name="android.intent.action.DEVICE_STORAGE_LOW" />
+111-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:94:17-83
+111-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:94:25-80
+112                <action android:name="android.intent.action.DEVICE_STORAGE_OK" />
+112-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:95:17-82
+112-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:95:25-79
+113            </intent-filter>
+114        </receiver>
+115        <receiver
+115-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:98:9-107:20
+116            android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
+116-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:99:13-103
+117            android:directBootAware="false"
+117-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:100:13-44
+118            android:enabled="false"
+118-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:101:13-36
+119            android:exported="false" >
+119-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:102:13-37
+120            <intent-filter>
+120-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:104:13-106:29
+121                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+121-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:105:17-79
+121-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:105:25-76
+122            </intent-filter>
+123        </receiver>
+124        <receiver
+124-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:108:9-119:20
+125            android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+125-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:109:13-88
+126            android:directBootAware="false"
+126-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:110:13-44
+127            android:enabled="false"
+127-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:111:13-36
+128            android:exported="false" >
+128-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:112:13-37
+129            <intent-filter>
+129-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:114:13-118:29
+130                <action android:name="android.intent.action.BOOT_COMPLETED" />
+130-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:115:17-79
+130-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:115:25-76
+131                <action android:name="android.intent.action.TIME_SET" />
+131-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:116:17-73
+131-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:116:25-70
+132                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+132-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:117:17-81
+132-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:117:25-78
+133            </intent-filter>
+134        </receiver>
+135        <receiver
+135-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:120:9-129:20
+136            android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+136-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:121:13-99
+137            android:directBootAware="false"
+137-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:122:13-44
+138            android:enabled="@bool/enable_system_alarm_service_default"
+138-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:123:13-72
+139            android:exported="false" >
+139-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:124:13-37
+140            <intent-filter>
+140-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:126:13-128:29
+141                <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies" />
+141-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:127:17-98
+141-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:127:25-95
+142            </intent-filter>
+143        </receiver>
+144        <receiver
+144-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:130:9-140:20
+145            android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+145-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:131:13-78
+146            android:directBootAware="false"
+146-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:132:13-44
+147            android:enabled="true"
+147-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:133:13-35
+148            android:exported="true"
+148-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:134:13-36
+149            android:permission="android.permission.DUMP" >
+149-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:135:13-57
+150            <intent-filter>
+150-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:137:13-139:29
+151                <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
+151-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:138:17-88
+151-->[androidx.work:work-runtime:2.4.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\2dba2fa6c3734a9b6aa4594ccd21f6d4\work-runtime-2.4.0\AndroidManifest.xml:138:25-85
+152            </intent-filter>
+153        </receiver>
+154
+155        <service
+155-->[androidx.room:room-runtime:2.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\93bd02b7f67d5b9cab5dc4cd4635b687\room-runtime-2.2.5\AndroidManifest.xml:25:9-28:40
+156            android:name="androidx.room.MultiInstanceInvalidationService"
+156-->[androidx.room:room-runtime:2.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\93bd02b7f67d5b9cab5dc4cd4635b687\room-runtime-2.2.5\AndroidManifest.xml:26:13-74
+157            android:directBootAware="true"
+157-->[androidx.room:room-runtime:2.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\93bd02b7f67d5b9cab5dc4cd4635b687\room-runtime-2.2.5\AndroidManifest.xml:27:13-43
+158            android:exported="false" />
+158-->[androidx.room:room-runtime:2.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\93bd02b7f67d5b9cab5dc4cd4635b687\room-runtime-2.2.5\AndroidManifest.xml:28:13-37
+159
+160        <activity
+160-->[androidx.test:core:1.2.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\b924a87a404fb33ccbead5074b29cc6b\jetified-core-1.2.0\AndroidManifest.xml:27:9-33:20
+161            android:name="androidx.test.core.app.InstrumentationActivityInvoker$BootstrapActivity"
+161-->[androidx.test:core:1.2.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\b924a87a404fb33ccbead5074b29cc6b\jetified-core-1.2.0\AndroidManifest.xml:28:13-99
+162            android:theme="@android:style/Theme" >
+162-->[androidx.test:core:1.2.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\b924a87a404fb33ccbead5074b29cc6b\jetified-core-1.2.0\AndroidManifest.xml:29:13-49
+163            <intent-filter>
+163-->[androidx.fragment:fragment-testing:1.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\47b19839d263e6f2485608d94ba4fd04\jetified-fragment-testing-1.2.5\AndroidManifest.xml:34:13-36:29
+164                <action android:name="android.intent.action.MAIN" />
+164-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:30:17-69
+164-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:30:25-66
+165            </intent-filter>
+166        </activity>
+167        <activity
+167-->[androidx.test:core:1.2.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\b924a87a404fb33ccbead5074b29cc6b\jetified-core-1.2.0\AndroidManifest.xml:34:9-40:20
+168            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyActivity"
+168-->[androidx.test:core:1.2.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\b924a87a404fb33ccbead5074b29cc6b\jetified-core-1.2.0\AndroidManifest.xml:35:13-95
+169            android:theme="@android:style/Theme" >
+169-->[androidx.test:core:1.2.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\b924a87a404fb33ccbead5074b29cc6b\jetified-core-1.2.0\AndroidManifest.xml:36:13-49
+170            <intent-filter>
+170-->[androidx.fragment:fragment-testing:1.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\47b19839d263e6f2485608d94ba4fd04\jetified-fragment-testing-1.2.5\AndroidManifest.xml:34:13-36:29
+171                <action android:name="android.intent.action.MAIN" />
+171-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:30:17-69
+171-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:30:25-66
+172            </intent-filter>
+173        </activity>
+174        <activity
+174-->[androidx.test:core:1.2.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\b924a87a404fb33ccbead5074b29cc6b\jetified-core-1.2.0\AndroidManifest.xml:41:9-47:20
+175            android:name="androidx.test.core.app.InstrumentationActivityInvoker$EmptyFloatingActivity"
+175-->[androidx.test:core:1.2.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\b924a87a404fb33ccbead5074b29cc6b\jetified-core-1.2.0\AndroidManifest.xml:42:13-103
+176            android:theme="@android:style/Theme.Dialog" >
+176-->[androidx.test:core:1.2.0] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\b924a87a404fb33ccbead5074b29cc6b\jetified-core-1.2.0\AndroidManifest.xml:43:13-56
+177            <intent-filter>
+177-->[androidx.fragment:fragment-testing:1.2.5] C:\Users\Aker\.gradle\caches\transforms-2\files-2.1\47b19839d263e6f2485608d94ba4fd04\jetified-fragment-testing-1.2.5\AndroidManifest.xml:34:13-36:29
+178                <action android:name="android.intent.action.MAIN" />
+178-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:30:17-69
+178-->C:\Users\Aker\Desktop\Android\WebSockerExt\app\src\main\AndroidManifest.xml:30:25-66
+179            </intent-filter>
+180        </activity>
+181    </application>
+182
+183</manifest>
