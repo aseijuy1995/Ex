@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 //https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/
 //https://medium.com/jastzeonic/kotlin-coroutines-flow-%E9%82%A3%E4%B8%80%E5%85%A9%E4%BB%B6%E4%BA%8B%E6%83%85-7146911bc18f
 //https://juejin.cn/post/6844904057530908679
+//https://proandroiddev.com/kotlin-flow-benefits-over-rxjava-b220658f1a92
 class MainActivity : AppCompatActivity() {
     private val TAG = javaClass.simpleName
 
