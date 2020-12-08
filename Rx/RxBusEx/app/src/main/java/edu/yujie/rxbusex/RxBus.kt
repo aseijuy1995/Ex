@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
 object RxBus {
     private val TAG = javaClass.simpleName
     val subject = BehaviorSubject.create<Any>().toSerialized()
-    private val disposableMap: HashMap<Any, CompositeDisposable> by lazy { HashMap() }
+    private val disposableMap: HashMap<Any, CompositeDisposable> by lazy { HashMap<Any, CompositeDisposable>() }
 
     fun send(any: Any) = subject.onNext(any)
 

@@ -2,10 +2,7 @@ package edu.yujie.rxkotlinex
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.Observables
-import io.reactivex.rxjava3.kotlin.subscribeBy
 
 //https://github.com/ReactiveX/RxKotlin
 //https://www.jianshu.com/p/f6e7d2775bad
