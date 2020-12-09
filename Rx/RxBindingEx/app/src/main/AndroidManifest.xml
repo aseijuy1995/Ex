@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.RxBindingEx">
-        <activity android:name=".MainActivity">
+        <activity android:name=".RxBindingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
