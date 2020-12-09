@@ -1,2 +1,3 @@
+include ':RxViewModel'
 include ':app'
 rootProject.name = "RxLifecycleEx"

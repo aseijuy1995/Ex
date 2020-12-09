@@ -9,6 +9,8 @@ import io.reactivex.rxjava3.disposables.Disposable
 //https://github.com/JakeWharton/RxRelay
 //https://habr.com/ru/company/ozontech/blog/513056/
 
+//結論：RxRelay和Subject之間的唯一區別是缺少兩個方法onComplete和onError，因此開發人員無法調用終端狀態。
+
 class RxRelayActivity : AppCompatActivity() {
     private val TAG = javaClass.simpleName
 
@@ -53,6 +55,7 @@ class RxRelayActivity : AppCompatActivity() {
 //        relay.accept(2)
 //        relay.subscribe(observer)
 //        relay.accept(3)
+
 
     }
 }

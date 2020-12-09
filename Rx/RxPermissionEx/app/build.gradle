@@ -46,4 +46,8 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxjava:3.0.7"
     implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
     implementation "com.github.tbruyelle:rxpermissions:0.12"
+
+    implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+    implementation 'com.jakewharton.rxbinding2:rxbinding-core:2.0.0'
+    implementation 'com.jakewharton.rxbinding2:rxbinding-material:2.0.0'
 }
