@@ -1,4 +1,4 @@
-package edu.yujie.rxbusex
+  package edu.yujie.rxbusex
 
 import android.os.Bundle
 import android.widget.TextView

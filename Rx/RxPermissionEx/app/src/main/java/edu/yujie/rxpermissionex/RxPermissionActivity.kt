@@ -48,7 +48,6 @@ class RxPermissionActivity : AppCompatActivity() {
 //            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 //            startActivity(intent)
 
-
 //            rxPermission.requestEachCombined(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
 //                .subscribe { permission ->
 //                    println("$TAG name = ${permission.name}, granted = ${permission.granted}, shouldShowRequestPermissionRationale = ${permission.shouldShowRequestPermissionRationale}")

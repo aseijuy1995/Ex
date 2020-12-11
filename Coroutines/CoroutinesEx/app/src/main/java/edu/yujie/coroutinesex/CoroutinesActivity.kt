@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import edu.yujie.coroutinesex.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
 
-class MainActivity : AppCompatActivity() {
+class CoroutinesActivity : AppCompatActivity() {
     private val viewModel by viewModels<MyViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {

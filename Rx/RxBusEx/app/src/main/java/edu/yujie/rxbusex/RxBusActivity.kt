@@ -10,7 +10,6 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
 //https://www.jianshu.com/p/ca090f6e2fe2
-//https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/744974/
 //https://www.jianshu.com/p/f6fd651abc8a
 //https://juejin.cn/post/6844903482000932878
 

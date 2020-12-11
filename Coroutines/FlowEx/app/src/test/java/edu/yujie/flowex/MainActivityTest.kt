@@ -11,13 +11,13 @@ class MainActivityTest {
 
     @Test
     fun getFlowFirstTest() = runBlocking {
-        val value = getFlow().first()
+        val value = flowDemo().first()
         assertEquals(value, 1)
     }
 
     @Test
     fun getFlowTest() = runBlocking {
-        val list = getFlow().toList()
+        val list = flowDemo().toList()
         assertEquals(list, listOf(1, 3, 5, 7, 9, 2, 4, 6, 8, null))
     }
 }

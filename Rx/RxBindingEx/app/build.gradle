@@ -9,10 +9,11 @@ android {
 
     defaultConfig {
         applicationId "edu.yujie.rxbindingex"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,6 +31,10 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    dataBinding {
+        enabled true
+    }
+
 }
 
 dependencies {
@@ -44,19 +49,19 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
-//    implementation 'com.jakewharton.rxbinding4:rxbinding-core:4.0.0'
-//    implementation 'com.jakewharton.rxbinding4:rxbinding-appcompat:4.0.0'
-//    implementation 'com.jakewharton.rxbinding4:rxbinding-drawerlayout:4.0.0'
-//    implementation 'com.jakewharton.rxbinding4:rxbinding-leanback:4.0.0'
-//    implementation 'com.jakewharton.rxbinding4:rxbinding-recyclerview:4.0.0'
-//    implementation 'com.jakewharton.rxbinding4:rxbinding-slidingpanelayout:4.0.0'
-//    implementation 'com.jakewharton.rxbinding4:rxbinding-swiperefreshlayout:4.0.0'
-//    implementation 'com.jakewharton.rxbinding4:rxbinding-viewpager:4.0.0'
-//    implementation 'com.jakewharton.rxbinding4:rxbinding-viewpager2:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-core:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-appcompat:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-drawerlayout:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-leanback:4.0.0'//minSdkVersion>=17
+    implementation 'com.jakewharton.rxbinding4:rxbinding-recyclerview:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-slidingpanelayout:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-swiperefreshlayout:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-viewpager:4.0.0'
+    implementation 'com.jakewharton.rxbinding4:rxbinding-viewpager2:4.0.0'
     implementation 'com.jakewharton.rxbinding4:rxbinding-material:4.0.0'
 
     implementation "androidx.fragment:fragment-ktx:1.2.5"
-//    implementation 'com.github.tbruyelle:rxpermissions:0.12'
+    implementation 'com.github.tbruyelle:rxpermissions:0.12'
 
 
 }

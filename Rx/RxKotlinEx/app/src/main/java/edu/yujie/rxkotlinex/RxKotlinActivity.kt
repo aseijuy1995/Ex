@@ -56,23 +56,23 @@ class RxKotlinActivity : AppCompatActivity() {
 //                println("$TAG onNext() it = $it")
 //            }
 
-//        // mergeAll - 合併
-//        val subject = PublishSubject.create<Observable<Int>>()
-//        subject.mergeAll()
+//        // mergeAll - 合併(調用RxJava flatMap())
+//        val observable = listOf(1, 2, 3).toObservable()
+//        val observable2 = listOf(4, 5, 6).toObservable()
+//        val list = listOf(observable, observable2)
+//        list.toObservable().mergeAll()
 //            .subscribeBy {
 //                println("$TAG onNext() it = $it")
 //            }
-//        subject.onNext(Observable.just(1, 2, 3))
-//        subject.onNext(Observable.just(4, 5, 6))
 
-//        // concatAll - 有序合併
-//        val subject = PublishSubject.create<Observable<Int>>()
-//        subject.concatAll()
+//        // concatAll - 有序合併(調用RxJava concatMap())
+//        val observable = listOf(1, 2, 3).toObservable()
+//        val observable2 = listOf(4, 5, 6).toObservable()
+//        val list = listOf(observable, observable2)
+//        list.toObservable().concatAll()
 //            .subscribeBy {
 //                println("$TAG onNext() it = $it")
 //            }
-//        subject.onNext(Observable.just(1, 2, 3))
-//        subject.onNext(Observable.just(4, 5, 6))
 
 //        // switchLatest - 從最後發出的Observable發出
 //        val subject = PublishSubject.create<Observable<Int>>()

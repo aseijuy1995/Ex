@@ -1,17 +1,21 @@
 package edu.yujie.rxbindingex
 
+import android.Manifest
 import android.os.Bundle
 import android.view.Menu
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import com.jakewharton.rxbinding4.view.clicks
+import com.jakewharton.rxbinding4.widget.checked
+import com.tbruyelle.rxpermissions3.RxPermissions
 
 
 //https://github.com/JakeWharton/RxBinding
-//https://www.itread01.com/content/1548730656.html
 //https://blog.csdn.net/qq_39507260/article/details/84205904
-
-//https://juejin.cn/post/6844903509947596813
 //https://segmentfault.com/a/1190000021623958
 
 class RxBindingActivity : AppCompatActivity() {
@@ -21,7 +25,12 @@ class RxBindingActivity : AppCompatActivity() {
     private lateinit var radioGroup: RadioGroup
     private lateinit var etText: EditText
     private lateinit var scrollView: ScrollView
-    private lateinit var progressBar: ProgressBar
+    private lateinit var listView: ListView
+    private lateinit var rvView: RecyclerView
+    private lateinit var spinner: Spinner
+    private lateinit var autoTvView: AutoCompleteTextView
+    private lateinit var radioBtn: RadioButton
+    private lateinit var radioBtn2: RadioButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,9 +41,31 @@ class RxBindingActivity : AppCompatActivity() {
         radioGroup = findViewById<RadioGroup>(R.id.radio_group)
         etText = findViewById<EditText>(R.id.et_text)
         scrollView = findViewById<ScrollView>(R.id.scroll_view)
-        progressBar = findViewById<ProgressBar>(R.id.progress_bar)
+        listView = findViewById<ListView>(R.id.list_view)
+        rvView = findViewById<RecyclerView>(R.id.rv_view)
+        spinner = findViewById<Spinner>(R.id.spinner)
+        autoTvView = findViewById<AutoCompleteTextView>(R.id.auto_tv_view)
+        radioBtn = findViewById<RadioButton>(R.id.radio_btn)
+        radioBtn2 = findViewById<RadioButton>(R.id.radio_btn2)
 
-        //rxbinding-view
+        val list = mutableListOf<Data>()
+        for (i in 0..100) {
+            list.add(Data(name = "name = $i"))
+        }
+        //listView
+        listView.adapter = MyListAdapter(list)
+        //spinner
+        spinner.adapter = MyListAdapter(list)
+        //rvView
+        rvView.apply {
+            layoutManager = LinearLayoutManager(this@RxBindingActivity)
+            adapter = MyRvListAdapter(list)
+        }
+
+        /**
+         * rxbinding
+         * view
+         * */
 //        // attachEvents - 根據ViewAttachEvent判斷View是detach還是attach
 //        btnView.attachEvents().subscribe {
 //            println("$TAG attachEvents()")
@@ -165,8 +196,182 @@ class RxBindingActivity : AppCompatActivity() {
 //        btnView.visibility().accept(false)
 
         //--------------------------------------------------------------------------------
-        ////rxbinding-widget
+        /**
+         * rxbinding
+         * widget
+         * */
+//        // scrollEvents - ListView滾動事件
+//        listView.scrollEvents().subscribe {
+//            println("$TAG scrollEvents()")
+//            Snackbar.make(view, "$TAG scrollEvents()", Snackbar.LENGTH_SHORT).show()
+//        }
 
+//        // dataChanges - Adapter數據改變時呼叫
+//        listView.adapter.dataChanges().subscribe {
+//            println("$TAG dataChanges()")
+//            Snackbar.make(view, "$TAG dataChanges()", Snackbar.LENGTH_SHORT).show()
+//        }
+
+//        // itemClickEvents - Adapter項目點擊狀態改變時
+//        listView.itemClickEvents().subscribe {
+//            println("$TAG itemClickEvents()")
+//            Snackbar.make(view, "$TAG itemClickEvents()", Snackbar.LENGTH_SHORT).show()
+//        }
+
+//        // itemClicks - Adapter項目點擊時呼叫
+//        listView.itemClicks().subscribe {
+//            println("$TAG itemClicks()")
+//            Snackbar.make(view, "$TAG itemClicks()", Snackbar.LENGTH_SHORT).show()
+//        }
+
+//        // itemLongClickEvents - Adapter項目長按狀態改變時
+//        listView.itemLongClickEvents().subscribe {
+//            println("$TAG itemLongClickEvents()")
+//            Snackbar.make(view, "$TAG itemLongClickEvents()", Snackbar.LENGTH_SHORT).show()
+//        }
+
+//        // itemLongClicks - Adapter項目長按時呼叫
+//        listView.itemLongClicks().subscribe {
+//            println("$TAG itemLongClicks()")
+//            Snackbar.make(view, "$TAG itemLongClicks()", Snackbar.LENGTH_SHORT).show()
+//        }
+
+//        // itemSelections - Adapter項目選擇時呼叫
+//        spinner.itemSelections().subscribe {
+//            println("$TAG itemSelections()")
+//            Snackbar.make(view, "$TAG itemSelections()", Snackbar.LENGTH_SHORT).show()
+//        }
+
+//        // selectionEvents - Adapter項目選擇狀態改變時
+//        spinner.selectionEvents().subscribe {
+//            println("$TAG selectionEvents()")
+//            Snackbar.make(view, "$TAG selectionEvents()", Snackbar.LENGTH_SHORT).show()
+//        }
+
+//        // itemClickEvents - 比對到相同數據時呼叫
+//        autoTvView.itemClickEvents().subscribe {
+//            println("$TAG itemClickEvents()")
+//            Snackbar.make(view, "$TAG itemClickEvents()", Snackbar.LENGTH_SHORT).show()
+//        }
+
+//        // checkedChanges - 當View勾選改變時呼叫
+//        radioBtn.checkedChanges().subscribe {
+//            println("$TAG checkedChanges()")
+//            Snackbar.make(view, "$TAG checkedChanges()", Snackbar.LENGTH_SHORT).show()
+//        }
+
+        // PopupMenu.dismisses()// 當彈窗點擊消失時呼叫
+        // PopupMenu.itemClicks()// 當彈窗點擊時呼叫
+
+        // checked - 設置View勾選
+        radioGroup.checked().accept(R.id.radio_btn2)
+
+        // RatingBar.ratingChangeEvents()// 星級滾動條進度改變事件
+        // RatingBar.ratingChanges()// 星級滾動條進度改變事件
+
+        // SearchView.query()// 搜索框
+        // SearchView.queryTextChangeEvents()// 搜索框
+        // SearchView.queryTextChanges()// 搜索框
+
+        // SeekBar.changeEvents()// 進度條進度改變
+        // SeekBar.changes()// 進度條進度改變
+        // SeekBar.userChanges()// 進度條進度改變
+        // SeekBar.systemChanges()// 進度條進度改變
+
+        // TextView.afterTextChangeEvents()// 文本改变
+        // TextView.beforeTextChangeEvents()// 文本改变
+        // TextView.editorActionEvents()// 文本改变
+        // TextView.editorActions()// 編輯狀態改改變
+        // TextView.textChangeEvents()// 文本改变
+        // TextView.textChanges()// 文本改变
+
+        // Toolbar.itemClicks()// Toolbar中子項和導航點擊事件
+        // Toolbar.navigationClicks()// Toolbar中子項和導航點擊事件
+
+        //--------------------------------------------------------------------------------
+        /**
+         * rxbinding-core
+         * */
+        // NestedScrollView.scrollChangeEvents()// 當View滾動觸發時呼叫
+
+        //--------------------------------------------------------------------------------
+        /**
+         * rxbinding-appcompat
+         * */
+        // ActionMenuView.itemClicks()// 項目點擊時呼叫
+        // PopupMenu.dismisses()
+        // PopupMenu.itemClicks()
+        // SearchView.queryTextChangeEvents()
+        // SearchView.queryTextChanges()
+        // SearchView.query()
+        // Toolbar.itemClicks()
+        // Toolbar.navigationClicks()
+
+        //--------------------------------------------------------------------------------
+        /**
+         * rxbinding-drawerlayout
+         * */
+        // DrawerLayout.drawerOpen()
+        // DrawerLayout.open()
+
+        //--------------------------------------------------------------------------------
+        /**
+         * rxbinding-leanback
+         * */
+        // SearchBar.searchQueryChangeEvents()
+        // SearchBar.searchQueryChanges()
+        // SearchEditText.keyboardDismisses()
+
+        //--------------------------------------------------------------------------------
+        /**
+         * rxbinding-recyclerview
+         * */
+        // <T : Adapter<out ViewHolder>> T.dataChanges()
+        // RecyclerView.childAttachStateChangeEvents()
+        // RecyclerView.flingEvents()
+        // RecyclerView.scrollEvents()
+        // RecyclerView.scrollStateChanges()
+
+        //--------------------------------------------------------------------------------
+        /**
+         * rxbinding-slidingpanelayout
+         * */
+        // SlidingPaneLayout.open()
+        // SlidingPaneLayout.panelOpens()
+        // SlidingPaneLayout.panelSlides()
+
+        //--------------------------------------------------------------------------------
+        /**
+         * rxbinding-swiperefreshlayout
+         * */
+        // SwipeRefreshLayout.refreshes()
+
+        //--------------------------------------------------------------------------------
+        /**
+         * rxbinding-viewpager
+         * */
+        // ViewPager.pageScrollStateChanges()
+        // ViewPager.pageScrollEvents()
+        // ViewPager.pageSelections()
+
+        //--------------------------------------------------------------------------------
+        /**
+         * rxbinding-viewpager2
+         * */
+        // ViewPager2.pageScrollStateChanges()
+        // ViewPager2.pageScrollEvents()
+        // ViewPager2.pageSelections()
+
+        //--------------------------------------------------------------------------------
+        /**
+         * RxBinding & RxPermission
+         * */
+
+        btnView.clicks()
+            .compose(RxPermissions(this).ensure(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO))
+            .subscribe {
+                Snackbar.make(view, "$TAG it = $it", Snackbar.LENGTH_SHORT).show()
+            }
 
     }
 
