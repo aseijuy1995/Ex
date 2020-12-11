@@ -14,10 +14,10 @@ import kotlinx.coroutines.launch
  */
 class MyViewModel : ViewModel() {
 
-    val liveData = MutableLiveData<String>()
+    private val liveData = MutableLiveData<String>()
 
     fun loadData(): LiveData<String> {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Main) {
             val value = loadDataFromViewModel()
             liveData.postValue(value)
         }

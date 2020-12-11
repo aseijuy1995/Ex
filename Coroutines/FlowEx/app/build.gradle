@@ -42,11 +42,10 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    //fragment
-    def fragment_version = "1.2.5"
-    implementation "androidx.fragment:fragment-ktx:$fragment_version"
-    //coroutines
-    def coroutines_version = "1.4.2"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+
+    implementation "androidx.fragment:fragment-ktx:1.2.5"
+
 }
