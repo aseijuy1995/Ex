@@ -1,5 +1,6 @@
 package edu.yujie.okhttpex
 
+import android.util.Log
 import okhttp3.*
 import okhttp3.EventListener
 import java.io.IOException
@@ -12,11 +13,12 @@ import java.util.concurrent.atomic.AtomicLong
 
 class HttpEventListener(private val callId: Long, private val url: HttpUrl, private val callStartNanos: Long) : EventListener() {
     private val TAG = javaClass.simpleName
-    private val sbLog: StringBuilder? = null
+    private val sb: StringBuilder? = null
 
     companion object {
-        val FACTORY = object : EventListener.Factory {
-            private val atomLong = AtomicLong(1)
+        val FACTORY = object : Factory {
+            private val atomLong = AtomicLong(1L)
+
             override fun create(call: Call): EventListener {
                 val callId = atomLong.getAndIncrement()
                 return HttpEventListener(callId, call.request().url, System.nanoTime())
@@ -26,111 +28,110 @@ class HttpEventListener(private val callId: Long, private val url: HttpUrl, priv
 
     private fun recordEventLog(name: String) {
         val elapseNanos: Long = System.nanoTime() - callStartNanos
-        sbLog?.append(java.lang.String.format(Locale.TAIWAN, "%.3f-%s", elapseNanos / 1000000000.0, name))?.append(";")
+        sb?.append(java.lang.String.format(Locale.TAIWAN, "%.3f-%s", elapseNanos / 1000000000.0, name))?.append(";")
         if (name.equals("callEnd", ignoreCase = true) || name.equals("callFailed", ignoreCase = true)) {
-            //打印出每个步骤的时间点
-            println(sbLog.toString())
+            Log.i(TAG, sb.toString())
         }
     }
 
     override fun callStart(call: Call) {
         super.callStart(call)
-        recordEventLog("$TAG callStart()")
+        recordEventLog("callStart()")
     }
 
     override fun dnsStart(call: Call, domainName: String) {
         super.dnsStart(call, domainName)
-        recordEventLog("$TAG dnsStart()")
+        recordEventLog("dnsStart()")
     }
 
     override fun dnsEnd(call: Call, domainName: String, inetAddressList: List<InetAddress>) {
         super.dnsEnd(call, domainName, inetAddressList)
-        recordEventLog("$TAG dnsEnd()")
+        recordEventLog("dnsEnd()")
     }
 
     override fun connectStart(call: Call, inetSocketAddress: InetSocketAddress, proxy: Proxy) {
         super.connectStart(call, inetSocketAddress, proxy)
-        recordEventLog("$TAG connectStart()")
+        recordEventLog("connectStart()")
     }
 
     override fun secureConnectStart(call: Call) {
         super.secureConnectStart(call)
-        recordEventLog("$TAG secureConnectStart()")
+        recordEventLog("secureConnectStart()")
     }
 
     override fun secureConnectEnd(call: Call, handshake: Handshake?) {
         super.secureConnectEnd(call, handshake)
-        recordEventLog("$TAG secureConnectEnd()")
+        recordEventLog("secureConnectEnd()")
     }
 
     override fun connectEnd(call: Call, inetSocketAddress: InetSocketAddress, proxy: Proxy, protocol: Protocol?) {
         super.connectEnd(call, inetSocketAddress, proxy, protocol)
-        recordEventLog("$TAG connectEnd()")
+        recordEventLog("connectEnd()")
     }
 
     override fun connectFailed(call: Call, inetSocketAddress: InetSocketAddress, proxy: Proxy, protocol: Protocol?, ioe: IOException) {
         super.connectFailed(call, inetSocketAddress, proxy, protocol, ioe)
-        recordEventLog("$TAG connectFailed()")
+        recordEventLog("connectFailed()")
     }
 
     override fun connectionAcquired(call: Call, connection: Connection) {
         super.connectionAcquired(call, connection)
-        recordEventLog("$TAG connectionAcquired()")
+        recordEventLog("connectionAcquired()")
     }
 
     override fun connectionReleased(call: Call, connection: Connection) {
         super.connectionReleased(call, connection)
-        recordEventLog("$TAG connectionReleased()")
+        recordEventLog("connectionReleased()")
     }
 
     override fun requestHeadersStart(call: Call) {
         super.requestHeadersStart(call)
-        recordEventLog("$TAG requestHeadersStart()")
+        recordEventLog("requestHeadersStart()")
     }
 
     override fun requestHeadersEnd(call: Call, request: Request) {
         super.requestHeadersEnd(call, request)
-        recordEventLog("$TAG requestHeadersEnd()")
+        recordEventLog("requestHeadersEnd()")
     }
 
     override fun requestBodyStart(call: Call) {
         super.requestBodyStart(call)
-        recordEventLog("$TAG requestBodyStart()")
+        recordEventLog("requestBodyStart()")
     }
 
     override fun requestBodyEnd(call: Call, byteCount: Long) {
         super.requestBodyEnd(call, byteCount)
-        recordEventLog("$TAG requestBodyEnd()")
+        recordEventLog("requestBodyEnd()")
     }
 
     override fun responseHeadersStart(call: Call) {
         super.responseHeadersStart(call)
-        recordEventLog("$TAG responseHeadersStart()")
+        recordEventLog("responseHeadersStart()")
     }
 
     override fun responseHeadersEnd(call: Call, response: Response) {
         super.responseHeadersEnd(call, response)
-        recordEventLog("$TAG responseHeadersEnd()")
+        recordEventLog("responseHeadersEnd()")
     }
 
     override fun responseBodyStart(call: Call) {
         super.responseBodyStart(call)
-        recordEventLog("$TAG responseBodyStart()")
+        recordEventLog("responseBodyStart()")
     }
 
     override fun responseBodyEnd(call: Call, byteCount: Long) {
         super.responseBodyEnd(call, byteCount)
-        recordEventLog("$TAG responseBodyEnd()")
+        recordEventLog("responseBodyEnd()")
     }
 
     override fun callEnd(call: Call) {
         super.callEnd(call)
-        recordEventLog("$TAG callEnd()")
+        recordEventLog("callEnd()")
     }
 
     override fun callFailed(call: Call, ioe: IOException) {
         super.callFailed(call, ioe)
-        recordEventLog("$TAG callFailed()")
+        recordEventLog("callFailed()")
     }
 
 

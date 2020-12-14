@@ -7,7 +7,7 @@ object CacheInterceptor : Interceptor {
     private val cacheControl = "Cache-Control"
     private val pragma = "Pragma"
     private val maxAge = "max-age"
-    private val cacheTime = 60 * 60//seconds
+    private val cacheTime = 60 * 2//seconds
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
