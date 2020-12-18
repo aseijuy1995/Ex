@@ -1,8 +1,10 @@
 package edu.yujie.retrofitex
 
 import android.content.Context
+import android.util.Log
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
@@ -12,6 +14,14 @@ class OkHttpUtil private constructor(private val context: Context) {
 
     companion object : SingletonProperty<OkHttpUtil, Context>(::OkHttpUtil)
 
+    val httpLoggingInterceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+        override fun log(message: String) {
+            Log.i(TAG, message)
+        }
+    }).apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+
     init {
         client = OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)//連接超時
@@ -19,6 +29,7 @@ class OkHttpUtil private constructor(private val context: Context) {
             .writeTimeout(10, TimeUnit.SECONDS)//IO寫入超時
             .callTimeout(60, TimeUnit.SECONDS)//完整請求超時
             .retryOnConnectionFailure(true)//失敗重連
+            .addInterceptor(httpLoggingInterceptor)
 //            .addNetworkInterceptor(CacheInterceptor)
             .build()
     }
