@@ -1,4 +1,4 @@
-package edu.yujie.okhttpex
+package edu.yujie.okhttpex.interceptor
 
 import okhttp3.Authenticator
 import okhttp3.Request
@@ -11,7 +11,7 @@ object TokenUrlAuthenticator : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
         //Add in url
-        val tokenValue = ""//call api
+        val tokenValue = "Basic bmFtZTpwYXNzd29yZA=="//call api
         //save token
         val request = response.request
         val url = request.url.newBuilder()

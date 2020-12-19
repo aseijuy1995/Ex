@@ -2,8 +2,12 @@ package edu.yujie.okhttpex
 
 import android.content.Context
 import android.util.Log
+import edu.yujie.okhttpex.interceptor.CacheInterceptor
+import edu.yujie.okhttpex.interceptor.TokenHeaderAuthenticator
 import okhttp3.*
-import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
+import okhttp3.HttpUrl.Companion.toHttpUrl
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 import java.util.concurrent.TimeUnit
@@ -11,12 +15,6 @@ import java.util.concurrent.TimeUnit
 //https://square.github.io/okhttp/
 
 //https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Methods
-
-//Timeout & retryOnConnectionFailure
-//https://segmentfault.com/a/1190000020460789
-
-//authenticator
-//https://juejin.cn/post/6844903455794921486
 
 //Cache
 //https://mushuichuan.com/2016/03/01/okhttpcache/
@@ -65,13 +63,11 @@ class OkHttpUtil private constructor(private val context: Context) {
 
     companion object : SingletonProperty<OkHttpUtil, Context>(::OkHttpUtil)
 
-    val httpLoggingInterceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
+    val loggerInterceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
         override fun log(message: String) {
-            Log.i(TAG, message)
+            if (BuildConfig.DEBUG) Log.d(TAG, message)
         }
-    }).apply {
-        level = HttpLoggingInterceptor.Level.BODY
-    }
+    }).apply { level = HttpLoggingInterceptor.Level.NONE }
 
     init {
         client = OkHttpClient.Builder()
@@ -80,27 +76,38 @@ class OkHttpUtil private constructor(private val context: Context) {
             .writeTimeout(10, TimeUnit.SECONDS)//IO寫入超時
             .callTimeout(60, TimeUnit.SECONDS)//完整請求超時
             .retryOnConnectionFailure(true)//失敗重連
-            .addInterceptor(httpLoggingInterceptor)
-//            .authenticator(TokenHeaderAuthenticator)
-//            .authenticator(TokenUrlAuthenticator)
-//            .addNetworkInterceptor(CacheInterceptor)
-//            .cache(Cache(context.cacheDir, 1024 * 1024 * 10))//Header:Cache-Control, max-age=xxx,
-//            .cookieJar(OkHttpCookieJar)//與web||webView交互時使用
+            //Logger
+            .addInterceptor(loggerInterceptor)
+            /**
+             * Cache:透過response.cacheResponse/networkResponse驗證
+             * 強制透過網路or緩存可針對request.setCacheControl()設置CacheControl.FORCE_NETWORK || CacheControl.FORCE_CACHE
+             * */
+            .cache(Cache(context.cacheDir, 10 * 1024L * 1024L))//Header:Cache-Control, max-age=xxx,
+            .addNetworkInterceptor(CacheInterceptor)
+            //Auth
+            .authenticator(TokenHeaderAuthenticator)
+            //Interceptors
 //            .interceptors()
 //            .networkInterceptors()
-//            .eventListener(HttpEventListener())
-//            .eventListenerFactory(HttpEventListener.FACTORY)
-//            .certificatePinner(CertificatePinner.Builder().add("", "").build())
+            //
+//            .cookieJar(OkHttpCookieJar)//與web||webView交互時使用
+
+//            .eventListener(PrintingEventListener())
+//            .eventListenerFactory(PrintingEventListener.FACTORY)
 //            .connectionPool(ConnectionPool(5, 5, TimeUnit.MINUTES))
 //            .dispatcher(Dispatcher(Executors.newScheduledThreadPool(64)))
+//            .certificatePinner(CertificatePinner.Builder().add("", "").build())
+            //
 //            .connectionSpecs(Collections.singletonList(okHttpConnectionSpec))
 //            .dns(OkHttpDns)
 //            .followRedirects(false)
 //            .followSslRedirects(false)
 //            .hostnameVerifier(OkHttpHostnameVerifier)
+            //Proxy
 //            .proxySelector()
 //            .proxy()
 //            .proxyAuthenticator()
+            //WebSocket
 //            .pingInterval()
 //            .protocols()
 //            .socketFactory()
@@ -108,24 +115,23 @@ class OkHttpUtil private constructor(private val context: Context) {
 //            .minWebSocketMessageToCompress()
             .build()
 
-
     }
 
-    fun mapToBody(map: Map<String, String>): RequestBody {
-        val builder = FormBody.Builder()
-        map.forEach { builder.add(it.key, it.value) }
-        return builder.build()
-    }
-
-    fun get(url: String, params: Map<String, String>?): Request {
-        val builder = url.toHttpUrlOrNull()!!.newBuilder()
-        params?.forEach { builder.addQueryParameter(it.key, it.value) }
+    fun get(url: String, params: Map<String, String>): Request {
+        val builder = url.toHttpUrl().newBuilder()
+        params.forEach {
+            if (it.key.trim().isNotEmpty() && it.value.trim().isNotEmpty())
+                builder.addEncodedQueryParameter(it.key, it.value)
+        }
         return Request.Builder().url(builder.build()).get().build()
     }
 
-    fun head(url: String, params: Map<String, String>?): Request {
-        val builder = url.toHttpUrlOrNull()!!.newBuilder()
-        params?.forEach { builder.addQueryParameter(it.key, it.value) }
+    fun head(url: String, params: Map<String, String>): Request {
+        val builder = url.toHttpUrl().newBuilder()
+        params.forEach {
+            if (it.key.trim().isNotEmpty() && it.value.trim().isNotEmpty())
+                builder.addEncodedQueryParameter(it.key, it.value)
+        }
         return Request.Builder().url(builder.build()).head().build()
     }
 
@@ -137,41 +143,31 @@ class OkHttpUtil private constructor(private val context: Context) {
 
     fun patch(url: String, body: RequestBody) = Request.Builder().url(url).patch(body).build()
 
-    fun sync(request: Request): String {
-        return client.newCall(request).execute().use {
-            if (!it.isSuccessful) throw IOException("$TAG Unexpected code $it")
+    //--------------------------------------------------------------------------------
 
-            it.headers.forEach {
-                println("$TAG name = ${it.first}, value = ${it.second}")
-            }
-            it.body!!.string()
+    //json
+    fun jsonToBody(json: String): RequestBody {
+        val mediaType = "application/json;charset=utf-8".toMediaType()
+        return json.toRequestBody(mediaType)
+    }
+
+    //from-data
+    fun fromDataToBody(map: Map<String, String>?): RequestBody {
+        val builder = FormBody.Builder()
+        map?.forEach {
+            if (it.key.trim().isNotEmpty() && it.value.trim().isNotEmpty())
+                builder.add(it.key, it.value)
         }
+        return builder.build()
+    }
+
+    //--------------------------------------------------------------------------------
+
+    open fun sync(request: Request): Response = client.newCall(request).execute().run {
+        if (!isSuccessful) throw  IOException("$TAG Unexpected code $this")
+        this
     }
 
     fun async(request: Request, callback: Callback) = client.newCall(request).enqueue(callback)
 
 }
-
-fun OkHttpUtil.syncGet(url: String, params: Map<String, String>? = null) = sync(get(url, params))
-
-fun OkHttpUtil.asyncGet(url: String, params: Map<String, String>? = null, callback: Callback) = async(get(url, params), callback)
-
-fun OkHttpUtil.syncHead(url: String, params: Map<String, String>? = null) = sync(head(url, params))
-
-fun OkHttpUtil.asyncHead(url: String, params: Map<String, String>? = null, callback: Callback) = async(head(url, params), callback)
-
-fun OkHttpUtil.syncPost(url: String, params: Map<String, String>) = sync(post(url, mapToBody(params)))
-
-fun OkHttpUtil.asyncPost(url: String, params: Map<String, String>, callback: Callback) = async(post(url, mapToBody(params)), callback)
-
-fun OkHttpUtil.syncDelete(url: String, params: Map<String, String>) = sync(delete(url, mapToBody(params)))
-
-fun OkHttpUtil.asyncDelete(url: String, params: Map<String, String>, callback: Callback) = async(delete(url, mapToBody(params)), callback)
-
-fun OkHttpUtil.syncPut(url: String, params: Map<String, String>) = sync(put(url, mapToBody(params)))
-
-fun OkHttpUtil.asyncPut(url: String, params: Map<String, String>, callback: Callback) = async(put(url, mapToBody(params)), callback)
-
-fun OkHttpUtil.syncPatch(url: String, params: Map<String, String>) = sync(patch(url, mapToBody(params)))
-
-fun OkHttpUtil.asyncPatch(url: String, params: Map<String, String>, callback: Callback) = async(patch(url, mapToBody(params)), callback)

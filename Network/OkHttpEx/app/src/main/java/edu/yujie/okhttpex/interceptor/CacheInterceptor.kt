@@ -1,4 +1,4 @@
-package edu.yujie.okhttpex
+package edu.yujie.okhttpex.interceptor
 
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -7,7 +7,7 @@ object CacheInterceptor : Interceptor {
     private val cacheControl = "Cache-Control"
     private val pragma = "Pragma"
     private val maxAge = "max-age"
-    private val cacheTime = 60 * 2//seconds
+    private val cacheTime = 60 * 1//seconds
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
