@@ -3,11 +3,6 @@ package edu.yujie.okhttpex
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.logging.HttpLoggingInterceptor
 
 class MainActivity : AppCompatActivity() {
     private val TAG = javaClass.simpleName
@@ -18,18 +13,18 @@ class MainActivity : AppCompatActivity() {
 
         val tvView = findViewById<TextView>(R.id.tv_view)
 
-        //get:sync
-        val url = "http://10.0.2.2:8080/get"
-        lifecycleScope.launch(Dispatchers.IO) {
-            OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            val body = OkHttpUtil.get(this@MainActivity).syncGet(url, mapOf("param" to "getParam"))
-            withContext(Dispatchers.Main) {
-                tvView.text = body
-            }
-        }
+//        //get:sync
+//        val url = "http://localhost:8080/get"
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
+//            val body = OkHttpUtil.get(this@MainActivity).syncGet(url, mapOf("param" to "getParam"))
+//            withContext(Dispatchers.Main) {
+//                tvView.text = body
+//            }
+//        }
 
 //        //get:async
-//        val url = "http://10.0.2.2:8080/get"
+//        val url = "http://localhost:8080/get"
 //        OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //        OkHttpUtil.get(this@MainActivity).asyncGet(url, mapOf("param" to "getParam"), object : Callback {
 //            override fun onFailure(call: Call, e: IOException) {
@@ -45,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         //--------------------------------------------------------------------------------
 
 //        //head:sync
-//        val url = "http://10.0.2.2:8080/head"
+//        val url = "http://localhost:8080/head"
 //        lifecycleScope.launch(Dispatchers.IO) {
 //            OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.HEADERS
 //            val body = OkHttpUtil.get(this@MainActivity).syncHead(url, mapOf("param" to "headParam"))
@@ -55,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 //        //head:async
-//        val url = "http://10.0.2.2:8080/head"
+//        val url = "http://localhost:8080/head"
 //        OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.HEADERS
 //        OkHttpUtil.get(this@MainActivity).asyncHead(url, mapOf("param" to "getParam"), object : Callback {
 //            override fun onFailure(call: Call, e: IOException) {
@@ -72,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         //--------------------------------------------------------------------------------
 
 //        //post:json:sync
-//        val url = "http://10.0.2.2:8080/post/json"
+//        val url = "http://localhost:8080/post/json"
 //        lifecycleScope.launch(Dispatchers.IO) {
 //            OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //            val body = OkHttpUtil.get(this@MainActivity).syncPostJson(url, "{\"param\":\"postJson\"}")
@@ -82,7 +77,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 //        //post:from-data:sync
-//        val url = "http://10.0.2.2:8080/post/from-data"
+//        val url = "http://localhost:8080/post/from-data"
 //        lifecycleScope.launch(Dispatchers.IO) {
 //            OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //            val body = OkHttpUtil.get(this@MainActivity).syncPostFromData(url, mapOf("param" to "postFromData"))
@@ -92,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 //        //post:json:async
-//        val url = "http://10.0.2.2:8080/post/json"
+//        val url = "http://localhost:8080/post/json"
 //        OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //        OkHttpUtil.get(this@MainActivity).asyncPostJson(url, "{\"param\":\"postJson\"}", object : Callback {
 //            override fun onFailure(call: Call, e: IOException) {
@@ -106,7 +101,7 @@ class MainActivity : AppCompatActivity() {
 //        })
 
 //        //post:from-data:async
-//        val url = "http://10.0.2.2:8080/post/from-data"
+//        val url = "http://localhost:8080/post/from-data"
 //        OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //        OkHttpUtil.get(this@MainActivity).asyncPostFromData(url, mapOf("param" to "postFromData"), object : Callback {
 //            override fun onFailure(call: Call, e: IOException) {
@@ -122,7 +117,7 @@ class MainActivity : AppCompatActivity() {
         //--------------------------------------------------------------------------------
 
 //        //delete:json:sync
-//        val url = "http://10.0.2.2:8080/delete/json"
+//        val url = "http://localhost:8080/delete/json"
 //        lifecycleScope.launch(Dispatchers.IO) {
 //            OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //            val body = OkHttpUtil.get(this@MainActivity).syncDeleteJson(url, "{\"param\":\"deleteJson\"}")
@@ -132,7 +127,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 //        //delete:from-data:sync
-//        val url = "http://10.0.2.2:8080/delete/from-data"
+//        val url = "http://localhost:8080/delete/from-data"
 //        lifecycleScope.launch(Dispatchers.IO) {
 //            OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //            val body = OkHttpUtil.get(this@MainActivity).syncDeleteFromData(url, mapOf("param" to "deleteFromData"))
@@ -142,7 +137,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 //        //delete:json:async
-//        val url = "http://10.0.2.2:8080/delete/json"
+//        val url = "http://localhost:8080/delete/json"
 //        OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //        OkHttpUtil.get(this@MainActivity).asyncDeleteJson(url, "{\"param\":\"deleteJson\"}", object : Callback {
 //            override fun onFailure(call: Call, e: IOException) {
@@ -156,7 +151,7 @@ class MainActivity : AppCompatActivity() {
 //        })
 
 //        //delete:from-data:async
-//        val url = "http://10.0.2.2:8080/delete/from-data"
+//        val url = "http://localhost:8080/delete/from-data"
 //        OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //        OkHttpUtil.get(this@MainActivity).asyncDeleteFromData(url, mapOf("param" to "deleteFromData"), object : Callback {
 //            override fun onFailure(call: Call, e: IOException) {
@@ -172,7 +167,7 @@ class MainActivity : AppCompatActivity() {
         //--------------------------------------------------------------------------------
 
 //        //put:json:sync
-//        val url = "http://10.0.2.2:8080/put/json"
+//        val url = "http://localhost:8080/put/json"
 //        lifecycleScope.launch(Dispatchers.IO) {
 //            OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //            val body = OkHttpUtil.get(this@MainActivity).syncPutJson(url, "{\"param\":\"deleteJson\"}")
@@ -182,7 +177,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 //        //put:from-data:sync
-//        val url = "http://10.0.2.2:8080/put/from-data"
+//        val url = "http://localhost:8080/put/from-data"
 //        lifecycleScope.launch(Dispatchers.IO) {
 //            OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //            val body = OkHttpUtil.get(this@MainActivity).syncPutFromData(url, mapOf("param" to "putFromData"))
@@ -192,7 +187,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 //        //put:json:async
-//        val url = "http://10.0.2.2:8080/put/json"
+//        val url = "http://localhost:8080/put/json"
 //        OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //        OkHttpUtil.get(this@MainActivity).asyncPutJson(url, "{\"param\":\"putJson\"}", object : Callback {
 //            override fun onFailure(call: Call, e: IOException) {
@@ -206,7 +201,7 @@ class MainActivity : AppCompatActivity() {
 //        })
 
 //        //put:from-data:async
-//        val url = "http://10.0.2.2:8080/put/from-data"
+//        val url = "http://localhost:8080/put/from-data"
 //        OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //        OkHttpUtil.get(this@MainActivity).asyncPutFromData(url, mapOf("param" to "putFromData"), object : Callback {
 //            override fun onFailure(call: Call, e: IOException) {
@@ -222,7 +217,7 @@ class MainActivity : AppCompatActivity() {
         //--------------------------------------------------------------------------------
 
 //        //patch:json:from-data:sync
-//        val url = "http://10.0.2.2:8080/patch/json"
+//        val url = "http://localhost:8080/patch/json"
 //        lifecycleScope.launch(Dispatchers.IO) {
 //            OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //            val body = OkHttpUtil.get(this@MainActivity).syncPatchJson(url, "{\"param\":\"deleteJson\"}")
@@ -232,7 +227,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 //        //patch:from-data:sync
-//        val url = "http://10.0.2.2:8080/patch/from-data"
+//        val url = "http://localhost:8080/patch/from-data"
 //        lifecycleScope.launch(Dispatchers.IO) {
 //            OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //            val body = OkHttpUtil.get(this@MainActivity).syncPatchFromData(url, mapOf("param" to "patchFromData"))
@@ -242,7 +237,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 //        //patch:json:async
-//        val url = "http://10.0.2.2:8080/patch/json"
+//        val url = "http://localhost:8080/patch/json"
 //        OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //        OkHttpUtil.get(this@MainActivity).asyncPatchJson(url, "{\"param\":\"patchJson\"}", object : Callback {
 //            override fun onFailure(call: Call, e: IOException) {
@@ -256,7 +251,7 @@ class MainActivity : AppCompatActivity() {
 //        })
 
 //        //patch:from-data:async
-//        val url = "http://10.0.2.2:8080/patch/from-data"
+//        val url = "http://localhost:8080/patch/from-data"
 //        OkHttpUtil.get(this@MainActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
 //        OkHttpUtil.get(this@MainActivity).asyncPatchFromData(url, mapOf("param" to "patchFromData"), object : Callback {
 //            override fun onFailure(call: Call, e: IOException) {

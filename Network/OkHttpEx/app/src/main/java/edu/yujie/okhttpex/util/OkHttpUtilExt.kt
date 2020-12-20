@@ -1,4 +1,4 @@
-package edu.yujie.okhttpex
+package edu.yujie.okhttpex.util
 
 import okhttp3.Callback
 

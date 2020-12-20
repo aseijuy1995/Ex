@@ -1,7 +1,10 @@
-package edu.yujie.okhttpex
+package edu.yujie.okhttpex.util
 
 import android.content.Context
 import android.util.Log
+import edu.yujie.okhttpex.BuildConfig
+import edu.yujie.okhttpex.SingletonProperty
+import edu.yujie.okhttpex.eventListener.PrintingEventListener
 import edu.yujie.okhttpex.interceptor.CacheInterceptor
 import edu.yujie.okhttpex.interceptor.TokenHeaderAuthenticator
 import okhttp3.*
@@ -10,49 +13,34 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
+import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 //https://square.github.io/okhttp/
-
-//https://developer.mozilla.org/zh-TW/docs/Web/HTTP/Methods
-
-//Cache
-//https://mushuichuan.com/2016/03/01/okhttpcache/
-//https://notfalse.net/56/http-stale-response#Cache-Control
-
-//cookieJar
-//https://juejin.cn/post/6844904097385021453
-//https://juejin.cn/post/6844903646711267336
-
-//eventListener & eventListenerFactory
-//https://blog.csdn.net/joye123/article/details/82115562
-
-//certificatePinner - 憑證綁定
-//https://tabacowang.me/2018/10/12/okhttp-pinning/
+//https://www.jianshu.com/p/82f74db14a18
 
 //connectionPool - 連接池
 //https://www.jianshu.com/p/d8f4f37b3b3d
-
-//dispatcher - 任務調度器
-//https://segmentfault.com/a/1190000020460789
-
-//connectionSpecs - TLS連線規格
-//https://www.jianshu.com/p/5ebcd282ea56
-//https://juejin.cn/post/6844903983228665870
-
-//dns
-//http://www.whdreamblog.cn/2019/04/23/OkHttp%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90-DNS%E7%AE%80%E6%9E%90/
-
-//followRedirects & followSslRedirects
-//https://www.jianshu.com/p/f2b287a176f5
-//https://blog.csdn.net/u012422440/article/details/49914021
+//https://juejin.cn/post/6844903557632622605#heading-6
 
 //hostnameVerifier
 //https://www.itread01.com/p/1329198.html
 //https://www.jianshu.com/p/1373889e74b2
 
-//proxy
-//https://codertw.com/%E7%A8%8B%E5%BC%8F%E8%AA%9E%E8%A8%80/738422/#outline__1_2
+//dispatcher - 任務調度器
+//https://segmentfault.com/a/1190000020460789
+//https://www.mdeditor.tw/pl/pUTC/zh-hk
+
+//certificatePinner - 憑證綁定
+//https://tabacowang.me/2018/10/12/okhttp-pinning/
+
+//connectionSpecs - TLS連線規格
+//https://www.jianshu.com/p/5ebcd282ea56
+//https://juejin.cn/post/6844903983228665870
+
+//followRedirects & followSslRedirects
+//https://www.jianshu.com/p/f2b287a176f5
+//https://blog.csdn.net/u012422440/article/details/49914021
 
 //webSocket
 //https://www.mdeditor.tw/pl/p1DT/zh-tw
@@ -68,6 +56,14 @@ class OkHttpUtil private constructor(private val context: Context) {
             if (BuildConfig.DEBUG) Log.d(TAG, message)
         }
     }).apply { level = HttpLoggingInterceptor.Level.NONE }
+
+    val connectionSpec = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+        .tlsVersions(TlsVersion.SSL_3_0)
+        .cipherSuites(
+            CipherSuite.TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,
+            CipherSuite.TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+            CipherSuite.TLS_DHE_RSA_WITH_AES_128_GCM_SHA256
+        ).build()
 
     init {
         client = OkHttpClient.Builder()
@@ -89,30 +85,33 @@ class OkHttpUtil private constructor(private val context: Context) {
             //Interceptors
 //            .interceptors()
 //            .networkInterceptors()
-            //
-//            .cookieJar(OkHttpCookieJar)//與web||webView交互時使用
-
-//            .eventListener(PrintingEventListener())
-//            .eventListenerFactory(PrintingEventListener.FACTORY)
+            //pool & dispatchers
 //            .connectionPool(ConnectionPool(5, 5, TimeUnit.MINUTES))
-//            .dispatcher(Dispatcher(Executors.newScheduledThreadPool(64)))
-//            .certificatePinner(CertificatePinner.Builder().add("", "").build())
+            .dispatcher(Dispatcher(Executors.newScheduledThreadPool(64)))
             //
-//            .connectionSpecs(Collections.singletonList(okHttpConnectionSpec))
-//            .dns(OkHttpDns)
+            //憑證 & 證書 & 連線規則 & 協議
+//            .certificatePinner(CertificatePinner.Builder().add("localhost", "sha256").build())
+//            .hostnameVerifier(HostnameVerifierImpl)
+//            .connectionSpecs(Collections.singletonList(connectionSpec))
+//            .protocols(listOf(Protocol.HTTP_2, Protocol.HTTP_1_1))
+            //Cookie
+//            .cookieJar(CookieJarImpl)//app開啟web || webView時使用
+            //EventListener
+            .eventListenerFactory(PrintingEventListener.FACTORY)
+//            .eventListener(PrintingEventListener())
+            //Proxy & Dns
+//            .proxySelector(ProxySelectorImpl)
+//            .proxy(Proxy(Proxy.Type.SOCKS, InetSocketAddress("proxyHost", 8080)))
+//            .proxyAuthenticator(ProxyAuthenticator)
+//            .dns(DnsImpl)
+            //重定向處理
 //            .followRedirects(false)
 //            .followSslRedirects(false)
-//            .hostnameVerifier(OkHttpHostnameVerifier)
-            //Proxy
-//            .proxySelector()
-//            .proxy()
-//            .proxyAuthenticator()
             //WebSocket
-//            .pingInterval()
-//            .protocols()
-//            .socketFactory()
+//            .pingInterval(15, TimeUnit.SECONDS)
+//            .socketFactory(SocketFactory.getDefault())
 //            .sslSocketFactory()
-//            .minWebSocketMessageToCompress()
+//            .minWebSocketMessageToCompress(2048)
             .build()
 
     }
@@ -163,7 +162,7 @@ class OkHttpUtil private constructor(private val context: Context) {
 
     //--------------------------------------------------------------------------------
 
-    open fun sync(request: Request): Response = client.newCall(request).execute().run {
+    fun sync(request: Request): Response = client.newCall(request).execute().run {
         if (!isSuccessful) throw  IOException("$TAG Unexpected code $this")
         this
     }
