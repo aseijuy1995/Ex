@@ -5,7 +5,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import edu.yujie.okhttpex.util.OkHttpUtil
+import edu.yujie.retrofitex.util.OkHttpUtil
 import edu.yujie.retrofitex.util.RetrofitManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     private val TAG = javaClass.simpleName
     private val baseUrl = "https://my-json-server.typicode.com/"
     private val baseUrl2 = "https://jsonplaceholder.typicode.com/"
+    private var manager = RetrofitManager.init(baseUrl, OkHttpUtil.get(this).client)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,12 +24,11 @@ class MainActivity : AppCompatActivity() {
         val btnView = findViewById<Button>(R.id.btn_view)
         val btnView2 = findViewById<Button>(R.id.btn_view2)
 
-        var service = RetrofitManager.init(baseUrl, OkHttpUtil.get(this).client).create<IApiService>()
-
         btnView.setOnClickListener {
-            service = RetrofitManager.changeBaseUrl(baseUrl).create<IApiService>()
+            manager.changeBaseUrl(baseUrl)
+            val apiService = manager.create<IApiService>()
             lifecycleScope.launch(Dispatchers.IO) {
-                val githubBean = service.getGithubDatas()
+                val githubBean = apiService.getGithubDatas()
                 withContext(Dispatchers.Main) {
                     tvView.text = githubBean.toString()
                 }
@@ -36,9 +36,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnView2.setOnClickListener {
-            service = RetrofitManager.changeBaseUrl(baseUrl2).create<IApiService>()
+            manager.changeBaseUrl(baseUrl2)
+            val apiService2 = manager.create<IApiService2>()
             lifecycleScope.launch(Dispatchers.IO) {
-                val response = service.getOtherGithubData()
+                val response = apiService2.getOtherGithubData()
                 withContext(Dispatchers.Main) {
                     tvView.text = response.toString()
                 }

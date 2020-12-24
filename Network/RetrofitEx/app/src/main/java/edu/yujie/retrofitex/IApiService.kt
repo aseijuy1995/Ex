@@ -48,7 +48,4 @@ interface IApiService {
     @GET(value = "aseijuy1995/json/db")
     suspend fun getGithubDatas(): GithubBean
 
-    @GET(value = "posts")
-    suspend fun getOtherGithubData(): List<OtherGithubBean>
-
 }

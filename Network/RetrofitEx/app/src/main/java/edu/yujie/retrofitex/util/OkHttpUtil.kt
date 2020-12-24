@@ -1,9 +1,8 @@
-package edu.yujie.okhttpex.util
+package edu.yujie.retrofitex.util
 
 import android.content.Context
 import android.util.Log
 import edu.yujie.retrofitex.BuildConfig
-import edu.yujie.retrofitex.util.SingletonProperty
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType.Companion.toMediaType
@@ -62,6 +61,8 @@ class OkHttpUtil private constructor(private val context: Context) {
 
     fun patch(url: String, body: RequestBody) = Request.Builder().url(url).patch(body).build()
 
+    fun request(url: String) = Request.Builder().url(url).build()
+
     //--------------------------------------------------------------------------------
 
     //json
@@ -88,5 +89,7 @@ class OkHttpUtil private constructor(private val context: Context) {
     }
 
     fun async(request: Request, callback: Callback) = client.newCall(request).enqueue(callback)
+
+    fun webSocket(request: Request, listener: WebSocketListener) = client.newWebSocket(request, listener)
 
 }

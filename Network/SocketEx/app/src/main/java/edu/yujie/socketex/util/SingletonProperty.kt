@@ -1,4 +1,4 @@
-package edu.yujie.retrofitex
+package edu.yujie.socketex.util
 
 open class SingletonProperty<T, S>(private val creator: (S) -> T) {
     @Volatile

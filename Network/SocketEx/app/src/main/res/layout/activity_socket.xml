@@ -12,32 +12,23 @@
         android:layout_height="match_parent"
         tools:context=".SocketActivity">
 
-        <EditText
-            android:id="@+id/et_start"
+        <ImageView
+            android:id="@+id/iv_img"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="IP"
-            android:inputType="textPersonName"
-            app:layout_constraintEnd_toStartOf="@+id/btn_start"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btn_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start"
+            android:src="@drawable/ic_launcher_foreground"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_info"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:background="#a6a6"
-            app:layout_constraintTop_toBottomOf="@+id/et_start"
-            tools:layout_editor_absoluteX="99dp" />
+            android:background="#3aaa"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_img" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_view"
@@ -48,6 +39,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_info" />
 
+        <Button
+            android:id="@+id/btn_img"
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="IMG"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <EditText
             android:id="@+id/et_text"
             android:layout_width="0dp"
@@ -57,7 +56,7 @@
             android:inputType="textPersonName"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_view"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/btn_img" />
 
         <Button
             android:id="@+id/btn_view"

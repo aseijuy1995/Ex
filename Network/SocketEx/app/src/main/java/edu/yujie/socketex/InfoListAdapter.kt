@@ -3,14 +3,24 @@ package edu.yujie.socketex
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import edu.yujie.socketex.databinding.ItemInfoBinding
 
-class InfoListAdapter : RecyclerView.Adapter<InfoListAdapter.VH>() {
-    private var infos: MutableList<String>? = null
+class InfoListAdapter : ListAdapter<String, InfoListAdapter.VH>(
+    object : DiffUtil.ItemCallback<String>() {
+        override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+            return oldItem.hashCode() == newItem.hashCode()
+        }
+
+        override fun areContentsTheSame(oldItem: String, newItem: String): Boolean {
+            return oldItem.hashCode() == newItem.hashCode()
+        }
+    }
+) {
 
     inner class VH(private val binding: ItemInfoBinding) : RecyclerView.ViewHolder(binding.root) {
-
         fun bind(str: String?) = binding.apply {
             msg = str
             executePendingBindings()
@@ -23,16 +33,7 @@ class InfoListAdapter : RecyclerView.Adapter<InfoListAdapter.VH>() {
         return VH(binding)
     }
 
-    override fun getItemCount(): Int = infos?.size ?: 0
-
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bind(infos?.get(position))
-    }
-
-    fun submit(info: String) {
-        if (infos == null)
-            infos = mutableListOf()
-        infos?.add(info)
-        notifyDataSetChanged()
+        holder.bind(getItem(position))
     }
 }

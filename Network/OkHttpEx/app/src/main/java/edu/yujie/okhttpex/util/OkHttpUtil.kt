@@ -143,6 +143,8 @@ class OkHttpUtil private constructor(private val context: Context) {
 
     fun patch(url: String, body: RequestBody) = Request.Builder().url(url).patch(body).build()
 
+    fun request(url: String) = Request.Builder().url(url).build()
+
     //--------------------------------------------------------------------------------
 
     //json
@@ -169,5 +171,7 @@ class OkHttpUtil private constructor(private val context: Context) {
     }
 
     fun async(request: Request, callback: Callback) = client.newCall(request).enqueue(callback)
+
+    fun webSocket(request: Request, listener: WebSocketListener) = client.newWebSocket(request, listener)
 
 }

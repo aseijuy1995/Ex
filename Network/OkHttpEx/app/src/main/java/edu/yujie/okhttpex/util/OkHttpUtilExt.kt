@@ -1,6 +1,7 @@
 package edu.yujie.okhttpex.util
 
 import okhttp3.Callback
+import okhttp3.WebSocketListener
 
 //--------------------------------------------------------------------------------
 //Get
@@ -53,3 +54,7 @@ fun OkHttpUtil.syncPatchJson(url: String, json: String) = sync(patch(url, jsonTo
 fun OkHttpUtil.asyncPatchFromData(url: String, params: Map<String, String>, callback: Callback) = async(patch(url, fromDataToBody(params)), callback)
 
 fun OkHttpUtil.asyncPatchJson(url: String, json: String, callback: Callback) = async(patch(url, jsonToBody(json)), callback)
+
+//--------------------------------------------------------------------------------
+//WebSocket
+fun OkHttpUtil.createWebSocket(url: String, webSocketListener: WebSocketListener) = webSocket(request(url), webSocketListener)
