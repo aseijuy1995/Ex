@@ -275,8 +275,8 @@ class OkHttpActivity : AppCompatActivity() {
         //post:from-data:sync
         val url = "https://www.letsgoshopping.com.tw/ct/api.php"
         lifecycleScope.launch(Dispatchers.IO) {
-            OkHttpUtil.get(this@OkHttpActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            val body = OkHttpUtil.get(this@OkHttpActivity).syncPostFromData(url, mapOf("cmd" to "get_version_android"))
+            OkHttpUtil.get().loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            val body = OkHttpUtil.get().syncPostFromData(url, mapOf("cmd" to "get_version_android"))
             withContext(Dispatchers.Main) {
                 binding.tvView.text = body
             }

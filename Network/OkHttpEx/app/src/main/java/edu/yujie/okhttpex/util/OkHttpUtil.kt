@@ -1,9 +1,7 @@
 package edu.yujie.okhttpex.util
 
-import android.content.Context
 import android.util.Log
 import edu.yujie.okhttpex.BuildConfig
-import edu.yujie.okhttpex.SingletonProperty
 import edu.yujie.okhttpex.eventListener.PrintingEventListener
 import edu.yujie.okhttpex.interceptor.CacheInterceptor
 import edu.yujie.okhttpex.interceptor.TokenHeaderAuthenticator
@@ -46,11 +44,22 @@ import java.util.concurrent.TimeUnit
 //webSocket
 //https://www.mdeditor.tw/pl/p1DT/zh-tw
 
-class OkHttpUtil private constructor(private val context: Context) {
+//class OkHttpUtil private constructor(private val context: Context) {
+class OkHttpUtil {
     private val TAG = javaClass.simpleName
     val client: OkHttpClient
 
-    companion object : SingletonProperty<OkHttpUtil, Context>(::OkHttpUtil)
+//    companion object : SingletonProperty<OkHttpUtil, Context>(::OkHttpUtil)
+
+    companion object {
+        @Volatile
+        private var sInstance: OkHttpUtil? = null
+
+        fun get(): OkHttpUtil = sInstance ?: synchronized(this) {
+            sInstance ?: OkHttpUtil()
+        }
+    }
+
 
     val loggerInterceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
         override fun log(message: String) {
@@ -79,16 +88,16 @@ class OkHttpUtil private constructor(private val context: Context) {
              * Cache:透過response.cacheResponse/networkResponse驗證
              * 強制透過網路or緩存可針對request.setCacheControl()設置CacheControl.FORCE_NETWORK || CacheControl.FORCE_CACHE
              * */
-            .cache(Cache(context.cacheDir, 10 * 1024L * 1024L))//Header:Cache-Control, max-age=xxx,
-            .addNetworkInterceptor(CacheInterceptor)
+//            .cache(Cache(context.cacheDir, 10 * 1024L * 1024L))//Header:Cache-Control, max-age=xxx,
+//            .addNetworkInterceptor(CacheInterceptor)
             //Auth
-            .authenticator(TokenHeaderAuthenticator)
+//            .authenticator(TokenHeaderAuthenticator)
             //Interceptors
 //            .interceptors()
 //            .networkInterceptors()
             //pool & dispatchers
 //            .connectionPool(ConnectionPool(5, 5, TimeUnit.MINUTES))
-            .dispatcher(Dispatcher(Executors.newScheduledThreadPool(64)))
+//            .dispatcher(Dispatcher(Executors.newScheduledThreadPool(64)))
             //
             //憑證 & 證書 & 連線規則 & 協議
 //            .certificatePinner(CertificatePinner.Builder().add("localhost", "sha256").build())
@@ -98,7 +107,7 @@ class OkHttpUtil private constructor(private val context: Context) {
             //Cookie
 //            .cookieJar(CookieJarImpl)//app開啟web || webView時使用
             //EventListener
-            .eventListenerFactory(PrintingEventListener.FACTORY)
+//            .eventListenerFactory(PrintingEventListener.FACTORY)
 //            .eventListener(PrintingEventListener())
             //Proxy & Dns
 //            .proxySelector(ProxySelectorImpl)
