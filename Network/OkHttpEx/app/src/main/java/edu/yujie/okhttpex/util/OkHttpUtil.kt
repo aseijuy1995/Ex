@@ -1,7 +1,10 @@
 package edu.yujie.okhttpex.util
 
+import android.content.Context
 import android.util.Log
 import edu.yujie.okhttpex.BuildConfig
+import edu.yujie.okhttpex.SingletonProperty
+import edu.yujie.okhttpex.dns.DnsImpl
 import edu.yujie.okhttpex.eventListener.PrintingEventListener
 import edu.yujie.okhttpex.interceptor.CacheInterceptor
 import edu.yujie.okhttpex.interceptor.TokenHeaderAuthenticator
@@ -11,7 +14,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
-import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
 //https://github.com/square/okhttp
@@ -44,22 +46,11 @@ import java.util.concurrent.TimeUnit
 //webSocket
 //https://www.mdeditor.tw/pl/p1DT/zh-tw
 
-//class OkHttpUtil private constructor(private val context: Context) {
-class OkHttpUtil {
+class OkHttpUtil private constructor(private val context: Context) {
     private val TAG = javaClass.simpleName
     val client: OkHttpClient
 
-//    companion object : SingletonProperty<OkHttpUtil, Context>(::OkHttpUtil)
-
-    companion object {
-        @Volatile
-        private var sInstance: OkHttpUtil? = null
-
-        fun get(): OkHttpUtil = sInstance ?: synchronized(this) {
-            sInstance ?: OkHttpUtil()
-        }
-    }
-
+    companion object : SingletonProperty<OkHttpUtil, Context>(::OkHttpUtil)
 
     val loggerInterceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
         override fun log(message: String) {
@@ -88,10 +79,10 @@ class OkHttpUtil {
              * Cache:透過response.cacheResponse/networkResponse驗證
              * 強制透過網路or緩存可針對request.setCacheControl()設置CacheControl.FORCE_NETWORK || CacheControl.FORCE_CACHE
              * */
-//            .cache(Cache(context.cacheDir, 10 * 1024L * 1024L))//Header:Cache-Control, max-age=xxx,
-//            .addNetworkInterceptor(CacheInterceptor)
+            .cache(Cache(context.cacheDir, 10 * 1024L * 1024L))//Header:Cache-Control, max-age=xxx,
+            .addNetworkInterceptor(CacheInterceptor)
             //Auth
-//            .authenticator(TokenHeaderAuthenticator)
+            .authenticator(TokenHeaderAuthenticator)
             //Interceptors
 //            .interceptors()
 //            .networkInterceptors()
@@ -107,13 +98,13 @@ class OkHttpUtil {
             //Cookie
 //            .cookieJar(CookieJarImpl)//app開啟web || webView時使用
             //EventListener
-//            .eventListenerFactory(PrintingEventListener.FACTORY)
+            .eventListenerFactory(PrintingEventListener.FACTORY)
 //            .eventListener(PrintingEventListener())
             //Proxy & Dns
 //            .proxySelector(ProxySelectorImpl)
 //            .proxy(Proxy(Proxy.Type.SOCKS, InetSocketAddress("proxyHost", 8080)))
 //            .proxyAuthenticator(ProxyAuthenticator)
-//            .dns(DnsImpl)
+            .dns(DnsImpl)
             //重定向處理
 //            .followRedirects(false)
 //            .followSslRedirects(false)

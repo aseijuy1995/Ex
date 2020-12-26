@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object RetrofitManager {
     var retrofit: Retrofit? = null
 
-    fun init(baseUrl: String, client: OkHttpClient, factory: Converter.Factory = GsonConverterFactory.create()): RetrofitManager {
+    fun get(baseUrl: String, client: OkHttpClient, factory: Converter.Factory = GsonConverterFactory.create()): RetrofitManager {
         retrofit = Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(factory)

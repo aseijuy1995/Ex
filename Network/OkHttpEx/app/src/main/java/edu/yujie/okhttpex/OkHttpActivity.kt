@@ -3,14 +3,7 @@ package edu.yujie.okhttpex
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
 import edu.yujie.okhttpex.databinding.ActivityOkhttpBinding
-import edu.yujie.okhttpex.util.OkHttpUtil
-import edu.yujie.okhttpex.util.syncPostFromData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.logging.HttpLoggingInterceptor
 
 class OkHttpActivity : AppCompatActivity() {
     private val TAG = javaClass.simpleName
@@ -40,7 +33,9 @@ class OkHttpActivity : AppCompatActivity() {
 //
 //            override fun onResponse(call: Call, response: Response) {
 //                if (response.isSuccessful)
-//                    binding.tvView.text = response.body?.string()
+//                    lifecycleScope.launch(Dispatchers.Main) {
+//                        binding.tvView.text = response.body?.string()
+//                    }
 //            }
 //        })
 
@@ -50,9 +45,9 @@ class OkHttpActivity : AppCompatActivity() {
 //        val url = "http://localhost:8080/head"
 //        lifecycleScope.launch(Dispatchers.IO) {
 //            OkHttpUtil.get(this@OkHttpActivity).loggerInterceptor.level = HttpLoggingInterceptor.Level.HEADERS
-//            val body = OkHttpUtil.get(this@OkHttpActivity).syncHead(url, mapOf("param" to "headParam"))
+//            val head = OkHttpUtil.get(this@OkHttpActivity).syncHead(url, mapOf("param" to "headParam"))
 //            withContext(Dispatchers.Main) {
-//                binding.tvView.text = body
+//                binding.tvView.text = head
 //            }
 //        }
 
@@ -66,10 +61,12 @@ class OkHttpActivity : AppCompatActivity() {
 //
 //            override fun onResponse(call: Call, response: Response) {
 //                if (response.isSuccessful)
-//                    binding.tvView.text = response.headers.toString()
+//                    lifecycleScope.launch(Dispatchers.Main) {
+//                        binding.tvView.text = response.headers.toString()
+//                    }
+//
 //            }
 //        })
-
 
         //--------------------------------------------------------------------------------
 
@@ -103,7 +100,9 @@ class OkHttpActivity : AppCompatActivity() {
 //
 //            override fun onResponse(call: Call, response: Response) {
 //                if (response.isSuccessful)
-//                    binding.tvView.text = response.body?.string()
+//                    lifecycleScope.launch(Dispatchers.Main) {
+//                        binding.tvView.text = response.body?.string()
+//                    }
 //            }
 //        })
 
@@ -117,7 +116,9 @@ class OkHttpActivity : AppCompatActivity() {
 //
 //            override fun onResponse(call: Call, response: Response) {
 //                if (response.isSuccessful)
-//                    binding.tvView.text = response.body?.string()
+//                    lifecycleScope.launch(Dispatchers.Main) {
+//                        binding.tvView.text = response.body?.string()
+//                    }
 //            }
 //        })
 
@@ -153,7 +154,9 @@ class OkHttpActivity : AppCompatActivity() {
 //
 //            override fun onResponse(call: Call, response: Response) {
 //                if (response.isSuccessful)
-//                    binding.tvView.text = response.body?.string()
+//                    lifecycleScope.launch(Dispatchers.Main) {
+//                        binding.tvView.text = response.body?.string()
+//                    }
 //            }
 //        })
 
@@ -167,7 +170,9 @@ class OkHttpActivity : AppCompatActivity() {
 //
 //            override fun onResponse(call: Call, response: Response) {
 //                if (response.isSuccessful)
-//                    binding.tvView.text = response.body?.string()
+//                    lifecycleScope.launch(Dispatchers.Main) {
+//                        binding.tvView.text = response.body?.string()
+//                    }
 //            }
 //        })
 
@@ -203,7 +208,9 @@ class OkHttpActivity : AppCompatActivity() {
 //
 //            override fun onResponse(call: Call, response: Response) {
 //                if (response.isSuccessful)
-//                    binding.tvView.text = response.body?.string()
+//                    lifecycleScope.launch(Dispatchers.Main) {
+//                        binding.tvView.text = response.body?.string()
+//                    }
 //            }
 //        })
 
@@ -217,7 +224,9 @@ class OkHttpActivity : AppCompatActivity() {
 //
 //            override fun onResponse(call: Call, response: Response) {
 //                if (response.isSuccessful)
-//                    binding.tvView.text = response.body?.string()
+//                    lifecycleScope.launch(Dispatchers.Main) {
+//                        binding.tvView.text = response.body?.string()
+//                    }
 //            }
 //        })
 
@@ -253,7 +262,9 @@ class OkHttpActivity : AppCompatActivity() {
 //
 //            override fun onResponse(call: Call, response: Response) {
 //                if (response.isSuccessful)
-//                    binding.tvView.text = response.body?.string()
+//                    lifecycleScope.launch(Dispatchers.Main) {
+//                        binding.tvView.text = response.body?.string()
+//                    }
 //            }
 //        })
 
@@ -267,20 +278,11 @@ class OkHttpActivity : AppCompatActivity() {
 //
 //            override fun onResponse(call: Call, response: Response) {
 //                if (response.isSuccessful)
-//                    binding.tvView.text = response.body?.string()
+//                    lifecycleScope.launch(Dispatchers.Main) {
+//                        binding.tvView.text = response.body?.string()
+//                    }
 //            }
 //        })
-
-
-        //post:from-data:sync
-        val url = "https://www.letsgoshopping.com.tw/ct/api.php"
-        lifecycleScope.launch(Dispatchers.IO) {
-            OkHttpUtil.get().loggerInterceptor.level = HttpLoggingInterceptor.Level.BODY
-            val body = OkHttpUtil.get().syncPostFromData(url, mapOf("cmd" to "get_version_android"))
-            withContext(Dispatchers.Main) {
-                binding.tvView.text = body
-            }
-        }
 
     }
 }

@@ -32,7 +32,6 @@ class OkHttpUtil private constructor(private val context: Context) {
             .retryOnConnectionFailure(true)//失敗重連
             .addInterceptor(loggerInterceptor)
             .build()
-
     }
 
     fun get(url: String, params: Map<String, String>): Request {
