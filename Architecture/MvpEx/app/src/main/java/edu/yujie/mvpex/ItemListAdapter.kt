@@ -1,12 +1,12 @@
-package edu.yujie.mvcex
+package edu.yujie.mvpex
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import edu.yujie.mvcex.bean.ItemBean
-import edu.yujie.mvcex.databinding.ItemItemBinding
+import edu.yujie.mvpex.bean.ItemBean
+import edu.yujie.mvpex.databinding.ItemItemBinding
 
 class ItemListAdapter : RecyclerView.Adapter<ItemListAdapter.VH>() {
     private var items: List<ItemBean>? = null

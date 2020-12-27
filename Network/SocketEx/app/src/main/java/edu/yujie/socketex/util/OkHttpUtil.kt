@@ -31,7 +31,7 @@ class OkHttpUtil private constructor(private val context: Context) {
             .callTimeout(60, TimeUnit.SECONDS)//完整請求超時
             .retryOnConnectionFailure(true)//失敗重連
             .addInterceptor(loggerInterceptor)
-            .pingInterval(40,TimeUnit.SECONDS)
+            .pingInterval(40, TimeUnit.SECONDS)
             .build()
 
     }

@@ -1,4 +1,4 @@
-package edu.yujie.mvcex.bean
+package edu.yujie.mvpex.bean
 
 data class ItemBean(
     val name: String,

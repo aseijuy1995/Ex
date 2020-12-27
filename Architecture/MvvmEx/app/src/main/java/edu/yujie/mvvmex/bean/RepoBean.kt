@@ -1,4 +1,6 @@
-package edu.yujie.mvpex.bean
+package edu.yujie.mvvmex.bean
+
+import edu.yujie.mvvmex.bean.ItemBean
 
 data class RepoBean(
     val incomplete_results: Boolean,
