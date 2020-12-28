@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">LohasApp</string>
+    <string name="home">Home</string>
+    <string name="store">Store</string>
+    <string name="mall">Mall</string>
+    <string name="cart">Cart</string>
+    <string name="profile">Profile</string>
+    <string name="store_or_product_search">商店/商品搜尋</string>
+</resources>

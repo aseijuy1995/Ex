@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <merge tools:context=".MainActivity">
+
+        <ImageView
+            android:id="@+id/iv_guide"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/ic_baseline_subdirectory_arrow_right_24_red"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="@color/gray_bbb"
+            app:layout_constraintBottom_toBottomOf="@id/iv_guide"
+            app:layout_constraintStart_toEndOf="@id/iv_guide"
+            app:layout_constraintTop_toTopOf="@id/iv_guide"/>
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp2_msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/iv_guide"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_guide"
+            app:layout_constraintTop_toTopOf="@id/iv_guide" />
+    </merge>
+</layout>

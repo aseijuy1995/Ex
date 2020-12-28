@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/frag_originate">
+
+    <action
+        android:id="@+id/action_to_frag_home"
+        app:destination="@id/frag_home"
+        app:enterAnim="@anim/fragment_fade_enter"
+        app:exitAnim="@anim/fragment_fade_exit"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/frag_home"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_to_frag_store"
+        app:destination="@id/frag_store"
+        app:enterAnim="@anim/fragment_fade_enter"
+        app:exitAnim="@anim/fragment_fade_exit"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/frag_store"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_to_frag_mall"
+        app:destination="@id/frag_mall"
+        app:enterAnim="@anim/fragment_fade_enter"
+        app:exitAnim="@anim/fragment_fade_exit"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/frag_mall"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_to_frag_cart"
+        app:destination="@id/frag_cart"
+        app:enterAnim="@anim/fragment_fade_enter"
+        app:exitAnim="@anim/fragment_fade_exit"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/frag_cart"
+        app:popUpToInclusive="true" />
+
+    <action
+        android:id="@+id/action_to_frag_profile"
+        app:destination="@id/frag_profile"
+        app:enterAnim="@anim/fragment_fade_enter"
+        app:exitAnim="@anim/fragment_fade_exit"
+        app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+        app:popExitAnim="@anim/nav_default_pop_exit_anim"
+        app:popUpTo="@id/frag_profile"
+        app:popUpToInclusive="true" />
+
+    <fragment
+        android:id="@+id/frag_originate"
+        android:name="edu.yujie.lohasapp.ui.OriginateFragment"
+        android:label="frag_originate"
+        tools:layout="@layout/frag_originate" />
+
+    <fragment
+        android:id="@+id/frag_home"
+        android:name="edu.yujie.lohasapp.ui.HomeFragment"
+        android:label="frag_home"
+        tools:layout="@layout/frag_home" />
+
+    <fragment
+        android:id="@+id/frag_store"
+        android:name="edu.yujie.lohasapp.ui.StoreFragment"
+        android:label="frag_store"
+        tools:layout="@layout/frag_store" />
+
+    <fragment
+        android:id="@+id/frag_mall"
+        android:name="edu.yujie.lohasapp.ui.MallFragment"
+        android:label="frag_mall"
+        tools:layout="@layout/frag_mall" />
+
+    <fragment
+        android:id="@+id/frag_cart"
+        android:name="edu.yujie.lohasapp.ui.CartFragment"
+        android:label="frag_cart"
+        tools:layout="@layout/frag_cart" />
+
+    <fragment
+        android:id="@+id/frag_profile"
+        android:name="edu.yujie.lohasapp.ui.ProfileFragment"
+        android:label="frag_profile"
+        tools:layout="@layout/frag_profile" />
+</navigation>
