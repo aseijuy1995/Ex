@@ -9,17 +9,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.clicks
 import edu.yujie.mviex.databinding.ActivityMviBinding
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MviActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMviBinding
     private val adapter = ItemListAdapter()
     private val viewModel by viewModel<SearchViewModel>()
+    private val compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +31,9 @@ class MviActivity : AppCompatActivity() {
             val text = binding.etSearch.text.toString()
 
             lifecycleScope.launch(Dispatchers.IO) {
-                viewModel.searchIntent.send(SearchIntent.FetchEmpty(text))
+                viewModel.searchViewEvent.send(SearchViewEvent.FetchEmpty(text))
             }
-        }
+        }.addTo(compositeDisposable)
 
         observeViewModel()
     }
@@ -46,41 +47,54 @@ class MviActivity : AppCompatActivity() {
 
     private fun observeViewModel() {
         lifecycleScope.launch {
-            viewModel.searchStateFlow.collect {
+            viewModel.searchViewStateFlow.collect {
                 when (it) {
-                    is SearchState.Idle -> {
+                    is SearchViewState.Idle -> {
                     }
-                    is SearchState.Loading -> {
+                    is SearchViewState.Loading -> {
                         binding.rvView.isVisible = false
                         binding.progressBar.isVisible = true
                         binding.tvEmpty.isVisible = false
                     }
-                    is SearchState.Empty -> {
-                        binding.progressBar.isVisible = false
-                        binding.tvEmpty.isVisible = true
-                        adapter.submitList(listOf())
-                        Snackbar.make(binding.btnSearch, "Can not Empty", Snackbar.LENGTH_SHORT).show()
-                    }
-                    is SearchState.NoEmpty -> {
-                        binding.tvEmpty.isVisible = false
-                        viewModel.searchIntent.send(SearchIntent.FetchSearch(it.text))
-                    }
-                    is SearchState.Complete -> {
+                    is SearchViewState.Complete -> {
                         binding.progressBar.isVisible = false
                         adapter.submitList(it.repo.items)
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            delay(1000)
-                            withContext(Dispatchers.Main) {
-                                binding.rvView.isVisible = true
-                            }
-                        }
+                        binding.rvView.isVisible = true
                     }
-                    is SearchState.Error -> {
+                    is SearchViewState.Error -> {
                         binding.progressBar.isVisible = false
                         binding.rvView.isVisible = false
                     }
                 }
             }
         }
+
+        lifecycleScope.launch {
+            viewModel.emptyViewState.collect {
+                when (it) {
+                    is EmptyViewState.Idle -> {
+                        binding.progressBar.isVisible = false
+                    }
+                    is EmptyViewState.Empty -> {
+                        binding.progressBar.isVisible = false
+                        binding.tvEmpty.isVisible = true
+                        adapter.submitList(listOf())
+                        Snackbar.make(binding.btnSearch, "Can not Empty", Snackbar.LENGTH_SHORT).show()
+                    }
+                    is EmptyViewState.NotEmpty -> {
+                        binding.progressBar.isVisible = true
+                        binding.tvEmpty.isVisible = false
+                        viewModel.searchViewEvent.send(SearchViewEvent.FetchSearch(it.text!!))
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
 }

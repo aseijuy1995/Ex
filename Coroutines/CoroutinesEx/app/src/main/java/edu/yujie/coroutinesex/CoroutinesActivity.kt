@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import edu.yujie.coroutinesex.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
@@ -58,7 +57,7 @@ class CoroutinesActivity : AppCompatActivity() {
 
 //        //series - 串聯
 //        //series-outSide2
-//        //delay = 6000
+//        //delay = 6000o
 //        //Hello Coroutines, name = series1
 //        //delay = 3000
 //        //Hello Coroutines, name = series2
@@ -74,9 +73,9 @@ class CoroutinesActivity : AppCompatActivity() {
         //--------------------------------------------------------------------------------
 
 //        //parallel - 併發
+//        //parallel-outSide2
 //        //delay = 1000
 //        //parallel
-//        //parallel-outSide2
 //        //delay = 2000
 //        //Hello Coroutines, name = parallel2
 //        //delay = 3000
@@ -136,36 +135,35 @@ class CoroutinesActivity : AppCompatActivity() {
 
         //--------------------------------------------------------------------------------
 
-        //Integration
-
-        //delay = 1000
-        //CoroutinesActivity Integration runBlocking1
-        //CoroutinesActivity Integration outSide1
-        //delay = 3000
-        //Hello Coroutines, name = Integration3
-        //delay = 1000
-        //Hello Coroutines, name = Integration1
-        //delay = 3000
-        //Hello Coroutines, name = Integration4
-        //delay = 4000
-        //Hello Coroutines, name = Integration2
-        runBlocking {
-            lifecycleScope.launch {
-                val str = loadData(4000, "Integration1")
-                println(str)
-                val str2 = loadData(8000, "Integration2")
-                println(str2)
-            }
-            lifecycleScope.launch {
-                val str3 = loadData(3000, "Integration3")
-                println(str3)
-                val str4 = loadData(6000, "Integration4")
-                println(str4)
-            }
-            delay(1000)
-            println("$TAG Integration runBlocking1")
-        }
-        println("$TAG Integration outSide1")
+//        //Integration
+//        //delay = 1000
+//        //CoroutinesActivity Integration runBlocking1
+//        //CoroutinesActivity Integration outSide1
+//        //delay = 3000
+//        //Hello Coroutines, name = Integration3
+//        //delay = 1000
+//        //Hello Coroutines, name = Integration1
+//        //delay = 3000
+//        //Hello Coroutines, name = Integration4
+//        //delay = 4000
+//        //Hello Coroutines, name = Integration2
+//        runBlocking {
+//            lifecycleScope.launch {
+//                val str = loadData(4000, "Integration1")
+//                println(str)
+//                val str2 = loadData(8000, "Integration2")
+//                println(str2)
+//            }
+//            lifecycleScope.launch {
+//                val str3 = loadData(3000, "Integration3")
+//                println(str3)
+//                val str4 = loadData(6000, "Integration4")
+//                println(str4)
+//            }
+//            delay(1000)
+//            println("$TAG Integration runBlocking1")
+//        }
+//        println("$TAG Integration outSide1")
 
 
     }
