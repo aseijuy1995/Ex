@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="OrderTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2020-12-27T14:36:22" hostname="DESKTOP-MRLODMQ" time="1.301">
+  <properties/>
+  <testcase name="insertOrderWithMockk()" classname="OrderTest" time="1.301"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
