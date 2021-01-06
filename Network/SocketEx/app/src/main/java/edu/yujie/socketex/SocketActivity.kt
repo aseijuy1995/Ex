@@ -17,15 +17,18 @@ import com.jakewharton.rxbinding4.view.clicks
 import com.tbruyelle.rxpermissions3.RxPermissions
 import edu.yujie.socketex.databinding.ActivitySocketBinding
 import edu.yujie.socketex.util.OkHttpUtil
+import edu.yujie.socketex.util.closeKeyBoard
 import edu.yujie.socketex.util.createWebSocket
+import edu.yujie.socketex.util.getTime
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import okio.ByteString
 import okio.ByteString.Companion.toByteString
-import okio.Okio
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -112,7 +115,7 @@ class SocketActivity : AppCompatActivity() {
             if (TextUtils.isEmpty(text)) {
                 Snackbar.make(binding.btnView, "Can not empty!", Snackbar.LENGTH_SHORT).show()
             } else {
-                val chatBean = ChatBean(0, "Me", text)
+                val chatBean = ChatBean(0, "Me", text, true, getTime())
                 val json = Gson().toJson(chatBean)
                 refreshChat(chatBean)
                 println("$TAG json = $json")
@@ -138,9 +141,14 @@ class SocketActivity : AppCompatActivity() {
 
     private fun refreshChat(chatBean: ChatBean) {
         lifecycleScope.launch(Dispatchers.Main) {
+            closeKeyBoard(binding.btnView)
             chatList.add(chatBean)
             chatListAdapter.submitList(chatList)
+
             binding.rvView.scrollToPosition(chatList.size)
+            binding.rvView.postDelayed({
+                binding.rvView.smoothScrollToPosition(chatList.size)
+            }, 50)
         }
     }
 
@@ -150,6 +158,9 @@ class SocketActivity : AppCompatActivity() {
             infoList.add(str)
             infoListAdapter.submitList(infoList)
             binding.rvInfo.scrollToPosition(infoList.size)
+            binding.rvInfo.postDelayed({
+                binding.rvInfo.smoothScrollToPosition(infoList.size)
+            }, 50)
         }
     }
 
@@ -181,16 +192,26 @@ class SocketActivity : AppCompatActivity() {
                 val str = "$TAG:$ServerTAG onMessage() text = $text"
                 refreshInfo(str)
                 val chatBean = Gson().fromJson(text, ChatBean::class.java)
-                val chatBeanOther = ChatBean(-1, "Ohter", "${chatBean.msg} - From Server")
+                val chatBeanOther = ChatBean(-1, "Ohter", "${chatBean.msg} - From Server", false, getTime())
                 val json = Gson().toJson(chatBeanOther)
-                webSocket.send(json)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    delay(1500L)
+                    withContext(Dispatchers.Main) {
+                        webSocket.send(json)
+                    }
+                }
             }
 
             override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
                 super.onMessage(webSocket, bytes)
                 val str = "$TAG:$ServerTAG onMessage() bytes = $bytes"
                 refreshInfo(str)
-                webSocket.send(bytes)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    delay(1500L)
+                    withContext(Dispatchers.Main) {
+                        webSocket.send(bytes)
+                    }
+                }
             }
 
             override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {

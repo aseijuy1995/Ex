@@ -6,7 +6,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import edu.yujie.socketex.databinding.ItemChatBinding
+import androidx.viewbinding.ViewBinding
+import edu.yujie.socketex.databinding.ItemChatOneselfBinding
+import edu.yujie.socketex.databinding.ItemChatOtherBinding
+
+const val ONESELF = -1
+const val OTHER = 0
 
 class ChatListAdapter : ListAdapter<ChatBean, ChatListAdapter.VH>(
     object : DiffUtil.ItemCallback<ChatBean>() {
@@ -20,8 +25,20 @@ class ChatListAdapter : ListAdapter<ChatBean, ChatListAdapter.VH>(
 
     }
 ) {
-    inner class VH(private val binding: ItemChatBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(chatBean: ChatBean) = binding.apply {
+
+    abstract inner class VH(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
+        abstract fun bind(chatBean: ChatBean): Any
+    }
+
+    inner class OneSelfVH(private val binding: ItemChatOneselfBinding) : VH(binding) {
+        override fun bind(chatBean: ChatBean) = binding.apply {
+            this.chatBean = chatBean
+            executePendingBindings()
+        }
+    }
+
+    inner class OtherVH(private val binding: ItemChatOtherBinding) : VH(binding) {
+        override fun bind(chatBean: ChatBean) = binding.apply {
             this.chatBean = chatBean
             executePendingBindings()
         }
@@ -29,8 +46,26 @@ class ChatListAdapter : ListAdapter<ChatBean, ChatListAdapter.VH>(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = DataBindingUtil.inflate<ItemChatBinding>(inflater, R.layout.item_chat, parent, false)
-        return VH(binding)
+        return when (viewType) {
+            ONESELF -> {
+                val binding = DataBindingUtil.inflate<ItemChatOneselfBinding>(inflater, R.layout.item_chat_oneself, parent, false)
+                OneSelfVH(binding)
+            }
+            OTHER -> {
+                val binding = DataBindingUtil.inflate<ItemChatOtherBinding>(inflater, R.layout.item_chat_other, parent, false)
+                OtherVH(binding)
+            }
+            else -> {
+                val binding = DataBindingUtil.inflate<ItemChatOtherBinding>(inflater, R.layout.item_chat_other, parent, false)
+                OtherVH(binding)
+            }
+        }
+
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        val chatBean = getItem(position)
+        return if (chatBean.isOneSelf) ONESELF else OTHER
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
