@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -28,6 +29,7 @@
                 android:id="@+id/tv_time"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
@@ -35,19 +37,29 @@
                 android:gravity="bottom|end"
                 android:text="@{chatBean.time}"
                 android:textColor="@color/gray_555555"
-                android:textSize="10sp"
-                android:layout_marginStart="10dp" />
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/tv_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
                 android:background="@drawable/shape_solid_green_86d97b_padding_5"
                 android:maxWidth="200dp"
                 android:text="@{chatBean.msg}"
                 android:textColor="@color/white"
-                android:layout_marginStart="5dp" />
+                app:isVisible="@{chatBean.msg!=null}" />
+
+            <ImageView
+                android:id="@+id/iv_img"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginLeft="5dp"
+                android:maxWidth="200dp"
+                app:imageByteString="@{chatBean.imgByte}"
+                app:isVisible="@{chatBean.imgByte!=null}" />
 
         </LinearLayout>
 

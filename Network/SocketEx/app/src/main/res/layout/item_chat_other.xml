@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -31,7 +32,20 @@
             android:background="@drawable/shape_solid_gray_555555_padding_5"
             android:maxWidth="200dp"
             android:text="@{chatBean.msg}"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            app:isVisible="@{chatBean.msg!=null}" />
+
+        <ImageView
+            android:id="@+id/iv_img"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:maxWidth="200dp"
+            app:imageByteString="@{chatBean.imgByte}"
+            app:isVisible="@{chatBean.imgByte!=null}" />
 
         <TextView
             android:id="@+id/tv_time"
@@ -45,7 +59,6 @@
             android:text="@{chatBean.time}"
             android:textColor="@color/gray_555555"
             android:textSize="10sp" />
-        <!--        @{chatBean.time}-->
 
     </LinearLayout>
 </layout>
