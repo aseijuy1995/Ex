@@ -12,22 +12,14 @@
         android:layout_height="match_parent"
         tools:context=".SocketActivity">
 
-        <ImageView
-            android:id="@+id/iv_img"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_launcher_foreground"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_info"
             android:layout_width="0dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_height="50dp"
             android:background="#3aaa"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_img"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -35,60 +27,19 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/linear_layout"
+            app:layout_constraintBottom_toTopOf="@+id/item_feature_bar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_info" />
 
-        <LinearLayout
-            android:id="@+id/linear_layout"
+        <include
+            android:id="@+id/item_feature_bar"
+            layout="@layout/item_features_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_view"
-            app:layout_constraintVertical_bias="1.0">
-
-            <ImageView
-                android:id="@+id/iv_camera"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="10dp"
-                android:src="@drawable/ic_baseline_photo_camera_24_blue" />
-
-
-            <ImageView
-                android:id="@+id/iv_photo"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_margin="10dp"
-                android:src="@drawable/ic_baseline_photo_24_blue" />
-
-
-            <EditText
-                android:id="@+id/et_text"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:hint="Text"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btn_view"
-                app:layout_constraintStart_toEndOf="@id/iv_photo" />
-
-            <ImageView
-                android:id="@+id/iv_view"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="right|bottom"
-                android:layout_margin="10dp"
-                android:src="@drawable/ic_baseline_send_24_blue"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-        </LinearLayout>
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

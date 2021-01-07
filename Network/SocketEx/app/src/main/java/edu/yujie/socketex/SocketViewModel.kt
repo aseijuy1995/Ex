@@ -1,10 +1,13 @@
 package edu.yujie.socketex
 
+import android.content.ContentValues
+import android.provider.MediaStore
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.piasy.rxandroidaudio.StreamAudioRecorder
 import com.google.gson.Gson
 import edu.yujie.socketex.util.OkHttpUtil
 import edu.yujie.socketex.util.createWebSocket
@@ -27,6 +30,8 @@ import okio.ByteString
 import okio.ByteString.Companion.toByteString
 import org.koin.core.KoinComponent
 import org.koin.core.inject
+import java.io.File
+import java.io.OutputStream
 
 class SocketViewModel : ViewModel(), KoinComponent {
     private val TAG = javaClass.simpleName
@@ -50,6 +55,13 @@ class SocketViewModel : ViewModel(), KoinComponent {
     private val mChatListLiveData: MutableLiveData<MutableList<ChatBean>> by lazy { MutableLiveData<MutableList<ChatBean>>(chatList) }
     val chatListLiveData: LiveData<MutableList<ChatBean>> = mChatListLiveData
 
+    private val mRecordLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
+    val recordLiveData: LiveData<Boolean> = mRecordLiveData
+
+    private val streamAudioRecorder = StreamAudioRecorder.getInstance()
+    private var file: File? = null
+    private var outStream: OutputStream? = null
+
     init {
         initSocketViewEvent()
     }
@@ -67,6 +79,82 @@ class SocketViewModel : ViewModel(), KoinComponent {
                         webSocketClient.send(json)
                         mSocketState.value = SocketState.ShowMsg(chatBean = chatBean)
                     }
+                }
+                is SocketViewEvent.RecordClick -> {
+                    mRecordLiveData.postValue(!(mRecordLiveData.value!!))
+                    mSocketState.value = SocketState.RecordState(state = mRecordLiveData.value!!)
+                }
+
+                is SocketViewEvent.ReCordStart -> {
+                    val fileName = "${System.nanoTime()}.stream.mp3"
+                    println("fileName:${fileName}")
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                        val contentResolver = it.contentResolver
+                        val collectionUri = MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+                        val contentValues = ContentValues().apply {
+                            put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+//                            put(MediaStore.MediaColumns.MIME_TYPE, "audio/mp4")
+                            put(MediaStore.Video.Media.IS_PENDING, 1)
+                        }
+                        val newUri = contentResolver.insert(collectionUri, contentValues)
+
+                        streamAudioRecorder.start(object : StreamAudioRecorder.AudioDataCallback {
+                            override fun onAudioData(data: ByteArray?, size: Int) {
+                                newUri?.let {
+                                    contentResolver.openFileDescriptor(it, "w", null).use {
+
+                                    }
+                                }
+
+
+//                                newUri?.let {
+//                                    try {
+//                                        println("newUri:$newUri")
+//                                        outStream = contentResolver.openOutputStream(newUri)
+////                                        outStream = contentResolver.openTypedAssetFile(newUri)
+//                                        outStream?.write(data, 0, size)
+//                                        mSocketState.value = SocketState.RecordAudioData
+//                                    } catch (e: IOException) {
+//                                        e.printStackTrace()
+//                                    }
+//                                }
+                            }
+
+                            override fun onError() {
+                                mSocketState.value = SocketState.RecordError("recording error!")
+                            }
+                        })
+
+
+//                        contentResolver.openFileDescriptor(uri!!, "w", null).use {
+//                            FileOutputStream(it?.fileDescriptor).use { out ->
+//                                FileInputStream(file).use { inputStream ->
+//                                    val buffer = ByteArray(4096)
+//                                    var len: Int
+//                                    while (inputStream.read(buffer).also { len = it } != -1) {
+//                                        out.write(buffer, 0, len)
+//                                    }
+//                                    out.flush()
+//                                    inputStream.close()
+//                                    out.close()
+//                                }
+//                            }
+//                        }
+                    }
+
+
+//                    file?.createNewFile()
+//                    val fos = FileOutputStream(file)
+
+                }
+                is SocketViewEvent.ReCordStop -> {
+                    streamAudioRecorder.stop()
+                    val byteArray = file?.readBytes()
+                    val byteString = byteArray?.toByteString(0, byteArray.size)
+                    val chatBean = ChatBean(id = 0, name = "Me", isOneSelf = true, time = getTime(), recordByte = byteString)
+                    val json = Gson().toJson(chatBean)
+                    println("$TAG json = $json")
+                    webSocketClient.send(json)
                 }
             }
         }

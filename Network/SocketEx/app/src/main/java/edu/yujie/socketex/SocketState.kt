@@ -20,12 +20,18 @@ sealed class SocketState {
 
     data class onClientOpen(val msg: String) : SocketState()
 
-    data class onClientMessage(val msg:String, val chatBean: ChatBean) : SocketState()
+    data class onClientMessage(val msg: String, val chatBean: ChatBean) : SocketState()
 
     data class onClientClosing(val msg: String) : SocketState()
 
     data class onClientClosed(val msg: String) : SocketState()
 
     data class onClientFailure(val msg: String) : SocketState()
+
+    data class RecordState(val state: Boolean) : SocketState()
+
+    object RecordAudioData : SocketState()
+
+    data class RecordError(val msg: String) : SocketState()
 
 }

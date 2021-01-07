@@ -12,9 +12,11 @@ import androidx.lifecycle.observe
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.jakewharton.rxbinding4.view.clicks
+import com.jakewharton.rxbinding4.view.longClicks
 import com.tbruyelle.rxpermissions3.RxPermissions
 import edu.yujie.socketex.databinding.ActivitySocketBinding
 import edu.yujie.socketex.util.closeKeyBoard
+import edu.yujie.socketex.util.isVisible
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +44,7 @@ class SocketActivity : AppCompatActivity() {
     private val compositeDisposable = CompositeDisposable()
     private val requestCode = 1001
     private lateinit var webSocketClient: WebSocket
+    private lateinit var rxPermission: RxPermissions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +55,8 @@ class SocketActivity : AppCompatActivity() {
             viewModel.startMockServer().collect {
                 when (it) {
                     is SocketState.onServerOpen -> {
-                        Snackbar.make(binding.rvInfo, "Server onOpen()", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(binding.rvInfo, "Server onOpen()", Snackbar.LENGTH_SHORT).setAnchorView(binding.itemFeatureBar.root).show()
+
                         viewModel.addInfo(it.msg)
                     }
                     is SocketState.onServerMessage -> viewModel.addInfo(it.msg)
@@ -63,14 +67,14 @@ class SocketActivity : AppCompatActivity() {
                         viewModel.addInfo(it.msg)
                     }
 
-                    is SocketState.ShowEmptyText -> Snackbar.make(binding.ivView, it.msg, Snackbar.LENGTH_SHORT).show()
+                    is SocketState.ShowEmptyText -> Snackbar.make(binding.itemFeatureBar.ivSend, it.msg, Snackbar.LENGTH_SHORT).setAnchorView(binding.itemFeatureBar.root).show()
                     is SocketState.ShowMsg -> {
-                        binding.etText.setText("")
+                        binding.itemFeatureBar.etText.setText("")
                         viewModel.addChat(it.chatBean)
                     }
 
                     is SocketState.onClientOpen -> {
-                        Snackbar.make(binding.rvInfo, "Client onOpen()", Snackbar.LENGTH_SHORT).show()
+//                        Snackbar.make(binding.rvInfo, "Client onOpen()", Snackbar.LENGTH_SHORT).show()
                         viewModel.addInfo(it.msg)
                     }
                     is SocketState.onClientMessage -> {
@@ -83,8 +87,16 @@ class SocketActivity : AppCompatActivity() {
                         Snackbar.make(binding.rvInfo, "Client onFailure()", Snackbar.LENGTH_SHORT).show()
                         viewModel.addInfo(it.msg)
                     }
+                    is SocketState.RecordState -> binding.itemFeatureBar.ivMic.isVisible(it.state)
+
+                    is SocketState.RecordAudioData -> {
+                        println("RecordAudioData:RecordAudioData")
+                    }
                 }
             }
+        }
+        viewModel.urlLiveData.observe(this) {
+            webSocketClient = viewModel.startWebSocket(it)
         }
         viewModel.infoListLiveData.observe(this) {
             println("infoList:$it")
@@ -94,31 +106,63 @@ class SocketActivity : AppCompatActivity() {
             println("chatList:$it")
             refreshChat(it)
         }
-        //
-        viewModel.urlLiveData.observe(this) {
-            webSocketClient = viewModel.startWebSocket(it)
+
+        binding.itemFeatureBar.ivCamera.clicks().compose(rxPermission.ensure(Manifest.permission.CAMERA)).subscribe {
+
+        }.addTo(compositeDisposable)
+
+        binding.itemFeatureBar.ivPhoto.clicks().compose(rxPermission.ensure(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)).subscribe {
+            startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), requestCode)
+        }.addTo(compositeDisposable)
+
+        binding.itemFeatureBar.ivRecord.clicks().subscribe {
+            lifecycleScope.launch(Dispatchers.IO) {
+                viewModel.socketViewEvent.send(SocketViewEvent.RecordClick)
+            }
+        }.addTo(compositeDisposable)
+
+        binding.itemFeatureBar.ivMic.longClicks { true }.compose(
+            rxPermission.ensure(
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+        ).subscribe {
+            binding.itemFeatureBar.ivMic.setImageResource(R.drawable.ic_baseline_mic_none_24_red)
+            lifecycleScope.launch(Dispatchers.IO) {
+                viewModel.socketViewEvent.send(SocketViewEvent.ReCordStart(contentResolver))
+                println("SocketViewEvent.ReCordStart")
+            }
         }
 
-        binding.ivView.clicks().subscribe {
-            val text = binding.etText.text.toString().trim()
+//        binding.itemFeatureBar.ivMic.touches { true }.subscribe {
+//            if (it.action == MotionEvent.ACTION_UP) {
+//                binding.itemFeatureBar.ivMic.setImageResource(R.drawable.ic_baseline_mic_none_24_gray)
+//                lifecycleScope.launch(Dispatchers.IO) {
+//                    viewModel.socketViewEvent.send(SocketViewEvent.ReCordStop)
+//                }
+//            }
+//        }
+
+        binding.itemFeatureBar.ivSend.clicks().subscribe {
+            val text = binding.itemFeatureBar.etText.text.toString().trim()
             lifecycleScope.launch(Dispatchers.IO) {
                 viewModel.socketViewEvent.send(SocketViewEvent.SendClick(text))
             }
         }.addTo(compositeDisposable)
 
-        binding.ivCamera.clicks().compose(RxPermissions(this).ensure(Manifest.permission.CAMERA)).subscribe {
-
+        binding.rvView.clicks().subscribe {
+            closeKeyBoard(binding.rvView)
+            lifecycleScope.launch(Dispatchers.IO) {
+                viewModel.socketViewEvent.send(SocketViewEvent.RecordClick)
+            }
         }.addTo(compositeDisposable)
-
-        binding.ivPhoto.clicks().compose(RxPermissions(this).ensure(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)).subscribe {
-            startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), requestCode)
-        }.addTo(compositeDisposable)
-
     }
 
     private fun initView() {
         binding.rvInfo.adapter = infoListAdapter
         binding.rvView.adapter = chatListAdapter
+        rxPermission = RxPermissions(this)
     }
 
     private fun refreshInfo(infoList: List<String>) {
@@ -131,7 +175,7 @@ class SocketActivity : AppCompatActivity() {
     }
 
     private fun refreshChat(chatList: List<ChatBean>) {
-        closeKeyBoard(binding.ivView)
+        closeKeyBoard(binding.itemFeatureBar.ivSend)
         chatListAdapter.submitList(chatList)
 
         binding.rvView.scrollToPosition(chatList.size)
