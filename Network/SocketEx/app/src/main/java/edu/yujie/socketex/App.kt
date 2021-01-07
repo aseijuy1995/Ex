@@ -1,6 +1,8 @@
 package edu.yujie.socketex
 
 import android.app.Application
+import com.orhanobut.logger.AndroidLogAdapter
+import com.orhanobut.logger.Logger
 import edu.yujie.socketex.util.OkHttpUtil
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -8,6 +10,8 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import org.koin.dsl.module
+import timber.log.Timber
+
 
 class App : Application() {
     private val module = module {
@@ -23,9 +27,9 @@ class App : Application() {
             androidLogger(Level.ERROR)
             modules(module)
         }
-//        val request = OneTimeWorkRequestBuilder<ChatWorker>().build()
-//        WorkManager.getInstance(this).enqueue(request)
 
+        Timber.plant(LogTree)
 
+//        Logger.addLogAdapter(AndroidLogAdapter())
     }
 }

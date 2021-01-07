@@ -5,33 +5,22 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.TextUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.jakewharton.rxbinding4.view.clicks
 import com.tbruyelle.rxpermissions3.RxPermissions
 import edu.yujie.socketex.databinding.ActivitySocketBinding
-import edu.yujie.socketex.util.OkHttpUtil
 import edu.yujie.socketex.util.closeKeyBoard
-import edu.yujie.socketex.util.createWebSocket
-import edu.yujie.socketex.util.getTime
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.Response
 import okhttp3.WebSocket
-import okhttp3.WebSocketListener
-import okio.ByteString
-import okio.ByteString.Companion.toByteString
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -46,204 +35,109 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SocketActivity : AppCompatActivity() {
     private val TAG = javaClass.simpleName
-    private val viewModel by viewModel<SocketViewModel>()
-    private val okHttpUtil by inject<OkHttpUtil>()
-    private val infoListAdapter = InfoListAdapter()
-    private val infoList = mutableListOf<String>()
-    private lateinit var webSocketClient: WebSocket
-    private val chatListAdapter = ChatListAdapter()
-    private val chatList = mutableListOf<ChatBean>()
-    private val requestCode = 1001
     private lateinit var binding: ActivitySocketBinding
+    private val viewModel by viewModel<SocketViewModel>()
+    private val infoListAdapter = InfoListAdapter()
+    private val chatListAdapter = ChatListAdapter()
     private val compositeDisposable = CompositeDisposable()
-    //    private val url = "ws://echo.websocket.org"
+    private val requestCode = 1001
+    private lateinit var webSocketClient: WebSocket
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView<ActivitySocketBinding>(this, R.layout.activity_socket)
+        initView()
+        //
+        lifecycleScope.launch {
+            viewModel.startMockServer().collect {
+                when (it) {
+                    is SocketState.onServerOpen -> {
+                        Snackbar.make(binding.rvInfo, "Server onOpen()", Snackbar.LENGTH_SHORT).show()
+                        viewModel.addInfo(it.msg)
+                    }
+                    is SocketState.onServerMessage -> viewModel.addInfo(it.msg)
+                    is SocketState.onServerClosing -> viewModel.addInfo(it.msg)
+                    is SocketState.onServerClosed -> viewModel.addInfo(it.msg)
+                    is SocketState.onServerFailure -> {
+                        Snackbar.make(binding.rvInfo, "Server onFailure()", Snackbar.LENGTH_SHORT).show()
+                        viewModel.addInfo(it.msg)
+                    }
 
-        initView(binding)
-        mockWebServer()
+                    is SocketState.ShowEmptyText -> Snackbar.make(binding.ivView, it.msg, Snackbar.LENGTH_SHORT).show()
+                    is SocketState.ShowMsg -> {
+                        binding.etText.setText("")
+                        viewModel.addChat(it.chatBean)
+                    }
 
-        val ClientTAG = "Client"
+                    is SocketState.onClientOpen -> {
+                        Snackbar.make(binding.rvInfo, "Client onOpen()", Snackbar.LENGTH_SHORT).show()
+                        viewModel.addInfo(it.msg)
+                    }
+                    is SocketState.onClientMessage -> {
+                        viewModel.addInfo(it.msg)
+                        viewModel.addChat(it.chatBean)
+                    }
+                    is SocketState.onClientClosing -> viewModel.addInfo(it.msg)
+                    is SocketState.onClientClosed -> viewModel.addInfo(it.msg)
+                    is SocketState.onClientFailure -> {
+                        Snackbar.make(binding.rvInfo, "Client onFailure()", Snackbar.LENGTH_SHORT).show()
+                        viewModel.addInfo(it.msg)
+                    }
+                }
+            }
+        }
+        viewModel.infoListLiveData.observe(this) {
+            println("infoList:$it")
+            refreshInfo(it)
+        }
+        viewModel.chatListLiveData.observe(this) {
+            println("chatList:$it")
+            refreshChat(it)
+        }
+        //
         viewModel.urlLiveData.observe(this) {
-            webSocketClient = okHttpUtil.createWebSocket(it, object : WebSocketListener() {
-                override fun onOpen(webSocket: WebSocket, response: Response) {
-                    super.onOpen(webSocket, response)
-                    val str = "$TAG $ClientTAG onOpen() response = $response"
-                    refreshInfo(str)
-                }
-
-                override fun onMessage(webSocket: WebSocket, text: String) {
-                    super.onMessage(webSocket, text)
-                    val str = "$TAG $ClientTAG onMessage() text = $text"
-                    refreshInfo(str)
-                    val chatBean = Gson().fromJson(text, ChatBean::class.java)
-                    refreshChat(chatBean)
-                }
-
-                override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
-                    super.onMessage(webSocket, bytes)
-//                    val str = "$TAG $ClientTAG onMessage() bytes = $bytes"
-//                    refreshInfo(str)
-//                    val byteArray = bytes.toByteArray()
-//                    val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-////                    binding.ivImg.setImageBitmap(bitmap)
-                }
-
-                override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                    super.onClosing(webSocket, code, reason)
-                    val str = "$TAG $ClientTAG onClosing() code = $code, reason = $reason"
-                    refreshInfo(str)
-                    webSocketClient.close(1000, "close")
-                }
-
-                override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                    super.onClosed(webSocket, code, reason)
-                    val str = "$TAG $ClientTAG onClosed() code = $code, reason = $reason"
-                    refreshInfo(str)
-
-                }
-
-                override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                    super.onFailure(webSocket, t, response)
-                    val str = "$TAG $ClientTAG onFailure() throwable = $t, response = $response"
-                    refreshInfo(str)
-                }
-            })
+            webSocketClient = viewModel.startWebSocket(it)
         }
 
         binding.ivView.clicks().subscribe {
             val text = binding.etText.text.toString().trim()
-            if (TextUtils.isEmpty(text)) {
-                Snackbar.make(binding.ivView, "Can not empty!", Snackbar.LENGTH_SHORT).show()
-            } else {
-                val chatBean = ChatBean(id = 0, name = "Me", msg = text, isOneSelf = true, time = getTime())
-                val json = Gson().toJson(chatBean)
-                refreshChat(chatBean)
-                println("$TAG json = $json")
-                webSocketClient.send(json)
-                binding.etText.setText("")
+            lifecycleScope.launch(Dispatchers.IO) {
+                viewModel.socketViewEvent.send(SocketViewEvent.SendClick(text))
             }
         }.addTo(compositeDisposable)
 
-        binding.ivCamera.clicks()
-            .compose(
-                RxPermissions(this).ensure(Manifest.permission.CAMERA)
-            ).subscribe {
+        binding.ivCamera.clicks().compose(RxPermissions(this).ensure(Manifest.permission.CAMERA)).subscribe {
 
-            }.addTo(compositeDisposable)
+        }.addTo(compositeDisposable)
 
-        binding.ivPhoto.clicks()
-            .compose(
-                RxPermissions(this)
-                    .ensure(
-                        Manifest.permission.READ_EXTERNAL_STORAGE,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    )
-            )
-            .subscribe {
-                startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), requestCode)
-            }.addTo(compositeDisposable)
+        binding.ivPhoto.clicks().compose(RxPermissions(this).ensure(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)).subscribe {
+            startActivityForResult(Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), requestCode)
+        }.addTo(compositeDisposable)
 
     }
 
-    private fun refreshChat(chatBean: ChatBean) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            closeKeyBoard(binding.ivView)
-            chatList.add(chatBean)
-            chatListAdapter.submitList(chatList)
-
-            binding.rvView.scrollToPosition(chatList.size)
-            binding.rvView.postDelayed({
-                binding.rvView.smoothScrollToPosition(chatList.size)
-            }, 50)
-        }
+    private fun initView() {
+        binding.rvInfo.adapter = infoListAdapter
+        binding.rvView.adapter = chatListAdapter
     }
 
-    private fun refreshInfo(str: String) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            println("refreshInfo:$str")
-            infoList.add(str)
-            infoListAdapter.submitList(infoList)
-            binding.rvInfo.scrollToPosition(infoList.size)
-            binding.rvInfo.postDelayed({
-                binding.rvInfo.smoothScrollToPosition(infoList.size)
-            }, 50)
-        }
+    private fun refreshInfo(infoList: List<String>) {
+        infoListAdapter.submitList(infoList)
+
+        binding.rvInfo.scrollToPosition(infoList.size)
+        binding.rvInfo.postDelayed({
+            binding.rvInfo.smoothScrollToPosition(infoList.size)
+        }, 50)
     }
 
-    private fun initView(binding: ActivitySocketBinding) {
-        binding.rvInfo.apply {
-            layoutManager = LinearLayoutManager(this@SocketActivity)
-            adapter = infoListAdapter
-        }
-        binding.rvView.apply {
-            layoutManager = LinearLayoutManager(this@SocketActivity)
-            adapter = chatListAdapter
-        }
-    }
+    private fun refreshChat(chatList: List<ChatBean>) {
+        closeKeyBoard(binding.ivView)
+        chatListAdapter.submitList(chatList)
 
-    private fun mockWebServer() {
-        val ServerTAG = "MockWebServer"
-
-        viewModel.mockServer(object : WebSocketListener() {
-            override fun onOpen(webSocket: WebSocket, response: Response) {
-                super.onOpen(webSocket, response)
-                val str = "$TAG:$ServerTAG onOpen() response = $response"
-                refreshInfo(str)
-                println("$TAG:$ServerTAG request header:${response.request.headers}")
-                println("$TAG:$ServerTAG response header:${response.headers}")
-            }
-
-            override fun onMessage(webSocket: WebSocket, text: String) {
-                super.onMessage(webSocket, text)
-                val str = "$TAG:$ServerTAG onMessage() text = $text"
-                refreshInfo(str)
-                val chatBean = Gson().fromJson(text, ChatBean::class.java)
-                val msg = if (chatBean.msg != null) "${chatBean.msg} - From Server" else null
-                val imgByte = chatBean.imgByte
-
-                val chatBeanOther = ChatBean(id = -1, name = "Ohter", msg = msg, isOneSelf = false, time = getTime(), imgByte = imgByte)
-                val json = Gson().toJson(chatBeanOther)
-                lifecycleScope.launch(Dispatchers.IO) {
-                    delay(1500L)
-                    withContext(Dispatchers.Main) {
-                        webSocket.send(json)
-                    }
-                }
-            }
-
-            override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
-                super.onMessage(webSocket, bytes)
-//                val str = "$TAG:$ServerTAG onMessage() bytes = $bytes"
-//                refreshInfo(str)
-//                lifecycleScope.launch(Dispatchers.IO) {
-//                    delay(1500L)
-//                    withContext(Dispatchers.Main) {
-//                        webSocket.send(bytes)
-//                    }
-//                }
-            }
-
-            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosing(webSocket, code, reason)
-                val str = "$TAG:$ServerTAG onClosing() code = $code, reason = $reason"
-                refreshInfo(str)
-            }
-
-            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosed(webSocket, code, reason)
-                val str = "$TAG:$ServerTAG onClosed() code = $code, reason = $reason"
-                refreshInfo(str)
-            }
-
-            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                super.onFailure(webSocket, t, response)
-                val str = "$TAG:$ServerTAG onFailure() throwable = $t, response = $response"
-                refreshInfo(str)
-            }
-        })
+        binding.rvView.scrollToPosition(chatList.size)
+        binding.rvView.postDelayed({
+            binding.rvView.smoothScrollToPosition(chatList.size)
+        }, 50)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -252,17 +146,12 @@ class SocketActivity : AppCompatActivity() {
             this.requestCode -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val url = data?.data!!
-                    println("$TAG url = $url")
-                    //bytes
-                    val byteArray = contentResolver.openInputStream(url)?.buffered().use {
-                        it?.readBytes()
-                    }
-                    val byteString = byteArray?.toByteString(0, byteArray.size)!!
-                    val chatBean = ChatBean(id = 0, name = "Me", isOneSelf = true, time = getTime(), imgByte = byteString)
+                    val byteArray = contentResolver.openInputStream(url)?.buffered().use { it?.readBytes() }
+                    val chatBean = viewModel.convertByteBean(byteArray)
                     val json = Gson().toJson(chatBean)
-                    refreshChat(chatBean)
-                    println("$TAG json = $json")
+                    println("json:$json")
                     webSocketClient.send(json)
+                    viewModel.addChat(chatBean)
 
 //                    //bitmap
 //                    val bitmap = contentResolver.openInputStream(url)?.buffered().use {
@@ -274,6 +163,7 @@ class SocketActivity : AppCompatActivity() {
         }
 
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

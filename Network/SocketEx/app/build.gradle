@@ -63,6 +63,11 @@ dependencies {
 
     implementation 'com.github.tbruyelle:rxpermissions:0.12'
 
+    implementation "com.orhanobut:logger:2.2.0"
+    implementation "com.jakewharton.timber:timber:4.7.1"
+    implementation "org.slf4j:slf4j-api:1.7.25"
+    implementation "com.github.tony19:logback-android:2.0.0"
+
     implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
     implementation 'com.jakewharton.rxbinding4:rxbinding-core:4.0.0'
 

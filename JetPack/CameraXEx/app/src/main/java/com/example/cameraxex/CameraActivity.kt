@@ -39,35 +39,6 @@ class CameraActivity : AppCompatActivity() {
             {
                 val cameraProvider = listenableFuture.get()
                 bindPreview(cameraProvider)
-
-
-                val preview = Preview.Builder().build().apply {
-                    setSurfaceProvider(binding.previewView.surfaceProvider)
-                }
-
-                val cameraSelector = CameraSelector.Builder().apply {
-                    requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                }.build()
-
-                val imageCache = ImageCapture.Builder().apply {
-                    setFlashMode(ImageCapture.FLASH_MODE_AUTO)
-//                    setTargetAspectRatio(Surface.ROTATION_270)
-                }.build()
-
-
-                val imageAnalysis = ImageAnalysis.Builder().apply {
-                    setTargetResolution(Size(1280, 700))
-                }.build()
-
-                //
-                cameraProvider
-
-                try {
-//                    cameraProvider.unbindAll()
-                    cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCache)
-                } catch (e: Exception) {
-                    Log.e(TAG, "Use case binding failed")
-                }
             },
             ContextCompat.getMainExecutor(this)
         )
@@ -75,7 +46,33 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun bindPreview(cameraProvider: ProcessCameraProvider?) {
-        Preview.Builder().build()
+        val preview = Preview.Builder().build().apply {
+            setSurfaceProvider(binding.previewView.surfaceProvider)
+        }
+
+        val cameraSelector = CameraSelector.Builder().apply {
+            requireLensFacing(CameraSelector.LENS_FACING_BACK)
+        }.build()
+
+
+        val imageCache = ImageCapture.Builder().apply {
+            setFlashMode(ImageCapture.FLASH_MODE_AUTO)
+//                    setTargetAspectRatio(Surface.ROTATION_270)
+        }.build()
+
+
+        val imageAnalysis = ImageAnalysis.Builder().apply {
+            setTargetResolution(Size(1280, 700))
+        }.build()
+
+        //
+        
+        try {
+//                    cameraProvider.unbindAll(
+            cameraProvider?.bindToLifecycle(this, cameraSelector, preview, imageCache)
+        } catch (e: Exception) {
+            Log.e(TAG, "Use case binding failed")
+        }
 
     }
 
