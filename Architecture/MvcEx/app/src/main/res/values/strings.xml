@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">MvcEx</string>
+
+    <string name="welcome_to_github_search">Welcome to Github Search</string>
+
+    <string name="code">Code</string>
+    <string name="commits">Commit</string>
+    <string name="issues">Issues</string>
+    <string name="labels">Labels</string>
+    <string name="repositories">Repo</string>
+    <string name="topics">Topics</string>
+    <string name="users">Users</string>
+    <string name="search">Search</string>
+    <string name="enter_keyword">Enter Keyword</string>
 </resources>
