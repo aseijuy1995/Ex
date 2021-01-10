@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SocketEx</string>
+
+    <string name="camera">拍照</string>
+    <string name="album">相簿</string>
+    <string name="audio">音訊</string>
+
+
+
 </resources>

@@ -1,8 +1,6 @@
 package edu.yujie.socketex
 
 import android.app.Application
-import com.orhanobut.logger.AndroidLogAdapter
-import com.orhanobut.logger.Logger
 import edu.yujie.socketex.util.OkHttpUtil
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -17,7 +15,7 @@ class App : Application() {
     private val module = module {
         single<OkHttpUtil> { OkHttpUtil.get(androidContext()) }
 
-        viewModel { SocketViewModel() }
+        viewModel { ChatRoomViewModel(this@App) }
     }
 
     override fun onCreate() {

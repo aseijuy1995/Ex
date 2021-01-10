@@ -18,7 +18,6 @@ abstract class BaseDialogFragment<T : ViewDataBinding> : DialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate<T>(inflater, layoutId, container, false)
-
         return binding.root
     }
 

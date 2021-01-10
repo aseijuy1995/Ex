@@ -33,7 +33,7 @@ import org.koin.core.inject
 import java.io.File
 import java.io.OutputStream
 
-class SocketViewModel : ViewModel(), KoinComponent {
+class ChatRoomViewModel2 : ViewModel(), KoinComponent {
     private val TAG = javaClass.simpleName
 
     private val mUrlLiveData: MutableLiveData<String> by lazy { MutableLiveData<String>() }
