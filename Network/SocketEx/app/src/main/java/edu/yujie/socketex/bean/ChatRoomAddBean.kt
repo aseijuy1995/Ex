@@ -1,4 +1,3 @@
 package edu.yujie.socketex.bean
 
-class ChatRoomAddBean {
-}
+data class ChatRoomAddBean(val titleRes: Int, val imgRes: Int)
