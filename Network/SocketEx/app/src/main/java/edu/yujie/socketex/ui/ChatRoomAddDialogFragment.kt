@@ -6,7 +6,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.clicks
@@ -15,6 +14,7 @@ import edu.yujie.socketex.ChatRoomViewModel
 import edu.yujie.socketex.R
 import edu.yujie.socketex.bean.ChatRoomAddBean
 import edu.yujie.socketex.databinding.FragmentChatRoomAddDialogBinding
+import edu.yujie.socketex.ui.SocketActivity.Companion.REQUEST_CODE_ALBUM
 import edu.yujie.socketex.ui.SocketActivity.Companion.REQUEST_CODE_CAPTURE
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
@@ -54,7 +54,9 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
         ).subscribe {
             if (it) {
                 fileName = "Image_${System.nanoTime()}.jpg"
-                captureUri = viewModel.startCapture(fileName!!)
+                viewModel.startCapture(fileName!!) {
+                    startActivityForResult(it, REQUEST_CODE_CAPTURE)
+                }
             } else {
                 Snackbar.make(binding.viewCamera.view, "Permission deny!", Snackbar.LENGTH_SHORT).show()
             }
@@ -66,7 +68,9 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
             )
         ).subscribe {
             if (it) {
-
+                viewModel.startAlbum {
+                    startActivityForResult(Intent.createChooser(it, "Select Picture"), REQUEST_CODE_ALBUM)
+                }
             } else {
                 Snackbar.make(binding.viewCamera.view, "Permission deny!", Snackbar.LENGTH_SHORT).show()
             }
@@ -80,16 +84,13 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
             )
         ).subscribe {
             if (it) {
-
+                viewModel.openMic()
             } else {
                 Snackbar.make(binding.viewCamera.view, "Permission deny!", Snackbar.LENGTH_SHORT).show()
             }
+            findNavController().navigateUp()
         }.addTo(compositeDisposable)
 
-        //camera
-        viewModel.captureIntentLiveData.observe(viewLifecycleOwner) {
-            startActivityForResult(it, REQUEST_CODE_CAPTURE)
-        }
     }
 
     private fun initView() {
@@ -109,13 +110,13 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
         when (requestCode) {
             REQUEST_CODE_CAPTURE -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    viewModel.successCapture(captureUri)
+                    viewModel.resultCapture()
                 }
                 findNavController().navigateUp()
             }
-            SocketActivity.REQUEST_CODE_ALBUM -> {
+            REQUEST_CODE_ALBUM -> {
                 if (resultCode == Activity.RESULT_OK) {
-
+                    viewModel.resultAlbum(data)
                 }
                 findNavController().navigateUp()
             }
@@ -123,7 +124,7 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
                 if (resultCode == Activity.RESULT_OK) {
 
                 }
-                findNavController().navigateUp()
+
             }
         }
     }

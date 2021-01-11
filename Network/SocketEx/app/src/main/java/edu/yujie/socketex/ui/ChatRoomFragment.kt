@@ -1,5 +1,6 @@
 package edu.yujie.socketex.ui
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.observe
@@ -25,7 +26,22 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
 
         //capture
         viewModel.captureUrlLiveData.observe(viewLifecycleOwner) {
-            println("captureUrlLiveData:${it}")
+            val stream = requireActivity().contentResolver.openInputStream(it)
+            val bitmap = BitmapFactory.decodeStream(stream)
+        }
+
+        //album
+        viewModel.albumLiveData.observe(viewLifecycleOwner) {
+            it.forEach {
+                val stream = requireActivity().contentResolver.openInputStream(it)
+                val bitmap = BitmapFactory.decodeStream(stream)
+            }
+        }
+        //Mic Display
+        viewModel.micDisplayLiveData.observe(viewLifecycleOwner) {
+            if (it) {
+                findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMicBottomSheetDialog())
+            }
         }
     }
 

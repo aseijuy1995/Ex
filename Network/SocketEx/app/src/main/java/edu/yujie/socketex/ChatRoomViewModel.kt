@@ -3,6 +3,7 @@ package edu.yujie.socketex
 import android.app.Application
 import android.content.ContentValues
 import android.content.Intent
+import android.media.MediaRecorder
 import android.net.Uri
 import android.provider.MediaStore
 import android.text.TextUtils
@@ -35,27 +36,133 @@ import java.io.File
 import java.io.OutputStream
 
 class ChatRoomViewModel(application: Application) : BaseAndroidViewModel(application), KoinComponent {
-    private val mCaptureIntentLiveData: MutableLiveData<Intent> by lazy { MutableLiveData<Intent>() }
-    val captureIntentLiveData: LiveData<Intent> = mCaptureIntentLiveData
+    private var captureUri: Uri? = null
 
+    //capture
     private val mCaptureUrlLiveData: MutableLiveData<Uri> by lazy { MutableLiveData<Uri>() }
     val captureUrlLiveData: LiveData<Uri> = mCaptureUrlLiveData
 
-    //
+    //album
+    private val mAlbumLiveData: MutableLiveData<MutableList<Uri>> by lazy { MutableLiveData<MutableList<Uri>>() }
+    val albumLiveData: LiveData<MutableList<Uri>> = mAlbumLiveData
 
-    fun startCapture(fileName: String): Uri {
-        val file = FileUtil.get(context).getCacheFile(fileName)
-        val captureUri = context.getContentUri(file)
+    //audio
+    private val mMicDisplayLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
+    val micDisplayLiveData: LiveData<Boolean> = mMicDisplayLiveData
+
+    //audio recorder
+    private var recorderFile: File? = null
+    private var mediaRecorder: MediaRecorder? = null
+
+    private val mRecorderStateLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
+    val recorderStateLiveData: LiveData<Boolean> = mRecorderStateLiveData
+
+    private var startTime: Long? = null
+    private var stopTime: Long? = null
+
+//    private var mediaPlayer: MediaPlayer? = null
+
+    //capture
+    fun startCapture(fileName: String, call: (Intent) -> Unit) {
+        val file = FileUtil.createFile(context.externalCacheDir, fileName)
+        captureUri = context.getContentUri(file)
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
             putExtra(MediaStore.EXTRA_OUTPUT, captureUri)
         }
-        mCaptureIntentLiveData.postValue(intent)
-        return captureUri
+        call(intent)
     }
 
-    fun successCapture(captureUri: Uri) {
-        mCaptureUrlLiveData.postValue(captureUri)
+    fun resultCapture() {
+        captureUri?.let {
+            mCaptureUrlLiveData.postValue(it)
+        }
     }
+
+    //album
+    fun startAlbum(call: (Intent) -> Unit) {
+//        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            type = "image/*"
+        }
+        call(intent)
+    }
+
+    fun resultAlbum(data: Intent?) {
+        val albumUriList = mutableListOf<Uri>()
+        data?.clipData?.let {
+            for (i in 0 until it.itemCount) {
+                val albumUri = it.getItemAt(i).uri
+                albumUriList.add(albumUri)
+            }
+        }
+        data?.data?.let { albumUri ->
+            albumUriList.add(albumUri)
+        }
+        mAlbumLiveData.postValue(albumUriList)
+    }
+    //
+
+    fun openMic() = mMicDisplayLiveData.postValue(true)
+
+    //audio recorder
+    fun startRecorder(fileName: String) {
+        val file = FileUtil.createFile(context.externalCacheDir, fileName)
+        recorderFile = file
+        mediaRecorder = MediaRecorder().apply {
+            setAudioSource(MediaRecorder.AudioSource.MIC)
+            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+            setOutputFile(file.absolutePath)
+            prepare()
+            start()
+        }
+        startTime = System.currentTimeMillis()
+//        Timer().schedule(task, 1000)
+        mRecorderStateLiveData.postValue(true)
+    }
+
+    fun stopRecorder(lessTime: () -> Unit) {
+        stopTime = System.currentTimeMillis()
+        if ((stopTime!! - startTime!!) / 1000 > 1) {
+            mediaRecorder?.apply {
+                stop()
+                reset()
+                release()
+            }
+        } else {
+            recorderFile?.let {
+                if (it.exists())
+                    it.delete()
+            }
+            lessTime()
+        }
+        mRecorderStateLiveData.postValue(false)
+    }
+
+//    fun startPlayer(fileName: String) {
+//        val file = File(context.externalCacheDir, fileName)
+//        mediaPlayer = MediaPlayer().apply {
+//            setDataSource(file.absolutePath)
+//            prepare()
+//        }
+//        mediaPlayer?.let {
+//            if (!it.isPlaying)
+//                it.start()
+//        }
+//    }
+//
+//    fun stopPlayer() {
+//        mediaPlayer?.let {
+//            if (it.isPlaying) {
+//                it.reset()
+//                it.stop()
+//                it.release()
+//                mediaPlayer = null
+//            }
+//        }
+//    }
 
     //
 
