@@ -1,14 +1,16 @@
 package edu.yujie.socketex
 
 import android.content.ContentResolver
+import android.net.Uri
+import java.io.File
 
 sealed class SocketViewEvent {
 
-    data class SendClick(val str: String?) : SocketViewEvent()
+    data class SendText(val str: String) : SocketViewEvent()
 
-    object RecordClick : SocketViewEvent()
+    data class SendImg(val uriList: List<Uri>) : SocketViewEvent()
 
-    data class ReCordStart(val contentResolver: ContentResolver) : SocketViewEvent()
+    data class SendRecorder(val file: File) : SocketViewEvent()
 
-    object ReCordStop : SocketViewEvent()
+
 }

@@ -2,6 +2,7 @@ package edu.yujie.socketex
 
 import android.app.Application
 import edu.yujie.socketex.util.OkHttpUtil
+import edu.yujie.socketex.vm.ChatRoomViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel

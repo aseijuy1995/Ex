@@ -1,5 +1,6 @@
 package edu.yujie.socketex
 
+import edu.yujie.socketex.bean.ChatImgBean
 import okio.ByteString
 
 data class ChatBean(
@@ -8,6 +9,6 @@ data class ChatBean(
     val msg: String? = null,
     val isOneSelf: Boolean,
     val time: String,
-    val imgByte: ByteString? = null,
-    val recordByte: ByteString? = null
+    val imgBytes: List<ChatImgBean?>? = null,
+    val recorderBytes: ByteArray? = null
 )

@@ -9,56 +9,104 @@
             type="edu.yujie.socketex.ChatBean" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="@{chatBean.name}" />
+            android:layout_margin="5dp"
+            android:text="@{chatBean.name}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_msg"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/const_layout_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/shape_solid_gray_555555_padding_5"
-            android:maxWidth="200dp"
-            android:text="@{chatBean.msg}"
-            android:textColor="@color/white"
-            app:isVisible="@{chatBean.msg!=null}" />
+            android:layout_margin="5dp"
+            app:layout_constraintStart_toEndOf="@id/tv_name"
+            app:layout_constraintTop_toTopOf="@+id/tv_name">
 
-        <ImageView
-            android:id="@+id/iv_img"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:maxWidth="200dp"
-            app:imageByteString="@{chatBean.imgByte}"
-            app:isVisible="@{chatBean.imgByte!=null}" />
+            <TextView
+                android:id="@+id/tv_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_solid_gray_555555_padding_5"
+                android:maxWidth="200dp"
+                android:text="@{chatBean.msg}"
+                android:textColor="@color/white"
+                app:isVisible="@{chatBean.msg!=null}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_img"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:maxWidth="200dp"
+                app:isVisible="@{chatBean.imgBytes!=null &amp;&amp; chatBean.imgBytes.size()>0}"
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:spanCount="2" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/view_recorder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_solid_gray_555555_padding_5"
+                android:maxWidth="200dp"
+                android:orientation="horizontal"
+                android:textColor="@color/white"
+                app:isVisible="@{chatBean.recorderBytes!=null}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_recorder"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_baseline_play_circle_24_white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/iv_recorder"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!--            android:text="@{chatBean.msg}"-->
+            <!--            app:isVisible="@{chatBean.msg!=null}"-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="bottom|left"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:text="@{chatBean.time}"
             android:textColor="@color/gray_555555"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/const_layout_msg"
+            app:layout_constraintStart_toEndOf="@id/const_layout_msg" />
 
-    </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

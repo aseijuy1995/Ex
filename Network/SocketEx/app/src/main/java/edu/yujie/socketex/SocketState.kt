@@ -14,10 +14,6 @@ sealed class SocketState {
 
     data class onServerFailure(val msg: String) : SocketState()
 
-    data class ShowEmptyText(val msg: String) : SocketState()
-
-    data class ShowMsg(val chatBean: ChatBean) : SocketState()
-
     data class onClientOpen(val msg: String) : SocketState()
 
     data class onClientMessage(val msg: String, val chatBean: ChatBean) : SocketState()
@@ -27,6 +23,11 @@ sealed class SocketState {
     data class onClientClosed(val msg: String) : SocketState()
 
     data class onClientFailure(val msg: String) : SocketState()
+
+    //
+    data class ShowEmptyText(val msg: String) : SocketState()
+
+    data class ShowChat(val chatBean: ChatBean) : SocketState()
 
     data class RecordState(val state: Boolean) : SocketState()
 

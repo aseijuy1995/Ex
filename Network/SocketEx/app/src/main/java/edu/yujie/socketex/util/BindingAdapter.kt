@@ -1,5 +1,6 @@
 package edu.yujie.socketex.util
 
+import android.graphics.BitmapFactory
 import android.view.View
 import android.widget.ImageView
 import androidx.core.view.isVisible
@@ -17,4 +18,16 @@ fun ImageView.imageByteString(byteString: ByteString?) {
 @BindingAdapter("app:isVisible")
 fun View.isVisible(isVisible: Boolean) {
     this.isVisible = isVisible
+}
+
+@BindingAdapter("app:imgRes")
+fun ImageView.setImageRes(imgRes: Int) {
+    setImageResource(imgRes)
+}
+
+
+@BindingAdapter("app:imgByteArray")
+fun ImageView.setImageByteArray(byteArray: ByteArray) {
+    val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+    setImageBitmap(bitmap)
 }

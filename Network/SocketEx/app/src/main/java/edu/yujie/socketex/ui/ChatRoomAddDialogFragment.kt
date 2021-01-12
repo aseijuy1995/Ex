@@ -10,12 +10,12 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.clicks
 import com.tbruyelle.rxpermissions3.RxPermissions
-import edu.yujie.socketex.ChatRoomViewModel
 import edu.yujie.socketex.R
 import edu.yujie.socketex.bean.ChatRoomAddBean
 import edu.yujie.socketex.databinding.FragmentChatRoomAddDialogBinding
 import edu.yujie.socketex.ui.SocketActivity.Companion.REQUEST_CODE_ALBUM
 import edu.yujie.socketex.ui.SocketActivity.Companion.REQUEST_CODE_CAPTURE
+import edu.yujie.socketex.vm.ChatRoomViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel

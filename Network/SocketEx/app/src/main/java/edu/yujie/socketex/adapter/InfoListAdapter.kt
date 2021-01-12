@@ -1,4 +1,4 @@
-package edu.yujie.socketex
+package edu.yujie.socketex.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import edu.yujie.socketex.R
 import edu.yujie.socketex.databinding.ItemInfoBinding
 
 class InfoListAdapter : ListAdapter<String, InfoListAdapter.VH>(

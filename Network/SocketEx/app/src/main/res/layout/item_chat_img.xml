@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="chatImgBean"
+            type="edu.yujie.socketex.bean.ChatImgBean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--        <com.facebook.shimmer.ShimmerFrameLayout-->
+        <!--            android:id="@+id/shimmer_layout"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:imgByteArray="@{chatImgBean.imgByteArray}"-->
+        <!--            shimmer:duration="1000"-->
+        <!--            shimmer:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            shimmer:layout_constraintEnd_toEndOf="parent"-->
+        <!--            shimmer:layout_constraintStart_toStartOf="parent"-->
+        <!--            shimmer:layout_constraintTop_toTopOf="parent">-->
+
+        <ImageView
+            android:id="@+id/iv_img"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="fitXY"
+            app:imgByteArray="@{chatImgBean.imgByteArray}"
+            shimmer:layout_constraintBottom_toBottomOf="parent"
+            shimmer:layout_constraintEnd_toEndOf="parent"
+            shimmer:layout_constraintStart_toStartOf="parent"
+            shimmer:layout_constraintTop_toTopOf="parent" />
+
+        <!--        </com.facebook.shimmer.ShimmerFrameLayout>-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
