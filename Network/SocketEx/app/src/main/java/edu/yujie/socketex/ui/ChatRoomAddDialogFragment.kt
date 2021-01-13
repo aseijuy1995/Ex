@@ -16,7 +16,6 @@ import edu.yujie.socketex.databinding.FragmentChatRoomAddDialogBinding
 import edu.yujie.socketex.ui.SocketActivity.Companion.REQUEST_CODE_ALBUM
 import edu.yujie.socketex.ui.SocketActivity.Companion.REQUEST_CODE_CAPTURE
 import edu.yujie.socketex.vm.ChatRoomViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -32,8 +31,6 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
         get() = R.layout.fragment_chat_room_add_dialog
 
     private lateinit var rxPermission: RxPermissions
-
-    private val compositeDisposable = CompositeDisposable()
 
     private val viewModel by sharedViewModel<ChatRoomViewModel>()
 
@@ -98,11 +95,6 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
             lifecycleOwner = viewLifecycleOwner
             chatRoomAddList = this@ChatRoomAddDialogFragment.chatRoomAddList
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.dispose()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

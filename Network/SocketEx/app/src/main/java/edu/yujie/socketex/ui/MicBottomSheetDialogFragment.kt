@@ -13,7 +13,6 @@ import edu.yujie.socketex.databinding.FragmentMicBottomSheetDialogBinding
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -29,7 +28,6 @@ class MicBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMicBo
     private val viewModel by sharedViewModel<ChatRoomViewModel>()
 
     private var disposable: Disposable? = null
-    private val compositeDisposable = CompositeDisposable()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -71,10 +69,5 @@ class MicBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMicBo
                 disposable?.dispose()
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.dispose()
     }
 }

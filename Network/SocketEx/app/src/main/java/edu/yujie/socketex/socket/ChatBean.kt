@@ -1,4 +1,4 @@
-package edu.yujie.socketex
+package edu.yujie.socketex.socket
 
 import edu.yujie.socketex.bean.ChatImgBean
 import okio.ByteString

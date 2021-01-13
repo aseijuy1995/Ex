@@ -8,8 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.jakewharton.rxbinding4.view.clicks
-import edu.yujie.socketex.ChatBean
+import edu.yujie.socketex.socket.ChatBean
 import edu.yujie.socketex.R
 import edu.yujie.socketex.databinding.ItemChatOneselfBinding
 import edu.yujie.socketex.databinding.ItemChatOtherBinding
@@ -54,7 +53,6 @@ class ChatListAdapter(val viewModel: ChatRoomViewModel) : ListAdapter<ChatBean, 
                 }
             }
             ivRecorder.clicks().subscribe {
-                println("clicks=clicks=clicks=clicks=clicks")
                 if (viewModel.mediaPlayerState.value!!) {
 //                        chatBean.recorderBytes?.let { viewModel.startPlayer(it) }
                     viewModel.mMediaPlayerState.postValue(false)

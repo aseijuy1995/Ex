@@ -1,5 +1,7 @@
 package edu.yujie.socketex
 
+import edu.yujie.socketex.socket.ChatBean
+
 sealed class SocketState {
 
     object Idle : SocketState()

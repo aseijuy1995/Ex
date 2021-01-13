@@ -7,8 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import com.jakewharton.rxbinding4.view.clicks
-import edu.yujie.socketex.ChatBean
+import edu.yujie.socketex.socket.ChatBean
 import edu.yujie.socketex.R
 import edu.yujie.socketex.SocketState
 import edu.yujie.socketex.SocketViewEvent
@@ -17,8 +16,6 @@ import edu.yujie.socketex.adapter.InfoListAdapter
 import edu.yujie.socketex.databinding.FragmentChatRoomBinding
 import edu.yujie.socketex.util.closeKeyBoard
 import edu.yujie.socketex.vm.ChatRoomViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.addTo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -33,8 +30,6 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
 
     private lateinit var infoListAdapter: InfoListAdapter
     private lateinit var chatListAdapter: ChatListAdapter
-
-    private val compositeDisposable = CompositeDisposable()
 
     private lateinit var webSocketClient: WebSocket
 
@@ -55,8 +50,8 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
             lifecycleScope.launch(Dispatchers.IO) {
                 viewModel.socketViewEvent.send(SocketViewEvent.SendText(text))
             }
-        }.addTo(compositeDisposable)
-        //
+        }
+//            .addTo(compositeDisposable)
 
         //capture
         viewModel.captureUrlLiveData.observe(viewLifecycleOwner) {
@@ -156,11 +151,6 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         binding.rvChat.postDelayed({
             binding.rvChat.smoothScrollToPosition(chatList.size)
         }, 50)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.dispose()
     }
 
 

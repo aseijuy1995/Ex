@@ -2,6 +2,7 @@ package edu.yujie.socketex.vm
 
 import android.app.Application
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.net.Uri
@@ -11,10 +12,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
-import edu.yujie.socketex.ChatBean
+import edu.yujie.socketex.socket.ChatBean
 import edu.yujie.socketex.SocketState
 import edu.yujie.socketex.SocketViewEvent
 import edu.yujie.socketex.bean.ChatImgBean
+import edu.yujie.socketex.ext.calculateInSampleSize
+import edu.yujie.socketex.ext.compressStream
 import edu.yujie.socketex.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -65,7 +68,7 @@ class ChatRoomViewModel(application: Application) : BaseAndroidViewModel(applica
 
     val socketViewEvent = Channel<SocketViewEvent>(Channel.UNLIMITED)
 
-     val mMediaPlayerState: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
+    val mMediaPlayerState: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
     val mediaPlayerState: LiveData<Boolean> = mMediaPlayerState
 
     init {
@@ -90,7 +93,12 @@ class ChatRoomViewModel(application: Application) : BaseAndroidViewModel(applica
                 is SocketViewEvent.SendImg -> {
                     val imgBytes = mutableListOf<ByteArray?>()
                     it.uriList.forEach {
-                        val stream = context.contentResolver.openInputStream(it)
+                        val bitmap = it.calculateInSampleSize(context, 2)
+                        val stream = bitmap?.compressStream()
+//                        val stream = ByteArrayInputStream(baos.toByteArray())
+                        //
+//                        val stream = context.contentResolver.openInputStream(it)
+
 //                        val buffer = ByteArray(2048)
                         val byteArray = stream?.readBytes()
 //                        val byteArray = stream?.buffered()?.use {
@@ -161,12 +169,45 @@ class ChatRoomViewModel(application: Application) : BaseAndroidViewModel(applica
             for (i in 0 until it.itemCount) {
                 val albumUri = it.getItemAt(i).uri
                 albumUriList.add(albumUri)
+                albumUri.calculateInSampleSize(context, 2)
+//                getImageWidthHeight(albumUri)
             }
         }
         data?.data?.let { albumUri ->
             albumUriList.add(albumUri)
+            albumUri.calculateInSampleSize(context, 2)
+//            getImageWidthHeight(albumUri)
         }
+
         mAlbumLiveData.postValue(albumUriList)
+    }
+
+
+    private fun getImageWidthHeight(uri: Uri) {
+//        Glide.with(context).asBitmap().load(uri).into(object : SimpleTarget<Bitmap>() {
+//            override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
+//                val width = bitmap.getWidth()
+//                val height = bitmap.getHeight()
+//                println("width=$width, height=$height")
+//            }
+//        })
+
+
+        val options = BitmapFactory.Options()
+        BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri), null, options)
+        options.inJustDecodeBounds = true
+        options.inSampleSize = 2
+
+        val width = options.outWidth
+        val height = options.outHeight
+
+        options.inJustDecodeBounds = false
+        val bitmap2 = BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri), null, options)
+
+        val width2 = options.outWidth
+        val height2 = options.outHeight
+        println("width:$width, height:$height")
+        println("bitmap2: width:${bitmap2?.width}, height:${bitmap2?.height}, width2:$width2, height2:$height2")
     }
     //
 
@@ -394,69 +435,6 @@ class ChatRoomViewModel(application: Application) : BaseAndroidViewModel(applica
         mChatListLiveData.value = chatList
     }
 
-//    fun startMockServer(): StateFlow<SocketState> {
-//        val ServerTAG = "Server"
-//
-//        mockServer(object : WebSocketListener() {
-//            override fun onOpen(webSocket: WebSocket, response: Response) {
-//                super.onOpen(webSocket, response)
-//                val sf = String.format(
-//                    "%s onOpen() response = %s\n" +
-//                            "request header:%s\n" +
-//                            "response header:%s",
-//                    ServerTAG, response.toString(), response.request.headers, response.headers
-//                )
-//                println(sf)
-//                mSocketState.value = SocketState.onServerOpen(sf)
-//            }
-//
-//            override fun onMessage(webSocket: WebSocket, text: String) {
-//                super.onMessage(webSocket, text)
-//                val sf = String.format("%s onMessage() text = %s", ServerTAG, text)
-//                println(sf)
-//                mSocketState.value = SocketState.onServerMessage(sf)
-//
-//                val json = convertBeanJson(text)
-//                viewModelScope.launch(Dispatchers.IO) {
-//                    delay(1000L)
-//                    withContext(Dispatchers.Main) {
-//                        webSocket.send(json)
-//                    }
-//                }
-//            }
-//
-//            override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
-//                super.onMessage(webSocket, bytes)
-//                val sf = String.format("%s onMessage() bytes = %s", ServerTAG, ByteString.toString())
-//                println(sf)
-//                mSocketState.value = SocketState.onServerMessage(sf)
-//            }
-//
-//            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-//                super.onClosing(webSocket, code, reason)
-//                val sf = String.format("%s onClosing() code = %d, reason = %s", ServerTAG, code, reason)
-//                println(sf)
-//                mSocketState.value = SocketState.onServerClosing(sf)
-//
-//            }
-//
-//            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-//                super.onClosed(webSocket, code, reason)
-//                val sf = String.format("%s onClosed() code = %d, reason = %s", ServerTAG, code, reason)
-//                println(sf)
-//                mSocketState.value = SocketState.onServerClosed(sf)
-//            }
-//
-//            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-//                super.onFailure(webSocket, t, response)
-//                val sf = String.format("%s onFailure() throwable = %s, response = %s", ServerTAG, t.toString(), response.toString())
-//                println(sf)
-//                mSocketState.value = SocketState.onServerFailure(sf)
-//            }
-//        })
-//        return socketState
-//    }
-
     private fun convertBeanJson(text: String): String {
         val chatBean = Gson().fromJson(text, ChatBean::class.java)
         val msg = if (chatBean.msg != null) "${chatBean.msg} - From Server" else null
@@ -466,10 +444,4 @@ class ChatRoomViewModel(application: Application) : BaseAndroidViewModel(applica
         val json = Gson().toJson(chatBeanOther)
         return json
     }
-
-//    fun convertByteBean(byteArray: ByteArray?): ChatBean {
-//        val byteString = byteArray?.toByteString(0, byteArray.size)!!
-//        val chatBean = ChatBean(id = 0, name = "Me", isOneSelf = true, time = getTime(), imgByte = byteString)
-//        return chatBean
-//    }
 }

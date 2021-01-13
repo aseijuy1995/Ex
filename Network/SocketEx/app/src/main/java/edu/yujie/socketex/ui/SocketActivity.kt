@@ -1,6 +1,5 @@
 package edu.yujie.socketex.ui
 
-import android.content.Intent
 import androidx.navigation.findNavController
 import edu.yujie.socketex.R
 import edu.yujie.socketex.databinding.ActivitySocketBinding

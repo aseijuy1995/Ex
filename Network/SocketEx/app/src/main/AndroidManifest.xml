@@ -17,6 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SocketEx">
+        <activity android:name=".ui.MainAlbumActivity">
+
+        </activity>
         <activity android:name=".ui.SocketActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

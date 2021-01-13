@@ -29,5 +29,7 @@ fun ImageView.setImageRes(imgRes: Int) {
 @BindingAdapter("app:imgByteArray")
 fun ImageView.setImageByteArray(byteArray: ByteArray) {
     val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+
+    println("bitmap: width:${bitmap.width}, height:${bitmap.height}")
     setImageBitmap(bitmap)
 }

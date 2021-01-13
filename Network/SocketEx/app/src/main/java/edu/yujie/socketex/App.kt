@@ -1,6 +1,9 @@
 package edu.yujie.socketex
 
 import android.app.Application
+import edu.yujie.socketex.album.AlbumRepoImpl
+import edu.yujie.socketex.album.GalleryViewModel
+import edu.yujie.socketex.album.IAlbumRepo
 import edu.yujie.socketex.util.OkHttpUtil
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import org.koin.android.ext.koin.androidContext
@@ -15,8 +18,10 @@ import timber.log.Timber
 class App : Application() {
     private val module = module {
         single<OkHttpUtil> { OkHttpUtil.get(androidContext()) }
-
         viewModel { ChatRoomViewModel(this@App) }
+        //
+        single<IAlbumRepo> { AlbumRepoImpl(androidContext()) }
+        viewModel<GalleryViewModel> { GalleryViewModel() }
     }
 
     override fun onCreate() {

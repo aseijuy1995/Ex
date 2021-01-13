@@ -8,6 +8,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 
 abstract class BaseBottomSheetDialogFragment<T : ViewDataBinding> : BottomSheetDialogFragment() {
@@ -15,6 +16,8 @@ abstract class BaseBottomSheetDialogFragment<T : ViewDataBinding> : BottomSheetD
     lateinit var binding: T
 
     abstract val layoutId: Int
+
+    val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate<T>(inflater, layoutId, container, false)
@@ -24,6 +27,11 @@ abstract class BaseBottomSheetDialogFragment<T : ViewDataBinding> : BottomSheetD
     override fun onStart() {
         super.onStart()
         dialog?.window?.setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        compositeDisposable.dispose()
     }
 
 }
