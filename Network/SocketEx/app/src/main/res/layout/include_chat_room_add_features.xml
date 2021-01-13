@@ -1,44 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="chatRoomAddBean"
-            type="edu.yujie.socketex.bean.ChatRoomAddBean" />
+            name="featuresBtn"
+            type="edu.yujie.socketex.bean.FeaturesBtn" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/view"
+        android:id="@+id/view_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="20dp">
-
+        android:minWidth="100dp"
+        android:minHeight="100dp">
 
         <ImageView
-            android:id="@+id/iv_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:minWidth="50dp"
-            android:minHeight="50dp"
-            app:imgRes="@{chatRoomAddBean.imgRes}"
+            android:id="@+id/iv_item"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="30dp"
+            android:contentDescription="@string/todo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            bind:imgRes="@{featuresBtn.imgRes}" />
 
         <TextView
-            android:id="@+id/tv_title"
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="20dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{chatRoomAddBean.titleRes}"
+            android:text="@{featuresBtn.nameRes}"
+            android:textColor="@color/gray_bdbdbd"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_img" />
+            app:layout_constraintTop_toBottomOf="@id/iv_item" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

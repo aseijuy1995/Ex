@@ -1,4 +1,4 @@
-package edu.yujie.socketex.ui
+package edu.yujie.socketex.base
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,25 +6,25 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity() {
+abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity(), IBaseBinding<T> {
 
-    val TAG = javaClass.simpleName
+    protected val TAG = javaClass.simpleName
 
-    lateinit var binding: T
+    abstract override val layoutId: Int
 
-    abstract val layoutId: Int
+    override lateinit var binding: T
 
-    val compositeDisposable = CompositeDisposable()
+    protected val compositeDisposable = CompositeDisposable()
 
-    override
-    fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView<T>(this, layoutId)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        compositeDisposable.dispose()
+        compositeDisposable.clear()
     }
+
 
 }

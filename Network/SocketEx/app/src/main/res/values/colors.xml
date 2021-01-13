@@ -8,9 +8,16 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="green_86d97b">#86D97B</color>
+    <color name="gray_1f1f1f">#1F1F1F</color>
+    <color name="gray_2d2e30">#2D2E30</color>
     <color name="gray_555555">#555555</color>
+
+<!--    /-->
+
+
+    <color name="green_86d97b">#86D97B</color>
     <color name="gray_dddddd">#DDDDDD</color>
+    <color name="gray_bdbdbd">#BDBDBD</color>
 
     <color name="blue_487ce3">#487CE3</color>
     <color name="red_aa2326">#AA2326</color>

@@ -7,13 +7,17 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
-import edu.yujie.socketex.socket.ChatBean
+import com.jakewharton.rxbinding4.view.clicks
+import com.jakewharton.rxbinding4.widget.textChanges
+import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import edu.yujie.socketex.R
 import edu.yujie.socketex.SocketState
 import edu.yujie.socketex.SocketViewEvent
 import edu.yujie.socketex.adapter.ChatListAdapter
 import edu.yujie.socketex.adapter.InfoListAdapter
+import edu.yujie.socketex.base.BaseFragment
 import edu.yujie.socketex.databinding.FragmentChatRoomBinding
+import edu.yujie.socketex.socket.ChatBean
 import edu.yujie.socketex.util.closeKeyBoard
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import kotlinx.coroutines.Dispatchers
@@ -28,30 +32,49 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
 
     private val viewModel by sharedViewModel<ChatRoomViewModel>()
 
-    private lateinit var infoListAdapter: InfoListAdapter
-    private lateinit var chatListAdapter: ChatListAdapter
+    private val infoListAdapter = InfoListAdapter()
+    private val chatListAdapter = ChatListAdapter()
 
     private lateinit var webSocketClient: WebSocket
 
+    override fun initView() {
+        binding.rvInfo.adapter = infoListAdapter
+        binding.rvChat.adapter = chatListAdapter
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = this@ChatRoomFragment.viewModel
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
         viewModelFlow()
-
-        binding.includeFeaturesBar.ivAdd.clicks().subscribe {
-            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomAddDialog())
-        }
-
-        binding.includeFeaturesBar.ivSend.clicks().subscribe {
-            val text = binding.includeFeaturesBar.etText.text.toString().trim()
-            if (TextUtils.isEmpty(text)) {
-                Snackbar.make(binding.root, "Can not empty!", Snackbar.LENGTH_SHORT).setAnchorView(binding.includeFeaturesBar.root).show()
+        //
+        binding.includeFeaturesBar.etText
+            .textChanges()
+            .bindToLifecycle(viewLifecycleOwner)
+            .subscribe {
+                viewModel.inputEmptyState.value = TextUtils.isEmpty(it.trim())
             }
-            lifecycleScope.launch(Dispatchers.IO) {
-                viewModel.socketViewEvent.send(SocketViewEvent.SendText(text))
+        //
+        binding.includeFeaturesBar.ivAdd
+            .clicks()
+            .bindToLifecycle(viewLifecycleOwner)
+            .subscribe {
+                findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomAddDialog())
             }
-        }
-//            .addTo(compositeDisposable)
+        //
+        binding.includeFeaturesBar.ivSend
+            .clicks()
+            .bindToLifecycle(viewLifecycleOwner)
+            .subscribe {
+                val text = binding.includeFeaturesBar.etText.text.toString().trim()
+                lifecycleScope.launch(Dispatchers.IO) {
+                    viewModel.socketViewEvent.send(SocketViewEvent.SendText(text))
+                }
+            }
+        //
+
 
         //capture
         viewModel.captureUrlLiveData.observe(viewLifecycleOwner) {
@@ -125,13 +148,6 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
                 }
             }
         }
-    }
-
-    private fun initView() {
-        infoListAdapter = InfoListAdapter()
-        chatListAdapter = ChatListAdapter(viewModel)
-        binding.rvInfo.adapter = infoListAdapter
-        binding.rvChat.adapter = chatListAdapter
     }
 
     private fun refreshInfo(infoList: List<String>) {

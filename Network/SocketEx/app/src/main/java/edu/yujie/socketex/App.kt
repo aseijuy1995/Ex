@@ -24,6 +24,12 @@ class App : Application() {
         viewModel<GalleryViewModel> { GalleryViewModel() }
     }
 
+    companion object {
+        val REQUEST_CODE_CAPTURE = 1001//拍照
+        val REQUEST_CODE_ALBUM = 1002//相簿
+        val REQUEST_CODE_AUDIO = 1003//音訊
+    }
+
     override fun onCreate() {
         super.onCreate()
         startKoin {
@@ -33,7 +39,6 @@ class App : Application() {
         }
 
         Timber.plant(LogTree)
-
 //        Logger.addLogAdapter(AndroidLogAdapter())
     }
 }

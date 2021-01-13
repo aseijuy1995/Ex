@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import com.jakewharton.rxbinding4.view.clicks
 import edu.yujie.socketex.socket.ChatBean
 import edu.yujie.socketex.R
 import edu.yujie.socketex.databinding.ItemChatOneselfBinding
@@ -17,7 +18,7 @@ import edu.yujie.socketex.vm.ChatRoomViewModel
 const val ONESELF = -1
 const val OTHER = 0
 
-class ChatListAdapter(val viewModel: ChatRoomViewModel) : ListAdapter<ChatBean, ChatListAdapter.VH>(
+class ChatListAdapter : ListAdapter<ChatBean, ChatListAdapter.VH>(
     object : DiffUtil.ItemCallback<ChatBean>() {
         override fun areItemsTheSame(oldItem: ChatBean, newItem: ChatBean): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
@@ -53,16 +54,16 @@ class ChatListAdapter(val viewModel: ChatRoomViewModel) : ListAdapter<ChatBean, 
                 }
             }
             ivRecorder.clicks().subscribe {
-                if (viewModel.mediaPlayerState.value!!) {
-//                        chatBean.recorderBytes?.let { viewModel.startPlayer(it) }
-                    viewModel.mMediaPlayerState.postValue(false)
-                    binding.ivRecorder.setImageResource(R.drawable.ic_baseline_play_circle_24_white)
-                } else {
-//                        viewModel.stopPlayer()
-                    viewModel.mMediaPlayerState.postValue(true)
-                    binding.ivRecorder.setImageResource(R.drawable.ic_baseline_stop_circle_24_white)
-
-                }
+//                if (viewModel.mediaPlayerState.value!!) {
+////                        chatBean.recorderBytes?.let { viewModel.startPlayer(it) }
+//                    viewModel.mMediaPlayerState.postValue(false)
+//                    binding.ivRecorder.setImageResource(R.drawable.ic_baseline_play_circle_24_white)
+//                } else {
+////                        viewModel.stopPlayer()
+//                    viewModel.mMediaPlayerState.postValue(true)
+//                    binding.ivRecorder.setImageResource(R.drawable.ic_baseline_stop_circle_24_white)
+//
+//                }
             }
 //            viewModel.mediaPlayerState.observe(){
 //

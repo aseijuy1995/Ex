@@ -1,4 +1,4 @@
-package edu.yujie.socketex.ui
+package edu.yujie.socketex.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,13 +11,15 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 
-abstract class BaseBottomSheetDialogFragment<T : ViewDataBinding> : BottomSheetDialogFragment() {
+abstract class BaseBottomSheetDialogFragment<T : ViewDataBinding> : BottomSheetDialogFragment(), IBaseBinding<T> {
 
-    lateinit var binding: T
+    protected val TAG = javaClass.simpleName
 
-    abstract val layoutId: Int
+    abstract override val layoutId: Int
 
-    val compositeDisposable = CompositeDisposable()
+    override lateinit var binding: T
+
+    protected val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate<T>(inflater, layoutId, container, false)
@@ -29,8 +31,8 @@ abstract class BaseBottomSheetDialogFragment<T : ViewDataBinding> : BottomSheetD
         dialog?.window?.setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
     }
 
-    override fun onDetach() {
-        super.onDetach()
+    override fun onDestroyView() {
+        super.onDestroyView()
         compositeDisposable.dispose()
     }
 

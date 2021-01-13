@@ -1,4 +1,4 @@
-package edu.yujie.socketex.ui
+package edu.yujie.socketex.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,28 +11,35 @@ import androidx.fragment.app.DialogFragment
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 
-abstract class BaseDialogFragment<T : ViewDataBinding> : DialogFragment() {
+abstract class BaseDialogFragment<T : ViewDataBinding> : DialogFragment(), IBaseBinding<T> {
 
-    val TAG = javaClass.simpleName
+    protected val TAG = javaClass.simpleName
 
-    lateinit var binding: T
+    abstract override val layoutId: Int
 
-    abstract val layoutId: Int
+    override lateinit var binding: T
 
-    val compositeDisposable = CompositeDisposable()
+    protected val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate<T>(inflater, layoutId, container, false)
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+    }
+
+    protected abstract fun initView()
+
     override fun onStart() {
         super.onStart()
         dialog?.window?.setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)
     }
 
-    override fun onDetach() {
-        super.onDetach()
-        compositeDisposable.dispose()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        compositeDisposable.clear()
     }
 }

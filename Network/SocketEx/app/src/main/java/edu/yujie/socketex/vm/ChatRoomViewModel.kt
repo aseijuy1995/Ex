@@ -12,12 +12,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
-import edu.yujie.socketex.socket.ChatBean
 import edu.yujie.socketex.SocketState
 import edu.yujie.socketex.SocketViewEvent
+import edu.yujie.socketex.base.BaseAndroidViewModel
 import edu.yujie.socketex.bean.ChatImgBean
+import edu.yujie.socketex.bean.IntentSetting
 import edu.yujie.socketex.ext.calculateInSampleSize
 import edu.yujie.socketex.ext.compressStream
+import edu.yujie.socketex.repo.IntentRepoImpl
+import edu.yujie.socketex.socket.ChatBean
 import edu.yujie.socketex.util.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -40,6 +43,19 @@ import java.io.File
 import java.io.OutputStream
 
 class ChatRoomViewModel(application: Application) : BaseAndroidViewModel(application), KoinComponent {
+    val inputEmptyState: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(true) }
+    //
+    val repo = IntentRepoImpl()
+    //
+    init {
+        println("startCamera:init")
+        val fileName = "Image_${System.nanoTime()}.jpg"
+        val file = FileUtil.createFile(context.externalCacheDir, fileName)
+        repo.startCamera(IntentSetting(file)).subscribe {
+            
+        }
+    }
+
     private var captureUri: Uri? = null
 
     //capture

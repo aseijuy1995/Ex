@@ -9,6 +9,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.touches
 import edu.yujie.socketex.R
 import edu.yujie.socketex.SocketViewEvent
+import edu.yujie.socketex.base.BaseBottomSheetDialogFragment
 import edu.yujie.socketex.databinding.FragmentMicBottomSheetDialogBinding
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers

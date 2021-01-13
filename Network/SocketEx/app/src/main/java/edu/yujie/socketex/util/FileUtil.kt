@@ -1,5 +1,6 @@
 package edu.yujie.socketex.util
 
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 import java.io.File
 
 object FileUtil {
@@ -13,4 +14,12 @@ object FileUtil {
         return file
     }
 
+}
+
+fun File.createFile(): BehaviorSubject<File> {
+    val subject = BehaviorSubject.create<File>()
+    if (exists()) delete()
+    createNewFile()
+    subject.onNext(this)
+    return subject
 }

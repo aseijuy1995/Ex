@@ -9,6 +9,11 @@ import com.bumptech.glide.Glide
 import edu.yujie.socketex.R
 import okio.ByteString
 
+@BindingAdapter("bind:imgRes")
+fun ImageView.bindImgRes(imgRes: Int) {
+    setImageResource(imgRes)
+}
+
 @BindingAdapter("app:imageByteString")
 fun ImageView.imageByteString(byteString: ByteString?) {
     val byteArray = byteString?.toByteArray()
@@ -19,12 +24,6 @@ fun ImageView.imageByteString(byteString: ByteString?) {
 fun View.isVisible(isVisible: Boolean) {
     this.isVisible = isVisible
 }
-
-@BindingAdapter("app:imgRes")
-fun ImageView.setImageRes(imgRes: Int) {
-    setImageResource(imgRes)
-}
-
 
 @BindingAdapter("app:imgByteArray")
 fun ImageView.setImageByteArray(byteArray: ByteArray) {

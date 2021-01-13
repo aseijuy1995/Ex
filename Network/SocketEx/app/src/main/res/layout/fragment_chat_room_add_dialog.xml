@@ -6,14 +6,15 @@
         <import type="java.util.List" />
 
         <variable
-            name="chatRoomAddList"
-            type="List&lt;edu.yujie.socketex.bean.ChatRoomAddBean>" />
+            name="featuresBtn"
+            type="List&lt;edu.yujie.socketex.bean.FeaturesBtn>" />
 
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="true"
         android:orientation="horizontal">
 
         <include
@@ -22,7 +23,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:chatRoomAddBean="@{chatRoomAddList[0]}" />
+            android:featuresBtn="@{featuresBtn[0]}" />
 
         <include
             android:id="@+id/view_album"
@@ -30,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:chatRoomAddBean="@{chatRoomAddList[1]}" />
+            android:featuresBtn="@{featuresBtn[1]}" />
 
         <include
             android:id="@+id/view_audio"
@@ -38,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:chatRoomAddBean="@{chatRoomAddList[2]}" />
+            android:featuresBtn="@{featuresBtn[2]}" />
 
     </LinearLayout>
 </layout>
