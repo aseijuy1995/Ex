@@ -20,11 +20,9 @@ import edu.yujie.socketex.bean.IntentResult
 import edu.yujie.socketex.bean.IntentSetting
 import edu.yujie.socketex.ext.calculateInSampleSize
 import edu.yujie.socketex.ext.compressStream
-import edu.yujie.socketex.repo.IAlbumRepo
-import edu.yujie.socketex.repo.ICameraRepo
 import edu.yujie.socketex.repo.IIntentRepo
 import edu.yujie.socketex.socket.ChatBean
-import edu.yujie.socketex.util.FileUtil
+import edu.yujie.socketex.util.FileExt
 import edu.yujie.socketex.util.OkHttpUtil
 import edu.yujie.socketex.util.createWebSocket
 import edu.yujie.socketex.util.getTime
@@ -61,10 +59,10 @@ class ChatRoomViewModel(application: Application, private val repo: IIntentRepo)
     val albumLiveData: LiveData<IntentResult> = mAlbumLiveData
 
     //camera
-    fun buildCamera(doStart: (builder: IntentBuilder) -> Unit) {
+    fun createCameraBuilder(): BehaviorRelay<IntentBuilder> {
         val fileName = "Image_${System.nanoTime()}.jpg"
-        val file = FileUtil.createFile(context.externalCacheDir, fileName)
-        repo.buildCamera(IntentSetting(context, file, doStart))
+        val file = FileExt.createFile(context.externalCacheDir, fileName)
+        return repo.createCameraBuilder(IntentSetting.CameraSetting(context, file))
     }
 
     fun onCameraResult(result: IntentResult): BehaviorRelay<IntentResult> = repo.onCameraResult(result)
@@ -72,7 +70,8 @@ class ChatRoomViewModel(application: Application, private val repo: IIntentRepo)
     fun cameraResultEvent(intentResult: IntentResult) = mCameraLiveData.postValue(intentResult)
 
     //album
-    fun buildAlbum(doStart: (builder: IntentBuilder) -> Unit) = repo.buildAlbum(IntentSetting(doStart = doStart))
+//    fun buildAlbum(doStart: (builder: IntentBuilder) -> Unit) = repo.buildAlbum(IntentSetting(doStart = doStart))
+    fun buildAlbum(doStart: (builder: IntentBuilder) -> Unit) = repo.buildAlbum(IntentSetting.AlbumSetting)
 
     fun onAlbumResult(result: IntentResult): BehaviorRelay<IntentResult> = repo.onAlbumResult(result)
 
@@ -93,66 +92,68 @@ class ChatRoomViewModel(application: Application, private val repo: IIntentRepo)
     }
 
     private fun initViewEvent() = viewModelScope.launch(Dispatchers.IO) {
-        socketViewEvent.consumeAsFlow().collect {
-            when (it) {
-                is SocketViewEvent.SendText -> {
-                    if (TextUtils.isEmpty(it.str)) {
-                        mSocketState.value = SocketState.ShowEmptyText("Can not empty!")
-                    } else {
-                        val chatBean = ChatBean(id = 0, name = "Me", msg = it.str, isOneSelf = true, time = getTime())
+        socketViewEvent
+            .consumeAsFlow()
+            .collect {
+                when (it) {
+                    is SocketViewEvent.SendText -> {
+                        if (TextUtils.isEmpty(it.str)) {
+                            mSocketState.value = SocketState.ShowEmptyText("Can not empty!")
+                        } else {
+                            val chatBean = ChatBean(id = 0, name = "Me", msg = it.str, isOneSelf = true, time = getTime())
+                            val json = Gson().toJson(chatBean)
+                            println("$TAG json = $json")
+                            webSocketClient.send(json)
+                            mSocketState.value = SocketState.ShowChat(chatBean = chatBean)
+                        }
+                    }
+
+                    is SocketViewEvent.SendImg -> {
+                        val imgBytes = mutableListOf<ByteArray?>()
+                        it.uris.forEach {
+                            val bitmap = it.calculateInSampleSize(context, 4)
+                            val stream = bitmap?.compressStream(quality = 80)
+                            //                        val stream = ByteArrayInputStream(baos.toByteArray())
+                            //
+                            //                        val stream = context.contentResolver.openInputStream(it)
+
+                            //                        val buffer = ByteArray(2048)
+                            val byteArray = stream?.readBytes()
+                            //                        val byteArray = stream?.buffered()?.use {
+                            //                            val red = it.read(buffer)
+                            //                            if (red >= 0) {
+                            //                                buffer.copyOf(red)
+                            //                            } else {
+                            //                                stream.close()
+                            //                                null
+                            //                            }
+                            //                        }
+                            imgBytes.add(byteArray)
+                        }
+
+                        val chatImgList = imgBytes.mapIndexed { index, bytes ->
+                            bytes?.let {
+                                ChatImgBean(index, it)
+                            }
+                        }
+                        val chatBean = ChatBean(id = 0, name = "Me", isOneSelf = true, time = getTime(), imgBytes = chatImgList)
                         val json = Gson().toJson(chatBean)
-                        println("$TAG json = $json")
+                        println("$TAG json:$json")
                         webSocketClient.send(json)
                         mSocketState.value = SocketState.ShowChat(chatBean = chatBean)
                     }
-                }
 
-                is SocketViewEvent.SendImg -> {
-                    val imgBytes = mutableListOf<ByteArray?>()
-                    it.uris.forEach {
-                        val bitmap = it.calculateInSampleSize(context, 2)
-                        val stream = bitmap?.compressStream()
-                        //                        val stream = ByteArrayInputStream(baos.toByteArray())
-                        //
-                        //                        val stream = context.contentResolver.openInputStream(it)
-
-                        //                        val buffer = ByteArray(2048)
-                        val byteArray = stream?.readBytes()
-                        //                        val byteArray = stream?.buffered()?.use {
-                        //                            val red = it.read(buffer)
-                        //                            if (red >= 0) {
-                        //                                buffer.copyOf(red)
-                        //                            } else {
-                        //                                stream.close()
-                        //                                null
-                        //                            }
-                        //                        }
-                        imgBytes.add(byteArray)
+                    is SocketViewEvent.SendRecorder -> {
+                        val chatBean = ChatBean(id = 0, name = "Me", isOneSelf = true, time = getTime(), recorderBytes = it.file.readBytes())
+                        val json = Gson().toJson(chatBean)
+                        println("$TAG json:$json")
+                        webSocketClient.send(json)
+                        mSocketState.value = SocketState.ShowChat(chatBean = chatBean)
                     }
-
-                    val chatImgList = imgBytes.mapIndexed { index, bytes ->
-                        bytes?.let {
-                            ChatImgBean(index, it)
-                        }
+                    else -> {
                     }
-                    val chatBean = ChatBean(id = 0, name = "Me", isOneSelf = true, time = getTime(), imgBytes = chatImgList)
-                    val json = Gson().toJson(chatBean)
-                    println("$TAG json:$json")
-                    webSocketClient.send(json)
-                    mSocketState.value = SocketState.ShowChat(chatBean = chatBean)
-                }
-
-                is SocketViewEvent.SendRecorder -> {
-                    val chatBean = ChatBean(id = 0, name = "Me", isOneSelf = true, time = getTime(), recorderBytes = it.file.readBytes())
-                    val json = Gson().toJson(chatBean)
-                    println("$TAG json:$json")
-                    webSocketClient.send(json)
-                    mSocketState.value = SocketState.ShowChat(chatBean = chatBean)
-                }
-                else -> {
                 }
             }
-        }
     }
 
 
@@ -205,7 +206,7 @@ class ChatRoomViewModel(application: Application, private val repo: IIntentRepo)
     //audio recorder
     fun startRecorder() {
         val fileName = "Audio_${System.nanoTime()}.3gp"
-        recorderFile = FileUtil.createFile(context.externalCacheDir, fileName)
+        recorderFile = FileExt.createFile(context.externalCacheDir, fileName)
         mediaRecorder = MediaRecorder().apply {
             setAudioSource(MediaRecorder.AudioSource.MIC)
             setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
@@ -313,7 +314,7 @@ class ChatRoomViewModel(application: Application, private val repo: IIntentRepo)
 
     fun startPlayer(byteArray: ByteArray) {
         val fileName = "Audio_${System.nanoTime()}.3gp"
-        val file = FileUtil.createFile(context.externalCacheDir, fileName)
+        val file = FileExt.createFile(context.externalCacheDir, fileName)
         file.writeBytes(byteArray)
         mediaPlayer = MediaPlayer().apply {
             setDataSource(file.absolutePath)

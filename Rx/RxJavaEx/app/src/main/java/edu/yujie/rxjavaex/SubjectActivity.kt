@@ -11,8 +11,8 @@ import java.io.IOException
 
 //https://blog.csdn.net/mq2553299/article/details/78848773
 //https://www.jianshu.com/p/1257c8ba7c0c
-//https://prototypez.github.io/2016/04/30/rxjava-common-mistakes-1/
 //https://www.jianshu.com/p/240f1c8ebf9d
+//https://prototypez.github.io/2016/04/30/rxjava-common-mistakes-1/
 
 /**
  * ReplaySubject - 訂閱subscribe()時,將訂閱前後的所有數據發送給觀察者

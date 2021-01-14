@@ -13,30 +13,36 @@ import edu.yujie.socketex.util.getContentUri
 
 class IntentRepoImpl : IIntentRepo() {
 
-    private var mCameraUri: Uri? = null
+    private var mUrisRelay: BehaviorRelay<List<Uri>> = BehaviorRelay.create<List<Uri>>()
 
-    private val mResultBehaviorRelay = BehaviorRelay.create<IntentResult>()
+    private val mBuilderRelay = BehaviorRelay.create<IntentBuilder>()
 
-    override fun buildCamera(setting: IntentSetting) {
-        val file = setting.file!!.createFile()
-        val uri = setting.context!!.getContentUri(file)
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
-            putExtra(MediaStore.EXTRA_OUTPUT, uri)
-        }
-        mCameraUri = uri
-        setting.doStart?.invoke(IntentBuilder(intent, REQUEST_CODE_CAPTURE))
+    private val mResultRelay = BehaviorRelay.create<IntentResult>()
+
+    override fun createCameraBuilder(setting: IntentSetting.CameraSetting): BehaviorRelay<IntentBuilder> {
+        val dispose = setting.file.createFile()
+            .flatMap { setting.context.getContentUri(it) }
+            .map {
+                mUrisRelay.accept(listOf(it))
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
+                    putExtra(MediaStore.EXTRA_OUTPUT, it)
+                }
+                mBuilderRelay.accept(IntentBuilder(intent = intent, requestCode = REQUEST_CODE_CAPTURE))
+            }.subscribe()
+//        dispose.dispose()
+        return mBuilderRelay
     }
 
     override fun onCameraResult(result: IntentResult): BehaviorRelay<IntentResult> {
         if (result.requestCode == REQUEST_CODE_CAPTURE) {
             if (result.resultCode == Activity.RESULT_OK) {
-                mCameraUri?.let { result.uris = listOf(it) }
-                mResultBehaviorRelay.accept(IntentResult.IntentResultSuccess(result))
+                result.uris = mUrisRelay.value
+                mResultRelay.accept(IntentResult.IntentResultSuccess(result))
             } else {
-                mResultBehaviorRelay.accept(IntentResult.IntentResultFailed(result))
+                mResultRelay.accept(IntentResult.IntentResultFailed(result))
             }
         }
-        return mResultBehaviorRelay
+        return mResultRelay
     }
 
     override fun buildAlbum(setting: IntentSetting) {
@@ -45,7 +51,7 @@ class IntentRepoImpl : IIntentRepo() {
             putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             type = "image/*"
         }
-        setting.doStart?.invoke(IntentBuilder(intent, REQUEST_CODE_ALBUM))
+//        setting.doStart?.invoke(IntentBuilder(intent, REQUEST_CODE_ALBUM))
     }
 
     override fun onAlbumResult(result: IntentResult): BehaviorRelay<IntentResult> {
@@ -62,12 +68,12 @@ class IntentRepoImpl : IIntentRepo() {
                     albumUriList.add(albumUri)
                 }
                 result.uris = albumUriList
-                mResultBehaviorRelay.accept(IntentResult.IntentResultSuccess(result))
+                mResultRelay.accept(IntentResult.IntentResultSuccess(result))
             } else {
-                mResultBehaviorRelay.accept(IntentResult.IntentResultFailed(result))
+                mResultRelay.accept(IntentResult.IntentResultFailed(result))
             }
         }
-        return mResultBehaviorRelay
+        return mResultRelay
     }
 
 }

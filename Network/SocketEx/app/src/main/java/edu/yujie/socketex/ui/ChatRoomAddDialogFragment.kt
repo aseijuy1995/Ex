@@ -27,8 +27,6 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
 
     private lateinit var rxPermission: RxPermissions
 
-    private var cameraBehaviorRelay: BehaviorRelay<IntentResult>? = null
-
     private var albumBehaviorRelay: BehaviorRelay<IntentResult>? = null
 
     private val chatRoomAddList = listOf<FeaturesBtn>(
@@ -84,7 +82,10 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
 
     private fun cameraEvent(it: Boolean) {
         if (it) {
-            viewModel.buildCamera { startActivityForResult(it.intent, it.requestCode) }
+            viewModel.createCameraBuilder().bindToLifecycle(this).subscribe {
+                println("createCameraBuilder")
+                startActivityForResult(it.intent, it.requestCode)
+            }
         } else {
             Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
         }
@@ -93,7 +94,6 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
     private fun albumEvent(it: Boolean) {
         if (it) {
             viewModel.buildAlbum {
-                println("startActivityForResult")
                 startActivityForResult(it.intent, it.requestCode)
             }
         } else {
@@ -118,24 +118,20 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
     }
 
     private fun cameraResult(result: IntentResult) {
-        if (cameraBehaviorRelay == null) {
-            cameraBehaviorRelay = viewModel.onCameraResult(result)
-            cameraBehaviorRelay
-                ?.bindToLifecycle(this)
-                ?.subscribe {
-                    when (it) {
-                        is IntentResult.IntentResultSuccess -> {
-                            viewModel.cameraResultEvent(it)
-                            findNavController().navigateUp()
-                        }
-                        is IntentResult.IntentResultFailed -> {
-                            Snackbar.make(binding.viewCamera.viewItem, "Please take pictures!", Snackbar.LENGTH_SHORT).show()
-                        }
+        viewModel.onCameraResult(result)
+            .bindToLifecycle(this)
+            .subscribe {
+                println("createCameraBuilder2")
+                when (it) {
+                    is IntentResult.IntentResultSuccess -> {
+                        viewModel.cameraResultEvent(it)
+                        findNavController().navigateUp()
+                    }
+                    is IntentResult.IntentResultFailed -> {
+                        Snackbar.make(binding.viewCamera.viewItem, "Please take pictures!", Snackbar.LENGTH_SHORT).show()
                     }
                 }
-        } else {
-            cameraBehaviorRelay = viewModel.onCameraResult(result)
-        }
+            }
     }
 
     private fun albumResult(result: IntentResult) {
