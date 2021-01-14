@@ -13,7 +13,7 @@ class GalleryViewModel : ViewModel(), KoinComponent {
 
     private val singleSelectMedia = PublishSubject.create<Media>()
     private val currentAlbum = BehaviorSubject.create<AlbumItem>()
-    private val albumRepo by inject<IAlbumRepo>()
+    private val albumRepo by inject<IAlbumRepow>()
 
     fun loadAlbum(): Completable = albumRepo.fetchAlbums(setting).doOnComplete {
         selectAlbum(

@@ -26,16 +26,30 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/iv_recorder"
-            android:layout_width="100dp"
-            android:layout_height="150dp"
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="30dp"
-            android:src="@drawable/ic_baseline_fiber_manual_record_24_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_time" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_time">
+
+            <ImageView
+                android:id="@+id/iv_recorder"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_baseline_mic_24_gray" />
+
+            <ImageView
+                android:id="@+id/iv_circle"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:src="@drawable/ic_baseline_radio_button_unchecked_24_gray" />
+
+        </FrameLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

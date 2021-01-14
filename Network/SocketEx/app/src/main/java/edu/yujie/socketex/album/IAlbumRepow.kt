@@ -4,7 +4,7 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 
-interface IAlbumRepo {
+interface IAlbumRepow {
     fun fetchAlbums(setting: AlbumSetting? = null): Completable
 
     fun getAlbums(setting: AlbumSetting? = null): BehaviorSubject<List<AlbumItem>>

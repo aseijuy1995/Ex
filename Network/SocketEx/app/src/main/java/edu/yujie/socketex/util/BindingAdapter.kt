@@ -17,7 +17,7 @@ fun ImageView.bindImgRes(imgRes: Int) {
 @BindingAdapter("app:imageByteString")
 fun ImageView.imageByteString(byteString: ByteString?) {
     val byteArray = byteString?.toByteArray()
-    Glide.with(context).load(byteArray).placeholder(R.drawable.ic_baseline_photo_24_blue).into(this)
+    Glide.with(context).load(byteArray).placeholder(R.drawable.ic_baseline_photo_24_gray).into(this)
 }
 
 @BindingAdapter("app:isVisible")

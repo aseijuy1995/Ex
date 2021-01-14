@@ -11,7 +11,7 @@ import java.io.File
 const val ALL_MEDIA_ALBUM_NAME = "ALL_MEDIA_ALBUM_NAME"
 const val KEY_MEDIA_LIST = "KEY_MEDIA_LIST"
 
-class AlbumRepoImpl(private val context: Context) : IAlbumRepo {
+class AlbumRepowImpl(private val context: Context) : IAlbumRepow {
     private val albumSubject = BehaviorSubject.create<List<AlbumItem>>()
 
     private val albumItemMapping = mutableMapOf<String, AlbumItem>()

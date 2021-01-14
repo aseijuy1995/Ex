@@ -1,27 +1,33 @@
 package edu.yujie.socketex.vm
 
 import android.app.Application
-import android.content.Intent
 import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.net.Uri
-import android.provider.MediaStore
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
+import com.jakewharton.rxrelay3.BehaviorRelay
 import edu.yujie.socketex.SocketState
 import edu.yujie.socketex.SocketViewEvent
 import edu.yujie.socketex.base.BaseAndroidViewModel
 import edu.yujie.socketex.bean.ChatImgBean
+import edu.yujie.socketex.bean.IntentBuilder
+import edu.yujie.socketex.bean.IntentResult
 import edu.yujie.socketex.bean.IntentSetting
 import edu.yujie.socketex.ext.calculateInSampleSize
 import edu.yujie.socketex.ext.compressStream
-import edu.yujie.socketex.repo.IntentRepoImpl
+import edu.yujie.socketex.repo.IAlbumRepo
+import edu.yujie.socketex.repo.ICameraRepo
+import edu.yujie.socketex.repo.IIntentRepo
 import edu.yujie.socketex.socket.ChatBean
-import edu.yujie.socketex.util.*
+import edu.yujie.socketex.util.FileUtil
+import edu.yujie.socketex.util.OkHttpUtil
+import edu.yujie.socketex.util.createWebSocket
+import edu.yujie.socketex.util.getTime
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -42,51 +48,46 @@ import org.koin.core.inject
 import java.io.File
 import java.io.OutputStream
 
-class ChatRoomViewModel(application: Application) : BaseAndroidViewModel(application), KoinComponent {
+class ChatRoomViewModel(application: Application, private val repo: IIntentRepo) : BaseAndroidViewModel(application), KoinComponent {
+
     val inputEmptyState: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(true) }
-    //
-    val repo = IntentRepoImpl()
-    //
-    init {
-        println("startCamera:init")
-        val fileName = "Image_${System.nanoTime()}.jpg"
-        val file = FileUtil.createFile(context.externalCacheDir, fileName)
-        repo.startCamera(IntentSetting(file)).subscribe {
-            
-        }
-    }
 
-    private var captureUri: Uri? = null
-
-    //capture
-    private val mCaptureUrlLiveData: MutableLiveData<Uri> by lazy { MutableLiveData<Uri>() }
-    val captureUrlLiveData: LiveData<Uri> = mCaptureUrlLiveData
+    //camera
+    private val mCameraLiveData: MutableLiveData<IntentResult> by lazy { MutableLiveData<IntentResult>() }
+    val cameraLiveData: LiveData<IntentResult> = mCameraLiveData
 
     //album
-    private val mAlbumLiveData: MutableLiveData<MutableList<Uri>> by lazy { MutableLiveData<MutableList<Uri>>() }
-    val albumLiveData: LiveData<MutableList<Uri>> = mAlbumLiveData
+    private val mAlbumLiveData: MutableLiveData<IntentResult> by lazy { MutableLiveData<IntentResult>() }
+    val albumLiveData: LiveData<IntentResult> = mAlbumLiveData
 
-    //audio
-    private val mMicDisplayLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
-    val micDisplayLiveData: LiveData<Boolean> = mMicDisplayLiveData
+    //camera
+    fun buildCamera(doStart: (builder: IntentBuilder) -> Unit) {
+        val fileName = "Image_${System.nanoTime()}.jpg"
+        val file = FileUtil.createFile(context.externalCacheDir, fileName)
+        repo.buildCamera(IntentSetting(context, file, doStart))
+    }
 
-    //audio recorder
-    private var recorderFile: File? = null
-    private var mediaRecorder: MediaRecorder? = null
+    fun onCameraResult(result: IntentResult): BehaviorRelay<IntentResult> = repo.onCameraResult(result)
 
-    private val mRecorderStateFileLiveData: MutableLiveData<Pair<Boolean, File?>> by lazy { MutableLiveData<Pair<Boolean, File?>>(false to null) }
-    val recorderStateFileLiveData: LiveData<Pair<Boolean, File?>> = mRecorderStateFileLiveData
+    fun cameraResultEvent(intentResult: IntentResult) = mCameraLiveData.postValue(intentResult)
 
-    private var startTime: Long? = null
-    private var stopTime: Long? = null
+    //album
+    fun buildAlbum(doStart: (builder: IntentBuilder) -> Unit) = repo.buildAlbum(IntentSetting(doStart = doStart))
 
-    private var mediaPlayer: MediaPlayer? = null
+    fun onAlbumResult(result: IntentResult): BehaviorRelay<IntentResult> = repo.onAlbumResult(result)
 
-    val socketViewEvent = Channel<SocketViewEvent>(Channel.UNLIMITED)
+    fun albumResultEvent(result: IntentResult) = mAlbumLiveData.postValue(result)
 
-    val mMediaPlayerState: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
-    val mediaPlayerState: LiveData<Boolean> = mMediaPlayerState
+    //mic
+    private val mMicStateLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
 
+    val micStateLiveData: LiveData<Boolean> = mMicStateLiveData
+    //recorder
+
+    fun openMic() = mMicStateLiveData.postValue(true)
+
+    //
+    //
     init {
         initViewEvent()
     }
@@ -108,24 +109,24 @@ class ChatRoomViewModel(application: Application) : BaseAndroidViewModel(applica
 
                 is SocketViewEvent.SendImg -> {
                     val imgBytes = mutableListOf<ByteArray?>()
-                    it.uriList.forEach {
+                    it.uris.forEach {
                         val bitmap = it.calculateInSampleSize(context, 2)
                         val stream = bitmap?.compressStream()
-//                        val stream = ByteArrayInputStream(baos.toByteArray())
+                        //                        val stream = ByteArrayInputStream(baos.toByteArray())
                         //
-//                        val stream = context.contentResolver.openInputStream(it)
+                        //                        val stream = context.contentResolver.openInputStream(it)
 
-//                        val buffer = ByteArray(2048)
+                        //                        val buffer = ByteArray(2048)
                         val byteArray = stream?.readBytes()
-//                        val byteArray = stream?.buffered()?.use {
-//                            val red = it.read(buffer)
-//                            if (red >= 0) {
-//                                buffer.copyOf(red)
-//                            } else {
-//                                stream.close()
-//                                null
-//                            }
-//                        }
+                        //                        val byteArray = stream?.buffered()?.use {
+                        //                            val red = it.read(buffer)
+                        //                            if (red >= 0) {
+                        //                                buffer.copyOf(red)
+                        //                            } else {
+                        //                                stream.close()
+                        //                                null
+                        //                            }
+                        //                        }
                         imgBytes.add(byteArray)
                     }
 
@@ -148,55 +149,30 @@ class ChatRoomViewModel(application: Application) : BaseAndroidViewModel(applica
                     webSocketClient.send(json)
                     mSocketState.value = SocketState.ShowChat(chatBean = chatBean)
                 }
+                else -> {
+                }
             }
         }
     }
 
-    //capture
-    fun startCapture(fileName: String, call: (Intent) -> Unit) {
-        val file = FileUtil.createFile(context.externalCacheDir, fileName)
-        captureUri = context.getContentUri(file)
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).apply {
-            putExtra(MediaStore.EXTRA_OUTPUT, captureUri)
-        }
-        call(intent)
-    }
 
-    fun resultCapture() {
-        captureUri?.let {
-            mCaptureUrlLiveData.postValue(it)
-        }
-    }
+    //audio recorder
+    private var recorderFile: File? = null
+    private var mediaRecorder: MediaRecorder? = null
 
-    //album
-    fun startAlbum(call: (Intent) -> Unit) {
-//        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE).apply {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-            type = "image/*"
-        }
-        call(intent)
-    }
+    private val mRecorderStateFileLiveData: MutableLiveData<Pair<Boolean, File?>> by lazy { MutableLiveData<Pair<Boolean, File?>>(false to null) }
+    val recorderStateFileLiveData: LiveData<Pair<Boolean, File?>> = mRecorderStateFileLiveData
 
-    fun resultAlbum(data: Intent?) {
-        val albumUriList = mutableListOf<Uri>()
-        data?.clipData?.let {
-            for (i in 0 until it.itemCount) {
-                val albumUri = it.getItemAt(i).uri
-                albumUriList.add(albumUri)
-                albumUri.calculateInSampleSize(context, 2)
-//                getImageWidthHeight(albumUri)
-            }
-        }
-        data?.data?.let { albumUri ->
-            albumUriList.add(albumUri)
-            albumUri.calculateInSampleSize(context, 2)
-//            getImageWidthHeight(albumUri)
-        }
+    private var startTime: Long? = null
+    private var stopTime: Long? = null
 
-        mAlbumLiveData.postValue(albumUriList)
-    }
+    private var mediaPlayer: MediaPlayer? = null
+
+    val socketViewEvent = Channel<SocketViewEvent>(Channel.UNLIMITED)
+
+
+    val mMediaPlayerState: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
+    val mediaPlayerState: LiveData<Boolean> = mMediaPlayerState
 
 
     private fun getImageWidthHeight(uri: Uri) {
@@ -225,9 +201,6 @@ class ChatRoomViewModel(application: Application) : BaseAndroidViewModel(applica
         println("width:$width, height:$height")
         println("bitmap2: width:${bitmap2?.width}, height:${bitmap2?.height}, width2:$width2, height2:$height2")
     }
-    //
-
-    fun openMic() = mMicDisplayLiveData.postValue(true)
 
     //audio recorder
     fun startRecorder() {

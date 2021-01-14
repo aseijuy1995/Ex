@@ -74,28 +74,27 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
                 }
             }
         //
-
-
-        //capture
-        viewModel.captureUrlLiveData.observe(viewLifecycleOwner) {
-            lifecycleScope.launch(Dispatchers.IO) {
-                viewModel.socketViewEvent.send(SocketViewEvent.SendImg(listOf(it)))
+        //camera
+        viewModel.cameraLiveData.observe(viewLifecycleOwner) {
+            it.uris?.first()?.let {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    viewModel.socketViewEvent.send(SocketViewEvent.SendImg(listOf(it)))
+                }
             }
         }
-
         //album
         viewModel.albumLiveData.observe(viewLifecycleOwner) {
-            lifecycleScope.launch(Dispatchers.IO) {
-                viewModel.socketViewEvent.send(SocketViewEvent.SendImg(it))
+            it.uris?.let {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    viewModel.socketViewEvent.send(SocketViewEvent.SendImg(it))
+                }
             }
         }
-        //Mic Display
-        viewModel.micDisplayLiveData.observe(viewLifecycleOwner) {
-            if (it) {
-                findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMicBottomSheetDialog())
-            }
+        //mic
+        viewModel.micStateLiveData.observe(viewLifecycleOwner) {
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMicBottomSheetDialog())
         }
-
+        //
         //url
         viewModel.urlLiveData.observe(viewLifecycleOwner) {
             webSocketClient = viewModel.startWebSocket(it)
