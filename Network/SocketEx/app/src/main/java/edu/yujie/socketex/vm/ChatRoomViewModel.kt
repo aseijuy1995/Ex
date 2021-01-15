@@ -1,10 +1,8 @@
 package edu.yujie.socketex.vm
 
 import android.app.Application
-import android.graphics.BitmapFactory
 import android.media.MediaPlayer
 import android.media.MediaRecorder
-import android.net.Uri
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,19 +11,22 @@ import com.google.gson.Gson
 import com.jakewharton.rxrelay3.BehaviorRelay
 import edu.yujie.socketex.SocketState
 import edu.yujie.socketex.SocketViewEvent
+import edu.yujie.socketex.`interface`.IIntentRepo
+import edu.yujie.socketex.`interface`.IRecorder
 import edu.yujie.socketex.base.BaseAndroidViewModel
-import edu.yujie.socketex.bean.ChatImgBean
-import edu.yujie.socketex.bean.IntentBuilder
-import edu.yujie.socketex.bean.IntentResult
-import edu.yujie.socketex.bean.IntentSetting
-import edu.yujie.socketex.ext.calculateInSampleSize
+import edu.yujie.socketex.bean.*
+import edu.yujie.socketex.ext.BitmapCompress
+import edu.yujie.socketex.ext.BitmapConfig
 import edu.yujie.socketex.ext.compressStream
-import edu.yujie.socketex.repo.IIntentRepo
+import edu.yujie.socketex.ext.getBitmap
 import edu.yujie.socketex.socket.ChatBean
 import edu.yujie.socketex.util.FileExt
 import edu.yujie.socketex.util.OkHttpUtil
 import edu.yujie.socketex.util.createWebSocket
 import edu.yujie.socketex.util.getTime
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -46,7 +47,7 @@ import org.koin.core.inject
 import java.io.File
 import java.io.OutputStream
 
-class ChatRoomViewModel(application: Application, private val repo: IIntentRepo) : BaseAndroidViewModel(application), KoinComponent {
+class ChatRoomViewModel(application: Application, private val repo: IIntentRepo, private val recorder: IRecorder) : BaseAndroidViewModel(application), KoinComponent {
 
     val inputEmptyState: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(true) }
 
@@ -59,21 +60,25 @@ class ChatRoomViewModel(application: Application, private val repo: IIntentRepo)
     val albumLiveData: LiveData<IntentResult> = mAlbumLiveData
 
     //camera
-    fun createCameraBuilder(): BehaviorRelay<IntentBuilder> {
+    fun createCameraBuilder(doStart: (builder: IntentBuilder) -> Unit) {
         val fileName = "Image_${System.nanoTime()}.jpg"
         val file = FileExt.createFile(context.externalCacheDir, fileName)
-        return repo.createCameraBuilder(IntentSetting.CameraSetting(context, file))
+        repo.createCameraBuilder(IntentSetting.CameraSetting(context, file, doStart))
     }
 
-    fun onCameraResult(result: IntentResult): BehaviorRelay<IntentResult> = repo.onCameraResult(result)
+    fun onCameraResult(result: IntentResult): IntentResult? = repo.onCameraResult(result)
 
     fun cameraResultEvent(intentResult: IntentResult) = mCameraLiveData.postValue(intentResult)
 
-    //album
-//    fun buildAlbum(doStart: (builder: IntentBuilder) -> Unit) = repo.buildAlbum(IntentSetting(doStart = doStart))
-    fun buildAlbum(doStart: (builder: IntentBuilder) -> Unit) = repo.buildAlbum(IntentSetting.AlbumSetting)
+    //crop
+    fun createCropBuilder(result: IntentResult, doStart: (builder: IntentBuilder) -> Unit) = repo.createCropBuilder(IntentSetting.CropSetting(result.uris?.first()!!, doStart = doStart))
 
-    fun onAlbumResult(result: IntentResult): BehaviorRelay<IntentResult> = repo.onAlbumResult(result)
+    fun onCropResult(result: IntentResult): IntentResult? = repo.onCropResult(result)
+
+    //album
+    fun createAlbumBuilder(doStart: (builder: IntentBuilder) -> Unit) = repo.createAlbumBuilder(IntentSetting.AlbumSetting(doStart))
+
+    fun onAlbumResult(result: IntentResult): IntentResult? = repo.onAlbumResult(result)
 
     fun albumResultEvent(result: IntentResult) = mAlbumLiveData.postValue(result)
 
@@ -81,9 +86,43 @@ class ChatRoomViewModel(application: Application, private val repo: IIntentRepo)
     private val mMicStateLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
 
     val micStateLiveData: LiveData<Boolean> = mMicStateLiveData
-    //recorder
 
+    //recorder
     fun openMic() = mMicStateLiveData.postValue(true)
+
+    var recorderStateRelay = BehaviorRelay.create<Boolean>()
+
+    val errorRelay = BehaviorRelay.create<Boolean>()
+
+    fun startRecorder() {
+        val fileName = "Audio_${System.nanoTime()}.3gp"
+        val file = FileExt.createFile(context.externalCacheDir, fileName)
+        recorder.buildRecorder(RecorderSetting(contentResolver = context.contentResolver, file = file))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnComplete {
+                recorder.startRecorder()
+            }
+        ////////////////////////////////////////////////
+
+        Observable.just(1, 2, 3, 4)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnError {
+
+            }
+
+
+    }
+
+    /**
+     *
+     * */
+
+    fun stopRecorder() {
+        recorder.stopRecorder()
+        recorder.clearRecorder()
+    }
 
     //
     //
@@ -112,8 +151,8 @@ class ChatRoomViewModel(application: Application, private val repo: IIntentRepo)
                     is SocketViewEvent.SendImg -> {
                         val imgBytes = mutableListOf<ByteArray?>()
                         it.uris.forEach {
-                            val bitmap = it.calculateInSampleSize(context, 4)
-                            val stream = bitmap?.compressStream(quality = 80)
+                            val bitmap = it.getBitmap(context.contentResolver, BitmapConfig())
+                            val stream = bitmap?.compressStream(BitmapCompress())
                             //                        val stream = ByteArrayInputStream(baos.toByteArray())
                             //
                             //                        val stream = context.contentResolver.openInputStream(it)
@@ -157,7 +196,6 @@ class ChatRoomViewModel(application: Application, private val repo: IIntentRepo)
             }
     }
 
-
     //audio recorder
     private var recorderFile: File? = null
     private var mediaRecorder: MediaRecorder? = null
@@ -176,67 +214,39 @@ class ChatRoomViewModel(application: Application, private val repo: IIntentRepo)
     val mMediaPlayerState: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
     val mediaPlayerState: LiveData<Boolean> = mMediaPlayerState
 
-
-    private fun getImageWidthHeight(uri: Uri) {
-//        Glide.with(context).asBitmap().load(uri).into(object : SimpleTarget<Bitmap>() {
-//            override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
-//                val width = bitmap.getWidth()
-//                val height = bitmap.getHeight()
-//                println("width=$width, height=$height")
-//            }
-//        })
-
-
-        val options = BitmapFactory.Options()
-        BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri), null, options)
-        options.inJustDecodeBounds = true
-        options.inSampleSize = 2
-
-        val width = options.outWidth
-        val height = options.outHeight
-
-        options.inJustDecodeBounds = false
-        val bitmap2 = BitmapFactory.decodeStream(context.contentResolver.openInputStream(uri), null, options)
-
-        val width2 = options.outWidth
-        val height2 = options.outHeight
-        println("width:$width, height:$height")
-        println("bitmap2: width:${bitmap2?.width}, height:${bitmap2?.height}, width2:$width2, height2:$height2")
-    }
-
     //audio recorder
-    fun startRecorder() {
-        val fileName = "Audio_${System.nanoTime()}.3gp"
-        recorderFile = FileExt.createFile(context.externalCacheDir, fileName)
-        mediaRecorder = MediaRecorder().apply {
-            setAudioSource(MediaRecorder.AudioSource.MIC)
-            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-            setOutputFile(recorderFile?.absolutePath)
-            prepare()
-            start()
-        }
-        startTime = System.currentTimeMillis()
-        mRecorderStateFileLiveData.postValue(true to recorderFile)
-    }
+//    fun startRecorder() {
+//        val fileName = "Audio_${System.nanoTime()}.3gp"
+//        recorderFile = FileExt.createFile(context.externalCacheDir, fileName)
+//        mediaRecorder = MediaRecorder().apply {
+//            setAudioSource(MediaRecorder.AudioSource.MIC)
+//            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+//            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+//            setOutputFile(recorderFile?.absolutePath)
+//            prepare()
+//            start()
+//        }
+//        startTime = System.currentTimeMillis()
+//        mRecorderStateFileLiveData.postValue(true to recorderFile)
+//    }
 
-    fun stopRecorder(lessTime: (() -> Unit)? = null) {
-        stopTime = System.currentTimeMillis()
-        mediaRecorder?.apply {
-            stop()
-            reset()
-            release()
-            mRecorderStateFileLiveData.postValue(false to recorderFile)
-        }
-        if ((stopTime!! - startTime!!) / 1000 < 1) {
-            recorderFile?.let {
-                if (it.exists())
-                    it.delete()
-            }
-            lessTime?.invoke()
-            mRecorderStateFileLiveData.postValue(false to null)
-        }
-    }
+//    fun stopRecorder(lessTime: (() -> Unit)? = null) {
+//        stopTime = System.currentTimeMillis()
+//        mediaRecorder?.apply {
+//            stop()
+//            reset()
+//            release()
+//            mRecorderStateFileLiveData.postValue(false to recorderFile)
+//        }
+//        if ((stopTime!! - startTime!!) / 1000 < 1) {
+//            recorderFile?.let {
+//                if (it.exists())
+//                    it.delete()
+//            }
+//            lessTime?.invoke()
+//            mRecorderStateFileLiveData.postValue(false to null)
+//        }
+//    }
 
     private fun mockServer(listener: WebSocketListener) {
         val mockWebServer = MockWebServer()
@@ -367,7 +377,6 @@ class ChatRoomViewModel(application: Application, private val repo: IIntentRepo)
 
     private var file: File? = null
     private var outStream: OutputStream? = null
-
 
     fun startWebSocket(url: String): WebSocket {
         val ClientTAG = "Client"

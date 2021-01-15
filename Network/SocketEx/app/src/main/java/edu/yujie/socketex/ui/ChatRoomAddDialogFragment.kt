@@ -7,7 +7,6 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.clicks
-import com.jakewharton.rxrelay3.BehaviorRelay
 import com.tbruyelle.rxpermissions3.RxPermissions
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import edu.yujie.socketex.R
@@ -15,7 +14,6 @@ import edu.yujie.socketex.base.BaseDialogFragment
 import edu.yujie.socketex.bean.FeaturesBtn
 import edu.yujie.socketex.bean.IntentResult
 import edu.yujie.socketex.databinding.FragmentChatRoomAddDialogBinding
-import edu.yujie.socketex.ext.calculateInSampleSize
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -27,8 +25,6 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
     private val viewModel by sharedViewModel<ChatRoomViewModel>()
 
     private lateinit var rxPermission: RxPermissions
-
-    private var albumBehaviorRelay: BehaviorRelay<IntentResult>? = null
 
     private val chatRoomAddList = listOf<FeaturesBtn>(
         FeaturesBtn(R.string.camera, R.drawable.ic_baseline_photo_camera_24_gray),
@@ -78,15 +74,11 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
                 )
             ).subscribe { micEvent(it) }
 
-
     }
 
     private fun cameraEvent(it: Boolean) {
         if (it) {
-            viewModel.createCameraBuilder().bindToLifecycle(this).subscribe {
-                println("createCameraBuilder")
-                startActivityForResult(it.intent, it.requestCode)
-            }
+            viewModel.createCameraBuilder { startActivityForResult(it.intent, it.requestCode) }
         } else {
             Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
         }
@@ -94,7 +86,7 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
 
     private fun albumEvent(it: Boolean) {
         if (it) {
-            viewModel.buildAlbum {
+            viewModel.createAlbumBuilder {
                 startActivityForResult(it.intent, it.requestCode)
             }
         } else {
@@ -113,48 +105,42 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val result = IntentResult(requestCode, resultCode, data)
-        cameraResult(result)
-        albumResult(result)
-    }
-
-    private fun cameraResult(result: IntentResult) {
-        viewModel.onCameraResult(result)
-            .bindToLifecycle(this)
-            .subscribe {
-                it.uris?.first()?.calculateInSampleSize(requireContext())
-
-                when (it) {
-                    is IntentResult.IntentResultSuccess -> {
-                        viewModel.cameraResultEvent(it)
-                        findNavController().navigateUp()
-                    }
-                    is IntentResult.IntentResultFailed -> {
-                        Snackbar.make(binding.viewCamera.viewItem, "Please take pictures!", Snackbar.LENGTH_SHORT).show()
-                    }
+        val result = IntentResult.IntentResultDefault(requestCode, resultCode, data)
+        viewModel.onCameraResult(result)?.let {
+            when (it) {
+                is IntentResult.IntentResultDefault -> null
+                is IntentResult.IntentResultSuccess -> viewModel.createCropBuilder(it) { startActivityForResult(it.intent, it.requestCode) }
+                is IntentResult.IntentResultFailed -> {
+                    Snackbar.make(binding.viewCamera.viewItem, "Please take pictures!", Snackbar.LENGTH_SHORT).setAnchorView(requireActivity().window.decorView).show()
+                    findNavController().navigateUp()
                 }
             }
-    }
-
-    private fun albumResult(result: IntentResult) {
-        if (albumBehaviorRelay == null) {
-            albumBehaviorRelay = viewModel.onAlbumResult(result)
-            albumBehaviorRelay
-                ?.bindToLifecycle(this)
-                ?.subscribe {
-                    when (it) {
-                        is IntentResult.IntentResultSuccess -> {
-                            viewModel.albumResultEvent(it)
-                            findNavController().navigateUp()
-                        }
-                        is IntentResult.IntentResultFailed -> {
-                            Snackbar.make(binding.viewCamera.viewItem, "Please select Photo!", Snackbar.LENGTH_SHORT).show()
-                        }
-                    }
+        }
+        viewModel.onCropResult(result)?.let {
+            when (it) {
+                is IntentResult.IntentResultDefault -> null
+                is IntentResult.IntentResultSuccess -> {
+                    viewModel.cameraResultEvent(it)
+                    findNavController().navigateUp()
                 }
-        } else {
-            albumBehaviorRelay = viewModel.onAlbumResult(result)
+                is IntentResult.IntentResultFailed -> {
+                    Snackbar.make(binding.viewCamera.viewItem, "Please Crop photo!", Snackbar.LENGTH_SHORT).setAnchorView(requireActivity().window.decorView).show()
+                    findNavController().navigateUp()
+                }
+            }
+        }
+        viewModel.onAlbumResult(result)?.let {
+            when (it) {
+                is IntentResult.IntentResultDefault -> null
+                is IntentResult.IntentResultSuccess -> {
+                    viewModel.albumResultEvent(it)
+                    findNavController().navigateUp()
+                }
+                is IntentResult.IntentResultFailed -> {
+                    Snackbar.make(binding.viewCamera.viewItem, "Please select Photo!", Snackbar.LENGTH_SHORT).setAnchorView(binding.root).show()
+                    findNavController().navigateUp()
+                }
+            }
         }
     }
-
 }

@@ -1,18 +1,14 @@
 package edu.yujie.socketex.util
 
-import com.jakewharton.rxrelay3.BehaviorRelay
 import java.io.File
 
-fun File.createFile(): BehaviorRelay<File> {
-    val behaviorRelay = BehaviorRelay.create<File>()
+fun File.createFile(): File {
     if (exists()) delete()
     createNewFile()
-    behaviorRelay.accept(this)
-    return behaviorRelay
+    return this
 }
 
 object FileExt {
-
     fun createFile(filePath: File?, fileName: String): File {
         val file = File(filePath, fileName)
         if (file.exists()) {
@@ -21,7 +17,6 @@ object FileExt {
         file.createNewFile()
         return file
     }
-
 }
 
 //fun File.createFile(): BehaviorSubject<File> {

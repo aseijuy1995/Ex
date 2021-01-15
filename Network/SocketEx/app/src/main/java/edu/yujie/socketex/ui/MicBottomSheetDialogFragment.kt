@@ -39,10 +39,14 @@ class MicBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMicBo
                     viewModel.startRecorder()
                 }
                 MotionEvent.ACTION_UP -> {
-                    viewModel.stopRecorder {
-                        Snackbar.make(binding.ivRecorder, "Less than 1 second", Snackbar.LENGTH_SHORT).setAnchorView(binding.root).show()
-                    }
+                    viewModel.stopRecorder()
                 }
+            }
+        }
+
+        viewModel.recorderStateRelay.subscribe {
+            if (it) {
+                Snackbar.make(binding.ivRecorder, "Less than 1 second", Snackbar.LENGTH_SHORT).setAnchorView(binding.root).show()
             }
         }
 

@@ -2,11 +2,13 @@ package edu.yujie.socketex.bean
 
 import android.app.Application
 import edu.yujie.socketex.LogTree
+import edu.yujie.socketex.`interface`.IIntentRepo
+import edu.yujie.socketex.`interface`.IRecorder
 import edu.yujie.socketex.album.AlbumRepowImpl
 import edu.yujie.socketex.album.GalleryViewModel
 import edu.yujie.socketex.album.IAlbumRepow
-import edu.yujie.socketex.repo.IIntentRepo
-import edu.yujie.socketex.repo.IntentRepoImpl
+import edu.yujie.socketex.impl.IntentRepoImpl
+import edu.yujie.socketex.impl.RecorderImpl
 import edu.yujie.socketex.util.OkHttpUtil
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import org.koin.android.ext.koin.androidContext
@@ -25,10 +27,11 @@ class BaseApp : Application() {
 
     private val repoModules = module {
         single<IIntentRepo> { IntentRepoImpl() }
+        single<IRecorder> { RecorderImpl() }
         single<IAlbumRepow> { AlbumRepowImpl(androidContext()) }
     }
     private val viewModules = module {
-        viewModel { ChatRoomViewModel(this@BaseApp, get()) }
+        viewModel { ChatRoomViewModel(this@BaseApp, get(), get()) }
         viewModel<GalleryViewModel> { GalleryViewModel() }
     }
 

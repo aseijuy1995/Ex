@@ -28,7 +28,7 @@ abstract class BaseBottomSheetDialogFragment<T : ViewDataBinding> : BottomSheetD
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+        dialog?.window?.setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
     }
 
     override fun onDestroyView() {

@@ -49,21 +49,21 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModelFlow()
-        //
+        //inputBox
         binding.includeFeaturesBar.etText
             .textChanges()
             .bindToLifecycle(viewLifecycleOwner)
             .subscribe {
                 viewModel.inputEmptyState.value = TextUtils.isEmpty(it.trim())
             }
-        //
+        //add
         binding.includeFeaturesBar.ivAdd
             .clicks()
             .bindToLifecycle(viewLifecycleOwner)
             .subscribe {
                 findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomAddDialog())
             }
-        //
+        //send
         binding.includeFeaturesBar.ivSend
             .clicks()
             .bindToLifecycle(viewLifecycleOwner)
@@ -73,7 +73,6 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
                     viewModel.socketViewEvent.send(SocketViewEvent.SendText(text))
                 }
             }
-        //
         //camera
         viewModel.cameraLiveData.observe(viewLifecycleOwner) {
             it.uris?.first()?.let {
