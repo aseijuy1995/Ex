@@ -15,6 +15,7 @@ import edu.yujie.socketex.base.BaseDialogFragment
 import edu.yujie.socketex.bean.FeaturesBtn
 import edu.yujie.socketex.bean.IntentResult
 import edu.yujie.socketex.databinding.FragmentChatRoomAddDialogBinding
+import edu.yujie.socketex.ext.calculateInSampleSize
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -121,7 +122,8 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
         viewModel.onCameraResult(result)
             .bindToLifecycle(this)
             .subscribe {
-                println("createCameraBuilder2")
+                it.uris?.first()?.calculateInSampleSize(requireContext())
+
                 when (it) {
                     is IntentResult.IntentResultSuccess -> {
                         viewModel.cameraResultEvent(it)

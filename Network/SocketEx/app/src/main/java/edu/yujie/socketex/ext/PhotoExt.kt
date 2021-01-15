@@ -12,18 +12,34 @@ import java.io.*
 //inSampleSize
 
 fun File.calculateInSampleSize(inSampleSize: Int = 1): Bitmap {
-    val options = setInSampleSize(inSampleSize)
-    return BitmapFactory.decodeFile(this.absolutePath, options)
+    val options = BitmapFactory.Options()
+    val bitmap = BitmapFactory.decodeFile(this.absolutePath, options)
+    println("options: outWidth:${options.outWidth}, outHeight:${options.outHeight}")
+    println("bitmap: width:${bitmap.width}, height:${bitmap.height}")
+    return bitmap
+}
+
+fun Uri.calculateInSampleSize(context: Context, defaultSize: Int = 500): Bitmap? {
+    val options = BitmapFactory.Options()
+    val bitmap = BitmapFactory.decodeStream(context.contentResolver.openInputStream(this), null, options)
+    println("options: outWidth:${options.outWidth}, outHeight:${options.outHeight}")
+    if (options.outWidth > defaultSize || options.outHeight > defaultSize) {
+//        options.inJustDecodeBounds = true
+        val widthScale = options.outWidth / defaultSize
+        val heightScale = options.outHeight / defaultSize
+        val scale = Math.max(widthScale, heightScale)
+        println("scale:$scale")
+        options.inSampleSize = scale
+//        options.inJustDecodeBounds = false
+    }
+    println("bitmap: width:${bitmap?.width}, height:${bitmap?.height}")
+    println("bitmap: ${bitmap == null}")
+    return bitmap
 }
 
 fun InputStream.calculateInSampleSize(inSampleSize: Int = 1): Bitmap? {
     val options = setInSampleSize(inSampleSize)
     return BitmapFactory.decodeStream(this, null, options)
-}
-
-fun Uri.calculateInSampleSize(context: Context, inSampleSize: Int): Bitmap? {
-    val options = setInSampleSize(inSampleSize)
-    return BitmapFactory.decodeStream(context.contentResolver.openInputStream(this), null, options)
 }
 
 fun Context.calculateInSampleSize(resId: Int, inSampleSize: Int): Bitmap {

@@ -93,6 +93,7 @@ class ChatRoomViewModel(application: Application, private val repo: IIntentRepo)
 
     private fun initViewEvent() = viewModelScope.launch(Dispatchers.IO) {
         socketViewEvent
+//            .receiveAsFlow()
             .consumeAsFlow()
             .collect {
                 when (it) {
