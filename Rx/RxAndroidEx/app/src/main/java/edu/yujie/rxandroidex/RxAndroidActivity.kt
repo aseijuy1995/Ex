@@ -13,7 +13,7 @@ class RxAndroidActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_rx_android)
 
         Observable.just(1, 2, 3)
             .subscribeOn(Schedulers.io())

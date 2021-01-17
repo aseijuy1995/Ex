@@ -9,6 +9,7 @@ import com.jakewharton.rxrelay3.ReplayRelay
 import com.yujie.rxrelayex.R
 import com.yujie.rxrelayex.databinding.ActivityRxrelayBinding
 import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 
 //https://github.com/JakeWharton/RxRelay
@@ -33,6 +34,8 @@ class RxRelayActivity : AppCompatActivity() {
 
     private val replayRelay = ReplayRelay.create<Int>()
 
+    private val compositeDisposable = CompositeDisposable()
+
     private var count = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,6 +53,7 @@ class RxRelayActivity : AppCompatActivity() {
 //            publishRelay.subscribe(object : Observer<Int> {
             replayRelay.subscribe(object : Observer<Int> {
                 override fun onSubscribe(d: Disposable?) {
+                    compositeDisposable.add(d)
                     println("$TAG onSubscribe()")
                 }
 
@@ -58,6 +62,7 @@ class RxRelayActivity : AppCompatActivity() {
                 }
 
                 override fun onError(e: Throwable?) {
+                    e?.printStackTrace()
                     println("$TAG onError() e = ${e?.message}")
                 }
 
@@ -67,7 +72,11 @@ class RxRelayActivity : AppCompatActivity() {
 
             })
         }
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
 
 }

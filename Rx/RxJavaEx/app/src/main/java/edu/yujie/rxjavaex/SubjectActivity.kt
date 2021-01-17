@@ -5,13 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import edu.yujie.rxjavaex.databinding.ActivitySubjectBinding
 import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.subjects.*
 import java.io.IOException
 
 //https://blog.csdn.net/mq2553299/article/details/78848773
 //https://www.jianshu.com/p/1257c8ba7c0c
-//https://www.jianshu.com/p/240f1c8ebf9d
 //https://prototypez.github.io/2016/04/30/rxjava-common-mistakes-1/
 
 /**
@@ -19,7 +19,7 @@ import java.io.IOException
  * BehaviorSubject - 訂閱subscribe()時,將訂閱前的最後一個數據&訂閱後的所有數據發送的給觀察者
  * PublishSubject - 訂閱subscribe()時,將訂閱後的所有數據發送給觀察者
  * AsyncSubject - 當執行onComplete()時,發送最後一個數據
- * UnicastSubject - 僅支持訂閱1次,其餘規則與ReplaySubject相同,若繼續訂閱會執行onError()
+ * UnicastSubject - 僅支持訂閱1次,其餘規則與ReplaySubject相同,若繼續訂閱會觸發onError(), IllegalStateException: Only a single observer allowed.
  * */
 class SubjectActivity : AppCompatActivity() {
     private val TAG = javaClass.simpleName
@@ -36,6 +36,8 @@ class SubjectActivity : AppCompatActivity() {
 
     private val unicastSubject = UnicastSubject.create<String>()
 
+    private val compositeDisposable = CompositeDisposable()
+
     private var count: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +45,7 @@ class SubjectActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView<ActivitySubjectBinding>(this, R.layout.activity_subject)
 
         binding.btnNext.setOnClickListener {
-//            replaySubject.onNext("next")
+//            replaySubject.onNext("${count++}")
 //            behaviorSubject.onNext("${count++}")
 //            publishSubject.onNext("${count++}")
 //            asyncSubject.onNext("${count++}")
@@ -73,6 +75,7 @@ class SubjectActivity : AppCompatActivity() {
 //            asyncSubject.subscribe(object : Observer<String> {
             unicastSubject.subscribe(object : Observer<String> {
                 override fun onSubscribe(d: Disposable?) {
+                    compositeDisposable.add(d)
                     println("$TAG onSubscribe()")
                 }
 
@@ -81,6 +84,7 @@ class SubjectActivity : AppCompatActivity() {
                 }
 
                 override fun onError(e: Throwable?) {
+                    e?.printStackTrace()
                     println("$TAG onError() e = ${e?.message}")
                 }
 
@@ -90,6 +94,10 @@ class SubjectActivity : AppCompatActivity() {
 
             })
         }
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        compositeDisposable.clear()
     }
 }
