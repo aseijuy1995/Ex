@@ -1,6 +1,6 @@
 package edu.yujie.socketex
 
-import edu.yujie.socketex.socket.ChatBean
+import edu.yujie.socketex.bean.ChatItem
 
 sealed class SocketState {
 
@@ -18,7 +18,7 @@ sealed class SocketState {
 
     data class onClientOpen(val msg: String) : SocketState()
 
-    data class onClientMessage(val msg: String, val chatBean: ChatBean) : SocketState()
+    data class onClientMessage(val msg: String, val chatItem: ChatItem) : SocketState()
 
     data class onClientClosing(val msg: String) : SocketState()
 
@@ -27,9 +27,7 @@ sealed class SocketState {
     data class onClientFailure(val msg: String) : SocketState()
 
     //
-    data class ShowEmptyText(val msg: String) : SocketState()
-
-    data class ShowChat(val chatBean: ChatBean) : SocketState()
+    data class ShowChat(val chatItem: ChatItem) : SocketState()
 
     data class RecordState(val state: Boolean) : SocketState()
 

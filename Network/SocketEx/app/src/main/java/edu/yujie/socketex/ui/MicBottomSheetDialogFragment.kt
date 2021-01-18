@@ -36,7 +36,9 @@ class MicBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMicBo
         binding.ivRecorder.touches { true }.subscribe {
             when (it.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    viewModel.startRecorder()
+                    viewModel.startRecorder {
+                        println("$TAG startRecorder() - $it")
+                    }
                 }
                 MotionEvent.ACTION_UP -> {
                     viewModel.stopRecorder()

@@ -5,18 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import java.io.File
 
-//data class IntentSetting(
-//    val context: Context? = null,
-//    val file: File? = null,
-//    val doStart: ((builder: IntentBuilder) -> Unit)? = null
-//)
-
 sealed class IntentSetting {
-
     data class CameraSetting(
         val context: Context,
-        val file: File,
-        val doStart: (builder: IntentBuilder) -> Unit
+        val filePath: File? = context.externalCacheDir,
+        val fileName: String = "Image_${System.nanoTime()}.jpg"
     ) : IntentSetting()
 
     data class CropSetting(
@@ -27,15 +20,16 @@ sealed class IntentSetting {
         val aspectY: Int = 16,
         val outputX: Int = 720,
         val outputY: Int = 1280,
-        val return_data: Boolean = false,
-        val doStart: (builder: IntentBuilder) -> Unit
+        val return_data: Boolean = false
     ) : IntentSetting()
 
-    data class AlbumSetting(
-        val doStart: (builder: IntentBuilder) -> Unit
-    ) : IntentSetting()
+    object AlbumSetting : IntentSetting()
 }
 
+data class IntentBuilder(
+    val intent: Intent,
+    val requestCode: Int
+)
 
 sealed class IntentResult(
     open val requestCode: Int,
@@ -48,9 +42,6 @@ sealed class IntentResult(
     data class IntentResultSuccess(val result: IntentResult) : IntentResult(result.requestCode, result.resultCode, result.data, result.uris)
 
     data class IntentResultFailed(val result: IntentResult) : IntentResult(result.requestCode, result.resultCode, result.data, result.uris)
-}
 
-data class IntentBuilder(
-    val intent: Intent,
-    val requestCode: Int
-)
+    data class IntentResultOther(val result: IntentResult) : IntentResult(result.requestCode, result.resultCode, result.data, result.uris)
+}

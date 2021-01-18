@@ -9,46 +9,45 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.jakewharton.rxbinding4.view.clicks
-import edu.yujie.socketex.socket.ChatBean
 import edu.yujie.socketex.R
-import edu.yujie.socketex.databinding.ItemChatOneselfBinding
+import edu.yujie.socketex.bean.ChatItem
 import edu.yujie.socketex.databinding.ItemChatOtherBinding
-import edu.yujie.socketex.vm.ChatRoomViewModel
+import edu.yujie.socketex.databinding.ItemChatOwnerBinding
 
-const val ONESELF = -1
+const val OWNER = -1
 const val OTHER = 0
 
-class ChatListAdapter : ListAdapter<ChatBean, ChatListAdapter.VH>(
-    object : DiffUtil.ItemCallback<ChatBean>() {
-        override fun areItemsTheSame(oldItem: ChatBean, newItem: ChatBean): Boolean {
+class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
+    object : DiffUtil.ItemCallback<ChatItem>() {
+        override fun areItemsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
 
-        override fun areContentsTheSame(oldItem: ChatBean, newItem: ChatBean): Boolean {
+        override fun areContentsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
     }
 ) {
 
     abstract inner class VH(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
-        abstract fun bind(chatBean: ChatBean): Any
+        abstract fun bind(chatItem: ChatItem): Any
     }
 
-    inner class OneSelfVH(private val binding: ItemChatOneselfBinding, val context: Context) : VH(binding) {
-        override fun bind(chatBean: ChatBean) = binding.apply {
-            chatBean.imgBytes?.let {
+    inner class OwnerVH(private val binding: ItemChatOwnerBinding, val context: Context) : VH(binding) {
+        override fun bind(chatItem: ChatItem) = binding.apply {
+            chatItem.imgBytes?.let {
                 rvImg.adapter = ChatImgListAdapter().apply {
                     submitList(it)
                 }
             }
-            this.chatBean = chatBean
+            this.chatItem = chatItem
             executePendingBindings()
         }
     }
 
     inner class OtherVH(val binding: ItemChatOtherBinding, val context: Context) : VH(binding) {
-        override fun bind(chatBean: ChatBean) = binding.apply {
-            chatBean.imgBytes?.let {
+        override fun bind(chatItem: ChatItem) = binding.apply {
+            chatItem.imgBytes?.let {
                 rvImg.adapter = ChatImgListAdapter().apply {
                     submitList(it)
                 }
@@ -68,7 +67,7 @@ class ChatListAdapter : ListAdapter<ChatBean, ChatListAdapter.VH>(
 //            viewModel.mediaPlayerState.observe(){
 //
 //            }
-            this.chatBean = chatBean
+            this.chatItem = chatItem
             executePendingBindings()
         }
 
@@ -77,9 +76,9 @@ class ChatListAdapter : ListAdapter<ChatBean, ChatListAdapter.VH>(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            ONESELF -> {
-                val binding = DataBindingUtil.inflate<ItemChatOneselfBinding>(inflater, R.layout.item_chat_oneself, parent, false)
-                OneSelfVH(binding, parent.context)
+            OWNER -> {
+                val binding = DataBindingUtil.inflate<ItemChatOwnerBinding>(inflater, R.layout.item_chat_owner, parent, false)
+                OwnerVH(binding, parent.context)
             }
             OTHER -> {
                 val binding = DataBindingUtil.inflate<ItemChatOtherBinding>(inflater, R.layout.item_chat_other, parent, false)
@@ -90,12 +89,11 @@ class ChatListAdapter : ListAdapter<ChatBean, ChatListAdapter.VH>(
                 OtherVH(binding, parent.context)
             }
         }
-
     }
 
     override fun getItemViewType(position: Int): Int {
         val chatBean = getItem(position)
-        return if (chatBean.isOneSelf) ONESELF else OTHER
+        return if (chatBean.isOwner) OWNER else OTHER
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {

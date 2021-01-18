@@ -6,40 +6,74 @@
         <import type="java.util.List" />
 
         <variable
-            name="featuresBtn"
-            type="List&lt;edu.yujie.socketex.bean.FeaturesBtn>" />
+            name="viewModel"
+            type="edu.yujie.socketex.vm.ChatRoomViewModel" />
 
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/gray_1f1f1f"
         android:baselineAligned="true"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <include
-            android:id="@+id/view_camera"
-            layout="@layout/include_chat_room_add_features"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:featuresBtn="@{featuresBtn[0]}" />
+            android:background="@color/gray_1f1f1f"
+            android:baselineAligned="true"
+            android:orientation="horizontal">
 
-        <include
-            android:id="@+id/view_album"
-            layout="@layout/include_chat_room_add_features"
-            android:layout_width="0dp"
+            <include
+                android:id="@+id/view_camera"
+                layout="@layout/include_chat_room_add_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:addItem="@{viewModel.addItemsLiveData[0]}" />
+
+            <include
+                android:id="@+id/view_album"
+                layout="@layout/include_chat_room_add_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:addItem="@{viewModel.addItemsLiveData[1]}" />
+
+            <include
+                android:id="@+id/view_audio"
+                layout="@layout/include_chat_room_add_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:addItem="@{viewModel.addItemsLiveData[2]}" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:featuresBtn="@{featuresBtn[1]}" />
+            android:background="@color/gray_1f1f1f"
+            android:baselineAligned="true"
+            android:orientation="horizontal">
 
-        <include
-            android:id="@+id/view_audio"
-            layout="@layout/include_chat_room_add_features"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:featuresBtn="@{featuresBtn[2]}" />
+            <include
+                android:id="@+id/view_video"
+                layout="@layout/include_chat_room_add_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:addItem="@{viewModel.addItemsLiveData[3]}" />
 
+            <include
+                android:id="@+id/view_movie"
+                layout="@layout/include_chat_room_add_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:addItem="@{viewModel.addItemsLiveData[4]}" />
+
+        </LinearLayout>
     </LinearLayout>
 </layout>

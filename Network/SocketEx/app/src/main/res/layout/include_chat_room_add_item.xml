@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="featuresBtn"
-            type="edu.yujie.socketex.bean.FeaturesBtn" />
+            name="addItem"
+            type="edu.yujie.socketex.bean.AddItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,19 +29,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            bind:imgRes="@{featuresBtn.imgRes}" />
+            bind:imgRes="@{addItem.imgRes}" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="30dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{featuresBtn.nameRes}"
+            android:text="@{addItem.nameRes}"
             android:textColor="@color/gray_777777"
-            android:textSize="14sp"
+            android:textSize="10sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -16,14 +16,13 @@ import edu.yujie.socketex.SocketViewEvent
 import edu.yujie.socketex.adapter.ChatListAdapter
 import edu.yujie.socketex.adapter.InfoListAdapter
 import edu.yujie.socketex.base.BaseFragment
+import edu.yujie.socketex.bean.ChatItem
 import edu.yujie.socketex.databinding.FragmentChatRoomBinding
-import edu.yujie.socketex.socket.ChatBean
 import edu.yujie.socketex.util.closeKeyBoard
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import okhttp3.WebSocket
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
@@ -33,9 +32,8 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
     private val viewModel by sharedViewModel<ChatRoomViewModel>()
 
     private val infoListAdapter = InfoListAdapter()
-    private val chatListAdapter = ChatListAdapter()
 
-    private lateinit var webSocketClient: WebSocket
+    private val chatListAdapter = ChatListAdapter()
 
     override fun initView() {
         binding.rvInfo.adapter = infoListAdapter
@@ -63,7 +61,7 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
             .subscribe {
                 findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomAddDialog())
             }
-        //send
+        //send text
         binding.includeFeaturesBar.ivSend
             .clicks()
             .bindToLifecycle(viewLifecycleOwner)
@@ -73,7 +71,7 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
                     viewModel.socketViewEvent.send(SocketViewEvent.SendText(text))
                 }
             }
-        //camera
+        //camera - send img
         viewModel.cameraLiveData.observe(viewLifecycleOwner) {
             it.uris?.first()?.let {
                 lifecycleScope.launch(Dispatchers.IO) {
@@ -81,7 +79,7 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
                 }
             }
         }
-        //album
+        //album - send img
         viewModel.albumLiveData.observe(viewLifecycleOwner) {
             it.uris?.let {
                 lifecycleScope.launch(Dispatchers.IO) {
@@ -94,29 +92,23 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
             if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMicBottomSheetDialog())
         }
         //
-        //url
-        viewModel.urlLiveData.observe(viewLifecycleOwner) {
-            webSocketClient = viewModel.startWebSocket(it)
-        }
-
+        //uri - start webSocket
+        viewModel.urlLiveData.observe(viewLifecycleOwner) { viewModel.startWebSocket(it) }
         //info list
-        viewModel.infoListLiveData.observe(viewLifecycleOwner) {
-            println("infoList:$it")
-            refreshInfo(it)
-        }
-
+        viewModel.infoListLiveData.observe(viewLifecycleOwner) { refreshInfo(it) }
         //chat list
-        viewModel.chatListLiveData.observe(viewLifecycleOwner) {
-            println("chatList:$it")
-            refreshChat(it)
-        }
+        viewModel.chatListLiveData.observe(viewLifecycleOwner) { refreshChat(it) }
 
+        //toast
+        viewModel.toastLiveData.observe(viewLifecycleOwner) { Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show() }
+        //
     }
 
     private fun viewModelFlow() {
         lifecycleScope.launch {
             viewModel.startMockServer().collect {
                 when (it) {
+                    //server
                     is SocketState.onServerOpen -> viewModel.addInfo(it.msg)
                     is SocketState.onServerMessage -> viewModel.addInfo(it.msg)
                     is SocketState.onServerClosing -> viewModel.addInfo(it.msg)
@@ -125,12 +117,11 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
                         Snackbar.make(binding.rvInfo, "Server onFailure()", Snackbar.LENGTH_SHORT).setAnchorView(binding.includeFeaturesBar.root).show()
                         viewModel.addInfo(it.msg)
                     }
-
+                    //client
                     is SocketState.onClientOpen -> viewModel.addInfo(it.msg)
                     is SocketState.onClientMessage -> {
-                        println("onClientMessage:onClientMessage")
                         viewModel.addInfo(it.msg)
-                        viewModel.addChat(it.chatBean)
+                        viewModel.addChat(it.chatItem)
                     }
                     is SocketState.onClientClosing -> viewModel.addInfo(it.msg)
                     is SocketState.onClientClosed -> viewModel.addInfo(it.msg)
@@ -138,10 +129,10 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
                         Snackbar.make(binding.rvInfo, "Client onFailure()", Snackbar.LENGTH_SHORT).setAnchorView(binding.includeFeaturesBar.root).show()
                         viewModel.addInfo(it.msg)
                     }
-                    //
+                    //chat
                     is SocketState.ShowChat -> {
-                        binding.includeFeaturesBar.etText.setText("")
-                        viewModel.addChat(it.chatBean)
+                        binding.includeFeaturesBar.etText.setText("")//clean on send success
+                        viewModel.addChat(it.chatItem)
                     }
                 }
             }
@@ -157,7 +148,7 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         }, 50)
     }
 
-    private fun refreshChat(chatList: List<ChatBean>) {
+    private fun refreshChat(chatList: List<ChatItem>) {
         requireContext().closeKeyBoard(binding.includeFeaturesBar.ivSend)
         chatListAdapter.submitList(chatList)
 

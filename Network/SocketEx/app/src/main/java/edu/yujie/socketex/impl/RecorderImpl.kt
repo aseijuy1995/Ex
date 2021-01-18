@@ -1,61 +1,80 @@
 package edu.yujie.socketex.impl
 
+import android.content.Context
 import android.media.MediaRecorder
 import com.jakewharton.rxrelay3.BehaviorRelay
-import edu.yujie.socketex.`interface`.IRecorder
 import edu.yujie.socketex.bean.RecorderSetting
+import edu.yujie.socketex.inter.IRecorder
+import edu.yujie.socketex.util.createFile
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import java.io.File
+import java.util.concurrent.TimeUnit
 
 class RecorderImpl : IRecorder {
     private var mediaRecorder: MediaRecorder? = null
 
-    val insuffectTimeRelay = BehaviorRelay.createDefault<Boolean>(false)
+    private var startTime: Long? = null
 
-    private val startTimeRelay = BehaviorRelay.create<Long>()
+    val recorderStateRelay = BehaviorRelay.createDefault<Boolean>(false)//錄音狀態
 
-    val recorderStateRelay = BehaviorRelay.createDefault<Boolean>(false)
+    private var observable: Observable<Long>? = null
 
-    private val settingRelay = BehaviorRelay.create<RecorderSetting>()
+    val insuffectTimeRelay = BehaviorRelay.createDefault<Boolean>(false)//時間不足
 
-    override fun buildRecorder(setting: RecorderSetting): Completable = Completable.fromAction {
-        settingRelay.accept(setting)
-        mediaRecorder = MediaRecorder().apply {
-            setAudioSource(setting.audioSource)
-            setOutputFormat(setting.outputFormat)
-            setAudioEncoder(setting.audioEncoder)
-            setOutputFile(setting.file.absolutePath)
-            prepare()
-        }
+    val startTimeRelay = BehaviorRelay.createDefault<Long>(0)
+
+    private var setting: RecorderSetting? = null
+
+    private var file: File? = null
+
+    override fun initRecorder(setting: RecorderSetting): Completable = Completable.fromAction {
+        this.setting = setting
+        Observable.just(setting.filePath)
+            .map { it?.createFile(setting.fileName)!! }
+            .map {
+                file = it
+                mediaRecorder = MediaRecorder().apply {
+                    setAudioSource(setting.audioSource)
+                    setOutputFormat(setting.outputFormat)
+                    setAudioEncoder(setting.audioEncoder)
+                    setOutputFile(it.absolutePath)
+                }
+            }
     }
 
-    override fun startRecorder(): BehaviorRelay<Boolean> {
-        startTimeRelay.accept(System.currentTimeMillis())
+    override fun startRecorder(context: Context): Observable<Long> {
         recorderStateRelay.accept(true)
-        mediaRecorder?.start()
-        return recorderStateRelay
+        startTime = System.currentTimeMillis()
+        mediaRecorder?.apply {
+            prepare()
+            start()
+        }
+        return Observable.interval(setting!!.minimumInterval, TimeUnit.MILLISECONDS)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
     }
 
-    override fun stopRecorder() {
+    override fun stopRecorder(): BehaviorRelay<Boolean> {
+        recorderStateRelay.accept(false)
         mediaRecorder?.apply {
-            stop()
             reset()
+            stop()
+            release()
         }
         val stopTime = System.currentTimeMillis()
-        if (stopTime - startTimeRelay.value / 1000 < 0) {
-            val file = settingRelay.value.file
-            if (file.exists())
-                file.delete()
+        val minimumInterval = setting!!.minimumInterval
+
+        if (stopTime - startTime!! / minimumInterval < 0) {
+            if (file!!.exists())
+                file!!.delete()
             insuffectTimeRelay.accept(true)
         } else {
             insuffectTimeRelay.accept(false)
         }
-        recorderStateRelay.accept(false)
+        return insuffectTimeRelay
     }
 
-    override fun clearRecorder(): Completable = Completable.fromAction {
-        mediaRecorder?.apply {
-            release()
-        }
-        recorderStateRelay.accept(false)
-    }
 }

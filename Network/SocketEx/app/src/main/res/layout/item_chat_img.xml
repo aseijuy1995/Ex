@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:shimmer="http://schemas.android.com/apk/res-auto">
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="chatImgBean"
-            type="edu.yujie.socketex.bean.ChatImgBean" />
+            type="edu.yujie.socketex.bean.ChatImgItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +31,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:scaleType="fitXY"
-            app:imgByteArray="@{chatImgBean.imgByteArray}"
+            bind:imgByteArray="@{chatImgBean.imgByteArray}"
             shimmer:layout_constraintBottom_toBottomOf="parent"
             shimmer:layout_constraintEnd_toEndOf="parent"
             shimmer:layout_constraintStart_toStartOf="parent"

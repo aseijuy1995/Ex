@@ -11,7 +11,6 @@ import com.tbruyelle.rxpermissions3.RxPermissions
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import edu.yujie.socketex.R
 import edu.yujie.socketex.base.BaseDialogFragment
-import edu.yujie.socketex.bean.FeaturesBtn
 import edu.yujie.socketex.bean.IntentResult
 import edu.yujie.socketex.databinding.FragmentChatRoomAddDialogBinding
 import edu.yujie.socketex.vm.ChatRoomViewModel
@@ -26,16 +25,10 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
 
     private lateinit var rxPermission: RxPermissions
 
-    private val chatRoomAddList = listOf<FeaturesBtn>(
-        FeaturesBtn(R.string.camera, R.drawable.ic_baseline_photo_camera_24_gray),
-        FeaturesBtn(R.string.album, R.drawable.ic_baseline_photo_24_gray),
-        FeaturesBtn(R.string.audio, R.drawable.ic_baseline_mic_none_24_gray)
-    )
-
     override fun initView() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            featuresBtn = this@ChatRoomAddDialogFragment.chatRoomAddList
+            viewModel = this@ChatRoomAddDialogFragment.viewModel
         }
         rxPermission = RxPermissions(this)
     }
@@ -52,7 +45,14 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
-            ).subscribe { cameraEvent(it) }
+            ).subscribe {
+                println("$TAG onCameraResult2")
+                if (it) {
+                    viewModel.createCameraBuilder { startActivityForResult(it.intent, it.requestCode) }
+                } else {
+                    Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
+                }
+            }
         //album
         binding.viewAlbum.viewItem
             .clicks()
@@ -61,7 +61,14 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
                 rxPermission.ensure(
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
-            ).subscribe { albumEvent(it) }
+            ).subscribe {
+                println("$TAG onAlbumResult2")
+                if (it) {
+                    viewModel.createAlbumBuilder { startActivityForResult(it.intent, it.requestCode) }
+                } else {
+                    Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
+                }
+            }
         //recorder
         binding.viewAudio.viewItem
             .clicks()
@@ -72,55 +79,34 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
-            ).subscribe { micEvent(it) }
-
-    }
-
-    private fun cameraEvent(it: Boolean) {
-        if (it) {
-            viewModel.createCameraBuilder { startActivityForResult(it.intent, it.requestCode) }
-        } else {
-            Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun albumEvent(it: Boolean) {
-        if (it) {
-            viewModel.createAlbumBuilder {
-                startActivityForResult(it.intent, it.requestCode)
+            ).subscribe {
+                if (it) {
+                    viewModel.openMic()
+                } else {
+                    Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
+                }
+                findNavController().navigateUp()
             }
-        } else {
-            Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
-        }
-    }
 
-    private fun micEvent(it: Boolean) {
-        if (it) {
-            viewModel.openMic()
-        } else {
-            Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
-        }
-        findNavController().navigateUp()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val result = IntentResult.IntentResultDefault(requestCode, resultCode, data)
-        viewModel.onCameraResult(result)?.let {
+        viewModel.onCameraResult(requestCode, resultCode, data).subscribe {
             when (it) {
-                is IntentResult.IntentResultDefault -> null
-                is IntentResult.IntentResultSuccess -> viewModel.createCropBuilder(it) { startActivityForResult(it.intent, it.requestCode) }
+                is IntentResult.IntentResultSuccess -> {
+                    viewModel.createCropBuilder(it.uris!!.first()) { startActivityForResult(it.intent, it.requestCode) }
+                }
                 is IntentResult.IntentResultFailed -> {
                     Snackbar.make(binding.viewCamera.viewItem, "Please take pictures!", Snackbar.LENGTH_SHORT).setAnchorView(requireActivity().window.decorView).show()
                     findNavController().navigateUp()
                 }
             }
         }
-        viewModel.onCropResult(result)?.let {
+        viewModel.onCropResult(requestCode, resultCode, data).subscribe {
             when (it) {
-                is IntentResult.IntentResultDefault -> null
                 is IntentResult.IntentResultSuccess -> {
-                    viewModel.cameraResultEvent(it)
+                    viewModel.cameraCropResultEvent(it)
                     findNavController().navigateUp()
                 }
                 is IntentResult.IntentResultFailed -> {
@@ -129,10 +115,10 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
                 }
             }
         }
-        viewModel.onAlbumResult(result)?.let {
+        viewModel.onAlbumResult(requestCode, resultCode, data).subscribe {
             when (it) {
-                is IntentResult.IntentResultDefault -> null
                 is IntentResult.IntentResultSuccess -> {
+                    println("$TAG onAlbumResult")
                     viewModel.albumResultEvent(it)
                     findNavController().navigateUp()
                 }
