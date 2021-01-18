@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="Time"
-            android:textColor="@color/red_aa2326"
+            android:textColor="@color/red_f5010b"
             android:textSize="20sp"
             android:textStyle="bold"
             android:visibility="invisible"

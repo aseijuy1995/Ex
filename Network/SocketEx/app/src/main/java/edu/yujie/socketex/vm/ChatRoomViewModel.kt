@@ -21,7 +21,6 @@ import edu.yujie.socketex.ext.BitmapConfig
 import edu.yujie.socketex.ext.compressToByteArray
 import edu.yujie.socketex.ext.getBitmap
 import edu.yujie.socketex.inter.IMediaRepo
-import edu.yujie.socketex.inter.IRecorder
 import edu.yujie.socketex.util.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -46,7 +45,7 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 import java.io.File
 
-class ChatRoomViewModel(application: Application, private val repo: IMediaRepo, private val recorder: IRecorder) : BaseAndroidViewModel(application), KoinComponent {
+class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) : BaseAndroidViewModel(application), KoinComponent {
 
     private lateinit var webSocketClient: WebSocket
 
@@ -328,21 +327,26 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo, 
 
     fun albumResultEvent(result: IntentResult) = mAlbumLiveData.postValue(result)
 
-    fun startRecorder(doStart: (Long) -> Unit) {
-        recorder.startRecorder(context)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { doStart(it) }
-            .addTo(compositeDisposable = compositeDisposable)
+
+    //recorder
+
+
+    val recordingStateRelay: BehaviorRelay<Boolean>
+        get() = repo.recordingStateRelay
+
+    val enoughRecordingTimeRelay: BehaviorRelay<Boolean>
+        get() = repo.enoughRecordingTimeRelay
+
+    fun startRecording(doStart: (Long) -> Unit) {
+        repo.prepareRecording(context).subscribe {
+            repo.startRecording()
+                .subscribe { doStart(it) }
+        }.addTo(compositeDisposable = compositeDisposable)
     }
 
-    fun stopRecorder() {
-        recorder.stopRecorder()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-
-            }
+    fun stopRecording() {
+        val disposable = repo.stopRecording().subscribe()
+        compositeDisposable.add(disposable)
     }
 
     //----------------------------------------------

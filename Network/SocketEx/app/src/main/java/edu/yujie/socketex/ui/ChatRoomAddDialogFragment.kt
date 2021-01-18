@@ -14,6 +14,8 @@ import edu.yujie.socketex.base.BaseDialogFragment
 import edu.yujie.socketex.bean.IntentResult
 import edu.yujie.socketex.databinding.FragmentChatRoomAddDialogBinding
 import edu.yujie.socketex.vm.ChatRoomViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBinding>() {

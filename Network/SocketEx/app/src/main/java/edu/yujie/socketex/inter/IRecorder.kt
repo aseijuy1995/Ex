@@ -1,17 +1,20 @@
 package edu.yujie.socketex.inter
 
-import android.content.Context
 import com.jakewharton.rxrelay3.BehaviorRelay
+import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.bean.RecorderSetting
 import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
 
 interface IRecorder {
 
-    fun initRecorder(setting: RecorderSetting): Completable
+    val recordingStateRelay: BehaviorRelay<Boolean>
 
-    fun startRecorder(context: Context): Observable<Long>
+    val enoughRecordingTimeRelay: BehaviorRelay<Boolean>
 
-    fun stopRecorder(): BehaviorRelay<Boolean>
+    fun prepareRecording(setting: RecorderSetting): Completable
+
+    fun startRecording(): PublishRelay<Long>
+
+    fun stopRecording(): Completable
 
 }

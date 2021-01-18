@@ -32,11 +32,10 @@ class BaseApplication : Application() {
 
     private val repoModules = module {
         single<IMediaRepo> { MediaRepoImpl() }
-        single<IRecorder> { RecorderImpl() }
         single<IAlbumRepow> { AlbumRepowImpl(androidContext()) }
     }
     private val viewModules = module {
-        viewModel { ChatRoomViewModel(this@BaseApplication, get(), get()) }
+        viewModel { ChatRoomViewModel(this@BaseApplication, get()) }
         viewModel<GalleryViewModel> { GalleryViewModel() }
     }
 

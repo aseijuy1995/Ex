@@ -1,38 +1,36 @@
 package edu.yujie.socketex.impl
 
-import android.content.Context
 import android.media.MediaRecorder
 import com.jakewharton.rxrelay3.BehaviorRelay
+import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.bean.RecorderSetting
 import edu.yujie.socketex.inter.IRecorder
 import edu.yujie.socketex.util.createFile
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.disposables.Disposable
 import java.io.File
-import java.util.concurrent.TimeUnit
 
 class RecorderImpl : IRecorder {
     private var mediaRecorder: MediaRecorder? = null
 
-    private var startTime: Long? = null
+    private lateinit var setting: RecorderSetting
 
-    val recorderStateRelay = BehaviorRelay.createDefault<Boolean>(false)//錄音狀態
+    private lateinit var file: File
 
-    private var observable: Observable<Long>? = null
+    override val recordingStateRelay = BehaviorRelay.createDefault<Boolean>(false)//錄音狀態
 
-    val insuffectTimeRelay = BehaviorRelay.createDefault<Boolean>(false)//時間不足
+    private var startTime: Long? = 0
 
-    val startTimeRelay = BehaviorRelay.createDefault<Long>(0)
+    private val recordingTimeRelay = PublishRelay.create<Long>()
 
-    private var setting: RecorderSetting? = null
+    private lateinit var recordingTime: Disposable
 
-    private var file: File? = null
+    override val enoughRecordingTimeRelay = BehaviorRelay.create<Boolean>()//錄音時間是否充足
 
-    override fun initRecorder(setting: RecorderSetting): Completable = Completable.fromAction {
+    override fun prepareRecording(setting: RecorderSetting): Completable {
         this.setting = setting
-        Observable.just(setting.filePath)
+        return Observable.just(setting.filePath)
             .map { it?.createFile(setting.fileName)!! }
             .map {
                 file = it
@@ -42,39 +40,40 @@ class RecorderImpl : IRecorder {
                     setAudioEncoder(setting.audioEncoder)
                     setOutputFile(it.absolutePath)
                 }
-            }
+                mediaRecorder?.prepare()
+            }.ignoreElements()
     }
 
-    override fun startRecorder(context: Context): Observable<Long> {
-        recorderStateRelay.accept(true)
+    override fun startRecording(): PublishRelay<Long> {
+        recordingStateRelay.accept(true)
         startTime = System.currentTimeMillis()
-        mediaRecorder?.apply {
-            prepare()
-            start()
+        mediaRecorder?.start()
+
+        recordingTime = Observable.interval(setting.recordingTime, setting.recordingTimeUnit).subscribe {
+            recordingTimeRelay.accept(it)
         }
-        return Observable.interval(setting!!.minimumInterval, TimeUnit.MILLISECONDS)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+        return recordingTimeRelay
     }
 
-    override fun stopRecorder(): BehaviorRelay<Boolean> {
-        recorderStateRelay.accept(false)
+    override fun stopRecording(): Completable = Completable.fromAction {
+        recordingTime.dispose()
+        recordingStateRelay.accept(false)
         mediaRecorder?.apply {
-            reset()
             stop()
             release()
+            mediaRecorder = null
         }
-        val stopTime = System.currentTimeMillis()
-        val minimumInterval = setting!!.minimumInterval
 
-        if (stopTime - startTime!! / minimumInterval < 0) {
-            if (file!!.exists())
-                file!!.delete()
-            insuffectTimeRelay.accept(true)
+        startTime = if (startTime != null) startTime else System.currentTimeMillis()
+        val stopTime = System.currentTimeMillis()
+        val insteff: Long = (stopTime - startTime!!) / setting.millisecondInterval
+        println("startTime:${startTime}, stopTime:${stopTime}, insteff:$insteff")
+        if (insteff < 500) {
+            if (file.exists()) file.delete()
+            enoughRecordingTimeRelay.accept(false)
         } else {
-            insuffectTimeRelay.accept(false)
+            enoughRecordingTimeRelay.accept(true)
         }
-        return insuffectTimeRelay
     }
 
 }
