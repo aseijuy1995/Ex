@@ -14,8 +14,6 @@ import edu.yujie.socketex.base.BaseDialogFragment
 import edu.yujie.socketex.bean.IntentResult
 import edu.yujie.socketex.databinding.FragmentChatRoomAddDialogBinding
 import edu.yujie.socketex.vm.ChatRoomViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBinding>() {
@@ -60,9 +58,7 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
             .clicks()
             .bindToLifecycle(this)
             .compose(
-                rxPermission.ensure(
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
+                rxPermission.ensure(Manifest.permission.READ_EXTERNAL_STORAGE)
             ).subscribe {
                 println("$TAG onAlbumResult2")
                 if (it) {
@@ -84,6 +80,40 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
             ).subscribe {
                 if (it) {
                     viewModel.openMic()
+                } else {
+                    Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
+                }
+                findNavController().navigateUp()
+            }
+
+        //video
+        binding.viewVideo.viewItem
+            .clicks()
+            .bindToLifecycle(this)
+            .compose(
+                rxPermission.ensure(
+                    Manifest.permission.RECORD_AUDIO,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            )
+            .subscribe {
+//                if(it){
+//                    viewModel.openMic()
+//                }else{
+//                    Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
+//                }
+            }
+        //movie
+        binding.viewMovie.viewItem
+            .clicks()
+            .bindToLifecycle(this)
+            .compose(
+                rxPermission.ensure(Manifest.permission.READ_EXTERNAL_STORAGE)
+            )
+            .subscribe {
+                if (it) {
+                    viewModel.movie()
                 } else {
                     Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
                 }

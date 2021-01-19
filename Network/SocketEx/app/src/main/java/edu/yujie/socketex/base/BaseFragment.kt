@@ -7,13 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import io.reactivex.rxjava3.annotations.CheckReturnValue
-import io.reactivex.rxjava3.annotations.NonNull
-import io.reactivex.rxjava3.annotations.SchedulerSupport
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.functions.Consumer
-import io.reactivex.rxjava3.internal.functions.Functions
 
 abstract class BaseFragment<T : ViewDataBinding> : Fragment(), IBaseBinding<T> {
 
@@ -41,6 +35,5 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment(), IBaseBinding<T> {
         super.onDestroyView()
         compositeDisposable.clear()
     }
-
 
 }

@@ -2,6 +2,7 @@ package edu.yujie.socketex.album
 
 import android.content.Context
 import android.provider.MediaStore
+import edu.yujie.socketex.bean.MimeType
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -46,7 +47,7 @@ class AlbumRepowImpl(private val context: Context) : IAlbumRepow {
 //        val cursor = cursorLoader.loadInBackground()
         //
         if (cursor?.moveToFirst() == true) {
-            val indexData = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA)
+            val indexData = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns._ID)
             val indexBucketDisplayName =
                 cursor.getColumnIndexOrThrow(if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Images.Media.BUCKET_DISPLAY_NAME else "bucket_display_name")
             val indexDisplayName = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)

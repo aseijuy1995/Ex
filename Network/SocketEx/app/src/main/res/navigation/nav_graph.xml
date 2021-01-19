@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_fragment_chat_room_to_fragment_mic_bottom_sheet_dialog"
             app:destination="@id/fragment_mic_bottom_sheet_dialog" />
+        <action
+            android:id="@+id/action_fragment_chat_room_to_fragment_media"
+            app:destination="@id/fragment_media" />
 
     </fragment>
 
@@ -29,12 +32,18 @@
         android:id="@+id/fragment_chat_room_add_dialog"
         android:name="edu.yujie.socketex.ui.ChatRoomAddDialogFragment"
         android:label="fragment_chat_room_add_dialog"
-        tools:layout="@layout/fragment_chat_room_add_dialog" />
+        tools:layout="@layout/fragment_chat_room_add_dialog"/>
 
     <dialog
         android:id="@+id/fragment_mic_bottom_sheet_dialog"
         android:name="edu.yujie.socketex.ui.MicBottomSheetDialogFragment"
         android:label="fragment_mic_bottom_sheet_dialog"
         tools:layout="@layout/fragment_mic_bottom_sheet_dialog" />
+
+    <fragment
+        android:id="@+id/fragment_media"
+        android:name="edu.yujie.socketex.ui.media.MediaFragment"
+        android:label="fragment_media"
+        tools:layout="@layout/fragment_media" />
 
 </navigation>

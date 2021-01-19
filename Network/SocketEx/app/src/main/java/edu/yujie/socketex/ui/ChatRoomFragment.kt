@@ -91,6 +91,13 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         viewModel.micStateLiveData.observe(viewLifecycleOwner) {
             if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMicBottomSheetDialog())
         }
+        //movie
+        viewModel.movieState.observe(viewLifecycleOwner) {
+            if (it){
+                findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMedia())
+                viewModel.
+            }
+        }
         //
         //uri - start webSocket
         viewModel.urlLiveData.observe(viewLifecycleOwner) { viewModel.startWebSocket(it) }

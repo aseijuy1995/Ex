@@ -1,5 +1,6 @@
 package edu.yujie.socketex.album
 
+import edu.yujie.socketex.bean.MimeType
 import java.io.Serializable
 
 data class AlbumItem(
@@ -41,10 +42,3 @@ data class Media(
 //    val size: Int
 //)
 
-enum class MimeType(private val typeName: String) {
-    ALL("all"),
-    IMAGE("image"),
-    VIDEO("video");
-
-    override fun toString() = typeName
-}

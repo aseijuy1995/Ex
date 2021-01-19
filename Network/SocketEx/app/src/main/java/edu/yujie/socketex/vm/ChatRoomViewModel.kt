@@ -329,8 +329,6 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
 
 
     //recorder
-
-
     val recordingStateRelay: BehaviorRelay<Boolean>
         get() = repo.recordingStateRelay
 
@@ -351,6 +349,15 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
 
     //----------------------------------------------
 
+    //movie
+    private val _movieState: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
+
+    val movieState = _movieState.asLiveData()
+
+    fun movieState(state:Boolean) { _movieState.value = state }
+
+    //----------------------------------------------
+
     //mic
     private val mMicStateLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
 
@@ -358,6 +365,11 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
 
     //recorder
     fun openMic() = mMicStateLiveData.postValue(true)
+
+
+//    //recorder
+//    fun openMic() = mMicStateLiveData.postValue(true)
+
 
     var recorderStateRelay = BehaviorRelay.create<Boolean>()
 
