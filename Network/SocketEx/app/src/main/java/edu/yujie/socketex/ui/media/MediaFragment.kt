@@ -5,13 +5,10 @@ import android.view.View
 import edu.yujie.socketex.R
 import edu.yujie.socketex.adapter.MediaListAdapter
 import edu.yujie.socketex.base.BaseBottomSheetDialogFragment
-import edu.yujie.socketex.bean.MediaAlbumItem
-import edu.yujie.socketex.bean.MediaSetting
+import edu.yujie.socketex.bean.ALL_MEDIA_ALBUM_NAME
 import edu.yujie.socketex.databinding.FragmentMediaBinding
 import edu.yujie.socketex.vm.MediaViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observer
-import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,28 +24,14 @@ class MediaFragment : BaseBottomSheetDialogFragment<FragmentMediaBinding>() {
         super.onViewCreated(view, savedInstanceState)
         binding.rvMedia.adapter = adapter
 
-        viewModel.getMediaItems()
+        viewModel.getMediaAlbumItem(ALL_MEDIA_ALBUM_NAME)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<List<MediaAlbumItem>> {
-                override fun onSubscribe(d: Disposable?) {
-                    println("$TAG onSubscribe")
-                }
+            .subscribeWithLife { adapter.submitList(it.mediaList) }
 
-                override fun onNext(t: List<MediaAlbumItem>?) {
-                    println("$TAG onNext: $t")
-                }
+    }
 
-                override fun onError(e: Throwable?) {
-                    e?.printStackTrace()
-                    println("$TAG onError: ${e?.message}")
-                }
-
-                override fun onComplete() {
-                    println("$TAG onComplete")
-                }
-
-            })
+    override fun initView() {
 
     }
 

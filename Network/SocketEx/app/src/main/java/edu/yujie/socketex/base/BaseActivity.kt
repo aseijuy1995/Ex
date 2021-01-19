@@ -8,8 +8,6 @@ import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.functions.Consumer
-import io.reactivex.rxjava3.internal.functions.Functions
 
 abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity(), IBaseBinding<T> {
 
@@ -30,6 +28,10 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity(), IBaseBin
         super.onDestroy()
         compositeDisposable.clear()
     }
+
+    fun <T> Observable<T>.subscribeWithLife(onNext: (T) -> Unit): Disposable? =
+        bindToLifecycle(this@BaseActivity)
+            .subscribe(onNext)
 
 
 }

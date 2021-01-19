@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray_1f1f1f">
+        android:background="@color/gray_111111">
 
         <ImageView
             android:id="@+id/iv_add"
@@ -20,7 +20,7 @@
             android:layout_height="30dp"
             android:layout_margin="10dp"
             android:contentDescription="@string/todo"
-            android:src="@drawable/ic_baseline_add_box_24_white"
+            android:src="@drawable/ic_baseline_add_box_24_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,14 +31,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/shape_gray_2d2e30_corners_raduis_15_padding_5"
+            android:background="@drawable/shape_gray_2d2e30_corners_raduis_15_padding_top_btn_5_lt_rt_10"
             android:ems="10"
             android:hint="@string/aa"
             android:importantForAutofill="no"
             android:inputType="textPersonName"
             android:maxLines="9"
             android:textColor="@color/white"
-            android:textColorHint="@color/gray_555555"
+            android:textColorHint="@color/gray_777777"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/iv_send"
@@ -47,17 +47,16 @@
 
         <ImageView
             android:id="@+id/iv_send"
-            android:layout_width="30dp"
+            android:layout_width="25dp"
             android:layout_height="30dp"
             android:layout_margin="10dp"
             android:contentDescription="@string/todo"
-            android:enabled="@{viewModel.inputEmptyState != true}"
-            android:src="@{(viewModel.inputEmptyState == true) ? @drawable/ic_baseline_send_24_white : @drawable/ic_baseline_send_24_blue}"
+            android:enabled="@{viewModel.isInputEmpty() != true}"
+            android:src="@{(viewModel.isInputEmpty() == true) ? @drawable/ic_baseline_send_24_gray : @drawable/ic_baseline_send_24_blue}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

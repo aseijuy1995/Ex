@@ -31,6 +31,13 @@ abstract class BaseBottomSheetDialogFragment<T : ViewDataBinding> : BottomSheetD
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+    }
+
+    protected abstract fun initView()
+
     override fun onStart() {
         super.onStart()
         dialog?.window?.setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
@@ -40,5 +47,9 @@ abstract class BaseBottomSheetDialogFragment<T : ViewDataBinding> : BottomSheetD
         super.onDestroyView()
         compositeDisposable.dispose()
     }
+
+    fun <T> Observable<T>.subscribeWithLife(onNext: (T) -> Unit): Disposable? =
+        bindToLifecycle(this@BaseBottomSheetDialogFragment)
+            .subscribe(onNext)
 
 }

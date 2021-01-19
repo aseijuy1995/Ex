@@ -8,18 +8,17 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.clicks
 import com.tbruyelle.rxpermissions3.RxPermissions
-import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import edu.yujie.socketex.R
-import edu.yujie.socketex.base.BaseDialogFragment
+import edu.yujie.socketex.base.BaseBottomSheetDialogFragment
 import edu.yujie.socketex.bean.IntentResult
-import edu.yujie.socketex.databinding.FragmentChatRoomAddDialogBinding
+import edu.yujie.socketex.databinding.FragmentChatRoomAddBottomSheetDialogBinding
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBinding>() {
+class ChatRoomAddBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentChatRoomAddBottomSheetDialogBinding>() {
 
     override val layoutId: Int
-        get() = R.layout.fragment_chat_room_add_dialog
+        get() = R.layout.fragment_chat_room_add_bottom_sheet_dialog
 
     private val viewModel by sharedViewModel<ChatRoomViewModel>()
 
@@ -28,7 +27,7 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
     override fun initView() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = this@ChatRoomAddDialogFragment.viewModel
+            viewModel = this@ChatRoomAddBottomSheetDialogFragment.viewModel
         }
         rxPermission = RxPermissions(this)
     }
@@ -38,14 +37,13 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
         //camera
         binding.viewCamera.viewItem
             .clicks()
-            .bindToLifecycle(this)
             .compose(
                 rxPermission.ensure(
                     Manifest.permission.CAMERA,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
-            ).subscribe {
+            ).subscribeWithLife {
                 println("$TAG onCameraResult2")
                 if (it) {
                     viewModel.createCameraBuilder { startActivityForResult(it.intent, it.requestCode) }
@@ -56,10 +54,9 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
         //album
         binding.viewAlbum.viewItem
             .clicks()
-            .bindToLifecycle(this)
             .compose(
                 rxPermission.ensure(Manifest.permission.READ_EXTERNAL_STORAGE)
-            ).subscribe {
+            ).subscribeWithLife {
                 println("$TAG onAlbumResult2")
                 if (it) {
                     viewModel.createAlbumBuilder { startActivityForResult(it.intent, it.requestCode) }
@@ -70,14 +67,13 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
         //recorder
         binding.viewAudio.viewItem
             .clicks()
-            .bindToLifecycle(this)
             .compose(
                 rxPermission.ensure(
                     Manifest.permission.RECORD_AUDIO,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
-            ).subscribe {
+            ).subscribeWithLife {
                 if (it) {
                     viewModel.openMic()
                 } else {
@@ -85,11 +81,9 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
                 }
                 findNavController().navigateUp()
             }
-
-        //video
-        binding.viewVideo.viewItem
+        //photography
+        binding.viewPhotography.viewItem
             .clicks()
-            .bindToLifecycle(this)
             .compose(
                 rxPermission.ensure(
                     Manifest.permission.RECORD_AUDIO,
@@ -97,23 +91,20 @@ class ChatRoomAddDialogFragment : BaseDialogFragment<FragmentChatRoomAddDialogBi
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
             )
-            .subscribe {
+            .subscribeWithLife {
 //                if(it){
 //                    viewModel.openMic()
 //                }else{
 //                    Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
 //                }
             }
-        //movie
-        binding.viewMovie.viewItem
+        //video
+        binding.viewVideo.viewItem
             .clicks()
-            .bindToLifecycle(this)
-            .compose(
-                rxPermission.ensure(Manifest.permission.READ_EXTERNAL_STORAGE)
-            )
-            .subscribe {
+            .compose(rxPermission.ensure(Manifest.permission.READ_EXTERNAL_STORAGE))
+            .subscribeWithLife {
                 if (it) {
-                    viewModel.movie()
+                    viewModel.switchToVideo(true)
                 } else {
                     Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
                 }

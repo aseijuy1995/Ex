@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 
 abstract class BaseFragment<T : ViewDataBinding> : Fragment(), IBaseBinding<T> {
 
@@ -35,5 +38,9 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment(), IBaseBinding<T> {
         super.onDestroyView()
         compositeDisposable.clear()
     }
+
+    fun <T> Observable<T>.subscribeWithLife(onNext: (T) -> Unit): Disposable? =
+        bindToLifecycle(this@BaseFragment)
+            .subscribe(onNext)
 
 }

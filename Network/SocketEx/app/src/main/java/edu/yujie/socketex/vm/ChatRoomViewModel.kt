@@ -20,7 +20,7 @@ import edu.yujie.socketex.ext.BitmapCompress
 import edu.yujie.socketex.ext.BitmapConfig
 import edu.yujie.socketex.ext.compressToByteArray
 import edu.yujie.socketex.ext.getBitmap
-import edu.yujie.socketex.inter.IMediaRepo
+import edu.yujie.socketex.inter.IMediaRepo2
 import edu.yujie.socketex.util.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -45,35 +45,29 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 import java.io.File
 
-class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) : BaseAndroidViewModel(application), KoinComponent {
-
-    private lateinit var webSocketClient: WebSocket
+class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2) : BaseAndroidViewModel(application), KoinComponent {
 
     private val okHttpUtil by inject<OkHttpUtil>()
 
-    private val mSocketState: MutableStateFlow<SocketState> by lazy { MutableStateFlow<SocketState>(SocketState.Idle) }
+    private lateinit var webSocketClient: WebSocket
 
-    val socketState: StateFlow<SocketState> = mSocketState
+    private val _socketStateFlow: MutableStateFlow<SocketState> by lazy { MutableStateFlow<SocketState>(SocketState.Idle) }
+
+    val socketStateFlow: StateFlow<SocketState> = _socketStateFlow
 
     val socketViewEvent = Channel<SocketViewEvent>(Channel.UNLIMITED)
 
-    val toastLiveData: SingleLiveEvent<String> by lazy { SingleLiveEvent<String>() }
+    private val _webSocketUrl: MutableLiveData<String> by lazy { MutableLiveData<String>() }
 
-    private val infoList = mutableListOf<String>()
+    val webSocketUrl: LiveData<String> = _webSocketUrl
 
-    private val mInfoListLiveData: MutableLiveData<MutableList<String>> by lazy { MutableLiveData<MutableList<String>>(infoList) }
+    private val _isInputEmpty: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(true) }
 
-    val infoListLiveData: LiveData<MutableList<String>> = mInfoListLiveData
+    val isInputEmpty = _isInputEmpty.asLiveData()
 
-    private val chatList = mutableListOf<ChatItem>()
+    fun setInput(state: Boolean) = _isInputEmpty.postValue(state)
 
-    private val mChatListLiveData: MutableLiveData<MutableList<ChatItem>> by lazy { MutableLiveData<MutableList<ChatItem>>(chatList) }
-
-    val chatListLiveData: LiveData<MutableList<ChatItem>> = mChatListLiveData
-
-    val inputEmptyState: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(true) }
-
-    private val mAddItemsLiveData: MutableLiveData<List<AddItem>> by lazy {
+    private val _addItems: MutableLiveData<List<AddItem>> by lazy {
         MutableLiveData<List<AddItem>>(
             listOf<AddItem>(
                 AddItem(R.string.camera, R.drawable.ic_baseline_photo_camera_24_gray),
@@ -85,60 +79,10 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
         )
     }
 
-    val addItemsLiveData: LiveData<List<AddItem>> = mAddItemsLiveData
-
-    //camera
-    private val mCameraLiveData: MutableLiveData<IntentResult> by lazy { MutableLiveData<IntentResult>() }
-    val cameraLiveData: LiveData<IntentResult> = mCameraLiveData
-
-    //album
-    private val mAlbumLiveData: MutableLiveData<IntentResult> by lazy { MutableLiveData<IntentResult>() }
-    val albumLiveData: LiveData<IntentResult> = mAlbumLiveData
+    val addItems: LiveData<List<AddItem>> = _addItems
 
     init {
         initViewEvent()
-    }
-
-    private fun initViewEvent() = viewModelScope.launch(Dispatchers.IO) {
-        socketViewEvent
-            .consumeAsFlow()
-            .collect {
-                when (it) {
-                    is SocketViewEvent.SendText -> {
-                        if (TextUtils.isEmpty(it.str)) {
-                            toastLiveData.postValue("Can not empty!")
-                        } else {
-                            val chatBean = ChatItem(id = 0, name = "Me", msg = it.str, isOwner = true, time = getTime())
-                            val json = Gson().toJson(chatBean)
-                            webSocketClient.send(json)
-                            mSocketState.value = SocketState.ShowChat(chatItem = chatBean)
-                        }
-                    }
-
-                    is SocketViewEvent.SendImg -> {
-                        val imgBytes = mutableListOf<ByteArray?>()
-                        it.uris.forEach {
-                            val bitmap = it.getBitmap(context.contentResolver, BitmapConfig())
-                            val byteArray = bitmap?.compressToByteArray(BitmapCompress())
-                            println("$TAG byteArray:size() :${byteArray?.size}")
-                            imgBytes.add(byteArray)
-                        }
-                        val chatImgList = imgBytes.mapIndexed { index, bytes -> bytes?.let { ChatImgItem(index, it) } }
-                        val chatBean = ChatItem(id = 0, name = "Me", isOwner = true, time = getTime(), imgBytes = chatImgList)
-                        val json = Gson().toJson(chatBean)
-                        webSocketClient.send(json)
-                        mSocketState.value = SocketState.ShowChat(chatItem = chatBean)
-                    }
-
-                    is SocketViewEvent.SendRecorder -> {
-                        val chatBean = ChatItem(id = 0, name = "Me", isOwner = true, time = getTime(), recorderBytes = it.file.readBytes())
-                        val json = Gson().toJson(chatBean)
-                        println("$TAG json:$json")
-                        webSocketClient.send(json)
-                        mSocketState.value = SocketState.ShowChat(chatItem = chatBean)
-                    }
-                }
-            }
     }
 
     private fun mockServer(listener: WebSocketListener) {
@@ -149,7 +93,7 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
             val port = mockWebServer.port
             println("$TAG hostName = $hostName, port = $port")
             val url = "ws://$hostName:$port"
-            mUrlLiveData.postValue(url)
+            _webSocketUrl.postValue(url)
         }
     }
 
@@ -166,14 +110,14 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
                     ServerTAG, response.toString(), response.request.headers, response.headers
                 )
                 println(sf)
-                mSocketState.value = SocketState.onServerOpen(sf)
+                _socketStateFlow.value = SocketState.onServerOpen(sf)
             }
 
             override fun onMessage(webSocket: WebSocket, text: String) {
                 super.onMessage(webSocket, text)
                 val sf = String.format("%s onMessage() text = %s", ServerTAG, text)
                 println(sf)
-                mSocketState.value = SocketState.onServerMessage(sf)
+                _socketStateFlow.value = SocketState.onServerMessage(sf)
 
                 val json = convertBeanJson(text)
                 viewModelScope.launch(Dispatchers.IO) {
@@ -188,14 +132,14 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
                 super.onMessage(webSocket, bytes)
                 val sf = String.format("%s onMessage() bytes = %s", ServerTAG, ByteString.toString())
                 println(sf)
-                mSocketState.value = SocketState.onServerMessage(sf)
+                _socketStateFlow.value = SocketState.onServerMessage(sf)
             }
 
             override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
                 super.onClosing(webSocket, code, reason)
                 val sf = String.format("%s onClosing() code = %d, reason = %s", ServerTAG, code, reason)
                 println(sf)
-                mSocketState.value = SocketState.onServerClosing(sf)
+                _socketStateFlow.value = SocketState.onServerClosing(sf)
 
             }
 
@@ -203,17 +147,17 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
                 super.onClosed(webSocket, code, reason)
                 val sf = String.format("%s onClosed() code = %d, reason = %s", ServerTAG, code, reason)
                 println(sf)
-                mSocketState.value = SocketState.onServerClosed(sf)
+                _socketStateFlow.value = SocketState.onServerClosed(sf)
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
                 super.onFailure(webSocket, t, response)
                 val sf = String.format("%s onFailure() throwable = %s, response = %s", ServerTAG, t.toString(), response.toString())
                 println(sf)
-                mSocketState.value = SocketState.onServerFailure(sf)
+                _socketStateFlow.value = SocketState.onServerFailure(sf)
             }
         })
-        return socketState
+        return socketStateFlow
     }
 
     fun startWebSocket(url: String): WebSocket {
@@ -223,7 +167,7 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
                 super.onOpen(webSocket, response)
                 val sf = String.format("%s onOpen() response = %s", ClientTAG, response.toString())
                 println(sf)
-                mSocketState.value = SocketState.onClientOpen(sf)
+                _socketStateFlow.value = SocketState.onClientOpen(sf)
             }
 
             override fun onMessage(webSocket: WebSocket, text: String) {
@@ -231,7 +175,7 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
                 val sf = String.format("%s onMessage() text = %s", ClientTAG, text)
                 println(sf)
                 val chatBean = Gson().fromJson(text, ChatItem::class.java)
-                mSocketState.value = SocketState.onClientMessage(sf, chatBean)
+                _socketStateFlow.value = SocketState.onClientMessage(sf, chatBean)
             }
 
             override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
@@ -243,25 +187,93 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
                 val sf = String.format("%s onClosing() code = %d, reason = %s", ClientTAG, code, reason)
                 println(sf)
                 webSocketClient.close(1000, "close")
-                mSocketState.value = SocketState.onClientClosing(sf)
+                _socketStateFlow.value = SocketState.onClientClosing(sf)
             }
 
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
                 super.onClosed(webSocket, code, reason)
                 val sf = String.format("%s onClosed() code = %d, reason = %s", ClientTAG, code, reason)
                 println(sf)
-                mSocketState.value = SocketState.onClientClosed(sf)
+                _socketStateFlow.value = SocketState.onClientClosed(sf)
             }
 
             override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
                 super.onFailure(webSocket, t, response)
                 val sf = String.format("%s onFailure() throwable = %s, response = %s", ClientTAG, t.toString(), response.toString())
                 println(sf)
-                mSocketState.value = SocketState.onClientClosed(sf)
+                _socketStateFlow.value = SocketState.onClientClosed(sf)
             }
         })
         return webSocketClient
     }
+
+    private fun initViewEvent() = viewModelScope.launch(Dispatchers.IO) {
+        socketViewEvent
+            .consumeAsFlow()
+            .collect {
+                when (it) {
+                    is SocketViewEvent.SendText -> {
+                        if (TextUtils.isEmpty(it.str)) {
+                            toastLiveData.postValue("Can not empty!")
+                        } else {
+                            val chatBean = ChatItem(id = 0, name = "Me", msg = it.str, isOwner = true, time = getTime())
+                            val json = Gson().toJson(chatBean)
+                            webSocketClient.send(json)
+                            _socketStateFlow.value = SocketState.ShowChat(chatItem = chatBean)
+                        }
+                    }
+
+                    is SocketViewEvent.SendImg -> {
+                        val imgBytes = mutableListOf<ByteArray?>()
+                        it.uris.forEach {
+                            val bitmap = it.getBitmap(context.contentResolver, BitmapConfig())
+                            val byteArray = bitmap?.compressToByteArray(BitmapCompress())
+                            println("$TAG byteArray:size() :${byteArray?.size}")
+                            imgBytes.add(byteArray)
+                        }
+                        val chatImgList = imgBytes.mapIndexed { index, bytes -> bytes?.let { ChatImgItem(index, it) } }
+                        val chatBean = ChatItem(id = 0, name = "Me", isOwner = true, time = getTime(), imgBytes = chatImgList)
+                        val json = Gson().toJson(chatBean)
+                        webSocketClient.send(json)
+                        _socketStateFlow.value = SocketState.ShowChat(chatItem = chatBean)
+                    }
+
+                    is SocketViewEvent.SendRecorder -> {
+                        val chatBean = ChatItem(id = 0, name = "Me", isOwner = true, time = getTime(), recorderBytes = it.file.readBytes())
+                        val json = Gson().toJson(chatBean)
+                        println("$TAG json:$json")
+                        webSocketClient.send(json)
+                        _socketStateFlow.value = SocketState.ShowChat(chatItem = chatBean)
+                    }
+                }
+            }
+    }
+
+    //
+
+    val toastLiveData: SingleLiveEvent<String> by lazy { SingleLiveEvent<String>() }
+
+    private val infoList = mutableListOf<String>()
+
+    private val mInfoListLiveData: MutableLiveData<MutableList<String>> by lazy { MutableLiveData<MutableList<String>>(infoList) }
+
+    val infoListLiveData: LiveData<MutableList<String>> = mInfoListLiveData
+
+    private val chatList = mutableListOf<ChatItem>()
+
+    private val mChatListLiveData: MutableLiveData<MutableList<ChatItem>> by lazy { MutableLiveData<MutableList<ChatItem>>(chatList) }
+
+    val chatListLiveData: LiveData<MutableList<ChatItem>> = mChatListLiveData
+
+    //
+    //
+    //camera
+    private val mCameraLiveData: MutableLiveData<IntentResult> by lazy { MutableLiveData<IntentResult>() }
+    val cameraLiveData: LiveData<IntentResult> = mCameraLiveData
+
+    //album
+    private val mAlbumLiveData: MutableLiveData<IntentResult> by lazy { MutableLiveData<IntentResult>() }
+    val albumLiveData: LiveData<IntentResult> = mAlbumLiveData
 
     fun addInfo(str: String) {
         infoList.add(str)
@@ -275,7 +287,7 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
 
     //camera
     fun createCameraBuilder(doStart: (builder: IntentBuilder) -> Unit) {
-        repo.createCameraBuilder(context)
+        repo2.createCameraBuilder(context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { doStart(it) }
@@ -284,14 +296,14 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
 
     fun onCameraResult(requestCode: Int, resultCode: Int, data: Intent?): Observable<IntentResult> {
         val result = IntentResult.IntentResultDefault(requestCode, resultCode, data)
-        return repo.onCameraResult(result)
+        return repo2.onCameraResult(result)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     //crop
     fun createCropBuilder(uri: Uri, doStart: (builder: IntentBuilder) -> Unit) {
-        repo.createCropBuilder(uri)
+        repo2.createCropBuilder(uri)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { doStart(it) }
@@ -300,7 +312,7 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
 
     fun onCropResult(requestCode: Int, resultCode: Int, data: Intent?): Observable<IntentResult> {
         val result = IntentResult.IntentResultDefault(requestCode, resultCode, data)
-        return repo.onCropResult(result)
+        return repo2.onCropResult(result)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
@@ -308,7 +320,7 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
 
     //album
     fun createAlbumBuilder(doStart: (builder: IntentBuilder) -> Unit) {
-        repo.createAlbumBuilder()
+        repo2.createAlbumBuilder()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
@@ -318,7 +330,7 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
 
     fun onAlbumResult(requestCode: Int, resultCode: Int, data: Intent?): Observable<IntentResult> {
         val result = IntentResult.IntentResultDefault(requestCode, resultCode, data)
-        return repo.onAlbumResult(result)
+        return repo2.onAlbumResult(result)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
@@ -327,34 +339,35 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
 
     fun albumResultEvent(result: IntentResult) = mAlbumLiveData.postValue(result)
 
-
     //recorder
     val recordingStateRelay: BehaviorRelay<Boolean>
-        get() = repo.recordingStateRelay
+        get() = repo2.recordingStateRelay
 
     val enoughRecordingTimeRelay: BehaviorRelay<Boolean>
-        get() = repo.enoughRecordingTimeRelay
+        get() = repo2.enoughRecordingTimeRelay
 
     fun startRecording(doStart: (Long) -> Unit) {
-        repo.prepareRecording(context).subscribe {
-            repo.startRecording()
+        repo2.prepareRecording(context).subscribe {
+            repo2.startRecording()
                 .subscribe { doStart(it) }
         }.addTo(compositeDisposable = compositeDisposable)
     }
 
     fun stopRecording() {
-        val disposable = repo.stopRecording().subscribe()
+        val disposable = repo2.stopRecording().subscribe()
         compositeDisposable.add(disposable)
     }
 
     //----------------------------------------------
 
-    //movie
-    private val _movieState: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
+    //video
+    private val _video: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
 
-    val movieState = _movieState.asLiveData()
+    val video = _video.asLiveData()
 
-    fun movieState(state:Boolean) { _movieState.value = state }
+    fun switchToVideo(state: Boolean) {
+        _video.postValue(state)
+    }
 
     //----------------------------------------------
 
@@ -477,10 +490,6 @@ class ChatRoomViewModel(application: Application, private val repo: IMediaRepo) 
     }
 
     //
-
-
-    private val mUrlLiveData: MutableLiveData<String> by lazy { MutableLiveData<String>() }
-    val urlLiveData: LiveData<String> = mUrlLiveData
 
     private fun convertBeanJson(text: String): String {
         val chatBean = Gson().fromJson(text, ChatItem::class.java)

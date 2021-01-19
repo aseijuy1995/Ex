@@ -9,14 +9,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
-import io.reactivex.rxjava3.annotations.CheckReturnValue
-import io.reactivex.rxjava3.annotations.NonNull
-import io.reactivex.rxjava3.annotations.SchedulerSupport
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.functions.Consumer
-import io.reactivex.rxjava3.internal.functions.Functions
 
 
 abstract class BaseDialogFragment<T : ViewDataBinding> : DialogFragment(), IBaseBinding<T> {
@@ -50,5 +45,9 @@ abstract class BaseDialogFragment<T : ViewDataBinding> : DialogFragment(), IBase
         super.onDestroyView()
         compositeDisposable.clear()
     }
+
+    fun <T> Observable<T>.subscribeWithLife(onNext: (T) -> Unit): Disposable? =
+        bindToLifecycle(this@BaseDialogFragment)
+            .subscribe(onNext)
 
 }

@@ -5,7 +5,6 @@ import android.view.MotionEvent
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.touches
-import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import edu.yujie.socketex.R
 import edu.yujie.socketex.base.BaseBottomSheetDialogFragment
 import edu.yujie.socketex.databinding.FragmentMicBottomSheetDialogBinding
@@ -47,8 +46,7 @@ class MicBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMicBo
         viewModel.recordingStateRelay
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .bindToLifecycle(this)
-            .subscribe {
+            .subscribeWithLife {
                 println("$TAG recordingStateRelay")
                 if (it) {
                     binding.ivCircle.setImageResource(R.drawable.ic_baseline_radio_button_unchecked_24_red)
@@ -63,8 +61,7 @@ class MicBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMicBo
         viewModel.enoughRecordingTimeRelay
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .bindToLifecycle(this)
-            .subscribe {
+            .subscribeWithLife {
                 println("$TAG enoughRecordingTimeRelay:$it")
                 if (!it)
                     Snackbar.make(binding.ivRecorder, "Less than 1 second", Snackbar.LENGTH_SHORT).setAnchorView(binding.root).show()
@@ -100,5 +97,8 @@ class MicBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMicBo
 //                disposable?.dispose()
 //            }
 //        }
+    }
+
+    override fun initView() {
     }
 }

@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
-import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import edu.yujie.socketex.R
 import edu.yujie.socketex.SocketState
 import edu.yujie.socketex.SocketViewEvent
@@ -50,22 +49,19 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         //inputBox
         binding.includeFeaturesBar.etText
             .textChanges()
-            .bindToLifecycle(viewLifecycleOwner)
-            .subscribe {
-                viewModel.inputEmptyState.value = TextUtils.isEmpty(it.trim())
+            .subscribeWithLife {
+                viewModel.setInput(TextUtils.isEmpty(it.trim()))
             }
         //add
         binding.includeFeaturesBar.ivAdd
             .clicks()
-            .bindToLifecycle(viewLifecycleOwner)
-            .subscribe {
-                findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomAddDialog())
+            .subscribeWithLife {
+                findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomAddBottomSheetDialog())
             }
         //send text
         binding.includeFeaturesBar.ivSend
             .clicks()
-            .bindToLifecycle(viewLifecycleOwner)
-            .subscribe {
+            .subscribeWithLife {
                 val text = binding.includeFeaturesBar.etText.text.toString().trim()
                 lifecycleScope.launch(Dispatchers.IO) {
                     viewModel.socketViewEvent.send(SocketViewEvent.SendText(text))
@@ -91,16 +87,16 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         viewModel.micStateLiveData.observe(viewLifecycleOwner) {
             if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMicBottomSheetDialog())
         }
-        //movie
-        viewModel.movieState.observe(viewLifecycleOwner) {
-            if (it){
+        //video
+        viewModel.video.observe(viewLifecycleOwner) {
+            if (it) {
                 findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMedia())
-                viewModel.
+                viewModel.switchToVideo(false)
             }
         }
         //
         //uri - start webSocket
-        viewModel.urlLiveData.observe(viewLifecycleOwner) { viewModel.startWebSocket(it) }
+        viewModel.webSocketUrl.observe(viewLifecycleOwner) { viewModel.startWebSocket(it) }
         //info list
         viewModel.infoListLiveData.observe(viewLifecycleOwner) { refreshInfo(it) }
         //chat list

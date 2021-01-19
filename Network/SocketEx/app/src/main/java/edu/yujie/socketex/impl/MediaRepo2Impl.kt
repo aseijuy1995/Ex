@@ -16,7 +16,7 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 
 
-class MediaRepoImpl : IMediaRepo(), KoinComponent {
+class MediaRepo2Impl : IMediaRepo2(), KoinComponent {
     private val camera by inject<ICamera>()
     private val crop by inject<ICrop>()
     private val album by inject<IAlbum>()

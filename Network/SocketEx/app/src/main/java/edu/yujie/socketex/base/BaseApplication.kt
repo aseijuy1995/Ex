@@ -26,7 +26,7 @@ class BaseApplication : Application() {
         single<IAlbum> { AlbumImpl() }
         single<ICrop> { CropImpl() }
         single<IRecorder> { RecorderImpl() }
-        single<IMedia> { MediaImpl(androidContext()) }
+        single<IMediaRepo> { MediaRepo(androidContext()) }
     }
 
     private val utilModules = module {
@@ -34,7 +34,7 @@ class BaseApplication : Application() {
     }
 
     private val repoModules = module {
-        single<IMediaRepo> { MediaRepoImpl() }
+        single<IMediaRepo2> { MediaRepo2Impl() }
         single<IAlbumRepow> { AlbumRepowImpl(androidContext()) }
     }
     private val viewModules = module {

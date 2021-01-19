@@ -20,6 +20,12 @@ fun ImageView.imageByteString(byteString: ByteString?) {
     Glide.with(context).load(byteArray).placeholder(R.drawable.ic_baseline_photo_24_gray).into(this)
 }
 
+@BindingAdapter("bind:imgPath")
+fun ImageView.imgPath(path: String?) {
+    Glide.with(context).load(path).placeholder(R.drawable.ic_baseline_photo_24_gray).into(this)
+}
+
+
 @BindingAdapter("bind:isVisible")
 fun View.isVisible(isVisible: Boolean) {
     this.isVisible = isVisible

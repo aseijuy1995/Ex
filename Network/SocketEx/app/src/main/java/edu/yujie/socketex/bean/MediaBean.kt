@@ -13,9 +13,12 @@ data class MediaAlbumItem(
 data class MediaSetting(
     val mimeType: MimeType = MimeType.ALL,
     val isMultipleSelection: Boolean = false,
-    val maxCount: Int? = null,
-    val maxSecond: Int? = null,
-    val minSecond: Int? = null
+    val maxSelectionCount: Int = 6,
+    val imageMaxSize: Long? = 0L,//圖片大小
+    val videoMaxDuration: Int? = null,//視頻最大時長
+    val videoMinDuration: Int? = null,//視頻最小時長
+    val audioMaxDuration: Int? = null,//音訊最大時長
+    val audioMinDuration: Int? = null//音訊最小時長
 )
 
 data class Media(
@@ -27,7 +30,7 @@ data class Media(
     val duration: Long,
     val height: Int,
     val mimeType: String,
-    val relativePath: String,
+    val data: String,
     val size: Long,
     val title: String,
     val width: Int

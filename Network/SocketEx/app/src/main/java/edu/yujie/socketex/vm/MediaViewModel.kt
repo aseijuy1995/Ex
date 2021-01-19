@@ -8,11 +8,12 @@ import edu.yujie.socketex.bean.ALL_MEDIA_ALBUM_NAME
 import edu.yujie.socketex.bean.Media
 import edu.yujie.socketex.bean.MediaAlbumItem
 import edu.yujie.socketex.bean.MediaSetting
-import edu.yujie.socketex.inter.IMedia
+import edu.yujie.socketex.inter.IMediaRepo
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 
-class MediaViewModel(application: Application, private val repo: IMedia) : BaseAndroidViewModel(application) {
+class MediaViewModel(application: Application, private val repo: IMediaRepo) : BaseAndroidViewModel(application) {
+
     private val setting: MediaSetting = MediaSetting()
 
     val multipleSelectMediaRelay = BehaviorRelay.createDefault<MutableList<Media>>(mutableListOf<Media>())
@@ -24,11 +25,9 @@ class MediaViewModel(application: Application, private val repo: IMedia) : BaseA
     fun loadMedia(): Completable {
         return repo.fetchMediaDatas(setting = setting)
             .doOnComplete {
-                repo.getMediaItemSync(name = ALL_MEDIA_ALBUM_NAME, setting = setting)
+                repo.getMediaItemSync(albumName = ALL_MEDIA_ALBUM_NAME, setting = setting)
             }
     }
-
-    fun getMediaItem(name: String): Observable<MediaAlbumItem> = repo.getMediaItem(name = name, setting = setting)
 
     fun selectMediaAlbumItem(mediaAlbumItem: MediaAlbumItem) = currentMediaAlbumItemRelay.accept(mediaAlbumItem)
 
@@ -38,7 +37,7 @@ class MediaViewModel(application: Application, private val repo: IMedia) : BaseA
                 if (this.contains(media)) {
                     this.remove(media)
                 } else {
-                    setting.maxCount?.let {
+                    setting.maxSelectionCount?.let {
                         if (it < this.size) {
                             this.add(media)
                         }
@@ -47,7 +46,6 @@ class MediaViewModel(application: Application, private val repo: IMedia) : BaseA
                     }
                 }
             }
-
         } else {
             singleSelectMediaRelay.accept(media)
         }
@@ -55,5 +53,7 @@ class MediaViewModel(application: Application, private val repo: IMedia) : BaseA
 
     fun isSelect(media: Media): Boolean = multipleSelectMediaRelay.value.contains(media)
 
-    fun getMediaItems(): BehaviorRelay<List<MediaAlbumItem>> = repo.getMediaItems(setting)
+    fun getMediaAlbumItems(): BehaviorRelay<List<MediaAlbumItem>> = repo.getMediaAlbumItems(setting = setting)
+
+    fun getMediaAlbumItem(albumName: String): Observable<MediaAlbumItem> = repo.getMediaAlbumItem(albumName = albumName, setting = setting)
 }

@@ -14,14 +14,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray_1f1f1f"
+        android:background="@color/gray_111111"
         android:baselineAligned="true"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/gray_1f1f1f"
             android:baselineAligned="true"
             android:orientation="horizontal">
 
@@ -31,7 +30,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:addItem="@{viewModel.addItemsLiveData[0]}" />
+                android:addItem="@{viewModel.addItems[0]}" />
 
             <include
                 android:id="@+id/view_album"
@@ -39,7 +38,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:addItem="@{viewModel.addItemsLiveData[1]}" />
+                android:addItem="@{viewModel.addItems[1]}" />
 
             <include
                 android:id="@+id/view_audio"
@@ -47,16 +46,23 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:addItem="@{viewModel.addItemsLiveData[2]}" />
+                android:addItem="@{viewModel.addItems[2]}" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/gray_1f1f1f"
             android:baselineAligned="true"
             android:orientation="horizontal">
+
+            <include
+                android:id="@+id/view_photography"
+                layout="@layout/include_chat_room_add_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:addItem="@{viewModel.addItems[3]}" />
 
             <include
                 android:id="@+id/view_video"
@@ -64,15 +70,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:addItem="@{viewModel.addItemsLiveData[3]}" />
-
-            <include
-                android:id="@+id/view_movie"
-                layout="@layout/include_chat_room_add_item"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:addItem="@{viewModel.addItemsLiveData[4]}" />
+                android:addItem="@{viewModel.addItems[4]}" />
 
         </LinearLayout>
     </LinearLayout>
