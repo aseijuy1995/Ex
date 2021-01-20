@@ -16,10 +16,12 @@
     <color name="gray_2d2e30">#2D2E30</color>
     <color name="gray_555555">#555555</color>
 
+    <color name="green_01b901">#01B901</color>
+    <color name="green_86d97b">#86D97B</color>
 <!--    /-->
 
 
-    <color name="green_86d97b">#86D97B</color>
+
     <color name="green_00b900">#00B900</color>
     <color name="gray_dddddd">#DDDDDD</color>
     <color name="gray_bdbdbd">#BDBDBD</color>

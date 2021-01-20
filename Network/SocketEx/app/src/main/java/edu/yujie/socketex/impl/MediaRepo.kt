@@ -4,7 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.os.CancellationSignal
 import android.provider.MediaStore
-import com.jakewharton.rxrelay3.BehaviorRelay
+import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.bean.*
 import edu.yujie.socketex.inter.IMediaRepo
 import io.reactivex.rxjava3.core.Completable
@@ -14,7 +14,7 @@ import java.io.File
 
 class MediaRepo(val context: Context) : IMediaRepo {
 
-    private val mediaAlbumItemRelay = BehaviorRelay.create<List<MediaAlbumItem>>()
+    private val mediaAlbumItemRelay = PublishRelay.create<List<MediaAlbumItem>>()
 
     private val mediaAlbumItemMap = mutableMapOf<String, MediaAlbumItem>()
 
@@ -25,6 +25,7 @@ class MediaRepo(val context: Context) : IMediaRepo {
     }
 
     private fun fetchMediaDatasSync(setting: MediaSetting) {
+        mediaAlbumItemMap.clear()
         val uri: Uri = MediaStore.Files.getContentUri("external")
         val projection: Array<String> = arrayOf<String>(
             MediaStore.Files.FileColumns._ID,
@@ -114,17 +115,23 @@ class MediaRepo(val context: Context) : IMediaRepo {
                     title = title,
                     width = width
                 )
-                val file = File(data)
                 //
-//                if(data.isNullOrEmpty() || mimeType.isNullOrEmpty()) continue
+                if (data.isNullOrEmpty() || mimeType.isNullOrEmpty()) continue
+                val file = File(data)
                 if (!file.exists() || !file.isFile) continue
-                if (setting.mimeType == MimeType.IMAGE && mimeType == MimeType.IMAGE.toString()) continue
-                if (setting.mimeType == MimeType.VIDEO && mimeType == MimeType.VIDEO.toString()) continue
+                //
+                when (setting.mimeType) {
+                    MimeType.IMAGE -> {
+                        if (!mimeType.startsWith(MimeType.IMAGE.toString())) continue@loop
+                    }
+                    MimeType.VIDEO -> {
+                        if (!mimeType.startsWith(MimeType.VIDEO.toString())) continue@loop
+                    }
+                }
                 //
                 when (mimeType) {
                     MimeType.IMAGE.toString() -> {
-                        if (setting.imageMaxSize != null && size < setting.imageMaxSize)
-                            continue@loop
+                        if (setting.imageMaxSize != null && size < setting.imageMaxSize) continue@loop
                     }
                     MimeType.VIDEO.toString() -> {
                         if (setting.videoMaxDuration != null && duration < setting.videoMaxDuration) continue@loop
@@ -155,11 +162,12 @@ class MediaRepo(val context: Context) : IMediaRepo {
 
     private fun addMedia(albumName: String, media: Media) = mediaAlbumItemMap[albumName]?.mediaList?.add(media)
 
-    override fun getMediaAlbumItems(setting: MediaSetting): BehaviorRelay<List<MediaAlbumItem>> {
-        if (isEmpty)
+    override fun getMediaAlbumItems(setting: MediaSetting): PublishRelay<List<MediaAlbumItem>> {
+        if (isEmpty) {
             fetchMediaDatas(setting = setting)
                 .subscribeOn(Schedulers.io())
                 .subscribe()
+        }
 
         return mediaAlbumItemRelay
     }
@@ -175,7 +183,8 @@ class MediaRepo(val context: Context) : IMediaRepo {
     }
 
     override fun getMediaItemSync(albumName: String, setting: MediaSetting): MediaAlbumItem? {
-        if (isEmpty) fetchMediaDatas(setting = setting)
+        if (isEmpty)
+            fetchMediaDatas(setting = setting)
 
         return mediaAlbumItemMap[albumName]
     }

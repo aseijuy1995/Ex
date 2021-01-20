@@ -5,6 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.rxbinding4.view.clicks
+import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.bean.Media
 import edu.yujie.socketex.databinding.ItemMediaBinding
 
@@ -15,6 +17,8 @@ class MediaListAdapter : ListAdapter<Media, MediaListAdapter.VH>(
         override fun areContentsTheSame(oldItem: Media, newItem: Media): Boolean = oldItem.hashCode() == newItem.hashCode()
     }
 ) {
+
+    val itemClickRelay = PublishRelay.create<Media>()
 
     inner class VH(val binding: ItemMediaBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(media: Media) = binding.apply {
@@ -32,5 +36,8 @@ class MediaListAdapter : ListAdapter<Media, MediaListAdapter.VH>(
     override fun onBindViewHolder(holder: VH, position: Int) {
         val media = getItem(position)
         holder.bind(media)
+        holder.binding.root
+            .clicks()
+            .subscribe { itemClickRelay.accept(media) }
     }
 }

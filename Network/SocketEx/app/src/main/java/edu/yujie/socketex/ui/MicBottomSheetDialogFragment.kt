@@ -98,7 +98,4 @@ class MicBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMicBo
 //            }
 //        }
     }
-
-    override fun initView() {
-    }
 }

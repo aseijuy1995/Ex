@@ -1,6 +1,6 @@
 package edu.yujie.socketex.inter
 
-import com.jakewharton.rxrelay3.BehaviorRelay
+import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.bean.MediaAlbumItem
 import edu.yujie.socketex.bean.MediaSetting
 import io.reactivex.rxjava3.core.Completable
@@ -10,7 +10,7 @@ interface IMediaRepo {
 
     fun fetchMediaDatas(setting: MediaSetting): Completable
 
-    fun getMediaAlbumItems(setting: MediaSetting): BehaviorRelay<List<MediaAlbumItem>>
+    fun getMediaAlbumItems(setting: MediaSetting): PublishRelay<List<MediaAlbumItem>>
 
     fun getMediaAlbumItem(albumName: String, setting: MediaSetting): Observable<MediaAlbumItem>
 

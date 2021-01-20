@@ -365,9 +365,7 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
 
     val video = _video.asLiveData()
 
-    fun switchToVideo(state: Boolean) {
-        _video.postValue(state)
-    }
+    fun switchToVideo(state: Boolean) = _video.postValue(state)
 
     //----------------------------------------------
 

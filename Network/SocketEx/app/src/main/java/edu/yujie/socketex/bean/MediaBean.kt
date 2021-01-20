@@ -1,5 +1,8 @@
 package edu.yujie.socketex.bean
 
+import android.os.Parcel
+import android.os.Parcelable
+
 const val ALL_MEDIA_ALBUM_NAME = "ALL_MEDIA_ALBUM_NAME"
 
 data class MediaAlbumItem(
@@ -34,7 +37,50 @@ data class Media(
     val size: Long,
     val title: String,
     val width: Int
-)
+) : Parcelable {
+    constructor(parcel: Parcel) : this(
+        parcel.readInt(),
+        parcel.readString() ?: "",
+        parcel.readInt(),
+        parcel.readLong(),
+        parcel.readString() ?: "",
+        parcel.readLong(),
+        parcel.readInt(),
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readLong(),
+        parcel.readString() ?: "",
+        parcel.readInt()
+    ) {
+    }
+
+    companion object CREATOR : Parcelable.Creator<Media> {
+        override fun createFromParcel(parcel: Parcel): Media {
+            return Media(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Media?> {
+            return arrayOfNulls(size)
+        }
+    }
+
+    override fun describeContents(): Int = 0
+
+    override fun writeToParcel(parcel: Parcel?, p1: Int) {
+        parcel?.writeInt(id)
+        parcel?.writeString(bucketDisplayName)
+        parcel?.writeInt(bucketId)
+        parcel?.writeLong(dateModified)
+        parcel?.writeString(displayName)
+        parcel?.writeLong(duration)
+        parcel?.writeInt(height)
+        parcel?.writeString(mimeType)
+        parcel?.writeString(data)
+        parcel?.writeLong(size)
+        parcel?.writeString(title)
+        parcel?.writeInt(width)
+    }
+}
 
 enum class MimeType(private val typeName: String) {
     ALL("all"),

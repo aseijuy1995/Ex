@@ -29,13 +29,6 @@ abstract class BaseDialogFragment<T : ViewDataBinding> : DialogFragment(), IBase
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-    }
-
-    protected abstract fun initView()
-
     override fun onStart() {
         super.onStart()
         dialog?.window?.setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.WRAP_CONTENT)

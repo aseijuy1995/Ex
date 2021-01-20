@@ -24,16 +24,14 @@ class ChatRoomAddBottomSheetDialogFragment : BaseBottomSheetDialogFragment<Fragm
 
     private lateinit var rxPermission: RxPermissions
 
-    override fun initView() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@ChatRoomAddBottomSheetDialogFragment.viewModel
         }
         rxPermission = RxPermissions(this)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        //
         //camera
         binding.viewCamera.viewItem
             .clicks()

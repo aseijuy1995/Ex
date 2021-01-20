@@ -27,13 +27,6 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment(), IBaseBinding<T> {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-    }
-
-    protected abstract fun initView()
-
     override fun onDestroyView() {
         super.onDestroyView()
         compositeDisposable.clear()

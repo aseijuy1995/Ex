@@ -16,9 +16,11 @@ import edu.yujie.socketex.adapter.ChatListAdapter
 import edu.yujie.socketex.adapter.InfoListAdapter
 import edu.yujie.socketex.base.BaseFragment
 import edu.yujie.socketex.bean.ChatItem
+import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentChatRoomBinding
 import edu.yujie.socketex.util.closeKeyBoard
 import edu.yujie.socketex.vm.ChatRoomViewModel
+import edu.yujie.socketex.vm.MediaViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -28,29 +30,23 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
     override val layoutId: Int
         get() = R.layout.fragment_chat_room
 
-    private val viewModel by sharedViewModel<ChatRoomViewModel>()
+    private val chatRoomViewModel by sharedViewModel<ChatRoomViewModel>()
+
+    private val mediaViewModel by sharedViewModel<MediaViewModel>()
 
     private val infoListAdapter = InfoListAdapter()
 
     private val chatListAdapter = ChatListAdapter()
 
-    override fun initView() {
-        binding.rvInfo.adapter = infoListAdapter
-        binding.rvChat.adapter = chatListAdapter
-        binding.apply {
-            lifecycleOwner = viewLifecycleOwner
-            viewModel = this@ChatRoomFragment.viewModel
-        }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initView()
         viewModelFlow()
         //inputBox
         binding.includeFeaturesBar.etText
             .textChanges()
             .subscribeWithLife {
-                viewModel.setInput(TextUtils.isEmpty(it.trim()))
+                chatRoomViewModel.setInput(TextUtils.isEmpty(it.trim()))
             }
         //add
         binding.includeFeaturesBar.ivAdd
@@ -64,78 +60,93 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
             .subscribeWithLife {
                 val text = binding.includeFeaturesBar.etText.text.toString().trim()
                 lifecycleScope.launch(Dispatchers.IO) {
-                    viewModel.socketViewEvent.send(SocketViewEvent.SendText(text))
+                    chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendText(text))
                 }
             }
         //camera - send img
-        viewModel.cameraLiveData.observe(viewLifecycleOwner) {
+        chatRoomViewModel.cameraLiveData.observe(viewLifecycleOwner) {
             it.uris?.first()?.let {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    viewModel.socketViewEvent.send(SocketViewEvent.SendImg(listOf(it)))
+                    chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendImg(listOf(it)))
                 }
             }
         }
         //album - send img
-        viewModel.albumLiveData.observe(viewLifecycleOwner) {
+        chatRoomViewModel.albumLiveData.observe(viewLifecycleOwner) {
+//            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.IMAGE))
             it.uris?.let {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    viewModel.socketViewEvent.send(SocketViewEvent.SendImg(it))
+                    chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendImg(it))
                 }
             }
         }
         //mic
-        viewModel.micStateLiveData.observe(viewLifecycleOwner) {
+        chatRoomViewModel.micStateLiveData.observe(viewLifecycleOwner) {
             if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMicBottomSheetDialog())
         }
         //video
-        viewModel.video.observe(viewLifecycleOwner) {
+        chatRoomViewModel.video.observe(viewLifecycleOwner) {
             if (it) {
-                findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMedia())
-                viewModel.switchToVideo(false)
+                findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.VIDEO))
+                chatRoomViewModel.switchToVideo(false)
             }
         }
+        mediaViewModel.toastRelay.subscribeWithLife {
+            if (it.trim().isNotEmpty())
+                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).setAnchorView(binding.includeFeaturesBar.root).show()
+        }
+
         //
         //uri - start webSocket
-        viewModel.webSocketUrl.observe(viewLifecycleOwner) { viewModel.startWebSocket(it) }
+        chatRoomViewModel.webSocketUrl.observe(viewLifecycleOwner) { chatRoomViewModel.startWebSocket(it) }
         //info list
-        viewModel.infoListLiveData.observe(viewLifecycleOwner) { refreshInfo(it) }
+        chatRoomViewModel.infoListLiveData.observe(viewLifecycleOwner) { refreshInfo(it) }
         //chat list
-        viewModel.chatListLiveData.observe(viewLifecycleOwner) { refreshChat(it) }
+        chatRoomViewModel.chatListLiveData.observe(viewLifecycleOwner) { refreshChat(it) }
 
         //toast
-        viewModel.toastLiveData.observe(viewLifecycleOwner) { Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show() }
+        chatRoomViewModel.toastLiveData.observe(viewLifecycleOwner) { Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show() }
         //
+    }
+
+    private fun initView() {
+        binding.rvInfo.adapter = infoListAdapter
+        binding.rvChat.adapter = chatListAdapter
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = this@ChatRoomFragment.chatRoomViewModel
+        }
     }
 
     private fun viewModelFlow() {
         lifecycleScope.launch {
-            viewModel.startMockServer().collect {
+            chatRoomViewModel.startMockServer().collect {
                 when (it) {
                     //server
-                    is SocketState.onServerOpen -> viewModel.addInfo(it.msg)
-                    is SocketState.onServerMessage -> viewModel.addInfo(it.msg)
-                    is SocketState.onServerClosing -> viewModel.addInfo(it.msg)
-                    is SocketState.onServerClosed -> viewModel.addInfo(it.msg)
+                    is SocketState.onServerOpen -> chatRoomViewModel.addInfo(it.msg)
+                    is SocketState.onServerMessage -> chatRoomViewModel.addInfo(it.msg)
+                    is SocketState.onServerClosing -> chatRoomViewModel.addInfo(it.msg)
+                    is SocketState.onServerClosed -> chatRoomViewModel.addInfo(it.msg)
                     is SocketState.onServerFailure -> {
                         Snackbar.make(binding.rvInfo, "Server onFailure()", Snackbar.LENGTH_SHORT).setAnchorView(binding.includeFeaturesBar.root).show()
-                        viewModel.addInfo(it.msg)
+                        chatRoomViewModel.addInfo(it.msg)
                     }
                     //client
-                    is SocketState.onClientOpen -> viewModel.addInfo(it.msg)
+                    is SocketState.onClientOpen -> chatRoomViewModel.addInfo(it.msg)
                     is SocketState.onClientMessage -> {
-                        viewModel.addInfo(it.msg)
-                        viewModel.addChat(it.chatItem)
+                        chatRoomViewModel.addInfo(it.msg)
+                        chatRoomViewModel.addChat(it.chatItem)
                     }
-                    is SocketState.onClientClosing -> viewModel.addInfo(it.msg)
-                    is SocketState.onClientClosed -> viewModel.addInfo(it.msg)
+                    is SocketState.onClientClosing -> chatRoomViewModel.addInfo(it.msg)
+                    is SocketState.onClientClosed -> chatRoomViewModel.addInfo(it.msg)
                     is SocketState.onClientFailure -> {
                         Snackbar.make(binding.rvInfo, "Client onFailure()", Snackbar.LENGTH_SHORT).setAnchorView(binding.includeFeaturesBar.root).show()
-                        viewModel.addInfo(it.msg)
+                        chatRoomViewModel.addInfo(it.msg)
                     }
                     //chat
                     is SocketState.ShowChat -> {
                         binding.includeFeaturesBar.etText.setText("")//clean on send success
-                        viewModel.addChat(it.chatItem)
+                        chatRoomViewModel.addChat(it.chatItem)
                     }
                 }
             }

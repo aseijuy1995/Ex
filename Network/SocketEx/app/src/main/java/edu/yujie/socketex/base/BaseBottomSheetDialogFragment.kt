@@ -12,8 +12,6 @@ import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.functions.Consumer
-import io.reactivex.rxjava3.internal.functions.Functions
 
 
 abstract class BaseBottomSheetDialogFragment<T : ViewDataBinding> : BottomSheetDialogFragment(), IBaseBinding<T> {
@@ -30,13 +28,6 @@ abstract class BaseBottomSheetDialogFragment<T : ViewDataBinding> : BottomSheetD
         binding = DataBindingUtil.inflate<T>(inflater, layoutId, container, false)
         return binding.root
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-    }
-
-    protected abstract fun initView()
 
     override fun onStart() {
         super.onStart()
