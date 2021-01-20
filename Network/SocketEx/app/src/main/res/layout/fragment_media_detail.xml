@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="viewModel"
+            type="edu.yujie.socketex.vm.MediaViewModel" />
+
+        <import type="edu.yujie.socketex.bean.MimeType" />
+
+        <import type="android.view.View" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/gray_1f1f1f">
 
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/player_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:visibility="@{(viewModel.media.mimeType.startsWith(MimeType.VIDEO.toString()))? View.VISIBLE : View.GONE}"
             app:controller_layout_id="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -22,6 +33,18 @@
             app:resize_mode="zoom"
             app:surface_type="surface_view"
             app:use_controller="false" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            android:visibility="@{(viewModel.media.mimeType.startsWith(MimeType.IMAGE.toString()))? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:imgPath="@{viewModel.media.data}" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -37,8 +60,8 @@
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/iv_btn_send"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_margin="10dp"
             android:background="@drawable/shape_solid_white_corners_radius_30_padding_top_btn_rt_5_lt_8"
             android:contentDescription="@string/todo"

@@ -27,6 +27,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
+
     override val layoutId: Int
         get() = R.layout.fragment_chat_room
 
@@ -43,22 +44,22 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         initView()
         viewModelFlow()
         //inputBox
-        binding.includeFeaturesBar.etText
+        binding.includeInputBar.etText
             .textChanges()
             .subscribeWithLife {
                 chatRoomViewModel.setInput(TextUtils.isEmpty(it.trim()))
             }
         //add
-        binding.includeFeaturesBar.ivAdd
+        binding.includeInputBar.ivAdd
             .clicks()
             .subscribeWithLife {
-                findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomAddBottomSheetDialog())
+                findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentAddBottomSheetDialog())
             }
         //send text
-        binding.includeFeaturesBar.ivSend
+        binding.includeInputBar.ivSend
             .clicks()
             .subscribeWithLife {
-                val text = binding.includeFeaturesBar.etText.text.toString().trim()
+                val text = binding.includeInputBar.etText.text.toString().trim()
                 lifecycleScope.launch(Dispatchers.IO) {
                     chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendText(text))
                 }
@@ -80,20 +81,22 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
                 }
             }
         }
+        //album
+        chatRoomViewModel.album.observe(viewLifecycleOwner) {
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.IMAGE))
+        }
         //mic
-        chatRoomViewModel.micStateLiveData.observe(viewLifecycleOwner) {
+        chatRoomViewModel.mic.observe(viewLifecycleOwner) {
             if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMicBottomSheetDialog())
         }
         //video
         chatRoomViewModel.video.observe(viewLifecycleOwner) {
-            if (it) {
-                findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.VIDEO))
-                chatRoomViewModel.switchToVideo(false)
-            }
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.VIDEO))
         }
+        //
         mediaViewModel.toastRelay.subscribeWithLife {
             if (it.trim().isNotEmpty())
-                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).setAnchorView(binding.includeFeaturesBar.root).show()
+                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).setAnchorView(binding.includeInputBar.root).show()
         }
 
         //
@@ -128,8 +131,8 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
                     is SocketState.onServerClosing -> chatRoomViewModel.addInfo(it.msg)
                     is SocketState.onServerClosed -> chatRoomViewModel.addInfo(it.msg)
                     is SocketState.onServerFailure -> {
-                        Snackbar.make(binding.rvInfo, "Server onFailure()", Snackbar.LENGTH_SHORT).setAnchorView(binding.includeFeaturesBar.root).show()
                         chatRoomViewModel.addInfo(it.msg)
+                        Snackbar.make(binding.rvInfo, "Server onFailure()", Snackbar.LENGTH_SHORT).setAnchorView(binding.includeInputBar.root).show()
                     }
                     //client
                     is SocketState.onClientOpen -> chatRoomViewModel.addInfo(it.msg)
@@ -140,12 +143,12 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
                     is SocketState.onClientClosing -> chatRoomViewModel.addInfo(it.msg)
                     is SocketState.onClientClosed -> chatRoomViewModel.addInfo(it.msg)
                     is SocketState.onClientFailure -> {
-                        Snackbar.make(binding.rvInfo, "Client onFailure()", Snackbar.LENGTH_SHORT).setAnchorView(binding.includeFeaturesBar.root).show()
                         chatRoomViewModel.addInfo(it.msg)
+                        Snackbar.make(binding.rvInfo, "Client onFailure()", Snackbar.LENGTH_SHORT).setAnchorView(binding.includeInputBar.root).show()
                     }
                     //chat
                     is SocketState.ShowChat -> {
-                        binding.includeFeaturesBar.etText.setText("")//clean on send success
+                        binding.includeInputBar.etText.setText("")//clean on send success
                         chatRoomViewModel.addChat(it.chatItem)
                     }
                 }
@@ -163,7 +166,7 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
     }
 
     private fun refreshChat(chatList: List<ChatItem>) {
-        requireContext().closeKeyBoard(binding.includeFeaturesBar.ivSend)
+        requireContext().closeKeyBoard(binding.includeInputBar.ivSend)
         chatListAdapter.submitList(chatList)
 
         binding.rvChat.scrollToPosition(chatList.size)

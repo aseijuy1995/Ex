@@ -8,43 +8,75 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import edu.yujie.socketex.R
 import edu.yujie.socketex.base.BaseFragment
 import edu.yujie.socketex.bean.Media
+import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentMediaDetailBinding
+import edu.yujie.socketex.vm.MediaViewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MediaDetailFragment : BaseFragment<FragmentMediaDetailBinding>() {
+
     override val layoutId: Int
         get() = R.layout.fragment_media_detail
 
+    private val viewModel by sharedViewModel<MediaViewModel>()
+
     private lateinit var media: Media
 
-    private lateinit var player: Player
+    private var player: Player? = null
 
-    private lateinit var mediaItem: MediaItem
+    private var mediaItem: MediaItem? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initArguments()
+        getArgument()
         initView()
     }
 
-    private fun initArguments() {
+    private fun getArgument() {
         media = arguments?.getParcelable<Media>("media")!!
+        viewModel.setMedia(media = media)
     }
 
     private fun initView() {
-        mediaItem = MediaItem.fromUri(media.data)
-
-        player = SimpleExoPlayer.Builder(requireContext()).build().apply {
-            repeatMode = Player.REPEAT_MODE_ALL
-            setMediaItem(mediaItem)
-            prepare()
-            play()
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = this@MediaDetailFragment.viewModel
         }
-        binding.playerView.player = player
+
+
+        when (media.mimeType) {
+            MimeType.ALL.toString() -> {
+            }
+            MimeType.IMAGE.toString() -> {
+            }
+            MimeType.VIDEO.toString() -> {
+                mediaItem = MediaItem.fromUri(media.data)
+
+                player = SimpleExoPlayer.Builder(requireContext()).build().apply {
+                    repeatMode = Player.REPEAT_MODE_ALL
+                    setMediaItem(mediaItem!!)
+                    prepare()
+                    play()
+                }
+                binding.playerView.player = player
+            }
+        }
+
 
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        player.release()
+
+        when (media.mimeType) {
+            MimeType.ALL.toString() -> {
+            }
+            MimeType.IMAGE.toString() -> {
+
+            }
+            MimeType.VIDEO.toString() -> {
+                player?.release()
+            }
+        }
     }
 }

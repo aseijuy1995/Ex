@@ -11,14 +11,14 @@ import com.tbruyelle.rxpermissions3.RxPermissions
 import edu.yujie.socketex.R
 import edu.yujie.socketex.base.BaseBottomSheetDialogFragment
 import edu.yujie.socketex.bean.IntentResult
-import edu.yujie.socketex.databinding.FragmentChatRoomAddBottomSheetDialogBinding
+import edu.yujie.socketex.databinding.FragmentAddBottomSheetDialogBinding
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class ChatRoomAddBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentChatRoomAddBottomSheetDialogBinding>() {
+class AddBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentAddBottomSheetDialogBinding>() {
 
     override val layoutId: Int
-        get() = R.layout.fragment_chat_room_add_bottom_sheet_dialog
+        get() = R.layout.fragment_add_bottom_sheet_dialog
 
     private val viewModel by sharedViewModel<ChatRoomViewModel>()
 
@@ -28,7 +28,7 @@ class ChatRoomAddBottomSheetDialogFragment : BaseBottomSheetDialogFragment<Fragm
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = this@ChatRoomAddBottomSheetDialogFragment.viewModel
+            viewModel = this@AddBottomSheetDialogFragment.viewModel
         }
         rxPermission = RxPermissions(this)
         //
@@ -42,7 +42,6 @@ class ChatRoomAddBottomSheetDialogFragment : BaseBottomSheetDialogFragment<Fragm
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
             ).subscribeWithLife {
-                println("$TAG onCameraResult2")
                 if (it) {
                     viewModel.createCameraBuilder { startActivityForResult(it.intent, it.requestCode) }
                 } else {
@@ -55,14 +54,19 @@ class ChatRoomAddBottomSheetDialogFragment : BaseBottomSheetDialogFragment<Fragm
             .compose(
                 rxPermission.ensure(Manifest.permission.READ_EXTERNAL_STORAGE)
             ).subscribeWithLife {
-                println("$TAG onAlbumResult2")
                 if (it) {
-                    viewModel.createAlbumBuilder { startActivityForResult(it.intent, it.requestCode) }
+                    viewModel.switchToAlbum()
+                    findNavController().navigateUp()
                 } else {
-                    Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.viewAlbum.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).setAnchorView(binding.root).show()
                 }
+//                if (it) {
+//                    viewModel.createAlbumBuilder { startActivityForResult(it.intent, it.requestCode) }
+//                } else {
+//                    Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
+//                }
             }
-        //recorder
+        //audio
         binding.viewAudio.viewItem
             .clicks()
             .compose(
@@ -73,28 +77,17 @@ class ChatRoomAddBottomSheetDialogFragment : BaseBottomSheetDialogFragment<Fragm
                 )
             ).subscribeWithLife {
                 if (it) {
-                    viewModel.openMic()
+                    viewModel.switchToAudio()
+                    findNavController().navigateUp()
                 } else {
-                    Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.viewAudio.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).setAnchorView(binding.root).show()
                 }
-                findNavController().navigateUp()
             }
         //photography
         binding.viewPhotography.viewItem
             .clicks()
-            .compose(
-                rxPermission.ensure(
-                    Manifest.permission.RECORD_AUDIO,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-            )
+            .compose(rxPermission.ensure(Manifest.permission.WRITE_EXTERNAL_STORAGE))
             .subscribeWithLife {
-//                if(it){
-//                    viewModel.openMic()
-//                }else{
-//                    Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
-//                }
             }
         //video
         binding.viewVideo.viewItem
@@ -102,11 +95,11 @@ class ChatRoomAddBottomSheetDialogFragment : BaseBottomSheetDialogFragment<Fragm
             .compose(rxPermission.ensure(Manifest.permission.READ_EXTERNAL_STORAGE))
             .subscribeWithLife {
                 if (it) {
-                    viewModel.switchToVideo(true)
+                    viewModel.switchToVideo()
+                    findNavController().navigateUp()
                 } else {
-                    Snackbar.make(binding.viewCamera.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.viewVideo.viewItem, "Permission deny!", Snackbar.LENGTH_SHORT).setAnchorView(binding.root).show()
                 }
-                findNavController().navigateUp()
             }
 
     }
@@ -136,18 +129,18 @@ class ChatRoomAddBottomSheetDialogFragment : BaseBottomSheetDialogFragment<Fragm
                 }
             }
         }
-        viewModel.onAlbumResult(requestCode, resultCode, data).subscribe {
-            when (it) {
-                is IntentResult.IntentResultSuccess -> {
-                    println("$TAG onAlbumResult")
-                    viewModel.albumResultEvent(it)
-                    findNavController().navigateUp()
-                }
-                is IntentResult.IntentResultFailed -> {
-                    Snackbar.make(binding.viewCamera.viewItem, "Please select Photo!", Snackbar.LENGTH_SHORT).setAnchorView(binding.root).show()
-                    findNavController().navigateUp()
-                }
-            }
-        }
+//        viewModel.onAlbumResult(requestCode, resultCode, data).subscribe {
+//            when (it) {
+//                is IntentResult.IntentResultSuccess -> {
+//                    println("$TAG onAlbumResult")
+//                    viewModel.albumResultEvent(it)
+//                    findNavController().navigateUp()
+//                }
+//                is IntentResult.IntentResultFailed -> {
+//                    Snackbar.make(binding.viewCamera.viewItem, "Please select Photo!", Snackbar.LENGTH_SHORT).setAnchorView(binding.root).show()
+//                    findNavController().navigateUp()
+//                }
+//            }
+//        }
     }
 }

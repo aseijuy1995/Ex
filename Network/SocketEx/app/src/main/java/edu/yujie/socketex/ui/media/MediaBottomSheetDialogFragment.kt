@@ -15,6 +15,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MediaBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMediaBottomSheetDialogBinding>() {
+
     override val layoutId: Int
         get() = R.layout.fragment_media_bottom_sheet_dialog
 
@@ -28,7 +29,7 @@ class MediaBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMed
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initArguments()
+        getArgument()
         clickEvent()
         binding.rvMedia.adapter = adapter
 
@@ -40,14 +41,14 @@ class MediaBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMed
                 adapter.submitList(mediaList)
             }
 
-        viewModel.toastRelay.subscribeWithLife {
-            if (it.trim().isNotEmpty())
-                findNavController().navigateUp()
-        }
+//        viewModel.toastRelay.subscribeWithLife {
+//            if (it.trim().isNotEmpty())
+//                findNavController().navigateUp()
+//        }
 
     }
 
-    private fun initArguments() {
+    private fun getArgument() {
         mimeType = arguments?.getSerializable("mimeType") as MimeType
         when (mimeType) {
             MimeType.ALL -> {
@@ -74,12 +75,7 @@ class MediaBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMed
 
     private fun clickEvent() {
         adapter.itemClickRelay.subscribeWithLife {
-            if (it.mimeType.startsWith(MimeType.IMAGE.toString())) {
-
-
-            } else if (it.mimeType.startsWith(MimeType.VIDEO.toString())) {
-                findNavController().navigate(MediaBottomSheetDialogFragmentDirections.actionFragmentMediaBottomSheetDialogToFragmentMediaDetail(it))
-            }
+            findNavController().navigate(MediaBottomSheetDialogFragmentDirections.actionFragmentMediaBottomSheetDialogToFragmentMediaDetail(it))
         }
     }
 

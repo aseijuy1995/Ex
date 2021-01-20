@@ -1,5 +1,6 @@
 package edu.yujie.socketex.vm
 
+import androidx.lifecycle.MutableLiveData
 import com.jakewharton.rxrelay3.BehaviorRelay
 import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.base.BaseViewModel
@@ -8,6 +9,7 @@ import edu.yujie.socketex.bean.Media
 import edu.yujie.socketex.bean.MediaAlbumItem
 import edu.yujie.socketex.bean.MediaSetting
 import edu.yujie.socketex.inter.IMediaRepo
+import edu.yujie.socketex.util.asLiveData
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 
@@ -22,6 +24,16 @@ class MediaViewModel(private val repo: IMediaRepo) : BaseViewModel() {
     val currentMediaAlbumItemRelay = BehaviorRelay.create<MediaAlbumItem>()
 
     val toastRelay = PublishRelay.create<String>()
+
+    //
+    private val _media: MutableLiveData<Media> by lazy { MutableLiveData<Media>() }
+
+     val media = _media.asLiveData()
+
+    fun setMedia(media: Media) {
+        _media.postValue(media)
+    }
+    //
 
     fun loadMedia(): Completable {
         return repo.fetchMediaDatas(setting = setting)

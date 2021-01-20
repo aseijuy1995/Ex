@@ -61,12 +61,14 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
 
     val webSocketUrl: LiveData<String> = _webSocketUrl
 
+    //
     private val _isInputEmpty: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(true) }
 
     val isInputEmpty = _isInputEmpty.asLiveData()
 
     fun setInput(state: Boolean) = _isInputEmpty.postValue(state)
 
+    //
     private val _addItems: MutableLiveData<List<AddItem>> by lazy {
         MutableLiveData<List<AddItem>>(
             listOf<AddItem>(
@@ -318,22 +320,6 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
 
     }
 
-    //album
-    fun createAlbumBuilder(doStart: (builder: IntentBuilder) -> Unit) {
-        repo2.createAlbumBuilder()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                doStart(it)
-            }.addTo(compositeDisposable = compositeDisposable)
-    }
-
-    fun onAlbumResult(requestCode: Int, resultCode: Int, data: Intent?): Observable<IntentResult> {
-        val result = IntentResult.IntentResultDefault(requestCode, resultCode, data)
-        return repo2.onAlbumResult(result)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-    }
 
     fun cameraCropResultEvent(intentResult: IntentResult) = mCameraLiveData.postValue(intentResult)
 
@@ -359,23 +345,51 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
     }
 
     //----------------------------------------------
+    //album
+    private val _album: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
 
+    val album: LiveData<Boolean> = _album
+
+    //for open album list
+    fun switchToAlbum() {
+        _album.postValue(true)
+        viewModelScope.launch {
+            delay(500)
+            _album.postValue(false)
+        }
+    }
+
+    //----------------------------------------------
+    //mic
+    private val _mic: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
+
+    val mic: LiveData<Boolean> = _mic
+
+    //for open recorder
+    fun switchToAudio() {
+        _mic.postValue(true)
+        viewModelScope.launch {
+            delay(500)
+            _mic.postValue(false)
+        }
+    }
+
+    //----------------------------------------------
     //video
     private val _video: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
 
     val video = _video.asLiveData()
 
-    fun switchToVideo(state: Boolean) = _video.postValue(state)
+    //for open video list
+    fun switchToVideo() {
+        _video.postValue(true)
+        viewModelScope.launch {
+            delay(500)
+            _video.postValue(false)
+        }
+    }
 
     //----------------------------------------------
-
-    //mic
-    private val mMicStateLiveData: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
-
-    val micStateLiveData: LiveData<Boolean> = mMicStateLiveData
-
-    //recorder
-    fun openMic() = mMicStateLiveData.postValue(true)
 
 
 //    //recorder
@@ -498,4 +512,23 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
         val json = Gson().toJson(chatBeanOther)
         return json
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+
+//    //album
+//    fun createAlbumBuilder(doStart: (builder: IntentBuilder) -> Unit) {
+//        repo2.createAlbumBuilder()
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe {
+//                doStart(it)
+//            }.addTo(compositeDisposable = compositeDisposable)
+//    }
+//
+//    fun onAlbumResult(requestCode: Int, resultCode: Int, data: Intent?): Observable<IntentResult> {
+//        val result = IntentResult.IntentResultDefault(requestCode, resultCode, data)
+//        return repo2.onAlbumResult(result)
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//    }
 }

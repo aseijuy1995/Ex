@@ -12,12 +12,8 @@
         tools:layout="@layout/fragment_chat_room">
 
         <action
-            android:id="@+id/action_fragment_chat_room_to_fragment_chat_room_add_bottom_sheet_dialog"
-            app:destination="@id/fragment_chat_room_add_bottom_sheet_dialog"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
+            android:id="@+id/action_fragment_chat_room_to_fragment_add_bottom_sheet_dialog"
+            app:destination="@id/fragment_add_bottom_sheet_dialog" />
 
         <action
             android:id="@+id/action_fragment_chat_room_to_fragment_mic_bottom_sheet_dialog"
@@ -35,10 +31,10 @@
     </fragment>
 
     <dialog
-        android:id="@+id/fragment_chat_room_add_bottom_sheet_dialog"
-        android:name="edu.yujie.socketex.ui.ChatRoomAddBottomSheetDialogFragment"
-        android:label="fragment_chat_room_add__bottom_sheet_dialog"
-        tools:layout="@layout/fragment_chat_room_add_bottom_sheet_dialog" />
+        android:id="@+id/fragment_add_bottom_sheet_dialog"
+        android:name="edu.yujie.socketex.ui.AddBottomSheetDialogFragment"
+        android:label="fragment_add_bottom_sheet_dialog"
+        tools:layout="@layout/fragment_add_bottom_sheet_dialog" />
 
     <dialog
         android:id="@+id/fragment_mic_bottom_sheet_dialog"
