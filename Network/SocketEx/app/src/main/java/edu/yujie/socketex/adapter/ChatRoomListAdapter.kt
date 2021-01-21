@@ -35,7 +35,7 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
 
     inner class OwnerVH(private val binding: ItemChatOwnerBinding, val context: Context) : VH(binding) {
         override fun bind(chatItem: ChatItem) = binding.apply {
-            chatItem.imgBytes?.let {
+            chatItem.chatImgList?.let {
                 rvImg.adapter = ChatImgListAdapter().apply {
                     submitList(it)
                 }
@@ -47,7 +47,7 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
 
     inner class OtherVH(val binding: ItemChatOtherBinding, val context: Context) : VH(binding) {
         override fun bind(chatItem: ChatItem) = binding.apply {
-            chatItem.imgBytes?.let {
+            chatItem.chatImgList?.let {
                 rvImg.adapter = ChatImgListAdapter().apply {
                     submitList(it)
                 }

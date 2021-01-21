@@ -21,6 +21,8 @@ import edu.yujie.socketex.databinding.FragmentChatRoomBinding
 import edu.yujie.socketex.util.closeKeyBoard
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import edu.yujie.socketex.vm.MediaViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -42,95 +44,8 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        viewModelFlow()
-        //inputBox
-        binding.includeInputBar.etText
-            .textChanges()
-            .subscribeWithLife {
-                chatRoomViewModel.setInput(TextUtils.isEmpty(it.trim()))
-            }
-        //add
-        binding.includeInputBar.ivAdd
-            .clicks()
-            .subscribeWithLife {
-                findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentAddBottomSheetDialog())
-            }
-        //send text
-        binding.includeInputBar.ivSend
-            .clicks()
-            .subscribeWithLife {
-                val text = binding.includeInputBar.etText.text.toString().trim()
-                lifecycleScope.launch(Dispatchers.IO) {
-                    chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendText(text))
-                }
-            }
-        //camera - send img
-        chatRoomViewModel.cameraLiveData.observe(viewLifecycleOwner) {
-            it.uris?.first()?.let {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendImg(listOf(it)))
-                }
-            }
-        }
-        //album - send img
-        mediaViewModel.mediaListRelay.subscribeWithLife {
-            val imgPaths = it.map { it.data }
-            lifecycleScope.launch(Dispatchers.IO) {
-                chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendImgPath(imgPaths))
-            }
-        }
-
-//        chatRoomViewModel.albumLiveData.observe(viewLifecycleOwner) {
-////            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.IMAGE))
-//            it.uris?.let {
-//                lifecycleScope.launch(Dispatchers.IO) {
-//                    chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendImg(it))
-//                }
-//            }
-//        }
-        //album
-        chatRoomViewModel.album.observe(viewLifecycleOwner) {
-            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.IMAGE))
-        }
-        //mic
-        chatRoomViewModel.mic.observe(viewLifecycleOwner) {
-            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMicBottomSheetDialog())
-        }
-        //video
-        chatRoomViewModel.video.observe(viewLifecycleOwner) {
-            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.VIDEO))
-        }
-        //alert
-        mediaViewModel.toastRelay.subscribeWithLife {
-            if (it.trim().isNotEmpty())
-                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).setAnchorView(binding.includeInputBar.root).show()
-        }
-
-        //
-        //uri - start webSocket
-        chatRoomViewModel.webSocketUrl.observe(viewLifecycleOwner) { chatRoomViewModel.startWebSocket(it) }
-        //info list
-        chatRoomViewModel.infoListLiveData.observe(viewLifecycleOwner) { refreshInfo(it) }
-        //chat list
-        chatRoomViewModel.chatListLiveData.observe(viewLifecycleOwner) { refreshChat(it) }
-
-        //toast
-        chatRoomViewModel.toastLiveData.observe(viewLifecycleOwner) { Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show() }
-        //
-    }
-
-    private fun initView() {
-        binding.rvInfo.adapter = infoListAdapter
-        binding.rvChat.adapter = chatListAdapter
-        binding.apply {
-            lifecycleOwner = viewLifecycleOwner
-            viewModel = this@ChatRoomFragment.chatRoomViewModel
-        }
-    }
-
-    private fun viewModelFlow() {
-        lifecycleScope.launch {
-            chatRoomViewModel.startMockServer().collect {
+        lifecycleScope.launch(Dispatchers.Main) {
+            chatRoomViewModel.socketStateFlow.collect {
                 when (it) {
                     //server
                     is SocketState.onServerOpen -> chatRoomViewModel.addInfo(it.msg)
@@ -161,7 +76,104 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
                 }
             }
         }
+
+        //info list
+        chatRoomViewModel.infoListLiveData.observe(viewLifecycleOwner) { refreshInfo(it) }
+        //chat list
+        chatRoomViewModel.chatListLiveData.observe(viewLifecycleOwner) { refreshChat(it) }
+        //
+        //inputBox
+        binding.includeInputBar.etText
+            .textChanges()
+            .subscribeWithLife {
+                chatRoomViewModel.setInput(TextUtils.isEmpty(it.trim()))
+            }
+        //add
+        binding.includeInputBar.ivAdd
+            .clicks()
+            .subscribeWithLife {
+                findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentAddBottomSheetDialog())
+            }
+        //send text
+        binding.includeInputBar.ivSend
+            .clicks()
+            .subscribeWithLife {
+                val text = binding.includeInputBar.etText.text.toString().trim()
+                chatRoomViewModel.sendText(text)
+            }
+        chatRoomViewModel.toastRelay
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWithLife {
+                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
+            }
+        chatRoomViewModel.receiveChatRelay
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWithLife {
+                if (it.isOwner) {
+                    binding.includeInputBar.etText.setText("")
+                }
+                chatRoomViewModel.addChat(it)
+            }
+        //camera - send img
+        chatRoomViewModel.cameraLiveData.observe(viewLifecycleOwner) {
+            it.uris?.first()?.let {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendImg(listOf(it)))
+                }
+            }
+        }
+        //album - send img
+        mediaViewModel.mediaListRelay.subscribeWithLife {
+            val imgPaths = it.map { it.data }
+            chatRoomViewModel.sendImg(imgPaths)
+
+//            lifecycleScope.launch(Dispatchers.IO) {
+//                chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendImgPath(imgPaths))
+//            }
+        }
+
+//        chatRoomViewModel.albumLiveData.observe(viewLifecycleOwner) {
+////            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.IMAGE))
+//            it.uris?.let {
+//                lifecycleScope.launch(Dispatchers.IO) {
+//                    chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendImg(it))
+//                }
+//            }
+//        }
+        //album
+        chatRoomViewModel.album.observe(viewLifecycleOwner) {
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.IMAGE))
+        }
+        //mic
+        chatRoomViewModel.mic.observe(viewLifecycleOwner) {
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMicBottomSheetDialog())
+        }
+        //video
+        chatRoomViewModel.video.observe(viewLifecycleOwner) {
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.VIDEO))
+        }
+        //alert
+        mediaViewModel.toastRelay.subscribeWithLife {
+            if (it.trim().isNotEmpty())
+                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).setAnchorView(binding.includeInputBar.root).show()
+        }
+
+        //toast
+        chatRoomViewModel.toastLiveData.observe(viewLifecycleOwner) { Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show() }
+        //
     }
+
+    private fun initView() {
+        binding.rvInfo.adapter = infoListAdapter
+        binding.rvChat.adapter = chatListAdapter
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = this@ChatRoomFragment.chatRoomViewModel
+        }
+    }
+
 
     private fun refreshInfo(infoList: List<String>) {
         infoListAdapter.submitList(infoList)

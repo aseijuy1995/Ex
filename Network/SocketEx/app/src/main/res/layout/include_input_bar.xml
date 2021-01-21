@@ -16,8 +16,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_add"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_margin="10dp"
             android:contentDescription="@string/todo"
             android:src="@drawable/ic_baseline_add_box_24_gray"
@@ -31,7 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/shape_gray_2d2e30_corners_raduis_15_padding_top_btn_5_lt_rt_10"
+            android:background="@drawable/shape_gray_2a2a2a_corners_radius_15_padding_top_btn_5_lt_rt_10"
             android:ems="10"
             android:hint="@string/aa"
             android:importantForAutofill="no"
@@ -47,12 +47,12 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_send"
-            android:layout_width="25dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="25dp"
             android:layout_margin="10dp"
             android:contentDescription="@string/todo"
-            android:enabled="@{viewModel.isInputEmpty() != true}"
-            android:src="@{(viewModel.isInputEmpty() == true) ? @drawable/ic_baseline_send_24_gray : @drawable/ic_baseline_send_24_blue}"
+            android:enabled="@{viewModel.isInputEmpty != true}"
+            android:src="@{(viewModel.isInputEmpty == true) ? @drawable/ic_baseline_send_24_gray : @drawable/ic_baseline_send_24_blue}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

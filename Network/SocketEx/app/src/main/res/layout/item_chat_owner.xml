@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="200dp"
-                bind:isVisible="@{chatItem.imgBytes!=null &amp;&amp; chatItem.imgBytes.size()>0}"
+                bind:isVisible="@{chatItem.chatImgList!=null &amp;&amp; chatItem.chatImgList.size()>0}"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

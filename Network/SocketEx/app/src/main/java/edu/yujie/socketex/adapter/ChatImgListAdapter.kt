@@ -5,26 +5,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import edu.yujie.socketex.bean.ChatImgItem
+import edu.yujie.socketex.bean.ChatImg
 import edu.yujie.socketex.databinding.ItemChatImgBinding
 
 
-class ChatImgListAdapter : ListAdapter<ChatImgItem, ChatImgListAdapter.VH>(
-    object : DiffUtil.ItemCallback<ChatImgItem>() {
-        override fun areItemsTheSame(oldItem: ChatImgItem, newItem: ChatImgItem): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
+class ChatImgListAdapter : ListAdapter<ChatImg, ChatImgListAdapter.VH>(
+    object : DiffUtil.ItemCallback<ChatImg>() {
+        override fun areItemsTheSame(old: ChatImg, aNew: ChatImg): Boolean {
+            return old.hashCode() == aNew.hashCode()
         }
 
-        override fun areContentsTheSame(oldItem: ChatImgItem, newItem: ChatImgItem): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
+        override fun areContentsTheSame(old: ChatImg, aNew: ChatImg): Boolean {
+            return old.hashCode() == aNew.hashCode()
         }
 
     }
 ) {
 
     class VH(val binding: ItemChatImgBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(chatImgItem: ChatImgItem) = binding.apply {
-            this.chatImgBean = chatImgItem
+        fun bind(chatImg: ChatImg) = binding.apply {
+            this.chatImgBean = chatImg
         }
 
     }

@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.jakewharton.rxrelay3.BehaviorRelay
+import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.R
 import edu.yujie.socketex.SocketState
 import edu.yujie.socketex.SocketViewEvent
@@ -29,8 +30,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
@@ -49,44 +49,29 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
 
     private val okHttpUtil by inject<OkHttpUtil>()
 
-    private lateinit var webSocketClient: WebSocket
+    private val _socketStateFlow = mutableStateFlow<SocketState>(SocketState.Idle)
 
-    private val _socketStateFlow: MutableStateFlow<SocketState> by lazy { MutableStateFlow<SocketState>(SocketState.Idle) }
-//    private val _socketStateFlow: MutableSharedFlow<SocketState> by lazy { MutableStateFlow<SocketState>(SocketState.Idle) }
-
-    //    val socketStateFlow: SharedFlow<SocketState> = _socketStateFlow
-    val socketStateFlow: StateFlow<SocketState> = _socketStateFlow
+    val socketStateFlow = _socketStateFlow.asStateFlow()
 
     val socketViewEvent = Channel<SocketViewEvent>(Channel.UNLIMITED)
 
-    private val _webSocketUrl: MutableLiveData<String> by lazy { MutableLiveData<String>() }
+    val webSocketUrlRelay = BehaviorRelay.create<String>()
 
-    val webSocketUrl: LiveData<String> = _webSocketUrl
-
+    lateinit var webSocketClient: WebSocket
     //
+
     private val _isInputEmpty: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(true) }
 
     val isInputEmpty = _isInputEmpty.asLiveData()
 
-    fun setInput(state: Boolean) = _isInputEmpty.postValue(state)
-
+    val toastRelay = PublishRelay.create<String>()
     //
-    private val _addItems: MutableLiveData<List<AddItem>> by lazy {
-        MutableLiveData<List<AddItem>>(
-            listOf<AddItem>(
-                AddItem(R.string.camera, R.drawable.ic_baseline_photo_camera_24_gray),
-                AddItem(R.string.album, R.drawable.ic_baseline_photo_24_gray),
-                AddItem(R.string.audio, R.drawable.ic_baseline_mic_none_24_gray),
-                AddItem(R.string.video, R.drawable.ic_baseline_videocam_24_gray),
-                AddItem(R.string.movie, R.drawable.ic_baseline_local_movies_24_gray)
-            )
-        )
-    }
 
-    val addItems: LiveData<List<AddItem>> = _addItems
+    val receiveChatRelay = PublishRelay.create<ChatItem>()
 
     init {
-        initViewEvent()
+        startMockServer()
+        urlState()
     }
 
     private fun mockServer(listener: WebSocketListener) {
@@ -97,11 +82,11 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
             val port = mockWebServer.port
             println("$TAG hostName = $hostName, port = $port")
             val url = "ws://$hostName:$port"
-            _webSocketUrl.postValue(url)
+            webSocketUrlRelay.accept(url)
         }
     }
 
-    fun startMockServer(): StateFlow<SocketState> {
+    private fun startMockServer() {
         val ServerTAG = "Server"
 
         mockServer(object : WebSocketListener() {
@@ -144,7 +129,6 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
                 val sf = String.format("%s onClosing() code = %d, reason = %s", ServerTAG, code, reason)
                 println(sf)
                 _socketStateFlow.value = SocketState.onServerClosing(sf)
-
             }
 
             override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
@@ -161,10 +145,18 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
                 _socketStateFlow.value = SocketState.onServerFailure(sf)
             }
         })
-        return socketStateFlow
     }
 
-    fun startWebSocket(url: String): WebSocket {
+    private fun urlState() {
+        webSocketUrlRelay
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                startWebSocket(it)
+            }.addTo(compositeDisposable = compositeDisposable)
+    }
+
+    fun startWebSocket(url: String) {
         val ClientTAG = "Client"
         webSocketClient = okHttpUtil.createWebSocket(url, object : WebSocketListener() {
             override fun onOpen(webSocket: WebSocket, response: Response) {
@@ -208,52 +200,79 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
                 _socketStateFlow.value = SocketState.onClientClosed(sf)
             }
         })
-        return webSocketClient
     }
+    //
+
+    fun setInput(state: Boolean) = _isInputEmpty.postValue(state)
+
+    //
+    fun sendText(str: String) {
+        if (TextUtils.isEmpty(str)) {
+            toastRelay.accept("Can not empty!")
+        } else {
+            val chatBean = ChatItem(id = 0, name = "Me", isOwner = true, time = getTime(), msg = str)
+            val json = Gson().toJson(chatBean)
+            webSocketClient.send(json)
+            receiveChatRelay.accept(chatBean)
+        }
+    }
+
+    fun sendImg(paths: List<String>) {
+        val imgBytes = compressToByteArray(paths)
+        val chatImgList = imgBytes.mapIndexed { index, bytes -> ChatImg(index, bytes) }
+        val chatBean = ChatItem(
+            id = 0, name = "Me", time = getTime(), isOwner = true, chatImgList = chatImgList
+        )
+        val json = Gson().toJson(chatBean)
+        webSocketClient.send(json)
+        receiveChatRelay.accept(chatBean)
+    }
+
+    //圖片壓縮
+    private fun compressToByteArray(paths: List<String>): List<ByteArray> {
+        return paths.map {
+            val bitmap = File(it).getBitmap(BitmapConfig())
+            val byteArray = bitmap.compressToByteArray(BitmapCompress())
+            println("$TAG byteArray:size: ${byteArray.size}")
+            byteArray
+        }
+    }
+    //
+    //
+    //
+
+
+    private val _addItems: MutableLiveData<List<AddItem>> by lazy {
+        MutableLiveData<List<AddItem>>(
+            listOf<AddItem>(
+                AddItem(R.string.camera, R.drawable.ic_baseline_photo_camera_24_gray),
+                AddItem(R.string.album, R.drawable.ic_baseline_photo_24_gray),
+                AddItem(R.string.audio, R.drawable.ic_baseline_mic_none_24_gray),
+                AddItem(R.string.video, R.drawable.ic_baseline_videocam_24_gray),
+                AddItem(R.string.movie, R.drawable.ic_baseline_local_movies_24_gray)
+            )
+        )
+    }
+
+    val addItems: LiveData<List<AddItem>> = _addItems
 
     private fun initViewEvent() = viewModelScope.launch(Dispatchers.IO) {
         socketViewEvent
             .consumeAsFlow()
             .collect {
                 when (it) {
-                    is SocketViewEvent.SendText -> {
-                        if (TextUtils.isEmpty(it.str)) {
-                            toastLiveData.postValue("Can not empty!")
-                        } else {
-                            val chatBean = ChatItem(id = 0, name = "Me", msg = it.str, isOwner = true, time = getTime())
-                            val json = Gson().toJson(chatBean)
-                            webSocketClient.send(json)
-                            _socketStateFlow.value = SocketState.ShowChat(chatItem = chatBean)
-                        }
-                    }
 
                     is SocketViewEvent.SendImg -> {
-                        val imgBytes = mutableListOf<ByteArray?>()
-                        it.uris.forEach {
+                        val imgBytes = it.uris.map {
                             val bitmap = it.getBitmap(context.contentResolver, BitmapConfig())
                             val byteArray = bitmap?.compressToByteArray(BitmapCompress())
-                            println("$TAG byteArray:size() :${byteArray?.size}")
-                            imgBytes.add(byteArray)
+                            println("$TAG byteArray:size: ${byteArray!!.size}")
+                            byteArray
                         }
-                        val chatImgList = imgBytes.mapIndexed { index, bytes -> bytes?.let { ChatImgItem(index, it) } }
-                        val chatBean = ChatItem(id = 0, name = "Me", isOwner = true, time = getTime(), imgBytes = chatImgList)
-                        val json = Gson().toJson(chatBean)
-                        webSocketClient.send(json)
-                        _socketStateFlow.value = SocketState.ShowChat(chatItem = chatBean)
-                    }
-
-                    is SocketViewEvent.SendImgPath -> {
-                        val imgBytes = mutableListOf<ByteArray?>()
-                        it.paths.forEach {
-                            val bitmap = File(it).getBitmap(BitmapConfig())
-                            val byteArray = bitmap?.compressToByteArray(BitmapCompress())
-                            println("$TAG byteArray:size() :${byteArray?.size}")
-                            imgBytes.add(byteArray)
-                        }
-
-
-                        val chatImgList = imgBytes.mapIndexed { index, bytes -> bytes?.let { ChatImgItem(index, it) } }
-                        val chatBean = ChatItem(id = 0, name = "Me", isOwner = true, time = getTime(), imgBytes = chatImgList)
+                        val chatImgList = imgBytes.mapIndexed { index, bytes -> ChatImg(index, bytes!!) }
+                        val chatBean = ChatItem(
+                            id = 0, name = "Me", time = getTime(), isOwner = true, chatImgList = chatImgList
+                        )
                         val json = Gson().toJson(chatBean)
                         webSocketClient.send(json)
                         _socketStateFlow.value = SocketState.ShowChat(chatItem = chatBean)
@@ -525,9 +544,9 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
     private fun convertBeanJson(text: String): String {
         val chatBean = Gson().fromJson(text, ChatItem::class.java)
         val msg = if (chatBean.msg != null) "${chatBean.msg} - From Server" else null
-        val imgBytes = chatBean.imgBytes
+        val imgBytes = chatBean.chatImgList
         val recorderBytes = chatBean.recorderBytes
-        val chatBeanOther = ChatItem(id = -1, name = "Ohter", msg = msg, isOwner = false, time = getTime(), imgBytes = imgBytes, recorderBytes = recorderBytes)
+        val chatBeanOther = ChatItem(id = -1, name = "Ohter", msg = msg, isOwner = false, time = getTime(), chatImgList = imgBytes, recorderBytes = recorderBytes)
         val json = Gson().toJson(chatBeanOther)
         return json
     }
