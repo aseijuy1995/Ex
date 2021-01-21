@@ -4,7 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
+import edu.yujie.socketex.R
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -22,6 +25,7 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity(), IBaseBin
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView<T>(this, layoutId)
+
     }
 
     override fun onDestroy() {

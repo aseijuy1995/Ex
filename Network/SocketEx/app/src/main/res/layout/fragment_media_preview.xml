@@ -34,8 +34,8 @@
             app:surface_type="surface_view"
             app:use_controller="false" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_img"
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/photo_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="fitCenter"
@@ -45,18 +45,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             bind:imgPath="@{viewModel.media.data}" />
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_baseline_arrow_back_ios_new_24_white" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/iv_btn_send"

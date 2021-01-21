@@ -52,7 +52,9 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
     private lateinit var webSocketClient: WebSocket
 
     private val _socketStateFlow: MutableStateFlow<SocketState> by lazy { MutableStateFlow<SocketState>(SocketState.Idle) }
+//    private val _socketStateFlow: MutableSharedFlow<SocketState> by lazy { MutableStateFlow<SocketState>(SocketState.Idle) }
 
+    //    val socketStateFlow: SharedFlow<SocketState> = _socketStateFlow
     val socketStateFlow: StateFlow<SocketState> = _socketStateFlow
 
     val socketViewEvent = Channel<SocketViewEvent>(Channel.UNLIMITED)
@@ -233,6 +235,23 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
                             println("$TAG byteArray:size() :${byteArray?.size}")
                             imgBytes.add(byteArray)
                         }
+                        val chatImgList = imgBytes.mapIndexed { index, bytes -> bytes?.let { ChatImgItem(index, it) } }
+                        val chatBean = ChatItem(id = 0, name = "Me", isOwner = true, time = getTime(), imgBytes = chatImgList)
+                        val json = Gson().toJson(chatBean)
+                        webSocketClient.send(json)
+                        _socketStateFlow.value = SocketState.ShowChat(chatItem = chatBean)
+                    }
+
+                    is SocketViewEvent.SendImgPath -> {
+                        val imgBytes = mutableListOf<ByteArray?>()
+                        it.paths.forEach {
+                            val bitmap = File(it).getBitmap(BitmapConfig())
+                            val byteArray = bitmap?.compressToByteArray(BitmapCompress())
+                            println("$TAG byteArray:size() :${byteArray?.size}")
+                            imgBytes.add(byteArray)
+                        }
+
+
                         val chatImgList = imgBytes.mapIndexed { index, bytes -> bytes?.let { ChatImgItem(index, it) } }
                         val chatBean = ChatItem(id = 0, name = "Me", isOwner = true, time = getTime(), imgBytes = chatImgList)
                         val json = Gson().toJson(chatBean)

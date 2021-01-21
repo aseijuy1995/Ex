@@ -131,5 +131,7 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-ui:2.12.3"
     implementation "com.google.android.exoplayer:exoplayer-dash:2.12.3"
 
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+
 
 }

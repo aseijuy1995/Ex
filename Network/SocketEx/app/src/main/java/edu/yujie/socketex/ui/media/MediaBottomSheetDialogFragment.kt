@@ -2,7 +2,11 @@ package edu.yujie.socketex.ui.media
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.snackbar.Snackbar
+import com.jakewharton.rxbinding4.view.clicks
 import edu.yujie.socketex.R
 import edu.yujie.socketex.adapter.MediaListAdapter
 import edu.yujie.socketex.base.BaseBottomSheetDialogFragment
@@ -30,8 +34,8 @@ class MediaBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMed
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         getArgument()
+        initView()
         clickEvent()
-        binding.rvMedia.adapter = adapter
 
         viewModel.getMediaAlbumItems(setting = setting)
             .subscribeOn(Schedulers.io())
@@ -41,11 +45,14 @@ class MediaBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMed
                 adapter.submitList(mediaList)
             }
 
-//        viewModel.toastRelay.subscribeWithLife {
-//            if (it.trim().isNotEmpty())
-//                findNavController().navigateUp()
-//        }
+        viewModel.toastRelay.subscribeWithLife {
+            if (it.trim().isNotEmpty())
+                findNavController().navigateUp()
+        }
 
+        viewModel.selectMediaList.observe(viewLifecycleOwner) {
+            binding.toolbar.menu.findItem(R.id.menu_send).isVisible = (it.size > 0)
+        }
     }
 
     private fun getArgument() {
@@ -73,10 +80,40 @@ class MediaBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMed
         }
     }
 
+    private fun initView() {
+        binding.toolbar.setupWithNavController(navController)
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = this@MediaBottomSheetDialogFragment.viewModel
+        }
+        binding.rvMedia.adapter = adapter
+        binding.toolbar.menu.findItem(R.id.menu_send).isVisible = false
+    }
+
     private fun clickEvent() {
         adapter.itemClickRelay.subscribeWithLife {
             findNavController().navigate(MediaBottomSheetDialogFragmentDirections.actionFragmentMediaBottomSheetDialogToFragmentMediaDetail(it))
         }
+        adapter.itemSelectedRelay.subscribeWithLife {
+            viewModel.selectMedia(it)
+        }
+        val menuSend = binding.toolbar.menu.findItem(R.id.menu_send)
+        menuSend
+            .clicks()
+            .subscribeWithLife {
+                if (viewModel.isSelectMedia()) {
+                    viewModel.sendMedia()
+                    findNavController().navigateUp()
+                } else
+                    Snackbar.make(menuSend.actionView, "Please select ${mimeType}", Snackbar.LENGTH_SHORT).show()
+            }
+
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.cleanMediaStorage()
+    }
+
 
 }

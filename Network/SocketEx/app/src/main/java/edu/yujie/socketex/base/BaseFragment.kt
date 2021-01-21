@@ -24,6 +24,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment(), IBaseBinding<T> {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate<T>(inflater, layoutId, container, false)
+//        requireActivity().actionBar?.setDisplayHomeAsUpEnabled(true)
         return binding.root
     }
 

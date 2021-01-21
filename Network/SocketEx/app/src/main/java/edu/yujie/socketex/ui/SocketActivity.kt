@@ -1,6 +1,10 @@
 package edu.yujie.socketex.ui
 
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.appbar.MaterialToolbar
 import edu.yujie.socketex.R
 import edu.yujie.socketex.base.BaseActivity
 import edu.yujie.socketex.databinding.ActivitySocketBinding

@@ -10,6 +10,7 @@
     <string name="movie">影片</string>
 
     <string name="time_format">%02d:%02d</string>
+    <string name="selected_count">已選%s項</string>
 
 
 

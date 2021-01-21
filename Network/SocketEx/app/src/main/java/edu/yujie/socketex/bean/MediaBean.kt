@@ -36,7 +36,9 @@ data class Media(
     val data: String,
     val size: Long,
     val title: String,
-    val width: Int
+    val width: Int,
+    //
+    var isSelect: Boolean? = false
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),

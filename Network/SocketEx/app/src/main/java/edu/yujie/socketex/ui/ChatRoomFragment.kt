@@ -73,14 +73,21 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
             }
         }
         //album - send img
-        chatRoomViewModel.albumLiveData.observe(viewLifecycleOwner) {
-//            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.IMAGE))
-            it.uris?.let {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendImg(it))
-                }
+        mediaViewModel.mediaListRelay.subscribeWithLife {
+            val imgPaths = it.map { it.data }
+            lifecycleScope.launch(Dispatchers.IO) {
+                chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendImgPath(imgPaths))
             }
         }
+
+//        chatRoomViewModel.albumLiveData.observe(viewLifecycleOwner) {
+////            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.IMAGE))
+//            it.uris?.let {
+//                lifecycleScope.launch(Dispatchers.IO) {
+//                    chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendImg(it))
+//                }
+//            }
+//        }
         //album
         chatRoomViewModel.album.observe(viewLifecycleOwner) {
             if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.IMAGE))
@@ -93,7 +100,7 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         chatRoomViewModel.video.observe(viewLifecycleOwner) {
             if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.VIDEO))
         }
-        //
+        //alert
         mediaViewModel.toastRelay.subscribeWithLife {
             if (it.trim().isNotEmpty())
                 Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).setAnchorView(binding.includeInputBar.root).show()

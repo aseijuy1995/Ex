@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
+import edu.yujie.socketex.R
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -24,8 +27,19 @@ abstract class BaseBottomSheetDialogFragment<T : ViewDataBinding> : BottomSheetD
 
     protected val compositeDisposable = CompositeDisposable()
 
+    protected lateinit var navHostFrag: NavHostFragment
+
+    protected lateinit var navController: NavController
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+//        setStyle(STYLE_NO_TITLE, R.style.DialogTheme_transparent)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate<T>(inflater, layoutId, container, false)
+        navHostFrag = requireActivity().supportFragmentManager.findFragmentById(R.id.frag_container_view) as NavHostFragment
+        navController = navHostFrag.navController
         return binding.root
     }
 
@@ -42,5 +56,9 @@ abstract class BaseBottomSheetDialogFragment<T : ViewDataBinding> : BottomSheetD
     fun <T> Observable<T>.subscribeWithLife(onNext: (T) -> Unit): Disposable? =
         bindToLifecycle(this@BaseBottomSheetDialogFragment)
             .subscribe(onNext)
+
+    fun <T> Observable<T>.subscribeWithLife(): Disposable? =
+        bindToLifecycle(this@BaseBottomSheetDialogFragment)
+            .subscribe()
 
 }

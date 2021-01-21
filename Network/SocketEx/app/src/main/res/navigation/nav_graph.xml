@@ -58,10 +58,11 @@
 
         </action>
     </dialog>
+
     <fragment
         android:id="@+id/fragment_media_detail"
-        android:name="edu.yujie.socketex.ui.MediaDetailFragment"
+        android:name="edu.yujie.socketex.ui.MediaPreviewFragment"
         android:label="fragment_media_detail"
-        tools:layout="@layout/fragment_media_detail" />
+        tools:layout="@layout/fragment_media_preview" />
 
 </navigation>
