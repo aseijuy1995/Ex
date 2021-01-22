@@ -74,78 +74,78 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
         urlState()
     }
 
-    private fun mockServer(listener: WebSocketListener) {
-        val mockWebServer = MockWebServer()
-        mockWebServer.enqueue(MockResponse().withWebSocketUpgrade(listener))
-        viewModelScope.launch(Dispatchers.IO) {
-            val hostName = mockWebServer.hostName
-            val port = mockWebServer.port
-            println("$TAG hostName = $hostName, port = $port")
-            val url = "ws://$hostName:$port"
-            webSocketUrlRelay.accept(url)
-        }
-    }
-
-    private fun startMockServer() {
-        val ServerTAG = "Server"
-
-        mockServer(object : WebSocketListener() {
-            override fun onOpen(webSocket: WebSocket, response: Response) {
-                super.onOpen(webSocket, response)
-                val sf = String.format(
-                    "%s onOpen() response = %s\n" +
-                            "request header:%s\n" +
-                            "response header:%s",
-                    ServerTAG, response.toString(), response.request.headers, response.headers
-                )
-                println(sf)
-                _socketStateFlow.value = SocketState.onServerOpen(sf)
-            }
-
-            override fun onMessage(webSocket: WebSocket, text: String) {
-                super.onMessage(webSocket, text)
-                val sf = String.format("%s onMessage() text = %s", ServerTAG, text)
-                println(sf)
-                _socketStateFlow.value = SocketState.onServerMessage(sf)
-
-                val json = convertBeanJson(text)
-                viewModelScope.launch(Dispatchers.IO) {
-                    delay(1000L)
-                    withContext(Dispatchers.Main) {
-                        webSocket.send(json)
-                    }
-                }
-            }
-
-            override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
-                super.onMessage(webSocket, bytes)
-                val sf = String.format("%s onMessage() bytes = %s", ServerTAG, ByteString.toString())
-                println(sf)
-                _socketStateFlow.value = SocketState.onServerMessage(sf)
-            }
-
-            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosing(webSocket, code, reason)
-                val sf = String.format("%s onClosing() code = %d, reason = %s", ServerTAG, code, reason)
-                println(sf)
-                _socketStateFlow.value = SocketState.onServerClosing(sf)
-            }
-
-            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosed(webSocket, code, reason)
-                val sf = String.format("%s onClosed() code = %d, reason = %s", ServerTAG, code, reason)
-                println(sf)
-                _socketStateFlow.value = SocketState.onServerClosed(sf)
-            }
-
-            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                super.onFailure(webSocket, t, response)
-                val sf = String.format("%s onFailure() throwable = %s, response = %s", ServerTAG, t.toString(), response.toString())
-                println(sf)
-                _socketStateFlow.value = SocketState.onServerFailure(sf)
-            }
-        })
-    }
+//    private fun mockServer(listener: WebSocketListener) {
+//        val mockWebServer = MockWebServer()
+//        mockWebServer.enqueue(MockResponse().withWebSocketUpgrade(listener))
+//        viewModelScope.launch(Dispatchers.IO) {
+//            val hostName = mockWebServer.hostName
+//            val port = mockWebServer.port
+//            println("$TAG hostName = $hostName, port = $port")
+//            val url = "ws://$hostName:$port"
+//            webSocketUrlRelay.accept(url)
+//        }
+//    }
+//
+//    private fun startMockServer() {
+//        val ServerTAG = "Server"
+//
+//        mockServer(object : WebSocketListener() {
+//            override fun onOpen(webSocket: WebSocket, response: Response) {
+//                super.onOpen(webSocket, response)
+//                val sf = String.format(
+//                    "%s onOpen() response = %s\n" +
+//                            "request header:%s\n" +
+//                            "response header:%s",
+//                    ServerTAG, response.toString(), response.request.headers, response.headers
+//                )
+//                println(sf)
+//                _socketStateFlow.value = SocketState.onServerOpen(sf)
+//            }
+//
+//            override fun onMessage(webSocket: WebSocket, text: String) {
+//                super.onMessage(webSocket, text)
+//                val sf = String.format("%s onMessage() text = %s", ServerTAG, text)
+//                println(sf)
+//                _socketStateFlow.value = SocketState.onServerMessage(sf)
+//
+//                val json = convertBeanJson(text)
+//                viewModelScope.launch(Dispatchers.IO) {
+//                    delay(1000L)
+//                    withContext(Dispatchers.Main) {
+//                        webSocket.send(json)
+//                    }
+//                }
+//            }
+//
+//            override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
+//                super.onMessage(webSocket, bytes)
+//                val sf = String.format("%s onMessage() bytes = %s", ServerTAG, ByteString.toString())
+//                println(sf)
+//                _socketStateFlow.value = SocketState.onServerMessage(sf)
+//            }
+//
+//            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
+//                super.onClosing(webSocket, code, reason)
+//                val sf = String.format("%s onClosing() code = %d, reason = %s", ServerTAG, code, reason)
+//                println(sf)
+//                _socketStateFlow.value = SocketState.onServerClosing(sf)
+//            }
+//
+//            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+//                super.onClosed(webSocket, code, reason)
+//                val sf = String.format("%s onClosed() code = %d, reason = %s", ServerTAG, code, reason)
+//                println(sf)
+//                _socketStateFlow.value = SocketState.onServerClosed(sf)
+//            }
+//
+//            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+//                super.onFailure(webSocket, t, response)
+//                val sf = String.format("%s onFailure() throwable = %s, response = %s", ServerTAG, t.toString(), response.toString())
+//                println(sf)
+//                _socketStateFlow.value = SocketState.onServerFailure(sf)
+//            }
+//        })
+//    }
 
     private fun urlState() {
         webSocketUrlRelay
@@ -156,51 +156,51 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
             }.addTo(compositeDisposable = compositeDisposable)
     }
 
-    fun startWebSocket(url: String) {
-        val ClientTAG = "Client"
-        webSocketClient = okHttpUtil.createWebSocket(url, object : WebSocketListener() {
-            override fun onOpen(webSocket: WebSocket, response: Response) {
-                super.onOpen(webSocket, response)
-                val sf = String.format("%s onOpen() response = %s", ClientTAG, response.toString())
-                println(sf)
-                _socketStateFlow.value = SocketState.onClientOpen(sf)
-            }
-
-            override fun onMessage(webSocket: WebSocket, text: String) {
-                super.onMessage(webSocket, text)
-                val sf = String.format("%s onMessage() text = %s", ClientTAG, text)
-                println(sf)
-                val chatBean = Gson().fromJson(text, ChatItem::class.java)
-                _socketStateFlow.value = SocketState.onClientMessage(sf, chatBean)
-            }
-
-            override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
-                super.onMessage(webSocket, bytes)
-            }
-
-            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosing(webSocket, code, reason)
-                val sf = String.format("%s onClosing() code = %d, reason = %s", ClientTAG, code, reason)
-                println(sf)
-                webSocketClient.close(1000, "close")
-                _socketStateFlow.value = SocketState.onClientClosing(sf)
-            }
-
-            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-                super.onClosed(webSocket, code, reason)
-                val sf = String.format("%s onClosed() code = %d, reason = %s", ClientTAG, code, reason)
-                println(sf)
-                _socketStateFlow.value = SocketState.onClientClosed(sf)
-            }
-
-            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-                super.onFailure(webSocket, t, response)
-                val sf = String.format("%s onFailure() throwable = %s, response = %s", ClientTAG, t.toString(), response.toString())
-                println(sf)
-                _socketStateFlow.value = SocketState.onClientClosed(sf)
-            }
-        })
-    }
+//    fun startWebSocket(url: String) {
+//        val ClientTAG = "Client"
+//        webSocketClient = okHttpUtil.createWebSocket(url, object : WebSocketListener() {
+//            override fun onOpen(webSocket: WebSocket, response: Response) {
+//                super.onOpen(webSocket, response)
+//                val sf = String.format("%s onOpen() response = %s", ClientTAG, response.toString())
+//                println(sf)
+//                _socketStateFlow.value = SocketState.onClientOpen(sf)
+//            }
+//
+//            override fun onMessage(webSocket: WebSocket, text: String) {
+//                super.onMessage(webSocket, text)
+//                val sf = String.format("%s onMessage() text = %s", ClientTAG, text)
+//                println(sf)
+//                val chatBean = Gson().fromJson(text, ChatItem::class.java)
+//                _socketStateFlow.value = SocketState.onClientMessage(sf, chatBean)
+//            }
+//
+//            override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
+//                super.onMessage(webSocket, bytes)
+//            }
+//
+//            override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
+//                super.onClosing(webSocket, code, reason)
+//                val sf = String.format("%s onClosing() code = %d, reason = %s", ClientTAG, code, reason)
+//                println(sf)
+//                webSocketClient.close(1000, "close")
+//                _socketStateFlow.value = SocketState.onClientClosing(sf)
+//            }
+//
+//            override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+//                super.onClosed(webSocket, code, reason)
+//                val sf = String.format("%s onClosed() code = %d, reason = %s", ClientTAG, code, reason)
+//                println(sf)
+//                _socketStateFlow.value = SocketState.onClientClosed(sf)
+//            }
+//
+//            override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+//                super.onFailure(webSocket, t, response)
+//                val sf = String.format("%s onFailure() throwable = %s, response = %s", ClientTAG, t.toString(), response.toString())
+//                println(sf)
+//                _socketStateFlow.value = SocketState.onClientClosed(sf)
+//            }
+//        })
+//    }
     //
 
     fun setInput(state: Boolean) = _isInputEmpty.postValue(state)
