@@ -11,11 +11,9 @@ import androidx.viewbinding.ViewBinding
 import com.jakewharton.rxbinding4.view.clicks
 import edu.yujie.socketex.R
 import edu.yujie.socketex.bean.ChatItem
+import edu.yujie.socketex.bean.ChatSender
 import edu.yujie.socketex.databinding.ItemChatOtherBinding
 import edu.yujie.socketex.databinding.ItemChatOwnerBinding
-
-const val OWNER = -1
-const val OTHER = 0
 
 class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
     object : DiffUtil.ItemCallback<ChatItem>() {
@@ -35,7 +33,7 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
 
     inner class OwnerVH(private val binding: ItemChatOwnerBinding, val context: Context) : VH(binding) {
         override fun bind(chatItem: ChatItem) = binding.apply {
-            chatItem.chatImgList?.let {
+            chatItem.imgListMsg?.let {
                 rvImg.adapter = ChatImgListAdapter().apply {
                     submitList(it)
                 }
@@ -47,7 +45,7 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
 
     inner class OtherVH(val binding: ItemChatOtherBinding, val context: Context) : VH(binding) {
         override fun bind(chatItem: ChatItem) = binding.apply {
-            chatItem.chatImgList?.let {
+            chatItem.imgListMsg?.let {
                 rvImg.adapter = ChatImgListAdapter().apply {
                     submitList(it)
                 }
@@ -76,11 +74,11 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            OWNER -> {
+            ChatSender.OWNER.value -> {
                 val binding = DataBindingUtil.inflate<ItemChatOwnerBinding>(inflater, R.layout.item_chat_owner, parent, false)
                 OwnerVH(binding, parent.context)
             }
-            OTHER -> {
+            ChatSender.OTHER.value -> {
                 val binding = DataBindingUtil.inflate<ItemChatOtherBinding>(inflater, R.layout.item_chat_other, parent, false)
                 OtherVH(binding, parent.context)
             }
@@ -93,7 +91,7 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
 
     override fun getItemViewType(position: Int): Int {
         val chatBean = getItem(position)
-        return if (chatBean.isOwner) OWNER else OTHER
+        return chatBean.sender.value
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {

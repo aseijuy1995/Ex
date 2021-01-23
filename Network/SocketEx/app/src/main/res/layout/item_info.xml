@@ -23,7 +23,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:text="@{msg}"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

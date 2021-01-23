@@ -41,9 +41,9 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_solid_green_86d97b_padding_top_btn_5_lt_rt_10"
                 android:maxWidth="200dp"
-                android:text="@{chatItem.msg}"
+                android:text="@{chatItem.textMsg}"
                 android:textColor="@color/white"
-                bind:isVisible="@{chatItem.msg!=null}"
+                bind:isVisible="@{chatItem.textMsg!=null}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="200dp"
-                bind:isVisible="@{chatItem.chatImgList!=null &amp;&amp; chatItem.chatImgList.size()>0}"
+                bind:isVisible="@{chatItem.imgListMsg!=null &amp;&amp; chatItem.imgListMsg.size()>0}"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +67,7 @@
                 android:maxWidth="200dp"
                 android:orientation="horizontal"
                 android:textColor="@color/white"
-                bind:isVisible="@{chatItem.recorderBytes!=null}"
+                bind:isVisible="@{chatItem.audioMsg!=null}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 

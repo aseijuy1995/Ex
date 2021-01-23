@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 public inline fun <T> MutableLiveData<T>.asLiveData() = this as LiveData<T>
 
-public inline fun <T> mutableLiveData(): MutableLiveData<T> {
-    val mutableLiveData: MutableLiveData<T> by lazy { MutableLiveData<T>() }
+public inline fun <T> mutableLiveData(value: T? = null): MutableLiveData<T> {
+    val mutableLiveData: MutableLiveData<T> by lazy { MutableLiveData<T>(value) }
     return mutableLiveData
 }
 
