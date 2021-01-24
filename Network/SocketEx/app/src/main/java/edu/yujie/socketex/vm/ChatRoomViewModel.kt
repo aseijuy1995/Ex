@@ -24,7 +24,6 @@ import edu.yujie.socketex.inter.IMediaRepo2
 import edu.yujie.socketex.listener.ChatSocketRepository
 import edu.yujie.socketex.util.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -37,16 +36,19 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import okhttp3.WebSocket
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 import java.io.File
 
 class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2) : BaseAndroidViewModel(application), KoinComponent {
 
     val chatSocketRepository = ChatSocketRepository()
 
+    //--------------------------------------------------------------------------------------
+    //info & chat
     private val infoList = mutableListOf<String>()
 
     private val _infoList = mutableLiveData(infoList)
+
+    val infoListLiveData = _infoList.asLiveData()
 
     private val chatList = mutableListOf<ChatItem>()
 
@@ -60,49 +62,40 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
 
     lateinit var webSocket: WebSocket
 
-    val sendFinish = mutableLiveData<ChatItem?>()
+    init {
+        execute()
+        receiveInfoList()
+        receiveChatList()
+    }
 
-    fun execute(): Observable<WebSocket> = chatSocketRepository.executeMockServer()
+    fun execute() = chatSocketRepository.executeMockServer()
         .flatMap { chatSocketRepository.executeClientSocket(it) }
-        .map {
-            webSocket = it
-            it
-        }
+        .subscribe { webSocket = it }
+        .addTo(compositeDisposable = compositeDisposable)
 
-    //    fun receiveInfoList(): LiveData<List<String>> {
-    fun receiveInfoList(): Observable<List<String>> {
-        return execute()
-            .flatMap {
-                println("ChatRoomViewModel:receiveInfo2")
-                chatSocketRepository.receiveInfo()
-            }
-            .map { addInfo(it) }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-//            .toLiveData(BackpressureStrategy.LATEST)
-    }
+    fun receiveInfoList() = chatSocketRepository.receiveInfo()
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe { addInfo(it) }
+        .addTo(compositeDisposable = compositeDisposable)
 
-    private fun addInfo(str: String): List<String> = infoList.also {
+    private fun addInfo(str: String) = infoList.also {
         it.add(str)
-        _infoList.postValue(it)
+        _infoList.value = it
     }
 
-    fun receiveChatList(): LiveData<List<ChatItem>> = execute()
-        .flatMap { chatSocketRepository.receiveChat() }
-//        .subscribeOn(Schedulers.io())
-//        .observeOn(AndroidSchedulers.mainThread())
-        .map { addChat(it) }
-        .toLiveData(BackpressureStrategy.LATEST)
+    fun receiveChatList() = chatSocketRepository.receiveChat()
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe { addChat(it) }
+        .addTo(compositeDisposable = compositeDisposable)
 
-    fun addChat(chatItem: ChatItem): List<ChatItem> {
-        chatList.also {
-            it.add(chatItem)
-            _chatList.value = it
-        }
-        return chatListLiveData.value as List<ChatItem>
+    fun addChat(chatItem: ChatItem) = chatList.also {
+        it.add(chatItem)
+        _chatList.value = it
     }
 
-    fun sendText(str: String) {
+    fun sendText(str: String) =
         if (TextUtils.isEmpty(str.trim())) {
             _toast.value = "Can not empty!"
         } else {
@@ -116,11 +109,116 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
             val json = Gson().toJson(chatBean)
             webSocket.send(json)
             addChat(chatBean)
-            sendFinish.value = chatBean
+        }
+
+    //--------------------------------------------------------------------------------------
+    //view state
+    private val _isInputEmpty = mutableLiveData<Boolean>(true)
+
+    val isInputEmpty = _isInputEmpty.asLiveData()
+
+    private val _inputSrc = mutableLiveData<Int>(R.drawable.ic_baseline_send_24_gray)
+
+    val inputSrc = _inputSrc.asLiveData()
+
+    fun setInput(state: Boolean) {
+        _isInputEmpty.value = state
+        _inputSrc.value = if (state) R.drawable.ic_baseline_send_24_gray else R.drawable.ic_baseline_send_24_blue
+    }
+
+    //--------------------------------------------------------------------------------------
+    private val _addItems: MutableLiveData<List<AddItem>> by lazy {
+        MutableLiveData<List<AddItem>>(
+            listOf<AddItem>(
+                AddItem(R.string.camera, R.drawable.ic_baseline_photo_camera_24_gray),
+                AddItem(R.string.album, R.drawable.ic_baseline_photo_24_gray),
+                AddItem(R.string.audio, R.drawable.ic_baseline_mic_none_24_gray),
+                AddItem(R.string.video, R.drawable.ic_baseline_videocam_24_gray),
+                AddItem(R.string.movie, R.drawable.ic_baseline_local_movies_24_gray)
+            )
+        )
+    }
+
+    //camera
+    private val _camera = mutableLiveData<Boolean>(false)
+
+    val camera = _camera.asLiveData()
+
+    fun switchToCamera() {
+        _camera.postValue(true)
+        viewModelScope.launch {
+            delay(500)
+            _camera.postValue(false)
         }
     }
 
-    //
+    //album
+    private val _album = mutableLiveData<Boolean>(false)
+
+    val album = _album.asLiveData()
+
+    fun switchToAlbum() {
+        _album.postValue(true)
+        viewModelScope.launch {
+            delay(500)
+            _album.postValue(false)
+        }
+    }
+
+    //audio
+    private val _audio = mutableLiveData<Boolean>(false)
+
+    val audio = _audio.asLiveData()
+
+    fun switchToAudio() {
+        _audio.postValue(true)
+        viewModelScope.launch {
+            delay(500)
+            _audio.postValue(false)
+        }
+    }
+
+    //recording
+    private val _recording = mutableLiveData<Boolean>(false)
+
+    val recording = _recording.asLiveData()
+
+    fun switchToRecording() {
+        _recording.postValue(true)
+        viewModelScope.launch {
+            delay(500)
+            _recording.postValue(false)
+        }
+    }
+
+    //photo graphy
+    private val _photography = mutableLiveData<Boolean>(false)
+
+    val photography = _photography.asLiveData()
+
+    fun switchToPhotography() {
+        _photography.postValue(true)
+        viewModelScope.launch {
+            delay(500)
+            _photography.postValue(false)
+        }
+    }
+
+    //video
+    private val _video = mutableLiveData<Boolean>(false)
+
+    val video = _video.asLiveData()
+
+    //for open video list
+    fun switchToVideo() {
+        _video.postValue(true)
+        viewModelScope.launch {
+            delay(500)
+            _video.postValue(false)
+        }
+    }
+
+
     //
     //
     //
@@ -136,7 +234,6 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
     //
     //
     //
-    private val okHttpUtil by inject<OkHttpUtil>()
 
     private val _socketStateFlow = mutableStateFlow<SocketState>(SocketState.Idle)
 
@@ -147,13 +244,6 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
     val webSocketUrlRelay = BehaviorRelay.create<String>()
     //
 
-    private val _isInputEmpty: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(true) }
-
-    val isInputEmpty = _isInputEmpty.asLiveData()
-    //
-
-
-    fun setInput(state: Boolean) = _isInputEmpty.postValue(state)
 
     //
 
@@ -166,7 +256,6 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
         )
         val json = Gson().toJson(chatBean)
         webSocket.send(json)
-        sendFinish.value = chatBean
     }
 
     //圖片壓縮
@@ -182,18 +271,6 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
     //
     //
 
-
-    private val _addItems: MutableLiveData<List<AddItem>> by lazy {
-        MutableLiveData<List<AddItem>>(
-            listOf<AddItem>(
-                AddItem(R.string.camera, R.drawable.ic_baseline_photo_camera_24_gray),
-                AddItem(R.string.album, R.drawable.ic_baseline_photo_24_gray),
-                AddItem(R.string.audio, R.drawable.ic_baseline_mic_none_24_gray),
-                AddItem(R.string.video, R.drawable.ic_baseline_videocam_24_gray),
-                AddItem(R.string.movie, R.drawable.ic_baseline_local_movies_24_gray)
-            )
-        )
-    }
 
     val addItems: LiveData<List<AddItem>> = _addItems
 
@@ -303,50 +380,12 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
         compositeDisposable.add(disposable)
     }
 
-    //----------------------------------------------
-    //album
-    private val _album: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
-
-    val album: LiveData<Boolean> = _album
-
-    //for open album list
-    fun switchToAlbum() {
-        _album.postValue(true)
-        viewModelScope.launch {
-            delay(500)
-            _album.postValue(false)
-        }
-    }
 
     //----------------------------------------------
-    //mic
-    private val _mic: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
 
-    val mic: LiveData<Boolean> = _mic
-
-    //for open recorder
-    fun switchToAudio() {
-        _mic.postValue(true)
-        viewModelScope.launch {
-            delay(500)
-            _mic.postValue(false)
-        }
-    }
 
     //----------------------------------------------
-    //video
-    private val _video: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
 
-    val video = _video.asLiveData()
-
-    //for open video list
-    fun switchToVideo() {
-        _video.postValue(true)
-        viewModelScope.launch {
-            delay(500)
-            _video.postValue(false)
-        }
-    }
 
     //----------------------------------------------
 

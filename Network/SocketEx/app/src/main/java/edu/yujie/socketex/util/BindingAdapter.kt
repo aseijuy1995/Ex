@@ -9,10 +9,12 @@ import com.bumptech.glide.Glide
 import edu.yujie.socketex.R
 import okio.ByteString
 
-@BindingAdapter("bind:imgRes")
-fun ImageView.bindImgRes(imgRes: Int) {
-    setImageResource(imgRes)
+@BindingAdapter("bind:imgSrc")
+fun ImageView.bindImgSrc(imgSrc: Int) {
+    setImageResource(imgSrc)
 }
+
+////////////////////////////////////////////////
 
 @BindingAdapter("bind:imageByteString")
 fun ImageView.imageByteString(byteString: ByteString?) {

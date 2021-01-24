@@ -14,8 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray_111111"
-        android:baselineAligned="true"
+        android:background="@color/gray_121212"
         android:orientation="vertical">
 
         <LinearLayout
@@ -42,6 +41,14 @@
 
             <include
                 android:id="@+id/view_audio"
+                layout="@layout/include_add_item"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:addItem="@{viewModel.addItems[2]}" />
+
+            <include
+                android:id="@+id/view_recording"
                 layout="@layout/include_add_item"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

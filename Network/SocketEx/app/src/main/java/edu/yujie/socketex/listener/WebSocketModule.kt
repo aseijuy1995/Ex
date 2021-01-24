@@ -1,4 +1,4 @@
-package edu.yujie.socketex.inter
+package edu.yujie.socketex.listener
 
 import com.jakewharton.rxrelay3.PublishRelay
 import okhttp3.Response
@@ -22,7 +22,6 @@ abstract class IWebSocketListener : WebSocketListener() {
             "%s onOpen() response = %s\n" + "request header:%s\n" + "response header:%s",
             TAG, response.toString(), response.request.headers.toString(), response.headers.toString()
         )
-        println("ChatRoomViewModel:onOpen:${informationRelay.hashCode()}")
         informationRelay.accept(sf)
         receive(SocketInfo(state = WebSocketState.OPEN, webSocket = webSocket, response = response))
     }
@@ -62,7 +61,6 @@ abstract class IWebSocketListener : WebSocketListener() {
         informationRelay.accept(sf)
         receive(SocketInfo(state = WebSocketState.FAILURE, webSocket = webSocket, t = t, response = response))
     }
-
 }
 
 enum class WebSocketState {

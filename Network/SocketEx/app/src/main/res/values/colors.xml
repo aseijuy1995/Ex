@@ -7,19 +7,25 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    //
+    <color name="gray_2d2e30">#2D2E30</color>//info背景
+    <color name="gray_1f1f1f">#1F1F1F</color>//背景
+    <color name="gray_121212">#121212</color>//底部背景
+    <color name="gray_979797">#979797</color>//icon顏色
 
+
+    //
     <color name="gray_111111">#111111</color>
     <color name="gray_2a2a2a">#2A2A2A</color>
     <color name="gray_777777">#777777</color>
     //
-    <color name="gray_1f1f1f">#1F1F1F</color>
-    <color name="gray_2d2e30">#2D2E30</color>
+
+
     <color name="gray_555555">#555555</color>
 
     <color name="green_01b901">#01B901</color>
     <color name="green_86d97b">#86D97B</color>
-<!--    /-->
-
+    <!--    /-->
 
 
     <color name="green_00b900">#00B900</color>

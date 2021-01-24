@@ -12,8 +12,8 @@
         tools:layout="@layout/fragment_chat_room">
 
         <action
-            android:id="@+id/action_fragment_chat_room_to_fragment_add_bottom_sheet_dialog"
-            app:destination="@id/fragment_add_bottom_sheet_dialog" />
+            android:id="@+id/action_fragment_chat_room_to_fragment_add_dialog"
+            app:destination="@id/fragment_add_dialog" />
 
         <action
             android:id="@+id/action_fragment_chat_room_to_fragment_mic_bottom_sheet_dialog"
@@ -31,10 +31,10 @@
     </fragment>
 
     <dialog
-        android:id="@+id/fragment_add_bottom_sheet_dialog"
-        android:name="edu.yujie.socketex.ui.AddBottomSheetDialogFragment"
-        android:label="fragment_add_bottom_sheet_dialog"
-        tools:layout="@layout/fragment_add_bottom_sheet_dialog" />
+        android:id="@+id/fragment_add_dialog"
+        android:name="edu.yujie.socketex.ui.AddDialogFragment"
+        android:label="fragment_add_dialog"
+        tools:layout="@layout/fragment_add_dialog" />
 
     <dialog
         android:id="@+id/fragment_mic_bottom_sheet_dialog"

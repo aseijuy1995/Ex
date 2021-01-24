@@ -1,12 +1,9 @@
 package edu.yujie.socketex.listener
 
 import com.google.gson.Gson
-import com.jakewharton.rxrelay3.PublishRelay
+import com.jakewharton.rxrelay3.BehaviorRelay
 import edu.yujie.socketex.bean.ChatItem
 import edu.yujie.socketex.bean.ChatSender
-import edu.yujie.socketex.inter.IWebSocketListener
-import edu.yujie.socketex.inter.SocketInfo
-import edu.yujie.socketex.inter.WebSocketState
 import edu.yujie.socketex.util.getTime
 import kotlinx.coroutines.*
 import okhttp3.mockwebserver.MockResponse
@@ -17,9 +14,9 @@ class MockServerSocketListener : IWebSocketListener(), CoroutineScope {
 
     lateinit var mockWebServer: MockWebServer
 
-    private val urlRelay = PublishRelay.create<String>()
+    private val urlRelay = BehaviorRelay.create<String>()
 
-    fun execute(): PublishRelay<String> {
+    fun execute(): BehaviorRelay<String> {
         mockWebServer = MockWebServer()
         mockWebServer.enqueue(MockResponse().withWebSocketUpgrade(this))
         launch(Dispatchers.IO) {
