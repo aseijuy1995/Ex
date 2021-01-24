@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray_1f1f1f">
+        android:background="@color/gray_111111">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_time"
