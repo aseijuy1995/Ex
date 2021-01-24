@@ -25,8 +25,10 @@ class BaseApplication : Application() {
         single<ICamera> { CameraImpl() }
         single<IAlbum> { AlbumImpl() }
         single<ICrop> { CropImpl() }
-        single<IRecorder> { RecorderImpl() }
         single<IMediaRepo> { MediaRepo(androidContext()) }
+        //
+        single<IRecorder> { RecorderImpl() }
+        single<IRecorderRepo> { RecorderRepoImpl(get()) }
     }
 
     private val utilModules = module {
@@ -34,11 +36,11 @@ class BaseApplication : Application() {
     }
 
     private val repoModules = module {
-        single<IMediaRepo2> { MediaRepo2Impl() }
+        single<IIntentRepo> { IntentRepoImpl() }
         single<IAlbumRepow> { AlbumRepowImpl(androidContext()) }
     }
     private val viewModules = module {
-        viewModel { ChatRoomViewModel(this@BaseApplication, get()) }
+        viewModel { ChatRoomViewModel(this@BaseApplication, get(), get()) }
         viewModel<MediaViewModel> { MediaViewModel(androidApplication(), get()) }
     }
 

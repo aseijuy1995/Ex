@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="edu.yujie.socketex.vm.ChatRoomViewModel" />
 
+        <import type="android.view.View" />
     </data>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/gray_1f1f1f">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Time"
+            android:layout_marginTop="15dp"
+            android:text="@{@string/time_format(viewModel.recordingTime / 60, viewModel.recordingTime % 60)}"
             android:textColor="@color/red_f5010b"
-            android:textSize="20sp"
+            android:textSize="20dp"
             android:textStyle="bold"
-            android:visibility="invisible"
+            android:visibility="@{(viewModel.recordingState==true)? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -29,6 +34,7 @@
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,9 +50,9 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_circle"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:src="@drawable/ic_baseline_radio_button_unchecked_24_gray" />
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                bind:imgSrc="@{viewModel.recordingArc}" />
 
         </FrameLayout>
 

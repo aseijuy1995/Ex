@@ -8,7 +8,7 @@ import edu.yujie.socketex.bean.IntentResult
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 
-abstract class IMediaRepo2 {
+abstract class IIntentRepo {
 
     abstract fun createCameraBuilder(context: Context): Observable<IntentBuilder>
 
@@ -22,14 +22,18 @@ abstract class IMediaRepo2 {
 
     abstract fun onAlbumResult(result: IntentResult): Observable<IntentResult>
 
-    abstract fun prepareRecording(context: Context): Completable
+    
+//    //-------------------------------------------------------------
+//    abstract fun prepareRecording(context: Context): Completable
+//
+//    abstract fun startRecording()
+//
+//    abstract fun stopRecording(): Completable
+//
+//    abstract val stateRe: BehaviorRelay<Boolean>
+//
+//    abstract val lessTimeRelay: BehaviorRelay<Boolean>
 
-    abstract val recordingStateRelay: BehaviorRelay<Boolean>
-
-    abstract val enoughRecordingTimeRelay: BehaviorRelay<Boolean>
-
-    abstract fun startRecording(): Observable<Long>
-
-    abstract fun stopRecording(): Completable
+    
 
 }

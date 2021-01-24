@@ -7,13 +7,15 @@ import io.reactivex.rxjava3.core.Completable
 
 interface IRecorder {
 
-    val recordingStateRelay: BehaviorRelay<Boolean>
+    val stateRelay: BehaviorRelay<Boolean>
 
-    val enoughRecordingTimeRelay: BehaviorRelay<Boolean>
+    val lessTimeRelay: BehaviorRelay<Boolean>
+
+    val recordingTimeRelay: PublishRelay<Int>
 
     fun prepareRecording(setting: RecorderSetting): Completable
 
-    fun startRecording(): PublishRelay<Long>
+    fun startRecording()
 
     fun stopRecording(): Completable
 

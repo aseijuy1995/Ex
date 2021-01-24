@@ -18,7 +18,6 @@ import edu.yujie.socketex.bean.ChatItem
 import edu.yujie.socketex.bean.ChatSender
 import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentChatRoomBinding
-import edu.yujie.socketex.listener.From
 import edu.yujie.socketex.util.closeKeyBoard
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import edu.yujie.socketex.vm.MediaViewModel
@@ -136,11 +135,11 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         }
         //audio
         chatRoomViewModel.audio.observe(viewLifecycleOwner) {
-            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMicBottomSheetDialog())
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentRecordingDialog())
         }
         //recording
         chatRoomViewModel.recording.observe(viewLifecycleOwner) {
-            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMicBottomSheetDialog())
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentRecordingDialog())
         }
         //photography
         chatRoomViewModel.photography.observe(viewLifecycleOwner) {

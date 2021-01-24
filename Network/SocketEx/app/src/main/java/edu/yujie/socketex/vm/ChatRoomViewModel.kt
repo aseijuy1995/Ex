@@ -2,12 +2,11 @@ package edu.yujie.socketex.vm
 
 import android.app.Application
 import android.content.Intent
-import android.media.MediaPlayer
-import android.media.MediaRecorder
 import android.net.Uri
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.jakewharton.rxrelay3.BehaviorRelay
@@ -20,10 +19,12 @@ import edu.yujie.socketex.ext.BitmapCompress
 import edu.yujie.socketex.ext.BitmapConfig
 import edu.yujie.socketex.ext.compressToByteArray
 import edu.yujie.socketex.ext.getBitmap
-import edu.yujie.socketex.inter.IMediaRepo2
+import edu.yujie.socketex.impl.IRecorderRepo
+import edu.yujie.socketex.inter.IIntentRepo
 import edu.yujie.socketex.listener.ChatSocketRepository
 import edu.yujie.socketex.util.*
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -35,10 +36,9 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import okhttp3.WebSocket
-import org.koin.core.KoinComponent
 import java.io.File
 
-class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2) : BaseAndroidViewModel(application), KoinComponent {
+class ChatRoomViewModel(application: Application, private val recorderRepo: IRecorderRepo, private val repo: IIntentRepo) : BaseAndroidViewModel(application) {
 
     val chatSocketRepository = ChatSocketRepository()
 
@@ -262,14 +262,36 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
         }
     }
 
+    //--------------------------------------------------------------------------------------
+    //recorder
+    val recordingState = recorderRepo.stateRelay.toLiveData(BackpressureStrategy.LATEST)
+
+    val lessTimeRelay: BehaviorRelay<Boolean> = recorderRepo.lessTimeRelay
+
+    val recordingTime = recorderRepo.recordingTimeRelay.toLiveData(BackpressureStrategy.LATEST)
+
+    fun startRecording(setting: RecorderSetting) {
+        recorderRepo.prepareRecording(setting = setting)
+        recorderRepo.startRecording()
+    }
+
+    fun stopRecording() {
+        recorderRepo.stopRecording()
+    }
+
+    val recordingArc = recordingState.combine(recordingTime).map {
+        it.first?.let {
+            if (it) R.drawable.ic_baseline_radio_button_unchecked_24_red else R.drawable.ic_baseline_radio_button_unchecked_24_gray
+
+        } ?: R.drawable.ic_baseline_radio_button_unchecked_24_gray
+    }
+
 
     //
     //
     //
     //
     //
-
-
     //
     //
     //
@@ -346,7 +368,7 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
 
     //camera
     fun createCameraBuilder(doStart: (builder: IntentBuilder) -> Unit) {
-        repo2.createCameraBuilder(context)
+        repo.createCameraBuilder(context)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { doStart(it) }
@@ -355,14 +377,14 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
 
     fun onCameraResult(requestCode: Int, resultCode: Int, data: Intent?): Observable<IntentResult> {
         val result = IntentResult.IntentResultDefault(requestCode, resultCode, data)
-        return repo2.onCameraResult(result)
+        return repo.onCameraResult(result)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
 
     //crop
     fun createCropBuilder(uri: Uri, doStart: (builder: IntentBuilder) -> Unit) {
-        repo2.createCropBuilder(uri)
+        repo.createCropBuilder(uri)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { doStart(it) }
@@ -371,7 +393,7 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
 
     fun onCropResult(requestCode: Int, resultCode: Int, data: Intent?): Observable<IntentResult> {
         val result = IntentResult.IntentResultDefault(requestCode, resultCode, data)
-        return repo2.onCropResult(result)
+        return repo.onCropResult(result)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
@@ -382,25 +404,6 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
 
     fun albumResultEvent(result: IntentResult) = mAlbumLiveData.postValue(result)
 
-    //recorder
-    val recordingStateRelay: BehaviorRelay<Boolean>
-        get() = repo2.recordingStateRelay
-
-    val enoughRecordingTimeRelay: BehaviorRelay<Boolean>
-        get() = repo2.enoughRecordingTimeRelay
-
-    fun startRecording(doStart: (Long) -> Unit) {
-        repo2.prepareRecording(context).subscribe {
-            repo2.startRecording()
-                .subscribe { doStart(it) }
-        }.addTo(compositeDisposable = compositeDisposable)
-    }
-
-    fun stopRecording() {
-        val disposable = repo2.stopRecording().subscribe()
-        compositeDisposable.add(disposable)
-    }
-
 
     //----------------------------------------------
 
@@ -411,143 +414,33 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
     //----------------------------------------------
 
 
-//    //recorder
-//    fun openMic() = mMicStateLiveData.postValue(true)
-
-
-    var recorderStateRelay = BehaviorRelay.create<Boolean>()
-
-    val errorRelay = BehaviorRelay.create<Boolean>()
-
-
-//    fun startRecorder() {
-////        val fileName = "Audio_${System.nanoTime()}.3gp"
-////        val file = FileExt.createFile(context.externalCacheDir, fileName)
-////        recorder.buildRecorder()
-////            .subscribeOn(Schedulers.io())
-////            .observeOn(AndroidSchedulers.mainThread())
-////            .doOnComplete {
-////                recorder.startRecorder()
-////            }
-////        ////////////////////////////////////////////////
-////
-////        Observable.just(1, 2, 3, 4)
-////            .subscribeOn(Schedulers.io())
-////            .observeOn(AndroidSchedulers.mainThread())
-////            .doOnError {
-////
-////            }
-//
-//    }
-
-    //
-    //
-
-
-    //audio recorder
-    private var recorderFile: File? = null
-    private var mediaRecorder: MediaRecorder? = null
-
-    private val mRecorderStateFileLiveData: MutableLiveData<Pair<Boolean, File?>> by lazy { MutableLiveData<Pair<Boolean, File?>>(false to null) }
-    val recorderStateFileLiveData: LiveData<Pair<Boolean, File?>> = mRecorderStateFileLiveData
-
-    private var mediaPlayer: MediaPlayer? = null
-
-    val mMediaPlayerState: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>(false) }
-    val mediaPlayerState: LiveData<Boolean> = mMediaPlayerState
-
-    //audio recorder
-//    fun startRecorder() {
+//    fun startPlayer(byteArray: ByteArray) {
 //        val fileName = "Audio_${System.nanoTime()}.3gp"
-//        recorderFile = FileExt.createFile(context.externalCacheDir, fileName)
-//        mediaRecorder = MediaRecorder().apply {
-//            setAudioSource(MediaRecorder.AudioSource.MIC)
-//            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-//            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-//            setOutputFile(recorderFile?.absolutePath)
+//        val file = context.externalCacheDir?.createFile(fileName)
+//        file?.writeBytes(byteArray)
+//        mediaPlayer = MediaPlayer().apply {
+//            setDataSource(file?.absolutePath)
 //            prepare()
-//            start()
 //        }
-//        startTime = System.currentTimeMillis()
-//        mRecorderStateFileLiveData.postValue(true to recorderFile)
-//    }
-
-//    fun stopRecorder(lessTime: (() -> Unit)? = null) {
-//        stopTime = System.currentTimeMillis()
-//        mediaRecorder?.apply {
-//            stop()
-//            reset()
-//            release()
-//            mRecorderStateFileLiveData.postValue(false to recorderFile)
-//        }
-//        if ((stopTime!! - startTime!!) / 1000 < 1) {
-//            recorderFile?.let {
-//                if (it.exists())
-//                    it.delete()
+//        mediaPlayer?.let {
+//            if (!it.isPlaying) {
+//                it.start()
+//                mMediaPlayerState.postValue(true)
 //            }
-//            lessTime?.invoke()
-//            mRecorderStateFileLiveData.postValue(false to null)
 //        }
-//    }
-
-
-    fun startPlayer(byteArray: ByteArray) {
-        val fileName = "Audio_${System.nanoTime()}.3gp"
-        val file = context.externalCacheDir?.createFile(fileName)
-        file?.writeBytes(byteArray)
-        mediaPlayer = MediaPlayer().apply {
-            setDataSource(file?.absolutePath)
-            prepare()
-        }
-        mediaPlayer?.let {
-            if (!it.isPlaying) {
-                it.start()
-                mMediaPlayerState.postValue(true)
-            }
-        }
-
-    }
-
-    fun stopPlayer() {
-        mediaPlayer?.let {
-            if (it.isPlaying) {
-                it.reset()
-                it.stop()
-                it.release()
-                mediaPlayer = null
-            }
-            mMediaPlayerState.postValue(true)
-        }
-    }
-
-    //
-
-    private fun convertBeanJson(text: String): String {
-        val chatBean = Gson().fromJson(text, ChatItem::class.java)
-        val msg = if (chatBean.textMsg != null) "${chatBean.textMsg} - From Server" else null
-        val imgBytes = chatBean.imgListMsg
-        val recorderBytes = chatBean.audioMsg
-        val chatBeanOther = ChatItem(id = -1, name = "Ohter", textMsg = msg, sender = ChatSender.OTHER, time = getTime(), imgListMsg = imgBytes, audioMsg = recorderBytes)
-        val json = Gson().toJson(chatBeanOther)
-        return json
-    }
-
-    ///////////////////////////////////////////////////////////////////////////////////////////////
-
-//    //album
-//    fun createAlbumBuilder(doStart: (builder: IntentBuilder) -> Unit) {
-//        repo2.createAlbumBuilder()
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe {
-//                doStart(it)
-//            }.addTo(compositeDisposable = compositeDisposable)
+//
 //    }
 //
-//    fun onAlbumResult(requestCode: Int, resultCode: Int, data: Intent?): Observable<IntentResult> {
-//        val result = IntentResult.IntentResultDefault(requestCode, resultCode, data)
-//        return repo2.onAlbumResult(result)
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
+//    fun stopPlayer() {
+//        mediaPlayer?.let {
+//            if (it.isPlaying) {
+//                it.reset()
+//                it.stop()
+//                it.release()
+//                mediaPlayer = null
+//            }
+//            mMediaPlayerState.postValue(true)
+//        }
 //    }
+
 }

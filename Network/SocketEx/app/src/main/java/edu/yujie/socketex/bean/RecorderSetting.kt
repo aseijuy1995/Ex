@@ -14,13 +14,10 @@ data class RecorderSetting(
 //    val audioEncoder: Int = MediaRecorder.AudioEncoder.AMR_NB,
 //    val audioEncoder: Int = MediaRecorder.AudioEncoder.AMR_WB,
     val audioEncoder: Int = MediaRecorder.AudioEncoder.AAC,
-    val millisecondInterval: Long = 1,//
+    val shortLengthTimeSec: Int = 1,//最短時間
     val context: Context,
     val filePath: File? = context.externalCacheDir,
-    val fileName: String = "Audio_${System.nanoTime()}.3gp",
-
-    val recordingTime:Long = 1,
-    val recordingTimeUnit: TimeUnit = TimeUnit.MILLISECONDS
+    val fileName: String = "Audio_${System.nanoTime()}.3gp"
 
 //    long period, @NonNull TimeUnit unit
 )

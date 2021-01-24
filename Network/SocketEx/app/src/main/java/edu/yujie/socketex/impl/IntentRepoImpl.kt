@@ -46,11 +46,11 @@ class MediaRepo2Impl : IMediaRepo2(), KoinComponent {
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
-    override val recordingStateRelay: BehaviorRelay<Boolean>
-        get() = recorder.recordingStateRelay
+    override val stateRe: BehaviorRelay<Boolean>
+        get() = recorder.stateRelay
 
-    override val enoughRecordingTimeRelay: BehaviorRelay<Boolean>
-        get() = recorder.enoughRecordingTimeRelay
+    override val lessTimeRelay: BehaviorRelay<Boolean>
+        get() = recorder.lessTimeRelay
 
 
     override fun startRecording(): Observable<Long> = recorder.startRecording()

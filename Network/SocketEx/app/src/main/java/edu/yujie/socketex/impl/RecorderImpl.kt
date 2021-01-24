@@ -10,6 +10,7 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 class RecorderImpl : IRecorder {
     private var mediaRecorder: MediaRecorder? = null
@@ -18,62 +19,55 @@ class RecorderImpl : IRecorder {
 
     private lateinit var file: File
 
-    override val recordingStateRelay = BehaviorRelay.createDefault<Boolean>(false)//錄音狀態
+    override val stateRelay = BehaviorRelay.createDefault<Boolean>(false)//錄音狀態
+
+    override val lessTimeRelay = BehaviorRelay.createDefault<Boolean>(false)
+
+    override val recordingTimeRelay = PublishRelay.create<Int>()
 
     private var startTime: Long? = 0
 
-    private val recordingTimeRelay = PublishRelay.create<Long>()
+    private lateinit var disposable: Disposable
 
-    private lateinit var recordingTime: Disposable
-
-    override val enoughRecordingTimeRelay = BehaviorRelay.create<Boolean>()//錄音時間是否充足
-
-    override fun prepareRecording(setting: RecorderSetting): Completable {
+    override fun prepareRecording(setting: RecorderSetting): Completable = Completable.fromAction {
         this.setting = setting
-        return Observable.just(setting.filePath)
-            .map { it?.createFile(setting.fileName)!! }
-            .map {
-                file = it
-                mediaRecorder = MediaRecorder().apply {
-                    setAudioSource(setting.audioSource)
-                    setOutputFormat(setting.outputFormat)
-                    setAudioEncoder(setting.audioEncoder)
-                    setOutputFile(it.absolutePath)
-                }
-                mediaRecorder?.prepare()
-            }.ignoreElements()
+        val path = setting.filePath
+        file = path?.createFile(setting.fileName)!!
+        mediaRecorder = MediaRecorder().apply {
+            setAudioSource(setting.audioSource)
+            setOutputFormat(setting.outputFormat)
+            setAudioEncoder(setting.audioEncoder)
+            setOutputFile(file.absolutePath)
+            prepare()
+        }
     }
 
-    override fun startRecording(): PublishRelay<Long> {
-        recordingStateRelay.accept(true)
+    override fun startRecording() {
+        stateRelay.accept(true)
         startTime = System.currentTimeMillis()
         mediaRecorder?.start()
 
-        recordingTime = Observable.interval(setting.recordingTime, setting.recordingTimeUnit).subscribe {
-            recordingTimeRelay.accept(it)
-        }
-        return recordingTimeRelay
+        disposable = Observable.interval(1, TimeUnit.SECONDS)
+            .map { it.toInt() }
+            .subscribe {
+                recordingTimeRelay.accept(it)
+            }
     }
 
     override fun stopRecording(): Completable = Completable.fromAction {
-        recordingTime.dispose()
-        recordingStateRelay.accept(false)
+        stateRelay.accept(false)
+        val stopTime = System.currentTimeMillis()
+        val lengthTime: Int = ((stopTime - startTime!!) / 1000).toInt() / setting.shortLengthTimeSec
+        if (lengthTime < 1) {
+            if (file.exists()) file.delete()
+            lessTimeRelay.accept(true)
+        }
+        disposable.dispose()
+
         mediaRecorder?.apply {
             stop()
             release()
-            mediaRecorder = null
-        }
-
-        startTime = if (startTime != null) startTime else System.currentTimeMillis()
-        val stopTime = System.currentTimeMillis()
-        val insteff: Long = (stopTime - startTime!!) / setting.millisecondInterval
-        println("startTime:${startTime}, stopTime:${stopTime}, insteff:$insteff")
-        if (insteff < 500) {
-            if (file.exists()) file.delete()
-            enoughRecordingTimeRelay.accept(false)
-        } else {
-            enoughRecordingTimeRelay.accept(true)
+//            mediaRecorder = null
         }
     }
-
 }
