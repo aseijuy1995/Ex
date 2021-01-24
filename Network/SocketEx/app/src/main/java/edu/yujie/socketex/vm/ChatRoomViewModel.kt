@@ -36,9 +36,7 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import okhttp3.WebSocket
 import org.koin.core.KoinComponent
-import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.FileInputStream
 
 class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2) : BaseAndroidViewModel(application), KoinComponent {
 
@@ -94,7 +92,8 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
 
     fun addChat(chatItem: ChatItem) = chatList.also {
         it.add(chatItem)
-        _chatList.value = it
+//        _chatList.value = it
+        _chatList.postValue(it)
     }
 
     fun sendText(str: String) {
@@ -141,25 +140,18 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
 
     fun sendVideo(paths: List<String>) {
         paths.forEach {
-            val baos = ByteArrayOutputStream()
-            val fis = FileInputStream(File(it))
-            val buf = ByteArray(1024)
-            var n: Int
-            while (-1 != fis.read(buf).also { n = it }) baos.write(buf, 0, n)
-            val videoBytes = baos.toByteArray()
-            println("videoBytes:${videoBytes.size}")
-
+            val videoBytes = it.toByteArray()
             val chatVideoList = videoBytes.mapIndexed { index, bytes -> ChatVideo(index, bytes) }
-            val chatBean = ChatItem(
+            val chatItem = ChatItem(
                 id = 0,
                 name = "Me",
                 time = getTime(),
                 videoListMsg = chatVideoList,
                 sender = ChatSender.OWNER
             )
-            val json = Gson().toJson(chatBean)
+            val json = Gson().toJson(chatItem)
             webSocket.send(json)
-            addChat(chatBean)
+            addChat(chatItem)
         }
     }
 

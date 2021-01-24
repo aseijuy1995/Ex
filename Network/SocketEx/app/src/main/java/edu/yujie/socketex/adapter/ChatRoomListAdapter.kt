@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.jakewharton.rxbinding4.view.clicks
 import edu.yujie.socketex.R
+import edu.yujie.socketex.bean.ChatImg
 import edu.yujie.socketex.bean.ChatItem
 import edu.yujie.socketex.bean.ChatSender
 import edu.yujie.socketex.databinding.ItemChatOtherBinding
 import edu.yujie.socketex.databinding.ItemChatOwnerBinding
+import io.reactivex.rxjava3.core.Observable
 
 class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
     object : DiffUtil.ItemCallback<ChatItem>() {
@@ -27,6 +29,11 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
     }
 ) {
 
+
+    private val chatImgListAdapter = ChatImgListAdapter()
+
+    val itemImgClickRelay: Observable<ChatImg> = chatImgListAdapter.itemImgClickRelay
+
     abstract inner class VH(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
         abstract fun bind(chatItem: ChatItem): Any
     }
@@ -34,9 +41,12 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
     inner class OwnerVH(private val binding: ItemChatOwnerBinding, val context: Context) : VH(binding) {
         override fun bind(chatItem: ChatItem) = binding.apply {
             chatItem.imgListMsg?.let {
-                rvImg.adapter = ChatImgListAdapter().apply {
+                rvImg.adapter = chatImgListAdapter.apply {
                     submitList(it)
                 }
+            }
+            chatItem.videoListMsg?.let {
+                rvVideo.adapter = ChatVideoListAdapter().apply { submitList(it) }
             }
             this.chatItem = chatItem
             executePendingBindings()

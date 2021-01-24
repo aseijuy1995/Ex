@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.bean.ChatImg
 import edu.yujie.socketex.databinding.ItemChatImgBinding
 
@@ -18,15 +19,18 @@ class ChatImgListAdapter : ListAdapter<ChatImg, ChatImgListAdapter.VH>(
         override fun areContentsTheSame(old: ChatImg, aNew: ChatImg): Boolean {
             return old.hashCode() == aNew.hashCode()
         }
-
     }
 ) {
 
-    class VH(val binding: ItemChatImgBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(chatImg: ChatImg) = binding.apply {
-            this.chatImgBean = chatImg
-        }
+    val itemImgClickRelay = PublishRelay.create<ChatImg>()
 
+    inner class VH(val binding: ItemChatImgBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(chatImg: ChatImg) = binding.apply {
+            ivItem.setOnClickListener {
+                itemImgClickRelay.accept(chatImg)
+            }
+            this.chatImg = chatImg
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -36,8 +40,7 @@ class ChatImgListAdapter : ListAdapter<ChatImg, ChatImgListAdapter.VH>(
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        val chatImgBean = getItem(position)
-        holder.bind(chatImgBean)
+        holder.bind(getItem(position))
     }
 
 }

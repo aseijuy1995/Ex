@@ -28,6 +28,12 @@
                 app:argType=".bean.MimeType" />
         </action>
 
+        <action
+            android:id="@+id/action_fragment_chat_room_to_fragment_media_preview"
+            app:destination="@id/fragment_media_preview">
+
+        </action>
+
     </fragment>
 
     <dialog
@@ -51,8 +57,18 @@
                 android:name="media"
                 app:argType=".bean.Media" />
 
+            <argument
+                android:name="from"
+                app:argType=".listener.From" />
+
         </action>
     </dialog>
+
+    <fragment
+        android:id="@+id/fragment_media_preview"
+        android:name="edu.yujie.socketex.ui.MediaPreviewFragment"
+        android:label="fragment_media_preview"
+        tools:layout="@layout/fragment_media_preview" />
 
     <dialog
         android:id="@+id/fragment_mic_bottom_sheet_dialog"
@@ -60,11 +76,5 @@
         android:label="fragment_mic_bottom_sheet_dialog"
         tools:layout="@layout/fragment_mic_bottom_sheet_dialog" />
 
-
-    <fragment
-        android:id="@+id/fragment_media_preview"
-        android:name="edu.yujie.socketex.ui.MediaPreviewFragment"
-        android:label="fragment_media_preview"
-        tools:layout="@layout/fragment_media_preview" />
 
 </navigation>

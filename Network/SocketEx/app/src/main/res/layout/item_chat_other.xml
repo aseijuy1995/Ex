@@ -39,22 +39,21 @@
                 android:maxWidth="200dp"
                 android:text="@{chatItem.textMsg}"
                 android:textColor="@color/white"
-                bind:isVisible="@{chatItem.textMsg!=null}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                bind:isVisible="@{chatItem.textMsg!=null}" />
 
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_img"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="200dp"
-                bind:isVisible="@{chatItem.imgListMsg!=null &amp;&amp; chatItem.imgListMsg.size()>0}"
-                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:spanCount="2" />
+                bind:isVisible="@{chatItem.imgListMsg!=null &amp;&amp; chatItem.imgListMsg.size()>0}" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/view_recorder"
@@ -64,15 +63,15 @@
                 android:maxWidth="200dp"
                 android:orientation="horizontal"
                 android:textColor="@color/white"
-                bind:isVisible="@{chatItem.audioMsg!=null}"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                bind:isVisible="@{chatItem.audioMsg!=null}">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_recorder"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_baseline_play_circle_24_white"
+                    android:src="@drawable/ic_baseline_play_circle_24_gray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

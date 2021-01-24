@@ -18,6 +18,7 @@ import edu.yujie.socketex.bean.ChatItem
 import edu.yujie.socketex.bean.ChatSender
 import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentChatRoomBinding
+import edu.yujie.socketex.listener.From
 import edu.yujie.socketex.util.closeKeyBoard
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import edu.yujie.socketex.vm.MediaViewModel
@@ -156,8 +157,10 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
 
 
         //
-        //
-
+        //img preview
+        chatListAdapter.itemImgClickRelay.subscribeWithLife {
+//            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPreview(it, From.IMAGE))
+        }
         //
         //
         //

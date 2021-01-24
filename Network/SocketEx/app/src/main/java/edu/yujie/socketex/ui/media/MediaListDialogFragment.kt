@@ -12,6 +12,7 @@ import edu.yujie.socketex.base.BaseBottomSheetDialogFragment
 import edu.yujie.socketex.bean.MediaSetting
 import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentMediaListDialogBinding
+import edu.yujie.socketex.listener.From
 import edu.yujie.socketex.vm.MediaViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -86,7 +87,7 @@ class MediaListDialogFragment : BaseBottomSheetDialogFragment<FragmentMediaListD
 
     private fun clickEvent() {
         adapter.itemClickRelay.subscribeWithLife {
-            findNavController().navigate(MediaListDialogFragmentDirections.actionFragmentMediaListDialogToFragmentMediaPreview(it))
+            findNavController().navigate(MediaListDialogFragmentDirections.actionFragmentMediaListDialogToFragmentMediaPreview(it, From.MEDIA_LIST))
         }
         adapter.itemSelectedRelay.subscribeWithLife {
             viewModel.selectMedia(it)
