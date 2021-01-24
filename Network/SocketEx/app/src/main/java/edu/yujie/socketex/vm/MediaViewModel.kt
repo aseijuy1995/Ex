@@ -14,6 +14,62 @@ import io.reactivex.rxjava3.core.Observable
 
 class MediaViewModel(private val repo: IMediaRepo) : BaseViewModel() {
 
+
+
+    fun getMediaAlbumItems(setting: MediaSetting): Observable<List<MediaAlbumItem>> = repo.getMediaAlbumItems(setting = setting)
+        .map {
+            if (it.size <= 0) toastRelay.accept("No ${setting.mimeType}")
+            it
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //
+    //
+    //
+    //
+    //
+    //
     private var setting: MediaSetting = MediaSetting()
 
     val toastRelay = PublishRelay.create<String>()
@@ -28,11 +84,6 @@ class MediaViewModel(private val repo: IMediaRepo) : BaseViewModel() {
     val mediaListRelay = PublishRelay.create<List<Media>>()
 
     //
-    fun getMediaAlbumItems(setting: MediaSetting): Observable<List<MediaAlbumItem>> = repo.getMediaAlbumItems(setting = setting)
-        .map {
-            if (it.size <= 0) toastRelay.accept("No ${setting.mimeType}")
-            it
-        }
 
     //
     fun selectMedia(media: Media) {

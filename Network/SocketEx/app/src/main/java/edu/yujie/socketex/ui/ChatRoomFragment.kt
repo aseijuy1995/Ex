@@ -117,7 +117,7 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         }
         //album
         chatRoomViewModel.album.observe(viewLifecycleOwner) {
-            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.IMAGE))
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaDialog(MimeType.IMAGE))
         }
         //audio
         chatRoomViewModel.audio.observe(viewLifecycleOwner) {
@@ -129,11 +129,11 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         }
         //photography
         chatRoomViewModel.photography.observe(viewLifecycleOwner) {
-//            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.VIDEO))
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaDialog(MimeType.VIDEO))
         }
         //video
         chatRoomViewModel.video.observe(viewLifecycleOwner) {
-            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.VIDEO))
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaDialog(MimeType.VIDEO))
         }
         //
         //

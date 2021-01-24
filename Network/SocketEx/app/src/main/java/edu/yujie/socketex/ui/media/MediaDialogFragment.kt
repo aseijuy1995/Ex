@@ -12,16 +12,16 @@ import edu.yujie.socketex.adapter.MediaListAdapter
 import edu.yujie.socketex.base.BaseBottomSheetDialogFragment
 import edu.yujie.socketex.bean.MediaSetting
 import edu.yujie.socketex.bean.MimeType
-import edu.yujie.socketex.databinding.FragmentMediaBottomSheetDialogBinding
+import edu.yujie.socketex.databinding.FragmentMediaDialogBinding
 import edu.yujie.socketex.vm.MediaViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class MediaBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMediaBottomSheetDialogBinding>() {
+class MediaDialogFragment : BaseBottomSheetDialogFragment<FragmentMediaDialogBinding>() {
 
     override val layoutId: Int
-        get() = R.layout.fragment_media_bottom_sheet_dialog
+        get() = R.layout.fragment_media_dialog
 
     private val viewModel by sharedViewModel<MediaViewModel>()
 
@@ -81,18 +81,19 @@ class MediaBottomSheetDialogFragment : BaseBottomSheetDialogFragment<FragmentMed
     }
 
     private fun initView() {
-        binding.toolbar.setupWithNavController(navController)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = this@MediaBottomSheetDialogFragment.viewModel
+            viewModel = this@MediaDialogFragment.viewModel
+            toolbar.setupWithNavController(navController)
+            rvMedia.adapter = adapter
+
+            toolbar.menu.findItem(R.id.menu_send).isVisible = false
         }
-        binding.rvMedia.adapter = adapter
-        binding.toolbar.menu.findItem(R.id.menu_send).isVisible = false
     }
 
     private fun clickEvent() {
         adapter.itemClickRelay.subscribeWithLife {
-            findNavController().navigate(MediaBottomSheetDialogFragmentDirections.actionFragmentMediaBottomSheetDialogToFragmentMediaDetail(it))
+            findNavController().navigate(MediaDialogFragmentDirections.actionFragmentMediaDialogToFragmentMediaDetail(it))
         }
         adapter.itemSelectedRelay.subscribeWithLife {
             viewModel.selectMedia(it)
