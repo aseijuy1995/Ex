@@ -36,7 +36,9 @@ import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
 import okhttp3.WebSocket
 import org.koin.core.KoinComponent
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileInputStream
 
 class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2) : BaseAndroidViewModel(application), KoinComponent {
 
@@ -95,7 +97,7 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
         _chatList.value = it
     }
 
-    fun sendText(str: String) =
+    fun sendText(str: String) {
         if (TextUtils.isEmpty(str.trim())) {
             _toast.value = "Can not empty!"
         } else {
@@ -110,6 +112,56 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
             webSocket.send(json)
             addChat(chatBean)
         }
+    }
+
+    fun sendImg(paths: List<String>) {
+        val imgBytes = compressToByteArray(paths)
+        val chatImgList = imgBytes.mapIndexed { index, bytes -> ChatImg(index, bytes) }
+        val chatBean = ChatItem(
+            id = 0,
+            name = "Me",
+            time = getTime(),
+            imgListMsg = chatImgList,
+            sender = ChatSender.OWNER
+        )
+        val json = Gson().toJson(chatBean)
+        webSocket.send(json)
+        addChat(chatBean)
+    }
+
+    //圖片壓縮
+    private fun compressToByteArray(paths: List<String>): List<ByteArray> {
+        return paths.map {
+            val bitmap = File(it).getBitmap(BitmapConfig())
+            val byteArray = bitmap.compressToByteArray(BitmapCompress())
+            println("$TAG byteArray:size: ${byteArray.size}")
+            byteArray
+        }
+    }
+
+    fun sendVideo(paths: List<String>) {
+        paths.forEach {
+            val baos = ByteArrayOutputStream()
+            val fis = FileInputStream(File(it))
+            val buf = ByteArray(1024)
+            var n: Int
+            while (-1 != fis.read(buf).also { n = it }) baos.write(buf, 0, n)
+            val videoBytes = baos.toByteArray()
+            println("videoBytes:${videoBytes.size}")
+
+            val chatVideoList = videoBytes.mapIndexed { index, bytes -> ChatVideo(index, bytes) }
+            val chatBean = ChatItem(
+                id = 0,
+                name = "Me",
+                time = getTime(),
+                videoListMsg = chatVideoList,
+                sender = ChatSender.OWNER
+            )
+            val json = Gson().toJson(chatBean)
+            webSocket.send(json)
+            addChat(chatBean)
+        }
+    }
 
     //--------------------------------------------------------------------------------------
     //view state
@@ -248,25 +300,6 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
     //
 
 
-    fun sendImg(paths: List<String>) {
-        val imgBytes = compressToByteArray(paths)
-        val chatImgList = imgBytes.mapIndexed { index, bytes -> ChatImg(index, bytes) }
-        val chatBean = ChatItem(
-            id = 0, name = "Me", time = getTime(), sender = ChatSender.OWNER, imgListMsg = chatImgList
-        )
-        val json = Gson().toJson(chatBean)
-        webSocket.send(json)
-    }
-
-    //圖片壓縮
-    private fun compressToByteArray(paths: List<String>): List<ByteArray> {
-        return paths.map {
-            val bitmap = File(it).getBitmap(BitmapConfig())
-            val byteArray = bitmap.compressToByteArray(BitmapCompress())
-            println("$TAG byteArray:size: ${byteArray.size}")
-            byteArray
-        }
-    }
     //
     //
     //
@@ -306,10 +339,6 @@ class ChatRoomViewModel(application: Application, private val repo2: IMediaRepo2
                 }
             }
     }
-
-    //
-
-    val toastLiveData: SingleLiveEvent<String> by lazy { SingleLiveEvent<String>() }
 
 
     //

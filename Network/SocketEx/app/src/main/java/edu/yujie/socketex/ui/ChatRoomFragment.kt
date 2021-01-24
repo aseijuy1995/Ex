@@ -1,6 +1,5 @@
 package edu.yujie.socketex.ui
 
-import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
@@ -17,7 +16,6 @@ import edu.yujie.socketex.adapter.InfoListAdapter
 import edu.yujie.socketex.base.BaseFragment
 import edu.yujie.socketex.bean.ChatItem
 import edu.yujie.socketex.bean.ChatSender
-import edu.yujie.socketex.bean.IntentResult
 import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentChatRoomBinding
 import edu.yujie.socketex.util.closeKeyBoard
@@ -85,6 +83,22 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
             chatRoomViewModel.sendText(text)
         }
 
+        //album & video- send img
+        mediaViewModel.mediaListRelay.subscribeWithLife {
+            if (it.first().mimeType.startsWith(MimeType.IMAGE.toString())) {
+                val imgPaths = it.map { it.data }
+                chatRoomViewModel.sendImg(imgPaths)
+
+            } else if (it.first().mimeType.startsWith(MimeType.VIDEO.toString())) {
+                val videoPaths = it.map { it.data }
+                chatRoomViewModel.sendVideo(videoPaths)
+
+            } else {
+
+            }
+
+        }
+
         chatRoomViewModel.infoListLiveData.observe(viewLifecycleOwner) {
             if (it.size > 0) {
                 refreshInfo(it)
@@ -117,7 +131,7 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         }
         //album
         chatRoomViewModel.album.observe(viewLifecycleOwner) {
-            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaDialog(MimeType.IMAGE))
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaListDialog(MimeType.IMAGE))
         }
         //audio
         chatRoomViewModel.audio.observe(viewLifecycleOwner) {
@@ -129,13 +143,18 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         }
         //photography
         chatRoomViewModel.photography.observe(viewLifecycleOwner) {
-            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaDialog(MimeType.VIDEO))
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaListDialog(MimeType.VIDEO))
         }
         //video
         chatRoomViewModel.video.observe(viewLifecycleOwner) {
-            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaDialog(MimeType.VIDEO))
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaListDialog(MimeType.VIDEO))
         }
+
+        mediaViewModel.toast.observe(viewLifecycleOwner) { if (it.trim().isNotEmpty()) Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).setAnchorView(binding.includeInputBar.root).show() }
+
         //
+
+
         //
         //
 
@@ -199,11 +218,7 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
                 }
             }
         }
-        //album - send img
-        mediaViewModel.mediaListRelay.subscribeWithLife {
-            val imgPaths = it.map { it.data }
-            chatRoomViewModel.sendImg(imgPaths)
-        }
+
 
 //        chatRoomViewModel.albumLiveData.observe(viewLifecycleOwner) {
 ////            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.IMAGE))
@@ -214,18 +229,8 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
 //            }
 //        }
 
-        //alert
-        mediaViewModel.toastRelay.subscribeWithLife {
-            if (it.trim().isNotEmpty())
-                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).setAnchorView(binding.includeInputBar.root).show()
-        }
-
-        //toast
-        chatRoomViewModel.toastLiveData.observe(viewLifecycleOwner) { Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show() }
         //
     }
-
-
 
 
 //    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

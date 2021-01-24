@@ -1,4 +1,4 @@
-package edu.yujie.socketex.impl
+package edu.yujie.socketex.listener
 
 import android.content.Context
 import android.net.Uri
@@ -20,11 +20,11 @@ class MediaRepo(val context: Context) : IMediaRepo {
 
     private val isEmpty: Boolean = mediaAlbumItemMap.keys.isEmpty()
 
-    override fun fetchMediaDatas(setting: MediaSetting): Completable = Completable.fromAction {
-        fetchMediaDatasSync(setting)
+    override fun fetchMedia(setting: MediaSetting): Completable = Completable.fromAction {
+        fetchMediaSync(setting)
     }
 
-    private fun fetchMediaDatasSync(setting: MediaSetting) {
+    private fun fetchMediaSync(setting: MediaSetting) {
         mediaAlbumItemMap.clear()
         val uri: Uri = MediaStore.Files.getContentUri("external")
         val projection: Array<String> = arrayOf<String>(
@@ -70,6 +70,7 @@ class MediaRepo(val context: Context) : IMediaRepo {
         val sortOrder: String = "${MediaStore.Files.FileColumns.DATE_MODIFIED} DESC"
         val cancellationSignal: CancellationSignal = CancellationSignal()
         val cursor = context.contentResolver.query(uri, projection, selection, selectionArgs, sortOrder, cancellationSignal)
+        //
         if (cursor?.moveToFirst() == true) {
             val idIndex = cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns._ID)
             val bucketDisplayNameIndex = cursor.getColumnIndexOrThrow(if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Files.FileColumns.BUCKET_DISPLAY_NAME else "bucket_display_name")
@@ -143,7 +144,7 @@ class MediaRepo(val context: Context) : IMediaRepo {
                 addMedia(ALL_MEDIA_ALBUM_NAME, media)
                 //
                 addMediaAlbumItem(
-                    name = bucketDisplayName,
+                    albumName = bucketDisplayName,
                     folder = file.parentFile?.absolutePath ?: "",
                     covertPath = data
                 )
@@ -154,37 +155,38 @@ class MediaRepo(val context: Context) : IMediaRepo {
         mediaAlbumItemRelay.accept(mediaAlbumItemMap.values.toList())
     }
 
-    private fun addMediaAlbumItem(name: String, folder: String, covertPath: String) {
-        mediaAlbumItemMap[name] ?: MediaAlbumItem(name = name, folder = folder, covertPath = covertPath).also {
-            mediaAlbumItemMap[name] = it
+    private fun addMediaAlbumItem(albumName: String, folder: String, covertPath: String) {
+        mediaAlbumItemMap[albumName] ?: MediaAlbumItem(albumName = albumName, folder = folder, covertPath = covertPath).also {
+            mediaAlbumItemMap[albumName] = it
         }
     }
 
-    private fun addMedia(albumName: String, media: Media) = mediaAlbumItemMap[albumName]?.mediaList?.add(media)
+    private fun addMedia(albumName: String, media: Media) {
+        mediaAlbumItemMap[albumName]?.mediaList?.add(media)
+    }
 
     override fun getMediaAlbumItems(setting: MediaSetting): PublishRelay<List<MediaAlbumItem>> {
-        if (isEmpty) {
-            fetchMediaDatas(setting = setting)
+        if (isEmpty)
+            fetchMedia(setting = setting)
                 .subscribeOn(Schedulers.io())
                 .subscribe()
-        }
-
         return mediaAlbumItemRelay
     }
 
-    override fun getMediaAlbumItem(albumName: String, setting: MediaSetting): Observable<MediaAlbumItem> {
+    override fun getMediaAlbumItemFromAlbumName(albumName: String, setting: MediaSetting): Observable<MediaAlbumItem?> {
         if (isEmpty)
-            fetchMediaDatas(setting = setting)
+            fetchMedia(setting = setting)
                 .subscribeOn(Schedulers.io())
                 .subscribe()
-
-        return mediaAlbumItemRelay.map { mediaAlbumItemMap[albumName] }
-
+        return mediaAlbumItemRelay.map {
+//            mediaAlbumItemMap[albumName]
+            it.find { it.albumName.contains(albumName) }
+        }
     }
 
-    override fun getMediaItemSync(albumName: String, setting: MediaSetting): MediaAlbumItem? {
+    override fun getMediaAlbumItemSync(albumName: String, setting: MediaSetting): MediaAlbumItem? {
         if (isEmpty)
-            fetchMediaDatas(setting = setting)
+            fetchMedia(setting = setting)
 
         return mediaAlbumItemMap[albumName]
     }

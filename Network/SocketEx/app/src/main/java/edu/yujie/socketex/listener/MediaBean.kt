@@ -6,7 +6,7 @@ import android.os.Parcelable
 const val ALL_MEDIA_ALBUM_NAME = "ALL_MEDIA_ALBUM_NAME"
 
 data class MediaAlbumItem(
-    val name: String,
+    val albumName: String,
     val folder: String,
     val covertPath: String
 ) {

@@ -5,23 +5,20 @@ import android.view.View
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.clicks
 import edu.yujie.socketex.R
 import edu.yujie.socketex.adapter.MediaListAdapter
 import edu.yujie.socketex.base.BaseBottomSheetDialogFragment
 import edu.yujie.socketex.bean.MediaSetting
 import edu.yujie.socketex.bean.MimeType
-import edu.yujie.socketex.databinding.FragmentMediaDialogBinding
+import edu.yujie.socketex.databinding.FragmentMediaListDialogBinding
 import edu.yujie.socketex.vm.MediaViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class MediaDialogFragment : BaseBottomSheetDialogFragment<FragmentMediaDialogBinding>() {
+class MediaListDialogFragment : BaseBottomSheetDialogFragment<FragmentMediaListDialogBinding>() {
 
     override val layoutId: Int
-        get() = R.layout.fragment_media_dialog
+        get() = R.layout.fragment_media_list_dialog
 
     private val viewModel by sharedViewModel<MediaViewModel>()
 
@@ -33,25 +30,20 @@ class MediaDialogFragment : BaseBottomSheetDialogFragment<FragmentMediaDialogBin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getArgument()
         initView()
+        getArgument()
         clickEvent()
+        println("MediaDialogFragment:onViewCreated")
 
-        viewModel.getMediaAlbumItems(setting = setting)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWithLife {
-                val mediaList = it.flatMap { it.mediaList }
-                adapter.submitList(mediaList)
-            }
-
-        viewModel.toastRelay.subscribeWithLife {
-            if (it.trim().isNotEmpty())
-                findNavController().navigateUp()
+        viewModel.getMediaAlbumItems(setting = setting).subscribeWithLife {
+            val mediaList = it.flatMap { it.mediaList }
+            adapter.submitList(mediaList)
         }
 
+        viewModel.toast.observe(viewLifecycleOwner) { if (it.trim().isNotEmpty()) findNavController().navigateUp() }
+
         viewModel.selectMediaList.observe(viewLifecycleOwner) {
-            binding.toolbar.menu.findItem(R.id.menu_send).isVisible = (it.size > 0)
+            binding.toolbar.menu.findItem(R.id.menu_send).isVisible = (it.isNotEmpty())
         }
     }
 
@@ -83,38 +75,27 @@ class MediaDialogFragment : BaseBottomSheetDialogFragment<FragmentMediaDialogBin
     private fun initView() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = this@MediaDialogFragment.viewModel
+            viewModel = this@MediaListDialogFragment.viewModel
             toolbar.setupWithNavController(navController)
             rvMedia.adapter = adapter
 
             toolbar.menu.findItem(R.id.menu_send).isVisible = false
         }
+        viewModel.cleanSelectMediaList()
     }
 
     private fun clickEvent() {
         adapter.itemClickRelay.subscribeWithLife {
-            findNavController().navigate(MediaDialogFragmentDirections.actionFragmentMediaDialogToFragmentMediaDetail(it))
+            findNavController().navigate(MediaListDialogFragmentDirections.actionFragmentMediaListDialogToFragmentMediaPreview(it))
         }
         adapter.itemSelectedRelay.subscribeWithLife {
             viewModel.selectMedia(it)
         }
         val menuSend = binding.toolbar.menu.findItem(R.id.menu_send)
-        menuSend
-            .clicks()
-            .subscribeWithLife {
-                if (viewModel.isSelectMedia()) {
-                    viewModel.sendMedia()
-                    findNavController().navigateUp()
-                } else
-                    Snackbar.make(menuSend.actionView, "Please select ${mimeType}", Snackbar.LENGTH_SHORT).show()
-            }
-
+        menuSend.clicks().subscribeWithLife {
+            viewModel.sendSelectMediaList()
+            findNavController().navigateUp()
+        }
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.cleanMediaStorage()
-    }
-
 
 }

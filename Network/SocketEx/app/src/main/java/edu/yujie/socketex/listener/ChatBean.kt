@@ -8,7 +8,7 @@ data class ChatItem(
     val textMsg: String? = null,
     val imgListMsg: List<ChatImg>? = null,
     val audioMsg: ByteArray? = null,
-    val videoMsg: ByteArray? = null,
+    val videoListMsg: List<ChatVideo>? = null,
     val sender: ChatSender
 )
 
@@ -19,4 +19,9 @@ enum class ChatSender(val value: Int) {
 data class ChatImg(
     val id: Int,
     val byteArray: ByteArray
+)
+
+data class ChatVideo(
+    val id: Int,
+    val byteArray: Byte
 )

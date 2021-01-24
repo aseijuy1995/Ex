@@ -41,8 +41,7 @@ class MediaListAdapter : ListAdapter<Media, MediaListAdapter.VH>(
         holder.binding.root.setOnClickListener {
             itemClickRelay.accept(media)
         }
-        //
-        holder.binding.chkSelect.setOnCheckedChangeListener { compoundButton, b ->
+        holder.binding.chkSelect.setOnCheckedChangeListener { _, b ->
             media.isSelect = b
             itemSelectedRelay.accept(media)
         }

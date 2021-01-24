@@ -6,9 +6,11 @@ import edu.yujie.socketex.album.AlbumRepowImpl
 import edu.yujie.socketex.album.IAlbumRepow
 import edu.yujie.socketex.impl.*
 import edu.yujie.socketex.inter.*
+import edu.yujie.socketex.listener.MediaRepo
 import edu.yujie.socketex.util.OkHttpUtil
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import edu.yujie.socketex.vm.MediaViewModel
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -37,7 +39,7 @@ class BaseApplication : Application() {
     }
     private val viewModules = module {
         viewModel { ChatRoomViewModel(this@BaseApplication, get()) }
-        viewModel<MediaViewModel> { MediaViewModel(get()) }
+        viewModel<MediaViewModel> { MediaViewModel(androidApplication(), get()) }
     }
 
     override fun onCreate() {

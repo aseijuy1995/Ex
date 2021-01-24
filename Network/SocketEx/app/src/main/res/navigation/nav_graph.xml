@@ -20,8 +20,8 @@
             app:destination="@id/fragment_mic_bottom_sheet_dialog" />
 
         <action
-            android:id="@+id/action_fragment_chat_room_to_fragment_media_dialog"
-            app:destination="@id/fragment_media_dialog">
+            android:id="@+id/action_fragment_chat_room_to_fragment_media_list_dialog"
+            app:destination="@id/fragment_media_list_dialog">
             <argument
                 android:name="mimeType"
                 android:defaultValue="ALL"
@@ -38,14 +38,14 @@
 
 
     <dialog
-        android:id="@+id/fragment_media_dialog"
-        android:name="edu.yujie.socketex.ui.media.MediaDialogFragment"
-        android:label="fragment_media_dialog"
-        tools:layout="@layout/fragment_media_dialog">
+        android:id="@+id/fragment_media_list_dialog"
+        android:name="edu.yujie.socketex.ui.media.MediaListDialogFragment"
+        android:label="fragment_media_list_dialog"
+        tools:layout="@layout/fragment_media_list_dialog">
 
         <action
-            android:id="@+id/action_fragment_media_dialog_to_fragment_media_detail"
-            app:destination="@id/fragment_media_detail">
+            android:id="@+id/action_fragment_media_list_dialog_to_fragment_media_preview"
+            app:destination="@id/fragment_media_preview">
 
             <argument
                 android:name="media"
@@ -62,9 +62,9 @@
 
 
     <fragment
-        android:id="@+id/fragment_media_detail"
+        android:id="@+id/fragment_media_preview"
         android:name="edu.yujie.socketex.ui.MediaPreviewFragment"
-        android:label="fragment_media_detail"
+        android:label="fragment_media_preview"
         tools:layout="@layout/fragment_media_preview" />
 
 </navigation>

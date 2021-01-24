@@ -24,7 +24,6 @@
             android:id="@+id/player_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:visibility="@{(viewModel.media.mimeType.startsWith(MimeType.VIDEO.toString()))? View.VISIBLE : View.GONE}"
             app:controller_layout_id="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -32,19 +31,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:resize_mode="zoom"
             app:surface_type="surface_view"
-            app:use_controller="false" />
+            app:use_controller="false"
+            bind:isVisible="@{viewModel.media.mimeType.startsWith(MimeType.VIDEO.toString())}" />
 
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/photo_view"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="fitCenter"
-            android:visibility="@{(viewModel.media.mimeType.startsWith(MimeType.IMAGE.toString()))? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            bind:imgPath="@{viewModel.media.data}" />
+            bind:imgPath="@{viewModel.media.data}"
+            bind:isVisible="@{viewModel.media.mimeType.startsWith(MimeType.IMAGE.toString())}" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/iv_btn_send"
@@ -52,7 +52,6 @@
             android:layout_height="40dp"
             android:layout_margin="10dp"
             android:background="@drawable/shape_solid_white_corners_radius_30_padding_top_btn_rt_5_lt_8"
-            android:contentDescription="@string/todo"
             android:src="@drawable/ic_baseline_send_24_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
