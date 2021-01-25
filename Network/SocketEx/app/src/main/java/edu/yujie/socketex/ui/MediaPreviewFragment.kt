@@ -10,7 +10,7 @@ import edu.yujie.socketex.base.BaseFragment
 import edu.yujie.socketex.bean.Media
 import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentMediaPreviewBinding
-import edu.yujie.socketex.listener.ExoPlayerLifecycleObserver
+import edu.yujie.socketex.listener.ExoPlayerAutoLifecycleObserver
 import edu.yujie.socketex.vm.MediaViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
@@ -39,7 +39,7 @@ class MediaPreviewFragment : BaseFragment<FragmentMediaPreviewBinding>() {
         if (media.mimeType.startsWith(MimeType.VIDEO.toString())) {
             player = viewModel.buildPlayer(media)
             binding.playerView.player = player
-            ExoPlayerLifecycleObserver(this, player)
+            ExoPlayerAutoLifecycleObserver(this, player)
         }
     }
 

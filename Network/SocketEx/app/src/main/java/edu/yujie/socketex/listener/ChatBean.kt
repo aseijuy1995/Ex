@@ -7,7 +7,7 @@ data class ChatItem(
     val time: String,
     val textMsg: String? = null,
     val imgListMsg: List<ChatImg>? = null,
-    val audioMsg: ByteArray? = null,
+    val audioMsg: ChatAudio? = null,
     val videoListMsg: List<ChatVideo>? = null,
     val sender: ChatSender
 )
@@ -24,4 +24,9 @@ data class ChatImg(
 data class ChatVideo(
     val id: Int,
     val byteArray: Byte
+)
+
+data class ChatAudio(
+    val id: Int,
+    val byteAttay: ByteArray
 )

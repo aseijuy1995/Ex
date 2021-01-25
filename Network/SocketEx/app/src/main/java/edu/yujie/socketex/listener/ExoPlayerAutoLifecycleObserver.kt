@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.OnLifecycleEvent
 import com.google.android.exoplayer2.Player
 
-class ExoPlayerLifecycleObserver(private val owner: LifecycleOwner, private val player: Player) : LifecycleObserver {
+class ExoPlayerAutoLifecycleObserver(private val owner: LifecycleOwner, private val player: Player) : LifecycleObserver {
     private val TAG = javaClass.simpleName
 
     init {

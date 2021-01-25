@@ -19,9 +19,9 @@ class RecorderImpl : IRecorder {
 
     private lateinit var file: File
 
-    override val stateRelay = BehaviorRelay.createDefault<Boolean>(false)//錄音狀態
+    override val stateRelay = BehaviorRelay.createDefault<Boolean>(false)
 
-    override val lessTimeRelay = BehaviorRelay.createDefault<Boolean>(false)
+    override val doneRelay = PublishRelay.create<Pair<Boolean, File?>>()
 
     override val recordingTimeRelay = PublishRelay.create<Int>()
 
@@ -44,30 +44,30 @@ class RecorderImpl : IRecorder {
 
     override fun startRecording() {
         stateRelay.accept(true)
-        startTime = System.currentTimeMillis()
         mediaRecorder?.start()
 
-        disposable = Observable.interval(1, TimeUnit.SECONDS)
+        startTime = System.currentTimeMillis()
+        disposable = Observable.interval(0, 1000, TimeUnit.MILLISECONDS)
             .map { it.toInt() }
-            .subscribe {
-                recordingTimeRelay.accept(it)
-            }
+            .subscribe { recordingTimeRelay.accept(it) }
     }
 
     override fun stopRecording(): Completable = Completable.fromAction {
         stateRelay.accept(false)
+
         val stopTime = System.currentTimeMillis()
         val lengthTime: Int = ((stopTime - startTime!!) / 1000).toInt() / setting.shortLengthTimeSec
         if (lengthTime < 1) {
             if (file.exists()) file.delete()
-            lessTimeRelay.accept(true)
+            doneRelay.accept(Pair(false, null))
+        } else {
+            doneRelay.accept(Pair(true, file))
         }
         disposable.dispose()
 
         mediaRecorder?.apply {
             stop()
             release()
-//            mediaRecorder = null
         }
     }
 }

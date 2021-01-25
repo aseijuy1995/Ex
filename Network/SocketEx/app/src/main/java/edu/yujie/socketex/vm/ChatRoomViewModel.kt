@@ -10,6 +10,7 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.jakewharton.rxrelay3.BehaviorRelay
+import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.R
 import edu.yujie.socketex.SocketState
 import edu.yujie.socketex.SocketViewEvent
@@ -92,7 +93,6 @@ class ChatRoomViewModel(application: Application, private val recorderRepo: IRec
 
     fun addChat(chatItem: ChatItem) = chatList.also {
         it.add(chatItem)
-//        _chatList.value = it
         _chatList.postValue(it)
     }
 
@@ -154,6 +154,24 @@ class ChatRoomViewModel(application: Application, private val recorderRepo: IRec
             addChat(chatItem)
         }
     }
+
+    fun sendRecording(path: File) {
+        val recordingBytes = path.readBytes()
+        val chatAudio = ChatAudio(id = 0, byteAttay = recordingBytes)
+        val chatItem = ChatItem(
+            id = 0,
+            name = "Me",
+            time = getTime(),
+            audioMsg = chatAudio,
+            sender = ChatSender.OWNER
+        )
+        val json = Gson().toJson(chatItem)
+        webSocket.send(json)
+        addChat(chatItem)
+    }
+    //
+    //
+
 
     //--------------------------------------------------------------------------------------
     //view state
@@ -263,10 +281,10 @@ class ChatRoomViewModel(application: Application, private val recorderRepo: IRec
     }
 
     //--------------------------------------------------------------------------------------
-    //recorder
+    //recording
     val recordingState = recorderRepo.stateRelay.toLiveData(BackpressureStrategy.LATEST)
 
-    val lessTimeRelay: BehaviorRelay<Boolean> = recorderRepo.lessTimeRelay
+    val recordingDoneRelay: PublishRelay<Pair<Boolean, File?>> = recorderRepo.doneRelay
 
     val recordingTime = recorderRepo.recordingTimeRelay.toLiveData(BackpressureStrategy.LATEST)
 
@@ -275,15 +293,21 @@ class ChatRoomViewModel(application: Application, private val recorderRepo: IRec
         recorderRepo.startRecording()
     }
 
-    fun stopRecording() {
-        recorderRepo.stopRecording()
-    }
+    fun stopRecording() = recorderRepo.stopRecording()
 
     val recordingArc = recordingState.combine(recordingTime).map {
         it.first?.let {
             if (it) R.drawable.ic_baseline_radio_button_unchecked_24_red else R.drawable.ic_baseline_radio_button_unchecked_24_gray
 
         } ?: R.drawable.ic_baseline_radio_button_unchecked_24_gray
+    }
+
+    fun startPlayer() {
+
+    }
+
+    fun stopPlayer() {
+        
     }
 
 
@@ -344,11 +368,11 @@ class ChatRoomViewModel(application: Application, private val recorderRepo: IRec
                     }
 
                     is SocketViewEvent.SendRecorder -> {
-                        val chatBean = ChatItem(id = 0, name = "Me", sender = ChatSender.OWNER, time = getTime(), audioMsg = it.file.readBytes())
-                        val json = Gson().toJson(chatBean)
-                        println("$TAG json:$json")
-                        webSocket.send(json)
-                        _socketStateFlow.value = SocketState.ShowChat(chatItem = chatBean)
+//                        val chatBean = ChatItem(id = 0, name = "Me", sender = ChatSender.OWNER, time = getTime(), audioMsg = it.file.readBytes())
+//                        val json = Gson().toJson(chatBean)
+//                        println("$TAG json:$json")
+//                        webSocket.send(json)
+//                        _socketStateFlow.value = SocketState.ShowChat(chatItem = chatBean)
                     }
                 }
             }

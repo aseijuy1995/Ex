@@ -96,8 +96,20 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
             } else {
 
             }
-
         }
+        //
+        //
+        //
+        chatRoomViewModel.recordingDoneRelay.subscribeWithLife { (isDone, file) ->
+            if (isDone) {
+                file?.let {
+                    chatRoomViewModel.sendRecording(it)
+                }
+            }
+        }
+        //
+        //
+        //
 
         chatRoomViewModel.infoListLiveData.observe(viewLifecycleOwner) {
             if (it.size > 0) {
@@ -159,6 +171,11 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         //img preview
         chatListAdapter.itemImgClickRelay.subscribeWithLife {
 //            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPreview(it, From.IMAGE))
+        }
+        chatListAdapter.itemRecorderClickRelay.subscribeWithLife {
+            it.audioMsg?.byteAttay?.let {
+
+            }
         }
         //
         //
