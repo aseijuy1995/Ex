@@ -33,10 +33,10 @@ class RecordingDialogFragment : BaseBottomSheetDialogFragment<FragmentRecordingD
             }
         }
 
-        viewModel.recordingDoneRelay.subscribeWithLife { (isDone, file) ->
+        viewModel.recordingResultRelay.subscribeWithLife { (isDone, result) ->
             if (isDone) {
-                if (file == null) {
-                    Snackbar.make(binding.ivRecorder, "Can not find Recorder file path", Snackbar.LENGTH_SHORT).setAnchorView(binding.root).show()
+                if (result == null) {
+                    Snackbar.make(binding.ivRecorder, "Can not find Recorder result path", Snackbar.LENGTH_SHORT).setAnchorView(binding.root).show()
                 }
             } else
                 Snackbar.make(binding.ivRecorder, "Less than 1 second", Snackbar.LENGTH_SHORT).setAnchorView(binding.root).show()

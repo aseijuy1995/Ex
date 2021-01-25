@@ -99,11 +99,11 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         }
         //
         //
-        //
-        chatRoomViewModel.recordingDoneRelay.subscribeWithLife { (isDone, file) ->
+        //recording
+        chatRoomViewModel.recordingResultRelay.subscribeWithLife { (isDone, result) ->
             if (isDone) {
-                file?.let {
-                    chatRoomViewModel.sendRecording(it)
+                result?.let {
+                    chatRoomViewModel.sendRecording(result)
                 }
             }
         }
@@ -173,9 +173,10 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
 //            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPreview(it, From.IMAGE))
         }
         chatListAdapter.itemRecorderClickRelay.subscribeWithLife {
-            it.audioMsg?.byteAttay?.let {
-
-            }
+            if (it.first)
+                chatRoomViewModel.startPlayer(it.second)
+            else
+                chatRoomViewModel.stopPlayer()
         }
         //
         //

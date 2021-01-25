@@ -2,16 +2,11 @@ package edu.yujie.socketex.impl
 
 import android.content.Context
 import android.net.Uri
-import com.jakewharton.rxrelay3.BehaviorRelay
 import edu.yujie.socketex.bean.IntentBuilder
 import edu.yujie.socketex.bean.IntentResult
 import edu.yujie.socketex.bean.IntentSetting
-import edu.yujie.socketex.bean.RecorderSetting
 import edu.yujie.socketex.inter.*
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
@@ -20,7 +15,7 @@ class IntentRepoImpl : IIntentRepo(), KoinComponent {
     private val camera by inject<ICamera>()
     private val crop by inject<ICrop>()
     private val album by inject<IAlbum>()
-    private val recorder by inject<IRecorder>()
+    private val recorder by inject<IRecording>()
 
     //camera
     override fun createCameraBuilder(context: Context): Observable<IntentBuilder> = camera.createCameraBuilder(IntentSetting.CameraSetting(context = context))

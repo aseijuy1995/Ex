@@ -2,6 +2,7 @@ package edu.yujie.socketex.vm
 
 import android.app.Application
 import android.content.Intent
+import android.media.MediaPlayer
 import android.net.Uri
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
@@ -20,7 +21,7 @@ import edu.yujie.socketex.ext.BitmapCompress
 import edu.yujie.socketex.ext.BitmapConfig
 import edu.yujie.socketex.ext.compressToByteArray
 import edu.yujie.socketex.ext.getBitmap
-import edu.yujie.socketex.impl.IRecorderRepo
+import edu.yujie.socketex.impl.IRecordingRepo
 import edu.yujie.socketex.inter.IIntentRepo
 import edu.yujie.socketex.listener.ChatSocketRepository
 import edu.yujie.socketex.util.*
@@ -39,7 +40,7 @@ import kotlinx.coroutines.launch
 import okhttp3.WebSocket
 import java.io.File
 
-class ChatRoomViewModel(application: Application, private val recorderRepo: IRecorderRepo, private val repo: IIntentRepo) : BaseAndroidViewModel(application) {
+class ChatRoomViewModel(application: Application, private val recordingRepo: IRecordingRepo, private val repo: IIntentRepo) : BaseAndroidViewModel(application) {
 
     val chatSocketRepository = ChatSocketRepository()
 
@@ -155,9 +156,9 @@ class ChatRoomViewModel(application: Application, private val recorderRepo: IRec
         }
     }
 
-    fun sendRecording(path: File) {
-        val recordingBytes = path.readBytes()
-        val chatAudio = ChatAudio(id = 0, byteAttay = recordingBytes)
+    fun sendRecording(result: RecorderResult) {
+        val recordingBytes = result.file!!.readBytes()
+        val chatAudio = ChatAudio(id = 0, byteAttay = recordingBytes, time = result.lengthTime)
         val chatItem = ChatItem(
             id = 0,
             name = "Me",
@@ -282,32 +283,50 @@ class ChatRoomViewModel(application: Application, private val recorderRepo: IRec
 
     //--------------------------------------------------------------------------------------
     //recording
-    val recordingState = recorderRepo.stateRelay.toLiveData(BackpressureStrategy.LATEST)
+    val recordingState = recordingRepo.stateRelay.toLiveData(BackpressureStrategy.LATEST)
 
-    val recordingDoneRelay: PublishRelay<Pair<Boolean, File?>> = recorderRepo.doneRelay
+    val recordingResultRelay: PublishRelay<Pair<Boolean, RecorderResult?>> = recordingRepo.resultRelay
 
-    val recordingTime = recorderRepo.recordingTimeRelay.toLiveData(BackpressureStrategy.LATEST)
+    val recordingLengthTimeRelay = recordingRepo.lengthTimeRelay.toLiveData(BackpressureStrategy.LATEST)
 
     fun startRecording(setting: RecorderSetting) {
-        recorderRepo.prepareRecording(setting = setting)
-        recorderRepo.startRecording()
+        recordingRepo.prepare(setting = setting)
+        recordingRepo.start()
     }
 
-    fun stopRecording() = recorderRepo.stopRecording()
+    fun stopRecording() = recordingRepo.stop()
 
-    val recordingArc = recordingState.combine(recordingTime).map {
+    val recordingArc = recordingState.combine(recordingLengthTimeRelay).map {
         it.first?.let {
             if (it) R.drawable.ic_baseline_radio_button_unchecked_24_red else R.drawable.ic_baseline_radio_button_unchecked_24_gray
 
         } ?: R.drawable.ic_baseline_radio_button_unchecked_24_gray
     }
 
-    fun startPlayer() {
+    val recordingPlayList = mutableListOf<ChatItem>()//存取列表中正在播放的音訊
 
+    private var mediaPlayer: MediaPlayer? = null
+
+    fun startPlayer(chatItem: ChatItem) {
+        val fileName = "Audio_${System.nanoTime()}.3gp"
+        val file = context.externalCacheDir?.createFile(fileName)
+        file?.writeBytes(chatItem.audioMsg?.byteAttay!!)
+        mediaPlayer = MediaPlayer().apply {
+            setDataSource(file?.absolutePath)
+            prepare()
+            start()
+        }
     }
 
     fun stopPlayer() {
-        
+        mediaPlayer?.let {
+            if (it.isPlaying) {
+                it.reset()
+                it.stop()
+                it.release()
+                mediaPlayer = null
+            }
+        }
     }
 
 

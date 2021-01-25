@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="chatItem"
+            type="edu.yujie.socketex.bean.ChatItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,10 +21,12 @@
         app:layout_constraintTop_toTopOf="parent"
         bind:ignore="MissingDefaultResource">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_recorder"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/chk_recorder"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/select_checkbox_checked_recording"
+            android:button="@null"
             android:src="@drawable/ic_baseline_play_circle_24_gray"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,13 +35,14 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:text="00:00"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@{@string/time_format((chatItem.audioMsg.time  / 60), (chatItem.audioMsg.time % 60))}"
             android:textColor="@color/gray_303030"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_recorder"
+            app:layout_constraintStart_toEndOf="@id/chk_recorder"
             app:layout_constraintTop_toTopOf="parent" />
 
 

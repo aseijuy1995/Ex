@@ -34,7 +34,7 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
 
     val itemImgClickRelay: PublishRelay<ChatImg> = chatImgListAdapter.itemImgClickRelay
 
-    val itemRecorderClickRelay = PublishRelay.create<ChatItem>()
+    val itemRecorderClickRelay = PublishRelay.create<Pair<Boolean, ChatItem>>()
 
     abstract inner class VH(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
         abstract fun bind(chatItem: ChatItem): Any
@@ -51,8 +51,8 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
                 rvVideo.adapter = ChatVideoListAdapter().apply { submitList(it) }
             }
 
-            viewRecorder.ivRecorder.setOnClickListener {
-                itemRecorderClickRelay.accept(chatItem)
+            viewRecorder.chkRecorder.setOnCheckedChangeListener { buttonView, isChecked ->
+                itemRecorderClickRelay.accept(Pair(isChecked, chatItem))
             }
             this.chatItem = chatItem
             executePendingBindings()

@@ -27,8 +27,8 @@ class BaseApplication : Application() {
         single<ICrop> { CropImpl() }
         single<IMediaRepo> { MediaRepo(androidContext()) }
         //
-        single<IRecorder> { RecorderImpl() }
-        single<IRecorderRepo> { RecorderRepoImpl(get()) }
+        single<IRecording> { RecordingImpl() }
+        single<IRecordingRepo> { RecordingRepoImpl(get()) }
     }
 
     private val utilModules = module {
