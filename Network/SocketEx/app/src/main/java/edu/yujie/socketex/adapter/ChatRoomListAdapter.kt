@@ -11,6 +11,7 @@ import androidx.viewbinding.ViewBinding
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.R
+import edu.yujie.socketex.bean.ChatAudio
 import edu.yujie.socketex.bean.ChatImg
 import edu.yujie.socketex.bean.ChatItem
 import edu.yujie.socketex.bean.ChatSender
@@ -19,23 +20,38 @@ import edu.yujie.socketex.databinding.ItemChatOwnerBinding
 
 class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
     object : DiffUtil.ItemCallback<ChatItem>() {
-        override fun areItemsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
-        }
+        override fun areItemsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean = oldItem.hashCode() == newItem.hashCode()
 
-        override fun areContentsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean {
-            println("areContentsTheSame: ${oldItem.hashCode() == newItem.hashCode()}")
-            return oldItem.hashCode() == newItem.hashCode()
-        }
+        override fun areContentsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean = oldItem.hashCode() == newItem.hashCode()
     }
 ) {
 
-
     private val chatImgListAdapter = ChatImgListAdapter()
 
-    val itemImgClickRelay: PublishRelay<ChatImg> = chatImgListAdapter.itemImgClickRelay
+    val itemImgClickRelay = PublishRelay.create<ChatImg>()//image click
 
-    val itemRecorderClickRelay = PublishRelay.create<Pair<Boolean, ChatItem>>()
+    val itemRecordingClickRelay = PublishRelay.create<Pair<Boolean, ChatItem>>()
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            ChatSender.OWNER.value -> {
+                val binding = DataBindingUtil.inflate<ItemChatOwnerBinding>(inflater, R.layout.item_chat_owner, parent, false)
+                OwnerVH(binding, parent.context)
+            }
+//            ChatSender.OTHER.value -> {
+            else -> {
+                val binding = DataBindingUtil.inflate<ItemChatOtherBinding>(inflater, R.layout.item_chat_other, parent, false)
+                OtherVH(binding, parent.context)
+            }
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int = getItem(position).sender.value
+
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        holder.bind(getItem(position))
+    }
 
     abstract inner class VH(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
         abstract fun bind(chatItem: ChatItem): Any
@@ -43,17 +59,19 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
 
     inner class OwnerVH(private val binding: ItemChatOwnerBinding, val context: Context) : VH(binding) {
         override fun bind(chatItem: ChatItem) = binding.apply {
+            //image click
             chatItem.imgListMsg?.let {
-                rvImg.adapter = chatImgListAdapter.apply {
+                rvImg.adapter = ChatImgListAdapter().apply {
+                    itemImgClickRelay.subscribe { this@ChatListAdapter.itemImgClickRelay.accept(it) }
                     submitList(it)
                 }
             }
             chatItem.videoListMsg?.let {
                 rvVideo.adapter = ChatVideoListAdapter().apply { submitList(it) }
             }
-
-            viewRecorder.chkRecorder.setOnCheckedChangeListener { buttonView, isChecked ->
-                itemRecorderClickRelay.accept(Pair(isChecked, chatItem))
+            //recording check
+            viewRecorder.chkRecorder.setOnCheckedChangeListener { _, isChecked ->
+                itemRecordingClickRelay.accept(Pair(isChecked, chatItem))
             }
             this.chatItem = chatItem
             executePendingBindings()
@@ -86,33 +104,5 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
             executePendingBindings()
         }
 
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val inflater = LayoutInflater.from(parent.context)
-        return when (viewType) {
-            ChatSender.OWNER.value -> {
-                val binding = DataBindingUtil.inflate<ItemChatOwnerBinding>(inflater, R.layout.item_chat_owner, parent, false)
-                OwnerVH(binding, parent.context)
-            }
-            ChatSender.OTHER.value -> {
-                val binding = DataBindingUtil.inflate<ItemChatOtherBinding>(inflater, R.layout.item_chat_other, parent, false)
-                OtherVH(binding, parent.context)
-            }
-            else -> {
-                val binding = DataBindingUtil.inflate<ItemChatOtherBinding>(inflater, R.layout.item_chat_other, parent, false)
-                OtherVH(binding, parent.context)
-            }
-        }
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        val chatBean = getItem(position)
-        return chatBean.sender.value
-    }
-
-    override fun onBindViewHolder(holder: VH, position: Int) {
-        println("IMGLIST::${position}")
-        holder.bind(getItem(position))
     }
 }

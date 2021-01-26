@@ -12,25 +12,18 @@ import edu.yujie.socketex.databinding.ItemChatImgBinding
 
 class ChatImgListAdapter : ListAdapter<ChatImg, ChatImgListAdapter.VH>(
     object : DiffUtil.ItemCallback<ChatImg>() {
-        override fun areItemsTheSame(old: ChatImg, aNew: ChatImg): Boolean {
-            return old.hashCode() == aNew.hashCode()
-        }
+        override fun areItemsTheSame(oldItem: ChatImg, newItem: ChatImg): Boolean = oldItem.hashCode() == newItem.hashCode()
 
-        override fun areContentsTheSame(old: ChatImg, aNew: ChatImg): Boolean {
-            return old.hashCode() == aNew.hashCode()
-        }
+        override fun areContentsTheSame(oldItem: ChatImg, newItem: ChatImg): Boolean = oldItem.hashCode() == newItem.hashCode()
     }
 ) {
-
     val itemImgClickRelay = PublishRelay.create<ChatImg>()
 
     inner class VH(val binding: ItemChatImgBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(chatImg: ChatImg) = binding.apply {
-            println("chatImg:${chatImg.id}  ${chatImg.byteArray}")
-            ivItem.setOnClickListener {
-                itemImgClickRelay.accept(chatImg)
-            }
+            ivItem.setOnClickListener { itemImgClickRelay.accept(chatImg) }
             this.chatImg = chatImg
+            executePendingBindings()
         }
     }
 

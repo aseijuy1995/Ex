@@ -106,7 +106,8 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
             _toast.value = "Can not empty!"
         } else {
             val chatBean = ChatItem(
-                id = 0,
+//                id = 0,
+                id = ++count,
                 name = "Me",
                 time = getTime(),
                 textMsg = str,
@@ -124,7 +125,8 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
             ChatImg(index, bytes)
         }
         val chatBean = ChatItem(
-            id = 0,
+//            id = 0,
+            id = ++count,
             name = "Me",
             time = getTime(),
             imgListMsg = chatImgList,
@@ -150,7 +152,8 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
             val videoBytes = it.toByteArray()
             val chatVideoList = videoBytes.mapIndexed { index, bytes -> ChatVideo(index, bytes) }
             val chatItem = ChatItem(
-                id = 0,
+//                id = 0,
+                id = ++count,
                 name = "Me",
                 time = getTime(),
                 videoListMsg = chatVideoList,
@@ -166,7 +169,8 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
         val recordingBytes = result.file!!.readBytes()
         val chatAudio = ChatAudio(id = 0, byteAttay = recordingBytes, time = result.lengthTime, countDownTimer = result.lengthTime)
         val chatItem = ChatItem(
-            id = 0,
+//            id = 0,
+            id = ++count,
             name = "Me",
             time = getTime(),
             audioMsg = chatAudio,
@@ -309,8 +313,6 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
         } ?: R.drawable.ic_baseline_radio_button_unchecked_24_gray
     }
 
-    val recordingPlayList = mutableListOf<ChatItem>()//存取列表中正在播放的音訊
-
     private var mediaPlayer: MediaPlayer? = null
 
     private var recordingCountDownTimer: CountDownTimer? = null
@@ -319,29 +321,32 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
         chatItem.audioMsg?.let {
             recordingCountDownTimer = object : CountDownTimer((it.countDownTimer * 1000).toLong(), 1000) {
                 override fun onTick(millisUntilFinished: Long) {
-                    it.countDownTimer = (millisUntilFinished / 1000).toInt()
+                    it.countDownTimer = (it.time - (millisUntilFinished / 1000)).toInt()
+                    recordingTimeChange(chatItem)
                 }
 
                 override fun onFinish() {
                     it.countDownTimer = it.time
+                    recordingTimeChange(chatItem)
                 }
             }.start()
-        }
-        //
-        //
-        //
-        val fileName = "Audio_${System.nanoTime()}.3gp"
-        val file = context.externalCacheDir?.createFile(fileName)
-        file?.writeBytes(chatItem.audioMsg?.byteAttay!!)
-        mediaPlayer = MediaPlayer().apply {
-            setDataSource(file?.absolutePath)
-            prepare()
-            start()
+            //
+            //
+            //
+            val fileName = "Audio_${System.nanoTime()}.3gp"
+            val file = context.externalCacheDir?.createFile(fileName)
+            file?.writeBytes(it.byteAttay)
+            mediaPlayer = MediaPlayer().apply {
+                setDataSource(file?.absolutePath)
+                prepare()
+                start()
+            }
         }
     }
 
     fun stopPlayer() {
         recordingCountDownTimer?.onFinish()
+//        recordingTimeChange(chatItem)
         //
         //
         //
@@ -353,6 +358,18 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
                 mediaPlayer = null
             }
         }
+    }
+
+    fun recordingTimeChange(chatItem: ChatItem) {
+        println("$TAG recordingTimeChange")
+        val chatList = _chatList.value
+        chatList?.mapIndexed { index, chatItem2 ->
+            if (chatItem2.id == chatItem.id) {
+                println("$TAG chatItem2.id:${chatItem2.audioMsg?.countDownTimer}, ${chatItem2.audioMsg?.time}")
+                chatList[index] = chatItem
+            }
+        }
+        _chatList.postValue(chatList)
     }
 
 
@@ -405,7 +422,12 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
                         }
                         val chatImgList = imgBytes.mapIndexed { index, bytes -> ChatImg(index, bytes!!) }
                         val chatBean = ChatItem(
-                            id = 0, name = "Me", time = getTime(), sender = ChatSender.OWNER, imgListMsg = chatImgList
+//                            id = 0,
+                            id = ++count,
+                            name = "Me",
+                            time = getTime(),
+                            sender = ChatSender.OWNER,
+                            imgListMsg = chatImgList
                         )
                         val json = Gson().toJson(chatBean)
                         webSocket.send(json)

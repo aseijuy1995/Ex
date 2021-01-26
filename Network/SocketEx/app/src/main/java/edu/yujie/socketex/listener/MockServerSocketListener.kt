@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.jakewharton.rxrelay3.BehaviorRelay
 import edu.yujie.socketex.bean.ChatItem
 import edu.yujie.socketex.bean.ChatSender
+import edu.yujie.socketex.bean.count
 import edu.yujie.socketex.util.getTime
 import kotlinx.coroutines.*
 import okhttp3.mockwebserver.MockResponse
@@ -68,7 +69,7 @@ class MockServerSocketListener : IWebSocketListener(), CoroutineScope {
         val msg = if (chatBean.textMsg != null) "${chatBean.textMsg} - From Server" else null
         val imgBytes = chatBean.imgListMsg
         val recorderBytes = chatBean.audioMsg
-        val chatBeanOther = ChatItem(id = -1, name = "Ohter", textMsg = msg, sender = ChatSender.OTHER, time = getTime(), imgListMsg = imgBytes, audioMsg = recorderBytes)
+            val chatBeanOther = ChatItem(id = ++count, name = "Ohter", textMsg = msg, sender = ChatSender.OTHER, time = getTime(), imgListMsg = imgBytes, audioMsg = recorderBytes)
         val json = Gson().toJson(chatBeanOther)
         return json
     }

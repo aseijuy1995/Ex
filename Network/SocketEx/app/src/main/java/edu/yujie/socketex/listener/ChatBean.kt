@@ -1,5 +1,7 @@
 package edu.yujie.socketex.bean
 
+var count = 0
+
 data class ChatItem(
     val id: Int,
     val name: String,

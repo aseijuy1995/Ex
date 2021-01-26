@@ -123,11 +123,6 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
             if (it.size > 0) {
                 if (it.last().sender == ChatSender.OWNER)
                     binding.includeInputBar.etText.setText("")
-                it.forEach {
-                    it.imgListMsg?.forEach {
-                        println("ChatImgByteArray:${it.byteArray}")
-                    }
-                }
                 refreshChat(it)
             } else {
 
@@ -173,16 +168,19 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
 
 
         //
-        //img preview
+        //item img click
         chatListAdapter.itemImgClickRelay.subscribeWithLife {
+            println("itemImgClickRelay-itemImgClickRelay")
 //            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPreview(it, From.IMAGE))
         }
-        chatListAdapter.itemRecorderClickRelay.subscribeWithLife {
+        //item recording check
+        chatListAdapter.itemRecordingClickRelay.subscribeWithLife {
             if (it.first)
                 chatRoomViewModel.startPlayer(it.second)
             else
                 chatRoomViewModel.stopPlayer()
         }
+
         //
         //
         //
