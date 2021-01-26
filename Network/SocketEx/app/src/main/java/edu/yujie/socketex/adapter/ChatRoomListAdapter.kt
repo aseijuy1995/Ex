@@ -24,6 +24,7 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
         }
 
         override fun areContentsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean {
+            println("areContentsTheSame: ${oldItem.hashCode() == newItem.hashCode()}")
             return oldItem.hashCode() == newItem.hashCode()
         }
     }
@@ -111,6 +112,7 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
+        println("IMGLIST::${position}")
         holder.bind(getItem(position))
     }
 }

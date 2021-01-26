@@ -25,7 +25,6 @@ class ExoPlayerRepo : IExoPlayerRepo {
     override fun buildAudioPlayer(setting: ExoPlayerSetting): PublishRelay<Player> {
         val player = SimpleExoPlayer.Builder(setting.context).build().apply {
             setMediaItem(setting.mediaItem)
-            repeatMode = Player.REPEAT_MODE_ALL
             prepare()
             play()
         }
@@ -40,8 +39,6 @@ class ExoPlayerRepo : IExoPlayerRepo {
     override fun stopAudio() {
         TODO("Not yet implemented")
     }
-
-
 }
 
 data class ExoPlayerSetting(

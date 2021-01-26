@@ -25,5 +25,6 @@
             shimmer:layout_constraintStart_toStartOf="parent"
             shimmer:layout_constraintTop_toTopOf="parent" />
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

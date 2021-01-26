@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.CountDownTimer
 import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -89,12 +90,15 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
     fun receiveChatList() = chatSocketRepository.receiveChat()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe { addChat(it) }
+        .subscribe {
+            addChat(it)
+        }
         .addTo(compositeDisposable = compositeDisposable)
 
     fun addChat(chatItem: ChatItem) = chatList.also {
         it.add(chatItem)
-        _chatList.postValue(it)
+//        _chatList.postValue(it)
+        _chatList.value = it
     }
 
     fun sendText(str: String) {
@@ -116,7 +120,9 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
 
     fun sendImg(paths: List<String>) {
         val imgBytes = compressToByteArray(paths)
-        val chatImgList = imgBytes.mapIndexed { index, bytes -> ChatImg(index, bytes) }
+        val chatImgList = imgBytes.mapIndexed { index, bytes ->
+            ChatImg(index, bytes)
+        }
         val chatBean = ChatItem(
             id = 0,
             name = "Me",
@@ -158,7 +164,7 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
 
     fun sendRecording(result: RecorderResult) {
         val recordingBytes = result.file!!.readBytes()
-        val chatAudio = ChatAudio(id = 0, byteAttay = recordingBytes, time = result.lengthTime)
+        val chatAudio = ChatAudio(id = 0, byteAttay = recordingBytes, time = result.lengthTime, countDownTimer = result.lengthTime)
         val chatItem = ChatItem(
             id = 0,
             name = "Me",
@@ -307,7 +313,23 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
 
     private var mediaPlayer: MediaPlayer? = null
 
+    private var recordingCountDownTimer: CountDownTimer? = null
+
     fun startPlayer(chatItem: ChatItem) {
+        chatItem.audioMsg?.let {
+            recordingCountDownTimer = object : CountDownTimer((it.countDownTimer * 1000).toLong(), 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    it.countDownTimer = (millisUntilFinished / 1000).toInt()
+                }
+
+                override fun onFinish() {
+                    it.countDownTimer = it.time
+                }
+            }.start()
+        }
+        //
+        //
+        //
         val fileName = "Audio_${System.nanoTime()}.3gp"
         val file = context.externalCacheDir?.createFile(fileName)
         file?.writeBytes(chatItem.audioMsg?.byteAttay!!)
@@ -319,6 +341,10 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
     }
 
     fun stopPlayer() {
+        recordingCountDownTimer?.onFinish()
+        //
+        //
+        //
         mediaPlayer?.let {
             if (it.isPlaying) {
                 it.reset()

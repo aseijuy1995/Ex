@@ -29,5 +29,6 @@ data class ChatVideo(
 data class ChatAudio(
     val id: Int,
     val byteAttay: ByteArray,
-    val time: Int
+    val time: Int,
+    var countDownTimer: Int = 0
 )

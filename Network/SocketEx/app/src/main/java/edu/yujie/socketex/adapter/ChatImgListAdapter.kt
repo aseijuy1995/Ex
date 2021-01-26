@@ -26,6 +26,7 @@ class ChatImgListAdapter : ListAdapter<ChatImg, ChatImgListAdapter.VH>(
 
     inner class VH(val binding: ItemChatImgBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(chatImg: ChatImg) = binding.apply {
+            println("chatImg:${chatImg.id}  ${chatImg.byteArray}")
             ivItem.setOnClickListener {
                 itemImgClickRelay.accept(chatImg)
             }

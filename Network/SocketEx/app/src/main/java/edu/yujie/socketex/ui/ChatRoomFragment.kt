@@ -123,6 +123,11 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
             if (it.size > 0) {
                 if (it.last().sender == ChatSender.OWNER)
                     binding.includeInputBar.etText.setText("")
+                it.forEach {
+                    it.imgListMsg?.forEach {
+                        println("ChatImgByteArray:${it.byteArray}")
+                    }
+                }
                 refreshChat(it)
             } else {
 
@@ -183,51 +188,10 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         //
 
         //
-
-
-        //
-        //
-        //
-        //
-        //
-        //
-//        lifecycleScope.launch(Dispatchers.Main) {
-//            chatRoomViewModel.socketStateFlow.collect {
-//                when (it) {
-//                    //server
-//                    is SocketState.onServerOpen -> chatRoomViewModel.addInfo(it.msg)
-//                    is SocketState.onServerMessage -> chatRoomViewModel.addInfo(it.msg)
-//                    is SocketState.onServerClosing -> chatRoomViewModel.addInfo(it.msg)
-//                    is SocketState.onServerClosed -> chatRoomViewModel.addInfo(it.msg)
-//                    is SocketState.onServerFailure -> {
-//                        chatRoomViewModel.addInfo(it.msg)
-//                        Snackbar.make(binding.rvInfo, "Server onFailure()", Snackbar.LENGTH_SHORT).setAnchorView(binding.includeInputBar.root).show()
-//                    }
-//                    //client
-//                    is SocketState.onClientOpen -> chatRoomViewModel.addInfo(it.msg)
-//                    is SocketState.onClientMessage -> {
-//                        chatRoomViewModel.addInfo(it.msg)
-//                        chatRoomViewModel.addChat(it.chatItem)
-//                    }
-//                    is SocketState.onClientClosing -> chatRoomViewModel.addInfo(it.msg)
-//                    is SocketState.onClientClosed -> chatRoomViewModel.addInfo(it.msg)
-//                    is SocketState.onClientFailure -> {
-//                        chatRoomViewModel.addInfo(it.msg)
-//                        Snackbar.make(binding.rvInfo, "Client onFailure()", Snackbar.LENGTH_SHORT).setAnchorView(binding.includeInputBar.root).show()
-//                    }
-//                    //chat
 //                    is SocketState.ShowChat -> {
 //                        binding.includeInputBar.etText.setText("")//clean on send success
 //                        chatRoomViewModel.addChat(it.chatItem)
 //                    }
-//                }
-//            }
-//        }
-
-//        //info list
-//        chatRoomViewModel.infoListLiveData.observe(viewLifecycleOwner) { refreshInfo(it) }
-//        //chat list
-//        chatRoomViewModel.chatListLiveData.observe(viewLifecycleOwner) { refreshChat(it) }
         //
 
         //camera - send img
@@ -238,18 +202,6 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
                 }
             }
         }
-
-
-//        chatRoomViewModel.albumLiveData.observe(viewLifecycleOwner) {
-////            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.IMAGE))
-//            it.uris?.let {
-//                lifecycleScope.launch(Dispatchers.IO) {
-//                    chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendImg(it))
-//                }
-//            }
-//        }
-
-        //
     }
 
 
