@@ -6,7 +6,10 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.jakewharton.rxbinding4.recyclerview.scrollStateChanges
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
 import edu.yujie.socketex.R
@@ -83,8 +86,8 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
             chatRoomViewModel.sendText(text)
         }
 
-        //album & video- send img
         mediaViewModel.mediaListRelay.subscribeWithLife {
+            println("$TAG sendSelectMediaList-sendSelectMediaList2")
             if (it.first().mimeType.startsWith(MimeType.IMAGE.toString())) {
                 val imgPaths = it.map { it.data }
                 chatRoomViewModel.sendImg(imgPaths)
@@ -135,6 +138,13 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
             }
         }
 
+        binding.rvInfo.scrollStateChanges().subscribeWithLife {
+            when (it) {
+                RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this).resumeRequests()
+                RecyclerView.SCROLL_STATE_DRAGGING -> Glide.with(this).pauseRequests()
+            }
+        }
+
         //--------------------------------------------------------------------------------------
         //view state
         //camera
@@ -176,9 +186,9 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
         //item recording check
         chatListAdapter.itemRecordingClickRelay.subscribeWithLife {
             if (it.first)
-                chatRoomViewModel.startPlayer(it.second)
+                chatRoomViewModel.startRecordingPlayer(it.second)
             else
-                chatRoomViewModel.stopPlayer()
+                chatRoomViewModel.stopRecordingPlayer()
         }
 
         //

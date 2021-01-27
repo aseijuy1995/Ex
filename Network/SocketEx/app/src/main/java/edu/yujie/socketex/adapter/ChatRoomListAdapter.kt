@@ -11,7 +11,6 @@ import androidx.viewbinding.ViewBinding
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.R
-import edu.yujie.socketex.bean.ChatAudio
 import edu.yujie.socketex.bean.ChatImg
 import edu.yujie.socketex.bean.ChatItem
 import edu.yujie.socketex.bean.ChatSender
@@ -25,8 +24,6 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
         override fun areContentsTheSame(oldItem: ChatItem, newItem: ChatItem): Boolean = oldItem.hashCode() == newItem.hashCode()
     }
 ) {
-
-    private val chatImgListAdapter = ChatImgListAdapter()
 
     val itemImgClickRelay = PublishRelay.create<ChatImg>()//image click
 

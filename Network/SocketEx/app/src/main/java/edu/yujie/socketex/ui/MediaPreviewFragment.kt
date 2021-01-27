@@ -25,6 +25,16 @@ class MediaPreviewFragment : BaseFragment<FragmentMediaPreviewBinding>() {
 
     private lateinit var player: Player
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView()
+        getArgument()
+        binding.ivBtnSend.clicks().subscribeWithLife {
+            viewModel.sendSelectMediaList()
+            findNavController().navigateUp()
+        }
+    }
+
     private fun initView() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
@@ -43,14 +53,5 @@ class MediaPreviewFragment : BaseFragment<FragmentMediaPreviewBinding>() {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-        getArgument()
-        binding.ivBtnSend.clicks().subscribeWithLife {
-            viewModel.sendSelectMediaList()
-            findNavController().navigateUp()
-        }
-    }
 
 }

@@ -90,9 +90,7 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
     fun receiveChatList() = chatSocketRepository.receiveChat()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe {
-            addChat(it)
-        }
+        .subscribe { addChat(it) }
         .addTo(compositeDisposable = compositeDisposable)
 
     fun addChat(chatItem: ChatItem) = chatList.also {
@@ -317,19 +315,9 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
 
     private var recordingCountDownTimer: CountDownTimer? = null
 
-    fun startPlayer(chatItem: ChatItem) {
+    fun startRecordingPlayer(chatItem: ChatItem) {
         chatItem.audioMsg?.let {
-            recordingCountDownTimer = object : CountDownTimer((it.countDownTimer * 1000).toLong(), 1000) {
-                override fun onTick(millisUntilFinished: Long) {
-                    it.countDownTimer = (it.time - (millisUntilFinished / 1000)).toInt()
-                    recordingTimeChange(chatItem)
-                }
-
-                override fun onFinish() {
-                    it.countDownTimer = it.time
-                    recordingTimeChange(chatItem)
-                }
-            }.start()
+            startRecordingTimer(chatItem)
             //
             //
             //
@@ -344,19 +332,21 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
         }
     }
 
-    fun stopPlayer() {
-        recordingCountDownTimer?.onFinish()
-//        recordingTimeChange(chatItem)
-        //
-        //
-        //
-        mediaPlayer?.let {
-            if (it.isPlaying) {
-                it.reset()
-                it.stop()
-                it.release()
-                mediaPlayer = null
-            }
+//    private val recordiingList
+
+    private fun startRecordingTimer(chatItem: ChatItem) {
+        chatItem.audioMsg?.let {
+            recordingCountDownTimer = object : CountDownTimer((it.countDownTimer * 1000).toLong(), 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    it.countDownTimer = (it.time - (millisUntilFinished / 1000)).toInt()
+                    recordingTimeChange(chatItem)
+                }
+
+                override fun onFinish() {
+                    it.countDownTimer = it.time
+                    recordingTimeChange(chatItem)
+                }
+            }.start()
         }
     }
 
@@ -370,6 +360,21 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
             }
         }
         _chatList.postValue(chatList)
+    }
+
+    fun stopRecordingPlayer() {
+        recordingCountDownTimer?.onFinish()
+        //
+        //
+        //
+        mediaPlayer?.let {
+            if (it.isPlaying) {
+                it.reset()
+                it.stop()
+                it.release()
+                mediaPlayer = null
+            }
+        }
     }
 
 

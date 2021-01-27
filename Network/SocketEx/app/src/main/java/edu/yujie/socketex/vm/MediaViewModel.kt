@@ -58,7 +58,9 @@ class MediaViewModel(application: Application, private val repo: IMediaRepo) : B
         _selectMediaList.value = currentSelectMediaList
     }
 
-    fun sendSelectMediaList() = mediaListRelay.accept(selectMediaList.value)
+    fun sendSelectMediaList() {
+        mediaListRelay.accept(selectMediaList.value)
+    }
 
     //--------------------------------------------------------------------------------------
     private val _media = mutableLiveData<Media>()

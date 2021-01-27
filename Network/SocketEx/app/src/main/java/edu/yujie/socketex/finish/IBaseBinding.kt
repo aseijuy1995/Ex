@@ -1,4 +1,4 @@
-package edu.yujie.socketex.base
+package edu.yujie.socketex.finish
 
 interface IBaseBinding<T> {
 
