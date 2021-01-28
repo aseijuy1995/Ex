@@ -1,16 +1,15 @@
-package edu.yujie.socketex.base
+package edu.yujie.socketex.base.finish
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
-import edu.yujie.socketex.finish.IBaseBinding
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
 
-abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity(), IBaseBinding<T> {
+abstract class BaseDataBindingActivity<T : ViewDataBinding> : AppCompatActivity(), IBaseBinding<T> {
 
     protected val TAG = javaClass.simpleName
 
@@ -32,7 +31,7 @@ abstract class BaseActivity<T : ViewDataBinding> : AppCompatActivity(), IBaseBin
     }
 
     fun <T> Observable<T>.subscribeWithLife(onNext: (T) -> Unit): Disposable? =
-        bindToLifecycle(this@BaseActivity)
+        bindToLifecycle(this@BaseDataBindingActivity)
             .subscribe(onNext)
 
 
