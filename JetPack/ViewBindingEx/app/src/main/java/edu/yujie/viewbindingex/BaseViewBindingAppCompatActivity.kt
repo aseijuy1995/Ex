@@ -1,11 +1,11 @@
-package edu.yujie.socketex.base.finish.base
+package edu.yujie.viewbindingex
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
-import edu.yujie.socketex.base.finish.ext.viewBinding
 
-open class BaseViewBindingAppCompatActivity<T : ViewBinding>(inflater: (LayoutInflater) -> T) : BaseAppCompatActivity() {
+open class BaseViewBindingAppCompatActivity<T : ViewBinding>(inflater: (LayoutInflater) -> T) : AppCompatActivity() {
 
     protected val binding by viewBinding(inflater)
 

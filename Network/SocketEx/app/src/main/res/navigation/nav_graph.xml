@@ -30,8 +30,7 @@
 
         <action
             android:id="@+id/action_fragment_chat_room_to_fragment_media_preview"
-            app:destination="@id/fragment_media_preview">
-        </action>
+            app:destination="@id/fragment_media_preview"></action>
 
     </fragment>
 

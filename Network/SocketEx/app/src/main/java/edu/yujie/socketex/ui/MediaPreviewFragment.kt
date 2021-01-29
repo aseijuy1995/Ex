@@ -6,7 +6,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.exoplayer2.Player
 import com.jakewharton.rxbinding4.view.clicks
 import edu.yujie.socketex.R
-import edu.yujie.socketex.base.BaseFragment
+import edu.yujie.socketex.base.finish.base.BaseDataBindingFragment
 import edu.yujie.socketex.bean.Media
 import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentMediaPreviewBinding
@@ -14,10 +14,8 @@ import edu.yujie.socketex.listener.ExoPlayerAutoLifecycleObserver
 import edu.yujie.socketex.vm.MediaViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class MediaPreviewFragment : BaseFragment<FragmentMediaPreviewBinding>() {
-
-    override val layoutId: Int
-        get() = R.layout.fragment_media_preview
+//class MediaPreviewFragment : BaseFragment<FragmentMediaPreviewBinding>() {
+class MediaPreviewFragment : BaseDataBindingFragment<FragmentMediaPreviewBinding>(R.layout.fragment_media_preview) {
 
     private val viewModel by sharedViewModel<MediaViewModel>()
 

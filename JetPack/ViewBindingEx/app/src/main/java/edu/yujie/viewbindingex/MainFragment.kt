@@ -1,10 +1,8 @@
 package edu.yujie.viewbindingex
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import edu.yujie.socketex.base.finish.base.BaseViewBindingFragment
 import edu.yujie.viewbindingex.databinding.FragmentMainBinding
 
 /**
@@ -12,15 +10,15 @@ import edu.yujie.viewbindingex.databinding.FragmentMainBinding
  * @describe 說明
  * @param 參數
  */
-class MainFragment : Fragment() {
-    private var binding: FragmentMainBinding? = null
+class MainFragment : BaseViewBindingFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentMainBinding.inflate(inflater, container, false)
-        return binding?.root
+    private var count = 0
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.tvView.setOnClickListener {
+            binding.tvView.text = "Fragment: ${count++}"
+        }
     }
 }

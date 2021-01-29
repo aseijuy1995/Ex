@@ -16,7 +16,7 @@ import edu.yujie.socketex.R
 import edu.yujie.socketex.SocketViewEvent
 import edu.yujie.socketex.adapter.ChatListAdapter
 import edu.yujie.socketex.adapter.InfoListAdapter
-import edu.yujie.socketex.base.BaseFragment
+import edu.yujie.socketex.base.finish.base.BaseDataBindingFragment
 import edu.yujie.socketex.bean.ChatItem
 import edu.yujie.socketex.bean.ChatSender
 import edu.yujie.socketex.bean.MimeType
@@ -28,10 +28,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
-
-    override val layoutId: Int
-        get() = R.layout.fragment_chat_room
+//class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
+class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layout.fragment_chat_room) {
 
     private val chatRoomViewModel by sharedViewModel<ChatRoomViewModel>()
 
