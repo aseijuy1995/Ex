@@ -28,7 +28,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-//class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>() {
 class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layout.fragment_chat_room) {
 
     private val chatRoomViewModel by sharedViewModel<ChatRoomViewModel>()
