@@ -6,7 +6,7 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.jakewharton.rxrelay3.PublishRelay
-import edu.yujie.socketex.base.BaseAndroidViewModel
+import edu.yujie.socketex.finish.base.viewModel.BaseAndroidViewModel
 import edu.yujie.socketex.bean.Media
 import edu.yujie.socketex.bean.MediaAlbumItem
 import edu.yujie.socketex.bean.MediaSetting

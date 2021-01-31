@@ -8,15 +8,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.clicks
 import com.tbruyelle.rxpermissions3.RxPermissions
 import edu.yujie.socketex.R
-import edu.yujie.socketex.base.BaseBottomSheetDialogFragment
+import edu.yujie.socketex.finish.base.fragment.BaseDataBindingBottomSheetDialogFragment
 import edu.yujie.socketex.databinding.FragmentAddDialogBinding
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class AddDialogFragment : BaseBottomSheetDialogFragment<FragmentAddDialogBinding>() {
-
-    override val layoutId: Int
-        get() = R.layout.fragment_add_dialog
+class AddDialogFragment : BaseDataBindingBottomSheetDialogFragment<FragmentAddDialogBinding>(R.layout.fragment_add_dialog) {
 
     private val viewModel by sharedViewModel<ChatRoomViewModel>()
 

@@ -1,4 +1,4 @@
-package edu.yujie.socketex.base
+package edu.yujie.socketex.finish.base.application
 
 import android.app.Application
 import edu.yujie.socketex.LogTree

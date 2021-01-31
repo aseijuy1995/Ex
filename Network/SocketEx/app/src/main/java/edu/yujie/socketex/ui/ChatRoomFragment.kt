@@ -16,7 +16,7 @@ import edu.yujie.socketex.R
 import edu.yujie.socketex.SocketViewEvent
 import edu.yujie.socketex.adapter.ChatListAdapter
 import edu.yujie.socketex.adapter.InfoListAdapter
-import edu.yujie.socketex.base.finish.base.BaseDataBindingFragment
+import edu.yujie.socketex.finish.base.fragment.BaseDataBindingFragment
 import edu.yujie.socketex.bean.ChatItem
 import edu.yujie.socketex.bean.ChatSender
 import edu.yujie.socketex.bean.MimeType

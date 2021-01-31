@@ -1,4 +1,4 @@
-package edu.yujie.socketex.base.finish.util
+package edu.yujie.socketex.finish.util
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner

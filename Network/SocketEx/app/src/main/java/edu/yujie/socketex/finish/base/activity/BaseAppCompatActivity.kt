@@ -1,10 +1,10 @@
-package edu.yujie.socketex.base.finish.base
+package edu.yujie.socketex.finish.base.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
-import edu.yujie.socketex.base.finish.inter.IRxJavaSubscribe
-import edu.yujie.socketex.base.finish.util.CompositeDisposableLifecycleObserver
+import edu.yujie.socketex.finish.inter.IRxJavaSubscribe
+import edu.yujie.socketex.finish.util.CompositeDisposableLifecycleObserver
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable

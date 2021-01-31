@@ -16,7 +16,7 @@ import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.R
 import edu.yujie.socketex.SocketState
 import edu.yujie.socketex.SocketViewEvent
-import edu.yujie.socketex.base.BaseAndroidViewModel
+import edu.yujie.socketex.finish.base.viewModel.BaseAndroidViewModel
 import edu.yujie.socketex.bean.*
 import edu.yujie.socketex.ext.BitmapCompress
 import edu.yujie.socketex.ext.BitmapConfig

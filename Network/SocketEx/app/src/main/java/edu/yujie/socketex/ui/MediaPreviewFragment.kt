@@ -6,7 +6,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.exoplayer2.Player
 import com.jakewharton.rxbinding4.view.clicks
 import edu.yujie.socketex.R
-import edu.yujie.socketex.base.finish.base.BaseDataBindingFragment
+import edu.yujie.socketex.finish.base.fragment.BaseDataBindingFragment
 import edu.yujie.socketex.bean.Media
 import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentMediaPreviewBinding

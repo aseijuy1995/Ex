@@ -1,7 +1,7 @@
-package edu.yujie.socketex.base.finish.base
+package edu.yujie.socketex.finish.base.activity
 
 import androidx.databinding.ViewDataBinding
-import edu.yujie.socketex.base.finish.ext.dataBinding
+import edu.yujie.socketex.finish.ext.dataBinding
 
 open class BaseDataBindingAppCompatActivity<T : ViewDataBinding>(layoutId: Int) : BaseAppCompatActivity() {
 

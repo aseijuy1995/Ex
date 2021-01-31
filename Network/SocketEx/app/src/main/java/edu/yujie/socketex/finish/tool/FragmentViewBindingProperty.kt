@@ -1,4 +1,4 @@
-package edu.yujie.socketex.base.finish.tool
+package edu.yujie.socketex.finish.tool
 
 import android.view.View
 import androidx.fragment.app.Fragment

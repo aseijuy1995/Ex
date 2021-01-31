@@ -1,14 +1,11 @@
-package edu.yujie.socketex.base
+package edu.yujie.socketex.finish.base.viewModel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-open class BaseAndroidViewModel(application: Application) : AndroidViewModel(application) {
+open class BaseViewModel : ViewModel() {
 
     protected val TAG = javaClass.simpleName
-
-    protected val context = application.applicationContext
 
     protected val compositeDisposable = CompositeDisposable()
 

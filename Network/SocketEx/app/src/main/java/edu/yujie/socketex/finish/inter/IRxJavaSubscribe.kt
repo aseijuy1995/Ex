@@ -1,4 +1,4 @@
-package edu.yujie.socketex.base.finish.inter
+package edu.yujie.socketex.finish.inter
 
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable

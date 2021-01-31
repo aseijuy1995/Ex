@@ -1,14 +1,18 @@
 package edu.yujie.socketex.ui.media
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.observe
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.jakewharton.rxbinding4.view.clicks
 import edu.yujie.socketex.R
 import edu.yujie.socketex.adapter.MediaListAdapter
-import edu.yujie.socketex.base.BaseBottomSheetDialogFragment
+import edu.yujie.socketex.finish.base.fragment.BaseDataBindingBottomSheetDialogFragment
 import edu.yujie.socketex.bean.MediaSetting
 import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentMediaListDialogBinding
@@ -16,10 +20,7 @@ import edu.yujie.socketex.listener.From
 import edu.yujie.socketex.vm.MediaViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-class MediaListDialogFragment : BaseBottomSheetDialogFragment<FragmentMediaListDialogBinding>() {
-
-    override val layoutId: Int
-        get() = R.layout.fragment_media_list_dialog
+class MediaListDialogFragment : BaseDataBindingBottomSheetDialogFragment<FragmentMediaListDialogBinding>(R.layout.fragment_media_list_dialog) {
 
     private val viewModel by sharedViewModel<MediaViewModel>()
 
@@ -28,6 +29,16 @@ class MediaListDialogFragment : BaseBottomSheetDialogFragment<FragmentMediaListD
     private lateinit var mimeType: MimeType
 
     private lateinit var setting: MediaSetting
+
+    private lateinit var navHostFrag: NavHostFragment
+    
+    private lateinit var navController: NavController
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        navHostFrag = requireActivity().supportFragmentManager.findFragmentById(R.id.frag_container_view) as NavHostFragment
+        navController = navHostFrag.navController
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

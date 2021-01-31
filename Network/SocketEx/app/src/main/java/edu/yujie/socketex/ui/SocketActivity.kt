@@ -2,7 +2,7 @@ package edu.yujie.socketex.ui
 
 import androidx.navigation.findNavController
 import edu.yujie.socketex.R
-import edu.yujie.socketex.base.finish.base.BaseViewBindingAppCompatActivity
+import edu.yujie.socketex.finish.base.activity.BaseViewBindingAppCompatActivity
 import edu.yujie.socketex.databinding.ActivitySocketBinding
 
 
