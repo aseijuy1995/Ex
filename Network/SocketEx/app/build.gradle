@@ -99,11 +99,6 @@ dependencies {
     implementation "org.slf4j:slf4j-api:1.7.25"
     implementation "com.github.tony19:logback-android:2.0.0"
 
-//    implementation "androidx.camera:camera-core:1.0.0-rc01"
-//    implementation "androidx.camera:camera-camera2:1.0.0-rc01"
-//    implementation "androidx.camera:camera-lifecycle:1.0.0-rc01"
-//    implementation "androidx.camera:camera-view:1.0.0-alpha20"
-//    implementation "androidx.camera:camera-extensions:1.0.0-alpha20"
     implementation "androidx.work:work-runtime:2.4.0"
     implementation "androidx.work:work-runtime-ktx:2.4.0"
 
@@ -143,6 +138,15 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-process:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-service:$lifecycle_version"
+
+    def camerax_version = "1.0.0-rc02"
+    def camerax_version2 = "1.0.0-alpha21"
+    implementation "androidx.camera:camera-camera2:$camerax_version"
+    implementation "androidx.camera:camera-core:$camerax_version"
+    implementation "androidx.camera:camera-extensions:$camerax_version2"
+    implementation "androidx.camera:camera-lifecycle:$camerax_version"
+    implementation "androidx.camera:camera-view:$camerax_version2"
+
 
 
 }

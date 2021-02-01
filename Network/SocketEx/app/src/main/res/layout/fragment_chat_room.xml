@@ -39,7 +39,7 @@
 
         <include
             android:id="@+id/include_input_bar"
-            layout="@layout/include_input_bar"
+            layout="@layout/bottom_input_bar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"

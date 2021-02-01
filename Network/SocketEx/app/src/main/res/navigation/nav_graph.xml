@@ -4,6 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/fragment_chat_room">
+    <!--    app:startDestination="@id/fragment_camera_x">-->
+
+    <fragment
+        android:id="@+id/fragment_camera_x"
+        android:name="edu.yujie.socketex.finish.ui.CameraXFragment"
+        android:label="fragment_camera_x"
+        tools:layout="@layout/fragment_camera_x" />
 
     <fragment
         android:id="@+id/fragment_chat_room"
@@ -11,14 +18,17 @@
         android:label="fragment_chat_room"
         tools:layout="@layout/fragment_chat_room">
 
+        <!-- add -->
         <action
             android:id="@+id/action_fragment_chat_room_to_fragment_add_dialog"
             app:destination="@id/fragment_add_dialog" />
 
+        <!-- camera -->
         <action
-            android:id="@+id/action_fragment_chat_room_to_fragment_recording_dialog"
-            app:destination="@id/fragment_recording_dialog" />
+            android:id="@+id/action_fragment_chat_room_to_fragment_camera_x"
+            app:destination="@id/fragment_camera_x" />
 
+        <!-- media list -->
         <action
             android:id="@+id/action_fragment_chat_room_to_fragment_media_list_dialog"
             app:destination="@id/fragment_media_list_dialog">
@@ -29,8 +39,14 @@
         </action>
 
         <action
+            android:id="@+id/action_fragment_chat_room_to_fragment_recording_dialog"
+            app:destination="@id/fragment_recording_dialog" />
+
+
+
+        <action
             android:id="@+id/action_fragment_chat_room_to_fragment_media_preview"
-            app:destination="@id/fragment_media_preview"></action>
+            app:destination="@id/fragment_media_preview" />
 
     </fragment>
 

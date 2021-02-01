@@ -16,12 +16,12 @@ import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.R
 import edu.yujie.socketex.SocketState
 import edu.yujie.socketex.SocketViewEvent
-import edu.yujie.socketex.finish.base.viewModel.BaseAndroidViewModel
 import edu.yujie.socketex.bean.*
 import edu.yujie.socketex.ext.BitmapCompress
 import edu.yujie.socketex.ext.BitmapConfig
 import edu.yujie.socketex.ext.compressToByteArray
 import edu.yujie.socketex.ext.getBitmap
+import edu.yujie.socketex.finish.base.viewModel.BaseAndroidViewModel
 import edu.yujie.socketex.impl.IRecordingRepo
 import edu.yujie.socketex.inter.IIntentRepo
 import edu.yujie.socketex.listener.ChatSocketRepository
@@ -33,7 +33,6 @@ import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
@@ -188,13 +187,12 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
 
     val isInputEmpty = _isInputEmpty.asLiveData()
 
-    private val _inputSrc = mutableLiveData<Int>(R.drawable.ic_baseline_send_24_gray)
+    val inputSrc = _isInputEmpty.map {
+        if (it) R.drawable.ic_baseline_send_24_gray else R.drawable.ic_baseline_send_24_blue
+    }
 
-    val inputSrc = _inputSrc.asLiveData()
-
-    fun setInput(state: Boolean) {
+    fun setIsInputEmpty(state: Boolean) {
         _isInputEmpty.value = state
-        _inputSrc.value = if (state) R.drawable.ic_baseline_send_24_gray else R.drawable.ic_baseline_send_24_blue
     }
 
     //--------------------------------------------------------------------------------------
@@ -203,77 +201,50 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
             listOf<AddItem>(
                 AddItem(R.string.camera, R.drawable.ic_baseline_photo_camera_24_gray),
                 AddItem(R.string.album, R.drawable.ic_baseline_photo_24_gray),
-                AddItem(R.string.audio, R.drawable.ic_baseline_mic_none_24_gray),
+                AddItem(R.string.recording, R.drawable.ic_baseline_mic_none_24_gray),
+                AddItem(R.string.audio, R.drawable.ic_baseline_audiotrack_24_gray),
                 AddItem(R.string.video, R.drawable.ic_baseline_videocam_24_gray),
                 AddItem(R.string.movie, R.drawable.ic_baseline_local_movies_24_gray)
             )
         )
     }
 
+    val addItems = _addItems.asLiveData()
+
     //camera
     private val _camera = mutableLiveData<Boolean>(false)
 
     val camera = _camera.asLiveData()
 
-    fun switchToCamera() {
-        _camera.postValue(true)
-        viewModelScope.launch {
-            delay(500)
-            _camera.postValue(false)
-        }
-    }
+    fun switchToCamera() = _camera.postValue(true)
 
     //album
     private val _album = mutableLiveData<Boolean>(false)
 
     val album = _album.asLiveData()
 
-    fun switchToAlbum() {
-        _album.postValue(true)
-        viewModelScope.launch {
-            delay(500)
-            _album.postValue(false)
-        }
-    }
-
-    //audio
-    private val _audio = mutableLiveData<Boolean>(false)
-
-    val audio = _audio.asLiveData()
-
-    fun switchToAudio() {
-        _audio.postValue(true)
-        viewModelScope.launch {
-            delay(500)
-            _audio.postValue(false)
-        }
-    }
+    fun switchToAlbum() = _album.postValue(true)
 
     //recording
     private val _recording = mutableLiveData<Boolean>(false)
 
     val recording = _recording.asLiveData()
 
-    fun switchToRecording() {
-        _recording.postValue(true)
-        viewModelScope.launch {
-            delay(500)
-            _recording.postValue(false)
-        }
-    }
+    fun switchToRecording() = _recording.postValue(true)
 
-    //photo graphy
+    //audio
+    private val _audio = mutableLiveData<Boolean>(false)
+
+    val audio = _audio.asLiveData()
+
+    fun switchToAudio() = _audio.postValue(true)
+
+    //photography
     private val _photography = mutableLiveData<Boolean>(false)
 
     val photography = _photography.asLiveData()
 
-    fun switchToPhotography() {
-        _photography.postValue(true)
-        viewModelScope.launch {
-            delay(500)
-            _photography.postValue(false)
-        }
-    }
+    fun switchToPhotography() = _photography.postValue(true)
 
     //video
     private val _video = mutableLiveData<Boolean>(false)
@@ -281,13 +252,7 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
     val video = _video.asLiveData()
 
     //for open video list
-    fun switchToVideo() {
-        _video.postValue(true)
-        viewModelScope.launch {
-            delay(500)
-            _video.postValue(false)
-        }
-    }
+    fun switchToVideo() = _video.postValue(true)
 
     //--------------------------------------------------------------------------------------
     //recording
@@ -408,9 +373,6 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
     //
     //
     //
-
-
-    val addItems: LiveData<List<AddItem>> = _addItems
 
     private fun initViewEvent() = viewModelScope.launch(Dispatchers.IO) {
         socketViewEvent

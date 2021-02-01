@@ -16,11 +16,11 @@ import edu.yujie.socketex.R
 import edu.yujie.socketex.SocketViewEvent
 import edu.yujie.socketex.adapter.ChatListAdapter
 import edu.yujie.socketex.adapter.InfoListAdapter
-import edu.yujie.socketex.finish.base.fragment.BaseDataBindingFragment
 import edu.yujie.socketex.bean.ChatItem
 import edu.yujie.socketex.bean.ChatSender
 import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentChatRoomBinding
+import edu.yujie.socketex.finish.base.fragment.BaseDataBindingFragment
 import edu.yujie.socketex.util.closeKeyBoard
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import edu.yujie.socketex.vm.MediaViewModel
@@ -71,7 +71,7 @@ class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layo
         initView()
         //inputBox
         binding.includeInputBar.etText.textChanges().subscribeWithLife {
-            chatRoomViewModel.setInput(TextUtils.isEmpty(it.trim()))
+            chatRoomViewModel.setIsInputEmpty(TextUtils.isEmpty(it.trim()))
         }
         //add
         binding.includeInputBar.ivAdd.clicks().subscribeWithLife {
@@ -146,18 +146,18 @@ class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layo
         //view state
         //camera
         chatRoomViewModel.camera.observe(viewLifecycleOwner) {
-//            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaBottomSheetDialog(MimeType.VIDEO))
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentCameraX())
         }
         //album
         chatRoomViewModel.album.observe(viewLifecycleOwner) {
             if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaListDialog(MimeType.IMAGE))
         }
-        //audio
-        chatRoomViewModel.audio.observe(viewLifecycleOwner) {
-            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentRecordingDialog())
-        }
         //recording
         chatRoomViewModel.recording.observe(viewLifecycleOwner) {
+            if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentRecordingDialog())
+        }
+        //audio
+        chatRoomViewModel.audio.observe(viewLifecycleOwner) {
             if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentRecordingDialog())
         }
         //photography

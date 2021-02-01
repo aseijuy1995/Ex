@@ -3,15 +3,18 @@
     <string name="todo">TODO</string>
     <string name="aa">Aa</string>
 
-    <string name="camera">拍照</string>
-    <string name="album">相簿</string>
-    <string name="audio">音訊</string>
-    <string name="video">錄影</string>
-    <string name="movie">影片</string>
+    <string name="camera">拍攝照片</string>
+    <string name="album">選取相片</string>
+    <string name="recording">錄製音訊</string>
+    <string name="audio">選取音訊</string>
+    <string name="video">錄製影片</string>
+    <string name="movie">選取影片</string>
+
+    <string name="permission_deny">權限已被拒絕</string>
+    <string name="go_settings">前往設定</string>
 
     <string name="time_format">%02d:%02d</string>
     <string name="selected_count">已選%s項</string>
-
 
 
 </resources>
