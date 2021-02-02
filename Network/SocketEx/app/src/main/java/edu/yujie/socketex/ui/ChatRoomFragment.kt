@@ -23,8 +23,8 @@ import edu.yujie.socketex.databinding.FragmentChatRoomBinding
 import edu.yujie.socketex.finish.base.fragment.BaseDataBindingFragment
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import edu.yujie.socketex.vm.MediaViewModel
-import jp.wasabeef.recyclerview.animators.OvershootInLeftAnimator
-import jp.wasabeef.recyclerview.animators.OvershootInRightAnimator
+import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
+import jp.wasabeef.recyclerview.animators.SlideInRightAnimator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -46,17 +46,22 @@ class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layo
             rvInfo.adapter = infoListAdapter
             rvChat.apply {
                 adapter = chatListAdapter
+                scrollStateChanges().subscribeWithLife {
+                    when (it) {
+                        RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this).resumeRequests()
+                        RecyclerView.SCROLL_STATE_DRAGGING -> Glide.with(this).pauseRequests()
+                    }
+                }
             }
         }
     }
 
     private fun refreshInfo(infoList: List<String>) {
         infoListAdapter.submitList(infoList)
-
-        binding.rvInfo.scrollToPosition(infoList.size)
+        infoListAdapter.notifyItemInserted(infoListAdapter.itemCount - 1)
         binding.rvInfo.postDelayed({
-            binding.rvInfo.smoothScrollToPosition(infoList.size)
-        }, 50)
+            binding.rvInfo.smoothScrollToPosition(infoListAdapter.itemCount - 1)
+        }, 500)
     }
 
     private fun refreshChat(chatList: List<ChatItem>) {
@@ -65,25 +70,12 @@ class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layo
         binding.rvChat.postDelayed({
             binding.rvChat.smoothScrollToPosition(chatListAdapter.itemCount - 1)
         }, 500)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        //inputBox
-        binding.includeInputBar.etText.textChanges().subscribeWithLife {
-            chatRoomViewModel.setIsInputEmpty(TextUtils.isEmpty(it.trim()))
-        }
-        //add
-        binding.includeInputBar.ivAdd.clicks().subscribeWithLife {
-            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentAddDialog())
-        }
-        //send text
-        binding.includeInputBar.ivSend.clicks().subscribeWithLife {
-            val text = binding.includeInputBar.etText.text.toString()
-            chatRoomViewModel.sendText(text)
-        }
+        clickEvent()
 
         mediaViewModel.mediaListRelay.subscribeWithLife {
             println("$TAG sendSelectMediaList-sendSelectMediaList2")
@@ -102,26 +94,6 @@ class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layo
         //
         //
         //
-        binding.rvChat.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                println("$TAG newState = $newState")
-                RecyclerView.SCROLL_STATE_DRAGGING
-                RecyclerView.SCROLL_STATE_SETTLING//2
-                RecyclerView.SCROLL_STATE_IDLE//0
-
-            }
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                println("$TAG onScrolled = $dx, $dy")
-                chatRoomViewModel.scrollX = dx
-                chatRoomViewModel.scrollY = dy
-            }
-        })
-        //
-        //
         //recording
         chatRoomViewModel.recordingResultRelay.subscribeWithLife { (isDone, result) ->
             if (isDone) {
@@ -134,7 +106,7 @@ class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layo
         //
         //
 
-        chatRoomViewModel.infoListLiveData.observe(viewLifecycleOwner) {
+        chatRoomViewModel.infoList.observe(viewLifecycleOwner) {
             if (it.size > 0) {
                 refreshInfo(it)
             } else {
@@ -146,25 +118,68 @@ class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layo
             if (it.size > 0) {
                 if (it.last().sender == ChatSender.OWNER) {
                     binding.includeInputBar.etText.setText("")
-//                    binding.rvChat.itemAnimator = SlideInRightAnimator()
-                    binding.rvChat.itemAnimator = OvershootInRightAnimator()
+                    binding.rvChat.itemAnimator = SlideInRightAnimator()
+//                    binding.rvChat.itemAnimator = OvershootInRightAnimator()
                 } else {
                     binding.includeInputBar.etText.setText("")
-//                    binding.rvChat.itemAnimator = SlideInLeftAnimator()
-                    binding.rvChat.itemAnimator = OvershootInLeftAnimator()
+                    binding.rvChat.itemAnimator = SlideInLeftAnimator()
+//                    binding.rvChat.itemAnimator = OvershootInLeftAnimator()
                 }
                 refreshChat(it)
             }
         }
 
-        binding.rvInfo.scrollStateChanges().subscribeWithLife {
-            when (it) {
-                RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this).resumeRequests()
-                RecyclerView.SCROLL_STATE_DRAGGING -> Glide.with(this).pauseRequests()
-            }
-        }
 
         //--------------------------------------------------------------------------------------
+
+
+        mediaViewModel.toast.observe(viewLifecycleOwner) { if (it.trim().isNotEmpty()) Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).setAnchorView(binding.includeInputBar.root).show() }
+
+        //
+
+
+        //
+        //item img click
+        chatListAdapter.itemImgClickRelay.subscribeWithLife {
+            println("itemImgClickRelay-itemImgClickRelay")
+//            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPreview(it, From.IMAGE))
+        }
+        //item recording check
+        chatListAdapter.itemRecordingClickRelay.subscribeWithLife {
+            if (it.first)
+                chatRoomViewModel.startRecordingPlayer(it.second)
+            else
+                chatRoomViewModel.stopRecordingPlayer()
+        }
+//
+        //
+        //
+        //
+        //
+        //camera - send img
+        chatRoomViewModel.cameraLiveData.observe(viewLifecycleOwner) {
+            it.uris?.first()?.let {
+                lifecycleScope.launch(Dispatchers.IO) {
+                    chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendImg(listOf(it)))
+                }
+            }
+        }
+    }
+
+    private fun clickEvent() {
+        //inputBox
+        binding.includeInputBar.etText.textChanges().subscribeWithLife {
+            chatRoomViewModel.setIsInputEmpty(TextUtils.isEmpty(it.trim()))
+        }
+        //add
+        binding.includeInputBar.ivAdd.clicks().subscribeWithLife {
+            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentAddDialog())
+        }
+        //send text
+        binding.includeInputBar.ivSend.clicks().subscribeWithLife {
+            val text = binding.includeInputBar.etText.text.toString()
+            chatRoomViewModel.sendText(text)
+        }
         //view state
         //camera
         chatRoomViewModel.camera.observe(viewLifecycleOwner) {
@@ -189,45 +204,6 @@ class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layo
         //video
         chatRoomViewModel.video.observe(viewLifecycleOwner) {
             if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaListDialog(MimeType.VIDEO))
-        }
-
-        mediaViewModel.toast.observe(viewLifecycleOwner) { if (it.trim().isNotEmpty()) Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).setAnchorView(binding.includeInputBar.root).show() }
-
-        //
-
-
-        //
-        //item img click
-        chatListAdapter.itemImgClickRelay.subscribeWithLife {
-            println("itemImgClickRelay-itemImgClickRelay")
-//            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPreview(it, From.IMAGE))
-        }
-        //item recording check
-        chatListAdapter.itemRecordingClickRelay.subscribeWithLife {
-            if (it.first)
-                chatRoomViewModel.startRecordingPlayer(it.second)
-            else
-                chatRoomViewModel.stopRecordingPlayer()
-        }
-
-        //
-        //
-        //
-
-        //
-//                    is SocketState.ShowChat -> {
-//                        binding.includeInputBar.etText.setText("")//clean on send success
-//                        chatRoomViewModel.addChat(it.chatItem)
-//                    }
-        //
-
-        //camera - send img
-        chatRoomViewModel.cameraLiveData.observe(viewLifecycleOwner) {
-            it.uris?.first()?.let {
-                lifecycleScope.launch(Dispatchers.IO) {
-                    chatRoomViewModel.socketViewEvent.send(SocketViewEvent.SendImg(listOf(it)))
-                }
-            }
         }
     }
 

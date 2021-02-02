@@ -1,21 +1,17 @@
 package edu.yujie.socketex.ui.media
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.observe
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.jakewharton.rxbinding4.view.clicks
 import edu.yujie.socketex.R
 import edu.yujie.socketex.adapter.MediaListAdapter
-import edu.yujie.socketex.finish.base.fragment.BaseDataBindingBottomSheetDialogFragment
 import edu.yujie.socketex.bean.MediaSetting
 import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentMediaListDialogBinding
+import edu.yujie.socketex.finish.base.fragment.BaseDataBindingBottomSheetDialogFragment
 import edu.yujie.socketex.listener.From
 import edu.yujie.socketex.vm.MediaViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -30,22 +26,11 @@ class MediaListDialogFragment : BaseDataBindingBottomSheetDialogFragment<Fragmen
 
     private lateinit var setting: MediaSetting
 
-    private lateinit var navHostFrag: NavHostFragment
-    
-    private lateinit var navController: NavController
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        navHostFrag = requireActivity().supportFragmentManager.findFragmentById(R.id.frag_container_view) as NavHostFragment
-        navController = navHostFrag.navController
-        return super.onCreateView(inflater, container, savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
         getArgument()
         clickEvent()
-        println("MediaDialogFragment:onViewCreated")
 
         viewModel.getMediaAlbumItems(setting = setting).subscribeWithLife {
             val mediaList = it.flatMap { it.mediaList }
@@ -59,6 +44,16 @@ class MediaListDialogFragment : BaseDataBindingBottomSheetDialogFragment<Fragmen
         }
     }
 
+    private fun initView() {
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = this@MediaListDialogFragment.viewModel
+            toolbar.setupWithNavController(navController)
+            rvMedia.adapter = adapter
+        }
+        viewModel.cleanSelectMediaList()
+    }
+
     private fun getArgument() {
         mimeType = arguments?.getSerializable("mimeType") as MimeType
         when (mimeType) {
@@ -69,31 +64,15 @@ class MediaListDialogFragment : BaseDataBindingBottomSheetDialogFragment<Fragmen
                 setting = MediaSetting(
                     mimeType = mimeType,
                     isMultipleSelection = true
-                    //                    imageMaxSize = 100
                 )
             }
             MimeType.VIDEO -> {
                 setting = MediaSetting(
                     mimeType = mimeType,
-                    isMultipleSelection = true,
-                    maxSelectionCount = 3
-                    //                    videoMaxDuration =0,
-                    //                    videoMinDuration = 0
+                    isMultipleSelection = true
                 )
             }
         }
-    }
-
-    private fun initView() {
-        binding.apply {
-            lifecycleOwner = viewLifecycleOwner
-            viewModel = this@MediaListDialogFragment.viewModel
-            toolbar.setupWithNavController(navController)
-            rvMedia.adapter = adapter
-
-            toolbar.menu.findItem(R.id.menu_send).isVisible = false
-        }
-        viewModel.cleanSelectMediaList()
     }
 
     private fun clickEvent() {
@@ -105,7 +84,7 @@ class MediaListDialogFragment : BaseDataBindingBottomSheetDialogFragment<Fragmen
         }
         val menuSend = binding.toolbar.menu.findItem(R.id.menu_send)
         menuSend.clicks().subscribeWithLife {
-            viewModel.sendSelectMediaList()
+            viewModel.sendMediaList()
             findNavController().navigateUp()
         }
     }

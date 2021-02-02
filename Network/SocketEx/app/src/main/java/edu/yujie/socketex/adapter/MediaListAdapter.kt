@@ -38,7 +38,7 @@ class MediaListAdapter : ListAdapter<Media, MediaListAdapter.VH>(
     override fun onBindViewHolder(holder: VH, position: Int) {
         val media = getItem(position)
         holder.bind(media)
-        holder.binding.root.setOnClickListener {
+        holder.itemView.setOnClickListener {
             itemClickRelay.accept(media)
         }
         holder.binding.chkSelect.setOnCheckedChangeListener { _, b ->

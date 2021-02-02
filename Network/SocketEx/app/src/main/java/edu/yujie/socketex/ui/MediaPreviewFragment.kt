@@ -28,7 +28,7 @@ class MediaPreviewFragment : BaseDataBindingFragment<FragmentMediaPreviewBinding
         initView()
         getArgument()
         binding.ivBtnSend.clicks().subscribeWithLife {
-            viewModel.sendSelectMediaList()
+            viewModel.sendMediaList()
             findNavController().navigateUp()
         }
     }

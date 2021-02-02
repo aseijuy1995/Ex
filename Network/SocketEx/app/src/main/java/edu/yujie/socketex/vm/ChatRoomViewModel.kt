@@ -46,21 +46,17 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
 
     //--------------------------------------------------------------------------------------
     //info & chat
-    private val infoList = mutableListOf<String>()
+    private val infoes = mutableListOf<String>()
 
-    private val _infoList = mutableLiveData(infoList)
+    private val _infoList = mutableLiveData(infoes)
 
-    val infoListLiveData = _infoList.asLiveData()
+    val infoList = _infoList.asLiveData()
 
     private val chatItems = mutableListOf<ChatItem>()
 
     private val _chatItemList = mutableLiveData(chatItems)
 
     val chatItemList = _chatItemList.asLiveData()
-
-    var scrollX: Int = 0
-
-    var scrollY: Int = 0
 
     lateinit var webSocket: WebSocket
 
@@ -81,7 +77,7 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
         .subscribe { addInfo(it) }
         .addTo(compositeDisposable = compositeDisposable)
 
-    private fun addInfo(str: String) = infoList.also {
+    private fun addInfo(str: String) = infoes.also {
         it.add(str)
         _infoList.value = it
     }
