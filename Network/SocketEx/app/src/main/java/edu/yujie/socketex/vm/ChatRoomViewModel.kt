@@ -5,7 +5,6 @@ import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.CountDownTimer
-import android.text.TextUtils
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
@@ -33,6 +32,7 @@ import io.reactivex.rxjava3.kotlin.addTo
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.consumeAsFlow
@@ -52,15 +52,15 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
 
     val infoListLiveData = _infoList.asLiveData()
 
-    private val chatList = mutableListOf<ChatItem>()
+    private val chatItems = mutableListOf<ChatItem>()
 
-    private val _chatList = mutableLiveData(chatList)
+    private val _chatItemList = mutableLiveData(chatItems)
 
-    val chatListLiveData = _chatList.asLiveData()
+    val chatItemList = _chatItemList.asLiveData()
 
-    private val _toast = mutableLiveData<String>("")
+    var scrollX: Int = 0
 
-    val toast = _toast.asLiveData()
+    var scrollY: Int = 0
 
     lateinit var webSocket: WebSocket
 
@@ -89,31 +89,25 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
     fun receiveChatList() = chatSocketRepository.receiveChat()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe { addChat(it) }
+        .subscribe { addChatItem(it) }
         .addTo(compositeDisposable = compositeDisposable)
 
-    fun addChat(chatItem: ChatItem) = chatList.also {
+    fun addChatItem(chatItem: ChatItem) = chatItems.also {
         it.add(chatItem)
-//        _chatList.postValue(it)
-        _chatList.value = it
+        _chatItemList.value = it
     }
 
     fun sendText(str: String) {
-        if (TextUtils.isEmpty(str.trim())) {
-            _toast.value = "Can not empty!"
-        } else {
-            val chatBean = ChatItem(
-//                id = 0,
-                id = ++count,
-                name = "Me",
-                time = getTime(),
-                textMsg = str,
-                sender = ChatSender.OWNER
-            )
-            val json = Gson().toJson(chatBean)
-            webSocket.send(json)
-            addChat(chatBean)
-        }
+        val chatItem = ChatItem(
+            id = ++count,
+            name = "Owner",
+            time = getTime(),
+            textMsg = str,
+            sender = ChatSender.OWNER
+        )
+        val json = Gson().toJson(chatItem)
+        addChatItem(chatItem)
+        webSocket.send(json)
     }
 
     fun sendImg(paths: List<String>) {
@@ -124,14 +118,14 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
         val chatBean = ChatItem(
 //            id = 0,
             id = ++count,
-            name = "Me",
+            name = "Owner",
             time = getTime(),
             imgListMsg = chatImgList,
             sender = ChatSender.OWNER
         )
         val json = Gson().toJson(chatBean)
         webSocket.send(json)
-        addChat(chatBean)
+        addChatItem(chatBean)
     }
 
     //圖片壓縮
@@ -151,14 +145,14 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
             val chatItem = ChatItem(
 //                id = 0,
                 id = ++count,
-                name = "Me",
+                name = "Owner",
                 time = getTime(),
                 videoListMsg = chatVideoList,
                 sender = ChatSender.OWNER
             )
             val json = Gson().toJson(chatItem)
             webSocket.send(json)
-            addChat(chatItem)
+            addChatItem(chatItem)
         }
     }
 
@@ -168,18 +162,17 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
         val chatItem = ChatItem(
 //            id = 0,
             id = ++count,
-            name = "Me",
+            name = "Owner",
             time = getTime(),
             audioMsg = chatAudio,
             sender = ChatSender.OWNER
         )
         val json = Gson().toJson(chatItem)
         webSocket.send(json)
-        addChat(chatItem)
+        addChatItem(chatItem)
     }
     //
     //
-
 
     //--------------------------------------------------------------------------------------
     //view state
@@ -194,6 +187,7 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
     fun setIsInputEmpty(state: Boolean) {
         _isInputEmpty.value = state
     }
+
 
     //--------------------------------------------------------------------------------------
     private val _addItems: MutableLiveData<List<AddItem>> by lazy {
@@ -216,35 +210,65 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
 
     val camera = _camera.asLiveData()
 
-    fun switchToCamera() = _camera.postValue(true)
+    fun switchToCamera() {
+        _camera.postValue(true)
+        viewModelScope.launch {
+            delay(500L)
+            _camera.postValue(false)
+        }
+    }
 
     //album
     private val _album = mutableLiveData<Boolean>(false)
 
     val album = _album.asLiveData()
 
-    fun switchToAlbum() = _album.postValue(true)
+    fun switchToAlbum() {
+        _album.postValue(true)
+        viewModelScope.launch {
+            delay(500L)
+            _album.postValue(false)
+        }
+    }
 
     //recording
     private val _recording = mutableLiveData<Boolean>(false)
 
     val recording = _recording.asLiveData()
 
-    fun switchToRecording() = _recording.postValue(true)
+    fun switchToRecording() {
+        _recording.postValue(true)
+        viewModelScope.launch {
+            delay(500L)
+            _recording.postValue(false)
+        }
+    }
 
     //audio
     private val _audio = mutableLiveData<Boolean>(false)
 
     val audio = _audio.asLiveData()
 
-    fun switchToAudio() = _audio.postValue(true)
+    fun switchToAudio() {
+        _audio.postValue(true)
+        viewModelScope.launch {
+            delay(500L)
+            _audio.postValue(false)
+        }
+    }
 
     //photography
     private val _photography = mutableLiveData<Boolean>(false)
 
     val photography = _photography.asLiveData()
 
-    fun switchToPhotography() = _photography.postValue(true)
+    fun switchToPhotography() {
+        _photography.postValue(true)
+        viewModelScope.launch {
+            delay(500L)
+            _photography.postValue(false)
+        }
+    }
 
     //video
     private val _video = mutableLiveData<Boolean>(false)
@@ -252,7 +276,13 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
     val video = _video.asLiveData()
 
     //for open video list
-    fun switchToVideo() = _video.postValue(true)
+    fun switchToVideo() {
+        _video.postValue(true)
+        viewModelScope.launch {
+            delay(500L)
+            _video.postValue(false)
+        }
+    }
 
     //--------------------------------------------------------------------------------------
     //recording
@@ -317,14 +347,14 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
 
     fun recordingTimeChange(chatItem: ChatItem) {
         println("$TAG recordingTimeChange")
-        val chatList = _chatList.value
+        val chatList = _chatItemList.value
         chatList?.mapIndexed { index, chatItem2 ->
             if (chatItem2.id == chatItem.id) {
                 println("$TAG chatItem2.id:${chatItem2.audioMsg?.countDownTimer}, ${chatItem2.audioMsg?.time}")
                 chatList[index] = chatItem
             }
         }
-        _chatList.postValue(chatList)
+        _chatItemList.postValue(chatList)
     }
 
     fun stopRecordingPlayer() {
@@ -391,7 +421,7 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
                         val chatBean = ChatItem(
 //                            id = 0,
                             id = ++count,
-                            name = "Me",
+                            name = "Owner",
                             time = getTime(),
                             sender = ChatSender.OWNER,
                             imgListMsg = chatImgList
@@ -402,7 +432,7 @@ class ChatRoomViewModel(application: Application, private val recordingRepo: IRe
                     }
 
                     is SocketViewEvent.SendRecorder -> {
-//                        val chatBean = ChatItem(id = 0, name = "Me", sender = ChatSender.OWNER, time = getTime(), audioMsg = it.file.readBytes())
+//                        val chatBean = ChatItem(id = 0, name = "Owner", sender = ChatSender.OWNER, time = getTime(), audioMsg = it.file.readBytes())
 //                        val json = Gson().toJson(chatBean)
 //                        println("$TAG json:$json")
 //                        webSocket.send(json)

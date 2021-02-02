@@ -21,9 +21,10 @@ import edu.yujie.socketex.bean.ChatSender
 import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentChatRoomBinding
 import edu.yujie.socketex.finish.base.fragment.BaseDataBindingFragment
-import edu.yujie.socketex.util.closeKeyBoard
 import edu.yujie.socketex.vm.ChatRoomViewModel
 import edu.yujie.socketex.vm.MediaViewModel
+import jp.wasabeef.recyclerview.animators.OvershootInLeftAnimator
+import jp.wasabeef.recyclerview.animators.OvershootInRightAnimator
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -43,7 +44,9 @@ class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layo
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@ChatRoomFragment.chatRoomViewModel
             rvInfo.adapter = infoListAdapter
-            rvChat.adapter = chatListAdapter
+            rvChat.apply {
+                adapter = chatListAdapter
+            }
         }
     }
 
@@ -57,13 +60,12 @@ class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layo
     }
 
     private fun refreshChat(chatList: List<ChatItem>) {
-        requireContext().closeKeyBoard(binding.includeInputBar.ivSend)
         chatListAdapter.submitList(chatList)
-
-        binding.rvChat.scrollToPosition(chatList.size)
+        chatListAdapter.notifyItemInserted(chatListAdapter.itemCount - 1)
         binding.rvChat.postDelayed({
-            binding.rvChat.smoothScrollToPosition(chatList.size)
-        }, 50)
+            binding.rvChat.smoothScrollToPosition(chatListAdapter.itemCount - 1)
+        }, 500)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -99,6 +101,27 @@ class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layo
         }
         //
         //
+        //
+        binding.rvChat.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                println("$TAG newState = $newState")
+                RecyclerView.SCROLL_STATE_DRAGGING
+                RecyclerView.SCROLL_STATE_SETTLING//2
+                RecyclerView.SCROLL_STATE_IDLE//0
+
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                println("$TAG onScrolled = $dx, $dy")
+                chatRoomViewModel.scrollX = dx
+                chatRoomViewModel.scrollY = dy
+            }
+        })
+        //
+        //
         //recording
         chatRoomViewModel.recordingResultRelay.subscribeWithLife { (isDone, result) ->
             if (isDone) {
@@ -119,19 +142,18 @@ class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layo
             }
         }
 
-        chatRoomViewModel.chatListLiveData.observe(viewLifecycleOwner) {
+        chatRoomViewModel.chatItemList.observe(viewLifecycleOwner) {
             if (it.size > 0) {
-                if (it.last().sender == ChatSender.OWNER)
+                if (it.last().sender == ChatSender.OWNER) {
                     binding.includeInputBar.etText.setText("")
+//                    binding.rvChat.itemAnimator = SlideInRightAnimator()
+                    binding.rvChat.itemAnimator = OvershootInRightAnimator()
+                } else {
+                    binding.includeInputBar.etText.setText("")
+//                    binding.rvChat.itemAnimator = SlideInLeftAnimator()
+                    binding.rvChat.itemAnimator = OvershootInLeftAnimator()
+                }
                 refreshChat(it)
-            } else {
-
-            }
-        }
-
-        chatRoomViewModel.toast.observe(viewLifecycleOwner) {
-            if (!TextUtils.isEmpty(it.trim())) {
-                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
             }
         }
 
@@ -235,19 +257,6 @@ class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layo
 //                }
 //            }
 //        }
-////        viewModel.onAlbumResult(requestCode, resultCode, data).subscribe {
-////            when (it) {
-////                is IntentResult.IntentResultSuccess -> {
-////                    println("$TAG onAlbumResult")
-////                    viewModel.albumResultEvent(it)
-////                    findNavController().navigateUp()
-////                }
-////                is IntentResult.IntentResultFailed -> {
-////                    Snackbar.make(binding.viewCamera.viewItem, "Please select Photo!", Snackbar.LENGTH_SHORT).setAnchorView(binding.root).show()
-////                    findNavController().navigateUp()
-////                }
-////            }
-////        }
 //    }
 
 

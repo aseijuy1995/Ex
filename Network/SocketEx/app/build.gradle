@@ -147,6 +147,7 @@ dependencies {
     implementation "androidx.camera:camera-lifecycle:$camerax_version"
     implementation "androidx.camera:camera-view:$camerax_version2"
 
+    implementation 'jp.wasabeef:recyclerview-animators:4.0.1'
 
 
 }
