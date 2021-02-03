@@ -20,7 +20,7 @@ class MediaListDialogFragment : BaseDataBindingBottomSheetDialogFragment<Fragmen
 
     private val viewModel by sharedViewModel<MediaViewModel>()
 
-    private val adapter = MediaListAdapter()
+    private lateinit var adapter: MediaListAdapter
 
     private lateinit var mimeType: MimeType
 
@@ -49,9 +49,8 @@ class MediaListDialogFragment : BaseDataBindingBottomSheetDialogFragment<Fragmen
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@MediaListDialogFragment.viewModel
             toolbar.setupWithNavController(navController)
-            rvMedia.adapter = adapter
         }
-        viewModel.cleanSelectMediaList()
+        viewModel.cleanMediaList()
     }
 
     private fun getArgument() {
@@ -69,10 +68,12 @@ class MediaListDialogFragment : BaseDataBindingBottomSheetDialogFragment<Fragmen
             MimeType.VIDEO -> {
                 setting = MediaSetting(
                     mimeType = mimeType,
-                    isMultipleSelection = true
+                    isMultipleSelection = false
                 )
             }
         }
+        adapter = MediaListAdapter(setting)
+        binding.rvMedia.adapter = adapter
     }
 
     private fun clickEvent() {

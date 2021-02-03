@@ -42,8 +42,6 @@
             android:id="@+id/action_fragment_chat_room_to_fragment_recording_dialog"
             app:destination="@id/fragment_recording_dialog" />
 
-
-
         <action
             android:id="@+id/action_fragment_chat_room_to_fragment_media_preview"
             app:destination="@id/fragment_media_preview" />
@@ -55,7 +53,6 @@
         android:name="edu.yujie.socketex.ui.AddDialogFragment"
         android:label="fragment_add_dialog"
         tools:layout="@layout/fragment_add_dialog" />
-
 
     <dialog
         android:id="@+id/fragment_media_list_dialog"

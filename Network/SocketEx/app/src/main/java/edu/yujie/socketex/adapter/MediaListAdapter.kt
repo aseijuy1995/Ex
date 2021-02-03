@@ -3,14 +3,16 @@ package edu.yujie.socketex.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.bean.Media
+import edu.yujie.socketex.bean.MediaSetting
 import edu.yujie.socketex.databinding.ItemMediaBinding
 
-class MediaListAdapter : ListAdapter<Media, MediaListAdapter.VH>(
+class MediaListAdapter(private val setting: MediaSetting) : ListAdapter<Media, MediaListAdapter.VH>(
     object : DiffUtil.ItemCallback<Media>() {
         override fun areItemsTheSame(oldItem: Media, newItem: Media): Boolean = oldItem.hashCode() == newItem.hashCode()
 
@@ -32,6 +34,7 @@ class MediaListAdapter : ListAdapter<Media, MediaListAdapter.VH>(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemMediaBinding.inflate(inflater, parent, false)
+        binding.chkSelect.isVisible = setting.isMultipleSelection
         return VH(binding, parent.context)
     }
 

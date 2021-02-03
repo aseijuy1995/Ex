@@ -56,7 +56,7 @@ class MediaViewModel(application: Application, private val repo: IMediaRepo) : B
         _media.value = media
     }
 
-    fun cleanSelectMediaList() {
+    fun cleanMediaList() {
         selectMedias.clear()
         _selectMediaList.value = selectMedias
     }

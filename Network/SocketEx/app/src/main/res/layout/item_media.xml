@@ -10,8 +10,6 @@
             type="edu.yujie.socketex.bean.Media" />
 
         <import type="edu.yujie.socketex.bean.MimeType" />
-
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,8 +22,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -36,6 +34,7 @@
             android:id="@+id/chk_select"
             android:layout_width="25dp"
             android:layout_height="25dp"
+            android:layout_margin="5dp"
             android:background="@drawable/select_checkbox_checked_media"
             android:button="@null"
             android:padding="10dp"
