@@ -38,7 +38,6 @@ class BaseApplication : Application() {
         single<IAlbumRepow> { AlbumRepowImpl(androidContext()) }
     }
 
-
     private val modelModules = module {
         single<ICamera> { CameraImpl() }
         single<IAlbum> { AlbumImpl() }

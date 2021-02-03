@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
@@ -57,12 +58,8 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
     inner class OwnerVH(private val binding: ItemChatOwnerBinding, val context: Context) : VH(binding) {
         override fun bind(chatItem: ChatItem) = binding.apply {
             //image click
-            chatItem.imgListMsg?.let {
-                rvImg.adapter = ChatImgListAdapter().apply {
-                    itemImgClickRelay.subscribe { this@ChatListAdapter.itemImgClickRelay.accept(it) }
-                    submitList(it)
-                }
-            }
+            chatItem.imgListMsg?.let { initImageView(binding, it) }
+
             chatItem.videoListMsg?.let {
                 rvVideo.adapter = ChatVideoListAdapter().apply { submitList(it) }
             }
@@ -72,6 +69,25 @@ class ChatListAdapter : ListAdapter<ChatItem, ChatListAdapter.VH>(
             }
             this.chatItem = chatItem
             executePendingBindings()
+        }
+
+        private fun initImageView(binding: ItemChatOwnerBinding, imgListMsg: List<ChatImg>) {
+            (binding.rvImg.layoutManager as GridLayoutManager).spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    println("imgListMsg.size:${imgListMsg.size}")
+                    return if (imgListMsg.size % 2 == 1) if (imgListMsg.size - 1 == position) 1 else 2 else 2
+                }
+            }
+
+            binding.rvImg.adapter = ChatImgListAdapter().apply {
+                itemImgClickRelay.subscribe { this@ChatListAdapter.itemImgClickRelay.accept(it) }
+//                imgListMsg.forEach {
+                submitList(imgListMsg)
+                notifyItemInserted(imgListMsg.size - 1)
+                binding.rvImg.postDelayed({ binding.rvImg.smoothScrollToPosition(imgListMsg.size - 1) }, 500)
+//                }
+            }
+
         }
     }
 

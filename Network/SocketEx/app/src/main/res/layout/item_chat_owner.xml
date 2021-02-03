@@ -54,19 +54,20 @@
                 android:layout_height="wrap_content"
                 android:maxWidth="200dp"
                 android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:spanCount="2"
                 bind:isVisible="@{chatItem.imgListMsg!=null}" />
 
             <include
                 android:id="@+id/view_recorder"
                 layout="@layout/item_chat_recording_owner"
+                app:chatItem="@{chatItem}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:chatItem="@{chatItem}"
                 bind:isVisible="@{chatItem.audioMsg!=null}" />
 
             <androidx.recyclerview.widget.RecyclerView
