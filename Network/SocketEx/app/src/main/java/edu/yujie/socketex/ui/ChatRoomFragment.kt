@@ -78,7 +78,6 @@ class ChatRoomFragment : BaseDataBindingFragment<FragmentChatRoomBinding>(R.layo
         clickEvent()
 
         mediaViewModel.mediaListRelay.subscribeWithLife {
-            println("$TAG sendSelectMediaList-sendSelectMediaList2")
             if (it.first().mimeType.startsWith(MimeType.IMAGE.toString())) {
                 val imgPaths = it.map { it.data }
                 chatRoomViewModel.sendImg(imgPaths)

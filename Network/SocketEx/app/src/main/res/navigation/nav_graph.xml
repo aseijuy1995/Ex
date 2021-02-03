@@ -3,8 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragment_chat_room">
-    <!--    app:startDestination="@id/fragment_camera_x">-->
+    app:startDestination="@id/fragment_start">
+
+    <dialog
+        android:id="@+id/frag_loading_dialog"
+        android:name="edu.yujie.socketex.ui.LoadingDialogFragment"
+        android:label="frag_loading_dialog"
+        tools:layout="@layout/frag_loading_dialog" />
+
+    <fragment
+        android:id="@+id/fragment_start"
+        android:name="edu.yujie.socketex.ui.StartFragment"
+        android:label="fragment_start"
+        tools:layout="@layout/fragment_start" >
+        <action
+            android:id="@+id/action_fragment_start_to_fragment_chat_room"
+            app:destination="@id/fragment_chat_room" />
+    </fragment>
 
     <fragment
         android:id="@+id/fragment_camera_x"

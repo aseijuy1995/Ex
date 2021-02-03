@@ -5,7 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
+import edu.yujie.socketex.R
 import edu.yujie.socketex.finish.inter.IRxJavaSubscribe
 import edu.yujie.socketex.finish.util.CompositeDisposableLifecycleObserver
 import io.reactivex.rxjava3.core.Observable
@@ -19,9 +22,15 @@ open class BaseDialogFragment : DialogFragment(), IRxJavaSubscribe {
 
     protected val compositeDisposable = CompositeDisposable()
 
+    protected lateinit var navHostFrag: NavHostFragment
+
+    protected lateinit var navController: NavController
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //CompositeDisposable
         CompositeDisposableLifecycleObserver(owner = viewLifecycleOwner, compositeDisposable = compositeDisposable)
+        navHostFrag = requireActivity().supportFragmentManager.findFragmentById(R.id.frag_container_view) as NavHostFragment
+        navController = navHostFrag.navController
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

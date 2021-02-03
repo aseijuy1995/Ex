@@ -1,14 +1,16 @@
 package edu.yujie.socketex.vm
 
 import android.app.Application
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.jakewharton.rxrelay3.PublishRelay
+import com.jakewharton.rxrelay3.BehaviorRelay
 import edu.yujie.socketex.bean.Media
 import edu.yujie.socketex.bean.MediaAlbumItem
 import edu.yujie.socketex.bean.MediaSetting
+import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.finish.base.viewModel.BaseAndroidViewModel
 import edu.yujie.socketex.inter.IMediaRepo
 import edu.yujie.socketex.util.asLiveData
@@ -25,13 +27,13 @@ class MediaViewModel(application: Application, private val repo: IMediaRepo) : B
 
     val toast = _toast.asLiveData()
 
-    private val selectMedias = mutableListOf<Media>()
+    val selectMedias = mutableListOf<Media>()
 
     private val _selectMediaList = mutableLiveData<List<Media>>(selectMedias)
 
     val selectMediaList = _selectMediaList.asLiveData()
 
-    val mediaListRelay = PublishRelay.create<List<Media>>()//last list
+    val mediaListRelay = BehaviorRelay.create<List<Media>>()//last list
 
     fun getMediaAlbumItems(setting: MediaSetting): Observable<List<MediaAlbumItem>> = repo.getMediaAlbumItems(setting = setting)
         .map {
@@ -47,13 +49,15 @@ class MediaViewModel(application: Application, private val repo: IMediaRepo) : B
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
-    fun selectMedia(media: Media) {
+    //isPick:表選擇中
+    fun selectMedia(media: Media, isPick: Boolean = false) {
         if (media.isSelect)
             selectMedias.add(media)
-        else
+        else {
             selectMedias.remove(media)
+        }
         _selectMediaList.value = selectMedias
-        _media.value = media
+        if (isPick) _media.value = media
     }
 
     fun cleanMediaList() {
@@ -62,13 +66,17 @@ class MediaViewModel(application: Application, private val repo: IMediaRepo) : B
     }
 
     fun sendMediaList() {
-        mediaListRelay.accept(selectMediaList.value)
+        mediaListRelay.accept(selectMedias)
     }
 
     //--------------------------------------------------------------------------------------
     private val _media = mutableLiveData<Media>()
 
     val media = _media.asLiveData()
+
+    val isMimeTypeImage = _media.map { it.mimeType.startsWith(MimeType.IMAGE.toString()) }
+
+    val isMimeTypeVideo = _media.map { it.mimeType.startsWith(MimeType.VIDEO.toString()) }
 
     fun buildPlayer(media: Media): Player {
         val mediaItem = MediaItem.fromUri(media.data)

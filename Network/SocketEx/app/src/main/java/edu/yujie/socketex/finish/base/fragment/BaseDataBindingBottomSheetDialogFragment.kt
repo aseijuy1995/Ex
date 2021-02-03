@@ -14,15 +14,4 @@ open class BaseDataBindingBottomSheetDialogFragment<T : ViewDataBinding>(layoutI
 
     protected val binding by dataBinding<T>(layoutId)
 
-    protected lateinit var navHostFrag: NavHostFragment
-
-    protected lateinit var navController: NavController
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
-        navHostFrag = requireActivity().supportFragmentManager.findFragmentById(R.id.frag_container_view) as NavHostFragment
-        navController = navHostFrag.navController
-        return binding.root
-    }
-
 }

@@ -33,8 +33,8 @@ class MediaListDialogFragment : BaseDataBindingBottomSheetDialogFragment<Fragmen
         clickEvent()
 
         viewModel.getMediaAlbumItems(setting = setting).subscribeWithLife {
-            val mediaList = it.flatMap { it.mediaList }
-            adapter.submitList(mediaList)
+            it.flatMap { it.mediaList }
+                .also { adapter.submitList(it) }
         }
 
         viewModel.toast.observe(viewLifecycleOwner) { if (it.trim().isNotEmpty()) findNavController().navigateUp() }

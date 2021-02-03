@@ -2,12 +2,12 @@ package edu.yujie.socketex.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.google.android.exoplayer2.Player
 import com.jakewharton.rxbinding4.view.clicks
 import edu.yujie.socketex.R
 import edu.yujie.socketex.bean.Media
-import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentMediaPreviewBinding
 import edu.yujie.socketex.finish.base.fragment.BaseDataBindingFragment
 import edu.yujie.socketex.listener.ExoPlayerAutoLifecycleObserver
@@ -41,12 +41,15 @@ class MediaPreviewFragment : BaseDataBindingFragment<FragmentMediaPreviewBinding
 
     private fun getArgument() {
         media = arguments?.getParcelable<Media>("media")!!
-        if (media.isSelect == false)
-            viewModel.selectMedia(media = media)
-        if (media.mimeType.startsWith(MimeType.VIDEO.toString())) {
-            player = viewModel.buildPlayer(media)
-            binding.playerView.player = player
-            ExoPlayerAutoLifecycleObserver(this, player)
+        if (!media.isSelect) media.isSelect = true
+        viewModel.selectMedia(media, isPick = true)
+
+        viewModel.isMimeTypeVideo.observe(viewLifecycleOwner) {
+            if (it) {
+                player = viewModel.buildPlayer(media)
+                binding.playerView.player = player
+                ExoPlayerAutoLifecycleObserver(this, player)
+            }
         }
     }
 

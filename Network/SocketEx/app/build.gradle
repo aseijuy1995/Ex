@@ -149,5 +149,10 @@ dependencies {
 
     implementation 'jp.wasabeef:recyclerview-animators:4.0.1'
 
+    implementation 'com.qianwen:update-app:3.5.2'
+    implementation 'com.qianwen:update-app-kotlin:1.2.3'
+
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+
 
 }

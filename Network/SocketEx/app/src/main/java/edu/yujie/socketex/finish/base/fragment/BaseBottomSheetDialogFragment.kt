@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import edu.yujie.socketex.R
@@ -21,14 +23,20 @@ open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment(), IRxJavaS
 
     protected val compositeDisposable = CompositeDisposable()
 
+    protected lateinit var navHostFrag: NavHostFragment
+
+    protected lateinit var navController: NavController
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.TopArcBottomSheetDialogTheme)
+        setStyle(STYLE_NORMAL, R.style.ToolbarBottomSheetDialogTheme)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //CompositeDisposable
         CompositeDisposableLifecycleObserver(owner = viewLifecycleOwner, compositeDisposable = compositeDisposable)
+        navHostFrag = requireActivity().supportFragmentManager.findFragmentById(R.id.frag_container_view) as NavHostFragment
+        navController = navHostFrag.navController
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
