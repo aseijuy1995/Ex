@@ -28,7 +28,7 @@ class ApiRepo() : IApiRepo {
             this.account = account
             this.authToken = authToken
             this.deviceToken = deviceToken
-            this.name = "North27"
+            this.name = "Owner"
             this.headerUrl = "https://obs.line-scdn.net/0h7IGZqu6raGZ6I0JI5ksXMUB1awlJT3tlHhU5ZTlNNlIFFic4RkdwU1YiM1dfRi84FE0jBlwrc1dfGitjT0Zw/w644"
         }.build()
     }

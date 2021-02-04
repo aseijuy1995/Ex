@@ -10,12 +10,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/shape_gradient_color_blue_white"
         tools:context=".ImageActivity">
 
         <ImageView
             android:id="@+id/iv_view"
             android:layout_width="0dp"
             android:layout_height="100dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -24,6 +26,7 @@
             android:id="@+id/iv_view2"
             android:layout_width="0dp"
             android:layout_height="100dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_view" />
@@ -32,6 +35,7 @@
             android:id="@+id/iv_view3"
             android:layout_width="0dp"
             android:layout_height="100dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_view2" />
@@ -40,6 +44,7 @@
             android:id="@+id/iv_view4"
             android:layout_width="0dp"
             android:layout_height="100dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_view3" />

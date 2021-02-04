@@ -11,7 +11,7 @@ import com.vector.update_app_kotlin.updateApp
 import edu.yujie.socketex.R
 import edu.yujie.socketex.databinding.FragStartBinding
 import edu.yujie.socketex.finish.base.fragment.BaseViewBindingDialogFragment
-import edu.yujie.socketex.finish.inter.SignInState
+import edu.yujie.socketex.finish.inter.SignInStatus
 import edu.yujie.socketex.finish.vm.StartViewModel
 import edu.yujie.socketex.util.UpdateAppHttpUtil
 import kotlinx.coroutines.delay
@@ -36,32 +36,25 @@ class StartFragment : BaseViewBindingDialogFragment<FragStartBinding>(FragStartB
             }
         }
 
-        viewModel.signInState.observe(viewLifecycleOwner) {
+        viewModel.signInStatus.observe(viewLifecycleOwner) {
+            binding.motionLayout.transitionToEnd()
             lifecycleScope.launch {
-                delay(1500)
+                delay(3000)
                 when (it) {
-                    SignInState.NOT_SIGN_IN -> findNavController().navigate(StartFragmentDirections.actionFragStartToFragSignIn())
+                    SignInStatus.NOT_SIGN_IN -> findNavController().navigate(StartFragmentDirections.actionFragStartToFragSignIn())
 
-                    SignInState.ERROR_ACT_PWD -> {
+                    SignInStatus.ERROR_ACT_PWD -> {
                         Toast.makeText(requireContext(), "帳號 & 密碼已被修改，請重新登入", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(StartFragmentDirections.actionFragStartToFragSignIn())
                     }
-                    SignInState.SIGN_IN -> findNavController().navigate(StartFragmentDirections.actionFragStartToFragHome())
+                    SignInStatus.SIGN_IN -> findNavController().navigate(StartFragmentDirections.actionFragStartToFragHome())
                 }
             }
         }
-
     }
 
     private fun initView() {
         findNavController().navigate(R.id.frag_loading_dialog)
-    }
-
-    private fun navToNext() {
-        lifecycleScope.launch {
-            delay(1500)
-            findNavController().navigate(StartFragmentDirections.actionFragmentStartToFragmentChatRoom())
-        }
     }
 
 }

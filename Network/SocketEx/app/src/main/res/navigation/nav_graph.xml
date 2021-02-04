@@ -20,11 +20,15 @@
         tools:layout="@layout/frag_start">
         <action
             android:id="@+id/action_frag_start_to_frag_sign_in"
-            app:destination="@id/frag_sign_in" />
+            app:destination="@id/frag_sign_in"
+            app:popUpTo="@id/frag_sign_in"
+            app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_frag_start_to_frag_home"
-            app:destination="@id/frag_home" />
+            app:destination="@id/frag_home"
+            app:popUpTo="@id/frag_home"
+            app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_fragment_start_to_fragment_chat_room"
