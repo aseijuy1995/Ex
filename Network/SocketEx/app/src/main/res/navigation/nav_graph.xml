@@ -3,23 +3,46 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragment_start">
+    app:startDestination="@id/frag_start">
 
+    <!-- Global -->
     <dialog
         android:id="@+id/frag_loading_dialog"
         android:name="edu.yujie.socketex.ui.LoadingDialogFragment"
         android:label="frag_loading_dialog"
         tools:layout="@layout/frag_loading_dialog" />
 
+    <!-- Init -->
     <fragment
-        android:id="@+id/fragment_start"
-        android:name="edu.yujie.socketex.ui.StartFragment"
-        android:label="fragment_start"
-        tools:layout="@layout/fragment_start" >
+        android:id="@+id/frag_start"
+        android:name="edu.yujie.socketex.finish.ui.StartFragment"
+        android:label="frag_start"
+        tools:layout="@layout/frag_start">
+        <action
+            android:id="@+id/action_frag_start_to_frag_sign_in"
+            app:destination="@id/frag_sign_in" />
+
+        <action
+            android:id="@+id/action_frag_start_to_frag_home"
+            app:destination="@id/frag_home" />
+
         <action
             android:id="@+id/action_fragment_start_to_fragment_chat_room"
             app:destination="@id/fragment_chat_room" />
+
     </fragment>
+
+    <fragment
+        android:id="@+id/frag_sign_in"
+        android:name="edu.yujie.socketex.finish.ui.SignInFragment"
+        android:label="frag_sign_in"
+        tools:layout="@layout/frag_sign_in" />
+
+    <fragment
+        android:id="@+id/frag_home"
+        android:name="edu.yujie.socketex.finish.ui.HomeFragment"
+        android:label="frag_home"
+        tools:layout="@layout/frag_home" />
 
     <fragment
         android:id="@+id/fragment_camera_x"

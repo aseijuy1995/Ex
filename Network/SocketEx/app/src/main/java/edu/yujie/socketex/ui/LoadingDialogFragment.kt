@@ -1,9 +1,6 @@
 package edu.yujie.socketex.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import edu.yujie.socketex.R
 import edu.yujie.socketex.databinding.FragLoadingDialogBinding
 import edu.yujie.socketex.finish.base.fragment.BaseViewBindingDialogFragment

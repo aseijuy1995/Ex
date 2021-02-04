@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="edu.yujie.socketex.vm.ChatRoomViewModel" />
+            type="edu.yujie.socketex.finish.vm.ChatRoomViewModel" />
 
         <import type="android.view.View" />
     </data>

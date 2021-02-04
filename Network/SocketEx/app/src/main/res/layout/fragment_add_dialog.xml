@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="edu.yujie.socketex.vm.ChatRoomViewModel" />
+            type="edu.yujie.socketex.finish.vm.ChatRoomViewModel" />
 
     </data>
 

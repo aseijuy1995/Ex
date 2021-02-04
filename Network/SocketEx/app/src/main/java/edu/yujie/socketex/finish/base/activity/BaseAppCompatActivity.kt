@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import edu.yujie.socketex.finish.inter.IRxJavaSubscribe
-import edu.yujie.socketex.finish.util.CompositeDisposableLifecycleObserver
+import edu.yujie.socketex.finish.util.DisposablesLifeObs
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -18,7 +18,7 @@ open class BaseAppCompatActivity : AppCompatActivity(), IRxJavaSubscribe {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //CompositeDisposable
-        CompositeDisposableLifecycleObserver(owner = this, compositeDisposable = compositeDisposable)
+        DisposablesLifeObs(this, compositeDisposable)
     }
 
     override fun <T> Observable<T>.subscribeWithLife(): Disposable? =

@@ -21,8 +21,8 @@ import edu.yujie.socketex.bean.ChatSender
 import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentChatRoomBinding
 import edu.yujie.socketex.finish.base.fragment.BaseDataBindingFragment
-import edu.yujie.socketex.vm.ChatRoomViewModel
-import edu.yujie.socketex.vm.MediaViewModel
+import edu.yujie.socketex.finish.vm.ChatRoomViewModel
+import edu.yujie.socketex.finish.vm.MediaViewModel
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
 import jp.wasabeef.recyclerview.animators.SlideInRightAnimator
 import kotlinx.coroutines.Dispatchers

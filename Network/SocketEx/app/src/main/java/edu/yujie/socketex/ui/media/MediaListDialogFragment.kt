@@ -12,8 +12,8 @@ import edu.yujie.socketex.bean.MediaSetting
 import edu.yujie.socketex.bean.MimeType
 import edu.yujie.socketex.databinding.FragmentMediaListDialogBinding
 import edu.yujie.socketex.finish.base.fragment.BaseDataBindingBottomSheetDialogFragment
+import edu.yujie.socketex.finish.vm.MediaViewModel
 import edu.yujie.socketex.listener.From
-import edu.yujie.socketex.vm.MediaViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MediaListDialogFragment : BaseDataBindingBottomSheetDialogFragment<FragmentMediaListDialogBinding>(R.layout.fragment_media_list_dialog) {

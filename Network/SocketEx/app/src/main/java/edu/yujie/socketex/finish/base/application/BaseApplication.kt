@@ -1,19 +1,25 @@
 package edu.yujie.socketex.finish.base.application
 
 import android.app.Application
-import edu.yujie.socketex.LogTree
+import android.os.StrictMode
+import androidx.lifecycle.ProcessLifecycleOwner
+import com.jakewharton.rxrelay3.PublishRelay
+import edu.yujie.socketex.BuildConfig
 import edu.yujie.socketex.album.AlbumRepowImpl
 import edu.yujie.socketex.album.IAlbumRepow
 import edu.yujie.socketex.const.IApiService
+import edu.yujie.socketex.finish.inter.IApiRepo
+import edu.yujie.socketex.finish.util.LogTree
+import edu.yujie.socketex.finish.util.ProcessLifeObs
+import edu.yujie.socketex.finish.vm.ChatRoomViewModel
+import edu.yujie.socketex.finish.vm.MediaViewModel
+import edu.yujie.socketex.finish.vm.StartViewModel
 import edu.yujie.socketex.impl.*
 import edu.yujie.socketex.inter.*
 import edu.yujie.socketex.listener.MediaRepo
-import edu.yujie.socketex.repo.ApiRepo
-import edu.yujie.socketex.util.OkHttpUtil
-import edu.yujie.socketex.util.RetrofitManager
-import edu.yujie.socketex.vm.ChatRoomViewModel
-import edu.yujie.socketex.vm.MediaViewModel
-import edu.yujie.socketex.vm.StartVM
+import edu.yujie.socketex.finish.repo.ApiRepo
+import edu.yujie.socketex.finish.util.OkHttpUtil
+import edu.yujie.socketex.finish.util.RetrofitManager
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -25,6 +31,15 @@ import timber.log.Timber
 
 
 class BaseApplication : Application() {
+
+    private val TAG = javaClass.simpleName
+
+    private lateinit var processLifeObs: ProcessLifeObs
+
+    companion object {
+        lateinit var isAppForegroundRelay: PublishRelay<Boolean>
+    }
+
     private val utilModules = module {
         single<OkHttpUtil> { OkHttpUtil.get(androidContext()) }
         single<RetrofitManager> { RetrofitManager.get("", (get() as OkHttpUtil).client) }
@@ -50,13 +65,54 @@ class BaseApplication : Application() {
 
 
     private val viewModules = module {
-        viewModel<StartVM> { StartVM(get()) }
-        viewModel { ChatRoomViewModel(this@BaseApplication, get(), get()) }
+        viewModel<StartViewModel> { StartViewModel(androidApplication(), get()) }
+        viewModel<ChatRoomViewModel> { ChatRoomViewModel(androidApplication(), get(), get()) }
         viewModel<MediaViewModel> { MediaViewModel(androidApplication(), get()) }
     }
 
     override fun onCreate() {
+        if (BuildConfig.DEBUG) {
+            StrictMode.setThreadPolicy(
+                StrictMode.ThreadPolicy.Builder().apply {
+                    detectAll()
+                    detectCustomSlowCalls()
+                    detectDiskReads()
+                    detectDiskWrites()
+                    detectNetwork()
+                    detectResourceMismatches()
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) detectUnbufferedIo()
+                    penaltyDialog()
+//                    penaltyDropBox()
+                    penaltyFlashScreen()
+                    penaltyLog()
+//                    penaltyDeath()
+                }.build()
+            )
+            StrictMode.setVmPolicy(
+                StrictMode.VmPolicy.Builder().apply {
+                    detectActivityLeaks()
+                    detectAll()
+                    detectCleartextNetwork()
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) detectContentUriWithoutPermission()
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) detectCredentialProtectedWhileLocked()
+                    detectFileUriExposure()
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) detectImplicitDirectBoot()
+                    detectLeakedClosableObjects()
+                    detectLeakedRegistrationObjects()
+                    detectLeakedSqlLiteObjects()
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) detectNonSdkApiUsage()
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) detectUntaggedSockets()
+                    penaltyLog()
+//                    setClassInstanceLimit()
+//                    penaltyDeath()
+                }.build()
+            )
+        }
         super.onCreate()
+        //ProcessLifecycleObserver
+        processLifeObs = ProcessLifeObs(ProcessLifecycleOwner.get())
+        isAppForegroundRelay = processLifeObs.appForegroundRelay
+        //Koin
         startKoin {
             androidContext(this@BaseApplication)
             androidLogger(Level.ERROR)
@@ -64,5 +120,21 @@ class BaseApplication : Application() {
         }
 
         Timber.plant(LogTree)
+    }
+
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+        when (level) {
+            TRIM_MEMORY_RUNNING_MODERATE -> Timber.d("$TAG 記憶體不足（後台程序超過5個），並且該程序優先順序比較高，需要清理記憶體。")
+            TRIM_MEMORY_RUNNING_LOW -> Timber.d("$TAG 記憶體不足（後台程序不足5個），和該程序優先順序比較高，需要清理記憶體。")
+            TRIM_MEMORY_RUNNING_CRITICAL -> Timber.d("$TAG 記憶體不足(後臺程序不足3個)，並且該程序優先順序比較高，需要清理記憶體。")
+
+            TRIM_MEMORY_BACKGROUND -> Timber.d("$TAG 記憶體不足，並且該程序是後臺程序。")
+            TRIM_MEMORY_MODERATE -> Timber.d("$TAG 記憶體不足，並且該程序在後臺程序列表的中部。")
+            TRIM_MEMORY_COMPLETE -> Timber.d("$TAG 記憶體不足，並且該程序在後臺程序列表最後一個，馬上就要被清理。")
+
+            TRIM_MEMORY_UI_HIDDEN -> Timber.d("$TAG 記憶體不足，並且該程序的UI已經不可見了。")
+
+        }
     }
 }

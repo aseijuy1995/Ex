@@ -4,6 +4,8 @@ plugins {
     id 'kotlin-kapt'
 //    id "androidx.navigation.safeargs"
     id "androidx.navigation.safeargs.kotlin"
+    //protobuf
+    id 'com.google.protobuf'
 }
 
 android {
@@ -153,6 +155,36 @@ dependencies {
     implementation 'com.qianwen:update-app-kotlin:1.2.3'
 
     implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+    //Timber
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    //data store
+    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha02"
+    implementation "androidx.datastore:datastore-core:1.0.0-alpha02"
+    //protobuf
+    implementation "com.google.protobuf:protobuf-javalite:3.10.0"
+    //coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+
+}
 
 
+//proto
+// Generates the java Protobuf-lite code for the Protobufs in this project. See
+// https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
+// for more information.
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.10.0"
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option 'lite'
+                }
+            }
+        }
+    }
 }

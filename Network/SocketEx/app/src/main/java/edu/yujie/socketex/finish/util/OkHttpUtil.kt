@@ -1,25 +1,28 @@
-package edu.yujie.socketex.util
+package edu.yujie.socketex.finish.util
 
 import android.content.Context
-import android.util.Log
 import edu.yujie.socketex.BuildConfig
+import edu.yujie.socketex.util.SingletonProperty
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.logging.HttpLoggingInterceptor
+import timber.log.Timber
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class OkHttpUtil private constructor(private val context: Context) {
+
     private val TAG = javaClass.simpleName
+
     val client: OkHttpClient
 
     companion object : SingletonProperty<OkHttpUtil, Context>(::OkHttpUtil)
 
     val loggerInterceptor = HttpLoggingInterceptor(object : HttpLoggingInterceptor.Logger {
         override fun log(message: String) {
-            if (BuildConfig.DEBUG) Log.d(TAG, message)
+            if (BuildConfig.DEBUG) Timber.d(message)
         }
     }).apply { level = HttpLoggingInterceptor.Level.NONE }
 
@@ -30,6 +33,7 @@ class OkHttpUtil private constructor(private val context: Context) {
             .writeTimeout(10, TimeUnit.SECONDS)//IO寫入超時
             .callTimeout(60, TimeUnit.SECONDS)//完整請求超時
             .retryOnConnectionFailure(true)//失敗重連
+            .authenticator(TokenHeaderAuthenticator)//Auth
             .addInterceptor(loggerInterceptor)
             .pingInterval(40, TimeUnit.SECONDS)
             .build()

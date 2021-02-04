@@ -10,8 +10,8 @@ import edu.yujie.socketex.R
 import edu.yujie.socketex.bean.Media
 import edu.yujie.socketex.databinding.FragmentMediaPreviewBinding
 import edu.yujie.socketex.finish.base.fragment.BaseDataBindingFragment
+import edu.yujie.socketex.finish.vm.MediaViewModel
 import edu.yujie.socketex.listener.ExoPlayerAutoLifecycleObserver
-import edu.yujie.socketex.vm.MediaViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MediaPreviewFragment : BaseDataBindingFragment<FragmentMediaPreviewBinding>(R.layout.fragment_media_preview) {
@@ -26,7 +26,7 @@ class MediaPreviewFragment : BaseDataBindingFragment<FragmentMediaPreviewBinding
         super.onViewCreated(view, savedInstanceState)
         initView()
         getArgument()
-        binding.ivBtnSend.clicks().subscribeWithLife {
+        val subscribeWithLife = binding.ivBtnSend.clicks().subscribeWithLife {
             viewModel.sendMediaList()
             findNavController().navigateUp()
         }

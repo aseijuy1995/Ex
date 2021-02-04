@@ -11,7 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import edu.yujie.socketex.R
 import edu.yujie.socketex.finish.inter.IRxJavaSubscribe
-import edu.yujie.socketex.finish.util.CompositeDisposableLifecycleObserver
+import edu.yujie.socketex.finish.util.DisposablesLifeObs
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -34,7 +34,7 @@ open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment(), IRxJavaS
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         //CompositeDisposable
-        CompositeDisposableLifecycleObserver(owner = viewLifecycleOwner, compositeDisposable = compositeDisposable)
+        DisposablesLifeObs(viewLifecycleOwner, compositeDisposable)
         navHostFrag = requireActivity().supportFragmentManager.findFragmentById(R.id.frag_container_view) as NavHostFragment
         navController = navHostFrag.navController
         return super.onCreateView(inflater, container, savedInstanceState)

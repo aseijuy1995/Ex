@@ -4,7 +4,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-class CompositeDisposableLifecycleObserver(private val owner: LifecycleOwner, private val compositeDisposable: CompositeDisposable) : DefaultLifecycleObserver {
+class DisposablesLifeObs(private val owner: LifecycleOwner, private val disposables: CompositeDisposable) : DefaultLifecycleObserver {
 
     init {
         owner.lifecycle.addObserver(this)
@@ -12,7 +12,7 @@ class CompositeDisposableLifecycleObserver(private val owner: LifecycleOwner, pr
 
     override fun onDestroy(owner: LifecycleOwner) {
         super.onDestroy(owner)
-        compositeDisposable.clear()
+        disposables.clear()
     }
 
 }

@@ -1,13 +1,15 @@
 package edu.yujie.socketex.finish.base.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import edu.yujie.socketex.finish.inter.IRxJavaSubscribe
-import edu.yujie.socketex.finish.util.CompositeDisposableLifecycleObserver
+import edu.yujie.socketex.finish.util.DisposablesLifeObs
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
@@ -16,11 +18,17 @@ open class BaseFragment : Fragment(), IRxJavaSubscribe {
 
     protected val TAG = javaClass.simpleName
 
+    protected lateinit var act: FragmentActivity
+
+    protected lateinit var cxt: Context
+
     protected val compositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        act = requireActivity()
+        cxt = requireContext()
         //CompositeDisposable
-        CompositeDisposableLifecycleObserver(owner = viewLifecycleOwner, compositeDisposable = compositeDisposable)
+        DisposablesLifeObs(viewLifecycleOwner, compositeDisposable)
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 

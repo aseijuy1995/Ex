@@ -9,8 +9,8 @@ import com.tbruyelle.rxpermissions3.RxPermissions
 import edu.yujie.socketex.R
 import edu.yujie.socketex.databinding.FragmentAddDialogBinding
 import edu.yujie.socketex.finish.base.fragment.BaseDataBindingBottomSheetDialogFragment
+import edu.yujie.socketex.finish.vm.ChatRoomViewModel
 import edu.yujie.socketex.util.*
-import edu.yujie.socketex.vm.ChatRoomViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class AddDialogFragment : BaseDataBindingBottomSheetDialogFragment<FragmentAddDialogBinding>(R.layout.fragment_add_dialog) {

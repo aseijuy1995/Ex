@@ -1,4 +1,4 @@
-package edu.yujie.socketex.vm
+package edu.yujie.socketex.finish.vm
 
 import android.app.Application
 import androidx.lifecycle.map

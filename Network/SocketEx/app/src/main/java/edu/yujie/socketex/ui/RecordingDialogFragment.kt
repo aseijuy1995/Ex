@@ -6,10 +6,10 @@ import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.touches
 import edu.yujie.socketex.R
-import edu.yujie.socketex.finish.base.fragment.BaseDataBindingBottomSheetDialogFragment
 import edu.yujie.socketex.bean.RecorderSetting
 import edu.yujie.socketex.databinding.FragmentRecordingDialogBinding
-import edu.yujie.socketex.vm.ChatRoomViewModel
+import edu.yujie.socketex.finish.base.fragment.BaseDataBindingBottomSheetDialogFragment
+import edu.yujie.socketex.finish.vm.ChatRoomViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class RecordingDialogFragment : BaseDataBindingBottomSheetDialogFragment<FragmentRecordingDialogBinding>(R.layout.fragment_recording_dialog) {

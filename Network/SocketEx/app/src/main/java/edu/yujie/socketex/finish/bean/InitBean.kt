@@ -1,9 +1,7 @@
-package edu.yujie.socketex.bean
+package edu.yujie.socketex.finish.bean
 
-
-data class InitSettingBean(
-    val isUpdate: Boolean,//是否更新
-    val newVersion: String,//新版本
+data class InitBean(
+    val version: String,//版本號
     val apkFileUrl: String,//下載url
     val updateLog: String,//更新訊息
     val targetSize: String,//apk size

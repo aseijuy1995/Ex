@@ -24,11 +24,12 @@
         <item name="android:background">@drawable/shape_gray_111111_corners_radius_top_lt_rt_15</item>
     </style>
 
+    <!-- Global -->
     <style name="LoadingDialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowElevation">5dp</item>
         <item name="dialogCornerRadius">15dp</item>
         <item name="android:background">@color/blue_293c4f</item>
-        <item name="android:windowElevation">5dp</item>
-        <item name="android:backgroundDimEnabled">false</item>
     </style>
 
 
