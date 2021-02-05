@@ -10,7 +10,7 @@ class ApiRepo(private val service: IApiService) : IApiRepo {
 
     override suspend fun getInit(): InitResult = service.getInit()
 
-    override suspend fun postCheckSignIn(signInStorage: SignInStorage): SignInResultInfo = service.postSignIn(signInStorage)
+    override suspend fun postSignIn(signInStorage: SignInStorage): SignInResultInfo = service.postSignIn(signInStorage)
 
 
 }

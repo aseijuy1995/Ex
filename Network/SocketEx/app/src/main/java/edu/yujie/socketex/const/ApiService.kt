@@ -26,7 +26,7 @@ class ApiService : IApiService {
             account = signInStorage.account,
             authToken = signInStorage.authToken,
             memberGuid = signInStorage.guid,
-            authType = AuthType.MOBILE,
+            authType = AuthType.MOBILE
         )
     }
 

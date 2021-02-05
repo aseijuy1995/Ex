@@ -15,5 +15,5 @@ interface IApiRepo {
     /**
      * 檢查帳號 & 密碼
      * */
-    suspend fun postCheckSignIn(signInStorage: SignInStorage): SignInResultInfo
+    suspend fun postSignIn(signInStorage: SignInStorage): SignInResultInfo
 }

@@ -39,7 +39,7 @@ class StartViewModel(application: Application, private val repo: IApiRepo, priva
             if (it.account.isEmpty() || it.authToken.isEmpty()) {
                 _signInStatus.value = SignInStatus.NOT_SIGN_IN
             } else {
-                repo.postCheckSignIn(it).run {
+                repo.postSignIn(it).run {
                     if (account.isEmpty() || authToken.isEmpty()) {
                         _signInStatus.value = SignInStatus.EXPIRED_TOKEN
                         _signInStatus.value = SignInStatus.EXPIRED_TOKEN

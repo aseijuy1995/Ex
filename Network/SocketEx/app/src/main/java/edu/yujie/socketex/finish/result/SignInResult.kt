@@ -7,7 +7,7 @@ data class SignInResultInfo(
     val authType: AuthType,
 //    val expiredTime: String,
 //    val isFirstLogin: Boolean,
-    val memberGuid: String,
+    val memberGuid: String
 //    val memberProfileData: MemberProfileData,
 //    val trialRemainingSeconds: Int
 )
