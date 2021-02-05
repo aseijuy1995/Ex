@@ -1,27 +1,23 @@
 package edu.yujie.socketex.finish.vm
 
 import android.app.Application
-import androidx.datastore.DataStore
-import androidx.datastore.createDataStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import edu.yujie.socketex.UserBean
 import edu.yujie.socketex.finish.base.viewModel.BaseAndroidViewModel
-import edu.yujie.socketex.finish.bean.InitBean
-import edu.yujie.socketex.finish.bean.UserSerializer
-import edu.yujie.socketex.finish.inter.SignInStatus
 import edu.yujie.socketex.finish.inter.IApiRepo
+import edu.yujie.socketex.finish.inter.IUserRepo
+import edu.yujie.socketex.finish.inter.SignInStatus
+import edu.yujie.socketex.finish.result.InitResult
 import edu.yujie.socketex.util.asLiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class StartViewModel(application: Application, private val repo: IApiRepo) : BaseAndroidViewModel(application) {
+class StartViewModel(application: Application, private val repo: IApiRepo, private val userRepo: IUserRepo) : BaseAndroidViewModel(application) {
 
-    private val _initData = MutableLiveData<InitBean>()
-
-    private val userDataStore: DataStore<UserBean> by lazy { context.createDataStore(fileName = "user.proto", serializer = UserSerializer) }
+    private val _initData = MutableLiveData<InitResult>()
 
     private val _signInStatus = MutableLiveData<SignInStatus>()
 
@@ -31,37 +27,38 @@ class StartViewModel(application: Application, private val repo: IApiRepo) : Bas
 
     val user = _user.asLiveData()
 
-//    private val _toast = MutableLiveData<String>("")
-//
-//    val toast = _toast.asLiveData()
-
-    fun getInitData(): LiveData<InitBean> {
+    fun getInitData(): LiveData<InitResult> {
         viewModelScope.launch(Dispatchers.Main) {
             _initData.value = repo.getInit()
         }
         return _initData.asLiveData()
     }
 
-    fun checkSignIn() = viewModelScope.launch {
-        userDataStore.data.collect {
-            if (it.account.isEmpty() || it.authToken.isEmpty() || it.deviceToken.isEmpty()) {
+    fun checkSignInState() = viewModelScope.launch {
+        userRepo.signInDataStore.data.collect {
+            if (it.account.isEmpty() || it.authToken.isEmpty()) {
                 _signInStatus.value = SignInStatus.NOT_SIGN_IN
             } else {
-                val user = repo.postCheckSignIn(account = it.account, authToken = it.authToken, deviceToken = it.deviceToken)
-
-                if (user.account.isEmpty() || user.authToken.isEmpty() || user.deviceToken.isEmpty()) {
-                    _signInStatus.value = SignInStatus.ERROR_ACT_PWD
-                } else {
-                    _signInStatus.value = SignInStatus.SIGN_IN
+                repo.postCheckSignIn(it).run {
+                    if (account.isEmpty() || authToken.isEmpty()) {
+                        _signInStatus.value = SignInStatus.EXPIRED_TOKEN
+                        _signInStatus.value = SignInStatus.EXPIRED_TOKEN
+                    } else {
+                        _signInStatus.value = SignInStatus.SIGN_IN
+                    }
                 }
             }
         }
     }
 
+    fun checkSignIn(account: String, password: String) {
+
+    }
+
 
 //        val settingDataStore: DataStore<User> by lazy {
 ////            context.createDataStore(
-////                fileName = "user.proto",
+////                fileName = "ProtoDataStoreStorage.proto",
 ////                serializer = UserSerializer
 ////            )
 //        }

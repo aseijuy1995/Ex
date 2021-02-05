@@ -37,7 +37,6 @@ class OkHttpUtil private constructor(private val context: Context) {
             .addInterceptor(loggerInterceptor)
             .pingInterval(40, TimeUnit.SECONDS)
             .build()
-
     }
 
     fun get(url: String, params: Map<String, String>): Request {
@@ -89,7 +88,7 @@ class OkHttpUtil private constructor(private val context: Context) {
     //--------------------------------------------------------------------------------
 
     fun sync(request: Request): Response = client.newCall(request).execute().run {
-        if (!isSuccessful) throw  IOException("$TAG Unexpected code $this")
+        if (!isSuccessful) throw  IOException("$TAG Unexpected code ${this.code}")
         this
     }
 

@@ -6,6 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitManager {
+
     var retrofit: Retrofit? = null
 
     fun get(baseUrl: String, client: OkHttpClient, factory: Converter.Factory = GsonConverterFactory.create()): RetrofitManager {

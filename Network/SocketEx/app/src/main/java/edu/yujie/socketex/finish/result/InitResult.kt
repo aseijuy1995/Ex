@@ -1,6 +1,6 @@
-package edu.yujie.socketex.finish.bean
+package edu.yujie.socketex.finish.result
 
-data class InitBean(
+data class InitResult(
     val version: String,//版本號
     val apkFileUrl: String,//下載url
     val updateLog: String,//更新訊息

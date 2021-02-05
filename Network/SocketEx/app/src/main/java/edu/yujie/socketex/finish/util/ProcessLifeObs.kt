@@ -3,10 +3,9 @@ package edu.yujie.socketex.finish.util
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.jakewharton.rxrelay3.PublishRelay
+import timber.log.Timber
 
 class ProcessLifeObs(private val owner: LifecycleOwner) : DefaultLifecycleObserver {
-
-    private val TAG = javaClass.simpleName
 
     val appForegroundRelay = PublishRelay.create<Boolean>()
 
@@ -16,13 +15,13 @@ class ProcessLifeObs(private val owner: LifecycleOwner) : DefaultLifecycleObserv
 
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
+        Timber.d("onStart()")
         appForegroundRelay.accept(true)
-        println("$TAG onStart()")
     }
 
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
+        Timber.d("onStop()")
         appForegroundRelay.accept(false)
-        println("$TAG onStop()")
     }
 }

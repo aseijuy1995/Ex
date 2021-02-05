@@ -4,7 +4,7 @@
     android:id="@+id/motion_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/shape_angle_270_gradient_color_blue_white"
+    android:background="@drawable/shape_angle_270_gradient_gray"
     app:layoutDescription="@xml/frag_start_scene">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:text="解題解惑．一點就通"
-        android:textColor="@color/blue_1251c3"
+        android:textColor="@color/gray_111111"
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="parent"

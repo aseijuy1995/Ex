@@ -29,10 +29,10 @@ class StartFragment : BaseViewBindingDialogFragment<FragStartBinding>(FragStartB
         viewModel.getInitData().observe(viewLifecycleOwner) {
             requireActivity().updateApp(it.apkFileUrl, UpdateAppHttpUtil(requireContext(), it)) {
                 topPic = R.mipmap.init_pic
-                setUpdateDialogFragmentListener { viewModel.checkSignIn() }
+                setUpdateDialogFragmentListener { viewModel.checkSignInState() }
             }.check {
                 onAfter { findNavController().navigateUp() }
-                noNewApp { viewModel.checkSignIn() }
+                noNewApp { viewModel.checkSignInState() }
             }
         }
 
