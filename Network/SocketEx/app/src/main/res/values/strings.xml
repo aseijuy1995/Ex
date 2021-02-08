@@ -3,6 +3,11 @@
     <string name="todo">TODO</string>
     <string name="aa">Aa</string>
 
+    <string name="title">Coaching</string>
+    <string name="hilt_account">Enter Account</string>
+    <string name="hilt_password">Enter Password</string>
+    <string name="sign_in">Sign In</string>
+
     <string name="camera">拍攝照片</string>
     <string name="album">選取相片</string>
     <string name="recording">錄製音訊</string>

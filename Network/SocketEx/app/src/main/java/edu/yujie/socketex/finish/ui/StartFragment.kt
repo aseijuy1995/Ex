@@ -37,7 +37,6 @@ class StartFragment : BaseViewBindingDialogFragment<FragStartBinding>(FragStartB
         }
 
         viewModel.signInStatus.observe(viewLifecycleOwner) {
-            binding.motionLayout.transitionToEnd()
             lifecycleScope.launch {
                 delay(3000)
                 when (it) {

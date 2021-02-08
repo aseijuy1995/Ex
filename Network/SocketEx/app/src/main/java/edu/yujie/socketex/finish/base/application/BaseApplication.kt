@@ -63,7 +63,7 @@ class BaseApplication : Application() {
     }
 
     private val repoModules = module {
-        single<IApiRepo> { ApiRepo() }
+        single<IApiRepo> { ApiRepo(get()) }
         single<IUserRepo> { UserRepo(get()) }
         //
         single<IIntentRepo> { IntentRepoImpl() }
