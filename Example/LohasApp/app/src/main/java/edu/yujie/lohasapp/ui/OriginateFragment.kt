@@ -39,7 +39,7 @@ class OriginateFragment : Fragment() {
                 isPost = true
                 hideDialogOnDownloading()
                 topPic = R.mipmap.pic
-                targetPath = appResult.applestoreurl
+                targetPath = appResult.applestoreurl.toString()
                 setUpdateDialogFragmentListener {
                     lifecycleScope.launch(Dispatchers.IO) {
                         delay(1500)
