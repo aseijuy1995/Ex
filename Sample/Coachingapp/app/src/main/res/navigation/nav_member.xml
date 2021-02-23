@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><!--  Main Page  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_member"
+    app:startDestination="@id/fragment_member">
+
+    <fragment
+        android:id="@+id/fragment_member"
+        android:name="tw.north27.coachingapp.ui.fragment.main.MemberFragment"
+        android:label="fragment_member"
+        tools:layout="@layout/fragment_member" />
+
+</navigation>

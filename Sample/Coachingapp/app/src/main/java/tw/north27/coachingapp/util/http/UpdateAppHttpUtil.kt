@@ -13,19 +13,21 @@ class UpdateAppHttpUtil(private val context: Context, private val versionResult:
 
     override fun download(url: String, path: String, fileName: String, callback: HttpManager.FileCallback) {
         Timber.d("download() url = $url, path = $path, fileName = $fileName")
-        val url = Uri.parse(url)
-        val intent = Intent(Intent.ACTION_VIEW, url)
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         context.startActivity(intent)
     }
 
     override fun asyncGet(url: String, params: MutableMap<String, String>, callBack: HttpManager.Callback) {
         Timber.d("asyncGet() url = $url, params = $params")
+        val newVersion = versionResult.versionName.replace(".", "").toInt()
+        val currentVersion = BuildConfig.VERSION_NAME.replace(".", "").toInt()
+        val update = if (newVersion > currentVersion) "Yes" else "No"
         val map = mapOf(
-            "update" to if (versionResult.version.replace(".", "").toInt() > BuildConfig.VERSION_NAME.replace(".", "").toInt()) "Yes" else "No",
-            "new_version" to versionResult.version,
+            "update" to update,
+            "new_version" to versionResult.versionName,
             "apk_file_url" to versionResult.apkDownloadUrl,
             "update_log" to versionResult.updateLog,
-            "target_size" to versionResult.targetSize,
+            "target_size" to versionResult.apkSize,
             "new_md5" to versionResult.newMd5,
             "constraint" to versionResult.isMandatoryUpdate
         )
@@ -36,4 +38,5 @@ class UpdateAppHttpUtil(private val context: Context, private val versionResult:
     override fun asyncPost(url: String, params: MutableMap<String, String>, callBack: HttpManager.Callback) {
         Timber.d("asyncPost() url = $url, params = $params")
     }
+
 }

@@ -26,8 +26,6 @@ open class BaseFragment : Fragment(), IRxJavaSubscribe {
 
     protected val compositeDisposable = CompositeDisposable()
 
-//    private val loadingDialog: DialogFragment = LoadingDialogFragment()
-
     private val loadingDialogNavDirections = NavGraphDirections.actionToFragmentLoadingDialog()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

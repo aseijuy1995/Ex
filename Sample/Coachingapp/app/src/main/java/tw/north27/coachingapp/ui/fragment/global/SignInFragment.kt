@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui.fragment
+package tw.north27.coachingapp.ui.fragment.global
 
 import android.os.Bundle
 import android.view.View
@@ -42,7 +42,7 @@ class SignInFragment : BaseViewBindingFragment<FragmentSignInBinding>(FragmentSi
 
     private fun onSignInObs(result: SignInResult) {
         dismissLoadingDialog()
-//        findNavController().navigate(NavGraphDirections)
+        findNavController().navigate(NavGraphDirections.actionToFragmentCoaching())
     }
 
 

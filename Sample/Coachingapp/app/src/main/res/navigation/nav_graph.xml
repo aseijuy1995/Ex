@@ -9,7 +9,7 @@
     <!-- Fragment -->
     <dialog
         android:id="@+id/fragment_loading_dialog"
-        android:name="tw.north27.coachingapp.ui.fragment.LoadingDialogFragment"
+        android:name="tw.north27.coachingapp.ui.fragment.global.LoadingDialogFragment"
         android:label="fragment_loading_dialog"
         tools:layout="@layout/fragment_loading_dialog" />
 
@@ -26,27 +26,23 @@
 
     <action
         android:id="@+id/action_to_fragment_coaching"
-        app:destination="@id/fragment_coaching"
-        app:popUpTo="@id/fragment_coaching"
+        app:destination="@id/nav_main"
+        app:popUpTo="@id/nav_main"
         app:popUpToInclusive="true" />
+
+    <include app:graph="@navigation/nav_main" />
 
     <!--  Page  -->
     <fragment
         android:id="@+id/fragment_start"
-        android:name="tw.north27.coachingapp.ui.fragment.StartFragment"
+        android:name="tw.north27.coachingapp.ui.fragment.global.StartFragment"
         android:label="fragment_start"
         tools:layout="@layout/fragment_start" />
 
     <fragment
         android:id="@+id/fragment_sign_in"
-        android:name="tw.north27.coachingapp.ui.fragment.SignInFragment"
+        android:name="tw.north27.coachingapp.ui.fragment.global.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" />
-
-    <fragment
-        android:id="@+id/fragment_coaching"
-        android:name="tw.north27.coachingapp.ui.fragment.CoachingFragment"
-        android:label="fragment_coaching"
-        tools:layout="@layout/fragment_coaching" />
 
 </navigation>

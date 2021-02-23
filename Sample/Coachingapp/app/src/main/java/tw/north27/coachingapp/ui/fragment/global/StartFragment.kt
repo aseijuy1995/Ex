@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui.fragment
+package tw.north27.coachingapp.ui.fragment.global
 
 import android.os.Bundle
 import android.view.View
@@ -19,6 +19,7 @@ import tw.north27.coachingapp.model.result.SignInResult
 import tw.north27.coachingapp.util.http.UpdateAppHttpUtil
 import tw.north27.coachingapp.viewModel.StartViewModel
 
+
 class StartFragment : BaseViewBindingFragment<FragmentStartBinding>(FragmentStartBinding::inflate) {
 
     private val viewModel by viewModel<StartViewModel>()
@@ -34,16 +35,14 @@ class StartFragment : BaseViewBindingFragment<FragmentStartBinding>(FragmentStar
             viewModel.getVersion().observe(viewLifecycleOwner) {
                 dismissLoadingDialog()
 
-                binding.tvVersion.text = it.version
+                binding.tvVersion.text = it.versionName
 
-                requireActivity().updateApp(it.apkDownloadUrl, UpdateAppHttpUtil(requireContext(), it)) {
+                act.updateApp(it.apkDownloadUrl, UpdateAppHttpUtil(requireContext(), it)) {
                     topPic = R.mipmap.ic_version_pic
-                    setUpdateDialogFragmentListener {
-                        viewModel.checkSignIn()
-                    }
+                    setUpdateDialogFragmentListener { viewModel.checkSignIn() }
                 }.check {
-                    onAfter { dismissLoadingDialog() }
                     noNewApp { viewModel.checkSignIn() }
+                    onAfter { dismissLoadingDialog() }
                 }
             }
         }

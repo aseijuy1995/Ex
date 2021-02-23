@@ -2,22 +2,33 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
     <item
-        android:id="@+id/menu_home"
-        android:icon="@drawable/select_drawable_state_selected_home"
+        android:id="@+id/fragment_home"
+        android:icon="@drawable/ic_baseline_home_24_white"
         android:title="@string/home"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/menu_list"
-        android:icon="@drawable/select_drawable_state_selected_list"
+        android:id="@+id/fragment_chat_list"
+        android:icon="@drawable/ic_baseline_list_alt_24_white"
         android:title="@string/list"
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/menu_person"
-        android:icon="@drawable/select_drawable_state_selected_person"
+        android:id="@+id/fragment_learn"
+        android:icon="@drawable/ic_baseline_menu_book_24_white"
+        android:title="@string/learn"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/fragment_notify"
+        android:icon="@drawable/ic_baseline_notifications_24_white"
+        android:title="@string/notify"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/fragment_member"
+        android:icon="@drawable/ic_baseline_person_24_white"
         android:title="@string/person"
         app:showAsAction="always" />
 </menu>
