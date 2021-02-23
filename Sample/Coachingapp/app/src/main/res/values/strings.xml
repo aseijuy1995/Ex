@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">Coachingapp</string>
+    <string name="app_name">Coaching</string>
+
+    <string name="hilt_account">請輸入帳號</string>
+    <string name="hilt_password">請輸入密碼</string>
+    <string name="sign_in">登入</string>
+
+    <string name="home">主頁</string>
+    <string name="list">列表</string>
+    <string name="person">個人</string>
+
+
 </resources>

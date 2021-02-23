@@ -1,11 +1,10 @@
 plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
-//    id "androidx.navigation.safeargs"
+    id "com.android.application"
+    id "kotlin-android"
+    id "kotlin-kapt"
     id "androidx.navigation.safeargs.kotlin"
     //protobuf
-    id 'com.google.protobuf'
+    id "com.google.protobuf"
 }
 
 android {

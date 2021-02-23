@@ -7,7 +7,10 @@ import tw.north27.coachingapp.const.modelModules
 import tw.north27.coachingapp.const.repoModules
 import tw.north27.coachingapp.const.utilModules
 import tw.north27.coachingapp.const.viewModules
-import tw.north27.coachingapp.ext.*
+import tw.north27.coachingapp.ext.startKoinModules
+import tw.north27.coachingapp.ext.startProcessLifeObs
+import tw.north27.coachingapp.ext.startStrictMode
+import tw.north27.coachingapp.ext.startTimberLogger
 
 class BaseApplication : Application() {
 

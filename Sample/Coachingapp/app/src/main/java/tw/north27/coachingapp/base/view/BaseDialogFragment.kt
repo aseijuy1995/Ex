@@ -5,18 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
-import androidx.navigation.fragment.findNavController
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.ext.startDisposablesLifeObs
 import tw.north27.coachingapp.util.rx.IRxJavaSubscribe
 
-open class BaseFragment : Fragment(), IRxJavaSubscribe {
+open class BaseDialogFragment : DialogFragment(), IRxJavaSubscribe {
 
     protected val TAG = javaClass.simpleName
 
@@ -25,10 +23,6 @@ open class BaseFragment : Fragment(), IRxJavaSubscribe {
     protected lateinit var cxt: Context
 
     protected val compositeDisposable = CompositeDisposable()
-
-//    private val loadingDialog: DialogFragment = LoadingDialogFragment()
-
-    private val loadingDialogNavDirections = NavGraphDirections.actionToFragmentLoadingDialog()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         compositeDisposable.startDisposablesLifeObs(viewLifecycleOwner)
@@ -52,12 +46,4 @@ open class BaseFragment : Fragment(), IRxJavaSubscribe {
     override fun <T> Observable<T>.subscribeWithLife(onNext: (T) -> Unit, onError: (Throwable) -> Unit, onComplete: () -> Unit): Disposable? =
         bindToLifecycle(viewLifecycleOwner)
             .subscribe(onNext, onError, onComplete)
-
-    fun showLoadingDialog() {
-        findNavController().navigate(loadingDialogNavDirections)
-    }
-
-    fun dismissLoadingDialog() {
-        findNavController().navigateUp()
-    }
 }

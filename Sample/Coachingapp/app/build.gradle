@@ -1,7 +1,9 @@
 plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-    id 'com.google.protobuf'
+    id "com.android.application"
+    id "kotlin-android"
+    id "com.google.protobuf"
+    id "androidx.navigation.safeargs.kotlin"
+    id "kotlin-kapt"
 }
 
 android {
@@ -87,6 +89,10 @@ dependencies {
     /**
      * Rx
      * */
+    //reactivex
+    implementation "io.reactivex.rxjava3:rxjava:3.0.9"
+    implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
+    implementation "io.reactivex.rxjava3:rxkotlin:3.0.1"
     //jakewharton
     implementation "com.jakewharton.rxrelay3:rxrelay:3.0.0"
     //rxlifecycle
@@ -98,6 +104,10 @@ dependencies {
 //    implementation "com.trello.rxlifecycle4:rxlifecycle-android-lifecycle:$rxlifecycle_version"
 //    implementation "com.trello.rxlifecycle4:rxlifecycle-kotlin:$rxlifecycle_version"
     implementation "com.trello.rxlifecycle4:rxlifecycle-android-lifecycle-kotlin:$rxlifecycle_version"
+    //rxbinding
+    def rxbinding_version = "4.0.0"
+    implementation "com.jakewharton.rxbinding4:rxbinding:$rxbinding_version"
+    implementation "com.jakewharton.rxbinding4:rxbinding-core:$rxbinding_version"
     /**
      * Http
      * */
@@ -122,6 +132,11 @@ dependencies {
     //log
     implementation "com.jakewharton.timber:timber:4.7.1"
     implementation "com.orhanobut:logger:2.2.0"
+    //progress
+    implementation "com.github.ybq:Android-SpinKit:1.4.0"
+    //Update
+    implementation "com.qianwen:update-app:3.5.2"
+    implementation "com.qianwen:update-app-kotlin:1.2.3"
 
 }
 
