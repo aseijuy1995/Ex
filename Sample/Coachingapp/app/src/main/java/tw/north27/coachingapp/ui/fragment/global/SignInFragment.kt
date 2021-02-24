@@ -42,7 +42,8 @@ class SignInFragment : BaseViewBindingFragment<FragmentSignInBinding>(FragmentSi
 
     private fun onSignInObs(result: SignInResult) {
         dismissLoadingDialog()
-        findNavController().navigate(NavGraphDirections.actionToFragmentCoaching())
+        //進入通道
+        findNavController().navigate(NavGraphDirections.actionToFragmentHome())
     }
 
 

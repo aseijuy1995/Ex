@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragment_start">
+    app:startDestination="@id/nav_home">
+    <!--    app:startDestination="@id/fragment_start">-->
 
     <!-- Global -->
     <!-- Fragment -->
@@ -25,12 +26,12 @@
         app:popUpToInclusive="true" />
 
     <action
-        android:id="@+id/action_to_fragment_coaching"
-        app:destination="@id/nav_main"
-        app:popUpTo="@id/nav_main"
+        android:id="@+id/action_to_fragment_home"
+        app:destination="@id/nav_home"
+        app:popUpTo="@id/nav_home"
         app:popUpToInclusive="true" />
 
-    <include app:graph="@navigation/nav_main" />
+    <include app:graph="@navigation/nav_home" />
 
     <!--  Page  -->
     <fragment
