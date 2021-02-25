@@ -1,6 +1,7 @@
 package tw.north27.coachingapp.ui
 
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -25,26 +26,20 @@ class CoachingActivity : BaseAppCompatActivity() {
         navFragment = supportFragmentManager.findFragmentById(R.id.frag_container_view) as NavHostFragment
         navController = navFragment.navController
 
-//        navController.addOnDestinationChangedListener { _, destination, _ ->
-//            binding.animBottomBar.isVisible = when (destination.id) {
-//                R.id.fragment_home,
-//                R.id.fragment_chat_list,
-//                R.id.fragment_learn,
-//                R.id.fragment_notify,
-//                R.id.fragment_member -> true
-//                else -> false
-//            }
-//        }
-//
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.animBottomBar.isVisible = when (destination.id) {
+                R.id.fragment_home,
+                R.id.fragment_chat_list,
+                R.id.fragment_learn,
+                R.id.fragment_notify,
+                R.id.fragment_user_profile -> true
+                else -> false
+            }
+        }
+
         binding.animBottomBar.setupWithNavController(navController)
 
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.bottom_nav, menu)
-//        binding.animBottomBar.setupWithNavController(menu!!, navController)
-//        return false
-//    }
 
 //    override fun onOptionsItemSelected(item: MenuItem): Boolean {
 //        val navController = findNavController(R.id.frag_container_view)

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/nav_home">
+    app:startDestination="@id/fragment_home">
     <!--    app:startDestination="@id/fragment_start">-->
 
     <!-- Global -->
@@ -27,11 +27,9 @@
 
     <action
         android:id="@+id/action_to_fragment_home"
-        app:destination="@id/nav_home"
-        app:popUpTo="@id/nav_home"
+        app:destination="@id/fragment_home"
+        app:popUpTo="@id/fragment_home"
         app:popUpToInclusive="true" />
-
-    <include app:graph="@navigation/nav_home" />
 
     <!--  Page  -->
     <fragment
@@ -45,5 +43,35 @@
         android:name="tw.north27.coachingapp.ui.fragment.global.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" />
+
+    <fragment
+        android:id="@+id/fragment_home"
+        android:name="tw.north27.coachingapp.ui.fragment.main.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/fragment_chat_list"
+        android:name="tw.north27.coachingapp.ui.fragment.main.ChatListFragment"
+        android:label="fragment_chat_list"
+        tools:layout="@layout/fragment_chat_list" />
+
+    <fragment
+        android:id="@+id/fragment_learn"
+        android:name="tw.north27.coachingapp.ui.fragment.main.LearnFragment"
+        android:label="fragment_learn"
+        tools:layout="@layout/fragment_learn" />
+
+    <fragment
+        android:id="@+id/fragment_notify"
+        android:name="tw.north27.coachingapp.ui.fragment.main.NotifyFragment"
+        android:label="fragment_notify"
+        tools:layout="@layout/fragment_notify" />
+
+    <fragment
+        android:id="@+id/fragment_user_profile"
+        android:name="tw.north27.coachingapp.ui.fragment.main.UserProfileFragment"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile" />
 
 </navigation>
