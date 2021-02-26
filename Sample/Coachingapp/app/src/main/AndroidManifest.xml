@@ -4,10 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!--    android:icon="@mipmap/ic_pencil_logo"-->
     <application
         android:name=".base.view.BaseApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_pencil_logo"
+        android:icon="${app_icon}"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"

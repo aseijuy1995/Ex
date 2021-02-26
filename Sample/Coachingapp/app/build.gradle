@@ -45,6 +45,23 @@ android {
         viewBinding true
         dataBinding true
     }
+
+    flavorDimensions "version"
+    productFlavors {
+        first {
+            applicationIdSuffix ".first"
+            manifestPlaceholders = [
+                    app_icon    : "@drawable/ic_baseline_person_24_blue"
+            ]
+        }
+        second {
+            applicationIdSuffix ".second"
+            manifestPlaceholders = [
+                    app_icon    : "@drawable/ic_baseline_person_24_gray"
+            ]
+        }
+    }
+//    productFlavors
 }
 
 dependencies {
@@ -86,6 +103,10 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$navigation_version"
     implementation "androidx.navigation:navigation-testing:$navigation_version"
+    //paging3
+    def paging_version = "3.0.0-beta01"
+    implementation "androidx.paging:paging-runtime:$paging_version"
+    testImplementation "androidx.paging:paging-common:$paging_version"
     /**
      * Rx
      * */
@@ -139,6 +160,7 @@ dependencies {
     implementation "com.qianwen:update-app-kotlin:1.2.3"
     //imageview
     implementation "de.hdodenhof:circleimageview:3.1.0"
+    implementation "com.makeramen:roundedimageview:2.3.0"
 
 }
 

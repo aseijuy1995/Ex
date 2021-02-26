@@ -10,6 +10,8 @@
     <string name="learn">學習</string>
     <string name="notify">通知</string>
     <string name="person">個人</string>
+
+    <string name="user_title">個人中心</string>
     
 
 </resources>

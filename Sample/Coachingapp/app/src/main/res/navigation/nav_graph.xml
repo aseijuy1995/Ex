@@ -69,9 +69,9 @@
         tools:layout="@layout/fragment_notify" />
 
     <fragment
-        android:id="@+id/fragment_user_profile"
-        android:name="tw.north27.coachingapp.ui.fragment.main.UserProfileFragment"
-        android:label="fragment_user_profile"
-        tools:layout="@layout/fragment_user_profile" />
+        android:id="@+id/fragment_person_center"
+        android:name="tw.north27.coachingapp.ui.fragment.main.PersonCenterFragment"
+        android:label="fragment_person_center"
+        tools:layout="@layout/fragment_person_center" />
 
 </navigation>

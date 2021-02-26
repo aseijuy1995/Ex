@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_55eeeeee">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:background="@color/yellow_fef5e0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/user_title"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <include
+                layout="@layout/item_person_center_profile"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_person_center_profile">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="個人檔案"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"ID"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"姓名"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"狀態消息"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"電話號碼"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"電子郵件"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"生日"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"行動條碼"}' />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="學習中心"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"學習歷程"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"學習分析"}' />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="系統設定"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"語系"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"地區"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"通知提醒"}' />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="分享"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"簡訊"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"FB"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"LINE"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"WeChat"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"Telefram"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"Skype"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"Message"}' />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="設備"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"裝置ID"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"登入裝置"}' />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:text="關於"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"關於Coaching"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"常見問題"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"隱私政策"}' />
+
+                <include
+                    layout="@layout/item_person_center_category"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"聯繫我們"}' />
+
+                <include
+                    android:id="@+id/sign_up"
+                    layout="@layout/item_person_center_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    bind:icon="@{@drawable/ic_pencil_logo}"
+                    bind:title='@{"登出"}' />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+</layout>
