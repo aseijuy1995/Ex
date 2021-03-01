@@ -9,40 +9,51 @@ import com.vector.update_app_kotlin.check
 import com.vector.update_app_kotlin.updateApp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.base.view.BaseViewBindingFragment
+import tw.north27.coachingapp.base.BaseCoachingViewBindingFragment
 import tw.north27.coachingapp.databinding.FragmentStartBinding
-import tw.north27.coachingapp.ext.autoBreatheAlphaAnim
-import tw.north27.coachingapp.model.result.SignInResult
-import tw.north27.coachingapp.util.http.UpdateAppHttpUtil
+import tw.north27.coachingapp.model.result.AppState
+import tw.north27.coachingapp.model.result.SignInInfo
+import tw.north27.coachingapp.module.ext.autoBreatheAlphaAnim
+import tw.north27.coachingapp.util.http.UpdateHttpUtil
 import tw.north27.coachingapp.viewModel.StartViewModel
 
+class StartFragment : BaseCoachingViewBindingFragment<FragmentStartBinding>(FragmentStartBinding::inflate) {
 
-class StartFragment : BaseViewBindingFragment<FragmentStartBinding>(FragmentStartBinding::inflate) {
-
-    private val viewModel by viewModel<StartViewModel>()
+    private val viewModel by sharedViewModel<StartViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.ivIcon.autoBreatheAlphaAnim(viewLifecycleOwner, compositeDisposable)
+        binding.tvVersion.text = String.format("v:${BuildConfig.VERSION_NAME}")
+        showLoadingDialog()
 
-        lifecycleScope.launch {
-            delay(1500L)
-            showLoadingDialog()
-
-            viewModel.getVersion().observe(viewLifecycleOwner) {
-                dismissLoadingDialog()
-
-                binding.tvVersion.text = it.versionName
-
-                act.updateApp(it.apkDownloadUrl, UpdateAppHttpUtil(requireContext(), it)) {
-                    topPic = R.mipmap.ic_version_pic
-                    setUpdateDialogFragmentListener { viewModel.checkSignIn() }
-                }.check {
-                    noNewApp { viewModel.checkSignIn() }
-                    onAfter { dismissLoadingDialog() }
+        viewModel.getAppConfigInfo().observe(viewLifecycleOwner) {
+            dismissLoadingDialog()
+            when (it.appState) {
+                AppState.MAINTAIN -> {
+                    findNavController().navigate(StartFragmentDirections.actionFragmentStartToFragmentMaintainDialog())
+                }
+                AppState.RUN -> {
+                    it.updateInfo?.let {
+                        act.updateApp(it.url, UpdateHttpUtil(cxt, it)) {
+                            topPic = R.mipmap.ic_version_pic
+                            setUpdateDialogFragmentListener {
+                                viewModel.checkSignIn()
+                            }
+                        }.check {
+                            noNewApp {
+                                viewModel.checkSignIn()
+                            }
+                            onAfter{
+                                
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -65,7 +76,7 @@ class StartFragment : BaseViewBindingFragment<FragmentStartBinding>(FragmentStar
         }
     }
 
-    private fun onSignObs(result: SignInResult) {
+    private fun onSignObs(info: SignInInfo) {
         lifecycleScope.launch {
             delay(1000)
             findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())

@@ -2,7 +2,7 @@ package tw.north27.coachingapp.ext
 
 import okhttp3.Callback
 import okhttp3.WebSocketListener
-import tw.north27.coachingapp.util.http.OkHttpUtil
+import tw.north27.coachingapp.module.http.OkHttpUtil
 
 //--------------------------------------------------------------------------------
 //Get

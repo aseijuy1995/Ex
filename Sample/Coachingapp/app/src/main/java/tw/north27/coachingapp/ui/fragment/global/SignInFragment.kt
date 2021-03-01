@@ -7,19 +7,19 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.clicks
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphDirections
-import tw.north27.coachingapp.base.view.BaseViewBindingFragment
+import tw.north27.coachingapp.base.BaseCoachingViewBindingFragment
 import tw.north27.coachingapp.databinding.FragmentSignInBinding
-import tw.north27.coachingapp.model.result.SignInResult
+import tw.north27.coachingapp.model.result.SignInInfo
 import tw.north27.coachingapp.viewModel.SignInViewModel
 
-class SignInFragment : BaseViewBindingFragment<FragmentSignInBinding>(FragmentSignInBinding::inflate) {
+class SignInFragment : BaseCoachingViewBindingFragment<FragmentSignInBinding>(FragmentSignInBinding::inflate) {
 
     private val viewModel by viewModel<SignInViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnSignIn.clicks().subscribeWithLife {
+        binding.btnSignIn.clicks().subscribeWithRxLife {
             showLoadingDialog()
             val account = binding.etAccount.text.toString()
             val password = binding.etPassword.text.toString()
@@ -40,7 +40,7 @@ class SignInFragment : BaseViewBindingFragment<FragmentSignInBinding>(FragmentSi
         }
     }
 
-    private fun onSignInObs(result: SignInResult) {
+    private fun onSignInObs(info: SignInInfo) {
         dismissLoadingDialog()
         //進入通道
         findNavController().navigate(NavGraphDirections.actionToFragmentHome())

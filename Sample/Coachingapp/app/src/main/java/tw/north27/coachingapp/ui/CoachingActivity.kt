@@ -7,13 +7,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.base.view.BaseAppCompatActivity
 import tw.north27.coachingapp.databinding.ActivityCoachingBinding
-import tw.north27.coachingapp.ext.viewBinding
+import tw.north27.coachingapp.module.base.activity.BaseViewBindingAppCompatActivity
 
-class CoachingActivity : BaseAppCompatActivity() {
-
-    protected val binding by viewBinding(ActivityCoachingBinding::inflate)
+class CoachingActivity : BaseViewBindingAppCompatActivity<ActivityCoachingBinding>(ActivityCoachingBinding::inflate) {
 
     lateinit var navFragment: NavHostFragment
 
@@ -21,13 +18,15 @@ class CoachingActivity : BaseAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
+        (supportFragmentManager.findFragmentById(R.id.frag_container_view) as NavHostFragment).also {
+            navFragment = it
+            navController = it.navController
+        }
 
-        navFragment = supportFragmentManager.findFragmentById(R.id.frag_container_view) as NavHostFragment
-        navController = navFragment.navController
+        binding.bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.animBottomBar.isVisible = when (destination.id) {
+            binding.bottomNavigationView.isVisible = when (destination.id) {
                 R.id.fragment_home,
                 R.id.fragment_chat_list,
                 R.id.fragment_learn,
@@ -37,14 +36,7 @@ class CoachingActivity : BaseAppCompatActivity() {
             }
         }
 
-        binding.animBottomBar.setupWithNavController(navController)
-
     }
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        val navController = findNavController(R.id.frag_container_view)
-//        return item.onNavDestinationSelected(navController) || super.onOptionsItemSelected(item)
-//    }
 
     override fun onSupportNavigateUp(): Boolean = findNavController(R.id.frag_container_view).navigateUp()
 }

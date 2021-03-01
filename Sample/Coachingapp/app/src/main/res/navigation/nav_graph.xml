@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragment_home">
-    <!--    app:startDestination="@id/fragment_start">-->
+    app:startDestination="@id/fragment_start">
+    <!--        app:startDestination="@id/fragment_home">-->
 
     <!-- Global -->
     <!-- Fragment -->
@@ -28,6 +28,10 @@
     <action
         android:id="@+id/action_to_fragment_home"
         app:destination="@id/fragment_home"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
         app:popUpTo="@id/fragment_home"
         app:popUpToInclusive="true" />
 
@@ -36,8 +40,23 @@
         android:id="@+id/fragment_start"
         android:name="tw.north27.coachingapp.ui.fragment.global.StartFragment"
         android:label="fragment_start"
-        tools:layout="@layout/fragment_start" />
+        tools:layout="@layout/fragment_start">
 
+        <action
+            android:id="@+id/action_fragment_start_to_fragment_maintain_dialog"
+            app:destination="@id/fragment_maintain_dialog" />
+
+    </fragment>
+
+    <dialog
+        android:id="@+id/fragment_maintain_dialog"
+        android:name="tw.north27.coachingapp.ui.public.MaintainDialogFragment"
+        android:label="fragment_maintain_dialog"
+        tools:layout="@layout/fragment_maintain_dialog" />
+
+
+    <!---->
+    <!--    -->
     <fragment
         android:id="@+id/fragment_sign_in"
         android:name="tw.north27.coachingapp.ui.fragment.global.SignInFragment"

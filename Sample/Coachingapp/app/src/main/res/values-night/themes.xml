@@ -16,6 +16,10 @@
     </style>
 
     <!-- Global -->
+    <style name="MaintainDialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <style name="LoadingDialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowElevation">5dp</item>

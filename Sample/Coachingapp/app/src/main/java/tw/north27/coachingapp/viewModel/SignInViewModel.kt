@@ -2,17 +2,13 @@ package tw.north27.coachingapp.viewModel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import tw.north27.coachingapp.base.viewModel.BaseAndroidViewModel
-import tw.north27.coachingapp.ext.SignInResults
 import tw.north27.coachingapp.ext.asLiveData
-import tw.north27.coachingapp.model.result.SignInResult
-import tw.north27.coachingapp.model.result.SignInState
-import tw.north27.coachingapp.module.SignInModule
-import tw.north27.coachingapp.repository.inter.ISignInRepository
+import tw.north27.coachingapp.module.pref.SignInModule
+import tw.north27.coachingapp.model.result.SignInInfo
+import tw.north27.coachingapp.repository.inter.IUserRepository
 
-class SignInViewModel(application: Application, val repo: ISignInRepository) : BaseAndroidViewModel(application) {
+class SignInViewModel(application: Application, val repo: IUserRepository) : BaseAndroidViewModel(application) {
 
 
     private val _toast = MutableLiveData<Pair<ToastType, String>>()
@@ -21,7 +17,7 @@ class SignInViewModel(application: Application, val repo: ISignInRepository) : B
 
     private val signInModule = SignInModule(application)
 
-    private val _signIn = MutableLiveData<SignInResult>()
+    private val _signIn = MutableLiveData<SignInInfo>()
 
     val signIn = _signIn.asLiveData()
 
@@ -30,42 +26,42 @@ class SignInViewModel(application: Application, val repo: ISignInRepository) : B
     }
 
     fun checkSignIn(account: String?, password: String?) {
-
-        if (account.isNullOrEmpty() && password.isNullOrEmpty()) {
-            _toast.postValue(ToastType.SIGN_IN to "帳密不可為空")
-        } else if (account.isNullOrEmpty()) {
-            _toast.postValue(ToastType.SIGN_IN to "帳號不可為空")
-        } else if (password.isNullOrEmpty()) {
-            _toast.postValue(ToastType.SIGN_IN to "密碼不可為空")
-        } else {
-            viewModelScope.launch {
-                val result = repo.checkSignInResult(account, password)
-                when (result) {
-                    is SignInResults.Successful -> {
-                        val sign = result.data!!
-                        //存取User資訊
-                        signInModule.setValue(
-                            guid = sign.guid,
-                            account = sign.account,
-                            accessToken = sign.accessToken,
-                            refreshToken = sign.refreshToken,
-                            expiredTime = sign.expiredTime,
-                            isFirstLogin = sign.isFirstSignIn
-                        )
-                        _signIn.postValue(sign)
-                    }
-
-                    is SignInResults.NotAuth -> {
-                        //未認證
-                    }
-                    is SignInResults.ClientErrors -> {
-//                    _toast.postValue(ToastType.SIGN_IN to "Code = ${result.code}, Msg = ${result.msg}")
-                        _toast.postValue(ToastType.SIGN_IN to "帳密有誤，請重新輸入!")
-                    }
-                }
-            }
-
-        }
+//
+//        if (account.isNullOrEmpty() && password.isNullOrEmpty()) {
+//            _toast.postValue(ToastType.SIGN_IN to "帳密不可為空")
+//        } else if (account.isNullOrEmpty()) {
+//            _toast.postValue(ToastType.SIGN_IN to "帳號不可為空")
+//        } else if (password.isNullOrEmpty()) {
+//            _toast.postValue(ToastType.SIGN_IN to "密碼不可為空")
+//        } else {
+//            viewModelScope.launch {
+//                val result = repo.postSignIn(account, password)
+//                when (result) {
+//                    is Results.Successful -> {
+//                        val sign = result.data!!
+//                        //存取User資訊
+//                        signInModule.setValue(
+//                            guid = sign.guid,
+//                            account = sign.account,
+//                            accessToken = sign.accessToken,
+//                            refreshToken = sign.refreshToken,
+//                            expiredTime = sign.expiredTime,
+//                            isFirstLogin = sign.isFirst
+//                        )
+//                        _signIn.postValue(sign)
+//                    }
+//
+//                    is Results.AuthError -> {
+//                        //未認證
+//                    }
+//                    is Results.ClientErrors -> {
+////                    _toast.postValue(ToastType.SIGN_IN to "Code = ${result.code}, Msg = ${result.msg}")
+//                        _toast.postValue(ToastType.SIGN_IN to "帳密有誤，請重新輸入!")
+//                    }
+//                }
+//            }
+//
+//        }
 
     }
 

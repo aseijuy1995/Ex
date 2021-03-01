@@ -5,11 +5,10 @@ option java_outer_classname = "SignInPreferencesProtos";
 option java_multiple_files = true;
 
 message SignInPreferences {
-  int64 guid = 1;
-  string account = 2;
-  string accessToken = 3;
-  string refreshToken = 4;// 刷新token令牌
-  string expiredTime = 5;// YYYY/MM/DD
-  bool isFirstLogin = 6;
-
+  int64 uuid = 1;// uuid
+  string account = 2;// 帳號
+  string accessToken = 3;// 訪問token
+  string refreshToken = 4;// 刷新token
+  string deviceId = 5;// 設備id
+  bool isFirst = 6;// 第一次登入
 }
