@@ -1,12 +1,12 @@
 package tw.north27.coachingapp.repository.inter
 
-import tw.north27.coachingapp.model.result.SignInResult
+import tw.north27.coachingapp.model.result.SignInInfo
 import tw.north27.coachingapp.module.http.Results
 
-interface ISignInRepository {
+interface IUserRepository {
 
-    /**
-     * 登入Api
-     * */
-    suspend fun checkSignInResult(account: String, password: String): Results<SignInResult>
+    suspend fun postCheckSignIn(): Results<SignInInfo>
+
+    suspend fun postSignIn(account: String, password: String? = null, deviceId: String): Results<SignInInfo>
+
 }
