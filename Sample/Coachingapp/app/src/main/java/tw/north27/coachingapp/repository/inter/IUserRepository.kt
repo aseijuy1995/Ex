@@ -7,6 +7,6 @@ interface IUserRepository {
 
     suspend fun postCheckSignIn(): Results<SignInInfo>
 
-    suspend fun postSignIn(account: String, password: String? = null, deviceId: String): Results<SignInInfo>
+    suspend fun postSignIn(account: String, password: String, deviceId: String): Results<SignInInfo>
 
 }

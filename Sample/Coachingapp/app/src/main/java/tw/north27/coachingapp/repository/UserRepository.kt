@@ -18,7 +18,7 @@ class UserRepository(val service: IApiService, val context: Context) : IUserRepo
         return safeApiResults { service.postCheckSignIn(signInDataStore.account, "deviceId001") }
     }
 
-    override suspend fun postSignIn(account: String, password: String?, deviceId: String): Results<SignInInfo> {
+    override suspend fun postSignIn(account: String, password: String, deviceId: String): Results<SignInInfo> {
         return safeApiResults { service.postSignIn(account, password, deviceId) }
     }
 

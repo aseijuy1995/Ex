@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragment_start">
-    <!--        app:startDestination="@id/fragment_home">-->
+    app:startDestination="@id/fragment_home">
+    <!--    app:startDestination="@id/fragment_start">-->
 
     <!-- Global -->
     <!-- Fragment -->
@@ -82,15 +82,28 @@
         tools:layout="@layout/fragment_learn" />
 
     <fragment
-        android:id="@+id/fragment_notify"
-        android:name="tw.north27.coachingapp.ui.fragment.main.NotifyFragment"
-        android:label="fragment_notify"
-        tools:layout="@layout/fragment_notify" />
-
-    <fragment
         android:id="@+id/fragment_person_center"
         android:name="tw.north27.coachingapp.ui.fragment.main.PersonCenterFragment"
         android:label="fragment_person_center"
         tools:layout="@layout/fragment_person_center" />
+
+    <fragment
+        android:id="@+id/fragment_notify"
+        android:name="tw.north27.coachingapp.ui.fragment.main.NotifyFragment"
+        android:label="fragment_notify"
+        tools:layout="@layout/fragment_notify">
+        
+        <action
+            android:id="@+id/action_fragment_notify_to_fragment_notify_more_dialog"
+            app:destination="@id/fragment_notify_more_dialog" />
+    </fragment>
+
+
+    <dialog
+        android:id="@+id/fragment_notify_more_dialog"
+        android:name="tw.north27.coachingapp.ui.fragment.item.NotifyMoreDialogFragment"
+        android:label="fragment_notify_more_dialog"
+        tools:layout="@layout/fragment_notify_more_dialog" />
+
 
 </navigation>

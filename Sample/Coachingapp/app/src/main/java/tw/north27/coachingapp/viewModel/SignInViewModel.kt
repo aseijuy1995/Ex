@@ -2,13 +2,17 @@ package tw.north27.coachingapp.viewModel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import tw.north27.coachingapp.base.viewModel.BaseAndroidViewModel
 import tw.north27.coachingapp.ext.asLiveData
-import tw.north27.coachingapp.module.pref.SignInModule
 import tw.north27.coachingapp.model.result.SignInInfo
+import tw.north27.coachingapp.model.result.SignInState
+import tw.north27.coachingapp.module.http.Results
+import tw.north27.coachingapp.module.pref.SignInModule
 import tw.north27.coachingapp.repository.inter.IUserRepository
 
-class SignInViewModel(application: Application, val repo: IUserRepository) : BaseAndroidViewModel(application) {
+class SignInViewModel(application: Application, val userRepo: IUserRepository) : BaseAndroidViewModel(application) {
 
 
     private val _toast = MutableLiveData<Pair<ToastType, String>>()
@@ -26,42 +30,63 @@ class SignInViewModel(application: Application, val repo: IUserRepository) : Bas
     }
 
     fun checkSignIn(account: String?, password: String?) {
-//
-//        if (account.isNullOrEmpty() && password.isNullOrEmpty()) {
-//            _toast.postValue(ToastType.SIGN_IN to "帳密不可為空")
-//        } else if (account.isNullOrEmpty()) {
-//            _toast.postValue(ToastType.SIGN_IN to "帳號不可為空")
-//        } else if (password.isNullOrEmpty()) {
-//            _toast.postValue(ToastType.SIGN_IN to "密碼不可為空")
-//        } else {
-//            viewModelScope.launch {
-//                val result = repo.postSignIn(account, password)
-//                when (result) {
-//                    is Results.Successful -> {
-//                        val sign = result.data!!
-//                        //存取User資訊
-//                        signInModule.setValue(
-//                            guid = sign.guid,
-//                            account = sign.account,
-//                            accessToken = sign.accessToken,
-//                            refreshToken = sign.refreshToken,
-//                            expiredTime = sign.expiredTime,
-//                            isFirstLogin = sign.isFirst
-//                        )
-//                        _signIn.postValue(sign)
-//                    }
-//
-//                    is Results.AuthError -> {
-//                        //未認證
-//                    }
-//                    is Results.ClientErrors -> {
-////                    _toast.postValue(ToastType.SIGN_IN to "Code = ${result.code}, Msg = ${result.msg}")
-//                        _toast.postValue(ToastType.SIGN_IN to "帳密有誤，請重新輸入!")
-//                    }
-//                }
-//            }
-//
-//        }
+        if (account.isNullOrEmpty() && password.isNullOrEmpty()) {
+            _toast.postValue(ToastType.SIGN_IN to "帳密不可為空")
+        } else if (account.isNullOrEmpty()) {
+            _toast.postValue(ToastType.SIGN_IN to "帳號不可為空")
+        } else if (password.isNullOrEmpty()) {
+            _toast.postValue(ToastType.SIGN_IN to "密碼不可為空")
+        } else {
+            viewModelScope.launch {
+                val results = userRepo.postSignIn(account, password, "device001")
+                when (results) {
+                    is Results.Successful -> {
+                        val signInInfo = results.data
+                        val uuid: Long
+                        val account: String
+                        val accessToken: String
+                        val refreshToken: String
+                        val isFirst: Boolean
+                        when (signInInfo.signInState) {
+                            SignInState.SUCCESS -> {
+                                signInInfo.userInfo.also {
+                                    uuid = 0
+                                    account = it.account
+                                    accessToken = it.accessToken
+                                    refreshToken = it.refreshToken
+                                    isFirst = signInInfo.isFirst
+                                }
+                            }
+                            SignInState.FAILURE -> {
+                                uuid = 1
+                                account = ""
+                                accessToken = ""
+                                refreshToken = ""
+                                isFirst = false
+                            }
+                        }
+                        signInModule.setValue(
+                            uuid = 0,
+                            account = account,
+                            accessToken = accessToken,
+                            refreshToken = refreshToken,
+                            deviceId = "deviceId001",
+                            isFirst = isFirst
+                        )
+                        _signIn.postValue(signInInfo)
+                    }
+
+                    is Results.ClientErrors -> {
+                        _toast.postValue(ToastType.SIGN_IN to "${results.code}:帳密有誤，請重新輸入!")
+                    }
+
+                    is Results.NetWorkError -> {
+                        _toast.postValue(ToastType.SIGN_IN to "${results.error}:網路異常")
+                    }
+                }
+            }
+
+        }
 
     }
 

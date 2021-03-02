@@ -8,7 +8,6 @@ import kotlinx.coroutines.launch
 import tw.north27.coachingapp.base.viewModel.BaseAndroidViewModel
 import tw.north27.coachingapp.ext.asLiveData
 import tw.north27.coachingapp.model.result.AppConfig
-import tw.north27.coachingapp.model.result.SignInInfo
 import tw.north27.coachingapp.model.result.SignInState
 import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.module.http.SimpleResults
@@ -48,10 +47,10 @@ class StartViewModel(
                     _appConfig.postValue(results.data!!)
                 }
                 is SimpleResults.ClientErrors -> {
-                    _toast.postValue(ToastType.VERSION to "message: ${results.error.message}")
+                    _toast.postValue(ToastType.VERSION to "${results.error}:無法獲取初始數據")
                 }
                 is SimpleResults.NetWorkError -> {
-                    _toast.postValue(ToastType.VERSION to "message: ${results.error.message}")
+                    _toast.postValue(ToastType.VERSION to "${results.error}:網路異常")
                 }
             }
         }
@@ -78,12 +77,10 @@ class StartViewModel(
                             }
                         }
                         SignInState.FAILURE -> {
-                            signInInfo.userInfo.also {
-                                account = ""
-                                accessToken = ""
-                                refreshToken = ""
-                                isFirst = false
-                            }
+                            account = ""
+                            accessToken = ""
+                            refreshToken = ""
+                            isFirst = false
                         }
                     }
                     signInModule.setValue(
@@ -95,10 +92,10 @@ class StartViewModel(
                     _signInState.postValue(signInInfo.signInState)
                 }
                 is Results.ClientErrors -> {
-                    _toast.postValue(ToastType.CHECK_SIGN_IN to "Code = ${results.code}")
+                    _toast.postValue(ToastType.CHECK_SIGN_IN to "${results.code}:登入資料異常")
                 }
                 is Results.NetWorkError -> {
-                    _toast.postValue(ToastType.CHECK_SIGN_IN to "Msg = ${results.error.message}")
+                    _toast.postValue(ToastType.CHECK_SIGN_IN to "${results.error}:網路異常")
                 }
             }
 

@@ -42,7 +42,7 @@ open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment(), IRxJavaS
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT);
+        dialog?.window?.setLayout(ConstraintLayout.LayoutParams.MATCH_PARENT, ConstraintLayout.LayoutParams.MATCH_PARENT)
     }
 
     override fun <T> Observable<T>.subscribeWithLife(): Disposable? =

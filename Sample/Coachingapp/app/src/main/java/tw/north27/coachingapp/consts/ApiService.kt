@@ -55,7 +55,7 @@ class ApiService : IApiService {
         )
     }
 
-    override suspend fun postSignIn(account: String, password: String?, deviceId: String): Response<SignInInfo> {
+    override suspend fun postSignIn(account: String, password: String, deviceId: String): Response<SignInInfo> {
         delay(1500)
         return Response.success<SignInInfo>(
             SignInInfo(
@@ -74,6 +74,117 @@ class ApiService : IApiService {
                 )
             )
         )
+    }
+
+    val notifyList = mutableListOf<NotifyInfo>()
+
+    init {
+        for (i in 1..11) {
+            notifyList.addAll(
+                listOf(
+                    NotifyInfo(
+                        id = 0L * i,
+                        imgUrl = "https://cf.shopee.tw/file/b7b28075865ae8a751109478b6c59f2b_tn",
+                        title = "噓！偷偷告訴你促銷期間輕鬆提升流量秘笈 v1.$i.0",
+                        desc = "大促期間流量&轉單大幅成長，商品下折扣卻沒有曝光嗎✨使用蝦皮關鍵字廣告讓你輕鬆獲得賣場流量，要曝光和業績就趁現在！",
+                        time = "2021-02-26 16:31",
+                        isRead = true,
+                        notifyType = NotifyType.NORMAL
+                    ),
+                    NotifyInfo(
+                        id = 1L * i,
+                        imgUrl = "https://cf.shopee.tw/file/b3275b57f030fac1288e08a75f364017_tn",
+                        title = "【重要】3/3(三)自動提款順延至3/10(三)執行 v1.$i.1",
+                        desc = "親愛的蝦皮用戶您好，由於內部作業系統維護，原定3/3(三)執行的自動提款將順延至3/10(三)執行，後續自動提款作業時間仍維持於3/17、3/31...以此類推，造成您的不便還請見諒\uD83D\uDE47未執行自動提領當週，仍有乙次免費提領機會，還請多加利用\uD83D\uDE4F",
+                        time = "2021-02-26 14:33",
+                        isRead = false,
+                        notifyType = NotifyType.NORMAL
+                    ),
+                    NotifyInfo(
+                        id = 2L * i,
+                        imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
+                        title = "賣場佈置新組件上線！ v1.$i.2",
+                        desc = "賣場佈置全新組件讓您展示熱銷商品、新品以及促銷折扣，幫助您打造吸睛的賣場首頁，提升下單轉換率，點入了解更多\uD83D\uDC49",
+                        time = "2021-02-23 14:49",
+                        isRead = false,
+                        notifyType = NotifyType.NORMAL
+                    ),
+                    NotifyInfo(
+                        id = 3L * i,
+                        imgUrl = "https://cf.shopee.tw/file/bcf02170cead12ea5d9319f8d4611823_tn",
+                        title = "蝦皮動態模板懶人包送給你 v1.$i.3",
+                        desc = "【直播課程最便利－貼文牆引流量】在家就可以看\uD83D\uDD25到底怎麼經營粉絲，貼文牆怎麼玩？下半年最強功能之一你不能不會！貼文牆各種秘笈我們來教你\uD83D\uDE4C",
+                        time = "2021-02-18 20:10",
+                        isRead = false,
+                        notifyType = NotifyType.NORMAL
+                    ),
+                    NotifyInfo(
+                        id = 4L * i,
+                        imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
+                        title = "新推出手機版【我的主題活動】 v1.$i.4",
+                        desc = "為了方便報名主題活動，您將可透過蝦皮APP來管理【我的主題活動】，同時也可即時查詢已報名成功的商品。更多相關說明請參考連結\uD83D\uDC49",
+                        time = "2021-02-02 17:01",
+                        isRead = true,
+                        notifyType = NotifyType.NORMAL
+                    ),
+                    NotifyInfo(
+                        id = 5L * i,
+                        imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
+                        title = "防詐騙提醒 v1.$i.5",
+                        desc = "【重要提醒】蝦皮購物貼心提醒您，千萬不要透過LINE或其他通訊軟體約定交易、私下匯款賣家，也不要在商品未確認收到前聽信賣家指示提前點選〔完成訂單〕千萬注意，以免受騙上當哦！",
+                        time = "2021-01-28 15:33",
+                        isRead = true,
+                        notifyType = NotifyType.NORMAL
+                    ),
+                    NotifyInfo(
+                        id = 6L * i,
+                        imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
+                        title = "賣家中心新功能上線：商品優化工具 v1.$i.6",
+                        desc = "親愛的賣家您好，賣家中心內的數據中心全新上線商品優化工具，透過商品優化工具可以幫助您找出需要優化的商品並提供調整方向與建議，確保賣場內所有商品內容都是高品質，吸引買家關注！立即點入了解更多\uD83D\uDC49",
+                        time = "2021-01-27 17:00",
+                        isRead = false,
+                        notifyType = NotifyType.NORMAL
+                    ),
+                    NotifyInfo(
+                        id = 7L * i,
+                        imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
+                        title = "【重要提醒！強化帳戶安全性指南】 v1.$i.7",
+                        desc = "蝦皮絕不會要求您提供個人密碼、驗證碼，當您有以下狀況：無法登入帳號、有不明提款動作、發現非本人下單的訂單時，請盡速聯繫蝦皮客服團隊。點擊確認了解如何設定高強度密碼／帳戶有安全疑慮該怎麼辦\uD83D\uDC49",
+                        time = "2021-01-25 11:03",
+                        isRead = false,
+                        notifyType = NotifyType.NORMAL
+                    ),
+                    NotifyInfo(
+                        id = 8L * i,
+                        imgUrl = "https://cf.shopee.tw/file/3cfd20ea4b19b1412fbea615813e6b0e_tn",
+                        title = "邀請新朋友來蝦皮 v1.$i.8",
+                        desc = "新朋友註冊蝦皮後，在蝦皮購物App完成第1筆訂單，可享訂單金額 ",
+                        time = "2021-01-11 18:56",
+                        isRead = true,
+                        notifyType = NotifyType.NORMAL
+                    ),
+                    NotifyInfo(
+                        id = 9L * i,
+                        imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
+                        title = "您的訂單已被取消！ v1.$i.9",
+                        desc = "嗨 aseijuy1995，很抱歉，您的訂單已被賣家取消。請點此查看更多相似的商品，祝您購物愉快！",
+                        time = "2021-01-01 12:00",
+                        isRead = false,
+                        notifyType = NotifyType.NORMAL
+                    ),
+                )
+            )
+        }
+    }
+
+    override suspend fun postNotifyList(fromIndex: Int, toIndex: Int): List<NotifyInfo> {
+        delay(1500)
+        return when {
+            fromIndex > notifyList.size -> emptyList()
+            toIndex > notifyList.size -> notifyList.subList(fromIndex = fromIndex, toIndex = notifyList.size)
+            else -> notifyList.subList(fromIndex = fromIndex, toIndex = toIndex)
+        }
+
     }
 
 //    override suspend fun getVersion(cmd: String): Response<AppResult> {

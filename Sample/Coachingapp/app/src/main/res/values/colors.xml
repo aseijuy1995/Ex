@@ -14,11 +14,14 @@
     <color name="yellow_fef5e0">#FEF5E0</color>
     <color name="yellow_ffffe0">#FFFFE0</color>
     <color name="green_41d578">#41D578</color>
+    <color name="orange_fe5f32">#FE5F32</color>
+    <color name="red_e94339">#E94339</color>
     <color name="green_38af6c">#38AF6C</color>
     <color name="blue_7094bf">#7094BF</color>
     <color name="green_b7f0d9">#B7F0D9</color>
     <color name="gray_aaaaaa">#AAAAAA</color>
     <color name="gray_55eeeeee">#55EEEEEE</color>
     <color name="gray_eeeeee">#EEEEEE</color>
+
 
 </resources>

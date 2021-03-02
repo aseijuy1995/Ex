@@ -8,6 +8,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
+import tw.north27.coachingapp.model.result.NotifyInfo
 import tw.north27.coachingapp.model.result.AppConfig
 import tw.north27.coachingapp.model.result.SignInInfo
 import tw.north27.coachingapp.model.result.TokenInfo
@@ -45,7 +46,7 @@ interface IApiService {
     @POST
     suspend fun postSignIn(
         @Field("account") account: String,
-        @Field("password") password: String?,
+        @Field("password") password: String,
         @Field("deviceId") deviceId: String
     ): Response<SignInInfo>
 
@@ -58,5 +59,17 @@ interface IApiService {
 //    suspend fun getVersion(
 //        @Field("cmd") cmd: String = "get_version_android",
 //    ): Response<AppResult>
+
+
+    //
+    /**
+     * 獲取通知
+     * */
+    @FormUrlEncoded
+    @POST
+    suspend fun postNotifyList(
+        @Field("fromIndex") fromIndex: Int,
+        @Field("toIndex") toIndex: Int,
+    ): List<NotifyInfo>
 
 }
