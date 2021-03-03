@@ -2,28 +2,25 @@ package tw.north27.coachingapp.viewModel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import tw.north27.coachingapp.base.viewModel.BaseViewModel
 import tw.north27.coachingapp.ext.asLiveData
 import tw.north27.coachingapp.model.result.NotifyInfo
 import tw.north27.coachingapp.repository.inter.INotifyRepository
 
 class NotifyViewModel(private val notifyRepo: INotifyRepository) : BaseViewModel() {
+//
+//    private val _notifyListLiveData by MutableLiveData<PagingData<NotifyInfo>>{
+//
+//    }
 
-    private val _notifyList = MutableLiveData<List<NotifyInfo>>()
-
-    private val _notifys = mutableListOf<NotifyInfo>()
-
-    fun notifyList(): LiveData<List<NotifyInfo>> {
-        viewModelScope.launch {
-            val notifyList = notifyRepo.postNotifyList(0, 10)
-            _notifys.addAll(notifyList)
-            _notifyList.postValue(_notifys)
-        }
-        return _notifyList.asLiveData()
+    fun notifyInfoList(): LiveData<PagingData<NotifyInfo>> {
+        return notifyRepo.postLoadNotifyPager(1).flow.cachedIn(viewModelScope).asLiveData()
     }
-
+    
     private val _notifyInfoMore = MutableLiveData<NotifyInfo?>()
 
     val notifyInfoMore = _notifyInfoMore.asLiveData()
@@ -32,10 +29,12 @@ class NotifyViewModel(private val notifyRepo: INotifyRepository) : BaseViewModel
         _notifyInfoMore.postValue(notifyInfo)
     }
 
-    fun deleteNotifyInfo(notifyInfo: NotifyInfo) {
-        val isRemove = _notifys.remove(notifyInfo)
-        if (isRemove)
-            _notifyList.postValue(_notifys)
-
-    }
+//    private val _notifyLists = mutableListOf<NotifyInfo>()
+//
+//    fun deleteNotifyInfo(notifyInfo: NotifyInfo) {
+//        val isRemove = _notifyLists.remove(notifyInfo)
+//        if (isRemove)
+//            _notifyListLiveData.postValue(_notifyLists)
+//
+//    }
 }

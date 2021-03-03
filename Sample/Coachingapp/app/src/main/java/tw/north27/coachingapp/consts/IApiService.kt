@@ -8,8 +8,8 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
-import tw.north27.coachingapp.model.result.NotifyInfo
 import tw.north27.coachingapp.model.result.AppConfig
+import tw.north27.coachingapp.model.result.NotifyInfo
 import tw.north27.coachingapp.model.result.SignInInfo
 import tw.north27.coachingapp.model.result.TokenInfo
 
@@ -61,15 +61,14 @@ interface IApiService {
 //    ): Response<AppResult>
 
 
-    //
+    //Notify
     /**
      * 獲取通知
      * */
     @FormUrlEncoded
     @POST
-    suspend fun postNotifyList(
-        @Field("fromIndex") fromIndex: Int,
-        @Field("toIndex") toIndex: Int,
+    suspend fun postLoadNotify(
+        @Field("page") page: Int
     ): List<NotifyInfo>
 
 }

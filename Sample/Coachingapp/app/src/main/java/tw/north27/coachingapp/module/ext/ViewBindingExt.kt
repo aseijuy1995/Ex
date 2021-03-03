@@ -1,12 +1,14 @@
 package tw.north27.coachingapp.module.ext
 
 import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
@@ -61,3 +63,10 @@ class FragmentViewBindingDelegate<T : ViewBinding>(val fragment: Fragment, val v
 
     }
 }
+
+fun <T : ViewBinding, VH : RecyclerView.ViewHolder> RecyclerView.Adapter<VH>.viewBinding(
+    viewBindingFactory: (LayoutInflater, ViewGroup, Boolean) -> T,
+    inflate: LayoutInflater,
+    viewGroup: ViewGroup,
+    attachToParent: Boolean
+) = lazy(LazyThreadSafetyMode.NONE) { viewBindingFactory.invoke(inflate, viewGroup, attachToParent) }

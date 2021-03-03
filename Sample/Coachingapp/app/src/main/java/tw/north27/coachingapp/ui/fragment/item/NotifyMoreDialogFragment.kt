@@ -21,8 +21,8 @@ class NotifyMoreDialogFragment : BaseViewBindingBottomSheetDialogFragment<Fragme
         }
 
         binding.ivDelete.clicks().subscribeWithRxLife {
-            viewModel.deleteNotifyInfo(viewModel.notifyInfoMore.value!!)
-            findNavController().navigateUp()
+//            viewModel.deleteNotifyInfo(viewModel.notifyInfoMore.value!!)
+//            findNavController().navigateUp()
         }
     }
 

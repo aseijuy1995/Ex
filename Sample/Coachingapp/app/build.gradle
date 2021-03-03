@@ -87,6 +87,9 @@ dependencies {
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$navigation_version"
     implementation "androidx.navigation:navigation-testing:$navigation_version"
     //
+    def paging_version = "3.0.0-beta01"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+    implementation "androidx.paging:paging-rxjava3:$paging_version"
     //
     //
     //
@@ -109,10 +112,6 @@ dependencies {
     def coroutine_version = "1.4.2"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version"
-    //paging3
-    def paging_version = "3.0.0-beta01"
-    implementation "androidx.paging:paging-runtime:$paging_version"
-    testImplementation "androidx.paging:paging-common:$paging_version"
     /**
      * Rx
      * */
@@ -172,7 +171,11 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide_version"
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
-
+    //SmartRefreshLayout
+    implementation  "com.scwang.smart:refresh-layout-kernel:2.0.3"
+    implementation  "com.scwang.smart:refresh-header-classics:2.0.3"
+    //gif
+    implementation "pl.droidsonroids.gif:android-gif-drawable:1.2.19"
 }
 
 //proto

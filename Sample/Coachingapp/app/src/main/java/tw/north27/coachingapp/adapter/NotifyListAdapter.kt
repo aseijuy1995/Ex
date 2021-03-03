@@ -3,25 +3,27 @@ package tw.north27.coachingapp.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay3.PublishRelay
 import tw.north27.coachingapp.databinding.ItemNotifyBinding
 import tw.north27.coachingapp.model.result.NotifyInfo
 import tw.north27.coachingapp.module.ext.dataBinding
 
-//class NotifyListAdapter : PagingDataAdapter<Notify, NotifyListAdapter.VH>(
-class NotifyListAdapter : ListAdapter<NotifyInfo, NotifyListAdapter.VH>(
+class NotifyListAdapter : PagingDataAdapter<NotifyInfo, NotifyListAdapter.VH>(
     object : DiffUtil.ItemCallback<NotifyInfo>() {
         override fun areItemsTheSame(oldItem: NotifyInfo, newItem: NotifyInfo): Boolean {
             return oldItem.id == newItem.id
-//            return oldItem.hashCode() == newItem.hashCode()
         }
 
         override fun areContentsTheSame(oldItem: NotifyInfo, newItem: NotifyInfo): Boolean {
             return oldItem.id == newItem.id
-//            return oldItem.hashCode() == newItem.hashCode()
+                    && oldItem.imgUrl == newItem.imgUrl
+                    && oldItem.title == newItem.title
+                    && oldItem.desc == newItem.desc
+                    && oldItem.time == newItem.time
+                    && oldItem.notifyType == newItem.notifyType
         }
     }
 ) {
@@ -31,10 +33,12 @@ class NotifyListAdapter : ListAdapter<NotifyInfo, NotifyListAdapter.VH>(
     val moreClickRelay = PublishRelay.create<Pair<View, NotifyInfo>>()
 
     inner class VH(val binding: ItemNotifyBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(notifyInfo: NotifyInfo) = binding.apply {
+        fun bind(notifyInfo: NotifyInfo?) = binding.apply {
             this.notifyInfo = notifyInfo
-            itemView.setOnClickListener { itemClickRelay.accept(it to notifyInfo) }
-            ivMore.setOnClickListener { moreClickRelay.accept(it to notifyInfo) }
+            notifyInfo?.let { notifyInfo ->
+                itemView.setOnClickListener { view -> itemClickRelay.accept(view to notifyInfo) }
+                ivMore.setOnClickListener { view -> moreClickRelay.accept(view to notifyInfo) }
+            }
             executePendingBindings()
         }
     }

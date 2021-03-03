@@ -17,20 +17,9 @@ fun <T : ViewDataBinding> Activity.dataBinding(layoutId: Int) =
 fun <T : ViewDataBinding> Fragment.dataBinding(layoutId: Int) =
     lazy(LazyThreadSafetyMode.NONE) { DataBindingUtil.inflate<T>(layoutInflater, layoutId, view?.parent as ViewGroup?, false) }
 
-
-fun main(args: Array<String>) {
-//    ListItemBinding.inflate(layoutInflater, viewGroup, false)
-}
-
 fun <T : ViewDataBinding, VH : RecyclerView.ViewHolder> RecyclerView.Adapter<VH>.dataBinding(
     dataBindingFactory: (LayoutInflater, ViewGroup, Boolean) -> T,
     inflate: LayoutInflater,
     viewGroup: ViewGroup,
     attachToParent: Boolean
-) =
-    lazy(LazyThreadSafetyMode.NONE) {
-
-//        LayoutInflater.from(context), par
-        dataBindingFactory.invoke(inflate, viewGroup, attachToParent)
-    }
-
+) = lazy(LazyThreadSafetyMode.NONE) { dataBindingFactory.invoke(inflate, viewGroup, attachToParent) }

@@ -1,9 +1,10 @@
 package tw.north27.coachingapp.repository.inter
 
+import androidx.paging.Pager
 import tw.north27.coachingapp.model.result.NotifyInfo
 
 interface INotifyRepository {
 
-    suspend fun postNotifyList(fromIndex:Int, toIndex:Int): List<NotifyInfo>
+    fun postLoadNotifyPager(page: Int): Pager<Int, NotifyInfo>
 
 }
