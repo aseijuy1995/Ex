@@ -13,17 +13,16 @@ import java.io.IOException
 class NotifyPagingSource(private val service: IApiService) : PagingSource<Int, NotifyInfo>() {
 
     override fun getRefreshKey(state: PagingState<Int, NotifyInfo>): Int? {
-        return state.anchorPosition
-            ?.let {
-                val anchorPage = state.closestPageToPosition(it)
-                anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
-            }
+        return state.anchorPosition?.let {
+            val anchorPage = state.closestPageToPosition(it)
+            anchorPage?.prevKey?.plus(1) ?: anchorPage?.nextKey?.minus(1)
+        }
     }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, NotifyInfo> {
         return try {
             val pageNumber = params.key ?: 1
-            val notifyInfoList = service.postLoadNotify(pageNumber)
+            val notifyInfoList = service.getLoadNotify(pageNumber)
             LoadResult.Page<Int, NotifyInfo>(
                 data = notifyInfoList,
                 prevKey = null,

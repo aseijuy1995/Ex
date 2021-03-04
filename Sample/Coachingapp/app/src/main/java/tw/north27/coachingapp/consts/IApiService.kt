@@ -4,10 +4,7 @@ package tw.north27.coachingapp.consts
 //https://www.huaweicloud.com/articles/138c673c96294a6661b16960ff4db613.html
 
 import retrofit2.Response
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 import tw.north27.coachingapp.model.result.AppConfig
 import tw.north27.coachingapp.model.result.NotifyInfo
 import tw.north27.coachingapp.model.result.SignInInfo
@@ -65,10 +62,25 @@ interface IApiService {
     /**
      * 獲取通知
      * */
+    @GET
+    suspend fun getLoadNotify(
+        @Query("page") page: Int
+    ): List<NotifyInfo>
+
+    /**
+     * 通知開關
+     * */
     @FormUrlEncoded
     @POST
-    suspend fun postLoadNotify(
-        @Field("page") page: Int
-    ): List<NotifyInfo>
+    suspend fun postSwitchNotify(
+        @Field("isOpen") isOpen: Boolean
+    ): Boolean
+
+    /**
+     * 通知全部讀取
+     * */
+    @FormUrlEncoded
+    @POST
+    suspend fun postReadAllNotify(): Boolean
 
 }

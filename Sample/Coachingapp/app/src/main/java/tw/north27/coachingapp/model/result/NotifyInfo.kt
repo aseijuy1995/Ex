@@ -7,7 +7,7 @@ data class NotifyInfo(
     val title: String,
     val desc: String,
     val time: String,
-    val isRead: Boolean,// 已讀 = true,未讀 = false
+    var isRead: Boolean,// 已讀 = true,未讀 = false
     val notifyType: NotifyType
 )
 

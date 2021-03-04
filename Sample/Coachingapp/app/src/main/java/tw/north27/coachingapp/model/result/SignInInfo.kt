@@ -20,7 +20,7 @@ enum class Identity {
 
 data class UserInfo(
     val id: Int,
-    val account:String,
+    val account: String,
     val avatarPath: String,
     val name: String,
     val nickName: String,

@@ -9,7 +9,7 @@ import tw.north27.coachingapp.base.viewModel.BaseAndroidViewModel
 import tw.north27.coachingapp.ext.asLiveData
 import tw.north27.coachingapp.model.result.AppConfig
 import tw.north27.coachingapp.model.result.SignInState
-import tw.north27.coachingapp.module.http.Results
+import tw.north27.coachingapp.module.http.ResponseResults
 import tw.north27.coachingapp.module.http.SimpleResults
 import tw.north27.coachingapp.module.pref.SignInModule
 import tw.north27.coachingapp.repository.inter.IPublicRepository
@@ -61,7 +61,7 @@ class StartViewModel(
         viewModelScope.launch {
             val results = userRepo.postCheckSignIn()
             when (results) {
-                is Results.Successful -> {
+                is ResponseResults.Successful -> {
                     val signInInfo = results.data
                     val account: String
                     val accessToken: String
@@ -91,10 +91,10 @@ class StartViewModel(
                     )
                     _signInState.postValue(signInInfo.signInState)
                 }
-                is Results.ClientErrors -> {
+                is ResponseResults.ClientErrors -> {
                     _toast.postValue(ToastType.CHECK_SIGN_IN to "${results.code}:登入資料異常")
                 }
-                is Results.NetWorkError -> {
+                is ResponseResults.NetWorkError -> {
                     _toast.postValue(ToastType.CHECK_SIGN_IN to "${results.error}:網路異常")
                 }
             }

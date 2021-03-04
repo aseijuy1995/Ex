@@ -71,16 +71,14 @@ class ApiService : IApiService {
                     email = "b0972911675@north27.tw",
                     registerTime = "2021/02/22",
                     accessToken = "accessToken001",
-                    refreshToken = "refreshToken001",
+                    refreshToken = "refreshToken001"
                 )
             )
         )
     }
 
-
-    //fromIndex & toIndex, index start 0
-    override suspend fun postLoadNotify(@Field(value = "page") page: Int): List<NotifyInfo> {
-        val notifyList = mutableListOf<Pair<Int, List<NotifyInfo>>>()
+    override suspend fun getLoadNotify(@Field(value = "page") page: Int): List<NotifyInfo> {
+        var notifyList = mutableListOf<Pair<Int, List<NotifyInfo>>>()
         notifyList.add(
             1 to listOf(
                 NotifyInfo(
@@ -265,6 +263,16 @@ class ApiService : IApiService {
             page > notifyList.last().first -> emptyList()
             else -> notifyList.first { page == it.first }.second
         }
+    }
+
+    override suspend fun postSwitchNotify(isOpen: Boolean): Boolean {
+        delay(500)
+        return isOpen
+    }
+
+    override suspend fun postReadAllNotify(): Boolean {
+        delay(1000)
+        return true
     }
 
 }

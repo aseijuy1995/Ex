@@ -10,7 +10,6 @@ import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import timber.log.Timber
 import tw.north27.coachingapp.databinding.ItemLoadStateBinding
 import tw.north27.coachingapp.module.ext.autoBreatheAlphaAnim
 import tw.north27.coachingapp.module.ext.viewBinding
@@ -19,10 +18,6 @@ class BaseLoadStateAdapter(
     private val owner: LifecycleOwner,
     private val compositeDisposable: CompositeDisposable
 ) : LoadStateAdapter<BaseLoadStateAdapter.VH>() {
-
-    init {
-        Timber.d("init")
-    }
 
     val retryClickRelay = PublishRelay.create<View>()
 
@@ -45,8 +40,4 @@ class BaseLoadStateAdapter(
         holder.bind(loadState)
     }
 
-    override fun displayLoadStateAsItem(loadState: LoadState): Boolean {
-        Timber.d("loadState:${loadState}")
-        return super.displayLoadStateAsItem(loadState)
-    }
 }

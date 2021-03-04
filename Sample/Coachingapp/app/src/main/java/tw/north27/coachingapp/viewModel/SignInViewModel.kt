@@ -8,7 +8,7 @@ import tw.north27.coachingapp.base.viewModel.BaseAndroidViewModel
 import tw.north27.coachingapp.ext.asLiveData
 import tw.north27.coachingapp.model.result.SignInInfo
 import tw.north27.coachingapp.model.result.SignInState
-import tw.north27.coachingapp.module.http.Results
+import tw.north27.coachingapp.module.http.ResponseResults
 import tw.north27.coachingapp.module.pref.SignInModule
 import tw.north27.coachingapp.repository.inter.IUserRepository
 
@@ -40,7 +40,7 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
             viewModelScope.launch {
                 val results = userRepo.postSignIn(account, password, "device001")
                 when (results) {
-                    is Results.Successful -> {
+                    is ResponseResults.Successful -> {
                         val signInInfo = results.data
                         val uuid: Long
                         val account: String
@@ -76,11 +76,11 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
                         _signIn.postValue(signInInfo)
                     }
 
-                    is Results.ClientErrors -> {
+                    is ResponseResults.ClientErrors -> {
                         _toast.postValue(ToastType.SIGN_IN to "${results.code}:帳密有誤，請重新輸入!")
                     }
 
-                    is Results.NetWorkError -> {
+                    is ResponseResults.NetWorkError -> {
                         _toast.postValue(ToastType.SIGN_IN to "${results.error}:網路異常")
                     }
                 }

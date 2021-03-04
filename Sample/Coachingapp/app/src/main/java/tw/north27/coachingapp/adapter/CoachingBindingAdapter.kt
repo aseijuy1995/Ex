@@ -6,12 +6,12 @@ import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import tw.north27.coachingapp.R
 
-@BindingAdapter("bind:isReadIcon")
-fun ImageView.bindIsReadIcon(isRead: Boolean) {
-    setImageResource(if (isRead) R.drawable.ic_baseline_mark_chat_read_24_green else R.drawable.ic_baseline_mark_chat_unread_24_orange)
-}
-
 @BindingAdapter("bind:isReadColor")
 fun View.bindIsReadColor(isRead: Boolean) {
     setBackgroundColor(if (isRead) resources.getColor(R.color.yellow_fef5e0) else Color.WHITE)
+}
+
+@BindingAdapter("bind:isNotifyOpen")
+fun ImageView.bindIsReadColor(isOpen: Boolean) {
+    setImageResource(if (isOpen) R.drawable.ic_baseline_notifications_24_white else R.drawable.ic_baseline_notifications_off_24_white)
 }
