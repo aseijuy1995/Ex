@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -66,7 +67,6 @@ class NotifyFragment : BaseCoachingDataBindingFragment<FragmentNotifyBinding>(R.
 
         //More click
         adapter.moreClickRelay.subscribeWithRxLife {
-            Snackbar.make(binding.root, "More Click, ${it.second.title}", Snackbar.LENGTH_SHORT).show()
             viewModel.setNotifyInfoToMorePage(it.second)
 //            findNavController().navigate(NotifyFragmentDirections.actionFragmentNotifyToFragmentNotifyMoreDialog())
         }
@@ -76,6 +76,7 @@ class NotifyFragment : BaseCoachingDataBindingFragment<FragmentNotifyBinding>(R.
          * */
         //Notify click
         binding.ivNotify.clicks().subscribeWithRxLife {
+            showLoadingDialog()
             when (binding.ivNotify.drawable.current.constantState) {
                 ContextCompat.getDrawable(cxt, R.drawable.ic_baseline_notifications_24_white)?.constantState -> viewModel.switchNotify(false)
                 ContextCompat.getDrawable(cxt, R.drawable.ic_baseline_notifications_off_24_white)?.constantState -> viewModel.switchNotify(true)
@@ -84,6 +85,7 @@ class NotifyFragment : BaseCoachingDataBindingFragment<FragmentNotifyBinding>(R.
 
         // Read All click
         binding.ivReadAll.clicks().subscribeWithRxLife {
+            showLoadingDialog()
             viewModel.readAllNotify()
             adapter.refresh()
         }
@@ -91,6 +93,11 @@ class NotifyFragment : BaseCoachingDataBindingFragment<FragmentNotifyBinding>(R.
         viewModel.toast.observe(viewLifecycleOwner) { pair ->
             when (pair.first) {
                 NotifyViewModel.ToastType.OPEN_NOTIFY -> {
+                    dismissLoadingDialog()
+                    Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
+                }
+                NotifyViewModel.ToastType.READ_ALL_NOTIFY -> {
+                    dismissLoadingDialog()
                     Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
                 }
             }

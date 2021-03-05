@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import tw.north27.coachingapp.base.viewModel.BaseViewModel
 import tw.north27.coachingapp.ext.asLiveData
 import tw.north27.coachingapp.model.result.NotifyInfo
@@ -53,6 +54,7 @@ class NotifyViewModel(private val notifyRepo: INotifyRepository) : BaseViewModel
             val results = notifyRepo.readAllNotify()
             when (results) {
                 is Results.Successful -> {
+                    Timber.d("Results.Successful")
                     _notifyOpen.postValue(results.data!!)
                     _toast.postValue(ToastType.READ_ALL_NOTIFY to if (results.data) "全部已讀" else "已全部已讀摟!")
                 }
@@ -66,14 +68,15 @@ class NotifyViewModel(private val notifyRepo: INotifyRepository) : BaseViewModel
         }
     }
 
+    fun setNotifyInfoToMorePage(notifyInfo: NotifyInfo?) {
+        _notifyInfoMore.postValue(notifyInfo!!)
+    }
 
     private val _notifyInfoMore = MutableLiveData<NotifyInfo?>()
 
     val notifyInfoMore = _notifyInfoMore.asLiveData()
 
-    fun setNotifyInfoToMorePage(notifyInfo: NotifyInfo?) {
-        _notifyInfoMore.postValue(notifyInfo!!)
-    }
+
 
 //    private val _notifyLists = mutableListOf<NotifyInfo>()
 //
