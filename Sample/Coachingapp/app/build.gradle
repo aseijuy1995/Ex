@@ -1,6 +1,7 @@
 plugins {
     id "com.android.application"
     id "kotlin-android"
+    id "com.google.gms.google-services"
     id "com.google.protobuf"
     id "androidx.navigation.safeargs.kotlin"
     id "kotlin-kapt"
@@ -46,22 +47,6 @@ android {
         dataBinding true
     }
 
-    flavorDimensions "version"
-    productFlavors {
-        first {
-            applicationIdSuffix ".first"
-            manifestPlaceholders = [
-                    app_icon: "@drawable/ic_baseline_person_24_blue"
-            ]
-        }
-        second {
-            applicationIdSuffix ".second"
-            manifestPlaceholders = [
-                    app_icon: "@drawable/ic_baseline_person_24_gray"
-            ]
-        }
-    }
-//    productFlavors
 }
 
 dependencies {
@@ -74,6 +59,13 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    //firebase
+    implementation platform("com.google.firebase:firebase-bom:26.6.0")
+    implementation "com.google.firebase:firebase-analytics-ktx"
+    implementation "com.google.firebase:firebase-messaging-ktx"
+    implementation "com.google.firebase:firebase-messaging-directboot:21.0.1"
+
+
     /**
      * JetPack
      * */
@@ -174,8 +166,8 @@ dependencies {
     implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
     //SmartRefreshLayout
-    implementation  "com.scwang.smart:refresh-layout-kernel:2.0.3"
-    implementation  "com.scwang.smart:refresh-header-classics:2.0.3"
+    implementation "com.scwang.smart:refresh-layout-kernel:2.0.3"
+    implementation "com.scwang.smart:refresh-header-classics:2.0.3"
     //gif
     implementation "pl.droidsonroids.gif:android-gif-drawable:1.2.19"
 }

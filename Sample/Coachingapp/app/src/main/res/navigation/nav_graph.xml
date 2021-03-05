@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragment_home">
-    <!--    app:startDestination="@id/fragment_start">-->
+    app:startDestination="@id/fragment_start">
+    <!--    app:startDestination="@id/fragment_home">-->
+
 
     <!-- Global -->
     <!-- Fragment -->
@@ -92,7 +93,7 @@
         android:name="tw.north27.coachingapp.ui.fragment.main.NotifyFragment"
         android:label="fragment_notify"
         tools:layout="@layout/fragment_notify">
-        
+
         <action
             android:id="@+id/action_fragment_notify_to_fragment_notify_more_dialog"
             app:destination="@id/fragment_notify_more_dialog" />

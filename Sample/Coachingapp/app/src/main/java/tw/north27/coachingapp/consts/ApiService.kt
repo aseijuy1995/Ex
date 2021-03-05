@@ -15,7 +15,7 @@ class ApiService : IApiService {
         )
     }
 
-    override suspend fun getAppConfig(): AppConfig {
+    override suspend fun getAppConfig(token: String): AppConfig {
         delay(1500)
         return AppConfig(
             appState = AppState.RUN,
@@ -35,7 +35,7 @@ class ApiService : IApiService {
         )
     }
 
-    override suspend fun postCheckSignIn(account: String, deviceId: String): Response<SignInInfo> {
+    override suspend fun postCheckSignIn(account: String, deviceId: String, fcmToken: String): Response<SignInInfo> {
         delay(1500)
         return Response.success<SignInInfo>(
             SignInInfo(
@@ -56,7 +56,7 @@ class ApiService : IApiService {
         )
     }
 
-    override suspend fun postSignIn(account: String, password: String, deviceId: String): Response<SignInInfo> {
+    override suspend fun postSignIn(account: String, password: String, deviceId: String, fcmToken: String): Response<SignInInfo> {
         delay(1500)
         return Response.success<SignInInfo>(
             SignInInfo(

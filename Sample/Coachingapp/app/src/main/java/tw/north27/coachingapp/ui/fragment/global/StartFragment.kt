@@ -17,8 +17,8 @@ import tw.north27.coachingapp.http.UpdateHttpManager
 import tw.north27.coachingapp.model.result.AppState
 import tw.north27.coachingapp.model.result.SignInState
 import tw.north27.coachingapp.module.ext.autoBreatheAlphaAnim
+import tw.north27.coachingapp.util.FirebaseManager
 import tw.north27.coachingapp.viewModel.StartViewModel
-import java.util.*
 
 class StartFragment : BaseCoachingViewBindingFragment<FragmentStartBinding>(FragmentStartBinding::inflate) {
 
@@ -26,25 +26,28 @@ class StartFragment : BaseCoachingViewBindingFragment<FragmentStartBinding>(Frag
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.d("UUID: ${UUID.randomUUID().toString()}")
         binding.ivIcon.autoBreatheAlphaAnim(viewLifecycleOwner, compositeDisposable)
         binding.tvVersion.text = String.format("v:${BuildConfig.VERSION_NAME}")
         showLoadingDialog()
 
-        viewModel.appConfig().observe(viewLifecycleOwner) {
-            dismissLoadingDialog()
-            when (it.appState) {
-                AppState.MAINTAIN -> {
-                    findNavController().navigate(StartFragmentDirections.actionFragmentStartToFragmentMaintainDialog())
-                }
-                AppState.RUN -> {
-                    it.updateInfo?.let {
-                        act.updateApp(it.url, UpdateHttpManager(cxt, it)) {
-                            topPic = R.mipmap.ic_version_pic
-                            setUpdateDialogFragmentListener { viewModel.checkSignIn() }
-                        }.check {
-                            noNewApp { viewModel.checkSignIn() }
-                            onAfter { findNavController().navigateUp() }
+        FirebaseManager.get().register().addOnCompleteListener {
+            val fcmToken = it.result ?: ""
+            Timber.d("fcmToken = $fcmToken")
+            viewModel.appConfig(fcmToken).observe(viewLifecycleOwner) {
+                dismissLoadingDialog()
+                when (it.appState) {
+                    AppState.MAINTAIN -> {
+                        findNavController().navigate(StartFragmentDirections.actionFragmentStartToFragmentMaintainDialog())
+                    }
+                    AppState.RUN -> {
+                        it.updateInfo?.let {
+                            act.updateApp(it.url, UpdateHttpManager(cxt, it)) {
+                                topPic = R.mipmap.ic_version_pic
+                                setUpdateDialogFragmentListener { viewModel.checkSignIn() }
+                            }.check {
+                                noNewApp { viewModel.checkSignIn() }
+                                onAfter { findNavController().navigateUp() }
+                            }
                         }
                     }
                 }

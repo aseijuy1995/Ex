@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.base.viewModel.BaseAndroidViewModel
 import tw.north27.coachingapp.ext.asLiveData
@@ -39,9 +40,10 @@ class StartViewModel(
         VERSION, CHECK_SIGN_IN
     }
 
-    fun appConfig(): LiveData<AppConfig> {
+    fun appConfig(fcmToken: String): LiveData<AppConfig> {
+        signInModule.setValue(fcmToken = fcmToken)
         viewModelScope.launch {
-            val results = publicRepo.getAppConfig()
+            val results = publicRepo.getAppConfig(fcmToken)
             when (results) {
                 is SimpleResults.Successful -> {
                     _appConfig.postValue(results.data!!)
@@ -59,45 +61,46 @@ class StartViewModel(
 
     fun checkSignIn() {
         viewModelScope.launch {
-            val results = userRepo.postCheckSignIn()
-            when (results) {
-                is ResponseResults.Successful -> {
-                    val signInInfo = results.data
-                    val account: String
-                    val accessToken: String
-                    val refreshToken: String
-                    val isFirst: Boolean
-                    when (signInInfo.signInState) {
-                        SignInState.SUCCESS -> {
-                            signInInfo.userInfo.also {
-                                account = it.account
-                                accessToken = it.accessToken
-                                refreshToken = it.refreshToken
-                                isFirst = signInInfo.isFirst
+            signInModule.getValue { it.fcmToken }.collectLatest { fcmToken ->
+                val results = userRepo.postCheckSignIn(fcmToken)
+                when (results) {
+                    is ResponseResults.Successful -> {
+                        val signInInfo = results.data
+                        val account: String
+                        val accessToken: String
+                        val refreshToken: String
+                        val isFirst: Boolean
+                        when (signInInfo.signInState) {
+                            SignInState.SUCCESS -> {
+                                signInInfo.userInfo.also {
+                                    account = it.account
+                                    accessToken = it.accessToken
+                                    refreshToken = it.refreshToken
+                                    isFirst = signInInfo.isFirst
+                                }
+                            }
+                            SignInState.FAILURE -> {
+                                account = ""
+                                accessToken = ""
+                                refreshToken = ""
+                                isFirst = false
                             }
                         }
-                        SignInState.FAILURE -> {
-                            account = ""
-                            accessToken = ""
-                            refreshToken = ""
-                            isFirst = false
-                        }
+                        signInModule.setValue(
+                            account = account,
+                            accessToken = accessToken,
+                            refreshToken = refreshToken,
+                            isFirst = isFirst
+                        )
+                        _signInState.postValue(signInInfo.signInState)
                     }
-                    signInModule.setValue(
-                        account = account,
-                        accessToken = accessToken,
-                        refreshToken = refreshToken,
-                        isFirst = isFirst
-                    )
-                    _signInState.postValue(signInInfo.signInState)
+                    is ResponseResults.ClientErrors -> {
+                        _toast.postValue(ToastType.CHECK_SIGN_IN to "${results.code}:登入資料異常")
+                    }
+                    is ResponseResults.NetWorkError -> {
+                        _toast.postValue(ToastType.CHECK_SIGN_IN to "${results.error}:網路異常")
+                    }
                 }
-                is ResponseResults.ClientErrors -> {
-                    _toast.postValue(ToastType.CHECK_SIGN_IN to "${results.code}:登入資料異常")
-                }
-                is ResponseResults.NetWorkError -> {
-                    _toast.postValue(ToastType.CHECK_SIGN_IN to "${results.error}:網路異常")
-                }
-            }
 
 //            signInModule.getValue { it }.collect {
 //                val result = userRepo.postSignIn(account)
@@ -127,6 +130,8 @@ class StartViewModel(
 //                    }
 //                }
 //            }
+            }
+
         }
     }
 

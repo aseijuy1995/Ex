@@ -3,6 +3,7 @@ package tw.north27.coachingapp.viewModel
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.base.viewModel.BaseAndroidViewModel
 import tw.north27.coachingapp.ext.asLiveData
@@ -38,50 +39,52 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
             _toast.postValue(ToastType.SIGN_IN to "密碼不可為空")
         } else {
             viewModelScope.launch {
-                val results = userRepo.postSignIn(account, password, "device001")
-                when (results) {
-                    is ResponseResults.Successful -> {
-                        val signInInfo = results.data
-                        val uuid: Long
-                        val account: String
-                        val accessToken: String
-                        val refreshToken: String
-                        val isFirst: Boolean
-                        when (signInInfo.signInState) {
-                            SignInState.SUCCESS -> {
-                                signInInfo.userInfo.also {
-                                    uuid = 0
-                                    account = it.account
-                                    accessToken = it.accessToken
-                                    refreshToken = it.refreshToken
-                                    isFirst = signInInfo.isFirst
+                signInModule.getValue { it.fcmToken }.collectLatest { fcmToken ->
+                    val results = userRepo.postSignIn(account, password, "device001", fcmToken)
+                    when (results) {
+                        is ResponseResults.Successful -> {
+                            val signInInfo = results.data
+                            val uuid: Long
+                            val account: String
+                            val accessToken: String
+                            val refreshToken: String
+                            val isFirst: Boolean
+                            when (signInInfo.signInState) {
+                                SignInState.SUCCESS -> {
+                                    signInInfo.userInfo.also {
+                                        uuid = 0
+                                        account = it.account
+                                        accessToken = it.accessToken
+                                        refreshToken = it.refreshToken
+                                        isFirst = signInInfo.isFirst
+                                    }
+                                }
+                                SignInState.FAILURE -> {
+                                    uuid = 1
+                                    account = ""
+                                    accessToken = ""
+                                    refreshToken = ""
+                                    isFirst = false
                                 }
                             }
-                            SignInState.FAILURE -> {
-                                uuid = 1
-                                account = ""
-                                accessToken = ""
-                                refreshToken = ""
-                                isFirst = false
-                            }
+                            signInModule.setValue(
+                                uuid = 0,
+                                account = account,
+                                accessToken = accessToken,
+                                refreshToken = refreshToken,
+                                deviceId = "deviceId001",
+                                isFirst = isFirst
+                            )
+                            _signIn.postValue(signInInfo)
                         }
-                        signInModule.setValue(
-                            uuid = 0,
-                            account = account,
-                            accessToken = accessToken,
-                            refreshToken = refreshToken,
-                            deviceId = "deviceId001",
-                            isFirst = isFirst
-                        )
-                        _signIn.postValue(signInInfo)
-                    }
 
-                    is ResponseResults.ClientErrors -> {
-                        _toast.postValue(ToastType.SIGN_IN to "${results.code}:帳密有誤，請重新輸入!")
-                    }
+                        is ResponseResults.ClientErrors -> {
+                            _toast.postValue(ToastType.SIGN_IN to "${results.code}:帳密有誤，請重新輸入!")
+                        }
 
-                    is ResponseResults.NetWorkError -> {
-                        _toast.postValue(ToastType.SIGN_IN to "${results.error}:網路異常")
+                        is ResponseResults.NetWorkError -> {
+                            _toast.postValue(ToastType.SIGN_IN to "${results.error}:網路異常")
+                        }
                     }
                 }
             }

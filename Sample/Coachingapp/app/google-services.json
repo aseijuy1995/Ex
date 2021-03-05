@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1041301921294",
+    "project_id": "coachingapp-952ad",
+    "storage_bucket": "coachingapp-952ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041301921294:android:21e11ed1ba4a87ebaa665f",
+        "android_client_info": {
+          "package_name": "tw.north27.coachingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1041301921294-ivlm44boj62lda2l3vurjg9sekmgheuo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2lkz-orEs1hkFmx6DHcvKTD4l3tENma0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1041301921294-ivlm44boj62lda2l3vurjg9sekmgheuo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

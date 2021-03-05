@@ -13,13 +13,13 @@ class UserRepository(val service: IApiService, val context: Context) : IUserRepo
 
     private val signInModule = SignInModule(context)
 
-    override suspend fun postCheckSignIn(): ResponseResults<SignInInfo> {
+    override suspend fun postCheckSignIn(fcmToken: String): ResponseResults<SignInInfo> {
         val signInDataStore = signInModule.getValue { it }.first()
-        return safeApiResponseResults { service.postCheckSignIn(signInDataStore.account, "deviceId001") }
+        return safeApiResponseResults { service.postCheckSignIn(signInDataStore.account, "deviceId001", fcmToken) }
     }
 
-    override suspend fun postSignIn(account: String, password: String, deviceId: String): ResponseResults<SignInInfo> {
-        return safeApiResponseResults { service.postSignIn(account, password, deviceId) }
+    override suspend fun postSignIn(account: String, password: String, deviceId: String, fcmToken: String): ResponseResults<SignInInfo> {
+        return safeApiResponseResults { service.postSignIn(account, password, deviceId, fcmToken) }
     }
 
 

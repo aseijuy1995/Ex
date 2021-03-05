@@ -10,6 +10,7 @@ import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.base.BaseCoachingViewBindingFragment
 import tw.north27.coachingapp.databinding.FragmentSignInBinding
 import tw.north27.coachingapp.model.result.SignInInfo
+import tw.north27.coachingapp.util.FirebaseManager
 import tw.north27.coachingapp.viewModel.SignInViewModel
 
 class SignInFragment : BaseCoachingViewBindingFragment<FragmentSignInBinding>(FragmentSignInBinding::inflate) {
@@ -23,6 +24,9 @@ class SignInFragment : BaseCoachingViewBindingFragment<FragmentSignInBinding>(Fr
             showLoadingDialog()
             val account = binding.etAccount.text.toString()
             val password = binding.etPassword.text.toString()
+            FirebaseManager.get().tokenRelay.subscribeWithRxLife {
+
+            }
             viewModel.checkSignIn(account, password)
         }
 

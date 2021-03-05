@@ -23,7 +23,9 @@ interface IApiService {
      * 取得更新資訊
      * */
     @GET
-    suspend fun getAppConfig(): AppConfig
+    suspend fun getAppConfig(
+        @Query("fcmToken") fcmToken: String
+    ): AppConfig
 
     /**
      * 檢查登入
@@ -32,7 +34,8 @@ interface IApiService {
     @POST
     suspend fun postCheckSignIn(
         @Field("account") account: String,
-        @Field("deviceId") deviceId: String
+        @Field("deviceId") deviceId: String,
+        @Field("fcmToken") fcmToken: String
     ): Response<SignInInfo>
 
 
@@ -44,7 +47,8 @@ interface IApiService {
     suspend fun postSignIn(
         @Field("account") account: String,
         @Field("password") password: String,
-        @Field("deviceId") deviceId: String
+        @Field("deviceId") deviceId: String,
+        @Field("fcmToken") fcmToken: String
     ): Response<SignInInfo>
 
 

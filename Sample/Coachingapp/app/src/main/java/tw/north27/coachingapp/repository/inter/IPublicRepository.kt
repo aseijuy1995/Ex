@@ -5,5 +5,5 @@ import tw.north27.coachingapp.module.http.SimpleResults
 
 interface IPublicRepository {
 
-    suspend fun getAppConfig(): SimpleResults<AppConfig>
+    suspend fun getAppConfig(fcmToken:String): SimpleResults<AppConfig>
 }

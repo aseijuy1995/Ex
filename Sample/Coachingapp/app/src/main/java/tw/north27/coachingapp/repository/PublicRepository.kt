@@ -8,7 +8,7 @@ import tw.north27.coachingapp.repository.inter.IPublicRepository
 
 class PublicRepository(val service: IApiService) : IPublicRepository {
 
-    override suspend fun getAppConfig(): SimpleResults<AppConfig> {
-        return safeApiSimpleResults { service.getAppConfig() }
+    override suspend fun getAppConfig(fcmToken: String): SimpleResults<AppConfig> {
+        return safeApiSimpleResults { service.getAppConfig(fcmToken) }
     }
 }

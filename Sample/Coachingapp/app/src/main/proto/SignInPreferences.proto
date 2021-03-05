@@ -10,5 +10,6 @@ message SignInPreferences {
   string accessToken = 3;// 訪問token
   string refreshToken = 4;// 刷新token
   string deviceId = 5;// 設備id
-  bool isFirst = 6;// 第一次登入
+  string fcmToken = 6;//推播token
+  bool isFirst = 7;// 第一次登入
 }

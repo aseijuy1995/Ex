@@ -33,6 +33,7 @@ class SignInModule(val context: Context) : CoroutineScope {
         accessToken: String? = null,
         deviceId: String? = null,
         refreshToken: String? = null,
+        fcmToken: String? = null,
         isFirst: Boolean? = null
     ) {
         signInDataStore.setValue(this) {
@@ -42,6 +43,7 @@ class SignInModule(val context: Context) : CoroutineScope {
                 accessToken?.let { setAccessToken(it) }
                 refreshToken?.let { setRefreshToken(it) }
                 deviceId?.let { setDeviceId(it) }
+                fcmToken?.let { setFcmToken(it) }
                 isFirst?.let { setIsFirst(it) }
             }.build()
         }
