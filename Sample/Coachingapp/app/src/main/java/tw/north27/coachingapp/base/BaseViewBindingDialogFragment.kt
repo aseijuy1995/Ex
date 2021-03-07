@@ -1,11 +1,11 @@
-package tw.north27.coachingapp.module.base.fragment
+package tw.north27.coachingapp.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewbinding.ViewBinding
-import tw.north27.coachingapp.module.ext.viewBinding
+import tw.north27.coachingapp.ext.viewBinding
 
 open class BaseViewBindingDialogFragment<T : ViewBinding>(viewBindingFactory: (LayoutInflater) -> T) : BaseDialogFragment() {
 

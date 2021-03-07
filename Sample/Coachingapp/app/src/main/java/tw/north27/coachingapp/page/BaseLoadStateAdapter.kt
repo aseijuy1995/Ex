@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import tw.north27.coachingapp.databinding.ItemLoadStateBinding
-import tw.north27.coachingapp.module.ext.autoBreatheAlphaAnim
-import tw.north27.coachingapp.module.ext.viewBinding
+import tw.north27.coachingapp.ext.autoBreatheAlphaAnim
+import tw.north27.coachingapp.ext.viewBinding
 
 class BaseLoadStateAdapter(
     private val owner: LifecycleOwner,

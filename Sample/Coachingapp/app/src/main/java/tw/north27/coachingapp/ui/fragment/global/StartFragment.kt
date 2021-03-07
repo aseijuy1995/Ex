@@ -11,16 +11,19 @@ import timber.log.Timber
 import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.base.BaseCoachingViewBindingFragment
+import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.databinding.FragmentStartBinding
+import tw.north27.coachingapp.ext.autoBreatheAlphaAnim
+import tw.north27.coachingapp.ext.viewBinding
 import tw.north27.coachingapp.http.UpdateHttpManager
 import tw.north27.coachingapp.model.result.AppState
 import tw.north27.coachingapp.model.result.SignInState
-import tw.north27.coachingapp.module.ext.autoBreatheAlphaAnim
 import tw.north27.coachingapp.util.FirebaseManager
 import tw.north27.coachingapp.viewModel.StartViewModel
 
-class StartFragment : BaseCoachingViewBindingFragment<FragmentStartBinding>(FragmentStartBinding::inflate) {
+class StartFragment : BaseFragment(R.id.fragment_start) {
+
+    private val binding by viewBinding(FragmentStartBinding::bind)
 
     private val viewModel by sharedViewModel<StartViewModel>()
 

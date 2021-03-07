@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.base.viewModel
+package tw.north27.coachingapp.base
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

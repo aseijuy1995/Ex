@@ -8,7 +8,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import tw.north27.coachingapp.base.viewModel.BaseViewModel
+import tw.north27.coachingapp.base.BaseViewModel
 import tw.north27.coachingapp.ext.asLiveData
 import tw.north27.coachingapp.model.result.NotifyInfo
 import tw.north27.coachingapp.module.http.Results

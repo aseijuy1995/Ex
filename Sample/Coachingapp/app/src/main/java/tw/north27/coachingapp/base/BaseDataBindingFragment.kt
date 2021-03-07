@@ -1,13 +1,13 @@
-package tw.north27.coachingapp.module.base.fragment
+package tw.north27.coachingapp.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
-import tw.north27.coachingapp.module.ext.dataBinding
+import tw.north27.coachingapp.ext.dataBinding
 
-open class BaseDataBindingFragment<T : ViewDataBinding>(private val layoutId: Int) : BaseFragment() {
+open class BaseDataBindingFragment<T : ViewDataBinding>(private val layoutId: Int) : BaseFragment(layoutId) {
 
     protected val binding by dataBinding<T>(layoutId)
 

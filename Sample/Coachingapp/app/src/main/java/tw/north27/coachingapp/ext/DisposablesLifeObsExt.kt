@@ -4,7 +4,6 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-
 fun CompositeDisposable.startDisposablesLifeObs(owner: LifecycleOwner): DisposablesLifeObs = DisposablesLifeObs(owner, this)
 
 class DisposablesLifeObs(

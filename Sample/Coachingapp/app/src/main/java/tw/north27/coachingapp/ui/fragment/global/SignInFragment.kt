@@ -7,13 +7,17 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.clicks
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphDirections
-import tw.north27.coachingapp.base.BaseCoachingViewBindingFragment
+import tw.north27.coachingapp.R
+import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.databinding.FragmentSignInBinding
+import tw.north27.coachingapp.ext.viewBinding
 import tw.north27.coachingapp.model.result.SignInInfo
 import tw.north27.coachingapp.util.FirebaseManager
 import tw.north27.coachingapp.viewModel.SignInViewModel
 
-class SignInFragment : BaseCoachingViewBindingFragment<FragmentSignInBinding>(FragmentSignInBinding::inflate) {
+class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
+
+    private val binding by viewBinding<FragmentSignInBinding>(FragmentSignInBinding::bind)
 
     private val viewModel by viewModel<SignInViewModel>()
 

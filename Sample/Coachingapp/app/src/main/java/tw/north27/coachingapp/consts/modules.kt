@@ -34,7 +34,7 @@ val repoModules = module {
     single<INotifyRepository> { NotifyRepository(get()) }
 }
 
-val viewModules = module {
+val viewModelModules = module {
     viewModel { StartViewModel(androidApplication(), get(), get()) }
     viewModel { SignInViewModel(androidApplication(), get()) }
     viewModel { NotifyViewModel(get()) }

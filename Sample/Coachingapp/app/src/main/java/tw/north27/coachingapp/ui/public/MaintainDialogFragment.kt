@@ -6,7 +6,7 @@ import com.jakewharton.rxbinding4.view.clicks
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentMaintainDialogBinding
-import tw.north27.coachingapp.module.base.fragment.BaseViewBindingDialogFragment
+import tw.north27.coachingapp.base.BaseViewBindingDialogFragment
 import tw.north27.coachingapp.viewModel.StartViewModel
 
 class MaintainDialogFragment : BaseViewBindingDialogFragment<FragmentMaintainDialogBinding>(FragmentMaintainDialogBinding::inflate) {

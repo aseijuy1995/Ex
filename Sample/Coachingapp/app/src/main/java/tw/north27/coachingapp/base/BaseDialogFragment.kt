@@ -1,7 +1,12 @@
-package tw.north27.coachingapp.module.base.activity
+package tw.north27.coachingapp.base
 
+import android.content.Context
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentActivity
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -9,34 +14,36 @@ import io.reactivex.rxjava3.disposables.Disposable
 import tw.north27.coachingapp.ext.startDisposablesLifeObs
 import tw.north27.coachingapp.module.rx.IRxJavaSubscribe
 
-/**
- * 已測試
- * */
-open class BaseAppCompatActivity() : AppCompatActivity(), IRxJavaSubscribe {
+open class BaseDialogFragment : DialogFragment(), IRxJavaSubscribe {
 
     protected val TAG = javaClass.simpleName
 
+    protected lateinit var act: FragmentActivity
+
+    protected lateinit var cxt: Context
+
     protected val compositeDisposable = CompositeDisposable()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        compositeDisposable.startDisposablesLifeObs(this)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        compositeDisposable.startDisposablesLifeObs(viewLifecycleOwner)
+        act = requireActivity()
+        cxt = requireContext()
+        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun <T> Observable<T>.subscribeWithRxLife(): Disposable? =
-        bindToLifecycle(this@BaseAppCompatActivity)
+        bindToLifecycle(viewLifecycleOwner)
             .subscribe()
 
     override fun <T> Observable<T>.subscribeWithRxLife(onNext: (T) -> Unit): Disposable? =
-        bindToLifecycle(this@BaseAppCompatActivity)
+        bindToLifecycle(viewLifecycleOwner)
             .subscribe(onNext)
 
     override fun <T> Observable<T>.subscribeWithRxLife(onNext: (T) -> Unit, onError: (Throwable) -> Unit): Disposable? =
-        bindToLifecycle(this@BaseAppCompatActivity)
+        bindToLifecycle(viewLifecycleOwner)
             .subscribe(onNext, onError)
 
     override fun <T> Observable<T>.subscribeWithRxLife(onNext: (T) -> Unit, onError: (Throwable) -> Unit, onComplete: () -> Unit): Disposable? =
-        bindToLifecycle(this@BaseAppCompatActivity)
+        bindToLifecycle(viewLifecycleOwner)
             .subscribe(onNext, onError, onComplete)
-
 }

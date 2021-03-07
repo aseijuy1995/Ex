@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import tw.north27.coachingapp.base.viewModel.BaseAndroidViewModel
+import tw.north27.coachingapp.base.BaseAndroidViewModel
 import tw.north27.coachingapp.ext.asLiveData
 import tw.north27.coachingapp.model.result.SignInInfo
 import tw.north27.coachingapp.model.result.SignInState

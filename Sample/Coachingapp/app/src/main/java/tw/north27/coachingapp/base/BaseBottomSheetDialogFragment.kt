@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.module.base.fragment
+package tw.north27.coachingapp.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

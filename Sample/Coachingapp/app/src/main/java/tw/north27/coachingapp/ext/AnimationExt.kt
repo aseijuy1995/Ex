@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.module.ext
+package tw.north27.coachingapp.ext
 
 import android.view.View
 import android.view.animation.AlphaAnimation

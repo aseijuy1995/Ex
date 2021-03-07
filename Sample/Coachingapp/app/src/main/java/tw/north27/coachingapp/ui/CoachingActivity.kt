@@ -11,11 +11,10 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import timber.log.Timber
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.databinding.ActivityCoachingBinding
-import tw.north27.coachingapp.module.base.activity.BaseViewBindingAppCompatActivity
+import tw.north27.coachingapp.base.BaseAppCompatActivity
 
 
-class CoachingActivity : BaseViewBindingAppCompatActivity<ActivityCoachingBinding>(ActivityCoachingBinding::inflate) {
+class CoachingActivity : BaseAppCompatActivity() {
 
     lateinit var navFragment: NavHostFragment
 

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,12 +14,12 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.NotifyListAdapter
-import tw.north27.coachingapp.base.BaseCoachingDataBindingFragment
+import tw.north27.coachingapp.base.BaseDataBindingFragment
 import tw.north27.coachingapp.databinding.FragmentNotifyBinding
 import tw.north27.coachingapp.page.BaseLoadStateAdapter
 import tw.north27.coachingapp.viewModel.NotifyViewModel
 
-class NotifyFragment : BaseCoachingDataBindingFragment<FragmentNotifyBinding>(R.layout.fragment_notify) {
+class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.fragment_notify) {
 
     private val viewModel by sharedViewModel<NotifyViewModel>()
 

@@ -1,8 +1,7 @@
-package tw.north27.coachingapp.base.viewModel
+package tw.north27.coachingapp.base
 
 import androidx.lifecycle.ViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import timber.log.Timber
 
 open class BaseViewModel : ViewModel() {
 
@@ -14,7 +13,5 @@ open class BaseViewModel : ViewModel() {
         compositeDisposable.clear()
         super.onCleared()
     }
-
-    fun handlerException(e: Exception) = Timber.e(e)
 
 }

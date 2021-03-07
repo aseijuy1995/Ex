@@ -1,12 +1,17 @@
-package tw.north27.coachingapp.module.base.application
+package tw.north27.coachingapp.base
 
 import android.app.Application
 import com.jakewharton.rxrelay3.PublishRelay
 import tw.north27.coachingapp.BuildConfig
+import tw.north27.coachingapp.consts.modelModules
+import tw.north27.coachingapp.consts.repoModules
+import tw.north27.coachingapp.consts.utilModules
+import tw.north27.coachingapp.consts.viewModelModules
+import tw.north27.coachingapp.ext.startKoinModules
 import tw.north27.coachingapp.ext.startProcessLifeObs
 import tw.north27.coachingapp.ext.startTimberLogger
 
-open class BaseApplication : Application() {
+class BaseApplication : Application() {
 
     companion object {
         lateinit var appForegroundRelay: PublishRelay<Boolean>
@@ -18,6 +23,7 @@ open class BaseApplication : Application() {
         if (BuildConfig.DEBUG) startTimberLogger()
 
         startProcessLifeObs().also { appForegroundRelay = it.appForegroundRelay }
+        startKoinModules(utilModules, modelModules, repoModules, viewModelModules)
     }
 
 }
