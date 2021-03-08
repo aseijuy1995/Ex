@@ -1,20 +1,17 @@
 package tw.north27.coachingapp.ui
 
-import android.content.ComponentName
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseAppCompatActivity
+import tw.north27.coachingapp.databinding.ActivityCoachingBinding
 
 
-class CoachingActivity : BaseAppCompatActivity() {
+class CoachingActivity : BaseAppCompatActivity<ActivityCoachingBinding>(ActivityCoachingBinding::inflate) {
 
     lateinit var navFragment: NavHostFragment
 
@@ -39,24 +36,24 @@ class CoachingActivity : BaseAppCompatActivity() {
                 else -> false
             }
         }
-
-        //
-        val intent = Intent()
-        val manufacturer = android.os.Build.MANUFACTURER
-        Timber.d("manufacturer = ${manufacturer}")
-        when (manufacturer) {
-            "xiaomi" -> intent.component = ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")
-            "oppo" -> intent.component = ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity")
-            "vivo" -> intent.component = ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity")
-            "Honor" -> intent.component = ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity")
-            "htc" -> intent.component = ComponentName("com.htc.pitroad", "com.htc.pitroad.landingpage.activity.LandingPageActivity")
-            "asus" -> intent.component = ComponentName("com.asus.mobilemanager", "com.asus.mobilemanager.MainActivity")
-        }
-        val size = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).size
-        Timber.d("size = ${size}")
-        if (size > 0) {
-            startActivity(intent)
-        }
+//
+//        //
+//        val intent = Intent()
+//        val manufacturer = android.os.Build.MANUFACTURER
+//        Timber.d("manufacturer = ${manufacturer}")
+//        when (manufacturer) {
+//            "xiaomi" -> intent.component = ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity")
+//            "oppo" -> intent.component = ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity")
+//            "vivo" -> intent.component = ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity")
+//            "Honor" -> intent.component = ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity")
+//            "htc" -> intent.component = ComponentName("com.htc.pitroad", "com.htc.pitroad.landingpage.activity.LandingPageActivity")
+//            "asus" -> intent.component = ComponentName("com.asus.mobilemanager", "com.asus.mobilemanager.MainActivity")
+//        }
+//        val size = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY).size
+//        Timber.d("size = ${size}")
+//        if (size > 0) {
+//            startActivity(intent)
+//        }
 
     }
 

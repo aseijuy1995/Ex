@@ -21,7 +21,7 @@ import tw.north27.coachingapp.model.result.SignInState
 import tw.north27.coachingapp.util.FirebaseManager
 import tw.north27.coachingapp.viewModel.StartViewModel
 
-class StartFragment : BaseFragment(R.id.fragment_start) {
+class StartFragment : BaseFragment(R.layout.fragment_start) {
 
     private val binding by viewBinding(FragmentStartBinding::bind)
 
@@ -66,7 +66,7 @@ class StartFragment : BaseFragment(R.id.fragment_start) {
     private fun onToastObs(pair: Pair<StartViewModel.ToastType, String>) {
         when (pair.first) {
             StartViewModel.ToastType.VERSION -> {
-                dismissLoadingDialog()
+//                dismissLoadingDialog()
                 Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
             }
             StartViewModel.ToastType.CHECK_SIGN_IN -> {

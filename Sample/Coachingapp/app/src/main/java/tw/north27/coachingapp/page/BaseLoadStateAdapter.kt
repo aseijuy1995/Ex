@@ -12,7 +12,6 @@ import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import tw.north27.coachingapp.databinding.ItemLoadStateBinding
 import tw.north27.coachingapp.ext.autoBreatheAlphaAnim
-import tw.north27.coachingapp.ext.viewBinding
 
 class BaseLoadStateAdapter(
     private val owner: LifecycleOwner,
@@ -32,7 +31,7 @@ class BaseLoadStateAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): VH {
-        val binding by viewBinding<ItemLoadStateBinding, BaseLoadStateAdapter.VH>(ItemLoadStateBinding::inflate, LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemLoadStateBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return VH(binding)
     }
 

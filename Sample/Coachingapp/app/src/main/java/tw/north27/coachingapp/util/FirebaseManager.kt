@@ -20,5 +20,7 @@ class FirebaseManager private constructor() {
     }
 
     fun register(): Task<String> = sInstance!!.token
+
+
 }
 

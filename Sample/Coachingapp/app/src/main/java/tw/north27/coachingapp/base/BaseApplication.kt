@@ -1,7 +1,7 @@
 package tw.north27.coachingapp.base
 
 import android.app.Application
-import com.jakewharton.rxrelay3.PublishRelay
+import com.jakewharton.rxrelay3.BehaviorRelay
 import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.consts.modelModules
 import tw.north27.coachingapp.consts.repoModules
@@ -14,7 +14,7 @@ import tw.north27.coachingapp.ext.startTimberLogger
 class BaseApplication : Application() {
 
     companion object {
-        lateinit var appForegroundRelay: PublishRelay<Boolean>
+        lateinit var appForegroundRelay: BehaviorRelay<Boolean>
     }
 
     override fun onCreate() {

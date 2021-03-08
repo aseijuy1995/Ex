@@ -1,19 +1,20 @@
 package tw.north27.coachingapp.base
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import androidx.viewbinding.ViewBinding
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import tw.north27.coachingapp.databinding.ActivityCoachingBinding
 import tw.north27.coachingapp.ext.startDisposablesLifeObs
 import tw.north27.coachingapp.ext.viewBinding
 import tw.north27.coachingapp.module.rx.IRxJavaSubscribe
 
-open class BaseAppCompatActivity() : AppCompatActivity(), IRxJavaSubscribe {
+open class BaseAppCompatActivity<T : ViewBinding>(inflater: (LayoutInflater) -> T) : AppCompatActivity(), IRxJavaSubscribe {
 
-    protected val binding by viewBinding(ActivityCoachingBinding::inflate)
+    protected val binding by viewBinding(inflater)
 
     protected val compositeDisposable = CompositeDisposable()
 
