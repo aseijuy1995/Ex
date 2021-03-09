@@ -11,8 +11,11 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
     private val binding by viewBinding<FragmentChatListBinding>(FragmentChatListBinding::bind)
 
+//    private val adapter
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+//        binding.rvChat
     }
 }
