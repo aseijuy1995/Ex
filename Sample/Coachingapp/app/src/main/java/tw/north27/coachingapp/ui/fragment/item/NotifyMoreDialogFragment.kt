@@ -2,32 +2,41 @@ package tw.north27.coachingapp.ui.fragment.item
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.jakewharton.rxbinding4.view.clicks
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import tw.north27.coachingapp.databinding.FragmentNotifyMoreDialogBinding
 import tw.north27.coachingapp.base.BaseViewBindingBottomSheetDialogFragment
+import tw.north27.coachingapp.databinding.FragmentNotifyMoreDialogBinding
+import tw.north27.coachingapp.model.result.NotifyInfo
+import tw.north27.coachingapp.ui.fragment.main.NotifyFragmentArgs
 import tw.north27.coachingapp.viewModel.NotifyViewModel
 
 class NotifyMoreDialogFragment : BaseViewBindingBottomSheetDialogFragment<FragmentNotifyMoreDialogBinding>(FragmentNotifyMoreDialogBinding::inflate) {
 
+    private val args: NotifyFragmentArgs by navArgs()
+
     private val viewModel by sharedViewModel<NotifyViewModel>()
+
+    lateinit var notifyInfo: NotifyInfo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        notifyInfo = args.notifyInfo
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            notifyInfo = viewModel.notifyInfoMore.value
+            notifyInfo = this@NotifyMoreDialogFragment.notifyInfo
         }
 
         binding.ivDelete.clicks().subscribeWithRxLife {
-//            viewModel.deleteNotifyInfo(viewModel.notifyInfoMore.value!!)
-//            findNavController().navigateUp()
+            showLoadingDialog()
+            viewModel.deleteNotify(notifyInfo)
         }
-    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        viewModel.setNotifyInfoToMorePage(null)
+        viewModel.isNotifyDelete.observe(viewLifecycleOwner) {
+            dismissLoadingDialog()
+            findNavController().navigateUp()
+        }
     }
 
 }

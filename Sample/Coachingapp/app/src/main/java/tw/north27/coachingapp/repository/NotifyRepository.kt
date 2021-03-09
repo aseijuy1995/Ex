@@ -25,4 +25,8 @@ class NotifyRepository(private val service: IApiService) : INotifyRepository {
     override suspend fun readAllNotify(): Results<Boolean> {
         return safeApiResults { service.postReadAllNotify() }
     }
+
+    override suspend fun deleteNotify(notifyId: Long): Results<Boolean> {
+        return safeApiResults { service.postDeleteNotify(notifyId) }
+    }
 }

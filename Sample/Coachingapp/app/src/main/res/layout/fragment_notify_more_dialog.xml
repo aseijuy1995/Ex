@@ -27,12 +27,12 @@
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/iv_icon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="20dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="H,1:1"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:riv_corner_radius="5dp"
@@ -42,17 +42,48 @@
             android:id="@+id/tv_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:gravity="center"
-            android:maxLines="3"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="15dp"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:text="@{notifyInfo.title}"
             android:textSize="14sp"
             android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/iv_icon"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_icon" />
+            app:layout_constraintStart_toEndOf="@id/iv_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_icon" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_desc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
+            android:ellipsize="end"
+            android:maxLines="10"
+            android:text="@{notifyInfo.desc}"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/tv_title"
+            app:layout_constraintStart_toStartOf="@id/iv_icon"
+            app:layout_constraintTop_toBottomOf="@id/iv_icon"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:maxLines="1"
+            android:text="@{notifyInfo.time}"
+            android:textColor="@color/gray_aaaaaa"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="@id/tv_title"
+            app:layout_constraintTop_toBottomOf="@id/tv_desc" />
 
         <View
             android:id="@+id/view"
@@ -62,18 +93,31 @@
             android:background="@drawable/layer_shape_size_height_5_solid_gray_lt_rt_20"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_time" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_read"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:text="@string/not_read_yet_sure_to_delete_it"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/iv_delete"
+            app:layout_constraintEnd_toStartOf="@id/iv_delete"
+            app:layout_constraintTop_toTopOf="@id/iv_delete"
+            bind:isVisibility="@{!notifyInfo.read}" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_delete"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="10dp"
             android:src="@drawable/ic_baseline_delete_forever_24_red"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

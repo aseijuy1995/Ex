@@ -87,4 +87,12 @@ interface IApiService {
     @POST
     suspend fun postReadAllNotify(): Boolean
 
+    /**
+     * 刪除指定通知
+     * */
+    @FormUrlEncoded
+    @POST
+    suspend fun postDeleteNotify(notifyId: Long): Boolean
+
+
 }

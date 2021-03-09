@@ -1,6 +1,10 @@
 package tw.north27.coachingapp.model.result
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 //通知
+@Parcelize
 data class NotifyInfo(
     val id: Long,
     val imgUrl: String,
@@ -9,7 +13,7 @@ data class NotifyInfo(
     val time: String,
     var isRead: Boolean,// 已讀 = true,未讀 = false
     val notifyType: NotifyType
-)
+) : Parcelable
 
 enum class NotifyType {
     NORMAL,// 一般

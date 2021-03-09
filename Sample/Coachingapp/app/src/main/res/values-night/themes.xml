@@ -34,6 +34,6 @@
     </style>
 
     <style name="BottomSheetModal" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/shape_white_corners_radius_top_lt_rt_15</item>
+        <item name="android:background">@drawable/shape_solid_white_corners_radius_top_lt_rt_15</item>
     </style>
 </resources>

@@ -88,6 +88,8 @@
         android:label="fragment_person_center"
         tools:layout="@layout/fragment_person_center" />
 
+
+    <!-- Notify -->
     <fragment
         android:id="@+id/fragment_notify"
         android:name="tw.north27.coachingapp.ui.fragment.main.NotifyFragment"
@@ -96,7 +98,19 @@
 
         <action
             android:id="@+id/action_fragment_notify_to_fragment_notify_more_dialog"
-            app:destination="@id/fragment_notify_more_dialog" />
+            app:destination="@id/fragment_notify_more_dialog">
+
+            <argument
+                android:name="notifyInfo"
+                app:argType="tw.north27.coachingapp.model.result.NotifyInfo"
+                app:nullable="false" />
+        </action>
+
+        <argument
+            android:name="notifyInfo"
+            app:argType="tw.north27.coachingapp.model.result.NotifyInfo"
+            app:nullable="false" />
+
     </fragment>
 
 

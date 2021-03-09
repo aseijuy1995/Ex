@@ -12,4 +12,7 @@ interface INotifyRepository {
 
     suspend fun readAllNotify(): Results<Boolean>
 
+    suspend fun deleteNotify(notifyId: Long): Results<Boolean>
+
+
 }

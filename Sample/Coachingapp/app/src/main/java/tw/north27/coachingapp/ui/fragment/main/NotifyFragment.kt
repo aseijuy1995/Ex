@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,7 +34,7 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@NotifyFragment.viewModel
         }
-        BaseLoadStateAdapter(viewLifecycleOwner, compositeDisposable).also { loadAdapter = it }
+        loadAdapter = BaseLoadStateAdapter(viewLifecycleOwner, compositeDisposable)
 
         binding.rvNotify.apply {
             addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
@@ -59,15 +60,21 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
             }
         }
 
-        //Item click
+        //
+        /**
+         * Item click
+         * 導頁功能未處理
+         * */
         adapter.itemClickRelay.subscribeWithRxLife {
             Snackbar.make(binding.root, "Item Click, ${it.second.title}", Snackbar.LENGTH_SHORT).show()
         }
 
-        //More click
+        /**
+         * More click
+         * 功能未處理
+         * */
         adapter.moreClickRelay.subscribeWithRxLife {
-            viewModel.setNotifyInfoToMorePage(it.second)
-//            findNavController().navigate(NotifyFragmentDirections.actionFragmentNotifyToFragmentNotifyMoreDialog())
+            findNavController().navigate(NotifyFragmentDirections.actionFragmentNotifyToFragmentNotifyMoreDialog(it.second))
         }
 
         /**
@@ -86,23 +93,28 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
         binding.ivReadAll.clicks().subscribeWithRxLife {
             showLoadingDialog()
             viewModel.readAllNotify()
-            adapter.refresh()
         }
 
-        viewModel.toast.observe(viewLifecycleOwner) { pair ->
-            when (pair.first) {
-                NotifyViewModel.ToastType.OPEN_NOTIFY -> {
-                    dismissLoadingDialog()
-                    Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
-                }
-                NotifyViewModel.ToastType.READ_ALL_NOTIFY -> {
-                    dismissLoadingDialog()
-                    Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
-                }
+        viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
+
+    }
+
+    private fun onToastObs(pair: Pair<NotifyViewModel.ToastType, String>) {
+        when (pair.first) {
+            NotifyViewModel.ToastType.OPEN_NOTIFY -> {
+                dismissLoadingDialog()
+                Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
+            }
+            NotifyViewModel.ToastType.READ_ALL_NOTIFY -> {
+                adapter.refresh()
+                dismissLoadingDialog()
+                Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
+            }
+            NotifyViewModel.ToastType.DELETE_NOTIFY -> {
+                adapter.refresh()
+                Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
             }
         }
-
-
     }
 
 }
