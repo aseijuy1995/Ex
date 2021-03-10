@@ -5,6 +5,8 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import tw.north27.coachingapp.BuildConfig
+import tw.north27.coachingapp.chat.ChatRepository
+import tw.north27.coachingapp.chat.IChatRepository
 import tw.north27.coachingapp.module.http.OkHttpUtil
 import tw.north27.coachingapp.module.http.RetrofitManager
 import tw.north27.coachingapp.repository.NotifyRepository
@@ -18,7 +20,7 @@ import tw.north27.coachingapp.viewModel.SignInViewModel
 import tw.north27.coachingapp.viewModel.StartViewModel
 
 val utilModules = module {
-    single { OkHttpUtil(androidContext()) }
+    single<OkHttpUtil> { OkHttpUtil(androidContext()) }
     single<RetrofitManager> { RetrofitManager.get(BuildConfig.BASE_URL, (get() as OkHttpUtil).client) }
 
 }
@@ -32,6 +34,7 @@ val repoModules = module {
     single<IPublicRepository> { PublicRepository(get()) }
     single<IUserRepository> { UserRepository(get(), androidContext()) }
     single<INotifyRepository> { NotifyRepository(get()) }
+    single<IChatRepository> { ChatRepository(get()) }
 }
 
 val viewModelModules = module {

@@ -79,6 +79,8 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-dynamic-features-fragment:$navigation_version"
     implementation "androidx.navigation:navigation-testing:$navigation_version"
+    //app start up
+    implementation "androidx.startup:startup-runtime:1.0.0"
     //work
     def work_version = "2.5.0"
     implementation "androidx.work:work-runtime-ktx:$work_version"

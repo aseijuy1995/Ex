@@ -1,8 +1,12 @@
 package tw.north27.coachingapp.base
 
 import android.app.Application
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.jakewharton.rxrelay3.BehaviorRelay
 import tw.north27.coachingapp.BuildConfig
+import tw.north27.coachingapp.chat.ChatWorker
+import tw.north27.coachingapp.chat.ServerChatWorker
 import tw.north27.coachingapp.consts.modelModules
 import tw.north27.coachingapp.consts.repoModules
 import tw.north27.coachingapp.consts.utilModules
@@ -24,6 +28,22 @@ class BaseApplication : Application() {
 
         startProcessLifeObs().also { appForegroundRelay = it.appForegroundRelay }
         startKoinModules(utilModules, modelModules, repoModules, viewModelModules)
+
+        val serverWorkerRequest = OneTimeWorkRequestBuilder<ServerChatWorker>()
+            .addTag(ServerChatWorker.TAG)
+            .build()
+
+        val chatWorkerRequest = OneTimeWorkRequestBuilder<ChatWorker>()
+            .addTag(ChatWorker.TAG)
+            .build()
+
+        val workerManager = WorkManager.getInstance(applicationContext)
+
+        workerManager
+            .beginWith(serverWorkerRequest)
+            .then(chatWorkerRequest)
+            .enqueue()
+
     }
 
 }

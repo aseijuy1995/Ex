@@ -69,7 +69,7 @@ class MockServerSocketListener : IWebSocketListener(), CoroutineScope {
         val msg = if (chatBean.textMsg != null) "${chatBean.textMsg} - From Server" else null
         val imgBytes = chatBean.imgListMsg
         val recorderBytes = chatBean.audioMsg
-            val chatBeanOther = ChatItem(id = ++count, name = "Ohter", textMsg = msg, sender = ChatSender.OTHER, time = getTime(), imgListMsg = imgBytes, audioMsg = recorderBytes)
+        val chatBeanOther = ChatItem(id = ++count, name = "Ohter", textMsg = msg, sender = ChatSender.OTHER, time = getTime(), imgListMsg = imgBytes, audioMsg = recorderBytes)
         val json = Gson().toJson(chatBeanOther)
         return json
     }
