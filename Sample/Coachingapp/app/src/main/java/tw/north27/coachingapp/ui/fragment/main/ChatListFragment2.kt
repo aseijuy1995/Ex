@@ -10,7 +10,7 @@ import tw.north27.coachingapp.chat.ChatListViewModel
 import tw.north27.coachingapp.databinding.FragmentChatListBinding
 import tw.north27.coachingapp.ext.viewBinding
 
-class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
+class ChatListFragment2 : BaseFragment(R.layout.fragment_chat_list) {
 
     private val binding by viewBinding<FragmentChatListBinding>(FragmentChatListBinding::bind)
 
