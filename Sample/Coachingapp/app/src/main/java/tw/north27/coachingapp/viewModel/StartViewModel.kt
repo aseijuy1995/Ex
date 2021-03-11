@@ -74,8 +74,8 @@ class StartViewModel(
                             SignInState.SUCCESS -> {
                                 signInInfo.userInfo.also {
                                     account = it.account
-                                    accessToken = it.accessToken
-                                    refreshToken = it.refreshToken
+                                    accessToken = it.accessToken!!
+                                    refreshToken = it.refreshToken!!
                                     isFirst = signInInfo.isFirst
                                 }
                             }

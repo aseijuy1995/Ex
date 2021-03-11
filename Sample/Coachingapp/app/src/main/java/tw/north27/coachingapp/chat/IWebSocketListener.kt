@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.chat.chat
+package tw.north27.coachingapp.chat
 
 import com.jakewharton.rxrelay3.BehaviorRelay
 import okhttp3.Response

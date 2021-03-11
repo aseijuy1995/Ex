@@ -5,10 +5,7 @@ package tw.north27.coachingapp.consts
 
 import retrofit2.Response
 import retrofit2.http.*
-import tw.north27.coachingapp.model.result.AppConfig
-import tw.north27.coachingapp.model.result.NotifyInfo
-import tw.north27.coachingapp.model.result.SignInInfo
-import tw.north27.coachingapp.model.result.TokenInfo
+import tw.north27.coachingapp.model.result.*
 
 interface IApiService {
 
@@ -61,6 +58,13 @@ interface IApiService {
 //        @Field("cmd") cmd: String = "get_version_android",
 //    ): Response<AppResult>
 
+
+    //Chat List
+    /**
+     * 獲取聊天列表
+     * */
+    @GET
+    suspend fun getLoadChat(): List<ChatInfo>
 
     //Notify
     /**

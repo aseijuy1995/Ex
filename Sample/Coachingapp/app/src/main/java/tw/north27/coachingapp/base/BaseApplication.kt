@@ -29,6 +29,7 @@ class BaseApplication : Application() {
         startProcessLifeObs().also { appForegroundRelay = it.appForegroundRelay }
         startKoinModules(utilModules, modelModules, repoModules, viewModelModules)
 
+        //chat
         val serverWorkerRequest = OneTimeWorkRequestBuilder<ServerChatWorker>()
             .addTag(ServerChatWorker.TAG)
             .build()

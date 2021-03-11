@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.chat.chat
+package tw.north27.coachingapp.chat
 
 import android.content.Context
 import androidx.startup.Initializer

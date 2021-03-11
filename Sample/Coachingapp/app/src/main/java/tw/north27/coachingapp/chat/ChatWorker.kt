@@ -9,7 +9,7 @@ import org.koin.core.inject
 import timber.log.Timber
 
 class ChatWorker(cxt: Context, params: WorkerParameters) : CoroutineWorker(cxt, params), KoinComponent {
-    private val chatRepo by inject<IChatRepository>()
+    private val chatModule by inject<IChatModule>()
 
     companion object {
         val TAG = "ChatWorker"
@@ -18,8 +18,8 @@ class ChatWorker(cxt: Context, params: WorkerParameters) : CoroutineWorker(cxt, 
     override suspend fun doWork(): Result = coroutineScope {
         try {
             val url = inputData.getString(ServerChatWorker.SERVER_URL) ?: return@coroutineScope Result.retry()
-            chatRepo.infoLogRelay.accept(true)
-            chatRepo.execute(url)
+            chatModule.infoLogRelay.accept(true)
+            chatModule.execute(url)
             Result.success()
         } catch (e: Exception) {
             Timber.e(e)

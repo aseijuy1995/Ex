@@ -77,6 +77,298 @@ class ApiService : IApiService {
         )
     }
 
+    override suspend fun getLoadChat(): List<ChatInfo> {
+        return listOf(
+            ChatInfo(
+                id = 0,
+                sender = UserInfo(
+                    id = 0,
+                    account = "jason.89",
+                    avatarPath = "https://cf.shopee.tw/file/7da238c4f922ccc81be94692d9449eec",
+                    name = "jason.89"
+                ),
+                recipient = UserInfo(
+                    id = -1,
+                    account = "jie001",
+                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                    name = "阿吉"
+                ),
+                sendTime = "2月19日",
+                chatType = ChatType.TEXT,
+                text = "不會哦",
+                read = ChatRead.UN_READ
+            ),
+            ChatInfo(
+                id = 1,
+                sender = UserInfo(
+                    id = 1,
+                    account = "yc86209",
+                    avatarPath = "https://cf.shopee.tw/file/1a765f40612e142a1e308bd4c3cb07b9",
+                    name = "yc86209"
+                ),
+                recipient = UserInfo(
+                    id = -1,
+                    account = "jie001",
+                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                    name = "阿吉"
+                ),
+                sendTime = "1月7日",
+                chatType = ChatType.TEXT,
+                text = "好哦，感謝",
+                read = ChatRead.UN_READ
+            ),
+            ChatInfo(
+                id = 2,
+                sender = UserInfo(
+                    id = 2,
+                    account = "turboted",
+                    avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
+                    name = "turboted"
+                ),
+                recipient = UserInfo(
+                    id = -1,
+                    account = "jie001",
+                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                    name = "阿吉"
+                ),
+                sendTime = "1月3日",
+                chatType = ChatType.TEXT,
+                text = "已下單有時間再看一下感恩",
+                read = ChatRead.UN_READ
+            ),
+            ChatInfo(
+                id = 3,
+                sender = UserInfo(
+                    id = 3,
+                    account = "ghr7v2c41o",
+                    avatarPath = "https://cf.shopee.tw/file/da790bc3a58c6099ec5b759af0bda797",
+                    name = "ghr7v2c41o"
+                ),
+                recipient = UserInfo(
+                    id = -1,
+                    account = "jie001",
+                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                    name = "阿吉"
+                ),
+                sendTime = "2020年12月28日",
+                chatType = ChatType.TEXT,
+                text = "您的這個寄件編號一直產生不了 已經三天時間 蝦皮也沒辦法解決 您是否可以重新下訂試試",
+                read = ChatRead.UN_READ
+            ),
+            ChatInfo(
+                id = 4,
+                sender = UserInfo(
+                    id = 4,
+                    account = "iuea654321",
+                    avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
+                    name = "iuea654321"
+                ),
+                recipient = UserInfo(
+                    id = -1,
+                    account = "jie001",
+                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                    name = "阿吉"
+                ),
+                sendTime = "2020年12月17日",
+                chatType = ChatType.TEXT,
+                text = "好哦感謝 待收到領貨 謝謝",
+                read = ChatRead.UN_READ
+            ),
+            ChatInfo(
+                id = 5,
+                sender = UserInfo(
+                    id = 5,
+                    account = "lbj7871",
+                    avatarPath = "https://cf.shopee.tw/file/66f6a55ddd243f22b78c99847406b516",
+                    name = "lbj7871"
+                ),
+                recipient = UserInfo(
+                    id = -1,
+                    account = "jie001",
+                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                    name = "阿吉"
+                ),
+                sendTime = "2020年12月17日",
+                chatType = ChatType.TEXT,
+                text = "好",
+                read = ChatRead.UN_READ
+            ),
+            ChatInfo(
+                id = 6,
+                sender = UserInfo(
+                    id = 6,
+                    account = "jimmy_jbj",
+                    avatarPath = "https://cf.shopee.tw/file/77f6988c95356ae95bf22ff65682c92c",
+                    name = "jimmy_jbj"
+                ),
+                recipient = UserInfo(
+                    id = -1,
+                    account = "jie001",
+                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                    name = "阿吉"
+                ),
+                sendTime = "2020年12月16日",
+                chatType = ChatType.TEXT,
+                text = "[貼圖]",
+                read = ChatRead.UN_READ
+            ),
+            ChatInfo(
+                id = 7,
+                sender = UserInfo(
+                    id = 7,
+                    account = "cg71124",
+                    avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
+                    name = "cg71124"
+                ),
+                recipient = UserInfo(
+                    id = -1,
+                    account = "jie001",
+                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                    name = "阿吉"
+                ),
+                sendTime = "2020年11月28日",
+                chatType = ChatType.TEXT,
+                text = "你好對哦  一頭是usb 一頭是lighting",
+                read = ChatRead.UN_READ
+            ),
+            ChatInfo(
+                id = 8,
+                sender = UserInfo(
+                    id = 8,
+                    account = "shopee24h",
+                    avatarPath = "https://cf.shopee.tw/file/589630be1b03af44d5c8ce0ddc73b4e4",
+                    name = "shopee24h"
+                ),
+                recipient = UserInfo(
+                    id = -1,
+                    account = "jie001",
+                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                    name = "阿吉"
+                ),
+                sendTime = "2020年11月10日",
+                chatType = ChatType.TEXT,
+                text = "\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3嗨，11.11 最強購物節就是明天！為您送上全平台折扣券優惠~一起剁手吧！\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3\n" +
+                        "\n" +
+                        "\uD83C\uDF81\uD83C\uDF81\uD83C\uDF81",
+                read = ChatRead.UN_READ
+            ),
+            ChatInfo(
+                id = 9,
+                sender = UserInfo(
+                    id = 9,
+                    account = "itbook168",
+                    avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
+                    name = "itbook168"
+                ),
+                recipient = UserInfo(
+                    id = -1,
+                    account = "jie001",
+                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                    name = "阿吉"
+                ),
+                sendTime = "2020年8月19日",
+                chatType = ChatType.TEXT,
+                text = "[貼圖]",
+                read = ChatRead.UN_READ
+            ),
+            ChatInfo(
+                id = 10,
+                sender = UserInfo(
+                    id = 10,
+                    account = "e4dcomic",
+                    avatarPath = "https://cf.shopee.tw/file/60f61225f97535ce4a86695743e4d26c",
+                    name = "e4dcomic"
+                ),
+                recipient = UserInfo(
+                    id = -1,
+                    account = "jie001",
+                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                    name = "阿吉"
+                ),
+                sendTime = "2020年5月8日",
+                chatType = ChatType.TEXT,
+                text = "放到購物車會自動結算",
+                read = ChatRead.UN_READ
+            ),
+            ChatInfo(
+                id = 11,
+                sender = UserInfo(
+                    id = 11,
+                    account = "l91113001",
+                    avatarPath = "https://cf.shopee.tw/file/8813359970cc66bca769e27b69701bd7",
+                    name = "l91113001"
+                ),
+                recipient = UserInfo(
+                    id = -1,
+                    account = "jie001",
+                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                    name = "阿吉"
+                ),
+                sendTime = "2020年4月8日",
+                chatType = ChatType.TEXT,
+                text = "[貼圖]",
+                read = ChatRead.UN_READ
+            ),
+            ChatInfo(
+                id = 12,
+                sender = UserInfo(
+                    id = 12,
+                    account = "zeloves.hz",
+                    avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
+                    name = "zeloves.hz"
+                ),
+                recipient = UserInfo(
+                    id = -1,
+                    account = "jie001",
+                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                    name = "阿吉"
+                ),
+                sendTime = "2020年3月22日",
+                chatType = ChatType.TEXT,
+                text = "拿到了謝謝",
+                read = ChatRead.UN_READ
+            ),
+            ChatInfo(
+                id = 13,
+                sender = UserInfo(
+                    id = 13,
+                    account = "xhkjdzsf",
+                    avatarPath = "https://cf.shopee.tw/file/106f2613e695547c9be9a6d7edf21560",
+                    name = "xhkjdzsf"
+                ),
+                recipient = UserInfo(
+                    id = -1,
+                    account = "jie001",
+                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                    name = "阿吉"
+                ),
+                sendTime = "2020年1月1日",
+                chatType = ChatType.TEXT,
+                text = "[貼圖]",
+                read = ChatRead.UN_READ
+            ),
+            ChatInfo(
+                id = 14,
+                sender = UserInfo(
+                    id = 14,
+                    account = "dmf666",
+                    avatarPath = "https://cf.shopee.tw/file/56022c505d88d5f690e9ab833e1c7593",
+                    name = "dmf666"
+                ),
+                recipient = UserInfo(
+                    id = -1,
+                    account = "jie001",
+                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                    name = "阿吉"
+                ),
+                sendTime = "2019年11月17日",
+                chatType = ChatType.TEXT,
+                text = "好哦 謝謝",
+                read = ChatRead.UN_READ
+            )
+        )
+    }
+
     var notifyList = mutableListOf<Pair<Int, MutableList<NotifyInfo>>>()
     override suspend fun getLoadNotify(@Field(value = "page") page: Int): List<NotifyInfo> {
         if (notifyList.isEmpty()) {

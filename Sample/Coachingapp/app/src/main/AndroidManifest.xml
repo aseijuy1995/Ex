@@ -31,7 +31,7 @@
             android:exported="false">
 
             <meta-data
-                android:name="tw.north27.coachingapp.chat.chat.WorkManagerInitializer"
+                android:name="tw.north27.coachingapp.chat.WorkManagerInitializer"
                 android:value="androidx.startup" />
         </provider>
 

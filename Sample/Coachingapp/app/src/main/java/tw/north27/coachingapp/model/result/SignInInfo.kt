@@ -23,9 +23,9 @@ data class UserInfo(
     val account: String,
     val avatarPath: String,
     val name: String,
-    val nickName: String,
-    val email: String,
-    val registerTime: String,// 註冊時間
-    val accessToken: String,// 訪問用token
-    val refreshToken: String// 刷新用token
+    val nickName: String? = null,
+    val email: String? = null,
+    val registerTime: String? = null,// 註冊時間
+    val accessToken: String? = null,// 訪問用token
+    val refreshToken: String? = null// 刷新用token
 )

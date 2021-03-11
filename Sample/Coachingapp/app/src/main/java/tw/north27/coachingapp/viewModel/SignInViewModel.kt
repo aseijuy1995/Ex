@@ -54,8 +54,8 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
                                     signInInfo.userInfo.also {
                                         uuid = 0
                                         account = it.account
-                                        accessToken = it.accessToken
-                                        refreshToken = it.refreshToken
+                                        accessToken = it.accessToken!!
+                                        refreshToken = it.refreshToken!!
                                         isFirst = signInInfo.isFirst
                                     }
                                 }

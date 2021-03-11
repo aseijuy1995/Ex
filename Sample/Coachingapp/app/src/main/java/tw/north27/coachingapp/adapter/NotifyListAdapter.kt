@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay3.PublishRelay
 import tw.north27.coachingapp.databinding.ItemNotifyBinding
-import tw.north27.coachingapp.model.result.NotifyInfo
 import tw.north27.coachingapp.ext.dataBinding
+import tw.north27.coachingapp.model.result.NotifyInfo
 
 class NotifyListAdapter : PagingDataAdapter<NotifyInfo, NotifyListAdapter.VH>(
     object : DiffUtil.ItemCallback<NotifyInfo>() {
