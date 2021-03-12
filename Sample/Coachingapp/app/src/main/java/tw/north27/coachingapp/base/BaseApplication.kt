@@ -5,6 +5,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.jakewharton.rxrelay3.BehaviorRelay
 import tw.north27.coachingapp.BuildConfig
+import tw.north27.coachingapp.chat.ChatHandleWorker
 import tw.north27.coachingapp.chat.ChatWorker
 import tw.north27.coachingapp.chat.ServerChatWorker
 import tw.north27.coachingapp.consts.modelModules
@@ -38,11 +39,16 @@ class BaseApplication : Application() {
             .addTag(ChatWorker.TAG)
             .build()
 
+        val chatHandleWorkerRequest = OneTimeWorkRequestBuilder<ChatHandleWorker>()
+            .addTag(ChatHandleWorker.TAG)
+            .build()
+
         val workerManager = WorkManager.getInstance(applicationContext)
 
         workerManager
             .beginWith(serverWorkerRequest)
             .then(chatWorkerRequest)
+            .then(chatHandleWorkerRequest)
             .enqueue()
 
 //        chatModule.chatMessageRelay
