@@ -29,8 +29,7 @@ class ChatHandleWorker(val cxt: Context, params: WorkerParameters) : CoroutineWo
     override suspend fun doWork(): Result = coroutineScope {
 
         try {
-
-
+            sendNotification()
             Result.success()
         } catch (e: Exception) {
             Timber.e(e)
@@ -58,7 +57,7 @@ class ChatHandleWorker(val cxt: Context, params: WorkerParameters) : CoroutineWo
 
         val notificationManager = cxt.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        val builder = NotificationCompat.Builder(this, channelId)
+        val builder = NotificationCompat.Builder(cxt, channelId)
             .setSmallIcon(R.mipmap.ic_pencil_logo)
             .setContentTitle("title")
             .setContentText("text")
