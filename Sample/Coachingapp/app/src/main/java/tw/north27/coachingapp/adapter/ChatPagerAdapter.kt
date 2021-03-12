@@ -1,12 +1,16 @@
 package tw.north27.coachingapp.adapter
 
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import tw.north27.coachingapp.ui.fragment.main.ChatListFragment
-import tw.north27.coachingapp.ui.fragment.main.ChatListFragment2
 
-const val CHAT_INDEX = 0
-const val USER_INDEX = 1
+const val KEY_CHAT_READ_TYPE = "KEY_CHAT_READ_TYPE"
+
+//
+enum class ChatReadIndex(val index: Int) {
+    ALL(0), HAVE_READ(1), UN_READ(2)
+}
 
 class ChatPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     override fun getItemCount(): Int {
@@ -18,7 +22,14 @@ class ChatPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
     }
 
     private val fragmentFactory = mapOf<Int, () -> Fragment>(
-        CHAT_INDEX to { ChatListFragment() },
-        USER_INDEX to { ChatListFragment2() }
+        ChatReadIndex.ALL.index to {
+            ChatListFragment().apply { arguments = bundleOf(KEY_CHAT_READ_TYPE to ChatReadIndex.ALL) }
+        },
+        ChatReadIndex.HAVE_READ.index to {
+            ChatListFragment().apply { arguments = bundleOf(KEY_CHAT_READ_TYPE to ChatReadIndex.HAVE_READ) }
+        },
+        ChatReadIndex.UN_READ.index to {
+            ChatListFragment().apply { arguments = bundleOf(KEY_CHAT_READ_TYPE to ChatReadIndex.UN_READ) }
+        }
     )
 }

@@ -96,7 +96,7 @@ class ApiService : IApiService {
                 sendTime = "2月19日",
                 chatType = ChatType.TEXT,
                 text = "不會哦",
-                read = ChatRead.UN_READ
+                read = ChatRead.HAVE_READ
             ),
             ChatInfo(
                 id = 1,
@@ -191,7 +191,7 @@ class ApiService : IApiService {
                 sendTime = "2020年12月17日",
                 chatType = ChatType.TEXT,
                 text = "好",
-                read = ChatRead.UN_READ
+                read = ChatRead.HAVE_READ
             ),
             ChatInfo(
                 id = 6,
@@ -250,7 +250,7 @@ class ApiService : IApiService {
                 text = "\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3嗨，11.11 最強購物節就是明天！為您送上全平台折扣券優惠~一起剁手吧！\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3\n" +
                         "\n" +
                         "\uD83C\uDF81\uD83C\uDF81\uD83C\uDF81",
-                read = ChatRead.UN_READ
+                read = ChatRead.HAVE_READ
             ),
             ChatInfo(
                 id = 9,
@@ -269,7 +269,7 @@ class ApiService : IApiService {
                 sendTime = "2020年8月19日",
                 chatType = ChatType.TEXT,
                 text = "[貼圖]",
-                read = ChatRead.UN_READ
+                read = ChatRead.HAVE_READ
             ),
             ChatInfo(
                 id = 10,
@@ -288,7 +288,7 @@ class ApiService : IApiService {
                 sendTime = "2020年5月8日",
                 chatType = ChatType.TEXT,
                 text = "放到購物車會自動結算",
-                read = ChatRead.UN_READ
+                read = ChatRead.HAVE_READ
             ),
             ChatInfo(
                 id = 11,
@@ -307,7 +307,7 @@ class ApiService : IApiService {
                 sendTime = "2020年4月8日",
                 chatType = ChatType.TEXT,
                 text = "[貼圖]",
-                read = ChatRead.UN_READ
+                read = ChatRead.HAVE_READ
             ),
             ChatInfo(
                 id = 12,

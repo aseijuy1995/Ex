@@ -1,12 +1,13 @@
 package tw.north27.coachingapp.chat
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import tw.north27.coachingapp.adapter.ChatReadIndex
 import tw.north27.coachingapp.base.BaseViewModel
 import tw.north27.coachingapp.ext.asLiveData
 import tw.north27.coachingapp.model.result.ChatInfo
+import tw.north27.coachingapp.model.result.ChatRead
 import tw.north27.coachingapp.module.http.Results
 
 class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel() {
@@ -23,12 +24,24 @@ class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel() {
 
     val chatList = _chatList.asLiveData()
 
-    fun loadChat(): LiveData<List<ChatInfo>> {
+    fun loadChat(type: ChatReadIndex) {
         viewModelScope.launch {
             val results = chatRepo.loadChat()
+            val list: List<ChatInfo>
             when (results) {
                 is Results.Successful -> {
-                    _chatList.postValue(results.data!!)
+                    when (type) {
+                        ChatReadIndex.ALL -> {
+                            list = results.data!!
+                        }
+                        ChatReadIndex.HAVE_READ -> {
+                            list = results.data!!.filter { it.read == ChatRead.HAVE_READ }
+                        }
+                        ChatReadIndex.UN_READ -> {
+                            list = results.data!!.filter { it.read == ChatRead.UN_READ }
+                        }
+                    }
+                    _chatList.postValue(list)
                     _toast.postValue(ToastType.LOAD_CHAT to "初始完成")
                 }
                 is Results.ClientErrors -> {
@@ -39,6 +52,5 @@ class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel() {
                 }
             }
         }
-        return chatList
     }
 }

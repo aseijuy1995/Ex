@@ -72,9 +72,9 @@
 
     <fragment
         android:id="@+id/fragment_chat_list"
-        android:name="tw.north27.coachingapp.ui.fragment.main.ChatListFragment"
+        android:name="tw.north27.coachingapp.ui.fragment.main.ChatFragment"
         android:label="fragment_chat_list"
-        tools:layout="@layout/fragment_chat_list" />
+        tools:layout="@layout/fragment_chat" />
 
     <fragment
         android:id="@+id/fragment_learn"
