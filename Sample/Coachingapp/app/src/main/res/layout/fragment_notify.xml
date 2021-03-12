@@ -84,16 +84,29 @@
             <pl.droidsonroids.gif.GifImageView
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:scaleType="fitCenter"
                 android:layout_margin="40dp"
+                android:scaleType="fitCenter"
                 android:src="@mipmap/ic_refresh_gif" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_notify"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/gray_eeeeee"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_notify"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray_eeeeee"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                <include
+                    android:id="@+id/item_notify_shinner"
+                    layout="@layout/fragment_notify_shinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                
+            </FrameLayout>
+
 
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 

@@ -78,6 +78,7 @@ class ApiService : IApiService {
     }
 
     override suspend fun getLoadChat(): List<ChatInfo> {
+        delay(3000)
         return listOf(
             ChatInfo(
                 id = 0,
@@ -553,7 +554,7 @@ class ApiService : IApiService {
             )
 
         }
-        delay(1500)
+        delay(3000)
         return when {
             page > notifyList.last().first -> emptyList()
             else -> notifyList.first { page == it.first }.second

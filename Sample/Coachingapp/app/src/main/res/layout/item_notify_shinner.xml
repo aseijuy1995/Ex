@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
-        <variable
-            name="notifyInfo"
-            type="tw.north27.coachingapp.model.result.NotifyInfo" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        bind:isReadColor="@{notifyInfo.isRead}">
+        android:layout_height="wrap_content">
 
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/iv_icon"
@@ -23,22 +17,21 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:scaleType="centerCrop"
+            android:src="@color/white"
             app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:riv_corner_radius="5dp"
-            bind:imgUrl="@{notifyInfo.imgUrl}" />
+            app:riv_corner_radius="5dp" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_read"
             android:layout_width="10dp"
             android:layout_height="10dp"
-            android:src="@drawable/ic_baseline_circle_24_green"
+            android:src="@color/white"
             app:layout_constraintBottom_toTopOf="@id/iv_icon"
             app:layout_constraintEnd_toStartOf="@id/iv_icon"
             app:layout_constraintStart_toStartOf="@id/iv_icon"
-            app:layout_constraintTop_toTopOf="@id/iv_icon"
-            bind:isVisibility="@{!notifyInfo.isRead}" />
+            app:layout_constraintTop_toTopOf="@id/iv_icon" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_title"
@@ -46,9 +39,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="10dp"
+            android:background="@color/white"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="@{notifyInfo.title}"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/iv_more"
@@ -62,8 +55,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
+            android:background="@color/white"
             android:maxLines="1"
-            android:text="@{notifyInfo.time}"
             android:textColor="@color/gray_aaaaaa"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_icon"
@@ -78,9 +71,10 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="10dp"
+            android:background="@color/white"
             android:ellipsize="end"
             android:maxLines="3"
-            android:text="@{notifyInfo.desc}"
+            android:minLines="3"
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/iv_more"
@@ -96,7 +90,7 @@
             android:layout_marginEnd="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ic_baseline_more_horiz_24_gray" />
+            app:srcCompat="@drawable/ic_baseline_more_horiz_24_gray" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

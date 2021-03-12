@@ -12,6 +12,8 @@ import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.ChatListViewModel
 import tw.north27.coachingapp.databinding.FragmentChatListBinding
+import tw.north27.coachingapp.ext.start
+import tw.north27.coachingapp.ext.stop
 import tw.north27.coachingapp.ext.viewBinding
 
 class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
@@ -25,6 +27,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val type = arguments?.getSerializable(KEY_CHAT_READ_TYPE) ?: return
+        binding.itemChatShinner.shimmerFrameLayoutChat.start()
         binding.rvChat.adapter = adapter
         binding.rvChat.apply {
             addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
@@ -51,6 +54,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
         when (pair.first) {
             ChatListViewModel.ToastType.LOAD_CHAT -> {
                 binding.smartRefreshLayoutChat.finishRefresh()
+                binding.itemChatShinner.shimmerFrameLayoutChat.stop()
                 Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
             }
         }

@@ -17,6 +17,8 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.NotifyListAdapter
 import tw.north27.coachingapp.base.BaseDataBindingFragment
 import tw.north27.coachingapp.databinding.FragmentNotifyBinding
+import tw.north27.coachingapp.ext.start
+import tw.north27.coachingapp.ext.stop
 import tw.north27.coachingapp.page.BaseLoadStateAdapter
 import tw.north27.coachingapp.viewModel.NotifyViewModel
 
@@ -30,6 +32,7 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.itemNotifyShinner.shimmerFrameLayoutNotify.start()
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@NotifyFragment.viewModel
@@ -55,8 +58,12 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
 
         lifecycleScope.launch {
             adapter.loadStateFlow.collectLatest {
-                if (it.refresh is LoadState.NotLoading)
+                if (it.refresh is LoadState.NotLoading) {
                     binding.smartRefreshLayoutNotify.finishRefresh()
+                    if (adapter.itemCount > 0) {
+                        binding.itemNotifyShinner.shimmerFrameLayoutNotify.stop()
+                    }
+                }
             }
         }
 

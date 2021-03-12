@@ -45,6 +45,8 @@ class BaseApplication : Application() {
             .then(chatWorkerRequest)
             .enqueue()
 
+//        chatModule.chatMessageRelay
+
     }
 
 }
