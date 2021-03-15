@@ -21,11 +21,7 @@ class ServerChatWorker(cxt: Context, params: WorkerParameters) : CoroutineWorker
     override suspend fun doWork(): Result = coroutineScope {
         try {
             val url = chatModule.executeServer()
-            chatModule.serverIntoLogRelay.accept(true)
             val data = workDataOf(SERVER_URL to url)
-
-            chatModule.serverMessageRelay
-
             Result.success(data)
         } catch (e: Exception) {
             Timber.e(e)

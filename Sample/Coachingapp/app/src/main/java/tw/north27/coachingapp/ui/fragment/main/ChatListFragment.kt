@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.base.BaseFragment
@@ -48,6 +49,14 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
         viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
 
+
+        viewModel.serverInfoRelay.subscribeWithRxLife {
+            Timber.d("serverInfoRelay = $it")
+        }
+
+        viewModel.infoRelay.subscribeWithRxLife {
+            Timber.d("infoRelay = $it")
+        }
     }
 
     private fun onToastObs(pair: Pair<ChatListViewModel.ToastType, String>) {

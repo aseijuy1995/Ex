@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.jakewharton.rxrelay3.ReplayRelay
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import okhttp3.Headers
 import okhttp3.WebSocket
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -26,11 +27,12 @@ class ChatModule(val okHttpUtil: OkHttpUtil) : IChatModule, CoroutineScope {
     override val chatWebSocketListener: IWebSocketListener = IWebSocketListener {
         when (it) {
             is SocketResults.OPEN -> {
+                infoRelay.accept(it.response.headers)
             }
             is SocketResults.MESSAGE -> {
                 it.text?.let {
                     val chat = transformToChat(it)
-                    chatMessageRelay.accept(chat)
+                    messageRelay.accept(chat)
                 }
             }
             is SocketResults.CLOSING -> {
@@ -46,7 +48,7 @@ class ChatModule(val okHttpUtil: OkHttpUtil) : IChatModule, CoroutineScope {
 
     override val receiveSwitchRelay = chatWebSocketListener.receiveSwitchRelay
 
-    override val chatMessageRelay = ReplayRelay.create<ChatInfo>()
+    override val messageRelay = ReplayRelay.create<ChatInfo>()
 
     override fun transformToChat(text: String): ChatInfo {
         return Gson().fromJson(text, ChatInfo::class.java)
@@ -56,10 +58,12 @@ class ChatModule(val okHttpUtil: OkHttpUtil) : IChatModule, CoroutineScope {
         return Gson().toJson(chatInfo)
     }
 
-    override fun send(chatInfo: ChatInfo) {
+    override fun send(webSocket: WebSocket, chatInfo: ChatInfo) {
         val json = transformToJson(chatInfo)
         webSocket.send(json)
     }
+
+    override val infoRelay: ReplayRelay<Headers> = ReplayRelay.create<Headers>()
 
     /**---------------------------------------------------------------------------------------------------------------------------
      * Server Socket
@@ -77,7 +81,7 @@ class ChatModule(val okHttpUtil: OkHttpUtil) : IChatModule, CoroutineScope {
     override val serverWebSocketListener: IWebSocketListener = IWebSocketListener {
         when (it) {
             is SocketResults.OPEN -> {
-
+                serverInfoRelay.accept(it.response.headers)
             }
             is SocketResults.MESSAGE -> {
                 val webSocket = it.webSocket
@@ -85,8 +89,7 @@ class ChatModule(val okHttpUtil: OkHttpUtil) : IChatModule, CoroutineScope {
                     val chat = transformToChat(it)
                     chat.text = "Server - ${chat.text}"
                     serverMessageRelay.accept(chat)
-                    val json = transformToJson(chat)
-                    webSocket.send(json)
+                    send(webSocket, chat)
                 }
             }
             is SocketResults.CLOSING -> {
@@ -98,11 +101,13 @@ class ChatModule(val okHttpUtil: OkHttpUtil) : IChatModule, CoroutineScope {
         }
     }
 
-    override val serverIntoLogRelay = serverWebSocketListener.infoLogRelay
+    override val serverInfoLogRelay = serverWebSocketListener.infoLogRelay
 
     override val serverReceiveSwitchRelay = serverWebSocketListener.receiveSwitchRelay
 
     override val serverMessageRelay = ReplayRelay.create<ChatInfo>()
+
+    override val serverInfoRelay: ReplayRelay<Headers> = ReplayRelay.create<Headers>()
 
     override val coroutineContext: CoroutineContext
         get() = Job()

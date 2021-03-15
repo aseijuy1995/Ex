@@ -2,6 +2,7 @@ package tw.north27.coachingapp.chat
 
 import com.jakewharton.rxrelay3.BehaviorRelay
 import com.jakewharton.rxrelay3.ReplayRelay
+import okhttp3.Headers
 import okhttp3.WebSocket
 import tw.north27.coachingapp.model.result.ChatInfo
 
@@ -17,13 +18,15 @@ interface IChatModule {
 
     val receiveSwitchRelay: BehaviorRelay<Boolean>
 
-    val chatMessageRelay: ReplayRelay<ChatInfo>
+    val messageRelay: ReplayRelay<ChatInfo>
 
     fun transformToChat(text: String): ChatInfo
 
     fun transformToJson(chatInfo: ChatInfo): String
 
-    fun send(chatInfo: ChatInfo)
+    fun send(webSocket: WebSocket, chatInfo: ChatInfo)
+
+    val infoRelay: ReplayRelay<Headers>
 
     /**---------------------------------------------------------------------------------------------------------------------------
      * Server Socket
@@ -33,10 +36,12 @@ interface IChatModule {
 
     val serverWebSocketListener: IWebSocketListener
 
-    val serverIntoLogRelay: BehaviorRelay<Boolean>
+    val serverInfoLogRelay: BehaviorRelay<Boolean>
 
     val serverReceiveSwitchRelay: BehaviorRelay<Boolean>
 
     val serverMessageRelay: ReplayRelay<ChatInfo>
+
+    val serverInfoRelay: ReplayRelay<Headers>
 
 }

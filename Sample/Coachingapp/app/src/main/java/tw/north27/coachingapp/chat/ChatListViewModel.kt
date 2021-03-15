@@ -3,6 +3,8 @@ package tw.north27.coachingapp.chat
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import tw.north27.coachingapp.adapter.ChatReadIndex
 import tw.north27.coachingapp.base.BaseViewModel
 import tw.north27.coachingapp.ext.asLiveData
@@ -10,7 +12,7 @@ import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.model.result.ChatRead
 import tw.north27.coachingapp.module.http.Results
 
-class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel() {
+class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinComponent {
 
     private val _toast = MutableLiveData<Pair<ToastType, String>>()
 
@@ -53,4 +55,14 @@ class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel() {
             }
         }
     }
+
+
+    //
+    //
+    //
+    private val chatModule by inject<IChatModule>()
+
+    val serverInfoRelay = chatModule.serverInfoRelay
+
+    val infoRelay = chatModule.infoRelay
 }

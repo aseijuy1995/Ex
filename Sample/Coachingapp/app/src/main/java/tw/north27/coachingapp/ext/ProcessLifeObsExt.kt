@@ -1,29 +1,32 @@
 package tw.north27.coachingapp.ext
 
-import android.app.Application
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.jakewharton.rxrelay3.BehaviorRelay
-import com.jakewharton.rxrelay3.PublishRelay
 
-fun Application.startProcessLifeObs() = ProcessLifeObs(ProcessLifecycleOwner.get())
+object ProcessLifeObs : DefaultLifecycleObserver {
 
-class ProcessLifeObs(private val owner: LifecycleOwner) : DefaultLifecycleObserver {
-
-    val appForegroundRelay = BehaviorRelay.create<Boolean>()
+    val appStateRelay = BehaviorRelay.create<AppState>()
 
     init {
-        owner.lifecycle.addObserver(this)
+        ProcessLifecycleOwner.get().lifecycle.addObserver(this)
     }
 
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
-        appForegroundRelay.accept(true)
+        appStateRelay.accept(AppState.FOREGROUND)
     }
 
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
-        appForegroundRelay.accept(false)
+        appStateRelay.accept(AppState.BACKGROUND)
     }
+}
+
+fun getAppState(): BehaviorRelay<AppState> = ProcessLifeObs.appStateRelay
+
+enum class AppState {
+    FOREGROUND,//前景
+    BACKGROUND//背景
 }

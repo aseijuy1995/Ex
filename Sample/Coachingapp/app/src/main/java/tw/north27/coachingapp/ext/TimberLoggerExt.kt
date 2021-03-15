@@ -1,11 +1,10 @@
 package tw.north27.coachingapp.ext
 
-import android.app.Application
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import timber.log.Timber
 
-fun Application.startTimberLogger() = Timber.plant(LogDebugTree)
+fun startTimberLogger() = Timber.plant(LogDebugTree)
 
 object LogDebugTree : Timber.DebugTree() {
 

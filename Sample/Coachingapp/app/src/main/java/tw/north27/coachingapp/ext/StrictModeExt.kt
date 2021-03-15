@@ -1,9 +1,8 @@
 package tw.north27.coachingapp.ext
 
-import android.app.Application
 import android.os.StrictMode
 
-fun Application.startStrictMode() {
+fun startStrictMode() {
     StrictMode.setThreadPolicy(StrictModeThreadPolicy)
     StrictMode.setVmPolicy(StrictModeVmPolicy)
 }

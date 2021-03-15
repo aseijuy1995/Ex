@@ -9,8 +9,10 @@ import timber.log.Timber
 
 open class IWebSocketListener(private val results: (SocketResults) -> Unit) : WebSocketListener() {
 
+    //Log開關
     val infoLogRelay = BehaviorRelay.createDefault<Boolean>(false)
 
+    //接收Message開關
     val receiveSwitchRelay = BehaviorRelay.createDefault<Boolean>(true)
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
