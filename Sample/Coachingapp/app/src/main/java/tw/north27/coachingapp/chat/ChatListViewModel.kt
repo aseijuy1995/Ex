@@ -22,7 +22,7 @@ class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCo
         LOAD_CHAT
     }
 
-    private val _chatList = MutableLiveData<List<ChatInfo>>()
+    private val _chatList = MutableLiveData<MutableList<ChatInfo>>(mutableListOf())
 
     val chatList = _chatList.asLiveData()
 
@@ -34,16 +34,16 @@ class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCo
                 is Results.Successful -> {
                     when (type) {
                         ChatReadIndex.ALL -> {
-                            list = results.data!!
+                            list = results.data
                         }
                         ChatReadIndex.HAVE_READ -> {
-                            list = results.data!!.filter { it.read == ChatRead.HAVE_READ }
+                            list = results.data.filter { it.read == ChatRead.HAVE_READ }
                         }
                         ChatReadIndex.UN_READ -> {
-                            list = results.data!!.filter { it.read == ChatRead.UN_READ }
+                            list = results.data.filter { it.read == ChatRead.UN_READ }
                         }
                     }
-                    _chatList.postValue(list)
+                    _chatList.postValue(list.toMutableList())
                     _toast.postValue(ToastType.LOAD_CHAT to "初始完成")
                 }
                 is Results.ClientErrors -> {
@@ -57,12 +57,22 @@ class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCo
     }
 
 
-    //
-    //
-    //
+//    val serverInfoRelay = chatModule.serverInfoRelay
+//
+//    val infoRelay = chatModule.infoRelay
+
     private val chatModule by inject<IChatModule>()
 
-    val serverInfoRelay = chatModule.serverInfoRelay
+    fun send(chat: ChatInfo) = chatModule.send(chatModule.webSocket, chat)
 
-    val infoRelay = chatModule.infoRelay
+    val messageRelay = chatModule.messageRelay
+
+    fun refreshChatList(chat: ChatInfo) {
+        _chatList.value?.removeAll { it.id == chat.id }
+        val list = _chatList.value
+        list?.add(0, chat)
+        _chatList.postValue(list!!)
+    }
+
+
 }

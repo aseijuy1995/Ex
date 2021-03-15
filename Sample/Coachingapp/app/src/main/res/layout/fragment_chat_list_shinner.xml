@@ -40,6 +40,26 @@
 
                 <include layout="@layout/item_chat_list_shinner" />
 
+                <include layout="@layout/item_chat_list_shinner" />
+
+                <include layout="@layout/item_chat_list_shinner" />
+
+                <include layout="@layout/item_chat_list_shinner" />
+
+                <include layout="@layout/item_chat_list_shinner" />
+
+                <include layout="@layout/item_chat_list_shinner" />
+
+                <include layout="@layout/item_chat_list_shinner" />
+
+                <include layout="@layout/item_chat_list_shinner" />
+
+                <include layout="@layout/item_chat_list_shinner" />
+
+                <include layout="@layout/item_chat_list_shinner" />
+
+                <include layout="@layout/item_chat_list_shinner" />
+
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </ScrollView>

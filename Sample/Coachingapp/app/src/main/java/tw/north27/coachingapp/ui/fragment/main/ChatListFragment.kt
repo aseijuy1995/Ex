@@ -5,9 +5,9 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.base.BaseFragment
@@ -21,7 +21,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
     private val binding by viewBinding<FragmentChatListBinding>(FragmentChatListBinding::bind)
 
-    private val viewModel by viewModel<ChatListViewModel>()
+    private val viewModel by sharedViewModel<ChatListViewModel>()
 
     private val adapter = ChatListAdapter()
 
@@ -50,13 +50,23 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
         viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
 
 
-        viewModel.serverInfoRelay.subscribeWithRxLife {
-            Timber.d("serverInfoRelay = $it")
+        viewModel.messageRelay.subscribeWithRxLife {
+            viewModel.refreshChatList(it)
         }
 
-        viewModel.infoRelay.subscribeWithRxLife {
-            Timber.d("infoRelay = $it")
-        }
+        //接收通知滑動置頂
+        binding.rvChat.adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+//                super.onItemRangeInserted(positionStart, itemCount)
+                binding.rvChat.scrollToPosition(0)
+            }
+
+            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+//                super.onItemRangeRemoved(positionStart, itemCount)
+                binding.rvChat.smoothScrollToPosition(itemCount)
+            }
+        })
+
     }
 
     private fun onToastObs(pair: Pair<ChatListViewModel.ToastType, String>) {

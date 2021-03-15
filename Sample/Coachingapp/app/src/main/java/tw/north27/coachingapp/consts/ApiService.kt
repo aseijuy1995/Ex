@@ -78,7 +78,7 @@ class ApiService : IApiService {
     }
 
     override suspend fun getLoadChat(): List<ChatInfo> {
-        delay(3000)
+        delay(1500)
         return listOf(
             ChatInfo(
                 id = 0,
@@ -94,10 +94,11 @@ class ApiService : IApiService {
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
-                sendTime = "2月19日",
+                sendTime = "2/19",
                 chatType = ChatType.TEXT,
                 text = "不會哦",
-                read = ChatRead.HAVE_READ
+                read = ChatRead.HAVE_READ,
+                unReadCount = 0
             ),
             ChatInfo(
                 id = 1,
@@ -113,10 +114,11 @@ class ApiService : IApiService {
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
-                sendTime = "1月7日",
+                sendTime = "1/7",
                 chatType = ChatType.TEXT,
                 text = "好哦，感謝",
-                read = ChatRead.UN_READ
+                read = ChatRead.UN_READ,
+                unReadCount = 2
             ),
             ChatInfo(
                 id = 2,
@@ -132,10 +134,11 @@ class ApiService : IApiService {
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
-                sendTime = "1月3日",
+                sendTime = "1/3",
                 chatType = ChatType.TEXT,
                 text = "已下單有時間再看一下感恩",
-                read = ChatRead.UN_READ
+                read = ChatRead.UN_READ,
+                unReadCount = 5
             ),
             ChatInfo(
                 id = 3,
@@ -151,10 +154,11 @@ class ApiService : IApiService {
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
-                sendTime = "2020年12月28日",
+                sendTime = "2020/12/28",
                 chatType = ChatType.TEXT,
                 text = "您的這個寄件編號一直產生不了 已經三天時間 蝦皮也沒辦法解決 您是否可以重新下訂試試",
-                read = ChatRead.UN_READ
+                read = ChatRead.UN_READ,
+                unReadCount = 3
             ),
             ChatInfo(
                 id = 4,
@@ -170,10 +174,11 @@ class ApiService : IApiService {
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
-                sendTime = "2020年12月17日",
+                sendTime = "2020/12/17",
                 chatType = ChatType.TEXT,
                 text = "好哦感謝 待收到領貨 謝謝",
-                read = ChatRead.UN_READ
+                read = ChatRead.UN_READ,
+                unReadCount = 14
             ),
             ChatInfo(
                 id = 5,
@@ -189,10 +194,11 @@ class ApiService : IApiService {
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
-                sendTime = "2020年12月17日",
+                sendTime = "2020/12/17",
                 chatType = ChatType.TEXT,
                 text = "好",
-                read = ChatRead.HAVE_READ
+                read = ChatRead.HAVE_READ,
+                unReadCount = 0
             ),
             ChatInfo(
                 id = 6,
@@ -208,10 +214,11 @@ class ApiService : IApiService {
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
-                sendTime = "2020年12月16日",
+                sendTime = "2020/12/16",
                 chatType = ChatType.TEXT,
                 text = "[貼圖]",
-                read = ChatRead.UN_READ
+                read = ChatRead.UN_READ,
+                unReadCount = 12
             ),
             ChatInfo(
                 id = 7,
@@ -227,10 +234,11 @@ class ApiService : IApiService {
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
-                sendTime = "2020年11月28日",
+                sendTime = "2020/11/28",
                 chatType = ChatType.TEXT,
                 text = "你好對哦  一頭是usb 一頭是lighting",
-                read = ChatRead.UN_READ
+                read = ChatRead.UN_READ,
+                unReadCount = 5
             ),
             ChatInfo(
                 id = 8,
@@ -246,12 +254,13 @@ class ApiService : IApiService {
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
-                sendTime = "2020年11月10日",
+                sendTime = "2020/11/10",
                 chatType = ChatType.TEXT,
                 text = "\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3嗨，11.11 最強購物節就是明天！為您送上全平台折扣券優惠~一起剁手吧！\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3\n" +
                         "\n" +
                         "\uD83C\uDF81\uD83C\uDF81\uD83C\uDF81",
-                read = ChatRead.HAVE_READ
+                read = ChatRead.HAVE_READ,
+                unReadCount = 0
             ),
             ChatInfo(
                 id = 9,
@@ -267,10 +276,11 @@ class ApiService : IApiService {
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
-                sendTime = "2020年8月19日",
+                sendTime = "2020/8/19",
                 chatType = ChatType.TEXT,
                 text = "[貼圖]",
-                read = ChatRead.HAVE_READ
+                read = ChatRead.HAVE_READ,
+                unReadCount = 0
             ),
             ChatInfo(
                 id = 10,
@@ -286,10 +296,11 @@ class ApiService : IApiService {
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
-                sendTime = "2020年5月8日",
+                sendTime = "2020/5/8",
                 chatType = ChatType.TEXT,
                 text = "放到購物車會自動結算",
-                read = ChatRead.HAVE_READ
+                read = ChatRead.HAVE_READ,
+                unReadCount = 0
             ),
             ChatInfo(
                 id = 11,
@@ -305,10 +316,11 @@ class ApiService : IApiService {
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
-                sendTime = "2020年4月8日",
+                sendTime = "2020/4/8",
                 chatType = ChatType.TEXT,
                 text = "[貼圖]",
-                read = ChatRead.HAVE_READ
+                read = ChatRead.HAVE_READ,
+                unReadCount = 0
             ),
             ChatInfo(
                 id = 12,
@@ -324,10 +336,11 @@ class ApiService : IApiService {
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
-                sendTime = "2020年3月22日",
+                sendTime = "2020/3/22",
                 chatType = ChatType.TEXT,
                 text = "拿到了謝謝",
-                read = ChatRead.UN_READ
+                read = ChatRead.UN_READ,
+                unReadCount = 99
             ),
             ChatInfo(
                 id = 13,
@@ -343,10 +356,11 @@ class ApiService : IApiService {
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
-                sendTime = "2020年1月1日",
+                sendTime = "2020/1/1",
                 chatType = ChatType.TEXT,
                 text = "[貼圖]",
-                read = ChatRead.UN_READ
+                read = ChatRead.UN_READ,
+                unReadCount = 50
             ),
             ChatInfo(
                 id = 14,
@@ -362,10 +376,11 @@ class ApiService : IApiService {
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
-                sendTime = "2019年11月17日",
+                sendTime = "2019/11/17",
                 chatType = ChatType.TEXT,
                 text = "好哦 謝謝",
-                read = ChatRead.UN_READ
+                read = ChatRead.UN_READ,
+                unReadCount = 100
             )
         )
     }
@@ -554,7 +569,7 @@ class ApiService : IApiService {
             )
 
         }
-        delay(3000)
+        delay(1500)
         return when {
             page > notifyList.last().first -> emptyList()
             else -> notifyList.first { page == it.first }.second

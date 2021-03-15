@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="chatInfo"
+            name="chat"
             type="tw.north27.coachingapp.model.result.ChatInfo" />
     </data>
 
@@ -33,7 +33,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:riv_corner_radius="10dp"
-                bind:imgUrl="@{chatInfo.sender.avatarPath}" />
+                bind:imgUrl="@{chat.sender.avatarPath}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_name"
@@ -44,7 +44,8 @@
                 android:layout_marginEnd="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{chatInfo.sender.name}"
+                android:text="@{chat.sender.name}"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/tv_text"
@@ -59,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:maxLines="1"
-                android:text="@{chatInfo.sendTime}"
+                android:text="@{chat.sendTime}"
                 android:textColor="@color/gray_aaaaaa"
                 android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -75,13 +76,29 @@
                 android:layout_marginBottom="5dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="@{chatInfo.text}"
+                android:text="@{chat.text}"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_icon"
                 app:layout_constraintEnd_toStartOf="@id/tv_time"
                 app:layout_constraintStart_toEndOf="@id/iv_icon"
                 app:layout_constraintTop_toBottomOf="@id/tv_name"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintVertical_chainStyle="packed"
+                bind:chatTextStyle="@{chat.read}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_solid_green_corners_radius_15"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/tv_time"
+                app:layout_constraintTop_toBottomOf="@id/tv_time"
+                bind:chatBadgeStyle="@{chat}" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.daimajia.swipe.SwipeLayout>
