@@ -7,7 +7,6 @@ import tw.north27.coachingapp.ui.fragment.main.ChatListFragment
 
 const val KEY_CHAT_READ_TYPE = "KEY_CHAT_READ_TYPE"
 
-//
 enum class ChatReadIndex(val index: Int) {
     ALL(0), HAVE_READ(1), UN_READ(2)
 }

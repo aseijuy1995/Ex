@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.base.BaseFragment
@@ -25,9 +26,13 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
     private val adapter = ChatListAdapter()
 
+    private lateinit var type: ChatReadIndex
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val type = arguments?.getSerializable(KEY_CHAT_READ_TYPE) ?: return
+        type = arguments?.getSerializable(KEY_CHAT_READ_TYPE) as ChatReadIndex
+        viewModel.loadChat(type as ChatReadIndex)
+        Timber.d("onCreateView - onCreateView")
         binding.itemChatShinner.shimmerFrameLayoutChat.start()
         binding.rvChat.apply {
             addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
@@ -35,7 +40,6 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
             })
             adapter = this@ChatListFragment.adapter
         }
-        viewModel.loadChat(type as ChatReadIndex)
 
         when (type) {
             ChatReadIndex.ALL -> {
