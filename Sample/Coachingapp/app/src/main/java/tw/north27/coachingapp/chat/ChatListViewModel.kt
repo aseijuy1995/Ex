@@ -22,9 +22,13 @@ class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCo
         LOAD_CHAT
     }
 
-    private val _chatList = MutableLiveData<MutableList<ChatInfo>>(mutableListOf())
+    private val _chatAllList = MutableLiveData<MutableList<ChatInfo>>(mutableListOf())
+    private val _chatHaveReadList = MutableLiveData<MutableList<ChatInfo>>(mutableListOf())
+    private val _chatUnReadList = MutableLiveData<MutableList<ChatInfo>>(mutableListOf())
 
-    val chatList = _chatList.asLiveData()
+    val chatAllList = _chatAllList.asLiveData()
+    val chatHaveReadList = _chatHaveReadList.asLiveData()
+    val chatUnReadList = _chatUnReadList.asLiveData()
 
     fun loadChat(type: ChatReadIndex) {
         viewModelScope.launch {
@@ -35,15 +39,18 @@ class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCo
                     when (type) {
                         ChatReadIndex.ALL -> {
                             list = results.data
+                            _chatAllList.postValue(list.toMutableList())
                         }
                         ChatReadIndex.HAVE_READ -> {
                             list = results.data.filter { it.read == ChatRead.HAVE_READ }
+                            _chatHaveReadList.postValue(list.toMutableList())
                         }
                         ChatReadIndex.UN_READ -> {
                             list = results.data.filter { it.read == ChatRead.UN_READ }
+                            _chatUnReadList.postValue(list.toMutableList())
                         }
                     }
-                    _chatList.postValue(list.toMutableList())
+
                     _toast.postValue(ToastType.LOAD_CHAT to "初始完成")
                 }
                 is Results.ClientErrors -> {
@@ -67,11 +74,33 @@ class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCo
 
     val messageRelay = chatModule.messageRelay
 
-    fun refreshChatList(chat: ChatInfo) {
-        _chatList.value?.removeAll { it.id == chat.id }
-        val list = _chatList.value
+    fun refreshChatList(type: ChatReadIndex, chat: ChatInfo) {
+        val list = when (type) {
+            ChatReadIndex.ALL -> {
+                _chatAllList.value?.removeAll { it.id == chat.id }
+                _chatAllList.value
+            }
+            ChatReadIndex.HAVE_READ -> {
+                _chatHaveReadList.value?.removeAll { it.id == chat.id }
+                _chatHaveReadList.value
+            }
+            ChatReadIndex.UN_READ -> {
+                _chatUnReadList.value?.removeAll { it.id == chat.id }
+                _chatUnReadList.value
+            }
+        }
         list?.add(0, chat)
-        _chatList.postValue(list!!)
+        when (type) {
+            ChatReadIndex.ALL -> {
+                _chatAllList.postValue(list!!)
+            }
+            ChatReadIndex.HAVE_READ -> {
+                _chatHaveReadList.postValue(list!!)
+            }
+            ChatReadIndex.UN_READ -> {
+                _chatUnReadList.postValue(list!!)
+            }
+        }
     }
 
 

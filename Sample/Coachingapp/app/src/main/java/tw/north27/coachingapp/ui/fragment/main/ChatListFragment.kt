@@ -29,7 +29,6 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
         super.onViewCreated(view, savedInstanceState)
         val type = arguments?.getSerializable(KEY_CHAT_READ_TYPE) ?: return
         binding.itemChatShinner.shimmerFrameLayoutChat.start()
-        binding.rvChat.adapter = adapter
         binding.rvChat.apply {
             addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
                 setDrawable(ContextCompat.getDrawable(cxt, R.drawable.shape_size_height_1_solid_gray) ?: return)
@@ -38,8 +37,22 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
         }
         viewModel.loadChat(type as ChatReadIndex)
 
-        viewModel.chatList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+        when (type) {
+            ChatReadIndex.ALL -> {
+                viewModel.chatAllList.observe(viewLifecycleOwner) {
+                    adapter.submitList(it)
+                }
+            }
+            ChatReadIndex.HAVE_READ -> {
+                viewModel.chatHaveReadList.observe(viewLifecycleOwner) {
+                    adapter.submitList(it)
+                }
+            }
+            ChatReadIndex.UN_READ -> {
+                viewModel.chatUnReadList.observe(viewLifecycleOwner) {
+                    adapter.submitList(it)
+                }
+            }
         }
 
         //Refresh
@@ -51,7 +64,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
 
         viewModel.messageRelay.subscribeWithRxLife {
-            viewModel.refreshChatList(it)
+            viewModel.refreshChatList(type, it)
         }
 
         //接收通知滑動置頂
