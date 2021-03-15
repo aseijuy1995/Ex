@@ -28,11 +28,15 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
     private lateinit var type: ChatReadIndex
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Timber.d("onCreate-onCreate")
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         type = arguments?.getSerializable(KEY_CHAT_READ_TYPE) as ChatReadIndex
         viewModel.loadChat(type as ChatReadIndex)
-        Timber.d("onCreateView - onCreateView")
         binding.itemChatShinner.shimmerFrameLayoutChat.start()
         binding.rvChat.apply {
             addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {

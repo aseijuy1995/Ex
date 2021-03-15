@@ -20,15 +20,17 @@ class ChatPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
         return fragmentFactory[position]?.invoke() ?: throw IndexOutOfBoundsException()
     }
 
+    val fragment = ChatListFragment()
+
     private val fragmentFactory = mapOf<Int, () -> Fragment>(
         ChatReadIndex.ALL.index to {
-            ChatListFragment().apply { arguments = bundleOf(KEY_CHAT_READ_TYPE to ChatReadIndex.ALL) }
+            fragment.apply { arguments = bundleOf(KEY_CHAT_READ_TYPE to ChatReadIndex.ALL) }
         },
         ChatReadIndex.HAVE_READ.index to {
-            ChatListFragment().apply { arguments = bundleOf(KEY_CHAT_READ_TYPE to ChatReadIndex.HAVE_READ) }
+            fragment.apply { arguments = bundleOf(KEY_CHAT_READ_TYPE to ChatReadIndex.HAVE_READ) }
         },
         ChatReadIndex.UN_READ.index to {
-            ChatListFragment().apply { arguments = bundleOf(KEY_CHAT_READ_TYPE to ChatReadIndex.UN_READ) }
+            fragment.apply { arguments = bundleOf(KEY_CHAT_READ_TYPE to ChatReadIndex.UN_READ) }
         }
     )
 }
