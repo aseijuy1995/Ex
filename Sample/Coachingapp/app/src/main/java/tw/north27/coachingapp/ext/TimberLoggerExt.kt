@@ -4,9 +4,7 @@ import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import timber.log.Timber
 
-fun startTimberLogger() = Timber.plant(LogDebugTree)
-
-object LogDebugTree : Timber.DebugTree() {
+fun startTimberLogger() = Timber.plant(object : Timber.DebugTree() {
 
     init {
         Logger.addLogAdapter(AndroidLogAdapter())
@@ -15,4 +13,4 @@ object LogDebugTree : Timber.DebugTree() {
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
         Logger.log(priority, tag, message, t)
     }
-}
+})

@@ -1,13 +1,26 @@
 package tw.north27.coachingapp.ext
 
+import android.content.Context
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.jakewharton.rxrelay3.BehaviorRelay
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlin.coroutines.CoroutineContext
 
-object ProcessLifeObs : DefaultLifecycleObserver {
+fun Context.startProcessLifeObs() = ProcessLifeObs(this)
 
-    val appStateRelay = BehaviorRelay.create<AppState>()
+class ProcessLifeObs(private val cxt: Context) : DefaultLifecycleObserver, CoroutineScope {
+
+    private val dataStore = cxt.createDataStorePref()
+
+    companion object {
+        /**
+         * true - foreground
+         * false - background
+         * */
+        val IS_APP_ON_FOREGROUND = "IS_APP_ON_FOREGROUND"
+    }
 
     init {
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
@@ -15,18 +28,14 @@ object ProcessLifeObs : DefaultLifecycleObserver {
 
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
-        appStateRelay.accept(AppState.FOREGROUND)
+        dataStore.setBoolean(IS_APP_ON_FOREGROUND, true, this)
     }
 
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
-        appStateRelay.accept(AppState.BACKGROUND)
+        dataStore.setBoolean(IS_APP_ON_FOREGROUND, false, this)
     }
-}
 
-fun getAppState(): BehaviorRelay<AppState> = ProcessLifeObs.appStateRelay
-
-enum class AppState {
-    FOREGROUND,//前景
-    BACKGROUND//背景
+    override val coroutineContext: CoroutineContext
+        get() = Job()
 }

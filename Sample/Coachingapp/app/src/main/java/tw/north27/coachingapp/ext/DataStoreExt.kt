@@ -20,13 +20,13 @@ const val PREF_DEFAULT_NAME = "PREF_DEFAULT_NAME"
 
 fun Context.createDataStorePref(name: String = PREF_DEFAULT_NAME): DataStore<Preferences> = createDataStore(name)
 
-fun <T> DataStore<Preferences>.setDelegate(prefKey: Preferences.Key<T>, value: T, scope: CoroutineScope): Job {
+private fun <T> DataStore<Preferences>.setDelegate(prefKey: Preferences.Key<T>, value: T, scope: CoroutineScope): Job {
     return scope.launch {
         edit { it[prefKey] = value }
     }
 }
 
-fun <T> DataStore<Preferences>.getDelegate(prefKey: Preferences.Key<T>, default: T): Flow<T> {
+private fun <T> DataStore<Preferences>.getDelegate(prefKey: Preferences.Key<T>, default: T): Flow<T> {
     return data.map { it[prefKey] ?: default }
 }
 

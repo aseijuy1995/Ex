@@ -18,7 +18,7 @@ class ClientChatWorker(cxt: Context, params: WorkerParameters) : CoroutineWorker
     override suspend fun doWork(): Result = coroutineScope {
         try {
             val url = inputData.getString(ServerChatWorker.SERVER_URL) ?: return@coroutineScope Result.retry()
-            chatModule.execute(url)
+            val webSocket = chatModule.execute(url)
             Result.success()
         } catch (e: Exception) {
             Timber.e(e)
