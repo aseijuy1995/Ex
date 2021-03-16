@@ -4,14 +4,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
-import tw.north27.coachingapp.adapter.ChatReadIndex
 import tw.north27.coachingapp.base.BaseViewModel
 import tw.north27.coachingapp.ext.asLiveData
 import tw.north27.coachingapp.model.result.ChatInfo
-import tw.north27.coachingapp.model.result.ChatRead
 import tw.north27.coachingapp.module.http.Results
+import java.lang.Thread.sleep
 
-class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinComponent {
+class ChatViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinComponent {
 
     private val _toast = MutableLiveData<Pair<ToastType, String>>()
 
@@ -25,24 +24,13 @@ class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCo
 
     val chatList = _chatList.asLiveData()
 
-    fun loadChat(type: ChatReadIndex) {
+    fun loadChat() {
         viewModelScope.launch {
             val results = chatRepo.loadChat()
-            val list: List<ChatInfo>
             when (results) {
                 is Results.Successful -> {
-                    when (type) {
-                        ChatReadIndex.ALL -> {
-                            list = results.data
-                        }
-                        ChatReadIndex.HAVE_READ -> {
-                            list = results.data.filter { it.read == ChatRead.HAVE_READ }
-                        }
-                        ChatReadIndex.UN_READ -> {
-                            list = results.data.filter { it.read == ChatRead.UN_READ }
-                        }
-                    }
-                    _chatList.postValue(list.toMutableList())
+                    val list = results.data.toMutableList()
+                    _chatList.postValue(list)
                     _toast.postValue(ToastType.LOAD_CHAT to "初始完成")
                 }
                 is Results.ClientErrors -> {
@@ -55,27 +43,21 @@ class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCo
         }
     }
 
-
     fun send(chat: ChatInfo) = chatRepo.send(chatRepo.webSocket, chat)
 
     val message = chatRepo.message
 
-    fun refreshChatList(type: ChatReadIndex, chat: ChatInfo) {
+    fun refreshChatList(chat: ChatInfo) {
         val list = _chatList.value?.map { it.copy() }?.toMutableList()
         val isRemove = list?.removeAll { it.id == chat.id }
         isRemove?.let {
-            if (it)
-                _chatList.value = if (list.isNullOrEmpty()) mutableListOf() else list
-        }
-        when (type) {
-            ChatReadIndex.ALL, ChatReadIndex.UN_READ -> {
-                val list = _chatList.value?.map { it.copy() }?.toMutableList()
-                list?.add(0, chat)
-                list?.let {
-                    _chatList.value = it
-                }
+            if (it) {
+                list.let { _chatList.value = it }
             }
         }
+        sleep(500)
+        list?.add(0, chat)
+        list?.let { _chatList.value = it }
     }
 
 }

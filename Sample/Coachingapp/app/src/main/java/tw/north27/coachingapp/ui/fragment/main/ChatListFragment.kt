@@ -8,22 +8,23 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.base.BaseFragment
-import tw.north27.coachingapp.chat.ChatListViewModel
+import tw.north27.coachingapp.chat.ChatViewModel
 import tw.north27.coachingapp.databinding.FragmentChatListBinding
 import tw.north27.coachingapp.ext.start
 import tw.north27.coachingapp.ext.stop
 import tw.north27.coachingapp.ext.viewBinding
+import tw.north27.coachingapp.model.result.ChatRead
 
 class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
     private val binding by viewBinding<FragmentChatListBinding>(FragmentChatListBinding::bind)
 
-    private val viewModel by viewModel<ChatListViewModel>()
+    private val viewModel by sharedViewModel<ChatViewModel>()
 
     private val adapter = ChatListAdapter()
 
@@ -44,17 +45,20 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
             })
             adapter = this@ChatListFragment.adapter
         }
-        viewModel.loadChat(type)
 
         viewModel.chatList.observe(viewLifecycleOwner) {
-            Timber.d("chatList = ${it.get(0).text}")
-            if (it.isEmpty()) {
+            val list = when (type) {
+                ChatReadIndex.ALL -> it
+                ChatReadIndex.HAVE_READ -> it.filter { it.read == ChatRead.HAVE_READ }
+                ChatReadIndex.UN_READ -> it.filter { it.read == ChatRead.UN_READ }
+            }
+            if (list.isNullOrEmpty()) {
                 binding.rvChat.isVisible = false
                 binding.itemEmpty.clEmpty.isVisible = true
             } else {
                 binding.rvChat.isVisible = true
                 binding.itemEmpty.clEmpty.isVisible = false
-                adapter.submitList(it) {
+                adapter.submitList(list) {
                     binding.rvChat.smoothScrollToPosition(0)
                 }
 //                binding.rvChat.postDelayed({
@@ -67,14 +71,10 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
         //Refresh
         binding.smartRefreshLayoutChat.setOnRefreshListener {
-            viewModel.loadChat(type)
+            viewModel.loadChat()
         }
 
         viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
-
-        viewModel.message.subscribeWithRxLife {
-            viewModel.refreshChatList(type, it)
-        }
 
         //接收通知滑動置頂
         binding.rvChat.adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
@@ -92,9 +92,9 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
     }
 
-    private fun onToastObs(pair: Pair<ChatListViewModel.ToastType, String>) {
+    private fun onToastObs(pair: Pair<ChatViewModel.ToastType, String>) {
         when (pair.first) {
-            ChatListViewModel.ToastType.LOAD_CHAT -> {
+            ChatViewModel.ToastType.LOAD_CHAT -> {
                 binding.smartRefreshLayoutChat.finishRefresh()
                 binding.itemChatShinner.shimmerFrameLayoutChat.stop()
                 Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()

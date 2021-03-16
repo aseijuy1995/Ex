@@ -41,5 +41,5 @@ val viewModelModules = module {
     viewModel { StartViewModel(androidApplication(), get(), get()) }
     viewModel { SignInViewModel(androidApplication(), get()) }
     viewModel { NotifyViewModel(get()) }
-    viewModel { ChatListViewModel(get()) }
+    viewModel { ChatViewModel(get()) }
 }

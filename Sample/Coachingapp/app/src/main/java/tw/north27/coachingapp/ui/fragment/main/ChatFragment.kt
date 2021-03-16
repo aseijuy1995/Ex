@@ -10,7 +10,7 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.ChatPagerAdapter
 import tw.north27.coachingapp.adapter.ChatReadIndex
 import tw.north27.coachingapp.base.BaseFragment
-import tw.north27.coachingapp.chat.ChatListViewModel
+import tw.north27.coachingapp.chat.ChatViewModel
 import tw.north27.coachingapp.databinding.FragmentChatBinding
 import tw.north27.coachingapp.ext.viewBinding
 import tw.north27.coachingapp.model.result.ChatInfo
@@ -24,7 +24,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
     private lateinit var adapter: ChatPagerAdapter
 
-    private val viewModel by sharedViewModel<ChatListViewModel>()
+    private val viewModel by sharedViewModel<ChatViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,19 +36,44 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 //            tab.text = getTabText(position)
         }.attach()
 
+        viewModel.loadChat()
+        viewModel.message.subscribeWithRxLife {
+            viewModel.refreshChatList(it)
+        }
+
         binding.ivNotify.clicks().subscribeWithRxLife {
         }
 
         //測試推播數據
         binding.ivAutoRenew.clicks().subscribeWithRxLife {
             viewModel.send(
+//                ChatInfo(
+//                    id = 2,
+//                    sender = UserInfo(
+//                        id = 2,
+//                        account = "turboted",
+//                        avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
+//                        name = "turboted"
+//                    ),
+//                    recipient = UserInfo(
+//                        id = -1,
+//                        account = "jie001",
+//                        avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+//                        name = "阿吉"
+//                    ),
+//                    sendTime = "03:50",
+//                    chatType = ChatType.TEXT,
+//                    text = "測試推播 - 測試推播 - 測試推播 - 測試推播 - 測試推播",
+//                    read = ChatRead.UN_READ,
+//                    unReadCount = 5
+//                )
                 ChatInfo(
-                    id = 13,
+                    id = 5,
                     sender = UserInfo(
-                        id = 13,
-                        account = "xhkjdzsf",
-                        avatarPath = "https://cf.shopee.tw/file/106f2613e695547c9be9a6d7edf21560",
-                        name = "xhkjdzsf"
+                        id = 5,
+                        account = "lbj7871",
+                        avatarPath = "https://cf.shopee.tw/file/66f6a55ddd243f22b78c99847406b516",
+                        name = "lbj7871"
                     ),
                     recipient = UserInfo(
                         id = -1,
@@ -56,19 +81,19 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                         avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                         name = "阿吉"
                     ),
-                    sendTime = "15:50",
+                    sendTime = "03:52",
                     chatType = ChatType.TEXT,
                     text = "測試推播 - 測試推播 - 測試推播 - 測試推播 - 測試推播",
                     read = ChatRead.UN_READ,
-                    unReadCount = 51
+                    unReadCount = 1
                 )
             )
         }
 
-        binding.floatingActionButtonChat.clicks().subscribeWithRxLife {
-            binding.appBarLayout.setExpanded(true)
-//            (adapter.fragmentFactory[binding.viewPager2Chat.currentItem]?.invoke() as ChatListFragment).scrollToTop()
-        }
+//        binding.floatingActionButtonChat.clicks().subscribeWithRxLife {
+//            binding.appBarLayout.setExpanded(true)
+////            (adapter.fragmentFactory[binding.viewPager2Chat.currentItem]?.invoke() as ChatListFragment).scrollToTop()
+//        }
     }
 
     private fun getTabText(position: Int) = when (position) {
