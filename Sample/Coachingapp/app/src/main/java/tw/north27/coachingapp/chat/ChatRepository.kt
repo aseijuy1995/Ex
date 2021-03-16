@@ -49,4 +49,8 @@ class ChatRepository(val service: IApiService, val chatModule: IChatModule) : IC
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
+    override suspend fun switchChatSound(chat: ChatInfo): Results<Boolean> {
+        return safeApiResults { service.postSwitchChatSound(chat) }
+    }
+
 }

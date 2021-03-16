@@ -38,12 +38,19 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val type = arguments?.getSerializable(KEY_CHAT_READ_TYPE) as ChatReadIndex
-        binding.itemChatShinner.shimmerFrameLayoutChat.start()
         binding.rvChat.apply {
             addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
                 setDrawable(ContextCompat.getDrawable(cxt, R.drawable.shape_size_height_1_solid_gray) ?: return)
             })
             adapter = this@ChatListFragment.adapter
+        }
+
+        viewModel.loadChatState.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.itemChatShinner.shimmerFrameLayoutChat.start()
+            } else {
+                binding.itemChatShinner.shimmerFrameLayoutChat.stop()
+            }
         }
 
         viewModel.chatList.observe(viewLifecycleOwner) {
@@ -58,14 +65,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
             } else {
                 binding.rvChat.isVisible = true
                 binding.itemEmpty.clEmpty.isVisible = false
-                adapter.submitList(list) {
-                    binding.rvChat.smoothScrollToPosition(0)
-                }
-//                binding.rvChat.postDelayed({
-//                    binding.rvChat.scrollToPosition(0)
-//                    binding.rvChat.smoothScrollToPosition(0)
-//                }, 500)
-//                adapter.notifyItemInserted(0)
+                adapter.submitList(list)
             }
         }
 
@@ -81,7 +81,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 Timber.d("registerAdapterDataObserver")
                 super.onItemRangeInserted(positionStart, itemCount)
-                binding.rvChat.scrollToPosition(0)
+                viewModel.scrollToTop(true)
             }
 
             override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
@@ -90,19 +90,31 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
             }
         })
 
+        viewModel.scrollToTop.observe(viewLifecycleOwner) {
+            binding.rvChat.scrollToPosition(0)
+        }
+
+        //Item Click
+        adapter.notifyClickRelay.subscribeWithRxLife {
+            viewModel.switchChatSound(it.second.also { it.sound = !it.sound })
+        }
+
+        adapter.deleteClickRelay.subscribeWithRxLife {
+
+        }
+
+
     }
 
     private fun onToastObs(pair: Pair<ChatViewModel.ToastType, String>) {
         when (pair.first) {
             ChatViewModel.ToastType.LOAD_CHAT -> {
                 binding.smartRefreshLayoutChat.finishRefresh()
-                binding.itemChatShinner.shimmerFrameLayoutChat.stop()
+                Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
+            }
+            ChatViewModel.ToastType.SWITCH_CHAT_NOTIFY -> {
                 Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
             }
         }
-    }
-
-    fun scrollToTop() {
-        binding.rvChat.scrollToPosition(0)
     }
 }

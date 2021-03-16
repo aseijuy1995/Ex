@@ -39,4 +39,9 @@ interface IChatRepository {
 
     val serverInfo: Observable<Headers>
 
+    /**---------------------------------------------------------------------------------------------------------------------------*/
+
+    suspend fun switchChatSound(chat:ChatInfo): Results<Boolean>
+
+
 }

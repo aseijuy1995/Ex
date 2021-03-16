@@ -60,3 +60,13 @@ fun TextView.bindChatBadgeStyle(chat: ChatInfo) {
         }
     }
 }
+
+@BindingAdapter("bind:imgRes")
+fun ImageView.bindImgRes(isSound: Boolean) {
+    setImageResource(
+        if (isSound)
+            R.drawable.ic_baseline_volume_up_24_white
+        else
+            R.drawable.ic_baseline_volume_off_24_white
+    )
+}

@@ -1,10 +1,12 @@
 package tw.north27.coachingapp.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.rxrelay3.ReplayRelay
 import tw.north27.coachingapp.databinding.ItemChatListBinding
 import tw.north27.coachingapp.model.result.ChatInfo
 
@@ -20,10 +22,21 @@ class ChatListAdapter : ListAdapter<ChatInfo, ChatListAdapter.VH>(object : DiffU
 
 }) {
 
+    val notifyClickRelay = ReplayRelay.create<Pair<View, ChatInfo>>()
+
+    val deleteClickRelay = ReplayRelay.create<Pair<View, ChatInfo>>()
+
     inner class VH(val binding: ItemChatListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(chat: ChatInfo) = binding.apply {
             this.chat = chat
+            binding.itemChatListSwipe.flDelete.setOnClickListener {
+                deleteClickRelay.accept(it to chat)
+            }
+            binding.itemChatListSwipe.flNotify.setOnClickListener {
+                notifyClickRelay.accept(it to chat)
+            }
             executePendingBindings()
+            binding.itemChatListSwipe.executePendingBindings()
         }
     }
 

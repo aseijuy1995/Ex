@@ -136,6 +136,7 @@ dependencies {
     def rxbinding_version = "4.0.0"
     implementation "com.jakewharton.rxbinding4:rxbinding:$rxbinding_version"
     implementation "com.jakewharton.rxbinding4:rxbinding-core:$rxbinding_version"
+    implementation "com.jakewharton.rxbinding4:rxbinding-recyclerview:$rxbinding_version"
     /**
      * Http
      * */

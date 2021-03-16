@@ -66,6 +66,14 @@ interface IApiService {
     @GET
     suspend fun getLoadChat(): List<ChatInfo>
 
+    /**
+     * 聊天聲音開關
+     * */
+    @POST
+    suspend fun postSwitchChatSound(
+        @Field("chat") isOpen: ChatInfo
+    ): Boolean
+
     //Notify
     /**
      * 獲取通知

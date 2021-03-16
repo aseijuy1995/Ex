@@ -37,15 +37,15 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         }.attach()
 
         viewModel.loadChat()
+
         viewModel.message.subscribeWithRxLife {
             viewModel.refreshChatList(it)
         }
 
+        /**
+         * 測試推播數據
+         * */
         binding.ivNotify.clicks().subscribeWithRxLife {
-        }
-
-        //測試推播數據
-        binding.ivAutoRenew.clicks().subscribeWithRxLife {
             viewModel.send(
 //                ChatInfo(
 //                    id = 2,
@@ -85,15 +85,20 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                     chatType = ChatType.TEXT,
                     text = "測試推播 - 測試推播 - 測試推播 - 測試推播 - 測試推播",
                     read = ChatRead.UN_READ,
-                    unReadCount = 1
+                    unReadCount = 1,
+                    sound = true
                 )
             )
+
         }
 
-//        binding.floatingActionButtonChat.clicks().subscribeWithRxLife {
-//            binding.appBarLayout.setExpanded(true)
-////            (adapter.fragmentFactory[binding.viewPager2Chat.currentItem]?.invoke() as ChatListFragment).scrollToTop()
+//        binding.ivAutoRenew.clicks().subscribeWithRxLife {
 //        }
+
+        binding.floatingActionButtonChat.clicks().subscribeWithRxLife {
+            binding.appBarLayout.setExpanded(true)
+            viewModel.scrollToTop(true)
+        }
     }
 
     private fun getTabText(position: Int) = when (position) {
