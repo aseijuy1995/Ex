@@ -21,6 +21,7 @@
     <string name="all">全部</string>
     <string name="have_read">已讀</string>
     <string name="un_read">未讀</string>
+    <string name="empty">空空如也</string>
     <!-- Notify -->
     <string name="not_read_yet_sure_to_delete_it">尚未讀取，確定要刪除嗎?</string>
 

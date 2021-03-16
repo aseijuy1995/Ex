@@ -3,11 +3,12 @@ package tw.north27.coachingapp.ui.fragment.main
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
@@ -22,7 +23,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
     private val binding by viewBinding<FragmentChatListBinding>(FragmentChatListBinding::bind)
 
-    private val viewModel by sharedViewModel<ChatListViewModel>()
+    private val viewModel by viewModel<ChatListViewModel>()
 
     private val adapter = ChatListAdapter()
 
@@ -35,8 +36,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        type = arguments?.getSerializable(KEY_CHAT_READ_TYPE) as ChatReadIndex
-        viewModel.loadChat(type as ChatReadIndex)
+        val type = arguments?.getSerializable(KEY_CHAT_READ_TYPE) as ChatReadIndex
         binding.itemChatShinner.shimmerFrameLayoutChat.start()
         binding.rvChat.apply {
             addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
@@ -44,46 +44,48 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
             })
             adapter = this@ChatListFragment.adapter
         }
+        viewModel.loadChat(type)
 
-        when (type) {
-            ChatReadIndex.ALL -> {
-                viewModel.chatAllList.observe(viewLifecycleOwner) {
-                    adapter.submitList(it)
+        viewModel.chatList.observe(viewLifecycleOwner) {
+            Timber.d("chatList = ${it.get(0).text}")
+            if (it.isEmpty()) {
+                binding.rvChat.isVisible = false
+                binding.itemEmpty.clEmpty.isVisible = true
+            } else {
+                binding.rvChat.isVisible = true
+                binding.itemEmpty.clEmpty.isVisible = false
+                adapter.submitList(it) {
+                    binding.rvChat.smoothScrollToPosition(0)
                 }
-            }
-            ChatReadIndex.HAVE_READ -> {
-                viewModel.chatHaveReadList.observe(viewLifecycleOwner) {
-                    adapter.submitList(it)
-                }
-            }
-            ChatReadIndex.UN_READ -> {
-                viewModel.chatUnReadList.observe(viewLifecycleOwner) {
-                    adapter.submitList(it)
-                }
+//                binding.rvChat.postDelayed({
+//                    binding.rvChat.scrollToPosition(0)
+//                    binding.rvChat.smoothScrollToPosition(0)
+//                }, 500)
+//                adapter.notifyItemInserted(0)
             }
         }
 
         //Refresh
         binding.smartRefreshLayoutChat.setOnRefreshListener {
-            viewModel.loadChat(type as ChatReadIndex)
+            viewModel.loadChat(type)
         }
 
         viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
 
-
-        viewModel.messageRelay.subscribeWithRxLife {
+        viewModel.message.subscribeWithRxLife {
             viewModel.refreshChatList(type, it)
         }
 
         //接收通知滑動置頂
         binding.rvChat.adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-//                super.onItemRangeInserted(positionStart, itemCount)
+                Timber.d("registerAdapterDataObserver")
+                super.onItemRangeInserted(positionStart, itemCount)
                 binding.rvChat.scrollToPosition(0)
             }
 
             override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
-//                super.onItemRangeRemoved(positionStart, itemCount)
+                super.onItemRangeRemoved(positionStart, itemCount)
                 binding.rvChat.smoothScrollToPosition(itemCount)
             }
         })
@@ -98,5 +100,9 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
                 Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
             }
         }
+    }
+
+    fun scrollToTop() {
+        binding.rvChat.scrollToPosition(0)
     }
 }

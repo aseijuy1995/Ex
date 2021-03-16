@@ -34,7 +34,7 @@ val repoModules = module {
     single<IPublicRepository> { PublicRepository(get()) }
     single<IUserRepository> { UserRepository(get(), androidContext()) }
     single<INotifyRepository> { NotifyRepository(get()) }
-    single<IChatRepository> { ChatRepository(get()) }
+    single<IChatRepository> { ChatRepository(get(), get()) }
 }
 
 val viewModelModules = module {

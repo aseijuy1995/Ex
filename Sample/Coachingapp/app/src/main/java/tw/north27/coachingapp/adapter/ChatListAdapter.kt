@@ -11,11 +11,11 @@ import tw.north27.coachingapp.model.result.ChatInfo
 
 class ChatListAdapter : ListAdapter<ChatInfo, ChatListAdapter.VH>(object : DiffUtil.ItemCallback<ChatInfo>() {
     override fun areItemsTheSame(oldItem: ChatInfo, newItem: ChatInfo): Boolean {
-        return oldItem.hashCode() == newItem.hashCode()
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: ChatInfo, newItem: ChatInfo): Boolean {
-        return oldItem.hashCode() == newItem.hashCode()
+        return oldItem.id == newItem.id
     }
 
 }) {

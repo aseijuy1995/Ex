@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
-import org.koin.core.inject
 import tw.north27.coachingapp.adapter.ChatReadIndex
 import tw.north27.coachingapp.base.BaseViewModel
 import tw.north27.coachingapp.ext.asLiveData
@@ -22,13 +21,9 @@ class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCo
         LOAD_CHAT
     }
 
-    private val _chatAllList = MutableLiveData<MutableList<ChatInfo>>(mutableListOf())
-    private val _chatHaveReadList = MutableLiveData<MutableList<ChatInfo>>(mutableListOf())
-    private val _chatUnReadList = MutableLiveData<MutableList<ChatInfo>>(mutableListOf())
+    private val _chatList = MutableLiveData<MutableList<ChatInfo>>()
 
-    val chatAllList = _chatAllList.asLiveData()
-    val chatHaveReadList = _chatHaveReadList.asLiveData()
-    val chatUnReadList = _chatUnReadList.asLiveData()
+    val chatList = _chatList.asLiveData()
 
     fun loadChat(type: ChatReadIndex) {
         viewModelScope.launch {
@@ -39,18 +34,15 @@ class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCo
                     when (type) {
                         ChatReadIndex.ALL -> {
                             list = results.data
-                            _chatAllList.postValue(list.toMutableList())
                         }
                         ChatReadIndex.HAVE_READ -> {
                             list = results.data.filter { it.read == ChatRead.HAVE_READ }
-                            _chatHaveReadList.postValue(list.toMutableList())
                         }
                         ChatReadIndex.UN_READ -> {
                             list = results.data.filter { it.read == ChatRead.UN_READ }
-                            _chatUnReadList.postValue(list.toMutableList())
                         }
                     }
-
+                    _chatList.postValue(list.toMutableList())
                     _toast.postValue(ToastType.LOAD_CHAT to "初始完成")
                 }
                 is Results.ClientErrors -> {
@@ -64,44 +56,26 @@ class ChatListViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCo
     }
 
 
-//    val serverInfoRelay = chatModule.serverInfoRelay
-//
-//    val infoRelay = chatModule.infoRelay
+    fun send(chat: ChatInfo) = chatRepo.send(chatRepo.webSocket, chat)
 
-    private val chatModule by inject<IChatModule>()
-
-    fun send(chat: ChatInfo) = chatModule.send(chatModule.webSocket, chat)
-
-    val messageRelay = chatModule.messageRelay
+    val message = chatRepo.message
 
     fun refreshChatList(type: ChatReadIndex, chat: ChatInfo) {
-        val list = when (type) {
-            ChatReadIndex.ALL -> {
-                _chatAllList.value?.removeAll { it.id == chat.id }
-                _chatAllList.value
-            }
-            ChatReadIndex.HAVE_READ -> {
-                _chatHaveReadList.value?.removeAll { it.id == chat.id }
-                _chatHaveReadList.value
-            }
-            ChatReadIndex.UN_READ -> {
-                _chatUnReadList.value?.removeAll { it.id == chat.id }
-                _chatUnReadList.value
-            }
+        val list = _chatList.value?.map { it.copy() }?.toMutableList()
+        val isRemove = list?.removeAll { it.id == chat.id }
+        isRemove?.let {
+            if (it)
+                _chatList.value = if (list.isNullOrEmpty()) mutableListOf() else list
         }
-        list?.add(0, chat)
         when (type) {
-            ChatReadIndex.ALL -> {
-                _chatAllList.postValue(list!!)
-            }
-            ChatReadIndex.HAVE_READ -> {
-                _chatHaveReadList.postValue(list!!)
-            }
-            ChatReadIndex.UN_READ -> {
-                _chatUnReadList.postValue(list!!)
+            ChatReadIndex.ALL, ChatReadIndex.UN_READ -> {
+                val list = _chatList.value?.map { it.copy() }?.toMutableList()
+                list?.add(0, chat)
+                list?.let {
+                    _chatList.value = it
+                }
             }
         }
     }
-
 
 }

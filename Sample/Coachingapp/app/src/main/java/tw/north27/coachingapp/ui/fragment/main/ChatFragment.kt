@@ -64,6 +64,11 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                 )
             )
         }
+
+        binding.floatingActionButtonChat.clicks().subscribeWithRxLife {
+            binding.appBarLayout.setExpanded(true)
+//            (adapter.fragmentFactory[binding.viewPager2Chat.currentItem]?.invoke() as ChatListFragment).scrollToTop()
+        }
     }
 
     private fun getTabText(position: Int) = when (position) {

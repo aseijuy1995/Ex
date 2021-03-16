@@ -15,20 +15,19 @@ class TopScrollLinearLayoutManager(val cxt: Context, attrs: AttributeSet, defSty
         startSmoothScroll(scroller)
     }
 
-
 }
 
 class TopLinearSmoothScroller(cxt: Context) : LinearSmoothScroller(cxt) {
-//    override fun getVerticalSnapPreference(): Int {
-//        return SNAP_TO_START
-//    }
-//
-//    override fun getHorizontalSnapPreference(): Int {
-//        return SNAP_TO_START
-//    }
-
-    override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int {
-        return boxStart - viewStart
-//        return super.calculateDtToFit(viewStart, viewEnd, boxStart, boxEnd, snapPreference)
+    override fun getVerticalSnapPreference(): Int {
+        return SNAP_TO_START
     }
+
+    override fun getHorizontalSnapPreference(): Int {
+        return SNAP_TO_START
+    }
+
+//    override fun calculateDtToFit(viewStart: Int, viewEnd: Int, boxStart: Int, boxEnd: Int, snapPreference: Int): Int {
+//        return boxStart - viewStart
+////        return super.calculateDtToFit(viewStart, viewEnd, boxStart, boxEnd, snapPreference)
+//    }
 }
