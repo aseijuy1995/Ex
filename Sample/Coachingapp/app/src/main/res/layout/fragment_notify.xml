@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="tw.north27.coachingapp.viewModel.NotifyViewModel" />
+            type="tw.north27.coachingapp.notify.NotifyViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -100,11 +100,18 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                 <include
+                    android:id="@+id/item_empty"
+                    layout="@layout/item_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center" />
+
+                <include
                     android:id="@+id/item_notify_shinner"
                     layout="@layout/fragment_notify_shinner"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
-                
+
             </FrameLayout>
 
 

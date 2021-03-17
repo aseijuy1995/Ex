@@ -19,8 +19,8 @@ import tw.north27.coachingapp.base.BaseDataBindingFragment
 import tw.north27.coachingapp.databinding.FragmentNotifyBinding
 import tw.north27.coachingapp.ext.start
 import tw.north27.coachingapp.ext.stop
+import tw.north27.coachingapp.notify.NotifyViewModel
 import tw.north27.coachingapp.page.BaseLoadStateAdapter
-import tw.north27.coachingapp.viewModel.NotifyViewModel
 
 class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.fragment_notify) {
 
@@ -50,9 +50,6 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
             adapter.submitData(lifecycle, it)
         }
 
-        //Retry
-        loadAdapter.retryClickRelay.subscribeWithRxLife { adapter.retry() }
-
         //Refresh
         binding.smartRefreshLayoutNotify.setOnRefreshListener { adapter.refresh() }
 
@@ -66,6 +63,10 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
                 }
             }
         }
+
+        //Retry
+        loadAdapter.retryClickRelay.subscribeWithRxLife { adapter.retry() }
+
 
         //
         /**

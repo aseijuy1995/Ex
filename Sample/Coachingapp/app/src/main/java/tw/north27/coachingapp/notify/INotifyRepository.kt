@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.repository.inter
+package tw.north27.coachingapp.notify
 
 import androidx.paging.Pager
 import tw.north27.coachingapp.model.result.NotifyInfo

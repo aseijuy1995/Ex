@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.viewModel
+package tw.north27.coachingapp.notify
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +12,6 @@ import tw.north27.coachingapp.base.BaseViewModel
 import tw.north27.coachingapp.ext.asLiveData
 import tw.north27.coachingapp.model.result.NotifyInfo
 import tw.north27.coachingapp.module.http.Results
-import tw.north27.coachingapp.repository.inter.INotifyRepository
 
 class NotifyViewModel(private val notifyRepo: INotifyRepository) : BaseViewModel() {
 

@@ -10,7 +10,7 @@ import tw.north27.coachingapp.base.BaseViewBindingBottomSheetDialogFragment
 import tw.north27.coachingapp.databinding.FragmentNotifyMoreDialogBinding
 import tw.north27.coachingapp.model.result.NotifyInfo
 import tw.north27.coachingapp.ui.fragment.main.NotifyFragmentArgs
-import tw.north27.coachingapp.viewModel.NotifyViewModel
+import tw.north27.coachingapp.notify.NotifyViewModel
 
 class NotifyMoreDialogFragment : BaseViewBindingBottomSheetDialogFragment<FragmentNotifyMoreDialogBinding>(FragmentNotifyMoreDialogBinding::inflate) {
 
