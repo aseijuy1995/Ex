@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.daimajia.swipe.SwipeLayout
 import com.jakewharton.rxrelay3.ReplayRelay
 import tw.north27.coachingapp.databinding.ItemChatListBinding
 import tw.north27.coachingapp.model.result.ChatInfo
@@ -13,30 +14,53 @@ import tw.north27.coachingapp.model.result.ChatInfo
 
 class ChatListAdapter : ListAdapter<ChatInfo, ChatListAdapter.VH>(object : DiffUtil.ItemCallback<ChatInfo>() {
     override fun areItemsTheSame(oldItem: ChatInfo, newItem: ChatInfo): Boolean {
-        return oldItem.hashCode() == newItem.hashCode()
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: ChatInfo, newItem: ChatInfo): Boolean {
         return oldItem.hashCode() == newItem.hashCode()
     }
+}
+) {
 
-}) {
-
-    val notifyClickRelay = ReplayRelay.create<Pair<View, ChatInfo>>()
+    val soundClickRelay = ReplayRelay.create<Pair<View, ChatInfo>>()
 
     val deleteClickRelay = ReplayRelay.create<Pair<View, ChatInfo>>()
+
+    val itemClickRelay = ReplayRelay.create<Pair<View, ChatInfo>>()
 
     inner class VH(val binding: ItemChatListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(chat: ChatInfo) = binding.apply {
             this.chat = chat
-            binding.itemChatListSwipe.flDelete.setOnClickListener {
-                deleteClickRelay.accept(it to chat)
-            }
-            binding.itemChatListSwipe.flNotify.setOnClickListener {
-                notifyClickRelay.accept(it to chat)
-            }
+//            if (chat.isSwipe) swipeLayout.open() else swipeLayout.close()
+            itemChatListSwipe.flSound.setOnClickListener { soundClickRelay.accept(it to chat) }
+            itemChatListSwipe.flDelete.setOnClickListener { deleteClickRelay.accept(it to chat) }
+            itemView.setOnClickListener { itemClickRelay.accept(it to chat) }
+
+            swipeLayout.addSwipeListener(object : SwipeLayout.SwipeListener {
+                override fun onStartOpen(layout: SwipeLayout?) {
+                }
+
+                override fun onOpen(layout: SwipeLayout?) {
+                    chat.isSwipe = true
+                }
+
+                override fun onStartClose(layout: SwipeLayout?) {
+                }
+
+                override fun onClose(layout: SwipeLayout?) {
+                    chat.isSwipe = false
+                }
+
+                override fun onUpdate(layout: SwipeLayout?, leftOffset: Int, topOffset: Int) {
+                }
+
+                override fun onHandRelease(layout: SwipeLayout?, xvel: Float, yvel: Float) {
+                }
+
+            })
+//            itemChatListSwipe.executePendingBindings()
             executePendingBindings()
-            binding.itemChatListSwipe.executePendingBindings()
         }
     }
 
@@ -46,6 +70,8 @@ class ChatListAdapter : ListAdapter<ChatInfo, ChatListAdapter.VH>(object : DiffU
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bind(getItem(position))
+        val chat = getItem(position)
+        holder.bind(chat)
     }
+
 }

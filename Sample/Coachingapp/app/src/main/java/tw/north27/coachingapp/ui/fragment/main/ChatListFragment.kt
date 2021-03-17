@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.base.BaseFragment
@@ -30,14 +29,9 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
     private lateinit var type: ChatReadIndex
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Timber.d("onCreate-onCreate")
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val type = arguments?.getSerializable(KEY_CHAT_READ_TYPE) as ChatReadIndex
+        type = (arguments?.getSerializable(KEY_CHAT_READ_TYPE) as ChatReadIndex)
         binding.rvChat.apply {
             addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
                 setDrawable(ContextCompat.getDrawable(cxt, R.drawable.shape_size_height_1_solid_gray) ?: return)
@@ -45,27 +39,38 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
             adapter = this@ChatListFragment.adapter
         }
 
-        viewModel.loadChatState.observe(viewLifecycleOwner) {
+        viewModel.chatListState.observe(viewLifecycleOwner) {
             if (it) {
                 binding.itemChatShinner.shimmerFrameLayoutChat.start()
+                binding.rvChat.isVisible = false
+                binding.itemEmpty.clEmpty.isVisible = false
             } else {
                 binding.itemChatShinner.shimmerFrameLayoutChat.stop()
+                viewModel.scrollToTop(true)
             }
         }
 
         viewModel.chatList.observe(viewLifecycleOwner) {
             val list = when (type) {
                 ChatReadIndex.ALL -> it
-                ChatReadIndex.HAVE_READ -> it.filter { it.read == ChatRead.HAVE_READ }
-                ChatReadIndex.UN_READ -> it.filter { it.read == ChatRead.UN_READ }
+                ChatReadIndex.HAVE_READ -> it?.filter { it.read == ChatRead.HAVE_READ }
+                ChatReadIndex.UN_READ -> it?.filter { it.read == ChatRead.UN_READ }
             }
-            if (list.isNullOrEmpty()) {
-                binding.rvChat.isVisible = false
-                binding.itemEmpty.clEmpty.isVisible = true
-            } else {
-                binding.rvChat.isVisible = true
-                binding.itemEmpty.clEmpty.isVisible = false
-                adapter.submitList(list)
+            when {
+                list == null -> {
+                    binding.rvChat.isVisible = false
+                    binding.itemEmpty.clEmpty.isVisible = false
+                }
+                list.isEmpty() -> {
+                    binding.rvChat.isVisible = false
+                    binding.itemEmpty.clEmpty.isVisible = true
+                }
+                else -> {
+                    binding.rvChat.isVisible = true
+                    binding.itemEmpty.clEmpty.isVisible = false
+                    adapter.submitList(list)
+                    viewModel.scrollToTop(true)
+                }
             }
         }
 
@@ -74,12 +79,9 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
             viewModel.loadChat()
         }
 
-        viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
-
         //接收通知滑動置頂
         binding.rvChat.adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                Timber.d("registerAdapterDataObserver")
                 super.onItemRangeInserted(positionStart, itemCount)
                 viewModel.scrollToTop(true)
             }
@@ -92,28 +94,46 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
         viewModel.scrollToTop.observe(viewLifecycleOwner) {
             binding.rvChat.scrollToPosition(0)
+            binding.rvChat.postDelayed({
+                binding.rvChat.smoothScrollToPosition(0)
+            }, 500)
         }
 
+        viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
+
         //Item Click
-        adapter.notifyClickRelay.subscribeWithRxLife {
-            viewModel.switchChatSound(it.second.also { it.sound = !it.sound })
+        adapter.soundClickRelay.subscribeWithRxLife {
+            showLoadingDialog()
+            viewModel.switchChatSound(type, it.second)
         }
 
         adapter.deleteClickRelay.subscribeWithRxLife {
-
+            showLoadingDialog()
+            viewModel.deleteChatRoom(type, it.second)
         }
 
+        adapter.itemClickRelay.subscribeWithRxLife {
 
+        }
     }
 
     private fun onToastObs(pair: Pair<ChatViewModel.ToastType, String>) {
         when (pair.first) {
             ChatViewModel.ToastType.LOAD_CHAT -> {
                 binding.smartRefreshLayoutChat.finishRefresh()
-                Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.rvChat, pair.second, Snackbar.LENGTH_SHORT).show()
             }
             ChatViewModel.ToastType.SWITCH_CHAT_NOTIFY -> {
-                Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
+                if (viewModel.type == type) {
+                    dismissLoadingDialog()
+                    Snackbar.make(binding.rvChat, pair.second, Snackbar.LENGTH_SHORT).show()
+                }
+            }
+            ChatViewModel.ToastType.DELETE_CHAT_ROOM -> {
+                if (viewModel.type == type) {
+                    dismissLoadingDialog()
+                    Snackbar.make(binding.rvChat, pair.second, Snackbar.LENGTH_SHORT).show()
+                }
             }
         }
     }

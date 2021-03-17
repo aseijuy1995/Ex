@@ -11,6 +11,7 @@ import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.module.ext.safeApiResults
 import tw.north27.coachingapp.module.http.Results
 
+
 class ChatRepository(val service: IApiService, val chatModule: IChatModule) : IChatRepository {
 
     override suspend fun loadChat(): Results<List<ChatInfo>> {
@@ -51,6 +52,10 @@ class ChatRepository(val service: IApiService, val chatModule: IChatModule) : IC
 
     override suspend fun switchChatSound(chat: ChatInfo): Results<Boolean> {
         return safeApiResults { service.postSwitchChatSound(chat) }
+    }
+
+    override suspend fun deleteChatRoom(chat: ChatInfo): Results<Boolean> {
+        return safeApiResults { service.deleteChatRoom(chat) }
     }
 
 }

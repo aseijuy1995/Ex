@@ -99,7 +99,7 @@ class ApiService : IApiService {
                 text = "不會哦",
                 read = ChatRead.HAVE_READ,
                 unReadCount = 0,
-                sound = true
+                isSound = true
             ),
             ChatInfo(
                 id = 1,
@@ -120,7 +120,7 @@ class ApiService : IApiService {
                 text = "好哦，感謝",
                 read = ChatRead.UN_READ,
                 unReadCount = 2,
-                sound = true
+                isSound = true
             ),
             ChatInfo(
                 id = 2,
@@ -141,7 +141,7 @@ class ApiService : IApiService {
                 text = "已下單有時間再看一下感恩",
                 read = ChatRead.UN_READ,
                 unReadCount = 5,
-                sound = false
+                isSound = false
             ),
             ChatInfo(
                 id = 3,
@@ -162,7 +162,7 @@ class ApiService : IApiService {
                 text = "您的這個寄件編號一直產生不了 已經三天時間 蝦皮也沒辦法解決 您是否可以重新下訂試試",
                 read = ChatRead.UN_READ,
                 unReadCount = 3,
-                sound = true
+                isSound = true
             ),
             ChatInfo(
                 id = 4,
@@ -183,7 +183,7 @@ class ApiService : IApiService {
                 text = "好哦感謝 待收到領貨 謝謝",
                 read = ChatRead.UN_READ,
                 unReadCount = 14,
-                sound = true
+                isSound = true
             ),
             ChatInfo(
                 id = 5,
@@ -204,7 +204,7 @@ class ApiService : IApiService {
                 text = "好",
                 read = ChatRead.HAVE_READ,
                 unReadCount = 0,
-                sound = true
+                isSound = true
             ),
             ChatInfo(
                 id = 6,
@@ -225,7 +225,7 @@ class ApiService : IApiService {
                 text = "[貼圖]",
                 read = ChatRead.UN_READ,
                 unReadCount = 12,
-                sound = false
+                isSound = false
             ),
             ChatInfo(
                 id = 7,
@@ -246,7 +246,7 @@ class ApiService : IApiService {
                 text = "你好對哦  一頭是usb 一頭是lighting",
                 read = ChatRead.UN_READ,
                 unReadCount = 5,
-                sound = false
+                isSound = false
             ),
             ChatInfo(
                 id = 8,
@@ -269,7 +269,7 @@ class ApiService : IApiService {
                         "\uD83C\uDF81\uD83C\uDF81\uD83C\uDF81",
                 read = ChatRead.HAVE_READ,
                 unReadCount = 0,
-                sound = true
+                isSound = true
             ),
             ChatInfo(
                 id = 9,
@@ -290,7 +290,7 @@ class ApiService : IApiService {
                 text = "[貼圖]",
                 read = ChatRead.HAVE_READ,
                 unReadCount = 0,
-                sound = true
+                isSound = true
             ),
             ChatInfo(
                 id = 10,
@@ -311,7 +311,7 @@ class ApiService : IApiService {
                 text = "放到購物車會自動結算",
                 read = ChatRead.HAVE_READ,
                 unReadCount = 0,
-                sound = true
+                isSound = true
             ),
             ChatInfo(
                 id = 11,
@@ -332,7 +332,7 @@ class ApiService : IApiService {
                 text = "[貼圖]",
                 read = ChatRead.HAVE_READ,
                 unReadCount = 0,
-                sound = true
+                isSound = true
             ),
             ChatInfo(
                 id = 12,
@@ -353,7 +353,7 @@ class ApiService : IApiService {
                 text = "拿到了謝謝",
                 read = ChatRead.UN_READ,
                 unReadCount = 99,
-                sound = true
+                isSound = true
             ),
             ChatInfo(
                 id = 13,
@@ -374,7 +374,7 @@ class ApiService : IApiService {
                 text = "[貼圖]",
                 read = ChatRead.UN_READ,
                 unReadCount = 50,
-                sound = true
+                isSound = true
             ),
             ChatInfo(
                 id = 14,
@@ -395,14 +395,19 @@ class ApiService : IApiService {
                 text = "好哦 謝謝",
                 read = ChatRead.UN_READ,
                 unReadCount = 100,
-                sound = true
+                isSound = true
             )
         )
     }
 
     override suspend fun postSwitchChatSound(chat: ChatInfo): Boolean {
         delay(500)
-        return chat.sound
+        return true
+    }
+
+    override suspend fun deleteChatRoom(chat: ChatInfo): Boolean {
+        delay(500)
+        return true
     }
 
     var notifyList = mutableListOf<Pair<Int, MutableList<NotifyInfo>>>()

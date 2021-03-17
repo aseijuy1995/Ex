@@ -13,7 +13,8 @@ data class ChatInfo(
     var videos: List<ChatVideo>? = null,//影片
     var read: ChatRead,
     var unReadCount: Int,//未讀數量
-    var sound: Boolean//通知開關
+    var isSound: Boolean,//聲音開關
+    var isSwipe: Boolean = false//滑動開關
 )
 
 enum class ChatType {

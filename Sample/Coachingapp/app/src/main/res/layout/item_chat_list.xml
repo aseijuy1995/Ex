@@ -13,7 +13,9 @@
     <com.daimajia.swipe.SwipeLayout
         android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:clickToClose="true"
+        app:show_mode="pull_out">
 
         <include
             android:id="@+id/item_chat_list_swipe"
@@ -68,7 +70,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/tv_name"
                 app:layout_constraintTop_toTopOf="@+id/tv_name"
-                bind:isVisibility="@{!chat.sound}" />
+                bind:isVisibility="@{!chat.isSound}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_time"

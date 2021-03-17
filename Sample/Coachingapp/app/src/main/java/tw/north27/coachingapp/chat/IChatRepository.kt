@@ -43,5 +43,7 @@ interface IChatRepository {
 
     suspend fun switchChatSound(chat:ChatInfo): Results<Boolean>
 
+    suspend fun deleteChatRoom(chat:ChatInfo): Results<Boolean>
+
 
 }

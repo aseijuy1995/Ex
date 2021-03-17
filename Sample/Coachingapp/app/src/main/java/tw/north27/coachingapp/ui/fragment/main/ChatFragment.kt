@@ -22,15 +22,14 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
     private val binding by viewBinding<FragmentChatBinding>(FragmentChatBinding::bind)
 
-    private lateinit var adapter: ChatPagerAdapter
-
     private val viewModel by sharedViewModel<ChatViewModel>()
+
+    private lateinit var adapter: ChatPagerAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = ChatPagerAdapter(this)
         binding.viewPager2Chat.adapter = adapter
-
         TabLayoutMediator(binding.tabLayoutChat, binding.viewPager2Chat) { tab: TabLayout.Tab, position: Int ->
             tab.setIcon(getTabIcon(position))
 //            tab.text = getTabText(position)
@@ -38,35 +37,11 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
         viewModel.loadChat()
 
-        viewModel.message.subscribeWithRxLife {
-            viewModel.refreshChatList(it)
-        }
-
         /**
          * 測試推播數據
          * */
         binding.ivNotify.clicks().subscribeWithRxLife {
             viewModel.send(
-//                ChatInfo(
-//                    id = 2,
-//                    sender = UserInfo(
-//                        id = 2,
-//                        account = "turboted",
-//                        avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
-//                        name = "turboted"
-//                    ),
-//                    recipient = UserInfo(
-//                        id = -1,
-//                        account = "jie001",
-//                        avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                        name = "阿吉"
-//                    ),
-//                    sendTime = "03:50",
-//                    chatType = ChatType.TEXT,
-//                    text = "測試推播 - 測試推播 - 測試推播 - 測試推播 - 測試推播",
-//                    read = ChatRead.UN_READ,
-//                    unReadCount = 5
-//                )
                 ChatInfo(
                     id = 5,
                     sender = UserInfo(
@@ -86,26 +61,29 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                     text = "測試推播 - 測試推播 - 測試推播 - 測試推播 - 測試推播",
                     read = ChatRead.UN_READ,
                     unReadCount = 1,
-                    sound = true
+                    isSound = true
                 )
             )
 
         }
 
-//        binding.ivAutoRenew.clicks().subscribeWithRxLife {
-//        }
+        /**
+         * 未使用
+         * */
+        binding.ivAutoRenew.clicks().subscribeWithRxLife {
+        }
 
         binding.floatingActionButtonChat.clicks().subscribeWithRxLife {
-            binding.appBarLayout.setExpanded(true)
             viewModel.scrollToTop(true)
         }
-    }
 
-    private fun getTabText(position: Int) = when (position) {
-        ChatReadIndex.ALL.index -> getString(R.string.all)
-        ChatReadIndex.HAVE_READ.index -> getString(R.string.have_read)
-        ChatReadIndex.UN_READ.index -> getString(R.string.un_read)
-        else -> null
+        viewModel.scrollToTop.observe(viewLifecycleOwner) {
+            binding.appBarLayout.setExpanded(true)
+        }
+
+        viewModel.message.subscribeWithRxLife {
+            viewModel.refreshChatList(it)
+        }
     }
 
     private fun getTabIcon(position: Int) = when (position) {
@@ -113,5 +91,12 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         ChatReadIndex.HAVE_READ.index -> R.drawable.ic_baseline_mark_email_read_24_white
         ChatReadIndex.UN_READ.index -> R.drawable.ic_baseline_mark_email_unread_24_white
         else -> throw IndexOutOfBoundsException()
+    }
+
+    private fun getTabText(position: Int) = when (position) {
+        ChatReadIndex.ALL.index -> getString(R.string.all)
+        ChatReadIndex.HAVE_READ.index -> getString(R.string.have_read)
+        ChatReadIndex.UN_READ.index -> getString(R.string.un_read)
+        else -> null
     }
 }

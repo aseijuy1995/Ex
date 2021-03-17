@@ -68,11 +68,30 @@ interface IApiService {
 
     /**
      * 聊天聲音開關
+     * request:
+     * chat.id / chat.isSound
+     * response:
+     * true - execute success
+     * false - execute failed
      * */
     @POST
     suspend fun postSwitchChatSound(
-        @Field("chat") isOpen: ChatInfo
+        @Field("chat") chat: ChatInfo
     ): Boolean
+
+    /**
+     * 刪除聊天室
+     * request:
+     * chat.id
+     * response:
+     * true - execute success
+     * false - execute failed
+     * */
+    @DELETE
+    suspend fun deleteChatRoom(
+        @Field("chat") chat: ChatInfo
+    ): Boolean
+
 
     //Notify
     /**

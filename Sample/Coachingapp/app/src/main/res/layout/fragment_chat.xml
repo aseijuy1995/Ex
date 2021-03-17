@@ -129,18 +129,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="10dp"
-            android:backgroundTint="@color/green_38af6c"
             android:clickable="true"
             android:focusable="true"
             android:scaleType="center"
             android:src="@drawable/ic_baseline_vertical_align_top_24_white"
             android:tint="@color/white"
+            app:backgroundTint="@color/green_38af6c"
             app:fabSize="mini"
             app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:tint="@color/white" />
-
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

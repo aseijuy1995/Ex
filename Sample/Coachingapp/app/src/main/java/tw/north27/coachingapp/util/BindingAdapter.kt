@@ -61,8 +61,11 @@ fun TextView.bindChatBadgeStyle(chat: ChatInfo) {
     }
 }
 
-@BindingAdapter("bind:imgRes")
-fun ImageView.bindImgRes(isSound: Boolean) {
+/**
+ * 聊天聲音狀態
+ * */
+@BindingAdapter("bind:imgSoundRes")
+fun ImageView.bindImgSoundRes(isSound: Boolean) {
     setImageResource(
         if (isSound)
             R.drawable.ic_baseline_volume_up_24_white
