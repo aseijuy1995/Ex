@@ -6,8 +6,6 @@ import tw.north27.coachingapp.ext.pagingConfig
 import tw.north27.coachingapp.model.result.NotifyInfo
 import tw.north27.coachingapp.module.ext.safeApiResults
 import tw.north27.coachingapp.module.http.Results
-import tw.north27.coachingapp.page.NotifyPagingSource
-import tw.north27.coachingapp.notify.INotifyRepository
 
 class NotifyRepository(private val service: IApiService) : INotifyRepository {
 
@@ -26,7 +24,7 @@ class NotifyRepository(private val service: IApiService) : INotifyRepository {
         return safeApiResults { service.postReadAllNotify() }
     }
 
-    override suspend fun deleteNotify(notifyId: Long): Results<Boolean> {
-        return safeApiResults { service.postDeleteNotify(notifyId) }
+    override suspend fun deleteNotify(notify: NotifyInfo): Results<Boolean> {
+        return safeApiResults { service.deleteNotify(notify) }
     }
 }

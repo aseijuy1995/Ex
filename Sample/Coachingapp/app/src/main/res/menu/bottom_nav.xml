@@ -9,7 +9,7 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/fragment_chat_list"
+        android:id="@+id/fragment_chat"
         android:icon="@drawable/ic_baseline_list_alt_24_white"
         android:title="@string/list"
         app:showAsAction="always" />

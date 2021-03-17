@@ -3,6 +3,7 @@ package tw.north27.coachingapp.consts
 import kotlinx.coroutines.delay
 import retrofit2.Response
 import retrofit2.http.Field
+import timber.log.Timber
 import tw.north27.coachingapp.model.result.*
 
 class ApiService : IApiService {
@@ -410,189 +411,208 @@ class ApiService : IApiService {
         return true
     }
 
-    var notifyList = mutableListOf<Pair<Int, MutableList<NotifyInfo>>>()
+    var deleteNotify: NotifyInfo? = null
+    var isReadAllNotify: Boolean? = null
     override suspend fun getLoadNotify(@Field(value = "page") page: Int): List<NotifyInfo> {
-        if (notifyList.isEmpty()) {
-            notifyList.add(
-                1 to mutableListOf(
-                    NotifyInfo(
-                        id = 0,
-                        imgUrl = "https://cf.shopee.tw/file/b7b28075865ae8a751109478b6c59f2b_tn",
-                        title = "噓！偷偷告訴你促銷期間輕鬆提升流量秘笈 v1.0.0",
-                        desc = "大促期間流量&轉單大幅成長，商品下折扣卻沒有曝光嗎✨使用蝦皮關鍵字廣告讓你輕鬆獲得賣場流量，要曝光和業績就趁現在！",
-                        time = "2021-02-26 16:31",
-                        isRead = false,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 1,
-                        imgUrl = "https://cf.shopee.tw/file/b3275b57f030fac1288e08a75f364017_tn",
-                        title = "【重要】3/3(三)自動提款順延至3/10(三)執行 v1.0.1",
-                        desc = "親愛的蝦皮用戶您好，由於內部作業系統維護，原定3/3(三)執行的自動提款將順延至3/10(三)執行，後續自動提款作業時間仍維持於3/17、3/31...以此類推，造成您的不便還請見諒\uD83D\uDE47未執行自動提領當週，仍有乙次免費提領機會，還請多加利用\uD83D\uDE4F",
-                        time = "2021-02-26 14:33",
-                        isRead = false,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 2,
-                        imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
-                        title = "賣場佈置新組件上線！ v1.0.2",
-                        desc = "賣場佈置全新組件讓您展示熱銷商品、新品以及促銷折扣，幫助您打造吸睛的賣場首頁，提升下單轉換率，點入了解更多\uD83D\uDC49",
-                        time = "2021-02-23 14:49",
-                        isRead = false,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 3,
-                        imgUrl = "https://cf.shopee.tw/file/bcf02170cead12ea5d9319f8d4611823_tn",
-                        title = "蝦皮動態模板懶人包送給你 v1.0.3",
-                        desc = "【直播課程最便利－貼文牆引流量】在家就可以看\uD83D\uDD25到底怎麼經營粉絲，貼文牆怎麼玩？下半年最強功能之一你不能不會！貼文牆各種秘笈我們來教你\uD83D\uDE4C",
-                        time = "2021-02-18 20:10",
-                        isRead = true,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 4,
-                        imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
-                        title = "新推出手機版【我的主題活動】 v1.0.4",
-                        desc = "為了方便報名主題活動，您將可透過蝦皮APP來管理【我的主題活動】，同時也可即時查詢已報名成功的商品。更多相關說明請參考連結\uD83D\uDC49",
-                        time = "2021-02-02 17:01",
-                        isRead = true,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 5,
-                        imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
-                        title = "防詐騙提醒 v1.0.5",
-                        desc = "【重要提醒】蝦皮購物貼心提醒您，千萬不要透過LINE或其他通訊軟體約定交易、私下匯款賣家，也不要在商品未確認收到前聽信賣家指示提前點選〔完成訂單〕千萬注意，以免受騙上當哦！",
-                        time = "2021-01-28 15:33",
-                        isRead = false,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 6,
-                        imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
-                        title = "賣家中心新功能上線：商品優化工具 v1.0.6",
-                        desc = "親愛的賣家您好，賣家中心內的數據中心全新上線商品優化工具，透過商品優化工具可以幫助您找出需要優化的商品並提供調整方向與建議，確保賣場內所有商品內容都是高品質，吸引買家關注！立即點入了解更多\uD83D\uDC49",
-                        time = "2021-01-27 17:00",
-                        isRead = false,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 7,
-                        imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
-                        title = "【重要提醒！強化帳戶安全性指南】 v1.0.7",
-                        desc = "蝦皮絕不會要求您提供個人密碼、驗證碼，當您有以下狀況：無法登入帳號、有不明提款動作、發現非本人下單的訂單時，請盡速聯繫蝦皮客服團隊。點擊確認了解如何設定高強度密碼／帳戶有安全疑慮該怎麼辦\uD83D\uDC49",
-                        time = "2021-01-25 11:03",
-                        isRead = true,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 8,
-                        imgUrl = "https://cf.shopee.tw/file/3cfd20ea4b19b1412fbea615813e6b0e_tn",
-                        title = "邀請新朋友來蝦皮 v1.0.8",
-                        desc = "新朋友註冊蝦皮後，在蝦皮購物App完成第1筆訂單，可享訂單金額 ",
-                        time = "2021-01-11 18:56",
-                        isRead = false,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 9,
-                        imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
-                        title = "您的訂單已被取消！ v1.0.9",
-                        desc = "嗨 aseijuy1995，很抱歉，您的訂單已被賣家取消。請點此查看更多相似的商品，祝您購物愉快！",
-                        time = "2021-01-01 12:00",
-                        isRead = false,
-                        notifyType = NotifyType.NORMAL
-                    )
+        var notifyList = mutableListOf<Pair<Int, MutableList<NotifyInfo>>>()
+        var page = page
+        notifyList.add(
+            1 to mutableListOf(
+                NotifyInfo(
+                    id = 0,
+                    imgUrl = "https://cf.shopee.tw/file/b7b28075865ae8a751109478b6c59f2b_tn",
+                    title = "噓！偷偷告訴你促銷期間輕鬆提升流量秘笈 v1.0.0",
+                    desc = "大促期間流量&轉單大幅成長，商品下折扣卻沒有曝光嗎✨使用蝦皮關鍵字廣告讓你輕鬆獲得賣場流量，要曝光和業績就趁現在！",
+                    time = "2021-02-26 16:31",
+                    isRead = false,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 1,
+                    imgUrl = "https://cf.shopee.tw/file/b3275b57f030fac1288e08a75f364017_tn",
+                    title = "【重要】3/3(三)自動提款順延至3/10(三)執行 v1.0.1",
+                    desc = "親愛的蝦皮用戶您好，由於內部作業系統維護，原定3/3(三)執行的自動提款將順延至3/10(三)執行，後續自動提款作業時間仍維持於3/17、3/31...以此類推，造成您的不便還請見諒\uD83D\uDE47未執行自動提領當週，仍有乙次免費提領機會，還請多加利用\uD83D\uDE4F",
+                    time = "2021-02-26 14:33",
+                    isRead = false,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 2,
+                    imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
+                    title = "賣場佈置新組件上線！ v1.0.2",
+                    desc = "賣場佈置全新組件讓您展示熱銷商品、新品以及促銷折扣，幫助您打造吸睛的賣場首頁，提升下單轉換率，點入了解更多\uD83D\uDC49",
+                    time = "2021-02-23 14:49",
+                    isRead = false,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 3,
+                    imgUrl = "https://cf.shopee.tw/file/bcf02170cead12ea5d9319f8d4611823_tn",
+                    title = "蝦皮動態模板懶人包送給你 v1.0.3",
+                    desc = "【直播課程最便利－貼文牆引流量】在家就可以看\uD83D\uDD25到底怎麼經營粉絲，貼文牆怎麼玩？下半年最強功能之一你不能不會！貼文牆各種秘笈我們來教你\uD83D\uDE4C",
+                    time = "2021-02-18 20:10",
+                    isRead = true,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 4,
+                    imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
+                    title = "新推出手機版【我的主題活動】 v1.0.4",
+                    desc = "為了方便報名主題活動，您將可透過蝦皮APP來管理【我的主題活動】，同時也可即時查詢已報名成功的商品。更多相關說明請參考連結\uD83D\uDC49",
+                    time = "2021-02-02 17:01",
+                    isRead = true,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 5,
+                    imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
+                    title = "防詐騙提醒 v1.0.5",
+                    desc = "【重要提醒】蝦皮購物貼心提醒您，千萬不要透過LINE或其他通訊軟體約定交易、私下匯款賣家，也不要在商品未確認收到前聽信賣家指示提前點選〔完成訂單〕千萬注意，以免受騙上當哦！",
+                    time = "2021-01-28 15:33",
+                    isRead = false,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 6,
+                    imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
+                    title = "賣家中心新功能上線：商品優化工具 v1.0.6",
+                    desc = "親愛的賣家您好，賣家中心內的數據中心全新上線商品優化工具，透過商品優化工具可以幫助您找出需要優化的商品並提供調整方向與建議，確保賣場內所有商品內容都是高品質，吸引買家關注！立即點入了解更多\uD83D\uDC49",
+                    time = "2021-01-27 17:00",
+                    isRead = false,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 7,
+                    imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
+                    title = "【重要提醒！強化帳戶安全性指南】 v1.0.7",
+                    desc = "蝦皮絕不會要求您提供個人密碼、驗證碼，當您有以下狀況：無法登入帳號、有不明提款動作、發現非本人下單的訂單時，請盡速聯繫蝦皮客服團隊。點擊確認了解如何設定高強度密碼／帳戶有安全疑慮該怎麼辦\uD83D\uDC49",
+                    time = "2021-01-25 11:03",
+                    isRead = true,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 8,
+                    imgUrl = "https://cf.shopee.tw/file/3cfd20ea4b19b1412fbea615813e6b0e_tn",
+                    title = "邀請新朋友來蝦皮 v1.0.8",
+                    desc = "新朋友註冊蝦皮後，在蝦皮購物App完成第1筆訂單，可享訂單金額 ",
+                    time = "2021-01-11 18:56",
+                    isRead = false,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 9,
+                    imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
+                    title = "您的訂單已被取消！ v1.0.9",
+                    desc = "嗨 aseijuy1995，很抱歉，您的訂單已被賣家取消。請點此查看更多相似的商品，祝您購物愉快！",
+                    time = "2021-01-01 12:00",
+                    isRead = false,
+                    notifyType = NotifyType.NORMAL
                 )
             )
-            notifyList.add(
-                2 to mutableListOf(
-                    NotifyInfo(
-                        id = 10,
-                        imgUrl = "https://cf.shopee.tw/file/3cfd20ea4b19b1412fbea615813e6b0e_tn",
-                        title = "邀請新朋友來蝦皮 v1.1.0",
-                        desc = "嗨 aseijuy1995，很抱歉，您的訂單已被賣家取消。請點此查看更多相似的商品，祝您購物愉快！",
-                        time = "2020-12-21 19:42",
-                        isRead = false,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 11,
-                        imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
-                        title = "您的訂單已被取消！ v1.1.1",
-                        desc = "嗨 aseijuy1995，很抱歉，您的訂單已被賣家取消。請點此查看更多相似的商品，祝您購物愉快！",
-                        time = "2020-12-21 12:00",
-                        isRead = true,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 12,
-                        imgUrl = "https://cf.shopee.tw/file/3cfd20ea4b19b1412fbea615813e6b0e_tn",
-                        title = "邀請新朋友來蝦皮 v1.1.2",
-                        desc = "嗨 aseijuy1995，很抱歉，您的訂單已被賣家取消。請點此查看更多相似的商品，祝您購物愉快！",
-                        time = "2020-12-20 20:38",
-                        isRead = false,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 13,
-                        imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
-                        title = "您的訂單已被取消！ v1.1.3",
-                        desc = "嗨 aseijuy1995，很抱歉，您的訂單已被賣家取消。請點此查看更多相似的商品，祝您購物愉快！",
-                        time = "2020-12-18 12:00",
-                        isRead = true,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 14,
-                        imgUrl = "https://cf.shopee.tw/file/683d408bda45da45ca2f9414e19a16a0_tn",
-                        title = "恭喜! 您已完成跨境實名認證 v1.1.4",
-                        desc = "您已經成功地使用街口帳戶 +886972911675 完成了跨境商品實名認證流程。您不需再進行實名認證。請注意，您的跨境購物退款金額將被退回到這個街口帳戶。",
-                        time = "2020-11-28 22:57",
-                        isRead = false,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 15,
-                        imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
-                        title = "您的訂單已被取消！ v1.1.5",
-                        desc = "嗨 aseijuy1995，很抱歉，您的訂單已被賣家取消。請點此查看更多相似的商品，祝您購物愉快！",
-                        time = "2020-11-25 12:00",
-                        isRead = false,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 16,
-                        imgUrl = "https://cf.shopee.tw/file/79f99f9f49370fef139475db254e8c76_tn",
-                        title = "別忘記你購物車內的商品！ v1.1.6",
-                        desc = "Android TDD 測試驅動開發：從 UnitTest、TD... 還在你的購物車內，在商品完售前趕快購買！",
-                        time = "2020-11-21 20:01",
-                        isRead = true,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 17,
-                        imgUrl = "https://cf.shopee.tw/file/9f70ed5d9a2f1105b5916c8c1309a721_tn",
-                        title = "提醒您有蝦幣即將到期啦！ v1.1.7",
-                        desc = "嗨，你的蝦幣即將在9/30, 23:59過期囉！趕緊進蝦皮，折抵蝦幣立即逛\uD83D\uDC49",
-                        time = "2020-09-19 09:00",
-                        isRead = true,
-                        notifyType = NotifyType.NORMAL
-                    ),
-                    NotifyInfo(
-                        id = 18,
-                        imgUrl = "https://cf.shopee.tw/file/3cfd20ea4b19b1412fbea615813e6b0e_tn",
-                        title = "邀請新朋友來蝦皮 v1.1.8",
-                        desc = "嗨 aseijuy1995，很抱歉，您的訂單已被賣家取消。請點此查看更多相似的商品，祝您購物愉快！",
-                        time = "2020-07-04 20:21",
-                        isRead = false,
-                        notifyType = NotifyType.NORMAL
-                    )
+        )
+        notifyList.add(
+            2 to mutableListOf(
+                NotifyInfo(
+                    id = 10,
+                    imgUrl = "https://cf.shopee.tw/file/3cfd20ea4b19b1412fbea615813e6b0e_tn",
+                    title = "邀請新朋友來蝦皮 v1.1.0",
+                    desc = "嗨 aseijuy1995，很抱歉，您的訂單已被賣家取消。請點此查看更多相似的商品，祝您購物愉快！",
+                    time = "2020-12-21 19:42",
+                    isRead = false,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 11,
+                    imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
+                    title = "您的訂單已被取消！ v1.1.1",
+                    desc = "嗨 aseijuy1995，很抱歉，您的訂單已被賣家取消。請點此查看更多相似的商品，祝您購物愉快！",
+                    time = "2020-12-21 12:00",
+                    isRead = true,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 12,
+                    imgUrl = "https://cf.shopee.tw/file/3cfd20ea4b19b1412fbea615813e6b0e_tn",
+                    title = "邀請新朋友來蝦皮 v1.1.2",
+                    desc = "嗨 aseijuy1995，很抱歉，您的訂單已被賣家取消。請點此查看更多相似的商品，祝您購物愉快！",
+                    time = "2020-12-20 20:38",
+                    isRead = false,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 13,
+                    imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
+                    title = "您的訂單已被取消！ v1.1.3",
+                    desc = "嗨 aseijuy1995，很抱歉，您的訂單已被賣家取消。請點此查看更多相似的商品，祝您購物愉快！",
+                    time = "2020-12-18 12:00",
+                    isRead = true,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 14,
+                    imgUrl = "https://cf.shopee.tw/file/683d408bda45da45ca2f9414e19a16a0_tn",
+                    title = "恭喜! 您已完成跨境實名認證 v1.1.4",
+                    desc = "您已經成功地使用街口帳戶 +886972911675 完成了跨境商品實名認證流程。您不需再進行實名認證。請注意，您的跨境購物退款金額將被退回到這個街口帳戶。",
+                    time = "2020-11-28 22:57",
+                    isRead = false,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 15,
+                    imgUrl = "https://cf.shopee.tw/file/2a19479ce918273f9afd2b7e86bb628d_tn",
+                    title = "您的訂單已被取消！ v1.1.5",
+                    desc = "嗨 aseijuy1995，很抱歉，您的訂單已被賣家取消。請點此查看更多相似的商品，祝您購物愉快！",
+                    time = "2020-11-25 12:00",
+                    isRead = false,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 16,
+                    imgUrl = "https://cf.shopee.tw/file/79f99f9f49370fef139475db254e8c76_tn",
+                    title = "別忘記你購物車內的商品！ v1.1.6",
+                    desc = "Android TDD 測試驅動開發：從 UnitTest、TD... 還在你的購物車內，在商品完售前趕快購買！",
+                    time = "2020-11-21 20:01",
+                    isRead = true,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 17,
+                    imgUrl = "https://cf.shopee.tw/file/9f70ed5d9a2f1105b5916c8c1309a721_tn",
+                    title = "提醒您有蝦幣即將到期啦！ v1.1.7",
+                    desc = "嗨，你的蝦幣即將在9/30, 23:59過期囉！趕緊進蝦皮，折抵蝦幣立即逛\uD83D\uDC49",
+                    time = "2020-09-19 09:00",
+                    isRead = true,
+                    notifyType = NotifyType.NORMAL
+                ),
+                NotifyInfo(
+                    id = 18,
+                    imgUrl = "https://cf.shopee.tw/file/3cfd20ea4b19b1412fbea615813e6b0e_tn",
+                    title = "邀請新朋友來蝦皮 v1.1.8",
+                    desc = "嗨 aseijuy1995，很抱歉，您的訂單已被賣家取消。請點此查看更多相似的商品，祝您購物愉快！",
+                    time = "2020-07-04 20:21",
+                    isRead = false,
+                    notifyType = NotifyType.NORMAL
                 )
             )
-
+        )
+        isReadAllNotify?.let {
+            if (it) {
+                notifyList = notifyList.map { it.copy() }.toMutableList()
+                notifyList.forEach {
+                    it.second.forEach { it.isRead = true }
+                }
+                Timber.d("isReadAllNotify")
+            }
+            isReadAllNotify = null
+        }
+        deleteNotify?.let {
+            Timber.d("deleteNotify = $it")
+            notifyList = notifyList.map { it.copy() }.toMutableList()
+            notifyList.forEach {
+                val isRemove = it.second.removeAll { it.id == deleteNotify!!.id }
+                Timber.d("deleteNotify = isRemove = $isRemove")
+            }
+            deleteNotify = null
         }
         delay(1500)
         return when {
@@ -603,19 +623,17 @@ class ApiService : IApiService {
 
     override suspend fun postSwitchNotify(isOpen: Boolean): Boolean {
         delay(500)
-        return isOpen
+        return true
     }
 
     override suspend fun postReadAllNotify(): Boolean {
+        isReadAllNotify = true
         delay(1000)
         return true
     }
 
-    override suspend fun postDeleteNotify(notifyId: Long): Boolean {
-//        notifyList.map { pair ->
-//            val removeNotifys = pair.second.filter { it.id == notifyId }
-//            pair.second.removeAll(removeNotifys)
-//        }
+    override suspend fun deleteNotify(notify: NotifyInfo): Boolean {
+        deleteNotify = notify
         delay(500)
         return true
     }

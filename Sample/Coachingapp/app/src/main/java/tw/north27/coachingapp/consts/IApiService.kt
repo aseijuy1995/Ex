@@ -92,7 +92,6 @@ interface IApiService {
         @Field("chat") chat: ChatInfo
     ): Boolean
 
-
     //Notify
     /**
      * 獲取通知
@@ -103,7 +102,10 @@ interface IApiService {
     ): List<NotifyInfo>
 
     /**
-     * 通知開關
+     * 總通知開關
+     * response:
+     * true - execute success
+     * false - execute failed
      * */
     @FormUrlEncoded
     @POST
@@ -113,17 +115,25 @@ interface IApiService {
 
     /**
      * 通知全部讀取
+     * response:
+     * true - execute success
+     * false - execute failed
      * */
     @FormUrlEncoded
     @POST
     suspend fun postReadAllNotify(): Boolean
 
     /**
-     * 刪除指定通知
+     * 刪除通知
+     * request:
+     * notify.id
+     * response:
+     * true - execute success
+     * false - execute failed
      * */
     @FormUrlEncoded
-    @POST
-    suspend fun postDeleteNotify(notifyId: Long): Boolean
+    @DELETE
+    suspend fun deleteNotify(notify: NotifyInfo): Boolean
 
 
 }

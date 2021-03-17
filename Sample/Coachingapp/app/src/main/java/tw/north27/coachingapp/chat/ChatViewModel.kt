@@ -152,7 +152,7 @@ class ChatViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCompon
                     }
                 }
                 is Results.ClientErrors -> {
-                    _toast.postValue(ToastType.DELETE_CHAT_ROOM to "${results.e}:修改錯誤，請稍後再刪除!")
+                    _toast.postValue(ToastType.DELETE_CHAT_ROOM to "${results.e}:修改錯誤，請稍後再修改!")
                 }
                 is Results.NetWorkError -> {
                     _toast.postValue(ToastType.DELETE_CHAT_ROOM to "${results.e}:網路異常")

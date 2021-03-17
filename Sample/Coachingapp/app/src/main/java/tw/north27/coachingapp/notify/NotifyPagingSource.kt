@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.page
+package tw.north27.coachingapp.notify
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragment_start">
-    <!--    app:startDestination="@id/fragment_home">-->
+    app:startDestination="@id/fragment_home">
+    <!--    app:startDestination="@id/fragment_start">-->
 
 
     <!-- Global -->
@@ -71,12 +71,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/fragment_chat_list"
-        android:name="tw.north27.coachingapp.ui.fragment.main.ChatFragment"
-        android:label="fragment_chat_list"
-        tools:layout="@layout/fragment_chat" />
-
-    <fragment
         android:id="@+id/fragment_learn"
         android:name="tw.north27.coachingapp.ui.fragment.main.LearnFragment"
         android:label="fragment_learn"
@@ -88,6 +82,12 @@
         android:label="fragment_person_center"
         tools:layout="@layout/fragment_person_center" />
 
+    <!-- Chat -->
+    <fragment
+        android:id="@+id/fragment_chat"
+        android:name="tw.north27.coachingapp.ui.fragment.main.ChatFragment"
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat" />
 
     <!-- Notify -->
     <fragment

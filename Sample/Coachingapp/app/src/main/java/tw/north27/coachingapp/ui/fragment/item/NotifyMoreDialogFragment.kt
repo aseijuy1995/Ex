@@ -9,8 +9,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.base.BaseViewBindingBottomSheetDialogFragment
 import tw.north27.coachingapp.databinding.FragmentNotifyMoreDialogBinding
 import tw.north27.coachingapp.model.result.NotifyInfo
-import tw.north27.coachingapp.ui.fragment.main.NotifyFragmentArgs
 import tw.north27.coachingapp.notify.NotifyViewModel
+import tw.north27.coachingapp.ui.fragment.main.NotifyFragmentArgs
 
 class NotifyMoreDialogFragment : BaseViewBindingBottomSheetDialogFragment<FragmentNotifyMoreDialogBinding>(FragmentNotifyMoreDialogBinding::inflate) {
 
@@ -29,14 +29,10 @@ class NotifyMoreDialogFragment : BaseViewBindingBottomSheetDialogFragment<Fragme
         }
 
         binding.ivDelete.clicks().subscribeWithRxLife {
-            showLoadingDialog()
             viewModel.deleteNotify(notifyInfo)
-        }
-
-        viewModel.isNotifyDelete.observe(viewLifecycleOwner) {
-            dismissLoadingDialog()
             findNavController().navigateUp()
         }
+
     }
 
 }

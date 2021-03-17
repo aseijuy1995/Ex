@@ -29,7 +29,7 @@ class CoachingActivity : BaseAppCompatActivity<ActivityCoachingBinding>(Activity
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.bottomNavigationView.isVisible = when (destination.id) {
                 R.id.fragment_home,
-                R.id.fragment_chat_list,
+                R.id.fragment_chat,
                 R.id.fragment_learn,
                 R.id.fragment_notify,
                 R.id.fragment_person_center -> true

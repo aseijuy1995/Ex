@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import tw.north27.coachingapp.base.BaseViewModel
 import tw.north27.coachingapp.ext.asLiveData
 import tw.north27.coachingapp.model.result.NotifyInfo
@@ -15,7 +14,7 @@ import tw.north27.coachingapp.module.http.Results
 
 class NotifyViewModel(private val notifyRepo: INotifyRepository) : BaseViewModel() {
 
-    fun notifyList(): LiveData<PagingData<NotifyInfo>> = notifyRepo.loadNotify().flow.cachedIn(viewModelScope).asLiveData()
+    fun getNotifyList(): LiveData<PagingData<NotifyInfo>> = notifyRepo.loadNotify().flow.cachedIn(viewModelScope).asLiveData()
 
     private val _notifyOpen = MutableLiveData<Boolean>()
 
@@ -52,8 +51,7 @@ class NotifyViewModel(private val notifyRepo: INotifyRepository) : BaseViewModel
             val results = notifyRepo.readAllNotify()
             when (results) {
                 is Results.Successful -> {
-                    Timber.d("Results.Successful")
-                    _notifyOpen.postValue(results.data!!)
+//                    _notifyOpen.postValue(results.data!!)
                     _toast.postValue(ToastType.READ_ALL_NOTIFY to if (results.data) "全部已讀" else "已全部已讀摟!")
                 }
                 is Results.ClientErrors -> {
@@ -66,20 +64,24 @@ class NotifyViewModel(private val notifyRepo: INotifyRepository) : BaseViewModel
         }
     }
 
-    //
-    //
-    //
-    private val _isNotifyDelete = MutableLiveData<Boolean>()
+    private val _notifyDelete = MutableLiveData<NotifyInfo>()
 
-    val isNotifyDelete = _isNotifyDelete.asLiveData()
+    val notifyDelete = _notifyDelete.asLiveData()
 
     fun deleteNotify(notifyInfo: NotifyInfo) {
         viewModelScope.launch {
-            val results = notifyRepo.deleteNotify(notifyInfo.id)
+            val results = notifyRepo.deleteNotify(notifyInfo)
             when (results) {
                 is Results.Successful -> {
-                    _isNotifyDelete.postValue(results.data!!)
-                    _toast.postValue(ToastType.DELETE_NOTIFY to if (results.data) "已移除通知" else "找不到相關通知，已被移除嘍!")
+                    when (results.data) {
+                        true -> {
+                            _notifyDelete.postValue(notifyInfo)
+                            _toast.postValue(ToastType.DELETE_NOTIFY to "已移除通知")
+                        }
+                        false -> {
+                            _toast.postValue(ToastType.DELETE_NOTIFY to "${results.data}:修改錯誤，請稍後再刪除!")
+                        }
+                    }
                 }
                 is Results.ClientErrors -> {
                     _toast.postValue(ToastType.DELETE_NOTIFY to "${results.e}:修改錯誤，請稍後再修改!")

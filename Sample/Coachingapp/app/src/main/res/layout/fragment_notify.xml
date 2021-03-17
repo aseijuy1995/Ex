@@ -90,7 +90,8 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/gray_eeeeee">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_notify"
@@ -113,7 +114,6 @@
                     android:layout_height="match_parent" />
 
             </FrameLayout>
-
 
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 

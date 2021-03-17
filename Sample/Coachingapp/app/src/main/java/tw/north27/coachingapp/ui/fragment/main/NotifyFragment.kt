@@ -3,6 +3,7 @@ package tw.north27.coachingapp.ui.fragment.main
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
@@ -19,8 +20,11 @@ import tw.north27.coachingapp.base.BaseDataBindingFragment
 import tw.north27.coachingapp.databinding.FragmentNotifyBinding
 import tw.north27.coachingapp.ext.start
 import tw.north27.coachingapp.ext.stop
+import tw.north27.coachingapp.notify.BaseLoadStateAdapter
 import tw.north27.coachingapp.notify.NotifyViewModel
-import tw.north27.coachingapp.page.BaseLoadStateAdapter
+
+//https://github.com/android/architecture-components-samples/issues/281
+//https://gist.github.com/guness/df12d8cc4f595af1395f4a1f5bca5f00
 
 class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.fragment_notify) {
 
@@ -32,7 +36,6 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.itemNotifyShinner.shimmerFrameLayoutNotify.start()
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@NotifyFragment.viewModel
@@ -46,43 +49,39 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
             adapter = this@NotifyFragment.adapter.withLoadStateFooter(loadAdapter)
         }
 
-        viewModel.notifyList().observe(viewLifecycleOwner) {
+        viewModel.getNotifyList().observe(viewLifecycleOwner) {
             adapter.submitData(lifecycle, it)
+        }
+
+        lifecycleScope.launch {
+            adapter.loadStateFlow.collectLatest {
+                if (it.refresh is LoadState.Loading) {
+                    binding.itemNotifyShinner.shimmerFrameLayoutNotify.start()
+                    binding.itemEmpty.clEmpty.isVisible = false
+                    binding.rvNotify.isVisible = false
+                }
+                if (it.refresh is LoadState.NotLoading) {
+                    binding.smartRefreshLayoutNotify.finishRefresh()
+                    binding.itemNotifyShinner.shimmerFrameLayoutNotify.stop()
+                    if (adapter.itemCount > 0)
+                        binding.rvNotify.isVisible = true
+                    else
+                        binding.itemEmpty.clEmpty.isVisible = true
+                }
+            }
         }
 
         //Refresh
         binding.smartRefreshLayoutNotify.setOnRefreshListener { adapter.refresh() }
 
-        lifecycleScope.launch {
-            adapter.loadStateFlow.collectLatest {
-                if (it.refresh is LoadState.NotLoading) {
-                    binding.smartRefreshLayoutNotify.finishRefresh()
-                    if (adapter.itemCount > 0) {
-                        binding.itemNotifyShinner.shimmerFrameLayoutNotify.stop()
-                    }
-                }
-            }
-        }
-
         //Retry
         loadAdapter.retryClickRelay.subscribeWithRxLife { adapter.retry() }
 
-
-        //
         /**
-         * Item click
-         * 導頁功能未處理
+         *
          * */
-        adapter.itemClickRelay.subscribeWithRxLife {
-            Snackbar.make(binding.root, "Item Click, ${it.second.title}", Snackbar.LENGTH_SHORT).show()
-        }
-
-        /**
-         * More click
-         * 功能未處理
-         * */
-        adapter.moreClickRelay.subscribeWithRxLife {
-            findNavController().navigate(NotifyFragmentDirections.actionFragmentNotifyToFragmentNotifyMoreDialog(it.second))
+        viewModel.notifyDelete.observe(viewLifecycleOwner) {
+            adapter.refresh()
         }
 
         /**
@@ -103,6 +102,22 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
             viewModel.readAllNotify()
         }
 
+        /**
+         * Item click
+         * 導頁功能未處理
+         * */
+        adapter.itemClickRelay.subscribeWithRxLife {
+            Snackbar.make(binding.root, "Item Click, ${it.second.title}", Snackbar.LENGTH_SHORT).show()
+        }
+
+        /**
+         * More click
+         * 功能未處理
+         * */
+        adapter.moreClickRelay.subscribeWithRxLife {
+            findNavController().navigate(NotifyFragmentDirections.actionFragmentNotifyToFragmentNotifyMoreDialog(it.second))
+        }
+
         viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
 
     }
@@ -119,7 +134,6 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
                 Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
             }
             NotifyViewModel.ToastType.DELETE_NOTIFY -> {
-                adapter.refresh()
                 Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
             }
         }
