@@ -32,7 +32,6 @@ class ChatListAdapter : ListAdapter<ChatInfo, ChatListAdapter.VH>(object : DiffU
     inner class VH(val binding: ItemChatListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(chat: ChatInfo) = binding.apply {
             this.chat = chat
-//            if (chat.isSwipe) swipeLayout.open() else swipeLayout.close()
             itemChatListSwipe.flSound.setOnClickListener { soundClickRelay.accept(it to chat) }
             itemChatListSwipe.flDelete.setOnClickListener { deleteClickRelay.accept(it to chat) }
             itemView.setOnClickListener { itemClickRelay.accept(it to chat) }

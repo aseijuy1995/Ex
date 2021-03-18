@@ -36,6 +36,20 @@
         app:popUpTo="@id/fragment_home"
         app:popUpToInclusive="true" />
 
+    <action
+        android:id="@+id/action_to_fragment_chat_room"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
+        app:destination="@id/fragment_chat_room">
+
+        <argument
+            android:name="chat"
+            app:argType="tw.north27.coachingapp.model.result.ChatInfo"
+            app:nullable="false" />
+    </action>
+
     <!--  Page  -->
     <fragment
         android:id="@+id/fragment_start"
@@ -88,6 +102,18 @@
         android:name="tw.north27.coachingapp.ui.fragment.main.ChatFragment"
         android:label="fragment_chat"
         tools:layout="@layout/fragment_chat" />
+
+    <fragment
+        android:id="@+id/fragment_chat_list"
+        android:name="tw.north27.coachingapp.ui.fragment.main.ChatListFragment"
+        android:label="fragment_chat_list"
+        tools:layout="@layout/fragment_chat_list" />
+
+    <fragment
+        android:id="@+id/fragment_chat_room"
+        android:name="tw.north27.coachingapp.ui.fragment.main.ChatRoomFragment"
+        android:label="fragment_chat_room"
+        tools:layout="@layout/fragment_chat_room" />
 
     <!-- Notify -->
     <fragment

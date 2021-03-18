@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.base.BaseFragment
@@ -113,7 +115,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
         }
 
         adapter.itemClickRelay.subscribeWithRxLife {
-
+            findNavController().navigate(NavGraphDirections.actionToFragmentChatRoom(it.second))
         }
     }
 

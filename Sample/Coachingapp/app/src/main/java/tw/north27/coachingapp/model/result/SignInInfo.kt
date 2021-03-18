@@ -1,5 +1,8 @@
 package tw.north27.coachingapp.model.result
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
 data class SignInInfo(
     val signInState: SignInState,
     val isFirst: Boolean,// 第一次登入
@@ -18,6 +21,7 @@ enum class Identity {
     VOLUNTEER// 志工
 }
 
+@Parcelize
 data class UserInfo(
     val id: Int,
     val account: String,
@@ -28,4 +32,4 @@ data class UserInfo(
     val registerTime: String? = null,// 註冊時間
     val accessToken: String? = null,// 訪問用token
     val refreshToken: String? = null// 刷新用token
-)
+) : Parcelable
