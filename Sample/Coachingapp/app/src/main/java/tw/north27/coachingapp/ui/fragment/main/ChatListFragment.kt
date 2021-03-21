@@ -8,7 +8,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.*
 import com.google.android.material.snackbar.Snackbar
+import com.jakewharton.rxbinding4.recyclerview.scrollStateChanges
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.R
@@ -101,6 +103,17 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
             }, 500)
         }
 
+        binding.rvChat.scrollStateChanges().subscribeWithRxLife {
+            when (it) {
+                SCROLL_STATE_IDLE -> {
+                    viewModel.shoeFab(true)
+                }
+                SCROLL_STATE_DRAGGING -> {
+                    viewModel.shoeFab(false)
+                }
+            }
+        }
+
         viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
 
         //Item Click
@@ -125,7 +138,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
                 binding.smartRefreshLayoutChat.finishRefresh()
                 Snackbar.make(binding.rvChat, pair.second, Snackbar.LENGTH_SHORT).show()
             }
-            ChatViewModel.ToastType.SWITCH_CHAT_NOTIFY -> {
+            ChatViewModel.ToastType.SWITCH_CHAT_SOUND -> {
                 if (viewModel.type == type) {
                     dismissLoadingDialog()
                     Snackbar.make(binding.rvChat, pair.second, Snackbar.LENGTH_SHORT).show()

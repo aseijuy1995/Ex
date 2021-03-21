@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.swipe.SwipeLayout
 import com.jakewharton.rxrelay3.ReplayRelay
+import timber.log.Timber
 import tw.north27.coachingapp.databinding.ItemChatListBinding
 import tw.north27.coachingapp.model.result.ChatInfo
 

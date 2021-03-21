@@ -80,6 +80,7 @@ class ApiService : IApiService {
 
     override suspend fun getLoadChat(): List<ChatInfo> {
         delay(1500)
+//        return listOf()
         return listOf(
             ChatInfo(
                 id = 0,

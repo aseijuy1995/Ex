@@ -2,6 +2,7 @@ package tw.north27.coachingapp.ui.fragment.main
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.LinearInterpolator
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jakewharton.rxbinding4.view.clicks
@@ -18,6 +19,7 @@ import tw.north27.coachingapp.model.result.ChatRead
 import tw.north27.coachingapp.model.result.ChatType
 import tw.north27.coachingapp.model.result.UserInfo
 
+
 class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
     private val binding by viewBinding<FragmentChatBinding>(FragmentChatBinding::bind)
@@ -28,8 +30,10 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = ChatPagerAdapter(this)
-        binding.viewPager2Chat.adapter = adapter
+        binding.viewPager2Chat.also {
+            it.adapter = ChatPagerAdapter(this).also { adapter = it }
+            it.offscreenPageLimit = 2
+        }
         TabLayoutMediator(binding.tabLayoutChat, binding.viewPager2Chat) { tab: TabLayout.Tab, position: Int ->
             tab.setIcon(getTabIcon(position))
 //            tab.text = getTabText(position)
@@ -68,9 +72,9 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         }
 
         /**
-         * 未使用
+         *
          * */
-        binding.ivAutoRenew.clicks().subscribeWithRxLife {
+        binding.ivQrCode.clicks().subscribeWithRxLife {
         }
 
         binding.floatingActionButtonChat.clicks().subscribeWithRxLife {
@@ -78,7 +82,15 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         }
 
         viewModel.scrollToTop.observe(viewLifecycleOwner) {
-            binding.appBarLayout.setExpanded(true)
+            binding.appBarLayoutChat.setExpanded(true)
+        }
+
+        viewModel.showFab.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.floatingActionButtonChat.postDelayed({
+                    binding.floatingActionButtonChat.animate().translationY(0f).setInterpolator(LinearInterpolator()).start()
+                }, 3000)
+            }
         }
 
         viewModel.message.subscribeWithRxLife {

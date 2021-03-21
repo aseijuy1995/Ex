@@ -23,7 +23,7 @@ class ChatViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCompon
     var type: ChatReadIndex? = null
 
     enum class ToastType {
-        LOAD_CHAT, SWITCH_CHAT_NOTIFY, DELETE_CHAT_ROOM
+        LOAD_CHAT, SWITCH_CHAT_SOUND, DELETE_CHAT_ROOM
     }
 
     /**
@@ -64,10 +64,22 @@ class ChatViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCompon
      * */
     private val _scrollToTop = MutableLiveData<Boolean>(false)
 
+
     val scrollToTop = _scrollToTop.asLiveData()
 
     fun scrollToTop(isScrollToTop: Boolean) {
         _scrollToTop.value = isScrollToTop
+    }
+
+    /**
+     * fab顯示與否
+     * */
+    private val _showFab = MutableLiveData<Boolean>(false)
+
+    val showFab = _showFab.asLiveData()
+
+    fun shoeFab(isShow: Boolean) {
+        _showFab.value = isShow
     }
 
     /**
@@ -109,18 +121,18 @@ class ChatViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCompon
                             listUpdate?.find { it.id == chat.id }?.isSound = !chat.isSound
                             _chatList.postValue(listUpdate)
                             //負負得正
-                            _toast.postValue(ToastType.SWITCH_CHAT_NOTIFY to if (!chat.isSound) "開啟通知" else "關閉通知")
+                            _toast.postValue(ToastType.SWITCH_CHAT_SOUND to if (!chat.isSound) "開啟通知" else "關閉通知")
                         }
                         false -> {
-                            _toast.postValue(ToastType.SWITCH_CHAT_NOTIFY to "${results.data}:修改錯誤，請稍後再修改!")
+                            _toast.postValue(ToastType.SWITCH_CHAT_SOUND to "${results.data}:修改錯誤，請稍後再修改!")
                         }
                     }
                 }
                 is Results.ClientErrors -> {
-                    _toast.postValue(ToastType.SWITCH_CHAT_NOTIFY to "${results.e}:修改錯誤，請稍後再修改!")
+                    _toast.postValue(ToastType.SWITCH_CHAT_SOUND to "${results.e}:修改錯誤，請稍後再修改!")
                 }
                 is Results.NetWorkError -> {
-                    _toast.postValue(ToastType.SWITCH_CHAT_NOTIFY to "${results.e}:網路異常")
+                    _toast.postValue(ToastType.SWITCH_CHAT_SOUND to "${results.e}:網路異常")
                 }
             }
         }
