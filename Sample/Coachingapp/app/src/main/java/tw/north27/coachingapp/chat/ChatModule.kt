@@ -1,7 +1,7 @@
 package tw.north27.coachingapp.chat
 
 import com.google.gson.Gson
-import com.jakewharton.rxrelay3.ReplayRelay
+import com.jakewharton.rxrelay3.PublishRelay
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import okhttp3.Headers
@@ -44,26 +44,26 @@ class ChatModule(val okHttpUtil: OkHttpUtil) : IChatModule, CoroutineScope {
         }
     }
 
-    override val infoLogRelay = chatWebSocketListener.infoLogRelay
+    override val switchInfoRelay = chatWebSocketListener.switchInfoRelay
 
-    override val receiveSwitchRelay = chatWebSocketListener.receiveSwitchRelay
+    override val switchResultRelay = chatWebSocketListener.switchResultRelay
 
-    override val messageRelay = ReplayRelay.create<ChatInfo>()
+    override val messageRelay = PublishRelay.create<ChatInfo>()
 
     override fun transformToChat(text: String): ChatInfo {
         return Gson().fromJson(text, ChatInfo::class.java)
     }
 
-    override fun transformToJson(chatInfo: ChatInfo): String {
-        return Gson().toJson(chatInfo)
+    override fun transformToJson(chat: ChatInfo): String {
+        return Gson().toJson(chat)
     }
 
-    override fun send(webSocket: WebSocket, chatInfo: ChatInfo) {
-        val json = transformToJson(chatInfo)
+    override fun send(webSocket: WebSocket, chat: ChatInfo) {
+        val json = transformToJson(chat)
         webSocket.send(json)
     }
 
-    override val infoRelay: ReplayRelay<Headers> = ReplayRelay.create<Headers>()
+    override val infoRelay: PublishRelay<Headers> = PublishRelay.create<Headers>()
 
     /**---------------------------------------------------------------------------------------------------------------------------
      * Server Socket
@@ -101,13 +101,13 @@ class ChatModule(val okHttpUtil: OkHttpUtil) : IChatModule, CoroutineScope {
         }
     }
 
-    override val serverInfoLogRelay = serverWebSocketListener.infoLogRelay
+    override val serverSwitchInfoRelay = serverWebSocketListener.switchInfoRelay
 
-    override val serverReceiveSwitchRelay = serverWebSocketListener.receiveSwitchRelay
+    override val serverSwitchResultRelay = serverWebSocketListener.switchResultRelay
 
-    override val serverMessageRelay = ReplayRelay.create<ChatInfo>()
+    override val serverMessageRelay = PublishRelay.create<ChatInfo>()
 
-    override val serverInfoRelay: ReplayRelay<Headers> = ReplayRelay.create<Headers>()
+    override val serverInfoRelay: PublishRelay<Headers> = PublishRelay.create<Headers>()
 
     override val coroutineContext: CoroutineContext
         get() = Job()

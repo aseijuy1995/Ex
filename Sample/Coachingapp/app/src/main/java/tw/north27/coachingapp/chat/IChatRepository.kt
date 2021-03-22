@@ -15,15 +15,19 @@ interface IChatRepository {
 
     fun execute(url: String): WebSocket
 
-    val infoLogRelay: BehaviorRelay<Boolean>
+    val switchInfoRelay: BehaviorRelay<Boolean>
 
-    val receiveSwitchRelay: BehaviorRelay<Boolean>
+    val switchResultRelay: BehaviorRelay<Boolean>
 
     val message: Observable<ChatInfo>
 
-    fun send(webSocket: WebSocket, chatInfo: ChatInfo)
+    fun send(webSocket: WebSocket, chat: ChatInfo)
 
     val info: Observable<Headers>
+
+    //---------------------------------------------------------------------------------------------------------------------------
+
+    suspend fun loadChatList(): Results<List<ChatInfo>>
 
     /**---------------------------------------------------------------------------------------------------------------------------
      * Server Socket
@@ -31,9 +35,9 @@ interface IChatRepository {
 
     suspend fun executeServer(): String
 
-    val serverInfoLogRelay: BehaviorRelay<Boolean>
+    val serverSwitchInfoRelay: BehaviorRelay<Boolean>
 
-    val serverReceiveSwitchRelay: BehaviorRelay<Boolean>
+    val serverSwitchResultRelay: BehaviorRelay<Boolean>
 
     val serverMessage: Observable<ChatInfo>
 
@@ -41,9 +45,9 @@ interface IChatRepository {
 
     /**---------------------------------------------------------------------------------------------------------------------------*/
 
-    suspend fun switchChatSound(chat:ChatInfo): Results<Boolean>
+    suspend fun switchChatSound(chat: ChatInfo): Results<Boolean>
 
-    suspend fun deleteChatRoom(chat:ChatInfo): Results<Boolean>
+    suspend fun deleteChatRoom(chat: ChatInfo): Results<Boolean>
 
 
 }

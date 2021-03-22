@@ -12,7 +12,7 @@ import tw.north27.coachingapp.model.result.AppConfig
 import tw.north27.coachingapp.model.result.SignInState
 import tw.north27.coachingapp.module.http.ResponseResults
 import tw.north27.coachingapp.module.http.SimpleResults
-import tw.north27.coachingapp.module.pref.SignInModule
+import tw.north27.coachingapp.module.pref.UserModule
 import tw.north27.coachingapp.repository.inter.IPublicRepository
 import tw.north27.coachingapp.repository.inter.IUserRepository
 
@@ -30,7 +30,7 @@ class StartViewModel(
 
     val toast = _toast.asLiveData()
 
-    private val signInModule = SignInModule(application)
+    private val signInModule = UserModule(application)
 
     private val _signInState = MutableLiveData<SignInState>()
 

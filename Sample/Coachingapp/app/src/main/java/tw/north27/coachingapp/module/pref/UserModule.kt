@@ -9,14 +9,14 @@ import timber.log.Timber
 import tw.north27.coachingapp.ext.createDataStoreProto
 import tw.north27.coachingapp.ext.getValue
 import tw.north27.coachingapp.ext.setValue
-import tw.north27.coachingapp.protobuf.PREF_SIGN_IN_NAME
-import tw.north27.coachingapp.protobuf.SignInPreferences
-import tw.north27.coachingapp.protobuf.SignInPreferencesSerializer
+import tw.north27.coachingapp.protobuf.PREF_USER_NAME
+import tw.north27.coachingapp.protobuf.UserPreferences
+import tw.north27.coachingapp.protobuf.UserPreferencesSerializer
 import kotlin.coroutines.CoroutineContext
 
-class SignInModule(val context: Context) : CoroutineScope {
+class UserModule(val context: Context) : CoroutineScope {
 
-    val signInDataStore = context.createDataStoreProto(PREF_SIGN_IN_NAME, SignInPreferencesSerializer)
+    val userDataStore = context.createDataStoreProto(PREF_USER_NAME, UserPreferencesSerializer)
 
     private val job = Job()
 
@@ -36,7 +36,7 @@ class SignInModule(val context: Context) : CoroutineScope {
         fcmToken: String? = null,
         isFirst: Boolean? = null
     ) {
-        signInDataStore.setValue(this) {
+        userDataStore.setValue(this) {
             it.toBuilder().apply {
                 uuid?.let { setUuid(it) }
                 account?.let { setAccount(it) }
@@ -49,8 +49,8 @@ class SignInModule(val context: Context) : CoroutineScope {
         }
     }
 
-    inline fun <S> getValue(crossinline transform: suspend (it: SignInPreferences) -> S): Flow<S> {
-        return signInDataStore.getValue(transform)
+    inline fun <S> getValue(crossinline transform: suspend (it: UserPreferences) -> S): Flow<S> {
+        return userDataStore.getValue(transform)
     }
 
 }

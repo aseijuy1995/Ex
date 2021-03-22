@@ -31,5 +31,6 @@ data class UserInfo(
     val email: String? = null,
     val registerTime: String? = null,// 註冊時間
     val accessToken: String? = null,// 訪問用token
-    val refreshToken: String? = null// 刷新用token
+    val refreshToken: String? = null,// 刷新用token
+    val isSound: Boolean? = true,//聊天聲音開關
 ) : Parcelable

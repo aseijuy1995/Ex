@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragment_home">
-    <!--    app:startDestination="@id/fragment_start">-->
+    app:startDestination="@id/fragment_start">
+    <!--    app:startDestination="@id/fragment_home">-->
 
 
     <!-- Global -->
@@ -38,11 +38,11 @@
 
     <action
         android:id="@+id/action_to_fragment_chat_room"
+        app:destination="@id/fragment_chat_room"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right"
-        app:destination="@id/fragment_chat_room">
+        app:popExitAnim="@anim/slide_out_right">
 
         <argument
             android:name="chat"

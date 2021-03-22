@@ -16,8 +16,8 @@ data class ChatInfo(
     var videos: List<ChatVideo>? = null,//影片
     var read: ChatRead,
     var unReadCount: Int,//未讀數量
-    var isSound: Boolean,//聲音開關
-    var isSwipe: Boolean = false//滑動開關
+    var isSound: Boolean = true,//聲音開關
+
 ) : Parcelable
 
 enum class ChatType {

@@ -2,7 +2,6 @@ package tw.north27.coachingapp.ui.fragment.main
 
 import android.os.Bundle
 import android.view.View
-import android.view.animation.LinearInterpolator
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jakewharton.rxbinding4.view.clicks
@@ -26,12 +25,13 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
     private val viewModel by sharedViewModel<ChatViewModel>()
 
-    private lateinit var adapter: ChatPagerAdapter
+    private val adapter: ChatPagerAdapter
+        get() = ChatPagerAdapter(this)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewPager2Chat.also {
-            it.adapter = ChatPagerAdapter(this).also { adapter = it }
+            it.adapter = adapter
             it.offscreenPageLimit = 2
         }
         TabLayoutMediator(binding.tabLayoutChat, binding.viewPager2Chat) { tab: TabLayout.Tab, position: Int ->
@@ -49,16 +49,16 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                 ChatInfo(
                     id = 5,
                     sender = UserInfo(
-                        id = 5,
-                        account = "lbj7871",
-                        avatarPath = "https://cf.shopee.tw/file/66f6a55ddd243f22b78c99847406b516",
-                        name = "lbj7871"
-                    ),
-                    recipient = UserInfo(
                         id = -1,
                         account = "jie001",
                         avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                         name = "阿吉"
+                    ),
+                    recipient = UserInfo(
+                        id = 5,
+                        account = "lbj7871",
+                        avatarPath = "https://cf.shopee.tw/file/66f6a55ddd243f22b78c99847406b516",
+                        name = "lbj7871"
                     ),
                     sendTime = "03:52",
                     chatType = ChatType.TEXT,
@@ -71,26 +71,26 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         }
 
         /**
-         *
+         * QRCode成為好友?
          * */
         binding.ivQrCode.clicks().subscribeWithRxLife {
         }
 
         binding.floatingActionButtonChat.clicks().subscribeWithRxLife {
-            viewModel.scrollToTop(true)
+            viewModel.listScrollToTop(true)
         }
 
-        viewModel.scrollToTop.observe(viewLifecycleOwner) {
+        viewModel.listScrollToTop.observe(viewLifecycleOwner) {
             binding.appBarLayoutChat.setExpanded(true)
         }
 
-        viewModel.showFab.observe(viewLifecycleOwner) {
-            if (it == true) {
-                binding.floatingActionButtonChat.postDelayed({
-                    binding.floatingActionButtonChat.animate().translationY(0f).setInterpolator(LinearInterpolator()).start()
-                }, 3000)
-            }
-        }
+//        viewModel.showFab.observe(viewLifecycleOwner) {
+//            if (it == true) {
+//                binding.floatingActionButtonChat.postDelayed({
+//                    binding.floatingActionButtonChat.animate().translationY(0f).setInterpolator(LinearInterpolator()).start()
+//                }, 3000)
+//            }
+//        }
 
         viewModel.message.subscribeWithRxLife {
             viewModel.refreshChatList(it)

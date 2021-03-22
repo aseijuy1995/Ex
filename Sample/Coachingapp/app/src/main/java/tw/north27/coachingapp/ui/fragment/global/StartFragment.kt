@@ -34,6 +34,9 @@ class StartFragment : BaseFragment(R.layout.fragment_start) {
         showLoadingDialog()
 
         FirebaseManager.get().register().addOnCompleteListener {
+            if (!it.isSuccessful) {
+                return@addOnCompleteListener
+            }
             val fcmToken = it.result ?: ""
             Timber.d("fcmToken = $fcmToken")
             viewModel.appConfig(fcmToken).observe(viewLifecycleOwner) {

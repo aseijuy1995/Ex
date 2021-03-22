@@ -10,9 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
 import com.google.android.material.snackbar.Snackbar
-import com.jakewharton.rxbinding4.recyclerview.scrollStateChanges
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import timber.log.Timber
 import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
@@ -32,11 +30,11 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
     private val adapter = ChatListAdapter()
 
-    private lateinit var type: ChatReadIndex
+    private val type: ChatReadIndex
+        get() = (arguments?.getSerializable(KEY_CHAT_READ_TYPE) as ChatReadIndex)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        type = (arguments?.getSerializable(KEY_CHAT_READ_TYPE) as ChatReadIndex)
         binding.rvChat.apply {
             addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
                 setDrawable(ContextCompat.getDrawable(cxt, R.drawable.shape_size_height_1_solid_gray) ?: return)
@@ -51,7 +49,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
                 binding.itemEmpty.clEmpty.isVisible = false
             } else {
                 binding.itemChatShinner.shimmerFrameLayoutChat.stop()
-                viewModel.scrollToTop(true)
+                viewModel.listScrollToTop(true)
             }
         }
 
@@ -74,7 +72,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
                     binding.rvChat.isVisible = true
                     binding.itemEmpty.clEmpty.isVisible = false
                     adapter.submitList(list)
-                    viewModel.scrollToTop(true)
+                    viewModel.listScrollToTop(true)
                 }
             }
         }
@@ -88,7 +86,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
         binding.rvChat.adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
-                viewModel.scrollToTop(true)
+                viewModel.listScrollToTop(true)
             }
 
             override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
@@ -97,23 +95,23 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
             }
         })
 
-        viewModel.scrollToTop.observe(viewLifecycleOwner) {
+        viewModel.listScrollToTop.observe(viewLifecycleOwner) {
             binding.rvChat.scrollToPosition(0)
             binding.rvChat.postDelayed({
                 binding.rvChat.smoothScrollToPosition(0)
             }, 500)
         }
 
-        binding.rvChat.scrollStateChanges().subscribeWithRxLife {
-            when (it) {
-                SCROLL_STATE_IDLE -> {
-                    viewModel.shoeFab(true)
-                }
-                SCROLL_STATE_DRAGGING -> {
-                    viewModel.shoeFab(false)
-                }
-            }
-        }
+//        binding.rvChat.scrollStateChanges().subscribeWithRxLife {
+//            when (it) {
+//                SCROLL_STATE_IDLE -> {
+//                    viewModel.showFab(true)
+//                }
+//                SCROLL_STATE_DRAGGING -> {
+//                    viewModel.showFab(false)
+//                }
+//            }
+//        }
 
         viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
 
@@ -129,7 +127,6 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
         }
 
         adapter.itemClickRelay.subscribeWithRxLife {
-            Timber.d("itemClickRelay: ${it.second}")
             findNavController().navigate(NavGraphDirections.actionToFragmentChatRoom(it.second))
         }
     }

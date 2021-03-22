@@ -10,7 +10,7 @@ import tw.north27.coachingapp.ext.asLiveData
 import tw.north27.coachingapp.model.result.SignInInfo
 import tw.north27.coachingapp.model.result.SignInState
 import tw.north27.coachingapp.module.http.ResponseResults
-import tw.north27.coachingapp.module.pref.SignInModule
+import tw.north27.coachingapp.module.pref.UserModule
 import tw.north27.coachingapp.repository.inter.IUserRepository
 
 class SignInViewModel(application: Application, val userRepo: IUserRepository) : BaseAndroidViewModel(application) {
@@ -20,7 +20,7 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
 
     val toast = _toast.asLiveData()
 
-    private val signInModule = SignInModule(application)
+    private val signInModule = UserModule(application)
 
     private val _signIn = MutableLiveData<SignInInfo>()
 

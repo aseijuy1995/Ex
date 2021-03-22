@@ -24,9 +24,9 @@ class ChatRepository(val service: IApiService, val chatModule: IChatModule) : IC
 
     override fun execute(url: String): WebSocket = chatModule.execute(url)
 
-    override val infoLogRelay: BehaviorRelay<Boolean> = chatModule.infoLogRelay
+    override val switchInfoRelay: BehaviorRelay<Boolean> = chatModule.switchInfoRelay
 
-    override val receiveSwitchRelay: BehaviorRelay<Boolean> = chatModule.receiveSwitchRelay
+    override val switchResultRelay: BehaviorRelay<Boolean> = chatModule.switchResultRelay
 
     override val message: Observable<ChatInfo> = chatModule.messageRelay
         .subscribeOn(Schedulers.io())
@@ -36,11 +36,15 @@ class ChatRepository(val service: IApiService, val chatModule: IChatModule) : IC
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
+    override suspend fun loadChatList(): Results<List<ChatInfo>> {
+        return safeApiResults { service.postChatList() }
+    }
+
     override suspend fun executeServer(): String = chatModule.executeServer()
 
-    override val serverInfoLogRelay: BehaviorRelay<Boolean> = chatModule.serverInfoLogRelay
+    override val serverSwitchInfoRelay: BehaviorRelay<Boolean> = chatModule.serverSwitchInfoRelay
 
-    override val serverReceiveSwitchRelay: BehaviorRelay<Boolean> = chatModule.serverReceiveSwitchRelay
+    override val serverSwitchResultRelay: BehaviorRelay<Boolean> = chatModule.serverSwitchResultRelay
 
     override val serverMessage: Observable<ChatInfo> = chatModule.serverMessageRelay
         .subscribeOn(Schedulers.io())

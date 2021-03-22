@@ -62,15 +62,17 @@ interface IApiService {
     //Chat List
     /**
      * 獲取聊天列表
+     * @param
+     * account
      * */
     @GET
     suspend fun getLoadChat(): List<ChatInfo>
 
     /**
      * 聊天聲音開關
-     * request:
+     * @param
      * chat.id / chat.isSound
-     * response:
+     * @return
      * true - execute success
      * false - execute failed
      * */
@@ -81,9 +83,9 @@ interface IApiService {
 
     /**
      * 刪除聊天室
-     * request:
+     * @param
      * chat.id
-     * response:
+     * @return
      * true - execute success
      * false - execute failed
      * */
@@ -91,6 +93,14 @@ interface IApiService {
     suspend fun deleteChatRoom(
         @Field("chat") chat: ChatInfo
     ): Boolean
+
+
+    /**
+     * 獲取指定聊天數據
+     * */
+    @POST
+    suspend fun postChatList(): List<ChatInfo>
+
 
     //Notify
     /**

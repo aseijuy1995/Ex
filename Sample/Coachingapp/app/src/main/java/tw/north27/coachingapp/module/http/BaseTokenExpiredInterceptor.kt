@@ -11,14 +11,14 @@ import okhttp3.Response
 import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.consts.IApiService
 import tw.north27.coachingapp.module.ext.safeApiSimpleResults
-import tw.north27.coachingapp.module.pref.SignInModule
+import tw.north27.coachingapp.module.pref.UserModule
 import kotlin.coroutines.CoroutineContext
 
 class BaseTokenExpiredInterceptor(
     private val context: Context,
 ) : Interceptor, CoroutineScope {
 
-    private val signInModule = SignInModule(context)
+    private val signInModule = UserModule(context)
 
     override val coroutineContext: CoroutineContext
         get() = Job()

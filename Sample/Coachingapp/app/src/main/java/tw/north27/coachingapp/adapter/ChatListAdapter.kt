@@ -34,30 +34,13 @@ class ChatListAdapter : ListAdapter<ChatInfo, ChatListAdapter.VH>(object : DiffU
             this.chat = chat
             itemChatListSwipe.flSound.setOnClickListener { soundClickRelay.accept(it to chat) }
             itemChatListSwipe.flDelete.setOnClickListener { deleteClickRelay.accept(it to chat) }
-            itemView.setOnClickListener { itemClickRelay.accept(it to chat) }
-
-            swipeLayout.addSwipeListener(object : SwipeLayout.SwipeListener {
-                override fun onStartOpen(layout: SwipeLayout?) {
-                }
-
-                override fun onOpen(layout: SwipeLayout?) {
-                    chat.isSwipe = true
-                }
-
-                override fun onStartClose(layout: SwipeLayout?) {
-                }
-
-                override fun onClose(layout: SwipeLayout?) {
-                    chat.isSwipe = false
-                }
-
-                override fun onUpdate(layout: SwipeLayout?, leftOffset: Int, topOffset: Int) {
-                }
-
-                override fun onHandRelease(layout: SwipeLayout?, xvel: Float, yvel: Float) {
-                }
-
-            })
+            itemView.setOnClickListener {
+                if (swipeLayout.openStatus == SwipeLayout.Status.Open)
+                    swipeLayout.close()
+                else if (swipeLayout.openStatus == SwipeLayout.Status.Middle)
+                else
+                    itemClickRelay.accept(it to chat)
+            }
             executePendingBindings()
         }
     }

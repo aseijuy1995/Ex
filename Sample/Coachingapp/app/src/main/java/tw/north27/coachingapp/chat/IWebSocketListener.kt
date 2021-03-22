@@ -9,46 +9,46 @@ import timber.log.Timber
 
 open class IWebSocketListener(private val results: (SocketResults) -> Unit) : WebSocketListener() {
 
-    //Log開關
-    val infoLogRelay = BehaviorRelay.createDefault<Boolean>(false)
+    //info開關
+    val switchInfoRelay = BehaviorRelay.createDefault<Boolean>(true)
 
-    //接收Message開關
-    val receiveSwitchRelay = BehaviorRelay.createDefault<Boolean>(true)
+    //Result開關
+    val switchResultRelay = BehaviorRelay.createDefault<Boolean>(true)
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
         super.onOpen(webSocket, response)
-        if (infoLogRelay.value) Timber.d("onOpen()\nresponse = ${response}\nrequest.headers = ${response.request.headers}\nresponse.headers = ${response.headers}")
-        if (receiveSwitchRelay.value) results.invoke(SocketResults.open(webSocket, response))
+        if (switchInfoRelay.value) Timber.d("onOpen()\nresponse = ${response}\nrequest.headers = ${response.request.headers}\nresponse.headers = ${response.headers}")
+        if (switchResultRelay.value) results.invoke(SocketResults.open(webSocket, response))
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
         super.onMessage(webSocket, text)
-        if (infoLogRelay.value) Timber.d("onMessage()\ntext = $text")
-        if (receiveSwitchRelay.value) results.invoke(SocketResults.message(webSocket, text, null))
+        if (switchInfoRelay.value) Timber.d("onMessage()\ntext = $text")
+        if (switchResultRelay.value) results.invoke(SocketResults.message(webSocket, text, null))
     }
 
     override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
         super.onMessage(webSocket, bytes)
-        if (infoLogRelay.value) Timber.d("onMessage()\nbytes = $bytes")
-        if (receiveSwitchRelay.value) results.invoke(SocketResults.message(webSocket, null, bytes))
+        if (switchInfoRelay.value) Timber.d("onMessage()\nbytes = $bytes")
+        if (switchResultRelay.value) results.invoke(SocketResults.message(webSocket, null, bytes))
     }
 
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
         super.onClosing(webSocket, code, reason)
-        if (infoLogRelay.value) Timber.d("onClosing()\ncode = $code\nreason = $reason")
-        if (receiveSwitchRelay.value) results.invoke(SocketResults.closing(webSocket, code, reason))
+        if (switchInfoRelay.value) Timber.d("onClosing()\ncode = $code\nreason = $reason")
+        if (switchResultRelay.value) results.invoke(SocketResults.closing(webSocket, code, reason))
     }
 
     override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
         super.onClosed(webSocket, code, reason)
-        if (infoLogRelay.value) Timber.d("onClosed()\ncode = $code\nreason = $reason")
-        if (receiveSwitchRelay.value) results.invoke(SocketResults.closed(webSocket, code, reason))
+        if (switchInfoRelay.value) Timber.d("onClosed()\ncode = $code\nreason = $reason")
+        if (switchResultRelay.value) results.invoke(SocketResults.closed(webSocket, code, reason))
     }
 
     override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
         super.onFailure(webSocket, t, response)
-        if (infoLogRelay.value) Timber.d("onFailure()\nThrowable = $t\nrequest.headers = ${response?.request?.headers}\nresponse.headers = ${response?.headers}")
-        if (receiveSwitchRelay.value) results.invoke(SocketResults.failure(webSocket, t, response))
+        if (switchInfoRelay.value) Timber.d("onFailure()\nThrowable = $t\nrequest.headers = ${response?.request?.headers}\nresponse.headers = ${response?.headers}")
+        if (switchResultRelay.value) results.invoke(SocketResults.failure(webSocket, t, response))
     }
 
 }

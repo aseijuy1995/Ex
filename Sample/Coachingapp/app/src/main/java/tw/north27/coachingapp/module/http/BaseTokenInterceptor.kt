@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
-import tw.north27.coachingapp.module.pref.SignInModule
+import tw.north27.coachingapp.module.pref.UserModule
 
 class BaseTokenInterceptor(val context: Context) : Interceptor {
 
-    private val signInModule = SignInModule(context)
+    private val signInModule = UserModule(context)
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()

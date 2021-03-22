@@ -1,0 +1,138 @@
+package tw.north27.coachingapp.chat
+
+import android.content.Context
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import timber.log.Timber
+import tw.north27.coachingapp.R
+import tw.north27.coachingapp.databinding.ItemChatRoomOtherBinding
+import tw.north27.coachingapp.databinding.ItemChatRoomOwnerBinding
+import tw.north27.coachingapp.model.result.ChatInfo
+import tw.north27.coachingapp.module.pref.UserModule
+
+class ChatRoomListAdapter(private val cxt: Context) : ListAdapter<ChatInfo, ChatRoomListAdapter.VH>(
+    object : DiffUtil.ItemCallback<ChatInfo>() {
+        override fun areItemsTheSame(oldItem: ChatInfo, newItem: ChatInfo): Boolean {
+            return oldItem.hashCode() == newItem.hashCode()
+        }
+
+        override fun areContentsTheSame(oldItem: ChatInfo, newItem: ChatInfo): Boolean {
+            return oldItem.hashCode() == newItem.hashCode()
+        }
+    }
+) {
+
+//    val itemImgClickRelay = PublishRelay.create<ChatImg>()//image click
+//
+//    val itemRecordingClickRelay = PublishRelay.create<Pair<Boolean, ChatInfo>>()
+
+    private val userModule = UserModule(cxt)
+
+    enum class Sender(val value: Int) {
+        OWNER(1), OTHER(2)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        val account = runBlocking { userModule.getValue { it.account }.first() }
+        val chatAccount = getItem(position).sender.account
+        return if (account == chatAccount)
+            Sender.OWNER.value
+        else
+            Sender.OTHER.value
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+        val inflater = LayoutInflater.from(parent.context)
+        return when (viewType) {
+            Sender.OWNER.value -> {
+                val binding = DataBindingUtil.inflate<ItemChatRoomOwnerBinding>(inflater, R.layout.item_chat_room_owner, parent, false)
+                OwnerVH(binding, parent.context)
+            }
+            else -> {
+                val binding = DataBindingUtil.inflate<ItemChatRoomOtherBinding>(inflater, R.layout.item_chat_room_other, parent, false)
+                OtherVH(binding, parent.context)
+            }
+        }
+    }
+
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        val chat = getItem(position)
+        Timber.d("chat = ${chat}")
+        holder.bind(chat)
+    }
+
+    abstract inner class VH(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
+        abstract fun bind(chat: ChatInfo): Any
+    }
+
+    inner class OwnerVH(private val binding: ItemChatRoomOwnerBinding, val context: Context) : VH(binding) {
+        override fun bind(chat: ChatInfo) = binding.apply {
+            this.chat = chat
+
+//            chatInfo.imgListMsg?.let { initImageView(binding, it) }
+//
+//            chatInfo.videoListMsg?.let {
+//                rvVideo.adapter = ChatVideoListAdapter().apply { submitList(it) }
+//            }
+            //recording check
+//            viewRecorder.chkRecorder.setOnCheckedChangeListener { _, isChecked ->
+//                itemRecordingClickRelay.accept(Pair(isChecked, chatInfo))
+//            }
+            executePendingBindings()
+        }
+
+//        private fun initImageView(binding: ItemChatRoomOwnerBinding, imgListMsg: List<ChatImg>) {
+//            (binding.rvImg.layoutManager as GridLayoutManager).spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+//                override fun getSpanSize(position: Int): Int {
+//                    println("imgListMsg.size:${imgListMsg.size}")
+//                    return if (imgListMsg.size % 2 == 1) if (imgListMsg.size - 1 == position) 1 else 2 else 2
+//                }
+//            }
+//
+//            binding.rvImg.adapter = ChatImgListAdapter().apply {
+//                itemImgClickRelay.subscribe { this@ChatListAdapter.itemImgClickRelay.accept(it) }
+////                imgListMsg.forEach {
+//                submitList(imgListMsg)
+//                notifyItemInserted(imgListMsg.size - 1)
+//                binding.rvImg.postDelayed({ binding.rvImg.smoothScrollToPosition(imgListMsg.size - 1) }, 500)
+////                }
+//            }
+//
+//        }
+    }
+
+    inner class OtherVH(val binding: ItemChatRoomOtherBinding, val context: Context) : VH(binding) {
+        override fun bind(chat: ChatInfo) = binding.apply {
+            this.chat = chat
+//            chatInfo.imgListMsg?.let {
+//                rvImg.adapter = ChatImgListAdapter().apply {
+//                    submitList(it)
+//                }
+//            }
+//            ivRecorder.clicks().subscribe {
+////                if (viewModel.mediaPlayerState.value!!) {
+//////                        chatBean.recorderBytes?.let { viewModel.startPlayer(it) }
+////                    viewModel.mMediaPlayerState.postValue(false)
+////                    binding.ivRecorder.setImageResource(R.drawable.ic_baseline_play_circle_24_white)
+////                } else {
+//////                        viewModel.stopPlayer()
+////                    viewModel.mMediaPlayerState.postValue(true)
+////                    binding.ivRecorder.setImageResource(R.drawable.ic_baseline_stop_circle_24_white)
+////
+////                }
+//            }
+//            viewModel.mediaPlayerState.observe(){
+//
+//            }
+            executePendingBindings()
+        }
+
+    }
+}

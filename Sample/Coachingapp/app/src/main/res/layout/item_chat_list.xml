@@ -38,7 +38,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:riv_corner_radius="10dp"
-                bind:imgUrl="@{chat.sender.avatarPath}" />
+                bind:chatListImageAvatarUrl="@{chat}" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_name"
@@ -49,7 +49,6 @@
                 android:layout_marginEnd="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{chat.sender.name}"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -57,7 +56,8 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/iv_icon"
                 app:layout_constraintTop_toTopOf="@id/iv_icon"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintVertical_chainStyle="packed"
+                bind:chatListTitleText="@{chat}" />
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_notify"

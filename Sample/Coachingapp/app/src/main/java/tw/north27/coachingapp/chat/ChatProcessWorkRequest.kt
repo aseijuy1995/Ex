@@ -9,17 +9,19 @@ import org.koin.core.KoinComponent
 import org.koin.core.inject
 import timber.log.Timber
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.ext.Notify
+import tw.north27.coachingapp.ext.*
 import tw.north27.coachingapp.ext.ProcessLifeObs.Companion.IS_APP_ON_FOREGROUND
-import tw.north27.coachingapp.ext.createDataStorePref
-import tw.north27.coachingapp.ext.getBoolean
 import tw.north27.coachingapp.model.result.ChatInfo
+import tw.north27.coachingapp.protobuf.PREF_USER_NAME
+import tw.north27.coachingapp.protobuf.UserPreferencesSerializer
 
 class ChatProcessWorkRequest(val cxt: Context, params: WorkerParameters) : CoroutineWorker(cxt, params), KoinComponent {
 
     private val chatModule by inject<IChatModule>()
 
     private val dataStore = cxt.createDataStorePref()
+
+    private val userDataStore = cxt.createDataStoreProto(PREF_USER_NAME, UserPreferencesSerializer)
 
     companion object {
         val TAG = "ChatHandleWorker"
@@ -29,16 +31,20 @@ class ChatProcessWorkRequest(val cxt: Context, params: WorkerParameters) : Corou
         try {
             val isAppOnForeground = dataStore.getBoolean(IS_APP_ON_FOREGROUND).first()
 
+            val account = userDataStore.getValue { it.account }.first()
+
             chatModule.messageRelay.subscribe {
-                when (isAppOnForeground) {
-                    true -> {
-                        sendNotification(it)
-                    }
-                    false -> {
-                        sendNotification(it)
+                //判定是否為自己發出訊息
+                if (account != it.sender.account) {
+                    when (isAppOnForeground) {
+                        true -> {
+                            sendNotification(it)
+                        }
+                        false -> {
+                            sendNotification(it)
+                        }
                     }
                 }
-
             }
             Result.success()
         } catch (e: Exception) {
