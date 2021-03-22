@@ -68,7 +68,6 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                     isSound = true
                 )
             )
-
         }
 
         /**

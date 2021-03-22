@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView.*
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.recyclerview.scrollStateChanges
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
@@ -128,6 +129,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
         }
 
         adapter.itemClickRelay.subscribeWithRxLife {
+            Timber.d("itemClickRelay: ${it.second}")
             findNavController().navigate(NavGraphDirections.actionToFragmentChatRoom(it.second))
         }
     }

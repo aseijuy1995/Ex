@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.swipe.SwipeLayout
-import com.jakewharton.rxrelay3.ReplayRelay
-import timber.log.Timber
+import com.jakewharton.rxrelay3.PublishRelay
 import tw.north27.coachingapp.databinding.ItemChatListBinding
 import tw.north27.coachingapp.model.result.ChatInfo
 
@@ -24,11 +23,11 @@ class ChatListAdapter : ListAdapter<ChatInfo, ChatListAdapter.VH>(object : DiffU
 }
 ) {
 
-    val soundClickRelay = ReplayRelay.create<Pair<View, ChatInfo>>()
+    val soundClickRelay = PublishRelay.create<Pair<View, ChatInfo>>()
 
-    val deleteClickRelay = ReplayRelay.create<Pair<View, ChatInfo>>()
+    val deleteClickRelay = PublishRelay.create<Pair<View, ChatInfo>>()
 
-    val itemClickRelay = ReplayRelay.create<Pair<View, ChatInfo>>()
+    val itemClickRelay = PublishRelay.create<Pair<View, ChatInfo>>()
 
     inner class VH(val binding: ItemChatListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(chat: ChatInfo) = binding.apply {
@@ -59,7 +58,6 @@ class ChatListAdapter : ListAdapter<ChatInfo, ChatListAdapter.VH>(object : DiffU
                 }
 
             })
-//            itemChatListSwipe.executePendingBindings()
             executePendingBindings()
         }
     }
