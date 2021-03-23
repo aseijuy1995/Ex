@@ -26,10 +26,6 @@ open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment(), IRxJavaS
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
-
     override fun <T> Observable<T>.subscribeWithRxLife(): Disposable? =
         bindToLifecycle(viewLifecycleOwner)
             .subscribe()

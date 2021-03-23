@@ -137,6 +137,9 @@ dependencies {
     implementation "com.jakewharton.rxbinding4:rxbinding:$rxbinding_version"
     implementation "com.jakewharton.rxbinding4:rxbinding-core:$rxbinding_version"
     implementation "com.jakewharton.rxbinding4:rxbinding-recyclerview:$rxbinding_version"
+    //rxPermission
+    def rxpermission_version = "0.12"
+    implementation "com.github.tbruyelle:rxpermissions:$rxpermission_version"
     /**
      * Http
      * */

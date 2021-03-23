@@ -2,10 +2,14 @@ package tw.north27.coachingapp.ui.fragment.global
 
 import android.os.Bundle
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.base.BaseViewBindingDialogFragment
+import tw.north27.coachingapp.base.BaseDialogFragment
 import tw.north27.coachingapp.databinding.FragmentLoadingDialogBinding
+import tw.north27.coachingapp.databinding.FragmentMaintainDialogBinding
+import tw.north27.coachingapp.ext.viewBinding
 
-class LoadingDialogFragment : BaseViewBindingDialogFragment<FragmentLoadingDialogBinding>(FragmentLoadingDialogBinding::inflate) {
+class LoadingDialogFragment : BaseDialogFragment(R.layout.fragment_loading_dialog) {
+
+    private val binding by viewBinding(FragmentLoadingDialogBinding::bind)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

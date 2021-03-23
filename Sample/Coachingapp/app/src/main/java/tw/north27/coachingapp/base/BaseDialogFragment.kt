@@ -14,7 +14,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import tw.north27.coachingapp.ext.startDisposablesLifeObs
 import tw.north27.coachingapp.module.rx.IRxJavaSubscribe
 
-open class BaseDialogFragment : DialogFragment(), IRxJavaSubscribe {
+open class BaseDialogFragment(layoutId: Int) : DialogFragment(layoutId), IRxJavaSubscribe {
 
     protected val TAG = javaClass.simpleName
 
@@ -24,11 +24,11 @@ open class BaseDialogFragment : DialogFragment(), IRxJavaSubscribe {
 
     protected val compositeDisposable = CompositeDisposable()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         compositeDisposable.startDisposablesLifeObs(viewLifecycleOwner)
         act = requireActivity()
         cxt = requireContext()
-        return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun <T> Observable<T>.subscribeWithRxLife(): Disposable? =

@@ -11,9 +11,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.recyclerview.scrollStateChanges
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
+import tw.north27.coachingapp.chat.ChatRoomAddViewModel
 import tw.north27.coachingapp.chat.ChatRoomListAdapter
 import tw.north27.coachingapp.chat.ChatRoomViewModel
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
@@ -28,7 +30,9 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 
     private val binding by viewBinding<FragmentChatRoomBinding>(FragmentChatRoomBinding::bind)
 
-    private val viewModel by viewModel<ChatRoomViewModel>()
+    private val chatRoomViewModel by viewModel<ChatRoomViewModel>()
+
+    private val chatRoomAddViewModel by sharedViewModel<ChatRoomAddViewModel>()
 
     private lateinit var chatRoomListAdapter: ChatRoomListAdapter
 
@@ -39,7 +43,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = this@ChatRoomFragment.viewModel
+            viewModel = this@ChatRoomFragment.chatRoomViewModel
             chat = this@ChatRoomFragment.chat
         }
         chatRoomListAdapter = ChatRoomListAdapter(cxt)
@@ -52,19 +56,19 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                 }
             }
         }
-        viewModel.chatMessageList(chat)
+        chatRoomViewModel.chatMessageList(chat)
 
-        viewModel.chatList.observe(viewLifecycleOwner) {
+        chatRoomViewModel.chatList.observe(viewLifecycleOwner) {
             chatRoomListAdapter.submitList(it)
             if (it.isNotEmpty())
-                viewModel.roomScrollToBottom(true)
+                chatRoomViewModel.roomScrollToBottom(true)
         }
 
-        viewModel.message.subscribeWithRxLife {
-            viewModel.addChat(it)
+        chatRoomViewModel.message.subscribeWithRxLife {
+            chatRoomViewModel.addChat(it)
         }
 
-        viewModel.roomScrollToBottom.observe(viewLifecycleOwner) {
+        chatRoomViewModel.roomScrollToBottom.observe(viewLifecycleOwner) {
             if (binding.rvChat.size > 0) {
                 val position = chatRoomListAdapter.currentList.size - 1
                 binding.rvChat.scrollToPosition(position)
@@ -78,7 +82,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         binding.rvChat.adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
-                viewModel.roomScrollToBottom(true)
+                chatRoomViewModel.roomScrollToBottom(true)
             }
 
             override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
@@ -87,7 +91,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
             }
         })
 
-        viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
+        chatRoomViewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
 
         binding.ivBack.clicks().subscribeWithRxLife {
             findNavController().navigateUp()
@@ -105,16 +109,16 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         }
 
         binding.itemBottomChatRoom.etText.textChanges().subscribeWithRxLife {
-            viewModel.inputEmpty(TextUtils.isEmpty(it.trim()))
+            chatRoomViewModel.inputEmpty(TextUtils.isEmpty(it.trim()))
         }
         //add
         binding.itemBottomChatRoom.ivAdd.clicks().subscribeWithRxLife {
-//            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentAddDialog())
+            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomAddDialog())
         }
         //send text
         binding.itemBottomChatRoom.ivSend.clicks().subscribeWithRxLife {
             val text = binding.itemBottomChatRoom.etText.text.toString()
-            viewModel.send(
+            chatRoomViewModel.send(
                 ChatInfo(
                     id = 5,
                     sender = UserInfo(
@@ -137,6 +141,11 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                     isSound = true
                 )
             )
+        }
+
+        chatRoomAddViewModel.request.observe(viewLifecycleOwner) {
+            val feature = it.first
+            val isRequest = it.second
         }
 
     }

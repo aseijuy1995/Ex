@@ -114,7 +114,19 @@
         android:id="@+id/fragment_chat_room"
         android:name="tw.north27.coachingapp.ui.fragment.main.ChatRoomFragment"
         android:label="fragment_chat_room"
-        tools:layout="@layout/fragment_chat_room" />
+        tools:layout="@layout/fragment_chat_room">
+
+        <action
+            android:id="@+id/action_fragment_chat_room_to_fragment_chat_room_add_dialog"
+            app:destination="@id/fragment_chat_room_add_dialog" />
+
+    </fragment>
+
+    <dialog
+        android:id="@+id/fragment_chat_room_add_dialog"
+        android:name="tw.north27.coachingapp.ui.fragment.main.ChatRoomAddDialogFragment"
+        android:label="fragment_chat_room_add_dialog"
+        tools:layout="@layout/fragment_chat_room_add_dialog" />
 
     <!-- Notify -->
     <fragment
