@@ -12,6 +12,7 @@ import edu.yujie.socketex.finish.base.fragment.BaseDataBindingBottomSheetDialogF
 import edu.yujie.socketex.finish.vm.ChatRoomViewModel
 import edu.yujie.socketex.util.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 
 class AddDialogFragment : BaseDataBindingBottomSheetDialogFragment<FragmentAddDialogBinding>(R.layout.fragment_add_dialog) {
 
@@ -30,6 +31,7 @@ class AddDialogFragment : BaseDataBindingBottomSheetDialogFragment<FragmentAddDi
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
         ).subscribeWithLife {
+            Timber.d("subscribeWithLife")
             if (it) {
                 viewModel.switchToCamera()
                 findNavController().navigateUp()

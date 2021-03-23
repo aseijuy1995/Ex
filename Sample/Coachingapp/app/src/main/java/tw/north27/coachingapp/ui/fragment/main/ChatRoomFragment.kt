@@ -13,6 +13,7 @@ import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.ChatRoomAddViewModel
@@ -25,6 +26,7 @@ import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.model.result.ChatRead
 import tw.north27.coachingapp.model.result.ChatType
 import tw.north27.coachingapp.model.result.UserInfo
+import tw.north27.coachingapp.util.SnackbarUtil
 
 class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 
@@ -97,6 +99,35 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
             findNavController().navigateUp()
         }
 
+        chatRoomAddViewModel.request.observe(viewLifecycleOwner) {
+            val feature = it.first
+            val isRequest = it.second
+            if (isRequest) {
+                when (feature) {
+                    ChatRoomAddViewModel.ChatRoomAddFeature.CAMERA -> {
+//                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentCameraX())
+                    }
+                    ChatRoomAddViewModel.ChatRoomAddFeature.PHOTO -> {
+//                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaListDialog(MimeType.IMAGE))
+                    }
+                    ChatRoomAddViewModel.ChatRoomAddFeature.MIC -> {
+//                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentRecordingDialog())
+                    }
+                    ChatRoomAddViewModel.ChatRoomAddFeature.AUDIO -> {
+//                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentRecordingDialog())
+                    }
+                    ChatRoomAddViewModel.ChatRoomAddFeature.VIDEO -> {
+//                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaListDialog(MimeType.VIDEO))
+                    }
+                    ChatRoomAddViewModel.ChatRoomAddFeature.MOVIE -> {
+//                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaListDialog(MimeType.VIDEO))
+                    }
+                }
+            } else {
+                SnackbarUtil.showPermissionDeny(binding.root)
+            }
+        }
+
         /**
          * 詳情頁面
          * */
@@ -113,6 +144,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         }
         //add
         binding.itemBottomChatRoom.ivAdd.clicks().subscribeWithRxLife {
+            Timber.d("itemBottomChatRoom")
             findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomAddDialog())
         }
         //send text
@@ -141,11 +173,6 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                     isSound = true
                 )
             )
-        }
-
-        chatRoomAddViewModel.request.observe(viewLifecycleOwner) {
-            val feature = it.first
-            val isRequest = it.second
         }
 
     }

@@ -26,6 +26,10 @@ class MediaRepo(val context: Context) : IMediaRepo {
 
     private fun fetchMediaSync(setting: MediaSetting) {
         mediaAlbumItemMap.clear()
+
+
+
+
         val uri: Uri = MediaStore.Files.getContentUri("external")
         val projection: Array<String> = arrayOf<String>(
             MediaStore.Files.FileColumns._ID,

@@ -10,7 +10,6 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.ext.createDataStoreProto
 import tw.north27.coachingapp.ext.getValue
@@ -32,7 +31,6 @@ fun ImageView.bindImgUrl(url: String) {
 
 @BindingAdapter("bind:imgRes")
 fun ImageView.bindImgRes(resId: Int) {
-    Timber.d("bindImgRes")
     setImageResource(resId)
 }
 

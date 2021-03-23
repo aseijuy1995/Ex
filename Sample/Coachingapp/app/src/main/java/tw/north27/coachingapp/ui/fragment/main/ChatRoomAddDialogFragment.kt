@@ -15,8 +15,7 @@ class ChatRoomAddDialogFragment : BaseViewBindingBottomSheetDialogFragment<Fragm
 
     private val viewModel by sharedViewModel<ChatRoomAddViewModel>()
 
-    private val rxPermission
-        get() = RxPermissions(this)
+    private lateinit var rxPermission: RxPermissions
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -24,18 +23,20 @@ class ChatRoomAddDialogFragment : BaseViewBindingBottomSheetDialogFragment<Fragm
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@ChatRoomAddDialogFragment.viewModel
         }
+        rxPermission = RxPermissions(this)
 
         //camera
         binding.itemCamera.linearLayoutItem.clicks().compose(
             rxPermission.ensure(
                 Manifest.permission.CAMERA,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
             )
         ).subscribeWithRxLife {
             viewModel.request(ChatRoomAddViewModel.ChatRoomAddFeature.CAMERA, it)
             findNavController().navigateUp()
         }
+
 
         //photo
         binding.itemPhoto.linearLayoutItem.clicks().compose(
@@ -99,6 +100,5 @@ class ChatRoomAddDialogFragment : BaseViewBindingBottomSheetDialogFragment<Fragm
         }
 
     }
-
 
 }

@@ -1,7 +1,7 @@
 package tw.north27.coachingapp.model.result
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 //通知
 @Parcelize
