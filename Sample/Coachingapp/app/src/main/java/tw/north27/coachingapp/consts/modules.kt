@@ -8,13 +8,13 @@ import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.module.http.OkHttpUtil
 import tw.north27.coachingapp.module.http.RetrofitManager
+import tw.north27.coachingapp.notify.INotifyRepository
 import tw.north27.coachingapp.notify.NotifyRepository
+import tw.north27.coachingapp.notify.NotifyViewModel
 import tw.north27.coachingapp.repository.PublicRepository
 import tw.north27.coachingapp.repository.UserRepository
-import tw.north27.coachingapp.notify.INotifyRepository
 import tw.north27.coachingapp.repository.inter.IPublicRepository
 import tw.north27.coachingapp.repository.inter.IUserRepository
-import tw.north27.coachingapp.notify.NotifyViewModel
 import tw.north27.coachingapp.viewModel.SignInViewModel
 import tw.north27.coachingapp.viewModel.StartViewModel
 
@@ -42,4 +42,5 @@ val viewModelModules = module {
     viewModel { SignInViewModel(androidApplication(), get()) }
     viewModel { NotifyViewModel(get()) }
     viewModel { ChatViewModel(get()) }
+    viewModel { ChatRoomViewModel(androidApplication(), get()) }
 }

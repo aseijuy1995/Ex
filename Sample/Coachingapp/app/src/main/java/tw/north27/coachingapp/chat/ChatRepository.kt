@@ -10,6 +10,7 @@ import tw.north27.coachingapp.consts.IApiService
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.module.ext.safeApiResults
 import tw.north27.coachingapp.module.http.Results
+import java.util.concurrent.TimeUnit
 
 
 class ChatRepository(val service: IApiService, val chatModule: IChatModule) : IChatRepository {
@@ -20,9 +21,11 @@ class ChatRepository(val service: IApiService, val chatModule: IChatModule) : IC
 
     override fun send(webSocket: WebSocket, chat: ChatInfo) = chatModule.send(webSocket, chat)
 
-    override var webSocket: WebSocket = chatModule.webSocket
+    override var webSocket: WebSocket? = chatModule.webSocket
 
-    override fun execute(url: String): WebSocket = chatModule.execute(url)
+    override fun execute(url: String): WebSocket = chatModule.execute(url).also {
+        webSocket = it
+    }
 
     override val switchInfoRelay: BehaviorRelay<Boolean> = chatModule.switchInfoRelay
 
@@ -30,6 +33,10 @@ class ChatRepository(val service: IApiService, val chatModule: IChatModule) : IC
 
     override val message: Observable<ChatInfo> = chatModule.messageRelay
         .subscribeOn(Schedulers.io())
+        /**
+         * 測試接收延遲
+         * */
+        .delay(1500, TimeUnit.MILLISECONDS)
         .observeOn(AndroidSchedulers.mainThread())
 
     override val info: Observable<Headers> = chatModule.infoRelay

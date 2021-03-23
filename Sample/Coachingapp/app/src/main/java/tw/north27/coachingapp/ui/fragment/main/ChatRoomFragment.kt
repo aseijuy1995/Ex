@@ -7,15 +7,17 @@ import androidx.core.view.size
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.recyclerview.scrollStateChanges
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.ChatRoomListAdapter
-import tw.north27.coachingapp.chat.ChatViewModel
+import tw.north27.coachingapp.chat.ChatRoomViewModel
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
+import tw.north27.coachingapp.ext.closeKeyBoard
 import tw.north27.coachingapp.ext.viewBinding
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.model.result.ChatRead
@@ -26,7 +28,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 
     private val binding by viewBinding<FragmentChatRoomBinding>(FragmentChatRoomBinding::bind)
 
-    private val viewModel by sharedViewModel<ChatViewModel>()
+    private val viewModel by viewModel<ChatRoomViewModel>()
 
     private lateinit var chatRoomListAdapter: ChatRoomListAdapter
 
@@ -50,12 +52,16 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                 }
             }
         }
-        viewModel.chatMessageList()
+        viewModel.chatMessageList(chat)
 
-        viewModel.chatMessageList.observe(viewLifecycleOwner) {
+        viewModel.chatList.observe(viewLifecycleOwner) {
             chatRoomListAdapter.submitList(it)
             if (it.isNotEmpty())
                 viewModel.roomScrollToBottom(true)
+        }
+
+        viewModel.message.subscribeWithRxLife {
+            viewModel.addChat(it)
         }
 
         viewModel.roomScrollToBottom.observe(viewLifecycleOwner) {
@@ -81,9 +87,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
             }
         })
 
-        viewModel.message.subscribeWithRxLife {
-            viewModel.refreshChatList(it)
-        }
+        viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
 
         binding.ivBack.clicks().subscribeWithRxLife {
             findNavController().navigateUp()
@@ -96,11 +100,9 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 
         }
 
-        //close keybroad
         binding.rvChat.clicks().subscribeWithRxLife {
-
+            cxt.closeKeyBoard(binding.rvChat)
         }
-
 
         binding.itemBottomChatRoom.etText.textChanges().subscribeWithRxLife {
             viewModel.inputEmpty(TextUtils.isEmpty(it.trim()))
@@ -137,6 +139,14 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
             )
         }
 
+    }
+
+    private fun onToastObs(pair: Pair<ChatRoomViewModel.ToastType, String>) {
+        when (pair.first) {
+            ChatRoomViewModel.ToastType.LOAD_CHAT_MESSAGE_LIST -> {
+                Snackbar.make(binding.rvChat, pair.second, Snackbar.LENGTH_SHORT).show()
+            }
+        }
     }
 
 }

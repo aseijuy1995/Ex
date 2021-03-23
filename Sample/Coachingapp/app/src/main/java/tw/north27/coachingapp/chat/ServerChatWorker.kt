@@ -10,7 +10,7 @@ import org.koin.core.inject
 import timber.log.Timber
 
 class ServerChatWorker(cxt: Context, params: WorkerParameters) : CoroutineWorker(cxt, params), KoinComponent {
-    private val chatModule by inject<IChatModule>()
+    private val chatRepo by inject<IChatRepository>()
 
     companion object {
         val TAG = "ServerChatWorker"
@@ -20,7 +20,7 @@ class ServerChatWorker(cxt: Context, params: WorkerParameters) : CoroutineWorker
 
     override suspend fun doWork(): Result = coroutineScope {
         try {
-            val url = chatModule.executeServer()
+            val url = chatRepo.executeServer()
             val data = workDataOf(SERVER_URL to url)
             Result.success(data)
         } catch (e: Exception) {

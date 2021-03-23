@@ -32,6 +32,7 @@ class BaseApplication : Application() {
         startKoinModules(utilModules, modelModules, repoModules, viewModelModules)
 
         startChatManager()
+
     }
 
     private fun startChatManager() {

@@ -17,7 +17,7 @@ import tw.north27.coachingapp.protobuf.UserPreferencesSerializer
 
 class ChatProcessWorkRequest(val cxt: Context, params: WorkerParameters) : CoroutineWorker(cxt, params), KoinComponent {
 
-    private val chatModule by inject<IChatModule>()
+    private val chatRepo by inject<IChatRepository>()
 
     private val dataStore = cxt.createDataStorePref()
 
@@ -33,7 +33,7 @@ class ChatProcessWorkRequest(val cxt: Context, params: WorkerParameters) : Corou
 
             val account = userDataStore.getValue { it.account }.first()
 
-            chatModule.messageRelay.subscribe {
+            chatRepo.message.subscribe {
                 //判定是否為自己發出訊息
                 if (account != it.sender.account) {
                     when (isAppOnForeground) {

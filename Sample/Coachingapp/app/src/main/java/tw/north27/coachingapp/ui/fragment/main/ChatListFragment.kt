@@ -17,9 +17,7 @@ import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.ChatViewModel
 import tw.north27.coachingapp.databinding.FragmentChatListBinding
-import tw.north27.coachingapp.ext.start
-import tw.north27.coachingapp.ext.stop
-import tw.north27.coachingapp.ext.viewBinding
+import tw.north27.coachingapp.ext.*
 import tw.north27.coachingapp.model.result.ChatRead
 
 class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {

@@ -17,7 +17,7 @@ import kotlin.coroutines.CoroutineContext
 //class ChatModule(val url: String, val okHttpUtil: OkHttpUtil) : CoroutineScope {
 class ChatModule(val okHttpUtil: OkHttpUtil) : IChatModule, CoroutineScope {
 
-    override lateinit var webSocket: WebSocket
+    override var webSocket: WebSocket? = null
 
     //    fun execute() = okHttpUtil.createWebSocket(url, chatWebSocketListener).also {
     override fun execute(url: String) = okHttpUtil.createWebSocket(url, chatWebSocketListener).also {
@@ -88,6 +88,7 @@ class ChatModule(val okHttpUtil: OkHttpUtil) : IChatModule, CoroutineScope {
                 it.text?.let {
                     val chat = transformToChat(it)
                     chat.text = "Server - ${chat.text}"
+                    chat.recipient = chat.sender.also { chat.sender = chat.recipient }
                     serverMessageRelay.accept(chat)
                     send(webSocket, chat)
                 }

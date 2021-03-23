@@ -8,7 +8,7 @@ import tw.north27.coachingapp.model.result.ChatInfo
 
 interface IChatModule {
 
-    var webSocket: WebSocket
+    var webSocket: WebSocket?
 
     fun execute(url: String): WebSocket
 

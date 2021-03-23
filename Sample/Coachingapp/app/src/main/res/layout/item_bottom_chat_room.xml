@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="tw.north27.coachingapp.chat.ChatViewModel" />
+            type="tw.north27.coachingapp.chat.ChatRoomViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

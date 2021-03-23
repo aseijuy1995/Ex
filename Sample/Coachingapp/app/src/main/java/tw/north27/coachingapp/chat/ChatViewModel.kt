@@ -1,11 +1,9 @@
 package tw.north27.coachingapp.chat
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
-import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.ChatReadIndex
 import tw.north27.coachingapp.base.BaseViewModel
 import tw.north27.coachingapp.ext.asLiveData
@@ -25,7 +23,7 @@ class ChatViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCompon
     var type: ChatReadIndex? = null
 
     enum class ToastType {
-        LOAD_CHAT, SWITCH_CHAT_SOUND, DELETE_CHAT_ROOM, LOAD_CHAT_MESSAGE_LIST
+        LOAD_CHAT, SWITCH_CHAT_SOUND, DELETE_CHAT_ROOM
     }
 
     /**
@@ -86,7 +84,7 @@ class ChatViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCompon
     /**
      *
      * */
-    fun send(chat: ChatInfo) = chatRepo.send(chatRepo.webSocket, chat)
+    fun send(chat: ChatInfo) = chatRepo.send(chatRepo.webSocket!!, chat)
 
     val message = chatRepo.message
 
@@ -174,54 +172,5 @@ class ChatViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCompon
                 }
             }
         }
-    }
-
-
-    //--------------------------------------------------------------------------------------------------------
-
-    private val _inputEmpty = MutableLiveData<Boolean>(true)
-
-    val inputEmpty = _inputEmpty.asLiveData()
-
-    val inputRes = _inputEmpty.map {
-        if (it) R.drawable.ic_baseline_send_24_gray else R.drawable.ic_baseline_send_24_blue
-    }
-
-    fun inputEmpty(isInputEmpty: Boolean) {
-        _inputEmpty.value = isInputEmpty
-    }
-
-    private val _chatMessageList = MutableLiveData<List<ChatInfo>>()
-
-    val chatMessageList = _chatMessageList.asLiveData()
-
-    fun chatMessageList() {
-        viewModelScope.launch {
-            val results = chatRepo.loadChatList()
-            when (results) {
-                is Results.Successful -> {
-                    _chatMessageList.postValue(results.data!!)
-                    _toast.postValue(ToastType.LOAD_CHAT_MESSAGE_LIST to "初始完成")
-                }
-                is Results.ClientErrors -> {
-                    _toast.postValue(ToastType.LOAD_CHAT_MESSAGE_LIST to "${results.e}:無法獲取初始數據")
-                }
-                is Results.NetWorkError -> {
-                    _toast.postValue(ToastType.LOAD_CHAT_MESSAGE_LIST to "${results.e}:網路異常")
-                }
-            }
-        }
-    }
-
-    /**
-     * 聊天室列表置底
-     * */
-
-    private val _roomScrollToBottom = MutableLiveData<Boolean>(false)
-
-    val roomScrollToBottom = _roomScrollToBottom.asLiveData()
-
-    fun roomScrollToBottom(isScrollToBottom: Boolean) {
-        _roomScrollToBottom.value = isScrollToBottom
     }
 }

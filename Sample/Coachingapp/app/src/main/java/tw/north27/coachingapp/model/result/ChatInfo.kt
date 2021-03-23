@@ -6,8 +6,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ChatInfo(
     val id: Int,
-    val sender: UserInfo,//發送者資訊
-    val recipient: UserInfo,//接收者資訊
+    var sender: UserInfo,//發送者資訊
+    var recipient: UserInfo,//接收者資訊
     val sendTime: String,//發送時間
     var chatType: ChatType,//種類
     var text: String? = null,//文字

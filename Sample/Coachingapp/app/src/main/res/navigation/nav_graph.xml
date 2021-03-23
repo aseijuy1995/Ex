@@ -48,6 +48,7 @@
             android:name="chat"
             app:argType="tw.north27.coachingapp.model.result.ChatInfo"
             app:nullable="false" />
+
     </action>
 
     <!--  Page  -->

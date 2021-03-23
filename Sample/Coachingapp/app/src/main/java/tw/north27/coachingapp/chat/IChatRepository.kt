@@ -11,7 +11,7 @@ interface IChatRepository {
 
     suspend fun loadChat(): Results<List<ChatInfo>>
 
-    var webSocket: WebSocket
+    var webSocket: WebSocket?
 
     fun execute(url: String): WebSocket
 
