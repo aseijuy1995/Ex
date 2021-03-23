@@ -22,6 +22,7 @@ val utilModules = module {
     single<OkHttpUtil> { OkHttpUtil(androidContext()) }
     single<RetrofitManager> { RetrofitManager.get(BuildConfig.BASE_URL, (get() as OkHttpUtil).client) }
     single<IChatModule> { ChatModule(get()) }
+    single<IMediaImagesModule> { MediaImagesModule(androidContext()) }
 
 }
 
@@ -35,6 +36,7 @@ val repoModules = module {
     single<IUserRepository> { UserRepository(get(), androidContext()) }
     single<INotifyRepository> { NotifyRepository(get()) }
     single<IChatRepository> { ChatRepository(get(), get()) }
+    single<IMediaRepository> { MediaRepository(get()) }
 }
 
 val viewModelModules = module {
@@ -44,5 +46,5 @@ val viewModelModules = module {
     viewModel { ChatViewModel(get()) }
     viewModel { ChatRoomViewModel(androidApplication(), get()) }
     viewModel { ChatRoomAddViewModel() }
-    viewModel { MediaViewModel(androidApplication(), ) }
+    viewModel { MediaViewModel(androidApplication(), get()) }
 }

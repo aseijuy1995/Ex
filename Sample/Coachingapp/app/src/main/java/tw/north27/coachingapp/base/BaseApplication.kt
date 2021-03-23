@@ -24,7 +24,7 @@ class BaseApplication : Application() {
     }
 
     override fun onCreate() {
-        if (BuildConfig.DEBUG) startStrictMode()
+//        if (BuildConfig.DEBUG) startStrictMode()
         super.onCreate()
         if (BuildConfig.DEBUG) startTimberLogger()
         startProcessLifeObs()

@@ -108,19 +108,20 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 //                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentCameraX())
                     }
                     ChatRoomAddViewModel.ChatRoomAddFeature.PHOTO -> {
-//                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaListDialog(MimeType.IMAGE))
+                        Timber.d("ChatRoomAddViewModel.ChatRoomAddFeature.PHOTO")
+//                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog())
                     }
                     ChatRoomAddViewModel.ChatRoomAddFeature.MIC -> {
-//                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentRecordingDialog())
+                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog())
                     }
                     ChatRoomAddViewModel.ChatRoomAddFeature.AUDIO -> {
-//                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentRecordingDialog())
+                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog())
                     }
                     ChatRoomAddViewModel.ChatRoomAddFeature.VIDEO -> {
-//                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaListDialog(MimeType.VIDEO))
+                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog())
                     }
                     ChatRoomAddViewModel.ChatRoomAddFeature.MOVIE -> {
-//                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaListDialog(MimeType.VIDEO))
+                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog())
                     }
                 }
             } else {
@@ -144,7 +145,6 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         }
         //add
         binding.itemBottomChatRoom.ivAdd.clicks().subscribeWithRxLife {
-            Timber.d("itemBottomChatRoom")
             findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomAddDialog())
         }
         //send text

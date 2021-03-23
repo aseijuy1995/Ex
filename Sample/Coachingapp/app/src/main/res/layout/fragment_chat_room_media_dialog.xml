@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="mediaViewModel"
+            name="viewModel"
             type="tw.north27.coachingapp.chat.MediaViewModel" />
 
         <import type="android.view.View" />
