@@ -18,7 +18,6 @@ import tw.north27.coachingapp.model.result.ChatRead
 import tw.north27.coachingapp.model.result.ChatType
 import tw.north27.coachingapp.model.result.UserInfo
 
-
 class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
     private val binding by viewBinding<FragmentChatBinding>(FragmentChatBinding::bind)

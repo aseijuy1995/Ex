@@ -10,6 +10,7 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.chat.Media
 import tw.north27.coachingapp.ext.createDataStoreProto
@@ -124,6 +125,27 @@ fun TextView.bindMediaDuration(media: Media) {
     val durationFormat = context.getString(R.string.video_duration_format)
     val time = String.format(durationFormat, ((media.duration / 1000) % 3600) / 60, ((media.duration / 1000) % 60))
     text = time
+}
+
+/**
+ * 媒體的標題
+ * */
+@BindingAdapter("bind:mediaTitle")
+fun TextView.bindMediaTitle(mediaList: List<Media>?) {
+    if (mediaList == null) {
+        isVisible = false
+    } else {
+        val count = mediaList.count { it.isChoice }
+        if (count > 0) {
+            isVisible = true
+            val choiceFormat = context.getString(R.string.choice_count)
+            val choice = String.format(choiceFormat, count.toString())
+            Timber.d("choice = ${choice}")
+            text = choice
+        } else {
+            isVisible = false
+        }
+    }
 }
 
 /**

@@ -28,7 +28,7 @@ class ChatRoomAddViewModel : BaseViewModel() {
     val request = _request.asLiveData()
 
     fun request(type: ChatRoomAddFeature, isRequest: Boolean) {
-        _request.value = Pair<ChatRoomAddFeature, Boolean>(type, isRequest)
+        _request.value = (type to isRequest)
     }
 
     sealed class ChatRoomAddFeature {

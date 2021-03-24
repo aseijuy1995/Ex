@@ -44,6 +44,9 @@ data class MediaAlbum(
     val mediaList = mutableListOf<Media>()
 }
 
+/**
+ * 媒體項目
+ * */
 @Parcelize
 data class Media(
     val bucketDisplayName: String = "",
@@ -59,6 +62,6 @@ data class Media(
     val width: Int = 0,
     val id: Int,
     //
-    var isSelect: Boolean = false
+    var isChoice: Boolean = false//是否選取
 ) : Parcelable
 

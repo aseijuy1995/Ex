@@ -2,6 +2,7 @@ package tw.north27.coachingapp.media
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
@@ -29,9 +30,9 @@ class ChatRoomMediaListAdapter(
     }
 ) {
 
-    val itemClickRelay = PublishRelay.create<Media>()
+    val itemClickRelay = PublishRelay.create<Pair<View, Media>>()
 
-    val itemSelectedRelay = PublishRelay.create<Media>()
+    val itemSelectRelay = PublishRelay.create<Triple<View, Boolean, Media>>()
 
     enum class Mime(val value: Int) {
         AUDIO(0),
@@ -92,6 +93,10 @@ class ChatRoomMediaListAdapter(
                     R.drawable.ic_baseline_audiotrack_24_purple
                 }
             )
+            binding.chkSelect.setOnCheckedChangeListener { view, isChoice ->
+                media.isChoice = isChoice
+                itemSelectRelay.accept(Triple(view, isChoice, media))
+            }
             executePendingBindings()
         }
     }
@@ -100,6 +105,10 @@ class ChatRoomMediaListAdapter(
         override fun bind(media: Media, position: Int): Any = binding.apply {
             this.media = media
             this.setting = this@ChatRoomMediaListAdapter.setting
+            binding.chkSelect.setOnCheckedChangeListener { view, isChoice ->
+                media.isChoice = isChoice
+                itemSelectRelay.accept(Triple(view, isChoice, media))
+            }
             executePendingBindings()
         }
     }
@@ -108,6 +117,10 @@ class ChatRoomMediaListAdapter(
         override fun bind(media: Media, position: Int): Any = binding.apply {
             this.media = media
             this.setting = this@ChatRoomMediaListAdapter.setting
+            binding.chkSelect.setOnCheckedChangeListener { view, isChoice ->
+                media.isChoice = isChoice
+                itemSelectRelay.accept(Triple(view, isChoice, media))
+            }
             executePendingBindings()
         }
     }
@@ -116,11 +129,7 @@ class ChatRoomMediaListAdapter(
         val media = getItem(position)
         holder.bind(media, position)
         holder.itemView.setOnClickListener {
-            itemClickRelay.accept(media)
+            itemClickRelay.accept(it to media)
         }
-//        holder.binding.chkSelect.setOnCheckedChangeListener { _, b ->
-//            media.isSelect = b
-//            itemSelectedRelay.accept(media)
-//        }
     }
 }

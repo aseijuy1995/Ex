@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import androidx.core.view.size
+import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -16,12 +17,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
-import tw.north27.coachingapp.chat.ChatRoomAddViewModel
-import tw.north27.coachingapp.chat.ChatRoomListAdapter
-import tw.north27.coachingapp.chat.ChatRoomViewModel
-import tw.north27.coachingapp.chat.MimeType
+import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
 import tw.north27.coachingapp.ext.closeKeyBoard
 import tw.north27.coachingapp.ext.viewBinding
@@ -176,6 +175,13 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                     isSound = true
                 )
             )
+        }
+
+        setFragmentResultListener(ChatRoomMediaDialogFragment.REQUEST_KEY_MEDIA) { key, bundle ->
+            val mediaList: List<Media>? = bundle.getParcelableArrayList<Media>(ChatRoomMediaDialogFragment.KEY_MEDIA)
+            if (!mediaList.isNullOrEmpty()) {
+                Timber.d("size = ${mediaList.size}, mediaList = ${mediaList}")
+            }
         }
 
     }

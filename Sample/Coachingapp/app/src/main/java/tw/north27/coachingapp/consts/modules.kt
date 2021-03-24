@@ -57,5 +57,5 @@ val viewModelModules = module {
     viewModel { ChatViewModel(get()) }
     viewModel { ChatRoomViewModel(androidApplication(), get()) }
     viewModel { ChatRoomAddViewModel() }
-    viewModel { MediaViewModel(androidApplication(), get()) }
+    viewModel { MediaViewModel(get()) }
 }

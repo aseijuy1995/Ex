@@ -1,21 +1,21 @@
 package tw.north27.coachingapp.media
 
-import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import io.reactivex.rxjava3.core.Observable
-import tw.north27.coachingapp.base.BaseAndroidViewModel
+import tw.north27.coachingapp.base.BaseViewModel
 import tw.north27.coachingapp.chat.IMediaRepository
+import tw.north27.coachingapp.chat.Media
 import tw.north27.coachingapp.chat.MediaAlbum
 import tw.north27.coachingapp.chat.MediaSetting
-import tw.north27.coachingapp.chat.MimeType
+import tw.north27.coachingapp.ext.asLiveData
 
-class MediaViewModel(application: Application, private val repo: IMediaRepository) : BaseAndroidViewModel(application) {
+class MediaViewModel(private val repo: IMediaRepository) : BaseViewModel() {
 
     fun getMediaAudio(setting: MediaSetting): Observable<List<MediaAlbum>> {
         return repo.getMediaAudio(setting)
     }
 
     fun getMediaImages(setting: MediaSetting): Observable<List<MediaAlbum>> {
-
         return repo.getMediaImages(setting)
     }
 
@@ -23,67 +23,26 @@ class MediaViewModel(application: Application, private val repo: IMediaRepositor
         return repo.getMediaVideo(setting)
     }
 
-//    private val _toast = MutableLiveData<String>()
-//
-//    val toast = _toast.asLiveData()
-//
-//    val selectMedias = MutableLiveData<Media>()
-//
-//    private val _selectMediaList = MutableLiveData<List<Media>>(selectMedias)
-//
-//    val selectMediaList = _selectMediaList.asLiveData()
-//
-//    val mediaListRelay = BehaviorRelay.create<List<Media>>()//last list
+    private val _mediaList = MutableLiveData<MutableList<Media>?>()
 
+    /**
+     * 全部媒體項目
+     * */
+    val mediaList = _mediaList.asLiveData()
 
-//    //isPick:表選擇中
-//    fun selectMedia(media: Media, isPick: Boolean = false) {
-//        if (media.isSelect)
-//            selectMedias.add(media)
-//        else {
-//            selectMedias.remove(media)
-//        }
-//        _selectMediaList.value = selectMedias
-//        if (isPick) _media.value = media
-//    }
-//
-//    fun cleanMediaList() {
-//        selectMedias.clear()
-//        _selectMediaList.value = selectMedias
-//    }
-//
-//    fun sendMediaList() {
-//        mediaListRelay.accept(selectMedias)
-//    }
-//
-//    //--------------------------------------------------------------------------------------
-//    private val _media = mutableLiveData<Media>()
-//
-//    val media = _media.asLiveData()
-//
-//    val isMimeTypeImage = _media.map { it.mimeType.startsWith(MimeType.IMAGE.toString()) }
-//
-//    val isMimeTypeVideo = _media.map { it.mimeType.startsWith(MimeType.VIDEO.toString()) }
-//
-//    fun buildPlayer(media: Media): Player {
-//        val mediaItem = MediaItem.fromUri(media.data)
-//        return SimpleExoPlayer.Builder(context).build().apply {
-//            setMediaItem(mediaItem)
-//            repeatMode = Player.REPEAT_MODE_ALL
-//            prepare()
-//            play()
-//        }
-//    }
+    /**
+     * 被選取的媒體
+     * */
+    val selectMediaList = mediaList.value?.filter { it.isChoice }
 
-    //
-    //
-    //
-    //
-    //
-    //
+    fun setMediaList(mediaList: MutableList<Media>?) {
+        _mediaList.value = mediaList
+    }
 
-    //
-    //
-    //
-    //
+    fun setMedia(media: Media) {
+        _mediaList.value = mediaList.value?.also {
+            it.find { media.id == it.id }?.isChoice = media.isChoice
+        }
+    }
+
 }
