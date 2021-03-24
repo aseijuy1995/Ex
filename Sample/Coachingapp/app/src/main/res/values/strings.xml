@@ -33,6 +33,8 @@
     <string name="phone">撥打電話</string>
     <string name="permission_deny">權限已被拒絕</string>
     <string name="go_settings">前往設定</string>
+    <string name="video_duration_format">%02d:%02d</string>
+    <string name="choice_count">已選%s項</string>
     <!-- Notify -->
     <string name="not_read_yet_sure_to_delete_it">尚未讀取，確定要刪除嗎?</string>
 

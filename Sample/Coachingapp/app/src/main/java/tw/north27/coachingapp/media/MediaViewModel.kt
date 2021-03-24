@@ -10,33 +10,16 @@ import tw.north27.coachingapp.chat.MimeType
 
 class MediaViewModel(application: Application, private val repo: IMediaRepository) : BaseAndroidViewModel(application) {
 
-    fun getMediaAudio(): Observable<List<MediaAlbum>> {
-        val setting = MediaSetting(
-            mimeType = MimeType.AUDIO,
-            isMultipleChoice = true,
-//            audioMinDuration = 0,
-            audioMaxDuration = 60000//1m
-        )
+    fun getMediaAudio(setting: MediaSetting): Observable<List<MediaAlbum>> {
         return repo.getMediaAudio(setting)
     }
 
-    fun getMediaImages(): Observable<List<MediaAlbum>> {
-        val setting = MediaSetting(
-            mimeType = MimeType.IMAGES,
-            isMultipleChoice = true,
-//            imageMinSize = 0,
-//            imageMaxSize =
-        )
+    fun getMediaImages(setting: MediaSetting): Observable<List<MediaAlbum>> {
+
         return repo.getMediaImages(setting)
     }
 
-    fun getMediaVideo(): Observable<List<MediaAlbum>> {
-        val setting = MediaSetting(
-            mimeType = MimeType.VIDEO,
-            isMultipleChoice = true,
-            videoMinDuration = 0,//m
-            videoMaxDuration = 60000//1m
-        )
+    fun getMediaVideo(setting: MediaSetting): Observable<List<MediaAlbum>> {
         return repo.getMediaVideo(setting)
     }
 

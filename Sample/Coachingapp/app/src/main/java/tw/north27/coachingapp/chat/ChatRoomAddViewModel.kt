@@ -13,7 +13,7 @@ class ChatRoomAddViewModel : BaseViewModel() {
                 ChatRoomAdd(R.drawable.ic_baseline_photo_camera_24_red, R.string.camera),
                 ChatRoomAdd(R.drawable.ic_baseline_photo_24_orange, R.string.album),
                 ChatRoomAdd(R.drawable.ic_baseline_mic_none_24_yellow, R.string.recording),
-                ChatRoomAdd(R.drawable.ic_baseline_audiotrack_24_green, R.string.audio),
+                ChatRoomAdd(R.drawable.ic_baseline_queue_music_24_green, R.string.audio),
                 ChatRoomAdd(R.drawable.ic_baseline_videocam_24_blue, R.string.video),
                 ChatRoomAdd(R.drawable.ic_baseline_local_movies_24_blue, R.string.movie),
                 ChatRoomAdd(R.drawable.ic_baseline_phone_24_purple, R.string.phone)

@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import tw.north27.coachingapp.R
+import tw.north27.coachingapp.chat.Media
 import tw.north27.coachingapp.ext.createDataStoreProto
 import tw.north27.coachingapp.ext.getValue
 import tw.north27.coachingapp.model.result.ChatInfo
@@ -41,8 +42,10 @@ fun View.bindIsReadColor(isRead: Boolean) {
 }
 
 //
-//
-//
+
+/**
+ * Chat
+ * */
 /**
  * 聊天列表頭貼
  * */
@@ -87,14 +90,6 @@ fun ImageView.bindChatListSoundImage(isSound: Boolean) {
 }
 
 /**
- * 通知開關
- * */
-@BindingAdapter("bind:isNotifyOpen")
-fun ImageView.bindIsReadColor(isOpen: Boolean) {
-    setImageResource(if (isOpen) R.drawable.ic_baseline_notifications_24_white else R.drawable.ic_baseline_notifications_off_24_white)
-}
-
-/**
  * 聊天列表文字樣式
  * */
 @BindingAdapter("bind:chatTextStyle")
@@ -105,6 +100,9 @@ fun TextView.bindChatTextStyle(read: ChatRead) {
     }
 }
 
+/**
+ * 聊天列表提示徽章
+ * */
 @BindingAdapter("bind:chatBadgeStyle")
 fun TextView.bindChatBadgeStyle(chat: ChatInfo) {
     when (chat.read) {
@@ -116,4 +114,25 @@ fun TextView.bindChatBadgeStyle(chat: ChatInfo) {
             text = if (chat.unReadCount >= 100) "99+" else chat.unReadCount.toString()
         }
     }
+}
+
+/**
+ * 媒體影片時間格式
+ * */
+@BindingAdapter("bind:mediaDuration")
+fun TextView.bindMediaDuration(media: Media) {
+    val durationFormat = context.getString(R.string.video_duration_format)
+    val time = String.format(durationFormat, ((media.duration / 1000) % 3600) / 60, ((media.duration / 1000) % 60))
+    text = time
+}
+
+/**
+ * Notify
+ * */
+/**
+ * 通知開關
+ * */
+@BindingAdapter("bind:isNotifyOpen")
+fun ImageView.bindIsReadColor(isOpen: Boolean) {
+    setImageResource(if (isOpen) R.drawable.ic_baseline_notifications_24_white else R.drawable.ic_baseline_notifications_off_24_white)
 }
