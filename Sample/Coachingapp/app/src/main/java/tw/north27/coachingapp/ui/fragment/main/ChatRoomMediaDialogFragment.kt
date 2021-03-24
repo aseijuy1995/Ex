@@ -1,11 +1,14 @@
-package tw.north27.coachingapp.chat
+package tw.north27.coachingapp.ui.fragment.main
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.navArgs
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import timber.log.Timber
 import tw.north27.coachingapp.base.BaseViewBindingBottomSheetDialogFragment
+import tw.north27.coachingapp.chat.MimeType
 import tw.north27.coachingapp.databinding.FragmentChatRoomMediaDialogBinding
+import tw.north27.coachingapp.media.MediaViewModel
 
 class ChatRoomMediaDialogFragment : BaseViewBindingBottomSheetDialogFragment<FragmentChatRoomMediaDialogBinding>(FragmentChatRoomMediaDialogBinding::inflate) {
 
@@ -19,40 +22,51 @@ class ChatRoomMediaDialogFragment : BaseViewBindingBottomSheetDialogFragment<Fra
 //
 //    private lateinit var setting: MediaSetting
 
+//    private val mimeType: MimeType
+//        get() = (arguments?.getSerializable("mimeType") as MimeType)
+
+    private val args by navArgs<ChatRoomMediaDialogFragmentArgs>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@ChatRoomMediaDialogFragment.viewModel
-
 //            toolbar.setupWithNavController(navController)
         }
 
-        viewModel.getMediaImages().subscribeWithRxLife {
-            Timber.d("getMediaImages = $it")
+        when (args.mimeType) {
+            MimeType.AUDIO -> {
+                //audio
+                viewModel.getMediaAudio().subscribeWithRxLife {
+                    it.map {
+                        Timber.d("getMediaAudio = ${it.albumName} = ${it.mediaList.size}")
+
+                    }
+                }
+            }
+            MimeType.IMAGES -> {
+                //image
+                viewModel.getMediaImages().subscribeWithRxLife {
+                    it.map {
+                        Timber.d("getMediaImages = ${it.albumName} = ${it.mediaList.size}")
+                    }
+                }
+            }
+            MimeType.VIDEO -> {
+                //video
+                viewModel.getMediaVideo().subscribeWithRxLife {
+                    it.map {
+                        Timber.d("getMediaVideo = ${it.albumName} = ${it.mediaList.size}")
+
+                    }
+                }
+            }
         }
 
 
 //        chatViewModel.cleanMediaList()
 //
-//        mimeType = arguments?.getSerializable("mimeType") as MimeType
-//        when (mimeType) {
-//            MimeType.ALL -> {
-//                setting = MediaSetting()
-//            }
-//            MimeType.IMAGE -> {
-//                setting = MediaSetting(
-//                    mimeType = mimeType,
-//                    isMultipleSelection = true
-//                )
-//            }
-//            MimeType.VIDEO -> {
-//                setting = MediaSetting(
-//                    mimeType = mimeType,
-//                    isMultipleSelection = false
-//                )
-//            }
-//        }
 //        adapter = MediaListAdapter(setting)
 //        binding.rvMedia.adapter = adapter
 //
@@ -78,11 +92,6 @@ class ChatRoomMediaDialogFragment : BaseViewBindingBottomSheetDialogFragment<Fra
 //        chatViewModel.selectMediaList.observe(viewLifecycleOwner) {
 //            binding.toolbar.menu.findItem(R.id.menu_send).isVisible = (it.isNotEmpty())
 //        }
-    }
-
-
-    private fun clickEvent() {
-
     }
 
 }

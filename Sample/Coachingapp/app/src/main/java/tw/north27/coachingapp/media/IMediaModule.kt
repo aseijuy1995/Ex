@@ -1,19 +1,28 @@
-package tw.north27.coachingapp.chat
+package tw.north27.coachingapp.media
 
 import com.jakewharton.rxrelay3.PublishRelay
-import com.yujie.myapplication.MediaAlbum
-import com.yujie.myapplication.MediaSetting
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
+import tw.north27.coachingapp.chat.MediaAlbum
+import tw.north27.coachingapp.chat.MediaSetting
+
+//all
+const val MEDIA_ALBUM_ALL = "MEDIA_ALBUM_ALL"
+
+//audio
+const val MEDIA_ALBUM_AUDIO = "MEDIA_ALBUM_AUDIO"
 
 //images
 const val MEDIA_ALBUM_IMAGES = "MEDIA_ALBUM_IMAGES"
 
-interface IMediaImagesModule {
+//video
+const val MEDIA_ALBUM_VIDEO = "MEDIA_ALBUM_VIDEO"
+
+interface IMediaModule {
     /**
      * 獲取媒體相關資訊
      * */
-    fun fetchMediaImages(setting: MediaSetting): Completable
+    fun fetchMedia(setting: MediaSetting): Completable
 
     /**
      * 獲取媒體專輯
@@ -22,13 +31,19 @@ interface IMediaImagesModule {
 
     /**
      * 獲取指定媒體專輯
+     * MEDIA_ALBUM_ALL：全部（音訊，圖片，影音）
+     * MEDIA_ALBUM_AUDIO：音訊
      * MEDIA_ALBUM_IMAGES：圖片
+     * MEDIA_ALBUM_VIDEO：影音
      * */
     fun getAlbumFromName(albumName: String, setting: MediaSetting): Observable<MediaAlbum?>
 
     /**
      * 獲取指定媒體專輯
+     * MEDIA_ALBUM_ALL：全部（音訊，圖片，影音）
+     * MEDIA_ALBUM_AUDIO：音訊
      * MEDIA_ALBUM_IMAGES：圖片
+     * MEDIA_ALBUM_VIDEO：影音
      * */
     fun getAlbumFromNameSync(albumName: String, setting: MediaSetting): MediaAlbum?
 

@@ -3,9 +3,11 @@ package tw.north27.coachingapp.consts
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.chat.*
+import tw.north27.coachingapp.media.*
 import tw.north27.coachingapp.module.http.OkHttpUtil
 import tw.north27.coachingapp.module.http.RetrofitManager
 import tw.north27.coachingapp.notify.INotifyRepository
@@ -22,7 +24,9 @@ val utilModules = module {
     single<OkHttpUtil> { OkHttpUtil(androidContext()) }
     single<RetrofitManager> { RetrofitManager.get(BuildConfig.BASE_URL, (get() as OkHttpUtil).client) }
     single<IChatModule> { ChatModule(get()) }
-    single<IMediaImagesModule> { MediaImagesModule(androidContext()) }
+    single<IMediaModule>(named("image")) { MediaImagesModule(androidContext()) }
+    single<IMediaModule>(named("video")) { MediaVideoModule(androidContext()) }
+    single<IMediaModule>(named("audio")) { MediaAudioModule(androidContext()) }
 
 }
 
@@ -36,7 +40,14 @@ val repoModules = module {
     single<IUserRepository> { UserRepository(get(), androidContext()) }
     single<INotifyRepository> { NotifyRepository(get()) }
     single<IChatRepository> { ChatRepository(get(), get()) }
-    single<IMediaRepository> { MediaRepository(get()) }
+    single<IMediaRepository> {
+        MediaRepository(
+            get<IMediaModule>(named("image")),
+            get<IMediaModule>(named("video")),
+            get<IMediaModule>(named("audio"))
+        )
+    }
+
 }
 
 val viewModelModules = module {

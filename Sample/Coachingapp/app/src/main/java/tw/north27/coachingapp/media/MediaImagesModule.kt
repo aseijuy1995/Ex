@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.chat
+package tw.north27.coachingapp.media
 
 import android.content.Context
 import android.net.Uri
@@ -6,17 +6,17 @@ import android.os.CancellationSignal
 import android.provider.BaseColumns
 import android.provider.MediaStore
 import com.jakewharton.rxrelay3.PublishRelay
-import com.yujie.myapplication.Media
-import com.yujie.myapplication.MediaAlbum
-import com.yujie.myapplication.MediaSetting
-import com.yujie.myapplication.MimeType
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import timber.log.Timber
+import tw.north27.coachingapp.chat.Media
+import tw.north27.coachingapp.chat.MediaAlbum
+import tw.north27.coachingapp.chat.MediaSetting
+import tw.north27.coachingapp.chat.MimeType
+import java.io.File
 
-class MediaImagesModule(private val cxt: Context) : IMediaImagesModule {
+class MediaImagesModule(private val cxt: Context) : IMediaModule {
 
     val albumMap = mutableMapOf<String, MediaAlbum>()
 
@@ -24,13 +24,13 @@ class MediaImagesModule(private val cxt: Context) : IMediaImagesModule {
 
     val albumListRelay: PublishRelay<List<MediaAlbum>> = PublishRelay.create()
 
-    override fun fetchMediaImages(setting: MediaSetting): Completable = Completable.fromAction {
-        fetchMediaSync(setting)
+    override fun fetchMedia(setting: MediaSetting): Completable = Completable.fromAction {
+        fetchMediaImagesSync(setting)
     }
 
     override fun getMediaAlbum(setting: MediaSetting): PublishRelay<List<MediaAlbum>> {
         if (isAlbumEmpty)
-            fetchMediaImages(setting)
+            fetchMedia(setting)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
@@ -39,7 +39,7 @@ class MediaImagesModule(private val cxt: Context) : IMediaImagesModule {
 
     override fun getAlbumFromName(albumName: String, setting: MediaSetting): Observable<MediaAlbum?> {
         if (isAlbumEmpty)
-            fetchMediaImages(setting)
+            fetchMedia(setting)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
@@ -48,34 +48,37 @@ class MediaImagesModule(private val cxt: Context) : IMediaImagesModule {
 
     override fun getAlbumFromNameSync(albumName: String, setting: MediaSetting): MediaAlbum? {
         if (isAlbumEmpty)
-            fetchMediaImages(setting)
+            fetchMedia(setting)
         return albumMap[albumName]
     }
 
-    private fun fetchMediaSync(setting: MediaSetting) {
+    private fun fetchMediaImagesSync(setting: MediaSetting) {
         albumMap.clear()
-        if (setting.mimeType == MimeType.IMAGES)
-            fetchMediaExternalImages()
+        if (setting.mimeType == MimeType.IMAGES) {
+            val internalUrl: Uri = MediaStore.Images.Media.INTERNAL_CONTENT_URI
+            val externalUri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            /**
+             * FIXME 需改為併發
+             * */
+            fetchMediaImagesSync(setting, internalUrl)
+            fetchMediaImagesSync(setting, externalUri)
+            albumListRelay.accept(albumMap.values.toList())
+        }
     }
 
-    private fun fetchMediaExternalImages() {
-        val internalUrl: Uri
-        val externalUri: Uri
+    private fun fetchMediaImagesSync(setting: MediaSetting, uri: Uri) {
         val projection: Array<String>
         val selection: String
         val selectionArgs: Array<String>
         val sortOrder: String
         val cancellationSignal: CancellationSignal = CancellationSignal()
         //
-        internalUrl = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-        externalUri = MediaStore.Images.Media.INTERNAL_CONTENT_URI
         projection = arrayOf<String>(
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Images.Media.BUCKET_DISPLAY_NAME else "bucket_display_name",
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Images.Media.BUCKET_ID else "bucket_id",
             MediaStore.Images.Media.DATA,
             MediaStore.Images.Media.DATE_MODIFIED,
             MediaStore.Images.Media.DISPLAY_NAME,
-//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Images.Media.DURATION else "duration",
             MediaStore.Images.Media.HEIGHT,
             MediaStore.Images.Media.MIME_TYPE,
             MediaStore.Images.Media.SIZE,
@@ -88,8 +91,7 @@ class MediaImagesModule(private val cxt: Context) : IMediaImagesModule {
         sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
         //
         val cursor = cxt.contentResolver.query(
-//            externalUri,
-            internalUrl,
+            uri,
             projection,
             selection,
             selectionArgs,
@@ -103,7 +105,6 @@ class MediaImagesModule(private val cxt: Context) : IMediaImagesModule {
             val dataIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             val dateModifiedIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_MODIFIED)
             val displayNameIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
-//            val durationIndex = cursor.getColumnIndexOrThrow(if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Images.Media.DURATION else "duration",)
             val heightIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.HEIGHT)
             val mimeTypeIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.MIME_TYPE)
             val sizeIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)
@@ -117,7 +118,6 @@ class MediaImagesModule(private val cxt: Context) : IMediaImagesModule {
                 val data = cursor.getString(dataIndex)
                 val dateModified = cursor.getLong(dateModifiedIndex)
                 val displayName = cursor.getString(displayNameIndex)
-//                val duration = cursor.getLong(durationIndex)
                 val height = cursor.getInt(heightIndex)
                 val mimeType = cursor.getString(mimeTypeIndex)
                 val size = cursor.getLong(sizeIndex)
@@ -131,8 +131,6 @@ class MediaImagesModule(private val cxt: Context) : IMediaImagesModule {
                     data = data,
                     dateModified = dateModified,
                     displayName = displayName,
-//                    duration = duration,
-                    duration = 0,
                     height = height,
                     mimeType = mimeType,
                     size = size,
@@ -140,29 +138,38 @@ class MediaImagesModule(private val cxt: Context) : IMediaImagesModule {
                     width = width,
                     id = id,
                 )
+
+                if (setting.imageMinSize != null && setting.imageMinSize > size)
+                    continue
+
+                if (setting.imageMaxSize != null && setting.imageMaxSize < size)
+                    continue
+
                 //add media album
-                if (isAlbumEmpty) addAlbum(MEDIA_ALBUM_IMAGES, data)
+                if (isAlbumEmpty) addAlbum(MEDIA_ALBUM_IMAGES, "", data)
                 //add media
                 addMedia(MEDIA_ALBUM_IMAGES, media)
-                Timber.d("bucketDisplayName = $bucketDisplayName")
+
+                //add  media album in correspond
+                val folder = File(data).parentFile?.absolutePath ?: ""
+                addAlbum(bucketDisplayName, folder, data)
+                //add media in correspond
+                addMedia(bucketDisplayName, media)
             } while (cursor.moveToNext())
         }
         cursor?.close()
-        Timber.d("albumMap.values.toList() =${albumMap.values.toList()}")
-        albumListRelay.accept(albumMap.values.toList())
     }
 
     private fun addMedia(albumName: String, media: Media) {
         albumMap[albumName]!!.mediaList.add(media)
     }
 
-    private fun addAlbum(albumName: String, data: String) {
+    private fun addAlbum(albumName: String, folder: String, file: String) {
         albumMap[albumName] ?: MediaAlbum(
             albumName = albumName,
-            folder = "",
-            file = data
+            folder = folder,
+            file = file
         ).apply { albumMap[albumName] = this }
     }
-
 
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import androidx.core.view.size
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -11,14 +12,16 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.recyclerview.scrollStateChanges
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.ChatRoomAddViewModel
 import tw.north27.coachingapp.chat.ChatRoomListAdapter
 import tw.north27.coachingapp.chat.ChatRoomViewModel
+import tw.north27.coachingapp.chat.MimeType
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
 import tw.north27.coachingapp.ext.closeKeyBoard
 import tw.north27.coachingapp.ext.viewBinding
@@ -100,32 +103,32 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         }
 
         chatRoomAddViewModel.request.observe(viewLifecycleOwner) {
-            val feature = it.first
-            val isRequest = it.second
-            if (isRequest) {
-                when (feature) {
-                    ChatRoomAddViewModel.ChatRoomAddFeature.CAMERA -> {
+            lifecycleScope.launch {
+                delay(500)
+                val feature = it.first
+                val isRequest = it.second
+                if (isRequest) {
+                    when (feature) {
+                        ChatRoomAddViewModel.ChatRoomAddFeature.CAMERA -> {
 //                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentCameraX())
+                        }
+                        ChatRoomAddViewModel.ChatRoomAddFeature.PHOTO -> {
+                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.IMAGES))
+                        }
+                        ChatRoomAddViewModel.ChatRoomAddFeature.MIC -> {
+                        }
+                        ChatRoomAddViewModel.ChatRoomAddFeature.AUDIO -> {
+                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.AUDIO))
+                        }
+                        ChatRoomAddViewModel.ChatRoomAddFeature.VIDEO -> {
+                        }
+                        ChatRoomAddViewModel.ChatRoomAddFeature.MOVIE -> {
+                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.VIDEO))
+                        }
                     }
-                    ChatRoomAddViewModel.ChatRoomAddFeature.PHOTO -> {
-                        Timber.d("ChatRoomAddViewModel.ChatRoomAddFeature.PHOTO")
-//                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog())
-                    }
-                    ChatRoomAddViewModel.ChatRoomAddFeature.MIC -> {
-                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog())
-                    }
-                    ChatRoomAddViewModel.ChatRoomAddFeature.AUDIO -> {
-                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog())
-                    }
-                    ChatRoomAddViewModel.ChatRoomAddFeature.VIDEO -> {
-                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog())
-                    }
-                    ChatRoomAddViewModel.ChatRoomAddFeature.MOVIE -> {
-                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog())
-                    }
+                } else {
+                    SnackbarUtil.showPermissionDeny(binding.root)
                 }
-            } else {
-                SnackbarUtil.showPermissionDeny(binding.root)
             }
         }
 
