@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.R
@@ -19,6 +22,7 @@ import tw.north27.coachingapp.chat.ChatViewModel
 import tw.north27.coachingapp.databinding.FragmentChatListBinding
 import tw.north27.coachingapp.ext.*
 import tw.north27.coachingapp.model.result.ChatRead
+import tw.north27.coachingapp.util.ViewState
 
 class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
@@ -26,7 +30,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
     private val viewModel by sharedViewModel<ChatViewModel>()
 
-    private val adapter = ChatListAdapter()
+    private val adapter: ChatListAdapter = ChatListAdapter()
 
     private val type: ChatReadIndex
         get() = (arguments?.getSerializable(KEY_CHAT_READ_TYPE) as ChatReadIndex)
@@ -40,48 +44,35 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
             adapter = this@ChatListFragment.adapter
         }
 
-        viewModel.chatListState.observe(viewLifecycleOwner) {
-            if (it) {
-                binding.itemChatShinner.shimmerFrameLayoutChat.start()
-                binding.rvChat.isVisible = false
-                binding.itemEmpty.clEmpty.isVisible = false
-            } else {
-                binding.itemChatShinner.shimmerFrameLayoutChat.stop()
-                viewModel.listScrollToTop(true)
-            }
-        }
-
-        viewModel.chatList.observe(viewLifecycleOwner) {
-            val list = when (type) {
-                ChatReadIndex.ALL -> it
-                ChatReadIndex.HAVE_READ -> it?.filter { it.read == ChatRead.HAVE_READ }
-                ChatReadIndex.UN_READ -> it?.filter { it.read == ChatRead.UN_READ }
-            }
-            when {
-                list == null -> {
-                    binding.rvChat.isVisible = false
-                    binding.itemEmpty.clEmpty.isVisible = false
+        lifecycleScope.launch {
+            viewModel.loadChatState.collect {
+                if (it is ViewState.Load) {
+                    binding.itemChatShinner.shimmerFrameLayoutChat.start()
+                } else {
+                    binding.itemChatShinner.shimmerFrameLayoutChat.stop()
                 }
-                list.isEmpty() -> {
-                    binding.rvChat.isVisible = false
-                    binding.itemEmpty.clEmpty.isVisible = true
-                }
-                else -> {
-                    binding.rvChat.isVisible = true
-                    binding.itemEmpty.clEmpty.isVisible = false
+                binding.rvChat.isVisible = it is ViewState.Data
+                if (it is ViewState.Data) {
+                    val chatList = it.data
+                    val list = when (type) {
+                        ChatReadIndex.ALL -> chatList
+                        ChatReadIndex.HAVE_READ -> chatList.filter { it.read == ChatRead.HAVE_READ }
+                        ChatReadIndex.UN_READ -> chatList.filter { it.read == ChatRead.UN_READ }
+                    }
                     adapter.submitList(list)
                     viewModel.listScrollToTop(true)
                 }
+                binding.itemEmpty.clEmpty.isVisible = it is ViewState.Empty
+                binding.itemError.clError.isVisible = it is ViewState.Error
+                binding.itemNetwork.clNetwork.isVisible = it is ViewState.Network
             }
         }
 
-        //Refresh
         binding.smartRefreshLayoutChat.setOnRefreshListener {
             viewModel.loadChat()
         }
 
-        //接收通知滑動置頂
-        binding.rvChat.adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+        val adapterDataObserver = object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
                 viewModel.listScrollToTop(true)
@@ -91,7 +82,10 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
                 super.onItemRangeRemoved(positionStart, itemCount)
                 binding.rvChat.smoothScrollToPosition(itemCount)
             }
-        })
+        }
+
+        //接收通知滑動置頂
+        binding.rvChat.adapter?.registerAdapterDataObserver(adapterDataObserver)
 
         viewModel.listScrollToTop.observe(viewLifecycleOwner) {
             binding.rvChat.scrollToPosition(0)
@@ -100,20 +94,6 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
             }, 500)
         }
 
-//        binding.rvChat.scrollStateChanges().subscribeWithRxLife {
-//            when (it) {
-//                SCROLL_STATE_IDLE -> {
-//                    viewModel.showFab(true)
-//                }
-//                SCROLL_STATE_DRAGGING -> {
-//                    viewModel.showFab(false)
-//                }
-//            }
-//        }
-
-        viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
-
-        //Item Click
         adapter.soundClickRelay.subscribeWithRxLife {
             showLoadingDialog()
             viewModel.switchChatSound(type, it.second)
@@ -127,6 +107,8 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
         adapter.itemClickRelay.subscribeWithRxLife {
             findNavController().navigate(NavGraphDirections.actionToFragmentChatRoom(it.second))
         }
+
+        viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
     }
 
     private fun onToastObs(pair: Pair<ChatViewModel.ToastType, String>) {

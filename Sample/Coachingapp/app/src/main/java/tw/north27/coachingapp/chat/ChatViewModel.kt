@@ -2,16 +2,20 @@ package tw.north27.coachingapp.chat
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import tw.north27.coachingapp.adapter.ChatReadIndex
 import tw.north27.coachingapp.base.BaseViewModel
 import tw.north27.coachingapp.ext.asLiveData
+import tw.north27.coachingapp.ext.asStateFlow
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.module.http.Results
+import tw.north27.coachingapp.util.ViewState
 import java.lang.Thread.sleep
 
-class ChatViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinComponent {
+class ChatViewModel(private val chatRepo: IChatRepository) : BaseViewModel(), KoinComponent {
 
     private val _toast = MutableLiveData<Pair<ToastType, String>>()
 
@@ -29,78 +33,47 @@ class ChatViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCompon
     /**
      * 加載聊天列表
      * */
-    private val _chatListState = MutableLiveData<Boolean>(true)
+    private val _loadChatState = MutableStateFlow<ViewState<List<ChatInfo>>>(ViewState.Load)
 
-    val chatListState = _chatListState.asLiveData()
+    val loadChatState = _loadChatState.asStateFlow()
 
-    private val _chatList = MutableLiveData<MutableList<ChatInfo>?>()
-
-    val chatList = _chatList.asLiveData()
-
-    fun loadChat() {
-        _chatListState.value = true
-        _chatList.value = null
-        viewModelScope.launch {
-            val results = chatRepo.loadChat()
-            _chatListState.value = false
-            when (results) {
-                is Results.Successful -> {
-                    val list = results.data.toMutableList()
-                    _chatList.postValue(list)
-                    _toast.postValue(ToastType.LOAD_CHAT to "初始完成")
-                }
-                is Results.ClientErrors -> {
-                    _toast.postValue(ToastType.LOAD_CHAT to "${results.e}:無法獲取初始數據")
-                }
-                is Results.NetWorkError -> {
-                    _toast.postValue(ToastType.LOAD_CHAT to "${results.e}:網路異常")
-                }
+    fun loadChat() = viewModelScope.launch(Dispatchers.IO) {
+        _loadChatState.value = ViewState.load()
+        val results = chatRepo.loadChat()
+        when (results) {
+            is Results.Successful -> {
+                val list = results.data.toMutableList()
+                _loadChatState.value = if (list.isNullOrEmpty()) ViewState.empty()
+                else ViewState.data(list)
+                _toast.postValue(ToastType.LOAD_CHAT to "初始完成")
+            }
+            is Results.ClientErrors -> {
+                _loadChatState.value = ViewState.error(results.e)
+                _toast.postValue(ToastType.LOAD_CHAT to "${results.e}:無法獲取初始數據")
+            }
+            is Results.NetWorkError -> {
+                _loadChatState.value = ViewState.network(results.e)
+                _toast.postValue(ToastType.LOAD_CHAT to "${results.e}:網路異常")
             }
         }
     }
 
-    /**
-     * 聊天列表置頂
-     * */
-    private val _listScrollToTop = MutableLiveData<Boolean>(false)
-
-    val listScrollToTop = _listScrollToTop.asLiveData()
-
-    fun listScrollToTop(isScrollToTop: Boolean) {
-        _listScrollToTop.value = isScrollToTop
-    }
-
-//    /**
-//     * fab顯示與否
-//     * */
-//    private val _showFab = MutableLiveData<Boolean>(false)
-//
-//    val showFab = _showFab.asLiveData()
-//
-//    fun showFab(isShow: Boolean) {
-//        _showFab.value = isShow
-//    }
-
-    /**
-     *
-     * */
-    fun send(chat: ChatInfo) = chatRepo.send(chatRepo.webSocket!!, chat)
-
     val message = chatRepo.message
 
-    //--------------------------------------------------------------------------------------------------------
-    //ChatListFragment
     /**
-     * 刷新Chat List(Remove & Insert & Replace)
+     * 接收socket訊息
      * */
-    fun refreshChatList(chat: ChatInfo) {
-        val listRemove = _chatList.value?.map { it.copy() }?.toMutableList()
-        val isRemove = listRemove?.removeAll { it.id == chat.id }
-        isRemove?.let { if (it) listRemove.let { _chatList.value = it } }
-        sleep(500)
-        val listAdd = listRemove?.map { it.copy() }?.toMutableList()
-        listAdd?.add(0, chat)
-        listAdd?.let { _chatList.value = it }
+    fun receiveChatMessage(chat: ChatInfo) {
+        var list = mutableListOf<ChatInfo>()
+        if (loadChatState.value is ViewState.Data) {
+            list = (loadChatState.value as ViewState.Data).data.toMutableList()
+            val isRemove = list.removeAll { it.id == chat.id }
+            isRemove.let { if (it) _loadChatState.value = ViewState.data(list) }
+            sleep(500)
+        }
+        val list2 = list.map { it.copy() }.toMutableList()
+        list2.add(0, chat)
+        _loadChatState.value = ViewState.data(list2)
     }
 
     /**
@@ -110,18 +83,20 @@ class ChatViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCompon
      * failed - change failed
      * */
     fun switchChatSound(type: ChatReadIndex, chat: ChatInfo) {
-        this.type = type
-        val chatChanging = chat.copy(isSound = !chat.isSound)
         viewModelScope.launch {
-            val results = chatRepo.switchChatSound(chatChanging)
+            this@ChatViewModel.type = type
+            chat.isSound = !chat.isSound
+            val results = chatRepo.switchChatSound(chat)
             when (results) {
                 is Results.Successful -> {
                     when (results.data) {
                         true -> {
-                            val listUpdate = _chatList.value?.map { it.copy() }?.toMutableList()
-                            listUpdate?.find { it.id == chat.id }?.isSound = !chat.isSound
-                            _chatList.postValue(listUpdate)
-                            //負負得正
+                            if (loadChatState.value is ViewState.Data) {
+                                val list = (loadChatState.value as ViewState.Data).data.map { it.copy() }.toMutableList()
+                                list.find { it.id == chat.id }?.isSound = !chat.isSound
+                                _loadChatState.value = ViewState.data(list)
+                            }
+
                             _toast.postValue(ToastType.SWITCH_CHAT_SOUND to if (!chat.isSound) "開啟通知" else "關閉通知")
                         }
                         false -> {
@@ -139,38 +114,59 @@ class ChatViewModel(val chatRepo: IChatRepository) : BaseViewModel(), KoinCompon
         }
     }
 
-
     /**
      * 刪除聊天室
      * result.data
      * true - change success
      * failed - change failed
      * */
-    fun deleteChatRoom(type: ChatReadIndex, chat: ChatInfo) {
-        this.type = type
-        viewModelScope.launch {
-            val results = chatRepo.deleteChatRoom(chat)
-            when (results) {
-                is Results.Successful -> {
-                    when (results.data) {
-                        true -> {
-                            val listUpdate = _chatList.value?.map { it.copy() }?.toMutableList()
-                            val isRemove = listUpdate?.removeAll { it.id == chat.id }
-                            isRemove?.let { if (it) listUpdate.let { _chatList.postValue(it) } }
+    fun deleteChatRoom(type: ChatReadIndex, chat: ChatInfo) = viewModelScope.launch(Dispatchers.IO) {
+        this@ChatViewModel.type = type
+        val results = chatRepo.deleteChatRoom(chat)
+        when (results) {
+            is Results.Successful -> {
+                when (results.data) {
+                    true -> {
+                        if (loadChatState.value is ViewState.Data) {
+                            val list = (loadChatState.value as ViewState.Data).data.map { it.copy() }.toMutableList()
+                            val isRemove = list.removeAll { it.id == chat.id }
+                            isRemove.let {
+                                if (it) {
+                                    _loadChatState.value = if (list.isEmpty()) ViewState.empty()
+                                    else ViewState.data(list)
+                                }
+                            }
                             _toast.postValue(ToastType.DELETE_CHAT_ROOM to "已刪除!")
                         }
-                        false -> {
-                            _toast.postValue(ToastType.DELETE_CHAT_ROOM to "${results.data}:修改錯誤，請稍後再刪除!")
-                        }
+                    }
+                    false -> {
+                        _toast.postValue(ToastType.DELETE_CHAT_ROOM to "${results.data}:修改錯誤，請稍後再刪除!")
                     }
                 }
-                is Results.ClientErrors -> {
-                    _toast.postValue(ToastType.DELETE_CHAT_ROOM to "${results.e}:修改錯誤，請稍後再修改!")
-                }
-                is Results.NetWorkError -> {
-                    _toast.postValue(ToastType.DELETE_CHAT_ROOM to "${results.e}:網路異常")
-                }
+            }
+            is Results.ClientErrors -> {
+                _toast.postValue(ToastType.DELETE_CHAT_ROOM to "${results.e}:修改錯誤，請稍後再修改!")
+            }
+            is Results.NetWorkError -> {
+                _toast.postValue(ToastType.DELETE_CHAT_ROOM to "${results.e}:網路異常")
             }
         }
     }
+
+    /**
+     * 發送socket訊息
+     * */
+    fun send(chat: ChatInfo) = chatRepo.send(chatRepo.webSocket!!, chat)
+
+    /**
+     * 聊天列表置頂
+     * */
+    private val _listScrollToTop = MutableLiveData<Boolean>(false)
+
+    val listScrollToTop = _listScrollToTop.asLiveData()
+
+    fun listScrollToTop(isScrollToTop: Boolean) {
+        _listScrollToTop.value = isScrollToTop
+    }
+
 }

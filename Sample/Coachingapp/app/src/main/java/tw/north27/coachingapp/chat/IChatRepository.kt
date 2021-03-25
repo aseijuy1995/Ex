@@ -27,7 +27,7 @@ interface IChatRepository {
 
     //---------------------------------------------------------------------------------------------------------------------------
 
-    suspend fun loadChatList(): Results<List<ChatInfo>>
+    suspend fun loadChatListFromChat(chat: ChatInfo): Results<List<ChatInfo>>
 
     /**---------------------------------------------------------------------------------------------------------------------------
      * Server Socket

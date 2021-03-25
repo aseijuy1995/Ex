@@ -5,9 +5,8 @@ import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import org.koin.core.KoinComponent
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseAndroidViewModel
@@ -15,9 +14,88 @@ import tw.north27.coachingapp.ext.*
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.module.pref.UserModule
+import tw.north27.coachingapp.util.ViewState
 import java.io.File
 
 class ChatRoomViewModel(application: Application, val chatRepo: IChatRepository) : BaseAndroidViewModel(application), KoinComponent {
+
+    private val _chat = MutableLiveData<ChatInfo>()
+
+    val chat = _chat.asLiveData()
+
+    fun setChat(chat: ChatInfo) {
+        _chat.value = chat
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private val _loadChatState = MutableStateFlow<ViewState<List<ChatInfo>>>(ViewState.Load)
+
+    val loadChatState = _loadChatState.asStateFlow()
+
+    private val _chatList = MutableLiveData<List<ChatInfo>>(mutableListOf())
+
+    val chatList = _chatList.asLiveData()
+
+    fun loadChatListFromChat(chat: ChatInfo) {
+        viewModelScope.launch {
+            _loadChatState.value = ViewState.load()
+            val results = chatRepo.loadChatListFromChat(chat)
+            when (results) {
+                is Results.Successful -> {
+                    val list = results.data
+                    _loadChatState.value = if (list.isNullOrEmpty()) ViewState.empty()
+                    else ViewState.data(list)
+                    _toast.postValue(ToastType.LOAD_CHAT_MESSAGE_LIST to "初始完成")
+                }
+                is Results.ClientErrors -> {
+                    _loadChatState.value = ViewState.error(results.e)
+                    _toast.postValue(ToastType.LOAD_CHAT_MESSAGE_LIST to "${results.e}:無法獲取初始數據")
+                }
+                is Results.NetWorkError -> {
+                    _loadChatState.value = ViewState.network(results.e)
+                    _toast.postValue(ToastType.LOAD_CHAT_MESSAGE_LIST to "${results.e}:網路異常")
+                }
+            }
+        }
+    }
+
+    fun addChat(chat: ChatInfo) {
+        viewModelScope.launch {
+            var list: MutableList<ChatInfo> = mutableListOf()
+            if (loadChatState.value is ViewState.Data) {
+                list = (loadChatState.value as ViewState.Data).data.map { it.copy() }.toMutableList()
+            }
+            list.add(chat)
+            _loadChatState.value = ViewState.data(list)
+        }
+    }
+
+    fun send(chat: ChatInfo) {
+        viewModelScope.launch {
+            chatRepo.webSocket?.let {
+                var list: MutableList<ChatInfo> = mutableListOf()
+                if (loadChatState.value is ViewState.Data) {
+                    list = (loadChatState.value as ViewState.Data).data.map { it.copy() }.toMutableList()
+                }
+                list.add(chat)
+                _loadChatState.value = ViewState.data(list)
+                chatRepo.send(it, chat)
+            } ?: _toast.postValue(ToastType.LOAD_CHAT_MESSAGE_LIST to "連線已被中斷")
+        }
+    }
+
+    private val _inputEmpty = MutableLiveData<Boolean>(true)
+
+    val inputEmpty = _inputEmpty.asLiveData()
+
+    val inputRes = _inputEmpty.map {
+        if (it) R.drawable.ic_baseline_send_24_gray else R.drawable.ic_baseline_send_24_blue
+    }
+
+    fun inputEmpty(isInputEmpty: Boolean) {
+        _inputEmpty.value = isInputEmpty
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     val bitmapOption = BitmapOption(
         isOptions = true,
@@ -51,77 +129,11 @@ class ChatRoomViewModel(application: Application, val chatRepo: IChatRepository)
         LOAD_CHAT_MESSAGE_LIST
     }
 
-    private val _inputEmpty = MutableLiveData<Boolean>(true)
 
-    val inputEmpty = _inputEmpty.asLiveData()
-
-    val inputRes = _inputEmpty.map {
-        if (it) R.drawable.ic_baseline_send_24_gray else R.drawable.ic_baseline_send_24_blue
-    }
-
-    fun inputEmpty(isInputEmpty: Boolean) {
-        _inputEmpty.value = isInputEmpty
-    }
-
-    private var chat: ChatInfo? = null
-
-    private val _chatList = MutableLiveData<List<ChatInfo>>(mutableListOf())
-
-    val chatList = _chatList.asLiveData()
-
-    fun chatMessageList(chat: ChatInfo) {
-        this.chat = chat
-        viewModelScope.launch {
-            val results = chatRepo.loadChatList()
-            when (results) {
-                is Results.Successful -> {
-                    _chatList.postValue(results.data!!)
-                    _toast.postValue(ToastType.LOAD_CHAT_MESSAGE_LIST to "初始完成")
-                }
-                is Results.ClientErrors -> {
-                    _toast.postValue(ToastType.LOAD_CHAT_MESSAGE_LIST to "${results.e}:無法獲取初始數據")
-                }
-                is Results.NetWorkError -> {
-                    _toast.postValue(ToastType.LOAD_CHAT_MESSAGE_LIST to "${results.e}:網路異常")
-                }
-            }
-        }
-    }
 
     val message = chatRepo.message
 
-    fun addChat(chat: ChatInfo) {
-        viewModelScope.launch {
-            val chatLists = (chatList.value?.toMutableList() ?: mutableListOf<ChatInfo>()).apply { add(chat) }
-            _chatList.postValue(chatLists)
-        }
-    }
-
-    fun send(chat: ChatInfo) {
-        viewModelScope.launch {
-            chatRepo.webSocket?.let {
-                val currentChatList = chatList.value?.toMutableList() ?: mutableListOf()
-                currentChatList.add(chat)
-                _chatList.postValue(currentChatList)
-                chatRepo.send(it, chat)
-            } ?: _toast.postValue(ToastType.LOAD_CHAT_MESSAGE_LIST to "連線已被中斷")
-        }
-    }
-
     private val userModule = UserModule(application)
-
-    val chatPartnerAccount: String?
-        get() {
-            val account = runBlocking { userModule.getValue { it.account }.first() }
-            chat?.let {
-                return when (account) {
-                    it.sender.account -> it.recipient.account
-                    it.recipient.account -> it.sender.account
-                    else -> null
-                }
-
-            } ?: return null
-        }
 
 //    fun addChatMessage(chat: ChatInfo) {
 //        _chatMessageList

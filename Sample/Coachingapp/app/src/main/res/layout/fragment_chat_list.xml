@@ -46,6 +46,20 @@
                 android:layout_gravity="center" />
 
             <include
+                android:id="@+id/item_error"
+                layout="@layout/item_error"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+
+            <include
+                android:id="@+id/item_network"
+                layout="@layout/item_network"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center" />
+
+            <include
                 android:id="@+id/item_chat_shinner"
                 layout="@layout/fragment_chat_list_shinner"
                 android:layout_width="match_parent"

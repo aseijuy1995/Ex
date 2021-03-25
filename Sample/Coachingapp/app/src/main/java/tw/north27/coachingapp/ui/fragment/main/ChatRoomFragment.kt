@@ -3,6 +3,7 @@ package tw.north27.coachingapp.ui.fragment.main
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.core.view.size
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
@@ -15,6 +16,7 @@ import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
@@ -24,6 +26,7 @@ import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
 import tw.north27.coachingapp.ext.*
 import tw.north27.coachingapp.model.result.*
 import tw.north27.coachingapp.util.SnackbarUtil
+import tw.north27.coachingapp.util.ViewState
 
 class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 
@@ -38,10 +41,10 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.setChat(chat)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@ChatRoomFragment.viewModel
-            chat = this@ChatRoomFragment.chat
         }
         adapter = ChatRoomListAdapter(cxt)
         binding.rvChat.apply {
@@ -53,12 +56,23 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                 }
             }
         }
-        viewModel.chatMessageList(chat)
+        viewModel.loadChatListFromChat(chat)
 
-        viewModel.chatList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            if (it.isNotEmpty())
-                viewModel.roomScrollToBottom(true)
+        lifecycleScope.launch(Dispatchers.Main) {
+            viewModel.loadChatState.collect {
+//                if (it is ViewState.Load) showLoadingDialog()
+//                else dismissLoadingDialog()
+
+                binding.rvChat.isVisible = it is ViewState.Data
+                if (it is ViewState.Data) {
+                    val list = it.data
+                    adapter.submitList(list)
+                    viewModel.roomScrollToBottom(true)
+                }
+                binding.itemEmpty.clEmpty.isVisible = it is ViewState.Empty
+                binding.itemError.clError.isVisible = it is ViewState.Error
+                binding.itemNetwork.clNetwork.isVisible = it is ViewState.Network
+            }
         }
 
         viewModel.message.subscribeWithRxLife {
@@ -75,8 +89,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
             }
         }
 
-        //接收通知滑動置頂
-        binding.rvChat.adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+        val adapterDataObserver = object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
                 viewModel.roomScrollToBottom(true)
@@ -86,7 +99,10 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                 super.onItemRangeRemoved(positionStart, itemCount)
                 binding.rvChat.smoothScrollToPosition(itemCount)
             }
-        })
+        }
+
+        //接收通知滑動置頂
+        binding.rvChat.adapter?.registerAdapterDataObserver(adapterDataObserver)
 
         binding.ivBack.clicks().subscribeWithRxLife {
             findNavController().navigateUp()
@@ -99,18 +115,18 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 
         }
 
-        binding.rvChat.clicks().subscribeWithRxLife {
-            cxt.closeKeyBoard(binding.rvChat)
+        binding.clChatRoom.clicks().subscribeWithRxLife {
+            cxt.closeKeyBoard(binding.clChatRoom)
         }
 
         binding.itemBottomChatRoom.etText.textChanges().subscribeWithRxLife {
             viewModel.inputEmpty(TextUtils.isEmpty(it.trim()))
         }
-        //add
+
         binding.itemBottomChatRoom.ivAdd.clicks().subscribeWithRxLife {
             findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomAddDialog())
         }
-        //send text
+
         binding.itemBottomChatRoom.ivSend.clicks().subscribeWithRxLife {
             val text = binding.itemBottomChatRoom.etText.text.toString()
             viewModel.send(
@@ -136,6 +152,8 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                     isSound = true
                 )
             )
+            binding.itemBottomChatRoom.etText.setText("")
+            cxt.closeKeyBoard(binding.clChatRoom)
         }
 
         setFragmentResultListener(ChatRoomAddDialogFragment.REQUEST_KEY_CHAT_ROOM_ADD) { key, bundle ->

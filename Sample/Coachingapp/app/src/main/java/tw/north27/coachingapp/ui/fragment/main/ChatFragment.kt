@@ -29,16 +29,19 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewPager2Chat.also {
-            it.adapter = adapter
-            it.offscreenPageLimit = 2
+        binding.viewPager2Chat.apply {
+            adapter = this@ChatFragment.adapter
+            offscreenPageLimit = 2
         }
         TabLayoutMediator(binding.tabLayoutChat, binding.viewPager2Chat) { tab: TabLayout.Tab, position: Int ->
             tab.setIcon(getTabIcon(position))
-//            tab.text = getTabText(position)
+            tab.text = getTabText(position)
         }.attach()
-
         viewModel.loadChat()
+
+        viewModel.message.subscribeWithRxLife {
+            viewModel.receiveChatMessage(it)
+        }
 
         /**
          * 測試推播數據
@@ -69,12 +72,6 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
             )
         }
 
-        /**
-         * QRCode成為好友?
-         * */
-        binding.ivQrCode.clicks().subscribeWithRxLife {
-        }
-
         binding.floatingActionButtonChat.clicks().subscribeWithRxLife {
             viewModel.listScrollToTop(true)
         }
@@ -83,17 +80,6 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
             binding.appBarLayoutChat.setExpanded(true)
         }
 
-//        viewModel.showFab.observe(viewLifecycleOwner) {
-//            if (it == true) {
-//                binding.floatingActionButtonChat.postDelayed({
-//                    binding.floatingActionButtonChat.animate().translationY(0f).setInterpolator(LinearInterpolator()).start()
-//                }, 3000)
-//            }
-//        }
-
-        viewModel.message.subscribeWithRxLife {
-            viewModel.refreshChatList(it)
-        }
     }
 
     private fun getTabIcon(position: Int) = when (position) {

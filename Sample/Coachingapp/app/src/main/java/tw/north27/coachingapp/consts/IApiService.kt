@@ -59,7 +59,7 @@ interface IApiService {
 //    ): Response<AppResult>
 
 
-    //Chat List
+    //Chat
     /**
      * 獲取聊天列表
      * @param
@@ -98,8 +98,10 @@ interface IApiService {
     /**
      * 獲取指定聊天數據
      * */
-    @POST
-    suspend fun postChatList(): List<ChatInfo>
+    @GET
+    suspend fun getChatListFromChat(
+        @Field("chat") chat: ChatInfo
+    ): List<ChatInfo>
 
 
     //Notify

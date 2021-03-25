@@ -22,7 +22,9 @@
     <string name="all">全部</string>
     <string name="have_read">已讀</string>
     <string name="un_read">未讀</string>
-    <string name="empty">空空如也</string>
+    <string name="empty">沒有資料</string>
+    <string name="error">網路異常</string>
+    <string name="network">無網路</string>
     <string name="aa">Aa</string>
     <string name="camera">拍攝照片</string>
     <string name="album">選取相片</string>
