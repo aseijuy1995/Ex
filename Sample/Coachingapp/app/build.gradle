@@ -190,6 +190,8 @@ dependencies {
     //noinspection GradleCompatible
     implementation "com.android.support:support-v4:20.0.0"
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+    //Photo
+    implementation "com.github.chrisbanes:PhotoView:2.3.0"
 }
 
 //proto

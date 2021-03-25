@@ -1,6 +1,8 @@
 package tw.north27.coachingapp.chat
 
+import android.os.Parcelable
 import androidx.lifecycle.MutableLiveData
+import kotlinx.parcelize.Parcelize
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseViewModel
 import tw.north27.coachingapp.ext.asLiveData
@@ -23,21 +25,14 @@ class ChatRoomAddViewModel : BaseViewModel() {
 
     val chatRoomAddList = _chatRoomAddList.asLiveData()
 
-    private val _request = MutableLiveData<Pair<ChatRoomAddFeature, Boolean>>()
-
-    val request = _request.asLiveData()
-
-    fun request(type: ChatRoomAddFeature, isRequest: Boolean) {
-        _request.value = (type to isRequest)
-    }
-
-    sealed class ChatRoomAddFeature {
-        object CAMERA : ChatRoomAddFeature()
-        object PHOTO : ChatRoomAddFeature()
-        object MIC : ChatRoomAddFeature()
-        object AUDIO : ChatRoomAddFeature()
-        object VIDEO : ChatRoomAddFeature()
-        object MOVIE : ChatRoomAddFeature()
+    @Parcelize
+    enum class MediaFeature : Parcelable {
+        CAMERA,
+        PHOTO,
+        MIC,
+        AUDIO,
+        VIDEO,
+        MOVIE
     }
 
 }

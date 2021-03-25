@@ -16,7 +16,7 @@ import tw.north27.coachingapp.chat.MediaSetting
 import tw.north27.coachingapp.chat.MimeType
 import java.io.File
 
-class MediaImagesModule(private val cxt: Context) : IMediaModule {
+class MediaImageModule(private val cxt: Context) : IMediaModule {
 
     val albumMap = mutableMapOf<String, MediaAlbum>()
 
@@ -25,7 +25,7 @@ class MediaImagesModule(private val cxt: Context) : IMediaModule {
     val albumListRelay: PublishRelay<List<MediaAlbum>> = PublishRelay.create()
 
     override fun fetchMedia(setting: MediaSetting): Completable = Completable.fromAction {
-        fetchMediaImagesSync(setting)
+        fetchMediaImageSync(setting)
     }
 
     override fun getMediaAlbum(setting: MediaSetting): PublishRelay<List<MediaAlbum>> {
@@ -52,21 +52,21 @@ class MediaImagesModule(private val cxt: Context) : IMediaModule {
         return albumMap[albumName]
     }
 
-    private fun fetchMediaImagesSync(setting: MediaSetting) {
+    private fun fetchMediaImageSync(setting: MediaSetting) {
         albumMap.clear()
-        if (setting.mimeType == MimeType.IMAGES) {
+        if (setting.mimeType == MimeType.IMAGE) {
             val internalUrl: Uri = MediaStore.Images.Media.INTERNAL_CONTENT_URI
             val externalUri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             /**
              * FIXME 需改為併發
              * */
-            fetchMediaImagesSync(setting, internalUrl)
-            fetchMediaImagesSync(setting, externalUri)
+            fetchMediaImageSync(setting, internalUrl)
+            fetchMediaImageSync(setting, externalUri)
             albumListRelay.accept(albumMap.values.toList())
         }
     }
 
-    private fun fetchMediaImagesSync(setting: MediaSetting, uri: Uri) {
+    private fun fetchMediaImageSync(setting: MediaSetting, uri: Uri) {
         val projection: Array<String>
         val selection: String
         val selectionArgs: Array<String>
@@ -146,9 +146,9 @@ class MediaImagesModule(private val cxt: Context) : IMediaModule {
                     continue
 
                 //add media album
-                if (isAlbumEmpty) addAlbum(MEDIA_ALBUM_IMAGES, "", data)
+                if (isAlbumEmpty) addAlbum(MEDIA_ALBUM_IMAGE, "", data)
                 //add media
-                addMedia(MEDIA_ALBUM_IMAGES, media)
+                addMedia(MEDIA_ALBUM_IMAGE, media)
 
                 //add  media album in correspond
                 val folder = File(data).parentFile?.absolutePath ?: ""

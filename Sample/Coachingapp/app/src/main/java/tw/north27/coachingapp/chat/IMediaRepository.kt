@@ -6,7 +6,7 @@ interface IMediaRepository {
 
     fun getMediaAudio(setting: MediaSetting): Observable<List<MediaAlbum>>
 
-    fun getMediaImages(setting: MediaSetting): Observable<List<MediaAlbum>>
+    fun getMediaImage(setting: MediaSetting): Observable<List<MediaAlbum>>
 
     fun getMediaVideo(setting: MediaSetting): Observable<List<MediaAlbum>>
 }

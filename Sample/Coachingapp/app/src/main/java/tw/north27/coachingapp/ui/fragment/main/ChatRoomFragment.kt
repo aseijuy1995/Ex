@@ -13,32 +13,25 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.recyclerview.scrollStateChanges
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
-import tw.north27.coachingapp.ext.closeKeyBoard
-import tw.north27.coachingapp.ext.viewBinding
-import tw.north27.coachingapp.model.result.ChatInfo
-import tw.north27.coachingapp.model.result.ChatRead
-import tw.north27.coachingapp.model.result.ChatType
-import tw.north27.coachingapp.model.result.UserInfo
+import tw.north27.coachingapp.ext.*
+import tw.north27.coachingapp.model.result.*
 import tw.north27.coachingapp.util.SnackbarUtil
 
 class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 
     private val binding by viewBinding<FragmentChatRoomBinding>(FragmentChatRoomBinding::bind)
 
-    private val chatRoomViewModel by viewModel<ChatRoomViewModel>()
+    private val viewModel by viewModel<ChatRoomViewModel>()
 
-    private val chatRoomAddViewModel by sharedViewModel<ChatRoomAddViewModel>()
-
-    private lateinit var chatRoomListAdapter: ChatRoomListAdapter
+    private lateinit var adapter: ChatRoomListAdapter
 
     private val chat: ChatInfo
         get() = arguments?.getParcelable<ChatInfo>("chat")!!
@@ -47,12 +40,12 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = this@ChatRoomFragment.chatRoomViewModel
+            viewModel = this@ChatRoomFragment.viewModel
             chat = this@ChatRoomFragment.chat
         }
-        chatRoomListAdapter = ChatRoomListAdapter(cxt)
+        adapter = ChatRoomListAdapter(cxt)
         binding.rvChat.apply {
-            adapter = chatRoomListAdapter
+            adapter = this@ChatRoomFragment.adapter
             scrollStateChanges().subscribeWithRxLife {
                 when (it) {
                     RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this).resumeRequests()
@@ -60,21 +53,21 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                 }
             }
         }
-        chatRoomViewModel.chatMessageList(chat)
+        viewModel.chatMessageList(chat)
 
-        chatRoomViewModel.chatList.observe(viewLifecycleOwner) {
-            chatRoomListAdapter.submitList(it)
+        viewModel.chatList.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
             if (it.isNotEmpty())
-                chatRoomViewModel.roomScrollToBottom(true)
+                viewModel.roomScrollToBottom(true)
         }
 
-        chatRoomViewModel.message.subscribeWithRxLife {
-            chatRoomViewModel.addChat(it)
+        viewModel.message.subscribeWithRxLife {
+            viewModel.addChat(it)
         }
 
-        chatRoomViewModel.roomScrollToBottom.observe(viewLifecycleOwner) {
+        viewModel.roomScrollToBottom.observe(viewLifecycleOwner) {
             if (binding.rvChat.size > 0) {
-                val position = chatRoomListAdapter.currentList.size - 1
+                val position = adapter.currentList.size - 1
                 binding.rvChat.scrollToPosition(position)
                 binding.rvChat.postDelayed({
                     binding.rvChat.smoothScrollToPosition(position)
@@ -86,7 +79,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         binding.rvChat.adapter?.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
-                chatRoomViewModel.roomScrollToBottom(true)
+                viewModel.roomScrollToBottom(true)
             }
 
             override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
@@ -95,40 +88,8 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
             }
         })
 
-        chatRoomViewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
-
         binding.ivBack.clicks().subscribeWithRxLife {
             findNavController().navigateUp()
-        }
-
-        chatRoomAddViewModel.request.observe(viewLifecycleOwner) {
-            lifecycleScope.launch {
-                delay(500)
-                val feature = it.first
-                val isRequest = it.second
-                if (isRequest) {
-                    when (feature) {
-                        ChatRoomAddViewModel.ChatRoomAddFeature.CAMERA -> {
-//                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentCameraX())
-                        }
-                        ChatRoomAddViewModel.ChatRoomAddFeature.PHOTO -> {
-                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.IMAGES))
-                        }
-                        ChatRoomAddViewModel.ChatRoomAddFeature.MIC -> {
-                        }
-                        ChatRoomAddViewModel.ChatRoomAddFeature.AUDIO -> {
-                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.AUDIO))
-                        }
-                        ChatRoomAddViewModel.ChatRoomAddFeature.VIDEO -> {
-                        }
-                        ChatRoomAddViewModel.ChatRoomAddFeature.MOVIE -> {
-                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.VIDEO))
-                        }
-                    }
-                } else {
-                    SnackbarUtil.showPermissionDeny(binding.root)
-                }
-            }
         }
 
         /**
@@ -143,7 +104,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         }
 
         binding.itemBottomChatRoom.etText.textChanges().subscribeWithRxLife {
-            chatRoomViewModel.inputEmpty(TextUtils.isEmpty(it.trim()))
+            viewModel.inputEmpty(TextUtils.isEmpty(it.trim()))
         }
         //add
         binding.itemBottomChatRoom.ivAdd.clicks().subscribeWithRxLife {
@@ -152,7 +113,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         //send text
         binding.itemBottomChatRoom.ivSend.clicks().subscribeWithRxLife {
             val text = binding.itemBottomChatRoom.etText.text.toString()
-            chatRoomViewModel.send(
+            viewModel.send(
                 ChatInfo(
                     id = 5,
                     sender = UserInfo(
@@ -177,13 +138,136 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
             )
         }
 
-        setFragmentResultListener(ChatRoomMediaDialogFragment.REQUEST_KEY_MEDIA) { key, bundle ->
-            val mediaList: List<Media>? = bundle.getParcelableArrayList<Media>(ChatRoomMediaDialogFragment.KEY_MEDIA)
-            if (!mediaList.isNullOrEmpty()) {
-                Timber.d("size = ${mediaList.size}, mediaList = ${mediaList}")
+        setFragmentResultListener(ChatRoomAddDialogFragment.REQUEST_KEY_CHAT_ROOM_ADD) { key, bundle ->
+            val isPer: Boolean = bundle.getBoolean(ChatRoomAddDialogFragment.KEY_MEDIA_PERMISSION)
+            val feature: ChatRoomAddViewModel.MediaFeature? = bundle.getParcelable<ChatRoomAddViewModel.MediaFeature>(ChatRoomAddDialogFragment.KEY_MEDIA_FEATURE)
+            if (isPer) {
+                /**
+                 * FIXME 延遲以防止JetPack-Navigation觸發IllegalArgumentException
+                 * */
+                lifecycleScope.launch {
+                    delay(500)
+                    when (feature) {
+                        ChatRoomAddViewModel.MediaFeature.CAMERA -> {
+//                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentCameraX())
+                        }
+                        ChatRoomAddViewModel.MediaFeature.PHOTO -> {
+                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.IMAGE))
+                        }
+                        ChatRoomAddViewModel.MediaFeature.MIC -> {
+
+                        }
+                        ChatRoomAddViewModel.MediaFeature.AUDIO -> {
+                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.AUDIO))
+                        }
+                        ChatRoomAddViewModel.MediaFeature.VIDEO -> {
+
+                        }
+                        ChatRoomAddViewModel.MediaFeature.MOVIE -> {
+                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.VIDEO))
+                        }
+                    }
+
+                }
+            } else {
+                SnackbarUtil.showPermissionDeny(binding.root)
             }
         }
 
+        setFragmentResultListener(ChatRoomMediaDialogFragment.REQUEST_KEY_MEDIA) { key, bundle ->
+            lifecycleScope.launch(Dispatchers.IO) {
+                val mimeType: MimeType? = bundle.getParcelable<MimeType>(ChatRoomMediaDialogFragment.KEY_MIME_TYPE)
+                val mediaList: List<Media>? = bundle.getParcelableArrayList<Media>(ChatRoomMediaDialogFragment.KEY_MEDIA_LIST)
+                if (!mediaList.isNullOrEmpty()) {
+                    var chatInfo: ChatInfo? = null
+                    when (mimeType) {
+                        MimeType.AUDIO -> {
+                            chatInfo = ChatInfo(
+                                id = 5,
+                                sender = UserInfo(
+                                    id = -1,
+                                    account = "jie001",
+                                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                                    name = "阿吉"
+                                ),
+                                recipient = UserInfo(
+                                    id = 100,
+                                    account = "ji100",
+                                    avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
+                                    name = "阿吉 - 測試號"
+                                ),
+                                sendTime = "15:00",
+                                chatType = ChatType.AUDIO,
+                                read = ChatRead.UN_READ,
+                                unReadCount = 1,
+                                isSound = true
+                            )
+
+                        }
+                        MimeType.IMAGE -> {
+                            val imgByteArray = viewModel.compressedImg(mediaList)
+                            val chatImageList = mutableListOf<ChatImage>()
+                            imgByteArray.map { chatImageList.add(ChatImage(id = 0, byteArray = it)) }
+                            chatInfo = ChatInfo(
+                                id = 5,
+                                sender = UserInfo(
+                                    id = -1,
+                                    account = "jie001",
+                                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                                    name = "阿吉"
+                                ),
+                                recipient = UserInfo(
+                                    id = 100,
+                                    account = "ji100",
+                                    avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
+                                    name = "阿吉 - 測試號"
+                                ),
+                                sendTime = "15:00",
+                                chatType = ChatType.IMAGE,
+                                image = chatImageList,
+                                read = ChatRead.UN_READ,
+                                unReadCount = 1,
+                                isSound = true
+                            )
+
+                        }
+                        MimeType.VIDEO -> {
+//                            val imgByteArray = viewModel.compressedImg(mediaList)
+//                            val chatImageList = mutableListOf<ChatImage>()
+//                            imgByteArray.map { chatImageList.add(ChatImage(id = 0, byteArray = it)) }
+                            chatInfo = ChatInfo(
+                                id = 5,
+                                sender = UserInfo(
+                                    id = -1,
+                                    account = "jie001",
+                                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+                                    name = "阿吉"
+                                ),
+                                recipient = UserInfo(
+                                    id = 100,
+                                    account = "ji100",
+                                    avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
+                                    name = "阿吉 - 測試號"
+                                ),
+                                sendTime = "15:00",
+                                chatType = ChatType.VIDEO,
+                                read = ChatRead.UN_READ,
+                                unReadCount = 1,
+                                isSound = true
+                            )
+
+                        }
+                    }
+                    chatInfo?.let { viewModel.send(it) }
+                }
+            }
+        }
+
+        adapter.imageClickRelay?.subscribeWithRxLife {
+            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPhoto(it.second.url.toString()))
+        }
+
+        viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
     }
 
     private fun onToastObs(pair: Pair<ChatRoomViewModel.ToastType, String>) {
@@ -193,5 +277,6 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
             }
         }
     }
+
 
 }

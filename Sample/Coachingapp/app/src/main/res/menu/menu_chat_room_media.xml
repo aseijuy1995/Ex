@@ -5,6 +5,6 @@
     <item
         android:id="@+id/menu_send"
         android:icon="@drawable/ic_baseline_send_24_blue"
-        android:title="send"
+        android:title="@string/send"
         app:showAsAction="always" />
 </menu>

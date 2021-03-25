@@ -34,6 +34,8 @@ class ChatRoomMediaListAdapter(
 
     val itemSelectRelay = PublishRelay.create<Triple<View, Boolean, Media>>()
 
+    val toastRelay = PublishRelay.create<String>()
+
     enum class Mime(val value: Int) {
         AUDIO(0),
         IMAGE(1),
@@ -43,7 +45,7 @@ class ChatRoomMediaListAdapter(
     override fun getItemViewType(position: Int): Int {
         return when (type) {
             MimeType.AUDIO -> Mime.AUDIO.value
-            MimeType.IMAGES -> Mime.IMAGE.value
+            MimeType.IMAGE -> Mime.IMAGE.value
             MimeType.VIDEO -> Mime.VIDEO.value
             else -> -1
         }
@@ -94,8 +96,14 @@ class ChatRoomMediaListAdapter(
                 }
             )
             binding.chkSelect.setOnCheckedChangeListener { view, isChoice ->
-                media.isChoice = isChoice
-                itemSelectRelay.accept(Triple(view, isChoice, media))
+                val count = currentList.count { it.isChoice }
+                if (isChoice && count >= setting?.maxCount ?: 100) {
+                    toastRelay.accept(binding.chkSelect.context.getString(R.string.limit_selection))
+                    view.isChecked = !isChoice
+                } else {
+                    media.isChoice = isChoice
+                    itemSelectRelay.accept(Triple(view, isChoice, media))
+                }
             }
             executePendingBindings()
         }
@@ -106,8 +114,14 @@ class ChatRoomMediaListAdapter(
             this.media = media
             this.setting = this@ChatRoomMediaListAdapter.setting
             binding.chkSelect.setOnCheckedChangeListener { view, isChoice ->
-                media.isChoice = isChoice
-                itemSelectRelay.accept(Triple(view, isChoice, media))
+                val count = currentList.count { it.isChoice }
+                if (isChoice && count >= setting?.maxCount ?: 100) {
+                    toastRelay.accept(binding.chkSelect.context.getString(R.string.limit_selection))
+                    view.isChecked = !isChoice
+                } else {
+                    media.isChoice = isChoice
+                    itemSelectRelay.accept(Triple(view, isChoice, media))
+                }
             }
             executePendingBindings()
         }
@@ -118,8 +132,14 @@ class ChatRoomMediaListAdapter(
             this.media = media
             this.setting = this@ChatRoomMediaListAdapter.setting
             binding.chkSelect.setOnCheckedChangeListener { view, isChoice ->
-                media.isChoice = isChoice
-                itemSelectRelay.accept(Triple(view, isChoice, media))
+                val count = currentList.count { it.isChoice }
+                if (isChoice && count >= setting?.maxCount ?: 100) {
+                    toastRelay.accept(binding.chkSelect.context.getString(R.string.limit_selection))
+                    view.isChecked = !isChoice
+                } else {
+                    media.isChoice = isChoice
+                    itemSelectRelay.accept(Triple(view, isChoice, media))
+                }
             }
             executePendingBindings()
         }

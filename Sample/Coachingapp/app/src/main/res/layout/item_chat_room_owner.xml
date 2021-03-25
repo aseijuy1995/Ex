@@ -51,20 +51,17 @@
                 app:layout_constraintTop_toTopOf="parent"
                 bind:isVisibility="@{chat.chatType == ChatType.TEXT}" />
 
-
-
-            <!--            <androidx.recyclerview.widget.RecyclerView-->
-            <!--                android:id="@+id/rv_img"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:maxWidth="200dp"-->
-            <!--                android:orientation="vertical"-->
-            <!--                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                app:spanCount="2"-->
-            <!--                bind:isVisible="@{chatItem.imgListMsg!=null}" />-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="250dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:spanCount="2"
+                bind:isVisibility="@{chat.chatType == ChatType.IMAGE}" />
 
             <!--            <include-->
             <!--                android:id="@+id/view_recorder"-->

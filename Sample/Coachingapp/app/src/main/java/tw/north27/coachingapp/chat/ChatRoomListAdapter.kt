@@ -2,19 +2,23 @@ package tw.north27.coachingapp.chat
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
+import com.bumptech.glide.Glide
+import com.jakewharton.rxbinding4.recyclerview.scrollStateChanges
+import com.jakewharton.rxrelay3.PublishRelay
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ItemChatRoomOtherBinding
 import tw.north27.coachingapp.databinding.ItemChatRoomOwnerBinding
+import tw.north27.coachingapp.model.result.ChatImage
 import tw.north27.coachingapp.model.result.ChatInfo
+import tw.north27.coachingapp.model.result.ChatType
 import tw.north27.coachingapp.module.pref.UserModule
 
 class ChatRoomListAdapter(private val cxt: Context) : ListAdapter<ChatInfo, ChatRoomListAdapter.VH>(
@@ -29,7 +33,7 @@ class ChatRoomListAdapter(private val cxt: Context) : ListAdapter<ChatInfo, Chat
     }
 ) {
 
-//    val itemImgClickRelay = PublishRelay.create<ChatImg>()//image click
+    val imageClickRelay = PublishRelay.create<Pair<View, ChatImage>>()
 //
 //    val itemRecordingClickRelay = PublishRelay.create<Pair<Boolean, ChatInfo>>()
 
@@ -64,7 +68,6 @@ class ChatRoomListAdapter(private val cxt: Context) : ListAdapter<ChatInfo, Chat
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val chat = getItem(position)
-        Timber.d("chat = ${chat}")
         holder.bind(chat)
     }
 
@@ -75,9 +78,36 @@ class ChatRoomListAdapter(private val cxt: Context) : ListAdapter<ChatInfo, Chat
     inner class OwnerVH(private val binding: ItemChatRoomOwnerBinding, val context: Context) : VH(binding) {
         override fun bind(chat: ChatInfo) = binding.apply {
             this.chat = chat
+            //image
+            if (chat.chatType == ChatType.IMAGE) {
+                chat.image?.let {
+                    val adapter = ChatImageListAdapter()
+                    val layoutManager = object : GridLayoutManager(cxt, 2, LinearLayoutManager.VERTICAL, false) {
+                        override fun isLayoutRTL(): Boolean = true
+                    }.apply {
+                        spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                            override fun getSpanSize(position: Int): Int = when {
+                                it.size % 2 == 0 -> 1
+                                position == it.size - 1 -> 2
+                                else -> 1
+                            }
+                        }
+                    }
+                    rvImg.apply {
+                        this.layoutManager = layoutManager
+                        this.adapter = adapter
+                        scrollStateChanges().subscribeBy {
+                            when (it) {
+                                RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this).resumeRequests()
+                                RecyclerView.SCROLL_STATE_DRAGGING -> Glide.with(this).pauseRequests()
+                            }
+                        }
+                    }
+                    adapter.submitList(it)
+                    adapter.itemClickRelay.subscribeBy { imageClickRelay?.accept(it) }
+                }
+            }
 
-//            chatInfo.imgListMsg?.let { initImageView(binding, it) }
-//
 //            chatInfo.videoListMsg?.let {
 //                rvVideo.adapter = ChatVideoListAdapter().apply { submitList(it) }
 //            }
@@ -111,11 +141,35 @@ class ChatRoomListAdapter(private val cxt: Context) : ListAdapter<ChatInfo, Chat
     inner class OtherVH(val binding: ItemChatRoomOtherBinding, val context: Context) : VH(binding) {
         override fun bind(chat: ChatInfo) = binding.apply {
             this.chat = chat
-//            chatInfo.imgListMsg?.let {
-//                rvImg.adapter = ChatImgListAdapter().apply {
-//                    submitList(it)
-//                }
-//            }
+            //image
+            if (chat.chatType == ChatType.IMAGE) {
+                chat.image?.let {
+                    val adapter = ChatImageListAdapter()
+                    val layoutManager = object : GridLayoutManager(cxt, 2, LinearLayoutManager.VERTICAL, false) {}.apply {
+                        spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                            override fun getSpanSize(position: Int): Int = when {
+                                it.size % 2 == 0 -> 1
+                                position == it.size - 1 -> 2
+                                else -> 1
+                            }
+                        }
+                    }
+                    rvImg.apply {
+                        this.layoutManager = layoutManager
+                        this.adapter = adapter
+                        scrollStateChanges().subscribeBy {
+                            when (it) {
+                                RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this).resumeRequests()
+                                RecyclerView.SCROLL_STATE_DRAGGING -> Glide.with(this).pauseRequests()
+                            }
+                        }
+                    }
+                    adapter.submitList(it)
+                    adapter.itemClickRelay.subscribeBy { imageClickRelay?.accept(it) }
+                }
+            }
+
+
 //            ivRecorder.clicks().subscribe {
 ////                if (viewModel.mediaPlayerState.value!!) {
 //////                        chatBean.recorderBytes?.let { viewModel.startPlayer(it) }

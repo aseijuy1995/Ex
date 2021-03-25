@@ -1,6 +1,7 @@
 package tw.north27.coachingapp.chat
 
 import android.app.Application
+import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
@@ -10,13 +11,38 @@ import kotlinx.coroutines.runBlocking
 import org.koin.core.KoinComponent
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseAndroidViewModel
-import tw.north27.coachingapp.ext.asLiveData
+import tw.north27.coachingapp.ext.*
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.module.pref.UserModule
+import java.io.File
 
 class ChatRoomViewModel(application: Application, val chatRepo: IChatRepository) : BaseAndroidViewModel(application), KoinComponent {
 
+    val bitmapOption = BitmapOption(
+        isOptions = true,
+        reqWidth = 400,
+        reqHeight = 800
+    )
+
+    val bitmapCompress = BitmapCompress(
+        isCompress = true,
+        format = Bitmap.CompressFormat.PNG,
+        quality = 80
+    )
+
+    /**
+     * 壓縮圖片
+     * */
+    fun compressedImg(mediaList: List<Media>): List<ByteArray> {
+//        val inputStream = File(it.data).getBitmap(bitmapOption).toInputStream(bitmapCompress)
+        val imgByteArray = mediaList.map { File(it.data).getBitmap(bitmapOption).toByteArray(bitmapCompress) }
+        return imgByteArray
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private val _toast = MutableLiveData<Pair<ToastType, String>>()
 
     val toast = _toast.asLiveData()

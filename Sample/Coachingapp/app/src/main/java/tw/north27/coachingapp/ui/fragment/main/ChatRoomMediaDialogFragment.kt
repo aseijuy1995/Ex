@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
@@ -16,10 +18,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding4.view.clicks
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseBottomSheetDialogFragment
-import tw.north27.coachingapp.chat.MediaSetting
 import tw.north27.coachingapp.chat.MimeType
 import tw.north27.coachingapp.databinding.FragmentChatRoomMediaDialogBinding
 import tw.north27.coachingapp.ext.dataBinding
@@ -40,7 +43,9 @@ class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {
     companion object {
         val REQUEST_KEY_MEDIA = "REQUEST_KEY_MEDIA"
 
-        val KEY_MEDIA = "KEY_MEDIA"
+        val KEY_MIME_TYPE = "KEY_MIME_TYPE"
+
+        val KEY_MEDIA_LIST = "KEY_MEDIA_LIST"
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -53,19 +58,12 @@ class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@ChatRoomMediaDialogFragment.viewModel
-
         }
         binding.toolbarMedia.setupWithNavController(findNavController())
 
         when (args.mimeType) {
             MimeType.AUDIO -> {
-                val setting = MediaSetting(
-                    mimeType = MimeType.AUDIO,
-                    isMultipleChoice = true,
-                    audioMinDuration = 0,
-                    audioMaxDuration = 60000//1m
-                )
-                adapter = ChatRoomMediaListAdapter(args.mimeType, setting)
+                adapter = ChatRoomMediaListAdapter(args.mimeType, viewModel.audioSetting)
                 binding.rvMedia.apply {
                     addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
                         setDrawable(ContextCompat.getDrawable(cxt, R.drawable.shape_size_height_1_solid_gray) ?: return)
@@ -74,66 +72,60 @@ class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {
                     adapter = this@ChatRoomMediaDialogFragment.adapter
                 }
                 //audio
-                viewModel.getMediaAudio(setting).subscribeWithRxLife {
+                viewModel.getMediaAudio().subscribeWithRxLife {
                     val mediaList = it.find { it.albumName == MEDIA_ALBUM_AUDIO }?.mediaList
                     viewModel.setMediaList(mediaList)
                 }
-                //
+                /**
+                 * 播放音訊
+                 * */
                 adapter.itemClickRelay.subscribeWithRxLife {
-                    /**
-                     * 播放音訊
-                     * */
+
                 }
                 adapter.itemSelectRelay.subscribeWithRxLife {
                     viewModel.setMedia(it.third)
                 }
             }
-            MimeType.IMAGES -> {
-                val setting = MediaSetting(
-                    mimeType = MimeType.IMAGES,
-                    isMultipleChoice = true
-                )
-                adapter = ChatRoomMediaListAdapter(args.mimeType, setting)
+            MimeType.IMAGE -> {
+                adapter = ChatRoomMediaListAdapter(args.mimeType, viewModel.imageSetting)
                 binding.rvMedia.apply {
                     layoutManager = GridLayoutManager(cxt, 3)
                     adapter = this@ChatRoomMediaDialogFragment.adapter
                 }
                 //image
-                viewModel.getMediaImages(setting).subscribeWithRxLife {
-                    val mediaList = it.find { it.albumName == MEDIA_ALBUM_IMAGES }?.mediaList
+                viewModel.getMediaImage().subscribeWithRxLife {
+                    val mediaList = it.find { it.albumName == MEDIA_ALBUM_IMAGE }?.mediaList
                     viewModel.setMediaList(mediaList)
                 }
+                /**
+                 * 放大
+                 * */
                 adapter.itemClickRelay.subscribeWithRxLife {
-                    /**
-                     * 放大
-                     * */
-//                    findNavController().navigate(MediaListDialogFragmentDirections.actionFragmentMediaListDialogToFragmentMediaPreview(it, From.MEDIA_LIST))
+                    lifecycleScope.launch {
+                        delay(500)
+                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPhoto(it.second.data))
+                    }
+
                 }
                 adapter.itemSelectRelay.subscribeWithRxLife {
                     viewModel.setMedia(it.third)
                 }
             }
             MimeType.VIDEO -> {
-                val setting = MediaSetting(
-                    mimeType = MimeType.VIDEO,
-                    isMultipleChoice = true,
-                    videoMinDuration = 0,//m
-                    videoMaxDuration = 60000//1m
-                )
-                adapter = ChatRoomMediaListAdapter(args.mimeType, setting)
+                adapter = ChatRoomMediaListAdapter(args.mimeType, viewModel.videoSetting)
                 binding.rvMedia.apply {
                     layoutManager = GridLayoutManager(cxt, 3)
                     adapter = this@ChatRoomMediaDialogFragment.adapter
                 }
                 //video
-                viewModel.getMediaVideo(setting).subscribeWithRxLife {
+                viewModel.getMediaVideo().subscribeWithRxLife {
                     val mediaList = it.find { it.albumName == MEDIA_ALBUM_VIDEO }?.mediaList
                     viewModel.setMediaList(mediaList)
                 }
+                /**
+                 * 放大播放影片
+                 * */
                 adapter.itemClickRelay.subscribeWithRxLife {
-                    /**
-                     * 播放影片
-                     * */
 //                    findNavController().navigate(MediaListDialogFragmentDirections.actionFragmentMediaListDialogToFragmentMediaPreview(it, From.MEDIA_LIST))
                 }
                 adapter.itemSelectRelay.subscribeWithRxLife {
@@ -142,19 +134,30 @@ class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {
             }
         }
 
+        adapter.toastRelay.subscribeWithRxLife {
+            Toast.makeText(cxt, it, Toast.LENGTH_SHORT).show()
+        }
+
         val ivMenuSend = binding.toolbarMedia.menu.findItem(R.id.menu_send)
         ivMenuSend.clicks().subscribeWithRxLife {
-            setFragmentResult(REQUEST_KEY_MEDIA, bundleOf(KEY_MEDIA to viewModel.selectMediaList))
+            setFragmentResult(
+                REQUEST_KEY_MEDIA, bundleOf(
+                    KEY_MIME_TYPE to args.mimeType,
+                    KEY_MEDIA_LIST to viewModel.selectMediaList.value
+                )
+            )
             findNavController().navigateUp()
         }
 
+        viewModel.selectMediaList.observe(viewLifecycleOwner) {
+            ivMenuSend.isVisible = !it.isNullOrEmpty()
+        }
+
         viewModel.mediaList.observe(viewLifecycleOwner) {
-            if (it == null || it.isEmpty()) {
-                ivMenuSend.isVisible = false
+            if (it.isNullOrEmpty()) {
                 binding.rvMedia.isVisible = false
                 binding.itemEmpty.clEmpty.isVisible = true
             } else {
-                ivMenuSend.isVisible = it.any { it.isChoice }
                 binding.rvMedia.isVisible = true
                 binding.itemEmpty.clEmpty.isVisible = false
             }

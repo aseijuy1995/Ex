@@ -8,7 +8,7 @@ import tw.north27.coachingapp.chat.MediaAlbum
 import tw.north27.coachingapp.chat.MediaSetting
 
 class MediaRepository(
-    private val imagesModule: IMediaModule,
+    private val imageModule: IMediaModule,
     private val videoModule: IMediaModule,
     private val audioModule: IMediaModule
 ) : IMediaRepository {
@@ -18,8 +18,8 @@ class MediaRepository(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
-    override fun getMediaImages(setting: MediaSetting): Observable<List<MediaAlbum>> =
-        imagesModule.getMediaAlbum(setting)
+    override fun getMediaImage(setting: MediaSetting): Observable<List<MediaAlbum>> =
+        imageModule.getMediaAlbum(setting)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 

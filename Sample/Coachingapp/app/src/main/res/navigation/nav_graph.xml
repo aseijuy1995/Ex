@@ -130,6 +130,21 @@
                 app:nullable="false" />
         </action>
 
+        <action
+            android:id="@+id/action_fragment_chat_room_to_fragment_media_photo"
+            app:destination="@id/fragment_media_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+
+            <argument
+                android:name="url"
+                app:argType="string"
+                app:nullable="false" />
+
+        </action>
+
     </fragment>
 
     <dialog
@@ -150,6 +165,19 @@
             app:nullable="false" />
 
     </dialog>
+
+    <fragment
+        android:id="@+id/fragment_media_photo"
+        android:name="tw.north27.coachingapp.ui.fragment.main.MediaPhotoFragment"
+        android:label="fragment_media_photo"
+        tools:layout="@layout/fragment_media_photo">
+
+        <argument
+            android:name="url"
+            app:argType="string"
+            app:nullable="false" />
+
+    </fragment>
 
     <!-- Notify -->
     <fragment

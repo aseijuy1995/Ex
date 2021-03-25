@@ -3,6 +3,7 @@ package tw.north27.coachingapp.consts
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import tw.north27.coachingapp.BuildConfig
@@ -24,7 +25,7 @@ val utilModules = module {
     single<OkHttpUtil> { OkHttpUtil(androidContext()) }
     single<RetrofitManager> { RetrofitManager.get(BuildConfig.BASE_URL, (get() as OkHttpUtil).client) }
     single<IChatModule> { ChatModule(get()) }
-    single<IMediaModule>(named("image")) { MediaImagesModule(androidContext()) }
+    single<IMediaModule>(named("image")) { MediaImageModule(androidContext()) }
     single<IMediaModule>(named("video")) { MediaVideoModule(androidContext()) }
     single<IMediaModule>(named("audio")) { MediaAudioModule(androidContext()) }
 
@@ -58,4 +59,5 @@ val viewModelModules = module {
     viewModel { ChatRoomViewModel(androidApplication(), get()) }
     viewModel { ChatRoomAddViewModel() }
     viewModel { MediaViewModel(get()) }
+    viewModel { MediaPhotoViewModel() }
 }

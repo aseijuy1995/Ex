@@ -12,8 +12,8 @@ const val MEDIA_ALBUM_ALL = "MEDIA_ALBUM_ALL"
 //audio
 const val MEDIA_ALBUM_AUDIO = "MEDIA_ALBUM_AUDIO"
 
-//images
-const val MEDIA_ALBUM_IMAGES = "MEDIA_ALBUM_IMAGES"
+//image
+const val MEDIA_ALBUM_IMAGE = "MEDIA_ALBUM_IMAGE"
 
 //video
 const val MEDIA_ALBUM_VIDEO = "MEDIA_ALBUM_VIDEO"
@@ -33,7 +33,7 @@ interface IMediaModule {
      * 獲取指定媒體專輯
      * MEDIA_ALBUM_ALL：全部（音訊，圖片，影音）
      * MEDIA_ALBUM_AUDIO：音訊
-     * MEDIA_ALBUM_IMAGES：圖片
+     * MEDIA_ALBUM_IMAGE：圖片
      * MEDIA_ALBUM_VIDEO：影音
      * */
     fun getAlbumFromName(albumName: String, setting: MediaSetting): Observable<MediaAlbum?>
@@ -42,7 +42,7 @@ interface IMediaModule {
      * 獲取指定媒體專輯
      * MEDIA_ALBUM_ALL：全部（音訊，圖片，影音）
      * MEDIA_ALBUM_AUDIO：音訊
-     * MEDIA_ALBUM_IMAGES：圖片
+     * MEDIA_ALBUM_IMAGE：圖片
      * MEDIA_ALBUM_VIDEO：影音
      * */
     fun getAlbumFromNameSync(albumName: String, setting: MediaSetting): MediaAlbum?

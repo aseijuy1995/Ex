@@ -10,7 +10,7 @@ import timber.log.Timber
 open class IWebSocketListener(private val results: (SocketResults) -> Unit) : WebSocketListener() {
 
     //info開關
-    val switchInfoRelay = BehaviorRelay.createDefault<Boolean>(true)
+    val switchInfoRelay = BehaviorRelay.createDefault<Boolean>(false)
 
     //Result開關
     val switchResultRelay = BehaviorRelay.createDefault<Boolean>(true)

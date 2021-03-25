@@ -10,7 +10,6 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.chat.Media
 import tw.north27.coachingapp.ext.createDataStoreProto
@@ -34,6 +33,11 @@ fun ImageView.bindImgUrl(url: String) {
 @BindingAdapter("bind:imgRes")
 fun ImageView.bindImgRes(resId: Int) {
     setImageResource(resId)
+}
+
+@BindingAdapter("bind:imgByteArray")
+fun ImageView.bindImgByteArray(byteArray: ByteArray) {
+    Glide.with(context).load(byteArray).placeholder(R.drawable.ic_pencil_logo).into(this)
 }
 
 //
@@ -128,10 +132,10 @@ fun TextView.bindMediaDuration(media: Media) {
 }
 
 /**
- * 媒體的標題
+ * 媒體選取標題
  * */
-@BindingAdapter("bind:mediaTitle")
-fun TextView.bindMediaTitle(mediaList: List<Media>?) {
+@BindingAdapter("bind:mediaSelectTitle")
+fun TextView.bindMediaSelectTitle(mediaList: List<Media>?) {
     if (mediaList == null) {
         isVisible = false
     } else {
@@ -140,7 +144,6 @@ fun TextView.bindMediaTitle(mediaList: List<Media>?) {
             isVisible = true
             val choiceFormat = context.getString(R.string.choice_count)
             val choice = String.format(choiceFormat, count.toString())
-            Timber.d("choice = ${choice}")
             text = choice
         } else {
             isVisible = false

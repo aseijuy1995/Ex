@@ -24,10 +24,11 @@ data class MediaSetting(
 /**
  * 媒體類別
  * */
-enum class MimeType(private val type: String) {
+@Parcelize
+enum class MimeType(private val type: String) : Parcelable {
     ALL("all"),
     AUDIO("audio"),
-    IMAGES("image"),
+    IMAGE("image"),
     VIDEO("video");
 
     override fun toString() = type

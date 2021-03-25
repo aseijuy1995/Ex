@@ -27,8 +27,8 @@ enum class ChatType {
 @Parcelize
 data class ChatImage(
     val id: Int,
-    val url: String
-//    val byteArray: ByteArray
+    val url: String? = null,
+    val byteArray: ByteArray? = null
 ) : Parcelable
 
 @Parcelize
