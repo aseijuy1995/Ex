@@ -27,6 +27,7 @@ import tw.north27.coachingapp.chat.MimeType
 import tw.north27.coachingapp.databinding.FragmentChatRoomMediaDialogBinding
 import tw.north27.coachingapp.ext.dataBinding
 import tw.north27.coachingapp.media.*
+import java.util.concurrent.TimeUnit
 
 class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {
 
@@ -83,7 +84,7 @@ class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {
 
                 }
                 adapter.itemSelectRelay.subscribeWithRxLife {
-                    viewModel.setMedia(it.third)
+                    viewModel.setChoiceOfMedia(it.third)
                 }
             }
             MimeType.IMAGE -> {
@@ -97,10 +98,7 @@ class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {
                     val mediaList = it.find { it.albumName == MEDIA_ALBUM_IMAGE }?.mediaList
                     viewModel.setMediaList(mediaList)
                 }
-                /**
-                 * 放大
-                 * */
-                adapter.itemClickRelay.subscribeWithRxLife {
+                adapter.itemClickRelay.throttleFirst(500, TimeUnit.MILLISECONDS).subscribeWithRxLife {
                     lifecycleScope.launch {
                         delay(500)
                         findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPhoto(it.second.data))
@@ -108,7 +106,7 @@ class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {
 
                 }
                 adapter.itemSelectRelay.subscribeWithRxLife {
-                    viewModel.setMedia(it.third)
+                    viewModel.setChoiceOfMedia(it.third)
                 }
             }
             MimeType.VIDEO -> {
@@ -129,7 +127,7 @@ class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {
 //                    findNavController().navigate(MediaListDialogFragmentDirections.actionFragmentMediaListDialogToFragmentMediaPreview(it, From.MEDIA_LIST))
                 }
                 adapter.itemSelectRelay.subscribeWithRxLife {
-                    viewModel.setMedia(it.third)
+                    viewModel.setChoiceOfMedia(it.third)
                 }
             }
         }
@@ -143,13 +141,13 @@ class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {
             setFragmentResult(
                 REQUEST_KEY_MEDIA, bundleOf(
                     KEY_MIME_TYPE to args.mimeType,
-                    KEY_MEDIA_LIST to viewModel.selectMediaList.value
+                    KEY_MEDIA_LIST to viewModel.choiceMediaList.value
                 )
             )
             findNavController().navigateUp()
         }
 
-        viewModel.selectMediaList.observe(viewLifecycleOwner) {
+        viewModel.choiceMediaList.observe(viewLifecycleOwner) {
             ivMenuSend.isVisible = !it.isNullOrEmpty()
         }
 

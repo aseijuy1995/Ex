@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.View
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseDataBindingFragment
-import tw.north27.coachingapp.databinding.FragmentPersonCenterBinding
+import tw.north27.coachingapp.databinding.FragmentUserBinding
 
-class PersonCenterFragment : BaseDataBindingFragment<FragmentPersonCenterBinding>(R.layout.fragment_person_center) {
+class UserFragment : BaseDataBindingFragment<FragmentUserBinding>(R.layout.fragment_user) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

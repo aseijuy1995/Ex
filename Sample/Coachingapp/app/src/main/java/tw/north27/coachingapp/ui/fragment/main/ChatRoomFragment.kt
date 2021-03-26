@@ -250,9 +250,9 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 
                         }
                         MimeType.VIDEO -> {
-//                            val imgByteArray = viewModel.compressedImg(mediaList)
-//                            val chatImageList = mutableListOf<ChatImage>()
-//                            imgByteArray.map { chatImageList.add(ChatImage(id = 0, byteArray = it)) }
+                            val videoByteArray = viewModel.compressedImg(mediaList)
+                            val chatVideoList = mutableListOf<ChatVideo>()
+                            videoByteArray.map { chatVideoList.add(ChatVideo(id = 0, byteArray = it, time = 0)) }
                             chatInfo = ChatInfo(
                                 id = 5,
                                 sender = UserInfo(
@@ -269,6 +269,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                                 ),
                                 sendTime = "15:00",
                                 chatType = ChatType.VIDEO,
+                                videos = chatVideoList,
                                 read = ChatRead.UN_READ,
                                 unReadCount = 1,
                                 isSound = true

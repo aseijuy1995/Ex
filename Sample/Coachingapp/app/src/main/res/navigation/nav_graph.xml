@@ -92,10 +92,10 @@
         tools:layout="@layout/fragment_learn" />
 
     <fragment
-        android:id="@+id/fragment_person_center"
-        android:name="tw.north27.coachingapp.ui.fragment.main.PersonCenterFragment"
-        android:label="fragment_person_center"
-        tools:layout="@layout/fragment_person_center" />
+        android:id="@+id/fragment_user"
+        android:name="tw.north27.coachingapp.ui.fragment.main.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" />
 
     <!-- Chat -->
     <fragment

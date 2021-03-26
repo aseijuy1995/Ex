@@ -43,25 +43,21 @@ class MediaViewModel(private val repo: IMediaRepository) : BaseViewModel() {
         videoMaxDuration = 60000//1m
     )
 
-    private val _mediaList = MutableLiveData<MutableList<Media>?>()
-
     /**
      * 全部媒體項目
      * */
+
+    private val _mediaList = MutableLiveData<MutableList<Media>?>()
+
     val mediaList = _mediaList.asLiveData()
 
-//    /**
-//     * 被選取的媒體
-//     * */
-//    val selectMediaList = mediaList.value?.filter { it.isChoice }
-
-    val selectMediaList = mediaList.map { it?.filter { it.isChoice } }
+    val choiceMediaList = mediaList.map { it?.filter { it.isChoice } }
 
     fun setMediaList(mediaList: MutableList<Media>?) {
         _mediaList.value = mediaList
     }
 
-    fun setMedia(media: Media) {
+    fun setChoiceOfMedia(media: Media) {
         _mediaList.value = mediaList.value?.also {
             it.find { media.id == it.id }?.isChoice = media.isChoice
         }

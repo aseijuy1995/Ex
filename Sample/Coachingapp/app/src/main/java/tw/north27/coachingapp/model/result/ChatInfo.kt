@@ -42,8 +42,8 @@ data class ChatAudio(
 @Parcelize
 data class ChatVideo(
     val id: Int,
-    val url: String,
-//    val byteArray: Byte
+    val url: String? = null,
+    val byteArray: ByteArray? = null,
     val time: Int
 ) : Parcelable
 

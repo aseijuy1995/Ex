@@ -13,8 +13,6 @@
     <string name="notify">通知</string>
     <string name="person">個人</string>
 
-    <string name="user_title">個人中心</string>
-
     <!-- Chat -->
     <string name="chat_list">聊天列表</string>
     <string name="search">搜尋</string>
@@ -41,5 +39,7 @@
     <string name="limit_selection">選取已達上限</string>
     <!-- Notify -->
     <string name="not_read_yet_sure_to_delete_it">尚未讀取，確定要刪除嗎?</string>
+    <!-- User -->
+    <string name="user_title">個人中心</string>
 
 </resources>

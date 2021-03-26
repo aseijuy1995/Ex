@@ -32,7 +32,7 @@ class CoachingActivity : BaseAppCompatActivity<ActivityCoachingBinding>(Activity
                 R.id.fragment_chat,
                 R.id.fragment_learn,
                 R.id.fragment_notify,
-                R.id.fragment_person_center -> true
+                R.id.fragment_user -> true
                 else -> false
             }
         }

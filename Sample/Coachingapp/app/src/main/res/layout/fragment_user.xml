@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray_eeeeee">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar_layout_chat"
+                android:layout_width="match_parent"
+                android:layout_height="250dp">
+                <!--                android:background="@color/gray_eeeeee"-->
+
+                <com.google.android.material.appbar.CollapsingToolbarLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:fitsSystemWindows="true"
+                    app:expandedTitleMarginStart="24dp"
+                    app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="@mipmap/ic_version_pic"
+                        android:fitsSystemWindows="true"
+                        android:scaleType="centerCrop"
+                        app:layout_collapseMode="parallax" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_gravity="bottom"
+                        android:layout_margin="10dp"
+                        app:cardCornerRadius="15dp" />
+
+                    <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/tool_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:theme="?attr/actionBarTheme"
+                        app:contentInsetStart="0dp"
+                        app:layout_collapseMode="pin">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/iv_notify"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_baseline_notifications_24_white" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/chat_list"
+                                android:textColor="@color/white"
+                                android:textSize="16sp"
+                                android:textStyle="bold"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.appcompat.widget.Toolbar>
+
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="個人檔案"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"ID"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"姓名"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"狀態消息"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"電話號碼"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"電子郵件"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"生日"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"行動條碼"}' />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="學習中心"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"學習歷程"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"學習分析"}' />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="系統設定"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"語系"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"地區"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"通知提醒"}' />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="分享"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"簡訊"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"FB"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"LINE"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"WeChat"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"Telefram"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"Skype"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"Message"}' />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="設備"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"裝置ID"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"登入裝置"}' />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:text="關於"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"關於Coaching"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"常見問題"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"隱私政策"}' />
+
+                    <include
+                        layout="@layout/item_person_center_category"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"聯繫我們"}' />
+
+                    <include
+                        android:id="@+id/sign_up"
+                        layout="@layout/item_person_center_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        bind:icon="@{@drawable/ic_pencil_logo}"
+                        bind:title='@{"登出"}' />
+
+                </LinearLayout>
+
+
+            </androidx.core.widget.NestedScrollView>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
