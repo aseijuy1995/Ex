@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_view_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingStart="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="個人檔案"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <include
+                layout="@layout/item_person_center_category"
+                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:title='@{"ID"}' />
+
+            <include
+                layout="@layout/item_person_center_category"
+                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:title='@{"姓名"}' />
+
+            <include
+                layout="@layout/item_person_center_category"
+                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:title='@{"狀態消息"}' />
+
+            <include
+                layout="@layout/item_person_center_category"
+                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:title='@{"電話號碼"}' />
+
+            <include
+                layout="@layout/item_person_center_category"
+                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:title='@{"電子郵件"}' />
+
+            <include
+                layout="@layout/item_person_center_category"
+                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:title='@{"生日"}' />
+
+            <include
+                layout="@layout/item_person_center_category"
+                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:title='@{"行動條碼"}' />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+</layout>

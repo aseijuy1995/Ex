@@ -35,7 +35,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         }
         TabLayoutMediator(binding.tabLayoutChat, binding.viewPager2Chat) { tab: TabLayout.Tab, position: Int ->
             tab.setIcon(getTabIcon(position))
-            tab.text = getTabText(position)
+//            tab.text = getTabText(position)
         }.attach()
         viewModel.loadChat()
 
