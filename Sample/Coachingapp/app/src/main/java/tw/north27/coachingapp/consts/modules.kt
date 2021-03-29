@@ -3,7 +3,6 @@ package tw.north27.coachingapp.consts
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import tw.north27.coachingapp.BuildConfig
@@ -28,6 +27,7 @@ val utilModules = module {
     single<IMediaModule>(named("image")) { MediaImageModule(androidContext()) }
     single<IMediaModule>(named("video")) { MediaVideoModule(androidContext()) }
     single<IMediaModule>(named("audio")) { MediaAudioModule(androidContext()) }
+    single<IMediaExtractorModule> { MediaExtractorModule(androidContext()) }
 
 }
 
@@ -45,7 +45,8 @@ val repoModules = module {
         MediaRepository(
             get<IMediaModule>(named("image")),
             get<IMediaModule>(named("video")),
-            get<IMediaModule>(named("audio"))
+            get<IMediaModule>(named("audio")),
+            get<IMediaExtractorModule>()
         )
     }
 
@@ -56,7 +57,7 @@ val viewModelModules = module {
     viewModel { SignInViewModel(androidApplication(), get()) }
     viewModel { NotifyViewModel(get()) }
     viewModel { ChatViewModel(get()) }
-    viewModel { ChatRoomViewModel(androidApplication(), get()) }
+    viewModel { ChatRoomViewModel(androidApplication(), get(), get()) }
     viewModel { ChatRoomAddViewModel() }
     viewModel { MediaViewModel(get()) }
     viewModel { MediaPhotoViewModel() }

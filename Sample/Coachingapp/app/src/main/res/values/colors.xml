@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="gray_666666">#666666</color><!--default text color-->
+    <color name="gray_00eeeeee">#00EEEEEE</color><!--default text color-->
 
     <color name="blue_293c4f">#293C4F</color>
     <color name="yellow_fef5e0">#FEF5E0</color>

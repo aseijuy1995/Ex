@@ -31,7 +31,7 @@
                     android:id="@+id/iv_img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@mipmap/ic_version_pic"
+                    android:background="@drawable/ic_user_background"
                     android:scaleType="centerCrop"
                     android:src="@drawable/shape_gradient_angle_270_color_tran_gray"
                     app:layout_collapseMode="parallax"

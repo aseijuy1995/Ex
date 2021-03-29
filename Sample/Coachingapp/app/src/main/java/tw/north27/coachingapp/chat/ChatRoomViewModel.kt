@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
+import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseAndroidViewModel
 import tw.north27.coachingapp.ext.*
@@ -17,7 +18,7 @@ import tw.north27.coachingapp.module.pref.UserModule
 import tw.north27.coachingapp.util.ViewState
 import java.io.File
 
-class ChatRoomViewModel(application: Application, val chatRepo: IChatRepository) : BaseAndroidViewModel(application), KoinComponent {
+class ChatRoomViewModel(application: Application, val chatRepo: IChatRepository, val mediaRepo: IMediaRepository) : BaseAndroidViewModel(application), KoinComponent {
 
     private val _chat = MutableLiveData<ChatInfo>()
 
@@ -96,6 +97,16 @@ class ChatRoomViewModel(application: Application, val chatRepo: IChatRepository)
         _inputEmpty.value = isInputEmpty
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    fun extractFromPath(path: String) {
+        val mediaFormat = mediaRepo.extractFromPath(path)
+        Timber.d("mediaFormat = ${mediaFormat}")
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     val bitmapOption = BitmapOption(
         isOptions = true,
@@ -128,7 +139,6 @@ class ChatRoomViewModel(application: Application, val chatRepo: IChatRepository)
     enum class ToastType {
         LOAD_CHAT_MESSAGE_LIST
     }
-
 
 
     val message = chatRepo.message
