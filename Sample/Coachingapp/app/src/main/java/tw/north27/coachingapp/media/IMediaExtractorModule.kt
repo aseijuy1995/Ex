@@ -46,9 +46,9 @@ class MediaExtractorModule(private val context: Context) : IMediaExtractorModule
                     val byteBuffer = ByteBuffer.allocate(maxInputSize)
                     var sampleDataSize = 0
                     val bufferInfo = MediaCodec.BufferInfo()
-                    Timber.d("sampleDataSize = $sampleDataSize")
                     while (true) {
                         sampleDataSize = mediaExtractor.readSampleData(byteBuffer, 0)
+                        Timber.d("sampleDataSize = $sampleDataSize")
                         if (sampleDataSize < 0) break
                         bufferInfo.offset = 0
                         bufferInfo.presentationTimeUs = mediaExtractor.sampleTime
@@ -58,6 +58,7 @@ class MediaExtractorModule(private val context: Context) : IMediaExtractorModule
                     }
                 }
             }
+            Timber.d("release")
             mediaExtractor.release()
             extractor = null
         } catch (e: IOException) {
@@ -70,7 +71,7 @@ class MediaExtractorModule(private val context: Context) : IMediaExtractorModule
      * pair.first；audio
      * pair.second；video
      * */
-    private fun extractorMedia(mediaExtractor: MediaExtractor): Pair<MediaFormat, MediaFormat> {
+    private fun extractorMedia(mediaExtractor: MediaExtractor) {
 
     }
 }
