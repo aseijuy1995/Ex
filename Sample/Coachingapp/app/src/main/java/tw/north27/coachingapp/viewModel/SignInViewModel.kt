@@ -75,11 +75,19 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
                                 deviceId = "deviceId001",
                                 isFirst = isFirst
                             )
-                            _signIn.postValue(signInInfo)
+
+                            when (signInInfo.signInState) {
+                                SignInState.SUCCESS -> {
+                                    _signIn.postValue(signInInfo)
+                                }
+                                SignInState.FAILURE -> {
+                                    _toast.postValue(ToastType.SIGN_IN to "${results.code}:帳密有誤，請重新輸入!")
+                                }
+                            }
                         }
 
                         is ResponseResults.ClientErrors -> {
-                            _toast.postValue(ToastType.SIGN_IN to "${results.code}:帳密有誤，請重新輸入!")
+                            _toast.postValue(ToastType.SIGN_IN to "${results.code}:網路異常")
                         }
 
                         is ResponseResults.NetWorkError -> {

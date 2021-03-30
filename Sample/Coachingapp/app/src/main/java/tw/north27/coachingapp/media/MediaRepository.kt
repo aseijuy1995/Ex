@@ -1,6 +1,5 @@
 package tw.north27.coachingapp.media
 
-import android.media.MediaFormat
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -12,7 +11,7 @@ class MediaRepository(
     private val imageModule: IMediaModule,
     private val videoModule: IMediaModule,
     private val audioModule: IMediaModule,
-    private val extractorModule: IMediaExtractorModule
+    private val codecModule: IMediaCodecModule
 ) : IMediaRepository {
 
     override fun getMediaAudio(setting: MediaSetting): Observable<List<MediaAlbum>> =
@@ -32,7 +31,7 @@ class MediaRepository(
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    override fun extractFromPath(path: String) {
-        extractorModule.extractVideo(path)
+    override fun createDecoder(filePath: String) {
+        codecModule.createDecoder(filePath)
     }
 }

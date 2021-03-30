@@ -100,8 +100,7 @@ class ChatRoomViewModel(application: Application, val chatRepo: IChatRepository,
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     fun extractFromPath(path: String) {
-        val mediaFormat = mediaRepo.extractFromPath(path)
-        Timber.d("mediaFormat = ${mediaFormat}")
+        mediaRepo.extractFromPath(path)
     }
 
 
