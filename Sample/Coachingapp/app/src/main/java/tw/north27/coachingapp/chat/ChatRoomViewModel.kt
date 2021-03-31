@@ -5,10 +5,10 @@ import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
-import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseAndroidViewModel
 import tw.north27.coachingapp.ext.*
@@ -32,10 +32,6 @@ class ChatRoomViewModel(application: Application, val chatRepo: IChatRepository,
     private val _loadChatState = MutableStateFlow<ViewState<List<ChatInfo>>>(ViewState.Load)
 
     val loadChatState = _loadChatState.asStateFlow()
-
-    private val _chatList = MutableLiveData<List<ChatInfo>>(mutableListOf())
-
-    val chatList = _chatList.asLiveData()
 
     fun loadChatListFromChat(chat: ChatInfo) {
         viewModelScope.launch {
@@ -99,8 +95,10 @@ class ChatRoomViewModel(application: Application, val chatRepo: IChatRepository,
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    fun extractFromPath(path: String) {
-        mediaRepo.extractFromPath(path)
+    fun createDecoder(filePath: String) {
+        viewModelScope.launch {
+            mediaRepo.createDecoder(filePath)
+        }
     }
 
 

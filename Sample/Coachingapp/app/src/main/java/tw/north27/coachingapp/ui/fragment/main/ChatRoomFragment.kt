@@ -105,9 +105,10 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         //接收通知滑動置頂
         binding.rvChat.adapter?.registerAdapterDataObserver(adapterDataObserver)
 
-        binding.ivBack.clicks().subscribeWithRxLife {
-            findNavController().navigateUp()
-        }
+        binding.ivBack.clickThrottleFirst()
+            .subscribeWithRxLife {
+                findNavController().navigateUp()
+            }
 
         /**
          * 詳情頁面
@@ -201,6 +202,11 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                     var chatInfo: ChatInfo? = null
                     when (mimeType) {
                         MimeType.AUDIO -> {
+                            val media = mediaList.first()
+                            Timber.d("audio: media = ${media}")
+                            Timber.d("audio: media.data = ${media.data}")
+                            viewModel.createDecoder(media.data)
+
                             chatInfo = ChatInfo(
                                 id = 5,
                                 sender = UserInfo(
@@ -251,11 +257,10 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 
                         }
                         MimeType.VIDEO -> {
-
                             val media = mediaList.first()
                             Timber.d("video: media = ${media}")
                             Timber.d("video: media.data = ${media.data}")
-                            viewModel.extractFromPath(media.data)
+                            viewModel.createDecoder(media.data)
 
 //                            val videoByteArray = viewModel.compressedImg(mediaList)
 //                            val chatVideoList = mutableListOf<ChatVideo>()
