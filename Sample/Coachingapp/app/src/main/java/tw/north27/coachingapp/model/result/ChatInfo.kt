@@ -35,7 +35,6 @@ data class ChatImage(
 data class ChatAudio(
     val id: Int,
     val url: String,
-//    val byteAttay: ByteArray,
     val time: Int
 ) : Parcelable
 

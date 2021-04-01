@@ -3,6 +3,7 @@ package tw.north27.coachingapp.media
 import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
+import tw.north27.coachingapp.chat.Media
 import tw.north27.coachingapp.chat.MediaAlbum
 import tw.north27.coachingapp.chat.MediaSetting
 
@@ -46,5 +47,10 @@ interface IMediaModule {
      * MEDIA_ALBUM_VIDEO：影音
      * */
     fun getAlbumFromNameSync(albumName: String, setting: MediaSetting): MediaAlbum?
+
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//    fun saveMedia(media: Media)
 
 }

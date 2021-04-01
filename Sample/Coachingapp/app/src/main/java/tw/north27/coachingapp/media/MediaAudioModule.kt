@@ -1,5 +1,6 @@
 package tw.north27.coachingapp.media
 
+import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 import android.os.CancellationSignal
@@ -16,6 +17,7 @@ import tw.north27.coachingapp.chat.MediaAlbum
 import tw.north27.coachingapp.chat.MediaSetting
 import tw.north27.coachingapp.chat.MimeType
 import java.io.File
+import java.io.FileNotFoundException
 
 class MediaAudioModule(private val cxt: Context) : IMediaModule {
 
@@ -164,5 +166,32 @@ class MediaAudioModule(private val cxt: Context) : IMediaModule {
             file = file
         ).apply { albumMap[albumName] = this }
     }
+
+    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//    override fun saveMedia(media: Media) {
+//        val uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
+//        val values = ContentValues(9)
+//        values.put(MediaStore.Audio.Media.MIME_TYPE, media.mimeType)
+//        values.put(MediaStore.Audio.Media.TITLE, media.title)
+//        values.put(MediaStore.Audio.Media.DISPLAY_NAME, media.title)
+//        values.put(if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Audio.Media.RELATIVE_PATH else "relative_path", "Music/Recordings/")
+//        values.put(MediaStore.Audio.Media.DATE_ADDED, (System.currentTimeMillis() / 1000))
+//        values.put(if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) MediaStore.Audio.Media.NUM_TRACKS else "num_tracks", media.track)
+//        values.put(if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) MediaStore.Audio.Media.CAPTURE_FRAMERATE else "capture_framerate", media.sampleRate)
+//        values.put(if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) MediaStore.Audio.Media.BITRATE else "bitrate", media.bitRate)
+//        values.put(if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Audio.Media.DURATION else "duration", media.duration)
+//        val contentUri = cxt.contentResolver.insert(uri, values)
+//        contentUri?.let {
+//            try {
+//                val fileOutputStream = cxt.contentResolver.openOutputStream(it)
+//                fileOutputStream?.write(media.byteArray)
+//                fileOutputStream?.close()
+//            } catch (e: FileNotFoundException) {
+//                Timber.e(e)
+//                e.printStackTrace()
+//            }
+//        } ?: throw NullPointerException("Can't find Content Uri!")
+//    }
 
 }

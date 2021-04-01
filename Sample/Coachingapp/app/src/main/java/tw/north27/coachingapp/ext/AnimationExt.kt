@@ -7,44 +7,76 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.addTo
 
 
 fun View.autoBreatheAlphaAnim(owner: LifecycleOwner, disposable: CompositeDisposable) {
-    val alphaAnimation = AlphaAnimation(0.1f, 1.0f).apply {
-        duration = 1000
-        repeatCount = -1
-        repeatMode = Animation.REVERSE
+    val anim = createAlphaAnim()
+    this.animation = anim
+    //
+    val lifeObs = LifeObs(owner)
+    lifeObs.foregroundRelay.subscribe {
+        if (it) anim.start()
+        else anim.cancel()
     }
-    alphaAnimation.autoAnim(owner, disposable)
-    animation = alphaAnimation
+
+
 }
 
-fun Animation.autoAnim(owner: LifecycleOwner, disposable: CompositeDisposable) {
-    val autoAnimObs = AutoAnimObs(owner)
-    autoAnimObs.animStateRelay.subscribe {
-        if (it)
-            start()
-        else
-            cancel()
-    }.addTo(disposable)
-}
+class LifeObs(private val owner: LifecycleOwner) : DefaultLifecycleObserver {
 
-class AutoAnimObs(private val owner: LifecycleOwner) : DefaultLifecycleObserver {
-
-    val animStateRelay = PublishRelay.create<Boolean>()
+    val foregroundRelay = PublishRelay.create<Boolean>()
 
     init {
         owner.lifecycle.addObserver(this)
     }
 
-    override fun onResume(owner: LifecycleOwner) {
-        super.onResume(owner)
-        animStateRelay.accept(true)
+    override fun onStart(owner: LifecycleOwner) {
+        super.onStart(owner)
+        foregroundRelay.accept(true)
     }
 
-    override fun onPause(owner: LifecycleOwner) {
-        super.onPause(owner)
-        animStateRelay.accept(false)
+    override fun onStop(owner: LifecycleOwner) {
+        super.onStop(owner)
+        foregroundRelay.accept(false)
     }
 }
+
+
+/**
+ * 設置動畫
+ * */
+fun View.setLifeAnim(anim: Animation): Animation {
+    createAlphaAnim()
+    this.animation = anim
+}
+
+/**
+ * 設置透明動畫
+ *
+ * */
+fun createAlphaAnim(
+    fromAlpha: Float = 0.1F,
+    toAlpha: Float = 1.0F,
+    interval: Long = 1000,
+    repeatCount: Int = Animation.INFINITE,//重複執行
+    repeatMode: Int = Animation.REVERSE//反方向執行
+): AlphaAnimation {
+    return AlphaAnimation(fromAlpha, toAlpha).apply {
+        this.duration = interval
+        this.repeatCount = repeatCount
+        this.repeatMode = repeatMode
+    }
+}
+
+
+//fun Animation.autoAnim(cxt: Context, disposable: CompositeDisposable) {
+//    val dataStore = cxt.createDataStorePref()
+//    val isAppOnForeground = runBlocking { dataStore.getBoolean(ProcessLifeObs.APP_ON_FOREGROUND).first() }
+//
+//    autoAnimObs.animStateRelay.subscribe {
+//        if (it)
+//            start()
+//        else
+//            cancel()
+//    }.addTo(disposable)
+//}

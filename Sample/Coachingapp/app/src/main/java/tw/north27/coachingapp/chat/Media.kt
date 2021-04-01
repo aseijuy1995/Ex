@@ -63,6 +63,11 @@ data class Media(
     val width: Int = 0,
     val id: Int,
     //
+    val track: Int = -1,//通道
+    val sampleRate: Int = -1,//採樣率
+    val bitRate: Int = -1,//比特率
+    val byteArray: ByteArray? = null,//數據
+    //
     var isChoice: Boolean = false//是否選取
 ) : Parcelable
 

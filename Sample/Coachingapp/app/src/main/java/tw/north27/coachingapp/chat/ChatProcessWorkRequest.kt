@@ -10,7 +10,7 @@ import org.koin.core.inject
 import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.ext.*
-import tw.north27.coachingapp.ext.ProcessLifeObs.Companion.IS_APP_ON_FOREGROUND
+import tw.north27.coachingapp.ext.ProcessLifeObs.Companion.APP_ON_FOREGROUND
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.protobuf.PREF_USER_NAME
 import tw.north27.coachingapp.protobuf.UserPreferencesSerializer
@@ -29,7 +29,7 @@ class ChatProcessWorkRequest(val cxt: Context, params: WorkerParameters) : Corou
 
     override suspend fun doWork(): Result = coroutineScope {
         try {
-            val isAppOnForeground = dataStore.getBoolean(IS_APP_ON_FOREGROUND).first()
+            val isAppOnForeground = dataStore.getBoolean(APP_ON_FOREGROUND).first()
 
             val account = userDataStore.getValue { it.account }.first()
 

@@ -19,7 +19,7 @@ class ProcessLifeObs(private val cxt: Context) : DefaultLifecycleObserver, Corou
          * true - foreground
          * false - background
          * */
-        val IS_APP_ON_FOREGROUND = "IS_APP_ON_FOREGROUND"
+        val APP_ON_FOREGROUND = "APP_ON_FOREGROUND"
     }
 
     init {
@@ -28,14 +28,15 @@ class ProcessLifeObs(private val cxt: Context) : DefaultLifecycleObserver, Corou
 
     override fun onStart(owner: LifecycleOwner) {
         super.onStart(owner)
-        dataStore.setBoolean(IS_APP_ON_FOREGROUND, true, this)
+        dataStore.setBoolean(APP_ON_FOREGROUND, true, this)
     }
 
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
-        dataStore.setBoolean(IS_APP_ON_FOREGROUND, false, this)
+        dataStore.setBoolean(APP_ON_FOREGROUND, false, this)
     }
 
     override val coroutineContext: CoroutineContext
         get() = Job()
 }
+

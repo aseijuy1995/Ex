@@ -203,31 +203,32 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                     when (mimeType) {
                         MimeType.AUDIO -> {
                             val media = mediaList.first()
-                            Timber.d("audio: media = ${media}")
-                            Timber.d("audio: media.data = ${media.data}")
-                            viewModel.createDecoder(media.data)
-
-                            chatInfo = ChatInfo(
-                                id = 5,
-                                sender = UserInfo(
-                                    id = -1,
-                                    account = "jie001",
-                                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-                                    name = "阿吉"
-                                ),
-                                recipient = UserInfo(
-                                    id = 100,
-                                    account = "ji100",
-                                    avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
-                                    name = "阿吉 - 測試號"
-                                ),
-                                sendTime = "15:00",
-                                chatType = ChatType.AUDIO,
-                                read = ChatRead.UN_READ,
-                                unReadCount = 1,
-                                isSound = true
-                            )
-
+//                            val pcmPath = viewModel.audioDecodeToPcm(media.data)
+//                            chatInfo = ChatInfo(
+//                                id = 5,
+//                                sender = UserInfo(
+//                                    id = -1,
+//                                    account = "jie001",
+//                                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
+//                                    name = "阿吉"
+//                                ),
+//                                recipient = UserInfo(
+//                                    id = 100,
+//                                    account = "ji100",
+//                                    avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
+//                                    name = "阿吉 - 測試號"
+//                                ),
+//                                sendTime = "15:00",
+//                                chatType = ChatType.AUDIO,
+//                                audios = ChatAudio(
+//                                    1,
+//                                    pcmPath,
+//
+//                                )
+//                                read = ChatRead.UN_READ,
+//                                unReadCount = 1,
+//                                isSound = true
+//                            )
                         }
                         MimeType.IMAGE -> {
                             val imgByteArray = viewModel.compressedImg(mediaList)
@@ -260,7 +261,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                             val media = mediaList.first()
                             Timber.d("video: media = ${media}")
                             Timber.d("video: media.data = ${media.data}")
-                            viewModel.createDecoder(media.data)
+                            viewModel.audioDecodeToPcm(media.data)
 
 //                            val videoByteArray = viewModel.compressedImg(mediaList)
 //                            val chatVideoList = mutableListOf<ChatVideo>()
@@ -289,7 +290,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 
                         }
                     }
-                    chatInfo?.let { viewModel.send(it) }
+//                    chatInfo?.let { viewModel.send(it) }
                 }
             }
         }
