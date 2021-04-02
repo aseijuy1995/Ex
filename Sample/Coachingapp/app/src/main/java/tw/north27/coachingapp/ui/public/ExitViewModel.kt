@@ -1,0 +1,57 @@
+package tw.north27.coachingapp.ui.public
+
+import android.app.Application
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import tw.north27.coachingapp.base.BaseAndroidViewModel
+import tw.north27.coachingapp.ext.asLiveData
+import tw.north27.coachingapp.model.result.SignInfo
+import tw.north27.coachingapp.model.result.SignState
+import tw.north27.coachingapp.module.http.Results
+import tw.north27.coachingapp.module.pref.UserModule
+import tw.north27.coachingapp.repository.inter.IUserRepository
+import tw.north27.coachingapp.util.ViewState
+
+class ExitViewModel(application: Application, val userRepo: IUserRepository) : BaseAndroidViewModel(application) {
+
+    private val userModule = UserModule(application)
+
+    private val _signOutState = MutableLiveData<ViewState<SignInfo>>(ViewState.Load)
+
+    val signOutState = _signOutState.asLiveData()
+
+    fun signOut() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val signOut = userModule.getValue { it }.first()
+            val results = userRepo.signOut(signOut.account, signOut.deviceId)
+            when (results) {
+                is Results.Successful -> {
+                    val signOutInfo = results.data
+                    when (signOutInfo.signState) {
+                        SignState.SIGN_OUT_SUCCESS -> {
+                            userModule.setValue(
+                                uuid = -1,
+                                account = "",
+                                accessToken = "",
+                                refreshToken = "",
+                                isFirst = false
+                            )
+                        }
+                    }
+                    if (signOutInfo.signState == SignState.SIGN_OUT_SUCCESS) {
+                        _signOutState.postValue(ViewState.data(signOutInfo))
+                    }
+                }
+                is Results.ClientErrors -> {
+                    _signOutState.postValue(ViewState.error(results.e))
+                }
+                is Results.NetWorkError -> {
+                    _signOutState.postValue(ViewState.network(results.e))
+                }
+            }
+        }
+    }
+}

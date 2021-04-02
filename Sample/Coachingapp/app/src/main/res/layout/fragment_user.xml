@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
@@ -52,11 +53,12 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_exit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:scaleType="center"
-            android:src="@drawable/ic_baseline_exit_to_app_24_white"
+            android:src="@drawable/ic_baseline_settings_24_white"
             app:layout_anchor="@id/app_bar_layout_user"
             app:layout_anchorGravity="bottom|end" />
 
@@ -141,31 +143,31 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp" />
 
-                <!--                <androidx.cardview.widget.CardView-->
-                <!--                    android:id="@+id/card_view_sign_out"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_marginStart="10dp"-->
-                <!--                    android:layout_marginEnd="10dp"-->
-                <!--                    android:layout_marginBottom="10dp"-->
-                <!--                    app:cardCornerRadius="5dp">-->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_view_sign_out"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardCornerRadius="5dp">
 
-                <!--                    <androidx.appcompat.widget.LinearLayoutCompat-->
-                <!--                        android:layout_width="match_parent"-->
-                <!--                        android:layout_height="wrap_content"-->
-                <!--                        android:orientation="vertical">-->
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
-                <!--                        <include-->
-                <!--                            android:id="@+id/sign_up"-->
-                <!--                            layout="@layout/item_person_center_category"-->
-                <!--                            android:layout_width="match_parent"-->
-                <!--                            android:layout_height="wrap_content"-->
-                <!--                            bind:icon="@{@drawable/ic_pencil_logo}"-->
-                <!--                            bind:title='@{"登出"}' />-->
+                        <include
+                            android:id="@+id/item_sign_out"
+                            layout="@layout/item_user_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            bind:icon="@{@drawable/ic_baseline_exit_to_app_24_red}"
+                            bind:title='@{@string/sign_out}' />
 
-                <!--                    </androidx.appcompat.widget.LinearLayoutCompat>-->
+                    </androidx.appcompat.widget.LinearLayoutCompat>
 
-                <!--                </androidx.cardview.widget.CardView>-->
+                </androidx.cardview.widget.CardView>
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>

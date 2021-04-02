@@ -32,7 +32,7 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
             showLoadingDialog()
             val account = binding.etAccount.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
-            viewModel.checkSignIn(account, password)
+            viewModel.signIn(account, password)
         }
 
         viewModel.signInState.observe(viewLifecycleOwner) {

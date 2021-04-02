@@ -13,5 +13,6 @@ class LearnFragment : BaseFragment(R.layout.fragment_learn) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        doubleClickToExit()
     }
 }

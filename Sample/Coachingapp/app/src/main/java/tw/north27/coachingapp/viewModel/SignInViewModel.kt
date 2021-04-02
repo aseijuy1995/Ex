@@ -24,7 +24,7 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
 
     val signInState = _signInState.asLiveData()
 
-    fun checkSignIn(account: String?, password: String?) {
+    fun signIn(account: String?, password: String?) {
         if (account.isNullOrEmpty() && password.isNullOrEmpty()) {
             _signInState.postValue(ViewState.empty(context.getString(R.string.empty_account_password)))
         } else if (account.isNullOrEmpty()) {

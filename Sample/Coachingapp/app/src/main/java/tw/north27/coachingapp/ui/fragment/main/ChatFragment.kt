@@ -33,6 +33,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
             adapter = this@ChatFragment.adapter
             offscreenPageLimit = 2
         }
+        doubleClickToExit()
         TabLayoutMediator(binding.tabLayoutChat, binding.viewPager2Chat) { tab: TabLayout.Tab, position: Int ->
             tab.setIcon(getTabIcon(position))
 //            tab.text = getTabText(position)

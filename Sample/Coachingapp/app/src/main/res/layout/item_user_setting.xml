@@ -29,17 +29,17 @@
                 android:textStyle="bold" />
 
             <include
-                layout="@layout/item_person_center_category"
+                layout="@layout/item_user_item"
                 bind:icon="@{@drawable/ic_pencil_logo}"
                 bind:title='@{"語系"}' />
 
             <include
-                layout="@layout/item_person_center_category"
+                layout="@layout/item_user_item"
                 bind:icon="@{@drawable/ic_pencil_logo}"
                 bind:title='@{"地區"}' />
 
             <include
-                layout="@layout/item_person_center_category"
+                layout="@layout/item_user_item"
                 bind:icon="@{@drawable/ic_pencil_logo}"
                 bind:title='@{"通知提醒"}' />
 

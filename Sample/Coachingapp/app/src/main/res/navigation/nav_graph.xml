@@ -69,6 +69,11 @@
         android:label="fragment_maintain_dialog"
         tools:layout="@layout/fragment_maintain_dialog" />
 
+    <dialog
+        android:id="@+id/fragment_exit_dialog"
+        android:name="tw.north27.coachingapp.ui.public.ExitDialogFragment"
+        android:label="fragment_exit_dialog"
+        tools:layout="@layout/fragment_exit_dialog" />
 
     <!---->
     <!--    -->
@@ -94,7 +99,13 @@
         android:id="@+id/fragment_user"
         android:name="tw.north27.coachingapp.ui.fragment.main.UserFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_user">
+
+        <action
+            android:id="@+id/action_fragment_user_to_fragment_exit_dialog"
+            app:destination="@id/fragment_exit_dialog" />
+
+    </fragment>
 
     <!-- Chat -->
     <fragment

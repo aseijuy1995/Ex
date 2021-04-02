@@ -30,12 +30,12 @@
                 android:textStyle="bold" />
 
             <include
-                layout="@layout/item_person_center_category"
+                layout="@layout/item_user_item"
                 bind:icon="@{@drawable/ic_pencil_logo}"
                 bind:title='@{"學習歷程"}' />
 
             <include
-                layout="@layout/item_person_center_category"
+                layout="@layout/item_user_item"
                 bind:icon="@{@drawable/ic_pencil_logo}"
                 bind:title='@{"學習分析"}' />
 

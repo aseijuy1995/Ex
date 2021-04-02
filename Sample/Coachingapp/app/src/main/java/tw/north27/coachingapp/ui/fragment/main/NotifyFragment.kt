@@ -40,6 +40,7 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@NotifyFragment.viewModel
         }
+        doubleClickToExit()
         loadAdapter = BaseLoadStateAdapter(viewLifecycleOwner, compositeDisposable)
 
         binding.rvNotify.apply {

@@ -30,37 +30,37 @@
                 android:textStyle="bold" />
 
             <include
-                layout="@layout/item_person_center_category"
+                layout="@layout/item_user_item"
                 bind:icon="@{@drawable/ic_pencil_logo}"
                 bind:title='@{"ID"}' />
 
             <include
-                layout="@layout/item_person_center_category"
+                layout="@layout/item_user_item"
                 bind:icon="@{@drawable/ic_pencil_logo}"
                 bind:title='@{"姓名"}' />
 
             <include
-                layout="@layout/item_person_center_category"
+                layout="@layout/item_user_item"
                 bind:icon="@{@drawable/ic_pencil_logo}"
                 bind:title='@{"狀態消息"}' />
 
             <include
-                layout="@layout/item_person_center_category"
+                layout="@layout/item_user_item"
                 bind:icon="@{@drawable/ic_pencil_logo}"
                 bind:title='@{"電話號碼"}' />
 
             <include
-                layout="@layout/item_person_center_category"
+                layout="@layout/item_user_item"
                 bind:icon="@{@drawable/ic_pencil_logo}"
                 bind:title='@{"電子郵件"}' />
 
             <include
-                layout="@layout/item_person_center_category"
+                layout="@layout/item_user_item"
                 bind:icon="@{@drawable/ic_pencil_logo}"
                 bind:title='@{"生日"}' />
 
             <include
-                layout="@layout/item_person_center_category"
+                layout="@layout/item_user_item"
                 bind:icon="@{@drawable/ic_pencil_logo}"
                 bind:title='@{"行動條碼"}' />
 

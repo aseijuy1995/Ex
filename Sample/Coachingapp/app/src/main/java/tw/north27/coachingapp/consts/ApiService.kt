@@ -99,9 +99,9 @@ class ApiService(val cxt: Context) : IApiService {
             Response.success<SignInfo>(SignInfo(signState = SignState.SIGN_IN_FAILURE))
     }
 
-    override suspend fun signOut(account: String, deviceId: String): Response<SignInfo> {
+    override suspend fun signOut(account: String, deviceId: String): SignInfo {
         delay(1500)
-        return Response.success<SignInfo>(SignInfo(signState = SignState.SIGN_OUT_SUCCESS))
+        return SignInfo(signState = SignState.SIGN_OUT_SUCCESS)
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////
