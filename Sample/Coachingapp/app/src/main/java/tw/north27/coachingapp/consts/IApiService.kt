@@ -22,33 +22,43 @@ interface IApiService {
      * */
     @GET
     suspend fun getAppConfig(@Query("fcmToken") fcmToken: String): AppConfig
-    //////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * 檢查登入
      * */
-    @FormUrlEncoded
     @GET
     suspend fun checkSignIn(
         @Query("account") account: String,
         @Query("deviceId") deviceId: String,
         @Query("fcmToken") fcmToken: String
-    ): Response<SignInInfo>
+    ): Response<SignInfo>
 
 
     /**
      * 登入
      * */
-    @FormUrlEncoded
-    @POST
-    suspend fun postSignIn(
-        @Field("account") account: String,
-        @Field("password") password: String,
-        @Field("deviceId") deviceId: String,
-        @Field("fcmToken") fcmToken: String
-    ): Response<SignInInfo>
+    @GET
+    suspend fun signIn(
+        @Query("account") account: String,
+        @Query("password") password: String,
+        @Query("deviceId") deviceId: String,
+        @Query("fcmToken") fcmToken: String
+    ): Response<SignInfo>
+
+    /**
+     * 登出
+     * 登出需發送api原因於解除與設備之關聯以及移除綁定的fcmToken
+     * 只要fcmToken & deviceId確實刪除不在綁定即返回登出成功
+     * */
+    @GET
+    suspend fun signOut(
+        @Query("account") account: String,
+        @Query("deviceId") deviceId: String
+    ): Response<SignInfo>
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
 
 
 //    /**

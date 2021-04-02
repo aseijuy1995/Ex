@@ -8,7 +8,7 @@ sealed class ViewState<out T> {
     companion object {
         fun <T> load(): ViewState<T> = Load
 
-        fun <T> empty(): ViewState<T> = Empty
+        fun <T> empty(str: String? = null): ViewState<T> = Empty(str)
 
         fun <T> data(data: T): ViewState<T> = Data<T>(data)
 
@@ -19,7 +19,7 @@ sealed class ViewState<out T> {
 
     object Load : ViewState<Nothing>()
 
-    object Empty : ViewState<Nothing>()
+    data class Empty(val str: String?) : ViewState<Nothing>()
 
     data class Data<out T>(val data: T) : ViewState<T>()
 

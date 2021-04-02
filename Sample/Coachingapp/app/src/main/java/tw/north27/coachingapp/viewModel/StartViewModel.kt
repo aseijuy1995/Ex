@@ -10,8 +10,8 @@ import timber.log.Timber
 import tw.north27.coachingapp.base.BaseAndroidViewModel
 import tw.north27.coachingapp.ext.asLiveData
 import tw.north27.coachingapp.model.result.AppConfig
-import tw.north27.coachingapp.model.result.SignInInfo
-import tw.north27.coachingapp.model.result.SignInState
+import tw.north27.coachingapp.model.result.SignInfo
+import tw.north27.coachingapp.model.result.SignState
 import tw.north27.coachingapp.module.http.ResponseResults
 import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.module.pref.UserModule
@@ -49,7 +49,7 @@ class StartViewModel(
         }
     }
 
-    private val _signInState = MutableLiveData<ViewState<SignInInfo>>(ViewState.Load)
+    private val _signInState = MutableLiveData<ViewState<SignInfo>>(ViewState.Load)
 
     val signInState = _signInState.asLiveData()
 
@@ -69,8 +69,8 @@ class StartViewModel(
                     val accessToken: String
                     val refreshToken: String
                     val isFirst: Boolean
-                    when (signIn.signInState) {
-                        SignInState.SUCCESS -> {
+                    when (signIn.signState) {
+                        SignState.SIGN_IN_SUCCESS -> {
                             signIn.user.also {
                                 account = it!!.account
                                 accessToken = signIn.accessToken!!
@@ -78,7 +78,8 @@ class StartViewModel(
                                 isFirst = signIn.isFirst!!
                             }
                         }
-                        SignInState.FAILURE -> {
+                        //SignState.SIGN_IN_FAILURE
+                        else -> {
                             account = ""
                             accessToken = ""
                             refreshToken = ""

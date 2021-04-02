@@ -3,8 +3,8 @@ package tw.north27.coachingapp.model.result
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-data class SignInInfo(
-    val signInState: SignInState,
+data class SignInfo(
+    val signState: SignState,
     val isFirst: Boolean? = null,// 第一次登入
     val user: UserInfo? = null,// 用戶資訊
     //
@@ -12,9 +12,10 @@ data class SignInInfo(
     val refreshToken: String? = null,// 刷新用token
 )
 
-enum class SignInState {
-    SUCCESS,// 成功
-    FAILURE;// 失敗
+enum class SignState {
+    SIGN_IN_SUCCESS,//登入成功
+    SIGN_IN_FAILURE,//登入失敗
+    SIGN_OUT_SUCCESS//登出成功
 }
 
 enum class Identity {

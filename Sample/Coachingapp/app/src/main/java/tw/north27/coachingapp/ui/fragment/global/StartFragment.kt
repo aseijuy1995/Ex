@@ -3,6 +3,7 @@ package tw.north27.coachingapp.ui.fragment.global
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.messaging.FirebaseMessaging
 import com.vector.update_app_kotlin.check
 import com.vector.update_app_kotlin.updateApp
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -17,8 +18,7 @@ import tw.north27.coachingapp.ext.startAlphaBreatheAnim
 import tw.north27.coachingapp.ext.viewBinding
 import tw.north27.coachingapp.http.UpdateHttpManager
 import tw.north27.coachingapp.model.result.AppState
-import tw.north27.coachingapp.model.result.SignInState
-import tw.north27.coachingapp.util.FirebaseManager
+import tw.north27.coachingapp.model.result.SignState
 import tw.north27.coachingapp.util.ViewState
 import tw.north27.coachingapp.viewModel.StartViewModel
 
@@ -32,7 +32,7 @@ class StartFragment : BaseFragment(R.layout.fragment_start) {
         super.onViewCreated(view, savedInstanceState)
         binding.ivIcon.startAlphaBreatheAnim()
 
-        FirebaseManager.get().register().addOnCompleteListener {
+        FirebaseMessaging.getInstance().token.addOnCompleteListener {
             if (!it.isSuccessful) return@addOnCompleteListener
             val fcmToken = it.result ?: ""
             Timber.d("fcmToken = $fcmToken")
@@ -81,11 +81,11 @@ class StartFragment : BaseFragment(R.layout.fragment_start) {
                 }
                 is ViewState.Data -> {
                     val signIn = it.data
-                    when (signIn.signInState) {
-                        SignInState.SUCCESS -> {
+                    when (signIn.signState) {
+                        SignState.SIGN_IN_SUCCESS -> {
                             findNavController().navigate(NavGraphDirections.actionToFragmentHome())
                         }
-                        SignInState.FAILURE -> {
+                        SignState.SIGN_IN_FAILURE -> {
                             findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())
                         }
                     }

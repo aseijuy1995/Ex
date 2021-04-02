@@ -40,8 +40,8 @@ class CoachingActivity : BaseAppCompatActivity<ActivityCoachingBinding>(Activity
     }
 
     override fun onSupportNavigateUp(): Boolean = findNavController(R.id.frag_container_view).navigateUp()
-}
 
+}
 
 
 //private val homeFragment = HomeFragment()

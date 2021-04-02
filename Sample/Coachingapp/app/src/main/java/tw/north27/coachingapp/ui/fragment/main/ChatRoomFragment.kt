@@ -118,7 +118,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         }
 
         binding.clChatRoom.clicks().subscribeWithRxLife {
-            cxt.closeKeyBoard(binding.clChatRoom)
+            cxt.hideKeyBoard(binding.clChatRoom)
         }
 
         binding.itemBottomChatRoom.etText.textChanges().subscribeWithRxLife {
@@ -155,7 +155,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                 )
             )
             binding.itemBottomChatRoom.etText.setText("")
-            cxt.closeKeyBoard(binding.clChatRoom)
+            cxt.hideKeyBoard(binding.clChatRoom)
         }
 
         setFragmentResultListener(ChatRoomAddDialogFragment.REQUEST_KEY_CHAT_ROOM_ADD) { key, bundle ->

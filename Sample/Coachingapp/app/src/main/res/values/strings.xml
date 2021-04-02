@@ -9,6 +9,11 @@
     <string name="close">關閉</string>
     <!-- Start -->
     <string name="version_title">版本:</string>
+    <!-- SignIn -->
+    <string name="empty_account_password">帳密不可為空</string>
+    <string name="empty_account">帳號不可為空</string>
+    <string name="empty_password">密碼不可為空</string>
+    <string name="error_account_password">帳密有誤!</string>
 
     <string name="default_notification_channel_id">default_notification_channel_id</string>
 
