@@ -10,6 +10,7 @@ fun Context.closeKeyBoard(vararg views: View) {
     val imm = this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     views.map {
         it.windowToken
-        imm.hideSoftInputFromWindow(it.windowToken, 0)
+        imm.hideSoftInputFromWindow(it.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
+    
 }

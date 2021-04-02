@@ -8,7 +8,7 @@ import okhttp3.Headers
 import okhttp3.WebSocket
 import tw.north27.coachingapp.consts.IApiService
 import tw.north27.coachingapp.model.result.ChatInfo
-import tw.north27.coachingapp.module.ext.safeApiResults
+import tw.north27.coachingapp.ext.safeApiResults
 import tw.north27.coachingapp.module.http.Results
 import java.util.concurrent.TimeUnit
 

@@ -5,8 +5,11 @@ import kotlinx.parcelize.Parcelize
 
 data class SignInInfo(
     val signInState: SignInState,
-    val isFirst: Boolean,// 第一次登入
-    val userInfo: UserInfo,// 用戶資訊
+    val isFirst: Boolean? = null,// 第一次登入
+    val user: UserInfo? = null,// 用戶資訊
+    //
+    val accessToken: String? = null,// 訪問用token
+    val refreshToken: String? = null,// 刷新用token
 )
 
 enum class SignInState {
@@ -17,8 +20,6 @@ enum class SignInState {
 enum class Identity {
     STUDENT,// 學生
     TEACHER,// 老師
-    LITTLE_HELPER,// 小幫手
-    VOLUNTEER// 志工
 }
 
 @Parcelize
@@ -27,10 +28,6 @@ data class UserInfo(
     val account: String,
     val avatarPath: String,
     val name: String,
-    val nickName: String? = null,
     val email: String? = null,
-    val registerTime: String? = null,// 註冊時間
-    val accessToken: String? = null,// 訪問用token
-    val refreshToken: String? = null,// 刷新用token
-    val isSound: Boolean? = true,//聊天聲音開關
+    val fcmToken: String? = null,//推撥token
 ) : Parcelable

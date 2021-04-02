@@ -5,7 +5,7 @@ import tw.north27.coachingapp.module.http.ResponseResults
 
 interface IUserRepository {
 
-    suspend fun postCheckSignIn(fcmToken: String): ResponseResults<SignInInfo>
+    suspend fun checkSignIn(account: String, deviceId: String, fcmToken: String): ResponseResults<SignInInfo>
 
     suspend fun postSignIn(account: String, password: String, deviceId: String, fcmToken:String): ResponseResults<SignInInfo>
 

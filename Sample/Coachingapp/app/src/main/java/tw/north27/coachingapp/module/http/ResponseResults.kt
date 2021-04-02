@@ -1,6 +1,7 @@
 package tw.north27.coachingapp.module.http
 
 import okhttp3.Headers
+import retrofit2.HttpException
 import java.io.IOException
 
 sealed class ResponseResults<out T> {
@@ -12,11 +13,11 @@ sealed class ResponseResults<out T> {
 
         fun <T> redirection(code: Int, header: Headers): ResponseResults<T> = Redirection(code, header)
 
-        fun <T> clientErrors(code: Int, headers: Headers): ResponseResults<T> = ClientErrors(code, headers)
+        fun <T> clientErrors(code: Int, headers: Headers, e: HttpException): ResponseResults<T> = ClientErrors(code, headers, e)
 
-        fun <T> serverError(code: Int, headers: Headers): ResponseResults<T> = ServerError(code, headers)
+        fun <T> serverError(code: Int, headers: Headers, e: HttpException): ResponseResults<T> = ServerError(code, headers, e)
 
-        fun <T> netWorkError(error: IOException): ResponseResults<T> = NetWorkError(error)
+        fun <T> netWorkError(e: IOException): ResponseResults<T> = NetWorkError(e)
     }
 
     //1XX
@@ -29,11 +30,11 @@ sealed class ResponseResults<out T> {
     data class Redirection<out T>(val code: Int, val header: Headers) : ResponseResults<T>()
 
     //4xx
-    data class ClientErrors(val code: Int, val headers: Headers) : ResponseResults<Nothing>()
+    data class ClientErrors(val code: Int, val headers: Headers, val e: HttpException) : ResponseResults<Nothing>()
 
     //5xx
-    data class ServerError(val code: Int, val headers: Headers) : ResponseResults<Nothing>()
+    data class ServerError(val code: Int, val headers: Headers, val e: HttpException) : ResponseResults<Nothing>()
 
     //IOException
-    data class NetWorkError(val error: IOException) : ResponseResults<Nothing>()
+    data class NetWorkError(val e: IOException) : ResponseResults<Nothing>()
 }

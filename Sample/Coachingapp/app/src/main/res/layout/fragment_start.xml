@@ -15,17 +15,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_pencil_logo" />
+        app:srcCompat="@drawable/ic_pencil_logo" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_version"
-        android:layout_width="wrap_content"
+    <include
+        layout="@layout/item_start"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:textSize="14sp"
+        android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

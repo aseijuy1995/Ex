@@ -1,20 +1,23 @@
 package tw.north27.coachingapp.viewModel
 
 import android.app.Application
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import tw.north27.coachingapp.base.BaseAndroidViewModel
 import tw.north27.coachingapp.ext.asLiveData
 import tw.north27.coachingapp.model.result.AppConfig
+import tw.north27.coachingapp.model.result.SignInInfo
 import tw.north27.coachingapp.model.result.SignInState
 import tw.north27.coachingapp.module.http.ResponseResults
-import tw.north27.coachingapp.module.http.SimpleResults
+import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.module.pref.UserModule
 import tw.north27.coachingapp.repository.inter.IPublicRepository
 import tw.north27.coachingapp.repository.inter.IUserRepository
+import tw.north27.coachingapp.util.ViewState
 
 class StartViewModel(
     application: Application,
@@ -22,118 +25,82 @@ class StartViewModel(
     private val userRepo: IUserRepository
 ) : BaseAndroidViewModel(application) {
 
-    private val _appConfig = MutableLiveData<AppConfig>()
+    private val userModule = UserModule(application)
 
-    val appConfig = _appConfig.asLiveData()
+    private val _appConfigState = MutableLiveData<ViewState<AppConfig>>(ViewState.Load)
 
-    private val _toast = MutableLiveData<Pair<ToastType, String>>()
+    val appConfigState = _appConfigState.asLiveData()
 
-    val toast = _toast.asLiveData()
+    fun getAppConfig(fcmToken: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userModule.setValue(fcmToken = fcmToken)
+            val results = publicRepo.getAppConfig(fcmToken)
+            when (results) {
+                is Results.Successful -> {
+                    _appConfigState.postValue(ViewState.data(results.data!!))
+                }
+                is Results.ClientErrors -> {
+                    _appConfigState.postValue(ViewState.error(results.e))
+                }
+                is Results.NetWorkError -> {
+                    _appConfigState.postValue(ViewState.network(results.e))
+                }
+            }
+        }
+    }
 
-    private val signInModule = UserModule(application)
-
-    private val _signInState = MutableLiveData<SignInState>()
+    private val _signInState = MutableLiveData<ViewState<SignInInfo>>(ViewState.Load)
 
     val signInState = _signInState.asLiveData()
 
-    enum class ToastType {
-        VERSION, CHECK_SIGN_IN
-    }
-
-    fun appConfig(fcmToken: String): LiveData<AppConfig> {
-        signInModule.setValue(fcmToken = fcmToken)
-        viewModelScope.launch {
-            val results = publicRepo.getAppConfig(fcmToken)
-            when (results) {
-                is SimpleResults.Successful -> {
-                    _appConfig.postValue(results.data!!)
-                }
-                is SimpleResults.ClientErrors -> {
-                    _toast.postValue(ToastType.VERSION to "${results.error}:無法獲取初始數據")
-                }
-                is SimpleResults.NetWorkError -> {
-                    _toast.postValue(ToastType.VERSION to "${results.error}:網路異常")
-                }
-            }
-        }
-        return appConfig
-    }
-
     fun checkSignIn() {
-        viewModelScope.launch {
-            signInModule.getValue { it.fcmToken }.collectLatest { fcmToken ->
-                val results = userRepo.postCheckSignIn(fcmToken)
-                when (results) {
-                    is ResponseResults.Successful -> {
-                        val signInInfo = results.data
-                        val account: String
-                        val accessToken: String
-                        val refreshToken: String
-                        val isFirst: Boolean
-                        when (signInInfo.signInState) {
-                            SignInState.SUCCESS -> {
-                                signInInfo.userInfo.also {
-                                    account = it.account
-                                    accessToken = it.accessToken!!
-                                    refreshToken = it.refreshToken!!
-                                    isFirst = signInInfo.isFirst
-                                }
-                            }
-                            SignInState.FAILURE -> {
-                                account = ""
-                                accessToken = ""
-                                refreshToken = ""
-                                isFirst = false
+        viewModelScope.launch(Dispatchers.IO) {
+            val user = userModule.getValue { it }.first()
+            Timber.d("account = ${user.account}, deviceId = ${user.deviceId}, fcmToken = ${user.fcmToken}")
+            if (user.account.isEmpty() || user.deviceId.isEmpty() || user.fcmToken.isEmpty()) {
+                _signInState.postValue(ViewState.empty())
+                return@launch
+            }
+            val results = userRepo.checkSignIn(user.account, user.deviceId, user.fcmToken)
+            when (results) {
+                is ResponseResults.Successful -> {
+                    val signIn = results.data
+                    val account: String
+                    val accessToken: String
+                    val refreshToken: String
+                    val isFirst: Boolean
+                    when (signIn.signInState) {
+                        SignInState.SUCCESS -> {
+                            signIn.user.also {
+                                account = it!!.account
+                                accessToken = signIn.accessToken!!
+                                refreshToken = signIn.refreshToken!!
+                                isFirst = signIn.isFirst!!
                             }
                         }
-                        signInModule.setValue(
-                            account = account,
-                            accessToken = accessToken,
-                            refreshToken = refreshToken,
-                            isFirst = isFirst
-                        )
-                        _signInState.postValue(signInInfo.signInState)
+                        SignInState.FAILURE -> {
+                            account = ""
+                            accessToken = ""
+                            refreshToken = ""
+                            isFirst = false
+                        }
                     }
-                    is ResponseResults.ClientErrors -> {
-                        _toast.postValue(ToastType.CHECK_SIGN_IN to "${results.code}:登入資料異常")
-                    }
-                    is ResponseResults.NetWorkError -> {
-                        _toast.postValue(ToastType.CHECK_SIGN_IN to "${results.error}:網路異常")
-                    }
+                    userModule.setValue(
+                        account = account,
+                        accessToken = accessToken,
+                        refreshToken = refreshToken,
+                        isFirst = isFirst,
+                    )
+                    _signInState.postValue(ViewState.data(signIn))
                 }
-
-//            signInModule.getValue { it }.collect {
-//                val result = userRepo.postSignIn(account)
-//
-//
-//                when (result) {
-//                    is Results.Successful -> {
-//                        val sign = result.data!!
-//                        //存取User資訊
-//                        signInModule.setValue(
-//                            guid = sign.guid,
-//                            account = sign.account,
-//                            accessToken = sign.accessToken,
-//                            refreshToken = sign.refreshToken,
-//                            expiredTime = sign.expiredTime,
-//                            isFirstLogin = sign.isFirstSignIn
-//                        )
-//                        _signIn.postValue(sign)
-//                    }
-//                    is Results.ClientErrors -> {
-//                        //無權限 - token過期
-//                        if (result.code == 403) {
-//                            //過期處理
-//                        } else {
-//                            _toast.postValue(ToastType.CHECK_SIGN_IN to "Code = ${result.code}, Msg = ${result.msg}")
-//                        }
-//                    }
-//                }
-//            }
+                is ResponseResults.ClientErrors -> {
+                    _signInState.postValue(ViewState.error(results.e))
+                }
+                is ResponseResults.NetWorkError -> {
+                    _signInState.postValue(ViewState.network(results.e))
+                }
             }
-
         }
     }
-
 
 }

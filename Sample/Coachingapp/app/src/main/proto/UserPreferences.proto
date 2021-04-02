@@ -7,9 +7,9 @@ option java_multiple_files = true;
 message UserPreferences {
   int64 uuid = 1;// uuid
   string account = 2;// 帳號
-  string accessToken = 3;// 訪問token
-  string refreshToken = 4;// 刷新token
-  string deviceId = 5;// 設備id
-  string fcmToken = 6;//推播token
+  string accessToken = 3;// 訪問token,呼API使用
+  string refreshToken = 4;// 刷新token,刷新呼叫API使用的accessToken，目的在於accessToken存活時間約15m確保api安全性
+  string deviceId = 5;// 設備id,判定帳號登入於不同手機的數量限制
+  string fcmToken = 6;//推播token,發送通知用
   bool isFirst = 7;// 第一次登入
 }

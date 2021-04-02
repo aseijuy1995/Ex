@@ -30,7 +30,8 @@ class UpdateHttpManager(private val cxt: Context, private val updateInfo: Update
             "apk_file_url" to updateInfo.url,
             "update_log" to updateInfo.desc,
             "target_size" to updateInfo.size,
-            "new_md5" to updateInfo.md5,
+//            "new_md5" to updateInfo.md5,
+            "new_md5" to "",
             "constraint" to updateInfo.isMandatory
         )
         val json = JSONObject(map).toString()

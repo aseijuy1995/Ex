@@ -136,7 +136,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                     id = 5,
                     sender = UserInfo(
                         id = -1,
-                        account = "jie001",
+                        account = "north27",
                         avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                         name = "阿吉"
                     ),
@@ -208,13 +208,13 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 //                                id = 5,
 //                                sender = UserInfo(
 //                                    id = -1,
-//                                    account = "jie001",
+//                                    account = "north27",
 //                                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
 //                                    name = "阿吉"
 //                                ),
 //                                recipient = UserInfo(
 //                                    id = 100,
-//                                    account = "ji100",
+//                                    account = "north27",
 //                                    avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
 //                                    name = "阿吉 - 測試號"
 //                                ),
@@ -238,13 +238,13 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                                 id = 5,
                                 sender = UserInfo(
                                     id = -1,
-                                    account = "jie001",
+                                    account = "north27",
                                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                                     name = "阿吉"
                                 ),
                                 recipient = UserInfo(
                                     id = 100,
-                                    account = "ji100",
+                                    account = "north27",
                                     avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
                                     name = "阿吉 - 測試號"
                                 ),
@@ -270,7 +270,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 //                                id = 5,
 //                                sender = UserInfo(
 //                                    id = -1,
-//                                    account = "jie001",
+//                                    account = "north27",
 //                                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
 //                                    name = "阿吉"
 //                                ),

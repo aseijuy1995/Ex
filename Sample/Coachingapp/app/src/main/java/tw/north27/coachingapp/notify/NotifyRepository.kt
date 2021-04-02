@@ -4,7 +4,7 @@ import androidx.paging.Pager
 import tw.north27.coachingapp.consts.IApiService
 import tw.north27.coachingapp.ext.pagingConfig
 import tw.north27.coachingapp.model.result.NotifyInfo
-import tw.north27.coachingapp.module.ext.safeApiResults
+import tw.north27.coachingapp.ext.safeApiResults
 import tw.north27.coachingapp.module.http.Results
 
 class NotifyRepository(private val service: IApiService) : INotifyRepository {

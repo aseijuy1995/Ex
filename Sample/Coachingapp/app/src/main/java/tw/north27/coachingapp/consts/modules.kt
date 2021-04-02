@@ -33,7 +33,7 @@ val utilModules = module {
 
 val modelModules = module {
 //    single<IApiService> { (get() as RetrofitManager).create<IApiService>() }
-    single<IApiService> { ApiService() }
+    single<IApiService> { ApiService(androidContext()) }
 }
 
 val repoModules = module {

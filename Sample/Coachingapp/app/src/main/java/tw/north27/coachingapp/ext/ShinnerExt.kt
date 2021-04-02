@@ -4,7 +4,7 @@ import android.view.View
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerFrameLayout
 
-fun ShimmerFrameLayout.start() {
+fun ShimmerFrameLayout.startAlphaBreatheAnim() {
     val builder = Shimmer.AlphaHighlightBuilder()
     builder.setDirection(Shimmer.Direction.LEFT_TO_RIGHT)
     setShimmer(builder.build())

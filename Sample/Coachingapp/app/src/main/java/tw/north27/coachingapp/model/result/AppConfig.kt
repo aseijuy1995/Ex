@@ -7,21 +7,19 @@ data class AppConfig(
 )
 
 enum class AppState {
-    RUN,// 運行中
-    MAINTAIN;// 維護中
+    RUN,//運行中
+    MAINTAIN;//維護中
 }
 
 data class MaintainInfo(
-    val desc: String,// description
-    val time:String,
-    val newMd5: String// mb5
+    val desc: String,//description
+    val time: String//預計完成時間
 )
 
 data class UpdateInfo(
-    val versionName: String,// 版本名
-    val url: String,// google play url
-    val desc: String,// description
-    val size: String,// apk size
-    val md5: String,// md5
-    val isMandatory: Boolean// 是否強制更新
+    val versionName: String,//版本名
+    val url: String,//google play url
+    val desc: String,//description
+    val size: String,//apk size
+    val isMandatory: Boolean//是否強制更新
 )

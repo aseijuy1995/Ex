@@ -52,7 +52,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                     id = 5,
                     sender = UserInfo(
                         id = -1,
-                        account = "jie001",
+                        account = "north27",
                         avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                         name = "阿吉"
                     ),

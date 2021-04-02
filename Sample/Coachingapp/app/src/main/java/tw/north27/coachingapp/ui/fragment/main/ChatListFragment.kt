@@ -47,7 +47,7 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
         lifecycleScope.launch {
             viewModel.loadChatState.collect {
                 if (it is ViewState.Load) {
-                    binding.itemChatShinner.shimmerFrameLayoutChat.start()
+                    binding.itemChatShinner.shimmerFrameLayoutChat.startAlphaBreatheAnim()
                 } else {
                     binding.itemChatShinner.shimmerFrameLayoutChat.stop()
                 }

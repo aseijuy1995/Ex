@@ -51,12 +51,12 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
                             val isFirst: Boolean
                             when (signInInfo.signInState) {
                                 SignInState.SUCCESS -> {
-                                    signInInfo.userInfo.also {
+                                    signInInfo.user.also {
                                         uuid = 0
-                                        account = it.account
-                                        accessToken = it.accessToken!!
-                                        refreshToken = it.refreshToken!!
-                                        isFirst = signInInfo.isFirst
+                                        account = it!!.account
+                                        accessToken = signInInfo.accessToken!!
+                                        refreshToken = signInInfo.refreshToken!!
+                                        isFirst = signInInfo.isFirst!!
                                     }
                                 }
                                 SignInState.FAILURE -> {
@@ -91,7 +91,7 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
                         }
 
                         is ResponseResults.NetWorkError -> {
-                            _toast.postValue(ToastType.SIGN_IN to "${results.error}:網路異常")
+                            _toast.postValue(ToastType.SIGN_IN to "${results.e}:網路異常")
                         }
                     }
                 }

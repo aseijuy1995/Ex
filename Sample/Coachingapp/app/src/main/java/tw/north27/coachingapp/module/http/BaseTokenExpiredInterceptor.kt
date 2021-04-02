@@ -10,7 +10,7 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.consts.IApiService
-import tw.north27.coachingapp.module.ext.safeApiSimpleResults
+import tw.north27.coachingapp.ext.safeApiSimpleResults
 import tw.north27.coachingapp.module.pref.UserModule
 import kotlin.coroutines.CoroutineContext
 

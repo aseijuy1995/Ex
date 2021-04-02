@@ -8,6 +8,8 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseDialogFragment
 import tw.north27.coachingapp.databinding.FragmentMaintainDialogBinding
 import tw.north27.coachingapp.ext.viewBinding
+import tw.north27.coachingapp.model.result.AppState
+import tw.north27.coachingapp.util.ViewState
 import tw.north27.coachingapp.viewModel.StartViewModel
 
 class MaintainDialogFragment : BaseDialogFragment(R.layout.fragment_maintain_dialog) {
@@ -25,13 +27,29 @@ class MaintainDialogFragment : BaseDialogFragment(R.layout.fragment_maintain_dia
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.appConfig.observe(viewLifecycleOwner) {
-            val maintainInfo = it.maintainInfo!!
+        viewModel.appConfigState.observe(viewLifecycleOwner) {
+            when (it) {
+                is ViewState.Load -> {
+                }
+                is ViewState.Empty -> {
+                }
+                is ViewState.Data -> {
+                    val appConfig = it.data
 
-            binding.apply {
-                ivPic.setImageResource(R.mipmap.ic_update_app_background)
-                tvTime.text = maintainInfo.time
-                tvDesc.text = maintainInfo.desc
+                    if (appConfig.appState == AppState.MAINTAIN) {
+                        val maintainInfo = appConfig.maintainInfo!!
+                        binding.apply {
+                            tvTime.text = maintainInfo.time
+                            tvDesc.text = maintainInfo.desc
+                        }
+                    }
+                }
+                is ViewState.Error -> {
+
+                }
+                is ViewState.Network -> {
+
+                }
             }
         }
 

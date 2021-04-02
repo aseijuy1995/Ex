@@ -1,7 +1,8 @@
-package tw.north27.coachingapp.module.ext
+package tw.north27.coachingapp.ext
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 import tw.north27.coachingapp.module.http.ResponseResults
@@ -33,8 +34,8 @@ suspend fun <T> safeApiResponseResults(data: suspend () -> Response<T>): Respons
                 in 100 until 200 -> ResponseResults.informational(code, headers)
                 in 200 until 300 -> ResponseResults.successful(code, headers, body!!)
                 in 300 until 400 -> ResponseResults.redirection(code, headers)
-                in 400 until 500 -> ResponseResults.clientErrors(code, headers)
-                else -> ResponseResults.serverError(code, headers)
+                in 400 until 500 -> ResponseResults.clientErrors(code, headers, HttpException(Response.error<String>(code, "$code client errors".toResponseBody())))
+                else -> ResponseResults.serverError(code, headers, HttpException(Response.error<String>(code, "$code server errors".toResponseBody())))
             }
         } catch (e: IOException) {
             ResponseResults.netWorkError(e)

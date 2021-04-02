@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import tw.north27.coachingapp.databinding.ItemLoadStateBinding
-import tw.north27.coachingapp.ext.autoBreatheAlphaAnim
 
 class BaseLoadStateAdapter(
     private val owner: LifecycleOwner,
@@ -23,7 +22,6 @@ class BaseLoadStateAdapter(
     inner class VH(val binding: ItemLoadStateBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(loadState: LoadState) = binding.apply {
             ivIcon.isVisible = loadState is LoadState.Loading
-            ivIcon.autoBreatheAlphaAnim(owner, compositeDisposable)
             tvError.isVisible = loadState is LoadState.Error
             btnRetry.isVisible = loadState is LoadState.Error
             btnRetry.setOnClickListener { retryClickRelay.accept(it) }

@@ -10,6 +10,7 @@ import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.databinding.FragmentSignInBinding
+import tw.north27.coachingapp.ext.clickThrottleFirst
 import tw.north27.coachingapp.ext.viewBinding
 import tw.north27.coachingapp.model.result.SignInInfo
 import tw.north27.coachingapp.util.FirebaseManager
@@ -32,6 +33,10 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
 
             }
             viewModel.checkSignIn(account, password)
+        }
+
+        binding.motionLayoutSignIn.clickThrottleFirst().subscribeWithRxLife {
+
         }
 
         viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)

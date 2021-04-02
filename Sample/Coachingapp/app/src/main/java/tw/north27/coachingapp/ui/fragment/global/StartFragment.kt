@@ -3,22 +3,23 @@ package tw.north27.coachingapp.ui.fragment.global
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.vector.update_app_kotlin.check
 import com.vector.update_app_kotlin.updateApp
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import timber.log.Timber
-import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.databinding.FragmentStartBinding
-import tw.north27.coachingapp.ext.autoBreatheAlphaAnim
+import tw.north27.coachingapp.ext.errorAlert
+import tw.north27.coachingapp.ext.networkAlert
+import tw.north27.coachingapp.ext.startAlphaBreatheAnim
 import tw.north27.coachingapp.ext.viewBinding
 import tw.north27.coachingapp.http.UpdateHttpManager
 import tw.north27.coachingapp.model.result.AppState
 import tw.north27.coachingapp.model.result.SignInState
 import tw.north27.coachingapp.util.FirebaseManager
+import tw.north27.coachingapp.util.ViewState
 import tw.north27.coachingapp.viewModel.StartViewModel
 
 class StartFragment : BaseFragment(R.layout.fragment_start) {
@@ -29,63 +30,74 @@ class StartFragment : BaseFragment(R.layout.fragment_start) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.ivIcon.autoBreatheAlphaAnim(viewLifecycleOwner, compositeDisposable)
-        binding.tvVersion.text = String.format("v:${BuildConfig.VERSION_NAME}")
-        showLoadingDialog()
+        binding.ivIcon.startAlphaBreatheAnim()
 
         FirebaseManager.get().register().addOnCompleteListener {
-            if (!it.isSuccessful) {
-                return@addOnCompleteListener
-            }
+            if (!it.isSuccessful) return@addOnCompleteListener
             val fcmToken = it.result ?: ""
             Timber.d("fcmToken = $fcmToken")
-            viewModel.appConfig(fcmToken).observe(viewLifecycleOwner) {
-                dismissLoadingDialog()
-                when (it.appState) {
-                    AppState.MAINTAIN -> {
-                        findNavController().navigate(StartFragmentDirections.actionFragmentStartToFragmentMaintainDialog())
-                    }
-                    AppState.RUN -> {
-                        it.updateInfo?.let {
-                            act.updateApp(it.url, UpdateHttpManager(cxt, it)) {
-                                topPic = R.mipmap.ic_version_pic
-                                setUpdateDialogFragmentListener { viewModel.checkSignIn() }
-                            }.check {
-                                noNewApp { viewModel.checkSignIn() }
-                                onAfter { findNavController().navigateUp() }
+            viewModel.getAppConfig(fcmToken)
+        }
+
+        viewModel.appConfigState.observe(viewLifecycleOwner) {
+            when (it) {
+                is ViewState.Load -> {
+                }
+                is ViewState.Empty -> {
+                }
+                is ViewState.Data -> {
+                    val appConfig = it.data
+                    when (appConfig.appState) {
+                        AppState.MAINTAIN -> {
+                            findNavController().navigate(StartFragmentDirections.actionFragmentStartToFragmentMaintainDialog())
+                        }
+                        AppState.RUN -> {
+                            appConfig.updateInfo?.let {
+                                act.updateApp(it.url, UpdateHttpManager(cxt, it)) {
+                                    topPic = R.mipmap.ic_version_pic
+                                    setUpdateDialogFragmentListener { viewModel.checkSignIn() }
+                                }.check {
+                                    noNewApp { viewModel.checkSignIn() }
+                                }
                             }
                         }
                     }
                 }
+                is ViewState.Error -> {
+                    act.errorAlert()
+                }
+                is ViewState.Network -> {
+                    act.networkAlert()
+                }
             }
         }
 
-        viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
-
-        viewModel.signInState.observe(viewLifecycleOwner, ::onSignObs)
-
-    }
-
-    private fun onToastObs(pair: Pair<StartViewModel.ToastType, String>) {
-        when (pair.first) {
-            StartViewModel.ToastType.VERSION -> {
-//                dismissLoadingDialog()
-                Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
-            }
-            StartViewModel.ToastType.CHECK_SIGN_IN -> {
-                Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
+        viewModel.signInState.observe(viewLifecycleOwner) {
+            when (it) {
+                is ViewState.Load -> {
+                }
+                is ViewState.Empty -> {
+                    findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())
+                }
+                is ViewState.Data -> {
+                    val signIn = it.data
+                    when (signIn.signInState) {
+                        SignInState.SUCCESS -> {
+                            findNavController().navigate(NavGraphDirections.actionToFragmentHome())
+                        }
+                        SignInState.FAILURE -> {
+                            findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())
+                        }
+                    }
+                }
+                is ViewState.Error -> {
+                    act.errorAlert()
+                }
+                is ViewState.Network -> {
+                    act.networkAlert()
+                }
             }
         }
     }
 
-    private fun onSignObs(state: SignInState) {
-        when (state) {
-            SignInState.SUCCESS -> {
-                findNavController().navigate(NavGraphDirections.actionToFragmentHome())
-            }
-            SignInState.FAILURE -> {
-                findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())
-            }
-        }
-    }
 }

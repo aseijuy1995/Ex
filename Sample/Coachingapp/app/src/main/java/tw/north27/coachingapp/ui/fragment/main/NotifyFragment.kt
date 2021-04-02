@@ -18,7 +18,7 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.NotifyListAdapter
 import tw.north27.coachingapp.base.BaseDataBindingFragment
 import tw.north27.coachingapp.databinding.FragmentNotifyBinding
-import tw.north27.coachingapp.ext.start
+import tw.north27.coachingapp.ext.startAlphaBreatheAnim
 import tw.north27.coachingapp.ext.stop
 import tw.north27.coachingapp.notify.BaseLoadStateAdapter
 import tw.north27.coachingapp.notify.NotifyViewModel
@@ -56,7 +56,7 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
         lifecycleScope.launch {
             adapter.loadStateFlow.collectLatest {
                 if (it.refresh is LoadState.Loading) {
-                    binding.itemNotifyShinner.shimmerFrameLayoutNotify.start()
+                    binding.itemNotifyShinner.shimmerFrameLayoutNotify.startAlphaBreatheAnim()
                     binding.itemEmpty.clEmpty.isVisible = false
                     binding.rvNotify.isVisible = false
                 }

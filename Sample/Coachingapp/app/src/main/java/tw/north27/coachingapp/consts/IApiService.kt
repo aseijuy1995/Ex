@@ -18,21 +18,23 @@ interface IApiService {
 
     /**
      * 取得更新資訊
+     * @param fcmToken:未登入才可收到app通知
      * */
     @GET
-    suspend fun getAppConfig(
-        @Query("fcmToken") fcmToken: String
-    ): AppConfig
+    suspend fun getAppConfig(@Query("fcmToken") fcmToken: String): AppConfig
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * 檢查登入
      * */
     @FormUrlEncoded
-    @POST
-    suspend fun postCheckSignIn(
-        @Field("account") account: String,
-        @Field("deviceId") deviceId: String,
-        @Field("fcmToken") fcmToken: String
+    @GET
+    suspend fun checkSignIn(
+        @Query("account") account: String,
+        @Query("deviceId") deviceId: String,
+        @Query("fcmToken") fcmToken: String
     ): Response<SignInInfo>
 
 
