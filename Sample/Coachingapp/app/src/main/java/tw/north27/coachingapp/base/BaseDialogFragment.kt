@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.fragment.findNavController
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.ext.startDisposablesLifeObs
 import tw.north27.coachingapp.module.rx.IRxJavaSubscribe
 
@@ -46,4 +48,14 @@ open class BaseDialogFragment(layoutId: Int) : DialogFragment(layoutId), IRxJava
     override fun <T> Observable<T>.subscribeWithRxLife(onNext: (T) -> Unit, onError: (Throwable) -> Unit, onComplete: () -> Unit): Disposable? =
         bindToLifecycle(viewLifecycleOwner)
             .subscribe(onNext, onError, onComplete)
+
+    private val loadingDialogNavDirections = NavGraphDirections.actionToFragmentLoadingDialog()
+
+    fun showLoadingDialog() {
+        findNavController().navigate(loadingDialogNavDirections)
+    }
+
+    fun dismissLoadingDialog() {
+        findNavController().navigateUp()
+    }
 }

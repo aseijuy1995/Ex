@@ -2,7 +2,6 @@ package tw.north27.coachingapp.ui.public
 
 import android.os.Bundle
 import android.view.View
-import com.jakewharton.rxbinding4.view.clicks
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseDialogFragment
@@ -30,6 +29,8 @@ class MaintainDialogFragment : BaseDialogFragment(R.layout.fragment_maintain_dia
 
         viewModel.appConfigState.observe(viewLifecycleOwner) {
             when (it) {
+                is ViewState.Initial -> {
+                }
                 is ViewState.Load -> {
                 }
                 is ViewState.Empty -> {

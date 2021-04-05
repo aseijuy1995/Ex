@@ -53,4 +53,8 @@ class ChatListAdapter : ListAdapter<ChatInfo, ChatListAdapter.VH>(object : DiffU
         holder.bind(chat)
     }
 
+    override fun submitList(list: List<ChatInfo>?) {
+        super.submitList(if (list != null) ArrayList(list) else null)
+    }
+
 }

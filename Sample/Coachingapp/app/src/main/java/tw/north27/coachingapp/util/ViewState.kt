@@ -6,6 +6,8 @@ import java.io.IOException
 sealed class ViewState<out T> {
 
     companion object {
+        fun <T> initial(): ViewState<T> = Initial
+
         fun <T> load(): ViewState<T> = Load
 
         fun <T> empty(str: String? = null): ViewState<T> = Empty(str)
@@ -16,6 +18,8 @@ sealed class ViewState<out T> {
 
         fun <T> network(e: IOException): ViewState<T> = Network(e)
     }
+
+    object Initial : ViewState<Nothing>()
 
     object Load : ViewState<Nothing>()
 

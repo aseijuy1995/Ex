@@ -2,6 +2,8 @@ package tw.north27.coachingapp.ui.public
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseDialogFragment
@@ -38,14 +40,20 @@ class ExitDialogFragment : BaseDialogFragment(R.layout.fragment_exit_dialog) {
 
         viewModel.signOutState.observe(viewLifecycleOwner) {
             when (it) {
+                is ViewState.Initial -> {
+                }
                 is ViewState.Load -> {
+                    showLoadingDialog()
                 }
                 is ViewState.Empty -> {
+                    dismissLoadingDialog()
                 }
                 is ViewState.Data -> {
+                    dismissLoadingDialog()
                     val signState = it.data.signState
                     if (signState == SignState.SIGN_OUT_SUCCESS) {
                         act.finishAffinity()
+                        Toast.makeText(cxt, cxt.getString(R.string.sign_out_success), Toast.LENGTH_SHORT).show()
                     }
                 }
                 is ViewState.Error -> {

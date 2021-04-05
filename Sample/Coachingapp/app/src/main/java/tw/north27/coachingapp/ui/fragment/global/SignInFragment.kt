@@ -29,7 +29,6 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
         }
 
         binding.btnSignIn.clickThrottleFirst().subscribeWithRxLife {
-            showLoadingDialog()
             val account = binding.etAccount.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
             viewModel.signIn(account, password)
@@ -37,7 +36,10 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
 
         viewModel.signInState.observe(viewLifecycleOwner) {
             when (it) {
+                is ViewState.Initial -> {
+                }
                 is ViewState.Load -> {
+                    showLoadingDialog()
                 }
                 is ViewState.Empty -> {
                     dismissLoadingDialog()

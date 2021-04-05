@@ -27,12 +27,13 @@ class StartViewModel(
 
     private val userModule = UserModule(application)
 
-    private val _appConfigState = MutableLiveData<ViewState<AppConfig>>(ViewState.Load)
+    private val _appConfigState = MutableLiveData<ViewState<AppConfig>>(ViewState.Initial)
 
     val appConfigState = _appConfigState.asLiveData()
 
     fun getAppConfig(fcmToken: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            _appConfigState.postValue(ViewState.load())
             userModule.setValue(fcmToken = fcmToken)
             val results = publicRepo.getAppConfig(fcmToken)
             when (results) {
@@ -49,12 +50,13 @@ class StartViewModel(
         }
     }
 
-    private val _signInState = MutableLiveData<ViewState<SignInfo>>(ViewState.Load)
+    private val _signInState = MutableLiveData<ViewState<SignInfo>>(ViewState.Initial)
 
     val signInState = _signInState.asLiveData()
 
     fun checkSignIn() {
         viewModelScope.launch(Dispatchers.IO) {
+            _signInState.postValue(ViewState.load())
             val user = userModule.getValue { it }.first()
             Timber.d("account = ${user.account}, deviceId = ${user.deviceId}, fcmToken = ${user.fcmToken}")
             if (user.account.isEmpty() || user.deviceId.isEmpty() || user.fcmToken.isEmpty()) {

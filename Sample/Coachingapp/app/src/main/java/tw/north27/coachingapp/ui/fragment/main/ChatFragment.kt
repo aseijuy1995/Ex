@@ -24,22 +24,22 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
     private val viewModel by sharedViewModel<ChatViewModel>()
 
-    private val adapter: ChatPagerAdapter
-        get() = ChatPagerAdapter(this)
+    private lateinit var adapter: ChatPagerAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        doubleClickToExit()
+        adapter = ChatPagerAdapter(this)
         binding.viewPager2Chat.apply {
             adapter = this@ChatFragment.adapter
             offscreenPageLimit = 2
         }
-        doubleClickToExit()
         TabLayoutMediator(binding.tabLayoutChat, binding.viewPager2Chat) { tab: TabLayout.Tab, position: Int ->
             tab.setIcon(getTabIcon(position))
 //            tab.text = getTabText(position)
         }.attach()
-        viewModel.loadChat()
 
+        viewModel.loadChat()
         viewModel.message.subscribeWithRxLife {
             viewModel.receiveChatMessage(it)
         }

@@ -20,11 +20,12 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
 
     private val userModule = UserModule(application)
 
-    private val _signInState = MutableLiveData<ViewState<SignInfo>>(ViewState.Load)
+    private val _signInState = MutableLiveData<ViewState<SignInfo>>(ViewState.Initial)
 
     val signInState = _signInState.asLiveData()
 
     fun signIn(account: String?, password: String?) {
+        _signInState.postValue(ViewState.load())
         if (account.isNullOrEmpty() && password.isNullOrEmpty()) {
             _signInState.postValue(ViewState.empty(context.getString(R.string.empty_account_password)))
         } else if (account.isNullOrEmpty()) {

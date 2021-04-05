@@ -30,7 +30,6 @@ class StartFragment : BaseFragment(R.layout.fragment_start) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.ivIcon.startAlphaBreatheAnim()
 
         FirebaseMessaging.getInstance().token.addOnCompleteListener {
             if (!it.isSuccessful) return@addOnCompleteListener
@@ -41,6 +40,9 @@ class StartFragment : BaseFragment(R.layout.fragment_start) {
 
         viewModel.appConfigState.observe(viewLifecycleOwner) {
             when (it) {
+                is ViewState.Initial -> {
+                    binding.ivIcon.startAlphaBreatheAnim()
+                }
                 is ViewState.Load -> {
                 }
                 is ViewState.Empty -> {
@@ -74,6 +76,8 @@ class StartFragment : BaseFragment(R.layout.fragment_start) {
 
         viewModel.signInState.observe(viewLifecycleOwner) {
             when (it) {
+                is ViewState.Initial -> {
+                }
                 is ViewState.Load -> {
                 }
                 is ViewState.Empty -> {

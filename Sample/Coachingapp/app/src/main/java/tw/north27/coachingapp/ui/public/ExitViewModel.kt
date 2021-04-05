@@ -19,30 +19,29 @@ class ExitViewModel(application: Application, val userRepo: IUserRepository) : B
 
     private val userModule = UserModule(application)
 
-    private val _signOutState = MutableLiveData<ViewState<SignInfo>>(ViewState.Load)
+    private val _signOutState = MutableLiveData<ViewState<SignInfo>>(ViewState.Initial)
 
     val signOutState = _signOutState.asLiveData()
 
     fun signOut() {
+        _signOutState.postValue(ViewState.load())
         viewModelScope.launch(Dispatchers.IO) {
             val signOut = userModule.getValue { it }.first()
             val results = userRepo.signOut(signOut.account, signOut.deviceId)
             when (results) {
                 is Results.Successful -> {
                     val signOutInfo = results.data
-                    when (signOutInfo.signState) {
-                        SignState.SIGN_OUT_SUCCESS -> {
-                            userModule.setValue(
-                                uuid = -1,
-                                account = "",
-                                accessToken = "",
-                                refreshToken = "",
-                                isFirst = false
-                            )
-                        }
-                    }
                     if (signOutInfo.signState == SignState.SIGN_OUT_SUCCESS) {
+                        userModule.setValue(
+                            uuid = -1,
+                            account = "",
+                            accessToken = "",
+                            refreshToken = "",
+                            isFirst = false
+                        )
                         _signOutState.postValue(ViewState.data(signOutInfo))
+                    } else {
+                        _signOutState.postValue(ViewState.empty())
                     }
                 }
                 is Results.ClientErrors -> {

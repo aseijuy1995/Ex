@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.R
@@ -44,15 +41,26 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
             adapter = this@ChatListFragment.adapter
         }
 
-        lifecycleScope.launch {
-            viewModel.loadChatState.collect {
-                if (it is ViewState.Load) {
-                    binding.itemChatShinner.shimmerFrameLayoutChat.startAlphaBreatheAnim()
-                } else {
-                    binding.itemChatShinner.shimmerFrameLayoutChat.stop()
+        viewModel.chatState.observe(viewLifecycleOwner) {
+            if (it is ViewState.Load) {
+                binding.itemChatShinner.shimmerFrameLayoutChat.startAlphaBreatheAnim()
+            } else {
+                binding.itemChatShinner.shimmerFrameLayoutChat.stop()
+                binding.smartRefreshLayoutChat.finishRefresh()
+            }
+            binding.rvChat.isVisible = (it is ViewState.Data)
+            binding.itemEmpty.clEmpty.isVisible = (it is ViewState.Empty)
+            binding.itemError.clError.isVisible = (it is ViewState.Error)
+            binding.itemNetwork.clNetwork.isVisible = (it is ViewState.Network)
+
+            when (it) {
+                is ViewState.Initial -> {
                 }
-                binding.rvChat.isVisible = it is ViewState.Data
-                if (it is ViewState.Data) {
+                is ViewState.Load -> {
+                }
+                is ViewState.Empty -> {
+                }
+                is ViewState.Data -> {
                     val chatList = it.data
                     val list = when (type) {
                         ChatReadIndex.ALL -> chatList
@@ -62,9 +70,13 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
                     adapter.submitList(list)
                     viewModel.listScrollToTop(true)
                 }
-                binding.itemEmpty.clEmpty.isVisible = it is ViewState.Empty
-                binding.itemError.clError.isVisible = it is ViewState.Error
-                binding.itemNetwork.clNetwork.isVisible = it is ViewState.Network
+                is ViewState.Error -> {
+                    act.errorAlert()
+
+                }
+                is ViewState.Network -> {
+                    act.networkAlert()
+                }
             }
         }
 
@@ -95,8 +107,32 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
         }
 
         adapter.soundClickRelay.subscribeWithRxLife {
-            showLoadingDialog()
             viewModel.switchChatSound(type, it.second)
+        }
+
+        viewModel.chatSoundState.observe(viewLifecycleOwner) {
+            when (it) {
+                is ViewState.Initial -> {
+                }
+                is ViewState.Load -> {
+                    showLoadingDialog()
+                }
+                is ViewState.Empty -> {
+                    dismissLoadingDialog()
+                }
+                is ViewState.Data -> {
+                    dismissLoadingDialog()
+                    Snackbar.make(binding.rvChat, if (it.data.isSound) getString(R.string.open_sound_notify) else getString(R.string.close_sound_notify), Snackbar.LENGTH_SHORT).show()
+                }
+                is ViewState.Error -> {
+                    dismissLoadingDialog()
+                    act.errorAlert()
+                }
+                is ViewState.Network -> {
+                    dismissLoadingDialog()
+                    act.networkAlert()
+                }
+            }
         }
 
         adapter.deleteClickRelay.subscribeWithRxLife {
@@ -113,16 +149,6 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 
     private fun onToastObs(pair: Pair<ChatViewModel.ToastType, String>) {
         when (pair.first) {
-            ChatViewModel.ToastType.LOAD_CHAT -> {
-                binding.smartRefreshLayoutChat.finishRefresh()
-                Snackbar.make(binding.rvChat, pair.second, Snackbar.LENGTH_SHORT).show()
-            }
-            ChatViewModel.ToastType.SWITCH_CHAT_SOUND -> {
-                if (viewModel.type == type) {
-                    dismissLoadingDialog()
-                    Snackbar.make(binding.rvChat, pair.second, Snackbar.LENGTH_SHORT).show()
-                }
-            }
             ChatViewModel.ToastType.DELETE_CHAT_ROOM -> {
                 if (viewModel.type == type) {
                     dismissLoadingDialog()
