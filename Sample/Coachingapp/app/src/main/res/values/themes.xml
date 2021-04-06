@@ -4,7 +4,8 @@
     <style name="Theme.Coachingapp" parent="Theme.MaterialComponents.Light.NoActionBar">-->
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/green_38af6c</item>
-        <item name="colorPrimaryVariant">@color/yellow_fef5e0</item>
+        <!--        <item name="colorPrimaryVariant">@color/yellow_fef5e0</item>-->
+        <item name="colorPrimaryVariant">@color/green_41d578</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>

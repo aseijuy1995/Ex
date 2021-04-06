@@ -5,7 +5,7 @@ import com.jakewharton.rxrelay3.BehaviorRelay
 import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.bean.RecorderResult
 import edu.yujie.socketex.bean.RecorderSetting
-import edu.yujie.socketex.inter.IRecording
+import edu.yujie.socketex.inter.IMediaRecorderModule
 import edu.yujie.socketex.util.createFile
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -13,7 +13,7 @@ import io.reactivex.rxjava3.disposables.Disposable
 import java.io.File
 import java.util.concurrent.TimeUnit
 
-class RecordingImpl : IRecording {
+class MediaRecorderModuleImpl : IMediaRecorderModule {
 
     private var mediaRecorder: MediaRecorder? = null
 
@@ -21,9 +21,9 @@ class RecordingImpl : IRecording {
 
     private var file: File? = null
 
-    override val stateRelay = BehaviorRelay.createDefault<Boolean>(false)
-
-    override val resultRelay = PublishRelay.create<Pair<Boolean, RecorderResult?>>()
+//    override val stateRelay = BehaviorRelay.createDefault<Boolean>(false)
+//
+//    override val resultRelay = PublishRelay.create<Pair<Boolean, RecorderResult?>>()
 
     var lengthTime: Int = 0
 

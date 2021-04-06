@@ -5,14 +5,13 @@ import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
-import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseAndroidViewModel
 import tw.north27.coachingapp.ext.*
+import tw.north27.coachingapp.media.RecorderSetting
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.module.pref.UserModule
@@ -96,12 +95,23 @@ class ChatRoomViewModel(application: Application, val chatRepo: IChatRepository,
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    fun audioDecodeToPcm(filePath: String):String {
-        val pcmPath = "${context.externalCacheDir}/Champagne_Edition_2.pcm"
-        viewModelScope.launch(Dispatchers.IO) {
-            mediaRepo.audioDecodeToPcm(filePath, pcmPath)
-        }
-        return pcmPath
+//    fun audioDecodeToPcm(filePath: String):String {
+//        val pcmPath = "${context.externalCacheDir}/Champagne_Edition_2.pcm"
+//        viewModelScope.launch(Dispatchers.IO) {
+//            mediaRepo.audioDecodeToPcm(filePath, pcmPath)
+//        }
+//        return pcmPath
+//    }
+
+    val recordingTime = mediaRepo.recordingTime
+
+    fun startRecording(setting: RecorderSetting) {
+        mediaRepo.prepareRecording(setting)
+        mediaRepo.startRecording()
+    }
+
+    fun stopRecording() {
+        mediaRepo.stopRecording()
     }
 
 

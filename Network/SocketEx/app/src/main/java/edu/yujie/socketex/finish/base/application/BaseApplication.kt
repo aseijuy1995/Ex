@@ -58,7 +58,7 @@ class BaseApplication : Application() {
         single<ICrop> { CropImpl() }
         single<IMediaRepo> { MediaRepo(androidContext()) }
         //
-        single<IRecording> { RecordingImpl() }
+        single<IMediaRecorderModule> { MediaRecorderModuleImpl() }
         single<IRecordingRepo> { RecordingRepoImpl(get()) }
     }
 

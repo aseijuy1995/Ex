@@ -6,22 +6,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import tw.north27.coachingapp.ext.startDisposablesLifeObs
+import timber.log.Timber
 import tw.north27.coachingapp.ext.viewBinding
 import tw.north27.coachingapp.module.rx.IRxJavaSubscribe
+import java.util.concurrent.TimeUnit
 
 open class BaseAppCompatActivity<T : ViewBinding>(inflater: (LayoutInflater) -> T) : AppCompatActivity(), IRxJavaSubscribe {
 
     protected val binding by viewBinding(inflater)
 
-    protected val compositeDisposable = CompositeDisposable()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        compositeDisposable.startDisposablesLifeObs(this)
+
+        Observable.interval(1, TimeUnit.SECONDS).subscribe {
+            Timber.d("interval = $it")
+        }
     }
 
     override fun <T> Observable<T>.subscribeWithRxLife(): Disposable? =

@@ -15,7 +15,7 @@ class IntentRepoImpl : IIntentRepo(), KoinComponent {
     private val camera by inject<ICamera>()
     private val crop by inject<ICrop>()
     private val album by inject<IAlbum>()
-    private val recorder by inject<IRecording>()
+    private val recorder by inject<IMediaRecorderModule>()
 
     //camera
     override fun createCameraBuilder(context: Context): Observable<IntentBuilder> = camera.createCameraBuilder(IntentSetting.CameraSetting(context = context))

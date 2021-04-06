@@ -4,24 +4,24 @@ import com.jakewharton.rxrelay3.BehaviorRelay
 import com.jakewharton.rxrelay3.PublishRelay
 import edu.yujie.socketex.bean.RecorderResult
 import edu.yujie.socketex.bean.RecorderSetting
-import edu.yujie.socketex.inter.IRecording
+import edu.yujie.socketex.inter.IMediaRecorderModule
 import io.reactivex.rxjava3.disposables.Disposable
 
-class RecordingRepoImpl(private val iRecording: IRecording) : IRecordingRepo {
+class RecordingRepoImpl(private val iMediaRecorderModule: IMediaRecorderModule) : IRecordingRepo {
 
     override val stateRelay: BehaviorRelay<Boolean>
-        get() = iRecording.stateRelay
+        get() = iMediaRecorderModule.stateRelay
 
     override val resultRelay: PublishRelay<Pair<Boolean, RecorderResult?>>
-        get() = iRecording.resultRelay
+        get() = iMediaRecorderModule.resultRelay
 
     override val lengthTimeRelay: PublishRelay<Int>
-        get() = iRecording.lengthTimeRelay
+        get() = iMediaRecorderModule.lengthTimeRelay
 
-    override fun prepare(setting: RecorderSetting): Disposable = iRecording.prepare(setting).subscribe()
+    override fun prepare(setting: RecorderSetting): Disposable = iMediaRecorderModule.prepare(setting).subscribe()
 
-    override fun start() = iRecording.start()
+    override fun start() = iMediaRecorderModule.start()
 
-    override fun stop(): Disposable = iRecording.stop().subscribe()
+    override fun stop(): Disposable = iMediaRecorderModule.stop().subscribe()
 
 }

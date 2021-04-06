@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/fragment_start">
-    <!--    app:startDestination="@id/fragment_home">-->
-    <!--    app:startDestination="@id/fragment_chat_room_media_dialog">-->
-
+    <!--        app:startDestination="@id/fragment_home">-->
 
     <!-- Global -->
     <!-- Fragment -->
@@ -212,7 +210,6 @@
             app:nullable="false" />
 
     </fragment>
-
 
     <dialog
         android:id="@+id/fragment_notify_more_dialog"

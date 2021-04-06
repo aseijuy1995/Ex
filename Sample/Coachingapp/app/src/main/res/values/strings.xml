@@ -38,6 +38,7 @@
     <string name="empty">沒有資料</string>
     <string name="open_sound_notify">開啟聲音通知</string>
     <string name="close_sound_notify">關閉聲音通知</string>
+    <string name="deleted">已刪除</string>
 
 
     <string name="aa">Aa</string>

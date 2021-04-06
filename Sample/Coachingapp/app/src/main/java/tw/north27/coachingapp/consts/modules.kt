@@ -29,6 +29,7 @@ val utilModules = module {
     single<IMediaModule>(named("video")) { MediaVideoModule(androidContext()) }
     single<IMediaModule>(named("audio")) { MediaAudioModule(androidContext()) }
     single<IMediaCodecModule> { AudioMediaCodecModule(androidContext()) }
+    single<IMediaRecorderModule> { MediaRecorderModule() }
 
 }
 
@@ -47,7 +48,8 @@ val repoModules = module {
             get<IMediaModule>(named("image")),
             get<IMediaModule>(named("video")),
             get<IMediaModule>(named("audio")),
-            get<IMediaCodecModule>()
+            get<IMediaCodecModule>(),
+            get<IMediaRecorderModule>()
         )
     }
 

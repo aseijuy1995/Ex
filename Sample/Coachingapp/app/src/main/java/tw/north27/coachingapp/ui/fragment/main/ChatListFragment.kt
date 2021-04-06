@@ -140,21 +140,34 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
             viewModel.deleteChatRoom(type, it.second)
         }
 
+        viewModel.chatDeleteState.observe(viewLifecycleOwner) {
+            when (it) {
+                is ViewState.Initial -> {
+                }
+                is ViewState.Load -> {
+                    showLoadingDialog()
+                }
+                is ViewState.Empty -> {
+                    dismissLoadingDialog()
+                }
+                is ViewState.Data -> {
+                    dismissLoadingDialog()
+                    Snackbar.make(binding.rvChat, getString(R.string.deleted), Snackbar.LENGTH_SHORT).show()
+                }
+                is ViewState.Error -> {
+                    dismissLoadingDialog()
+                    act.errorAlert()
+                }
+                is ViewState.Network -> {
+                    dismissLoadingDialog()
+                    act.networkAlert()
+                }
+            }
+        }
+
         adapter.itemClickRelay.subscribeWithRxLife {
             findNavController().navigate(NavGraphDirections.actionToFragmentChatRoom(it.second))
         }
 
-        viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
-    }
-
-    private fun onToastObs(pair: Pair<ChatViewModel.ToastType, String>) {
-        when (pair.first) {
-            ChatViewModel.ToastType.DELETE_CHAT_ROOM -> {
-                if (viewModel.type == type) {
-                    dismissLoadingDialog()
-                    Snackbar.make(binding.rvChat, pair.second, Snackbar.LENGTH_SHORT).show()
-                }
-            }
-        }
     }
 }

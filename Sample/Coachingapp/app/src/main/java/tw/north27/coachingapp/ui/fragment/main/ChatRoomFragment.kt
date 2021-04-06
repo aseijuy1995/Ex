@@ -25,6 +25,7 @@ import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
 import tw.north27.coachingapp.ext.*
+import tw.north27.coachingapp.media.RecorderSetting
 import tw.north27.coachingapp.model.result.*
 import tw.north27.coachingapp.util.SnackbarUtil
 import tw.north27.coachingapp.util.ViewState
@@ -203,6 +204,10 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                     when (mimeType) {
                         MimeType.AUDIO -> {
                             val media = mediaList.first()
+
+                            val setting = RecorderSetting(cxt)
+                            Timber.d("RecorderSetting:file = ${setting.file}")
+                            viewModel.startRecording(setting)
 //                            val pcmPath = viewModel.audioDecodeToPcm(media.data)
 //                            chatInfo = ChatInfo(
 //                                id = 5,
@@ -261,7 +266,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                             val media = mediaList.first()
                             Timber.d("video: media = ${media}")
                             Timber.d("video: media.data = ${media.data}")
-                            viewModel.audioDecodeToPcm(media.data)
+//                            viewModel.audioDecodeToPcm(media.data)
 
 //                            val videoByteArray = viewModel.compressedImg(mediaList)
 //                            val chatVideoList = mutableListOf<ChatVideo>()

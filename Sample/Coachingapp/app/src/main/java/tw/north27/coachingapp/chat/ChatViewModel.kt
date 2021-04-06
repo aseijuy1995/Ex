@@ -121,7 +121,6 @@ class ChatViewModel(private val chatRepo: IChatRepository) : BaseViewModel(), Ko
                             }
                         }
                         false -> {
-                            _chatSoundState.postValue(ViewState.empty())
                         }
                     }
                 }
@@ -135,6 +134,10 @@ class ChatViewModel(private val chatRepo: IChatRepository) : BaseViewModel(), Ko
         }
     }
 
+    private val _chatDeleteState = MutableLiveData<ViewState<ChatInfo>>(ViewState.Initial)
+
+    val chatDeleteState = _chatSoundState.asLiveData()
+
     /**
      * 刪除聊天室
      * result.data
@@ -143,6 +146,7 @@ class ChatViewModel(private val chatRepo: IChatRepository) : BaseViewModel(), Ko
      * */
     fun deleteChatRoom(type: ChatReadIndex, chat: ChatInfo) {
         viewModelScope.launch(Dispatchers.IO) {
+            _chatDeleteState.postValue(ViewState.load())
             this@ChatViewModel.type = type
             val results = chatRepo.deleteChatRoom(chat)
             when (results) {
@@ -150,29 +154,28 @@ class ChatViewModel(private val chatRepo: IChatRepository) : BaseViewModel(), Ko
                     when (results.data) {
                         true -> {
                             if (chatState.value is ViewState.Data) {
-                                val list = (chatState.value as ViewState.Data).data.map { it.copy() }.toMutableList()
-                                val isRemove = list.removeAll { it.id == chat.id }
+                                val isRemove = chatList.removeAll { it.id == chat.id }
                                 isRemove.let {
                                     if (it) {
-                                        if (list.isEmpty())
+                                        if (chatList.isEmpty()) {
                                             _chatState.postValue(ViewState.empty())
-                                        else
-                                            _chatState.postValue(ViewState.data(list))
+                                        } else {
+                                            _chatDeleteState.postValue(ViewState.data(chat))
+                                            _chatState.postValue(ViewState.data(chatList))
+                                        }
                                     }
                                 }
-                                _toast.postValue(ToastType.DELETE_CHAT_ROOM to "已刪除!")
                             }
                         }
                         false -> {
-                            _toast.postValue(ToastType.DELETE_CHAT_ROOM to "${results.data}:修改錯誤，請稍後再刪除!")
                         }
                     }
                 }
                 is Results.ClientErrors -> {
-                    _toast.postValue(ToastType.DELETE_CHAT_ROOM to "${results.e}:修改錯誤，請稍後再修改!")
+                    _chatDeleteState.postValue(ViewState.error(results.e))
                 }
                 is Results.NetWorkError -> {
-                    _toast.postValue(ToastType.DELETE_CHAT_ROOM to "${results.e}:網路異常")
+                    _chatDeleteState.postValue(ViewState.network(results.e))
                 }
             }
         }
