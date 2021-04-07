@@ -17,12 +17,22 @@ class CoachingActivity : BaseAppCompatActivity<ActivityCoachingBinding>(Activity
 
     lateinit var navController: NavController
 
+//    private val homeFragment = HomeFragment()
+//
+//    private val chatFragment = ChatFragment()
+//
+//    private val learnFragment = LearnFragment()
+//
+//    private val notifyFragment = NotifyFragment()
+//
+//    private val userFragment = UserFragment()
+//
+//    private var frag: Fragment = homeFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (supportFragmentManager.findFragmentById(R.id.frag_container_view) as NavHostFragment).also {
-            navFragment = it
-            navController = it.navController
-        }
+        navFragment = (supportFragmentManager.findFragmentById(R.id.frag_container_view) as NavHostFragment)
+        navController = navFragment.navController
 
         binding.bottomNavigationView.setupWithNavController(navController)
 
@@ -33,74 +43,61 @@ class CoachingActivity : BaseAppCompatActivity<ActivityCoachingBinding>(Activity
                 R.id.fragment_learn,
                 R.id.fragment_notify,
                 R.id.fragment_user,
-                R.id.fragment_exit_dialog
                 -> true
-                else -> false
+                else
+                -> false
             }
         }
 
+//        fragTrans.add(R.id.frag_container_view, homeFragment).hide(homeFragment).commit()
+//        fragTrans.add(R.id.frag_container_view, chatFragment).hide(chatFragment).commit()
+//        fragTrans.add(R.id.frag_container_view, learnFragment).hide(learnFragment).commit()
+//        fragTrans.add(R.id.frag_container_view, notifyFragment).hide(notifyFragment).commit()
+//        fragTrans.add(R.id.frag_container_view, userFragment).hide(userFragment).commit()
+//        binding.bottomNavigationView.setOnNavigationItemSelectedListener(::itemSelectedListener)
     }
 
-    override fun onSupportNavigateUp(): Boolean = findNavController(R.id.frag_container_view).navigateUp()
+    override fun onSupportNavigateUp(): Boolean {
+        return super.onSupportNavigateUp() || findNavController(R.id.frag_container_view).navigateUp()
+    }
+
+//    fun itemSelectedListener(item: MenuItem): Boolean {
+//        when (item.itemId) {
+//            R.id.fragment_home -> {
+//                frag?.let { fragTrans.hide(it).commit() }
+//                fragTrans.show(homeFragment).commit()
+//                frag = homeFragment
+//                return true
+//            }
+//            R.id.fragment_chat -> {
+//                frag?.let { fragTrans.hide(it).commit() }
+//                fragTrans.show(chatFragment).commit()
+//                frag = chatFragment
+//                return true
+//            }
+//            R.id.fragment_learn -> {
+//                frag?.let { fragTrans.hide(it).commit() }
+//                fragTrans.show(learnFragment).commit()
+//                frag = learnFragment
+//                return true
+//            }
+//            R.id.fragment_notify -> {
+//                frag?.let { fragTrans.hide(it).commit() }
+//                fragTrans.show(notifyFragment).commit()
+//                frag = notifyFragment
+//                return true
+//            }
+//            R.id.fragment_user -> {
+//                frag?.let { fragTrans.hide(it).commit() }
+//                fragTrans.show(userFragment).commit()
+//                frag = userFragment
+//                return true
+//            }
+//            else -> {
+//
+//            }
+//        }
+//        return false
+//    }
 
 }
-
-
-//private val homeFragment = HomeFragment()
-//
-//private val chatFragment = ChatFragment()
-//
-//private val learnFragment = LearnFragment()
-//
-//private val notifyFragment = NotifyFragment()
-//
-//private val personCenterFragment = PersonCenterFragment()
-//
-//var activeFragment: Fragment = homeFragment
-//
-//fragManager.beginTransaction().add(R.id.frag_container_view, homeFragment, homeFragment.tag).hide(homeFragment).commit()
-//fragManager.beginTransaction().add(R.id.frag_container_view, chatFragment, chatFragment.tag).hide(chatFragment).commit()
-//fragManager.beginTransaction().add(R.id.frag_container_view, learnFragment, learnFragment.tag).hide(learnFragment).commit()
-//fragManager.beginTransaction().add(R.id.frag_container_view, notifyFragment, notifyFragment.tag).hide(notifyFragment).commit()
-//fragManager.beginTransaction().add(R.id.frag_container_view, personCenterFragment, personCenterFragment.tag).hide(personCenterFragment).commit()
-//
-//binding.bottomNavigationView.setOnNavigationItemSelectedListener {
-//    itemSelectedListener(it)
-//}
-//binding.bottomNavigationView.setOnNavigationItemReselectedListener {
-//    itemSelectedListener(it)
-//}
-//
-//
-//
-//
-//private fun itemSelectedListener(it: MenuItem): Boolean {
-//    when (it.itemId) {
-//        R.id.fragment_home -> {
-//            fragManager.beginTransaction().hide(activeFragment).show(homeFragment).commit()
-//            activeFragment = homeFragment
-//            return true
-//        }
-//        R.id.fragment_chat -> {
-//            fragManager.beginTransaction().hide(activeFragment).show(chatFragment).commit()
-//            activeFragment = chatFragment
-//            return true
-//        }
-//        R.id.fragment_learn -> {
-//            fragManager.beginTransaction().hide(activeFragment).show(learnFragment).commit()
-//            activeFragment = learnFragment
-//            return true
-//        }
-//        R.id.fragment_notify -> {
-//            fragManager.beginTransaction().hide(activeFragment).show(notifyFragment).commit()
-//            activeFragment = notifyFragment
-//            return true
-//        }
-//        R.id.fragment_person_center -> {
-//            fragManager.beginTransaction().hide(activeFragment).show(personCenterFragment).commit()
-//            activeFragment = personCenterFragment
-//            return true
-//        }
-//    }
-//    return false
-//}

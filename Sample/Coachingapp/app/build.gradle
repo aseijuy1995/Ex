@@ -130,7 +130,7 @@ dependencies {
 //    implementation "com.trello.rxlifecycle4:rxlifecycle-components:$rxlifecycle_version"
 //    implementation "com.trello.rxlifecycle4:rxlifecycle-components-preference:$rxlifecycle_version"
 //    implementation "com.trello.rxlifecycle4:rxlifecycle-android-lifecycle:$rxlifecycle_version"
-//    implementation "com.trello.rxlifecycle4:rxlifecycle-kotlin:$rxlifecycle_version"
+    implementation "com.trello.rxlifecycle4:rxlifecycle-kotlin:$rxlifecycle_version"
     implementation "com.trello.rxlifecycle4:rxlifecycle-android-lifecycle-kotlin:$rxlifecycle_version"
     //rxbinding
     def rxbinding_version = "4.0.0"
