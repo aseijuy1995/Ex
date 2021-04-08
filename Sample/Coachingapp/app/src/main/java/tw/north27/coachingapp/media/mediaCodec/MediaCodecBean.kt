@@ -1,4 +1,4 @@
 package tw.north27.coachingapp.media.mediaCodec
 
-class MediaCodecBean {
-}
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize

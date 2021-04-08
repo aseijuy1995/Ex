@@ -10,9 +10,11 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.*
 import java.io.File
+import kotlin.coroutines.CoroutineContext
 
-class MediaImageStoreModule(private val cxt: Context) : IMediaStoreModule {
+class ImageMediaStoreModule(private val cxt: Context) : IMediaStoreModule, CoroutineScope {
 
     val albumMap = mutableMapOf<String, MediaAlbum>()
 
@@ -20,56 +22,25 @@ class MediaImageStoreModule(private val cxt: Context) : IMediaStoreModule {
 
     val albumListRelay: PublishRelay<List<MediaAlbum>> = PublishRelay.create()
 
-    override fun fetchMedia(albumSetting: MediaAlbumSetting): Completable = Completable.fromAction {
-        fetchMediaImageSync(albumSetting)
+    override fun fetchMedia(setting: MediaAlbumSetting): Completable = Completable.fromAction {
+        fetchMediaSync(setting)
     }
 
-    override fun getMediaAlbum(albumSetting: MediaAlbumSetting): PublishRelay<List<MediaAlbum>> {
-        if (isAlbumEmpty)
-            fetchMedia(albumSetting)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
-        return albumListRelay
-    }
-
-    override fun getAlbumFromName(albumName: String, albumSetting: MediaAlbumSetting): Observable<MediaAlbum?> {
-        if (isAlbumEmpty)
-            fetchMedia(albumSetting)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
-        return albumListRelay.map { it.find { it.albumName == albumName } }
-    }
-
-    override fun getAlbumFromNameSync(albumName: String, albumSetting: MediaAlbumSetting): MediaAlbum? {
-        if (isAlbumEmpty)
-            fetchMedia(albumSetting)
-        return albumMap[albumName]
-    }
-
-    private fun fetchMediaImageSync(albumSetting: MediaAlbumSetting) {
+    private fun fetchMediaSync(albumSetting: MediaAlbumSetting) {
         albumMap.clear()
         if (albumSetting.mimeType == MimeType.IMAGE) {
             val internalUrl: Uri = MediaStore.Images.Media.INTERNAL_CONTENT_URI
             val externalUri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            /**
-             * FIXME 需改為併發
-             * */
-            fetchMediaImageSync(albumSetting, internalUrl)
-            fetchMediaImageSync(albumSetting, externalUri)
+            runBlocking {
+                launch(Dispatchers.IO) { fetchMediaImageSync(albumSetting, internalUrl) }
+                launch(Dispatchers.IO) { fetchMediaImageSync(albumSetting, externalUri) }
+            }
             albumListRelay.accept(albumMap.values.toList())
         }
     }
 
     private fun fetchMediaImageSync(albumSetting: MediaAlbumSetting, uri: Uri) {
-        val projection: Array<String>
-        val selection: String
-        val selectionArgs: Array<String>
-        val sortOrder: String
-        val cancellationSignal: CancellationSignal = CancellationSignal()
-        //
-        projection = arrayOf<String>(
+        val projection: Array<String> = arrayOf<String>(
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Images.Media.BUCKET_DISPLAY_NAME else "bucket_display_name",
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Images.Media.BUCKET_ID else "bucket_id",
             MediaStore.Images.Media.DATA,
@@ -82,10 +53,10 @@ class MediaImageStoreModule(private val cxt: Context) : IMediaStoreModule {
             MediaStore.Images.Media.WIDTH,
             BaseColumns._ID,
         )
-        selection = "${MediaStore.Images.Media.SIZE} > 0"
-        selectionArgs = arrayOf<String>()
-        sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
-        //
+        val selection: String = "${MediaStore.Images.Media.SIZE} > 0"
+        val selectionArgs: Array<String> = arrayOf<String>()
+        val sortOrder: String = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
+        val cancellationSignal: CancellationSignal = CancellationSignal()
         val cursor = cxt.contentResolver.query(
             uri,
             projection,
@@ -94,7 +65,6 @@ class MediaImageStoreModule(private val cxt: Context) : IMediaStoreModule {
             sortOrder,
             cancellationSignal
         )
-        //
         if (cursor?.moveToFirst() == true) {
             val bucketDisplayNameIndex = cursor.getColumnIndexOrThrow(if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Images.Media.BUCKET_DISPLAY_NAME else "bucket_display_name")
             val bucketIdIndex = cursor.getColumnIndexOrThrow(if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Images.Media.BUCKET_ID else "bucket_id")
@@ -107,7 +77,6 @@ class MediaImageStoreModule(private val cxt: Context) : IMediaStoreModule {
             val titleIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.TITLE)
             val widthIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.WIDTH)
             val idIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID)
-            //
             do {
                 val bucketDisplayName = cursor.getString(bucketDisplayNameIndex)
                 val bucketId = cursor.getInt(bucketIdIndex)
@@ -167,5 +136,32 @@ class MediaImageStoreModule(private val cxt: Context) : IMediaStoreModule {
             file = file
         ).apply { albumMap[albumName] = this }
     }
+
+    override fun getMediaAlbum(setting: MediaAlbumSetting): PublishRelay<List<MediaAlbum>> {
+        if (isAlbumEmpty)
+            fetchMedia(setting)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        return albumListRelay
+    }
+
+    override fun getAlbumFromName(albumName: String, setting: MediaAlbumSetting): Observable<MediaAlbum?> {
+        if (isAlbumEmpty)
+            fetchMedia(setting)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        return albumListRelay.map { it.find { it.albumName == albumName } }
+    }
+
+    override fun getAlbumFromNameSync(albumName: String, setting: MediaAlbumSetting): MediaAlbum? {
+        if (isAlbumEmpty)
+            fetchMedia(setting)
+        return albumMap[albumName]
+    }
+
+    override val coroutineContext: CoroutineContext
+        get() = Job()
 
 }
