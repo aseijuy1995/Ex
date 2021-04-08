@@ -25,10 +25,15 @@ import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
 import tw.north27.coachingapp.ext.*
+import tw.north27.coachingapp.media.DecodeSetting
 import tw.north27.coachingapp.media.RecorderSetting
+import tw.north27.coachingapp.media.mediaCodec.VideoMediaCodecModule
+import tw.north27.coachingapp.media.mediaStore.Media
+import tw.north27.coachingapp.media.mediaStore.MimeType
 import tw.north27.coachingapp.model.result.*
 import tw.north27.coachingapp.util.SnackbarUtil
 import tw.north27.coachingapp.util.ViewState
+import java.io.File
 
 class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 
@@ -266,6 +271,23 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                             val media = mediaList.first()
                             Timber.d("video: media = ${media}")
                             Timber.d("video: media.data = ${media.data}")
+
+                            val file = File("data=/storage/emulated/0/DCIM/Camera/Video1.mp4")
+                            if (file.exists()) {
+                                file.delete()
+                            } else {
+                                file.mkdir()
+                            }
+                            file.createNewFile()
+                            Timber.d("file.exists() = ${file.exists()}")
+                            VideoMediaCodecModule.create()
+                                .configDecoder(
+                                    DecodeSetting(
+                                        inputPath = media.data,
+                                        outputPath = file.absolutePath
+                                    )
+                                ).decode()
+
 //                            viewModel.audioDecodeToPcm(media.data)
 
 //                            val videoByteArray = viewModel.compressedImg(mediaList)

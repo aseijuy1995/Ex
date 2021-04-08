@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.chat.Media
+import tw.north27.coachingapp.media.mediaStore.Media
 import tw.north27.coachingapp.ext.createDataStoreProto
 import tw.north27.coachingapp.ext.getValue
 import tw.north27.coachingapp.model.result.ChatInfo

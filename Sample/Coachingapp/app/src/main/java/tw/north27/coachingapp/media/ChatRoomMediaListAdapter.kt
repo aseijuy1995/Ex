@@ -11,16 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 import com.jakewharton.rxrelay3.PublishRelay
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.chat.Media
-import tw.north27.coachingapp.chat.MediaSetting
-import tw.north27.coachingapp.chat.MimeType
+import tw.north27.coachingapp.media.mediaStore.Media
+import tw.north27.coachingapp.media.mediaStore.MediaAlbumSetting
+import tw.north27.coachingapp.media.mediaStore.MimeType
 import tw.north27.coachingapp.databinding.ItemChatRoomMediaAudioBinding
 import tw.north27.coachingapp.databinding.ItemChatRoomMediaImagesBinding
 import tw.north27.coachingapp.databinding.ItemChatRoomMediaVideoBinding
 
 class ChatRoomMediaListAdapter(
     private val type: MimeType,
-    private val setting: MediaSetting
+    private val albumSetting: MediaAlbumSetting
 ) : ListAdapter<Media, ChatRoomMediaListAdapter.VH>(
 
     object : DiffUtil.ItemCallback<Media>() {
@@ -77,7 +77,7 @@ class ChatRoomMediaListAdapter(
     inner class AudioVH(private val binding: ItemChatRoomMediaAudioBinding, val context: Context) : VH(binding) {
         override fun bind(media: Media, position: Int): Any = binding.apply {
             this.media = media
-            this.setting = this@ChatRoomMediaListAdapter.setting
+            this.setting = this@ChatRoomMediaListAdapter.albumSetting
             binding.ivImg.setImageResource(
                 if (position % 7 == 0) {
                     R.drawable.ic_baseline_audiotrack_24_red
@@ -112,7 +112,7 @@ class ChatRoomMediaListAdapter(
     inner class ImagesVH(private val binding: ItemChatRoomMediaImagesBinding, val context: Context) : VH(binding) {
         override fun bind(media: Media, position: Int): Any = binding.apply {
             this.media = media
-            this.setting = this@ChatRoomMediaListAdapter.setting
+            this.setting = this@ChatRoomMediaListAdapter.albumSetting
             binding.chkSelect.setOnCheckedChangeListener { view, isChoice ->
                 val count = currentList.count { it.isChoice }
                 if (isChoice && count >= setting?.maxCount ?: 100) {
@@ -130,7 +130,7 @@ class ChatRoomMediaListAdapter(
     inner class VideoVH(private val binding: ItemChatRoomMediaVideoBinding, val context: Context) : VH(binding) {
         override fun bind(media: Media, position: Int): Any = binding.apply {
             this.media = media
-            this.setting = this@ChatRoomMediaListAdapter.setting
+            this.setting = this@ChatRoomMediaListAdapter.albumSetting
             binding.chkSelect.setOnCheckedChangeListener { view, isChoice ->
                 val count = currentList.count { it.isChoice }
                 if (isChoice && count >= setting?.maxCount ?: 100) {

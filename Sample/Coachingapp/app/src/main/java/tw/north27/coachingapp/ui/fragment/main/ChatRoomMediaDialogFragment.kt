@@ -23,10 +23,13 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseBottomSheetDialogFragment
-import tw.north27.coachingapp.chat.MimeType
+import tw.north27.coachingapp.media.mediaStore.MimeType
 import tw.north27.coachingapp.databinding.FragmentChatRoomMediaDialogBinding
 import tw.north27.coachingapp.ext.dataBinding
 import tw.north27.coachingapp.media.*
+import tw.north27.coachingapp.media.mediaStore.MEDIA_ALBUM_AUDIO
+import tw.north27.coachingapp.media.mediaStore.MEDIA_ALBUM_IMAGE
+import tw.north27.coachingapp.media.mediaStore.MEDIA_ALBUM_VIDEO
 import java.util.concurrent.TimeUnit
 
 class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {

@@ -134,7 +134,7 @@
 
             <argument
                 android:name="mimeType"
-                app:argType="tw.north27.coachingapp.chat.MimeType"
+                app:argType="tw.north27.coachingapp.media.mediaStore.MimeType"
                 app:nullable="false" />
         </action>
 
@@ -169,7 +169,7 @@
 
         <argument
             android:name="mimeType"
-            app:argType="tw.north27.coachingapp.chat.MimeType"
+            app:argType="tw.north27.coachingapp.media.mediaStore.MimeType"
             app:nullable="false" />
 
     </dialog>

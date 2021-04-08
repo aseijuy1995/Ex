@@ -6,7 +6,7 @@ import android.media.MediaExtractor
 import android.media.MediaFormat
 import kotlinx.coroutines.coroutineScope
 import timber.log.Timber
-import tw.north27.coachingapp.chat.MimeType
+import tw.north27.coachingapp.media.mediaStore.MimeType
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -14,22 +14,22 @@ import java.io.IOException
 import java.nio.ByteBuffer
 
 
-interface IMediaCodecModule {
+interface IAudioMediaCodecModule {
 
     /**
      * 輸入Source Path
      * */
-    fun addSource(path: String): IMediaCodecModule
+    fun addSource(path: String): IAudioMediaCodecModule
 
     /**
      * 輸出PCM Path
      * */
-    fun outputPcm(path: String): IMediaCodecModule
+    fun outputPcm(path: String): IAudioMediaCodecModule
 
     /**
      * 解碼器
      * */
-    fun createDecoder(): IMediaCodecModule
+    fun createDecoder(): IAudioMediaCodecModule
 
     /**
      * 開始解碼
@@ -41,7 +41,7 @@ interface IMediaCodecModule {
 
 }
 
-class AudioMediaCodecModule(private val context: Context) : IMediaCodecModule {
+class AudioMediaCodecModule(private val context: Context) : IAudioMediaCodecModule {
     var sourcePath: String? = null
     var pcmPath: String? = null
     var mediaExtractor: MediaExtractor? = null
@@ -51,7 +51,7 @@ class AudioMediaCodecModule(private val context: Context) : IMediaCodecModule {
 
     var decodeBufferInfo: MediaCodec.BufferInfo? = null
 
-    override fun addSource(path: String): IMediaCodecModule {
+    override fun addSource(path: String): IAudioMediaCodecModule {
         val file = File(path)
         if (!file.exists()) throw FileNotFoundException("Can't find add source path!")
         Timber.d("addSource Path = ${file.absolutePath}")
@@ -59,7 +59,7 @@ class AudioMediaCodecModule(private val context: Context) : IMediaCodecModule {
         return this
     }
 
-    override fun outputPcm(path: String): IMediaCodecModule {
+    override fun outputPcm(path: String): IAudioMediaCodecModule {
         val file = File(path)
         if (file.exists()) file.delete()
         file.parentFile?.mkdirs()
@@ -74,7 +74,7 @@ class AudioMediaCodecModule(private val context: Context) : IMediaCodecModule {
         return this
     }
 
-    override fun createDecoder(): IMediaCodecModule {
+    override fun createDecoder(): IAudioMediaCodecModule {
         if (sourcePath == null) throw FileNotFoundException("Can't find sourcePath!")
         mediaExtractor = MediaExtractor()
         try {

@@ -6,6 +6,10 @@ import io.reactivex.rxjava3.core.Observable
 import tw.north27.coachingapp.base.BaseViewModel
 import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.ext.asLiveData
+import tw.north27.coachingapp.media.mediaStore.Media
+import tw.north27.coachingapp.media.mediaStore.MediaAlbum
+import tw.north27.coachingapp.media.mediaStore.MediaAlbumSetting
+import tw.north27.coachingapp.media.mediaStore.MimeType
 
 class MediaViewModel(private val repo: IMediaRepository) : BaseViewModel() {
 
@@ -21,7 +25,7 @@ class MediaViewModel(private val repo: IMediaRepository) : BaseViewModel() {
         return repo.getMediaVideo(videoSetting)
     }
 
-    val audioSetting = MediaSetting(
+    val audioSetting = MediaAlbumSetting(
         mimeType = MimeType.AUDIO,
         isMultipleChoice = true,
         maxCount = 2,
@@ -29,13 +33,13 @@ class MediaViewModel(private val repo: IMediaRepository) : BaseViewModel() {
         audioMaxDuration = 60000//1m
     )
 
-    val imageSetting = MediaSetting(
+    val imageSetting = MediaAlbumSetting(
         mimeType = MimeType.IMAGE,
         isMultipleChoice = true,
         maxCount = 6
     )
 
-    val videoSetting = MediaSetting(
+    val videoSetting = MediaAlbumSetting(
         mimeType = MimeType.VIDEO,
         isMultipleChoice = true,
         maxCount = 3,

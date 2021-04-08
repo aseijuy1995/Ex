@@ -8,6 +8,10 @@ import org.koin.dsl.module
 import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.media.*
+import tw.north27.coachingapp.media.mediaStore.IMediaStoreModule
+import tw.north27.coachingapp.media.mediaStore.AudioMediaStoreModule
+import tw.north27.coachingapp.media.mediaStore.ImageMediaStoreModule
+import tw.north27.coachingapp.media.mediaStore.VideoMediaStoreModule
 import tw.north27.coachingapp.module.http.OkHttpUtil
 import tw.north27.coachingapp.module.http.RetrofitManager
 import tw.north27.coachingapp.notify.INotifyRepository
@@ -25,10 +29,10 @@ val utilModules = module {
     single<OkHttpUtil> { OkHttpUtil(androidContext()) }
     single<RetrofitManager> { RetrofitManager.get(BuildConfig.BASE_URL, (get() as OkHttpUtil).client) }
     single<IChatModule> { ChatModule(get()) }
-    single<IMediaModule>(named("image")) { MediaImageModule(androidContext()) }
-    single<IMediaModule>(named("video")) { MediaVideoModule(androidContext()) }
-    single<IMediaModule>(named("audio")) { MediaAudioModule(androidContext()) }
-    single<IMediaCodecModule> { AudioMediaCodecModule(androidContext()) }
+    single<IMediaStoreModule>(named("image")) { ImageMediaStoreModule(androidContext()) }
+    single<IMediaStoreModule>(named("video")) { VideoMediaStoreModule(androidContext()) }
+    single<IMediaStoreModule>(named("audio")) { AudioMediaStoreModule(androidContext()) }
+    single<IAudioMediaCodecModule> { AudioMediaCodecModule(androidContext()) }
     single<IMediaRecorderModule> { MediaRecorderModule() }
 
 }
@@ -45,10 +49,10 @@ val repoModules = module {
     single<IChatRepository> { ChatRepository(get(), get()) }
     single<IMediaRepository> {
         MediaRepository(
-            get<IMediaModule>(named("image")),
-            get<IMediaModule>(named("video")),
-            get<IMediaModule>(named("audio")),
-            get<IMediaCodecModule>(),
+            get<IMediaStoreModule>(named("image")),
+            get<IMediaStoreModule>(named("video")),
+            get<IMediaStoreModule>(named("audio")),
+            get<IAudioMediaCodecModule>(),
             get<IMediaRecorderModule>()
         )
     }

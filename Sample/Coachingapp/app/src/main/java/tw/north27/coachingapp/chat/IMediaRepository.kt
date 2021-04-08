@@ -3,14 +3,16 @@ package tw.north27.coachingapp.chat
 import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.core.Observable
 import tw.north27.coachingapp.media.RecorderSetting
+import tw.north27.coachingapp.media.mediaStore.MediaAlbum
+import tw.north27.coachingapp.media.mediaStore.MediaAlbumSetting
 
 interface IMediaRepository {
 
-    fun getMediaAudio(setting: MediaSetting): Observable<List<MediaAlbum>>
+    fun getMediaAudio(albumSetting: MediaAlbumSetting): Observable<List<MediaAlbum>>
 
-    fun getMediaImage(setting: MediaSetting): Observable<List<MediaAlbum>>
+    fun getMediaImage(albumSetting: MediaAlbumSetting): Observable<List<MediaAlbum>>
 
-    fun getMediaVideo(setting: MediaSetting): Observable<List<MediaAlbum>>
+    fun getMediaVideo(albumSetting: MediaAlbumSetting): Observable<List<MediaAlbum>>
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

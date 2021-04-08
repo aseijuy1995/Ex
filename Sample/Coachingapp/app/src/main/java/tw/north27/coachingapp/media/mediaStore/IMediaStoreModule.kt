@@ -1,11 +1,8 @@
-package tw.north27.coachingapp.media
+package tw.north27.coachingapp.media.mediaStore
 
 import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
-import tw.north27.coachingapp.chat.Media
-import tw.north27.coachingapp.chat.MediaAlbum
-import tw.north27.coachingapp.chat.MediaSetting
 
 //all
 const val MEDIA_ALBUM_ALL = "MEDIA_ALBUM_ALL"
@@ -19,16 +16,16 @@ const val MEDIA_ALBUM_IMAGE = "MEDIA_ALBUM_IMAGE"
 //video
 const val MEDIA_ALBUM_VIDEO = "MEDIA_ALBUM_VIDEO"
 
-interface IMediaModule {
+interface IMediaStoreModule {
     /**
      * 獲取媒體相關資訊
      * */
-    fun fetchMedia(setting: MediaSetting): Completable
+    fun fetchMedia(setting: MediaAlbumSetting): Completable
 
     /**
      * 獲取媒體專輯
      * */
-    fun getMediaAlbum(setting: MediaSetting): PublishRelay<List<MediaAlbum>>
+    fun getMediaAlbum(setting: MediaAlbumSetting): PublishRelay<List<MediaAlbum>>
 
     /**
      * 獲取指定媒體專輯
@@ -37,7 +34,7 @@ interface IMediaModule {
      * MEDIA_ALBUM_IMAGE：圖片
      * MEDIA_ALBUM_VIDEO：影音
      * */
-    fun getAlbumFromName(albumName: String, setting: MediaSetting): Observable<MediaAlbum?>
+    fun getAlbumFromName(albumName: String, setting: MediaAlbumSetting): Observable<MediaAlbum?>
 
     /**
      * 獲取指定媒體專輯
@@ -46,11 +43,6 @@ interface IMediaModule {
      * MEDIA_ALBUM_IMAGE：圖片
      * MEDIA_ALBUM_VIDEO：影音
      * */
-    fun getAlbumFromNameSync(albumName: String, setting: MediaSetting): MediaAlbum?
-
-
-    //---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-//    fun saveMedia(media: Media)
+    fun getAlbumFromNameSync(albumName: String, setting: MediaAlbumSetting): MediaAlbum?
 
 }

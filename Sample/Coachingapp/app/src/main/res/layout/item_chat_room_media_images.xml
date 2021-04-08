@@ -7,11 +7,11 @@
 
         <variable
             name="media"
-            type="tw.north27.coachingapp.chat.Media" />
+            type="tw.north27.coachingapp.media.mediaStore.Media" />
 
         <variable
             name="setting"
-            type="tw.north27.coachingapp.chat.MediaSetting" />
+            type="tw.north27.coachingapp.media.mediaStore.MediaAlbumSetting" />
 
     </data>
 

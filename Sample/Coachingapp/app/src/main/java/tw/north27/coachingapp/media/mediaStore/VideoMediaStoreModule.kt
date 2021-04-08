@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.media
+package tw.north27.coachingapp.media.mediaStore
 
 import android.content.Context
 import android.net.Uri
@@ -10,14 +10,11 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import timber.log.Timber
-import tw.north27.coachingapp.chat.Media
-import tw.north27.coachingapp.chat.MediaAlbum
-import tw.north27.coachingapp.chat.MediaSetting
-import tw.north27.coachingapp.chat.MimeType
+import kotlinx.coroutines.*
 import java.io.File
+import kotlin.coroutines.CoroutineContext
 
-class MediaVideoModule(private val cxt: Context) : IMediaModule {
+class VideoMediaStoreModule(private val cxt: Context) : IMediaStoreModule, CoroutineScope {
 
     val albumMap = mutableMapOf<String, MediaAlbum>()
 
@@ -25,56 +22,25 @@ class MediaVideoModule(private val cxt: Context) : IMediaModule {
 
     val albumListRelay: PublishRelay<List<MediaAlbum>> = PublishRelay.create()
 
-    override fun fetchMedia(setting: MediaSetting): Completable = Completable.fromAction {
+    override fun fetchMedia(setting: MediaAlbumSetting): Completable = Completable.fromAction {
         fetchMediaSync(setting)
     }
 
-    override fun getMediaAlbum(setting: MediaSetting): PublishRelay<List<MediaAlbum>> {
-        if (isAlbumEmpty)
-            fetchMedia(setting)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
-        return albumListRelay
-    }
-
-    override fun getAlbumFromName(albumName: String, setting: MediaSetting): Observable<MediaAlbum?> {
-        if (isAlbumEmpty)
-            fetchMedia(setting)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
-        return albumListRelay.map { it.find { it.albumName == albumName } }
-    }
-
-    override fun getAlbumFromNameSync(albumName: String, setting: MediaSetting): MediaAlbum? {
-        if (isAlbumEmpty)
-            fetchMedia(setting)
-        return albumMap[albumName]
-    }
-
-    private fun fetchMediaSync(setting: MediaSetting) {
+    private fun fetchMediaSync(albumSetting: MediaAlbumSetting) {
         albumMap.clear()
-        if (setting.mimeType == MimeType.VIDEO) {
+        if (albumSetting.mimeType == MimeType.VIDEO) {
             val internalUrl: Uri = MediaStore.Video.Media.INTERNAL_CONTENT_URI
             val externalUri: Uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-            /**
-             * FIXME 需改為併發
-             * */
-            fetchMediaVideoSync(setting, internalUrl)
-            fetchMediaVideoSync(setting, externalUri)
+            runBlocking {
+                launch(Dispatchers.IO) { fetchMediaVideoSync(albumSetting, internalUrl) }
+                launch(Dispatchers.IO) { fetchMediaVideoSync(albumSetting, externalUri) }
+            }
             albumListRelay.accept(albumMap.values.toList())
         }
     }
 
-    private fun fetchMediaVideoSync(setting: MediaSetting, uri: Uri) {
-        val projection: Array<String>
-        val selection: String
-        val selectionArgs: Array<String>
-        val sortOrder: String
-        val cancellationSignal: CancellationSignal = CancellationSignal()
-        //
-        projection = arrayOf<String>(
+    private fun fetchMediaVideoSync(albumSetting: MediaAlbumSetting, uri: Uri) {
+        val projection: Array<String> = arrayOf<String>(
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Video.Media.BUCKET_DISPLAY_NAME else "bucket_display_name",
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Video.Media.BUCKET_ID else "bucket_id",
             MediaStore.Video.Media.DATA,
@@ -88,10 +54,10 @@ class MediaVideoModule(private val cxt: Context) : IMediaModule {
             MediaStore.Video.Media.WIDTH,
             BaseColumns._ID,
         )
-        selection = "${MediaStore.Video.Media.SIZE} > 0"
-        selectionArgs = arrayOf<String>()
-        sortOrder = "${MediaStore.Video.Media.DATE_MODIFIED} DESC"
-        //
+        val selection: String = "${MediaStore.Video.Media.SIZE} > 0"
+        val selectionArgs: Array<String> = arrayOf<String>()
+        val sortOrder: String = "${MediaStore.Video.Media.DATE_MODIFIED} DESC"
+        val cancellationSignal: CancellationSignal = CancellationSignal()
         val cursor = cxt.contentResolver.query(
             uri,
             projection,
@@ -100,7 +66,6 @@ class MediaVideoModule(private val cxt: Context) : IMediaModule {
             sortOrder,
             cancellationSignal
         )
-        //
         if (cursor?.moveToFirst() == true) {
             val bucketDisplayNameIndex = cursor.getColumnIndexOrThrow(if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Video.Media.BUCKET_DISPLAY_NAME else "bucket_display_name")
             val bucketIdIndex = cursor.getColumnIndexOrThrow(if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Video.Media.BUCKET_ID else "bucket_id")
@@ -114,7 +79,6 @@ class MediaVideoModule(private val cxt: Context) : IMediaModule {
             val titleIndex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.TITLE)
             val widthIndex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.WIDTH)
             val idIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID)
-            //
             do {
                 val bucketDisplayName = cursor.getString(bucketDisplayNameIndex)
                 val bucketId = cursor.getInt(bucketIdIndex)
@@ -144,10 +108,10 @@ class MediaVideoModule(private val cxt: Context) : IMediaModule {
                     id = id,
                 )
 
-                if (setting.videoMinDuration != null && setting.videoMinDuration > duration)
+                if (albumSetting.videoMinDuration != null && albumSetting.videoMinDuration > duration)
                     continue
 
-                if (setting.videoMaxDuration != null && setting.videoMaxDuration < duration)
+                if (albumSetting.videoMaxDuration != null && albumSetting.videoMaxDuration < duration)
                     continue
 
                 //add media album
@@ -176,5 +140,32 @@ class MediaVideoModule(private val cxt: Context) : IMediaModule {
             file = file
         ).apply { albumMap[albumName] = this }
     }
+
+    override fun getMediaAlbum(setting: MediaAlbumSetting): PublishRelay<List<MediaAlbum>> {
+        if (isAlbumEmpty)
+            fetchMedia(setting)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        return albumListRelay
+    }
+
+    override fun getAlbumFromName(albumName: String, setting: MediaAlbumSetting): Observable<MediaAlbum?> {
+        if (isAlbumEmpty)
+            fetchMedia(setting)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+        return albumListRelay.map { it.find { it.albumName == albumName } }
+    }
+
+    override fun getAlbumFromNameSync(albumName: String, setting: MediaAlbumSetting): MediaAlbum? {
+        if (isAlbumEmpty)
+            fetchMedia(setting)
+        return albumMap[albumName]
+    }
+
+    override val coroutineContext: CoroutineContext
+        get() = Job()
 
 }

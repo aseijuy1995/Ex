@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.media
+package tw.north27.coachingapp.media.mediaStore
 
 import android.content.Context
 import android.net.Uri
@@ -10,13 +10,9 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import tw.north27.coachingapp.chat.Media
-import tw.north27.coachingapp.chat.MediaAlbum
-import tw.north27.coachingapp.chat.MediaSetting
-import tw.north27.coachingapp.chat.MimeType
 import java.io.File
 
-class MediaImageModule(private val cxt: Context) : IMediaModule {
+class MediaImageStoreModule(private val cxt: Context) : IMediaStoreModule {
 
     val albumMap = mutableMapOf<String, MediaAlbum>()
 
@@ -24,49 +20,49 @@ class MediaImageModule(private val cxt: Context) : IMediaModule {
 
     val albumListRelay: PublishRelay<List<MediaAlbum>> = PublishRelay.create()
 
-    override fun fetchMedia(setting: MediaSetting): Completable = Completable.fromAction {
-        fetchMediaImageSync(setting)
+    override fun fetchMedia(albumSetting: MediaAlbumSetting): Completable = Completable.fromAction {
+        fetchMediaImageSync(albumSetting)
     }
 
-    override fun getMediaAlbum(setting: MediaSetting): PublishRelay<List<MediaAlbum>> {
+    override fun getMediaAlbum(albumSetting: MediaAlbumSetting): PublishRelay<List<MediaAlbum>> {
         if (isAlbumEmpty)
-            fetchMedia(setting)
+            fetchMedia(albumSetting)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
         return albumListRelay
     }
 
-    override fun getAlbumFromName(albumName: String, setting: MediaSetting): Observable<MediaAlbum?> {
+    override fun getAlbumFromName(albumName: String, albumSetting: MediaAlbumSetting): Observable<MediaAlbum?> {
         if (isAlbumEmpty)
-            fetchMedia(setting)
+            fetchMedia(albumSetting)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
         return albumListRelay.map { it.find { it.albumName == albumName } }
     }
 
-    override fun getAlbumFromNameSync(albumName: String, setting: MediaSetting): MediaAlbum? {
+    override fun getAlbumFromNameSync(albumName: String, albumSetting: MediaAlbumSetting): MediaAlbum? {
         if (isAlbumEmpty)
-            fetchMedia(setting)
+            fetchMedia(albumSetting)
         return albumMap[albumName]
     }
 
-    private fun fetchMediaImageSync(setting: MediaSetting) {
+    private fun fetchMediaImageSync(albumSetting: MediaAlbumSetting) {
         albumMap.clear()
-        if (setting.mimeType == MimeType.IMAGE) {
+        if (albumSetting.mimeType == MimeType.IMAGE) {
             val internalUrl: Uri = MediaStore.Images.Media.INTERNAL_CONTENT_URI
             val externalUri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             /**
              * FIXME 需改為併發
              * */
-            fetchMediaImageSync(setting, internalUrl)
-            fetchMediaImageSync(setting, externalUri)
+            fetchMediaImageSync(albumSetting, internalUrl)
+            fetchMediaImageSync(albumSetting, externalUri)
             albumListRelay.accept(albumMap.values.toList())
         }
     }
 
-    private fun fetchMediaImageSync(setting: MediaSetting, uri: Uri) {
+    private fun fetchMediaImageSync(albumSetting: MediaAlbumSetting, uri: Uri) {
         val projection: Array<String>
         val selection: String
         val selectionArgs: Array<String>
@@ -139,10 +135,10 @@ class MediaImageModule(private val cxt: Context) : IMediaModule {
                     id = id,
                 )
 
-                if (setting.imageMinSize != null && setting.imageMinSize > size)
+                if (albumSetting.imageMinSize != null && albumSetting.imageMinSize > size)
                     continue
 
-                if (setting.imageMaxSize != null && setting.imageMaxSize < size)
+                if (albumSetting.imageMaxSize != null && albumSetting.imageMaxSize < size)
                     continue
 
                 //add media album
