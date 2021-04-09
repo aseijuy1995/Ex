@@ -6,30 +6,39 @@ import java.io.IOException
 
 class MediaExtractorModule : IMediaExtractorModule {
 
-    private val mediaExtractor = MediaExtractor()
+    val mediaExtractor = MediaExtractor()
 
-    var trackIndex: Int? = null
+    var audioTrackIndex: Int? = null
 
-    var mediaFormat: MediaFormat? = null
+    var videoTrackIndex: Int? = null
 
-    var mimeType: String? = null
+    var audioMediaFormat: MediaFormat? = null
 
-    override fun extract(path: String, mimeType: IMediaExtractorModule.MimeType): MediaExtractor {
+    var videoMediaFormat: MediaFormat? = null
+
+    var audioMimeType: String? = null
+
+    var videoMimeType: String? = null
+
+    override fun extract(path: String) {
         try {
             mediaExtractor.setDataSource(path)
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        (0..mediaExtractor.trackCount).forEach { index ->
+        (0 until mediaExtractor.trackCount).forEach { index ->
             val mediaFormat = mediaExtractor.getTrackFormat(index)
-            val _mimeType = mediaFormat.getString(MediaFormat.KEY_MIME)!!
-            if (_mimeType.startsWith(mimeType.toString())) {
-                this.trackIndex = index
-                this.mediaFormat = mediaFormat
-                this.mimeType = _mimeType
-                return mediaExtractor
+            val mimeType = mediaFormat.getString(MediaFormat.KEY_MIME)!!
+            if (mimeType.startsWith(IMediaExtractorModule.MimeType.AUDIO.toString())) {
+                audioTrackIndex = index
+                audioMediaFormat = mediaFormat
+                audioMimeType = mimeType
+            } else if (mimeType.startsWith(IMediaExtractorModule.MimeType.VIDEO.toString())) {
+                videoTrackIndex = index
+                videoMediaFormat = mediaFormat
+                videoMimeType = mimeType
             }
         }
-        throw NullPointerException("Can't find MediaExtractor!")
     }
+
 }

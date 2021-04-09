@@ -1,7 +1,5 @@
 package tw.north27.coachingapp.media.mediaCodec
 
-import android.media.MediaExtractor
-
 interface IMediaExtractorModule {
 
     enum class MimeType(private val value: String) {
@@ -13,6 +11,6 @@ interface IMediaExtractorModule {
         }
     }
 
-    fun extract(path: String, mimeType: MimeType): MediaExtractor
+    fun extract(path: String)
 
 }
