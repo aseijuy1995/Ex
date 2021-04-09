@@ -26,6 +26,7 @@ import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
 import tw.north27.coachingapp.ext.*
 import tw.north27.coachingapp.media.DecodeSetting
+import tw.north27.coachingapp.media.EncodeSetting
 import tw.north27.coachingapp.media.RecorderSetting
 import tw.north27.coachingapp.media.mediaCodec.VideoMediaCodecModule
 import tw.north27.coachingapp.media.mediaStore.Media
@@ -272,17 +273,30 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                             Timber.d("video: media = ${media}")
                             Timber.d("video: media.data = ${media.data}")
 
-                            val file = File("/storage/emulated/0/DCIM/Camera/Video${System.nanoTime()}.yuv")
-                            file.createNewFile()
-                            if (!file.exists()) file.mkdirs()
-                            Timber.d("file.exists() = ${file.exists()}")
+                            val yuvFile = File("/storage/emulated/0/DCIM/Camera/YUV_${System.nanoTime()}.yuv")
+                            yuvFile.createNewFile()
+                            if (!yuvFile.exists()) yuvFile.mkdirs()
+                            Timber.d("file.exists() = ${yuvFile.exists()}")
+                            //
+                            val mp4File = File("/storage/emulated/0/DCIM/Camera/YUV_${System.nanoTime()}.mp4")
+                            mp4File.createNewFile()
+                            if (!mp4File.exists()) mp4File.mkdirs()
+                            Timber.d("file.exists() = ${mp4File.exists()}")
                             VideoMediaCodecModule.create()
                                 .configDecoder(
                                     DecodeSetting(
                                         inputPath = media.data,
-                                        outputPath = file.absolutePath
+                                        outputPath = yuvFile.absolutePath
                                     )
-                                ).decode()
+                                )
+                                .configEncoder(
+                                    EncodeSetting(
+                                        outputPath = mp4File.absolutePath
+                                    )
+                                )
+                                .startMuxer()
+                                .decode()
+//                                .encode
 
 //                            viewModel.audioDecodeToPcm(media.data)
 

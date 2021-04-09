@@ -23,8 +23,7 @@ data class DecodeSetting(
     val inputPath: String? = null,
     val outputPath: String? = null,
     val surface: Surface? = null,
-    val crypto: MediaCrypto? = null,
-    val format: Int = MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4
+    val crypto: MediaCrypto? = null
 )
 
 data class EncodeSetting(
@@ -36,5 +35,8 @@ data class EncodeSetting(
     val colorFormat: Int = MediaCodecInfo.CodecCapabilities.COLOR_FormatYUV420Flexible,
     val bitRate: Int = 1024 * 100,
     val frameRate: Int = 30,
-    val iFrameInterval: Int = 5
+    val iFrameInterval: Int = 5,
+    val format: Int = MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4,
+    //
+    val outputPath:String
 )
