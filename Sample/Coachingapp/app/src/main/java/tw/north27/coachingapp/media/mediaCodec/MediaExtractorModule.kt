@@ -6,12 +6,15 @@ import java.io.IOException
 
 class MediaExtractorModule : IMediaExtractorModule {
 
+    private val mediaExtractor = MediaExtractor()
+
+    var trackIndex: Int? = null
+
     var mediaFormat: MediaFormat? = null
 
     var mimeType: String? = null
 
-    override fun extract(path: String, mimeType: IMediaExtractorModule.MimeType): MediaExtractor? {
-        val mediaExtractor = MediaExtractor()
+    override fun extract(path: String, mimeType: IMediaExtractorModule.MimeType): MediaExtractor {
         try {
             mediaExtractor.setDataSource(path)
         } catch (e: IOException) {
@@ -21,12 +24,12 @@ class MediaExtractorModule : IMediaExtractorModule {
             val mediaFormat = mediaExtractor.getTrackFormat(index)
             val _mimeType = mediaFormat.getString(MediaFormat.KEY_MIME)!!
             if (_mimeType.startsWith(mimeType.toString())) {
+                this.trackIndex = index
                 this.mediaFormat = mediaFormat
                 this.mimeType = _mimeType
-                mediaExtractor.selectTrack(index)
                 return mediaExtractor
             }
         }
-        return null
+        throw NullPointerException("Can't find MediaExtractor!")
     }
 }

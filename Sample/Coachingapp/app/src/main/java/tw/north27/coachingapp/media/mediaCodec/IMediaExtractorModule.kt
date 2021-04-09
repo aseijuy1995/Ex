@@ -13,6 +13,6 @@ interface IMediaExtractorModule {
         }
     }
 
-    fun extract(path: String, mimeType: MimeType): MediaExtractor?
+    fun extract(path: String, mimeType: MimeType): MediaExtractor
 
 }

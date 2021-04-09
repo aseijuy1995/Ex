@@ -13,6 +13,5 @@ interface IMediaCodecModule {
 
     fun configDecoder(setting: DecodeSetting): IMediaCodecModule
 
-//    suspend fun decode()
-     fun decode()
+    suspend fun decode()
 }

@@ -272,13 +272,9 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                             Timber.d("video: media = ${media}")
                             Timber.d("video: media.data = ${media.data}")
 
-                            val file = File("data=/storage/emulated/0/DCIM/Camera/Video1.mp4")
-                            if (file.exists()) {
-                                file.delete()
-                            } else {
-                                file.mkdir()
-                            }
+                            val file = File("/storage/emulated/0/DCIM/Camera/Video${System.nanoTime()}.yuv")
                             file.createNewFile()
+                            if (!file.exists()) file.mkdirs()
                             Timber.d("file.exists() = ${file.exists()}")
                             VideoMediaCodecModule.create()
                                 .configDecoder(
