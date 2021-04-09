@@ -1,17 +1,15 @@
 package tw.north27.coachingapp.media.mediaCodec
 
-import android.media.MediaCodec
-import android.media.MediaExtractor
-import android.media.MediaFormat
-import timber.log.Timber
 import tw.north27.coachingapp.media.DecodeSetting
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import tw.north27.coachingapp.media.EncodeSetting
 
 interface IMediaCodecModule {
 
     fun configDecoder(setting: DecodeSetting): IMediaCodecModule
 
     suspend fun decode()
+
+    fun configEncoder(setting: EncodeSetting): IMediaCodecModule
+
+    suspend fun encode()
 }

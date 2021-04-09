@@ -1,22 +1,21 @@
 package tw.north27.coachingapp.media.mediaCodec
 
-import android.graphics.ImageFormat
-import android.graphics.Rect
-import android.graphics.YuvImage
-import android.media.Image
 import android.media.MediaCodec
 import android.media.MediaExtractor
 import android.media.MediaFormat
-import android.util.Log
+import android.media.MediaMuxer
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import timber.log.Timber
 import tw.north27.coachingapp.media.DecodeSetting
+import tw.north27.coachingapp.media.EncodeSetting
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.nio.ByteBuffer
+import kotlin.coroutines.CoroutineContext
 
 
-class VideoMediaCodecModule private constructor() : IMediaCodecModule {
+class VideoMediaCodecModule private constructor() : IMediaCodecModule, CoroutineScope {
 
     private var setting: DecodeSetting? = null
 
@@ -51,6 +50,8 @@ class VideoMediaCodecModule private constructor() : IMediaCodecModule {
 
     private var mediaDecoder: MediaCodec? = null
 
+    private var mediaEncoder: MediaCodec? = null
+
     companion object {
         fun create(): IMediaCodecModule {
             return VideoMediaCodecModule()
@@ -65,19 +66,121 @@ class VideoMediaCodecModule private constructor() : IMediaCodecModule {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        val videoMediaFormat = videoMediaFormat.also {
-            it.setInteger(MediaFormat.KEY_BIT_RATE,)
-            it.setInteger(MediaFormat.KEY_COLOR_FORMAT, setting.colorFormat)//顏色格式
-            it.setInteger(MediaFormat.KEY_BIT_RATE, setting.bitRate)//bit - 比特率（以位/秒為單位）
-            it.setInteger(MediaFormat.KEY_FRAME_RATE, setting.frameRate)//fps - 幀速率（以幀/秒為單位）
-            it.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, setting.iFrameInterval)//關鍵幀頻率的關鍵幀
-        }
-
         mediaDecoder!!.configure(videoMediaFormat, setting.surface, setting.crypto, 0)
         return this
     }
 
+    v mediaMuxer: MediaMuxer? = null
     override suspend fun decode() {
+        mediaMuxer = MediaMuxer("", setting.format)
+        decodeVideo()
+//        runBlocking {
+//            launch(Dispatchers.IO) { decodeAudio() }
+//            launch(Dispatchers.IO) { decodeVideo() }
+//        }
+
+    }
+
+    override fun configEncoder(setting: EncodeSetting): IMediaCodecModule {
+        try {
+            mediaEncoder = MediaCodec.createEncoderByType(setting.mimeType)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        val mediaFormat = MediaFormat.createVideoFormat(setting.mimeType, setting.width, setting.height)
+        mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, setting.colorFormat)//顏色格式
+        mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, setting.bitRate)//bit - 比特率（以位/秒為單位）
+        mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, setting.frameRate)//fps - 幀速率（以幀/秒為單位）
+        mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, setting.iFrameInterval)//關鍵幀頻率的關鍵幀
+        mediaEncoder!!.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
+        return this
+    }
+
+    override suspend fun encode() {
+        TODO("Not yet implemented")
+    }
+
+    private suspend fun decodeAudio() {
+        if (mediaDecoder == null) throw NullPointerException("Can't find MediaDecoder!")
+        mediaExtractor.selectTrack(audioTrackIndex)
+        mediaDecoder!!.start()
+        //
+        val bufferInfo = MediaCodec.BufferInfo()
+        val offset = 0
+        //
+        val outputFile = File(outputPath)
+        val fileChannel = FileOutputStream(outputFile).channel
+        //
+        var isStop = false
+        while (!isStop) {
+            //input
+            //獲取可輸入的緩衝區索引值
+            mediaDecoder!!.dequeueInputBuffer(-1).takeIf { it >= 0 }?.let { inputBufferIndex ->
+                Timber.d("input buffer index = $inputBufferIndex")
+                val inputByteBuffer = mediaDecoder!!.getInputBuffer(inputBufferIndex)!!//獲取可輸入的緩衝區
+                inputByteBuffer.clear()
+                Timber.d("input ByteBuffer capacity = ${inputByteBuffer.capacity()}")
+                val sampleSize = mediaExtractor.readSampleData(inputByteBuffer, 0)//將分離出的樣本讀出流至指定的緩衝區中
+                Timber.d("sampleSize = $sampleSize")
+                if (sampleSize >= 0) {
+                    //輸入的緩衝區中若有數據，則排至codec中開始解碼
+                    mediaDecoder!!.queueInputBuffer(inputBufferIndex, offset, sampleSize, mediaExtractor.sampleTime, mediaExtractor.sampleFlags)
+                    mediaExtractor.advance()
+                } else {
+                    //輸入的緩衝區中若為空時，需發送BUFFER_FLAG_END_OF_STREAM給codec
+                    mediaDecoder!!.queueInputBuffer(inputBufferIndex, 0, 0, 0, MediaCodec.BUFFER_FLAG_END_OF_STREAM)
+                    isStop = true
+                }
+            } ?: throw NullPointerException("Input buffer not available")
+            //output
+            //獲取輸出緩衝區的索引值
+            val outputBufferIndex = mediaDecoder!!.dequeueOutputBuffer(bufferInfo, -1)
+            //輸出緩衝區索引值若大於0，則表示即有解碼成功之數據
+            Timber.d("outputIndex = $outputBufferIndex")
+            when {
+                outputBufferIndex >= 0 -> {
+                    val outputByteBuffer = mediaDecoder!!.getOutputBuffer(outputBufferIndex)
+                    try {
+                        fileChannel.write(outputByteBuffer)
+                    } catch (e: IOException) {
+                        Timber.e(e)
+                        e.printStackTrace()
+                    }
+                    //
+                    //                    Timber.d("outputIndex-outputIndex = $outputBufferIndex")
+                    //                    val image = mediaDecoder!!.getOutputImage(outputBufferIndex)!!
+                    //                    val file = File("/storage/emulated/0/DCIM/Camera/JPEG/Video${System.nanoTime()}.jpeg")
+                    //                    file.createNewFile()
+                    //                    if (!file.exists()) file.mkdirs()
+                    //                    Timber.d("file.exists() = ${file.exists()}")
+                    //                    compressToJpeg(file.absolutePath, image)
+                    //
+                    mediaDecoder!!.releaseOutputBuffer(outputBufferIndex, false)
+                    //
+
+                }
+                outputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED -> {
+                    //MediaFormat格式轉換
+                    val mediaFormat = mediaDecoder!!.outputFormat
+                    Timber.d("INFO_OUTPUT_FORMAT_CHANGED = MediaFormat格式已更改, mediaFormat = $mediaFormat")
+                }
+                outputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER -> {
+                    //超時
+                    Timber.d("INFO_TRY_AGAIN_LATER = 已超時")
+                }
+            }
+        }
+        try {
+            fileChannel.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        mediaDecoder?.stop()
+        mediaDecoder?.release()
+        mediaExtractor.release()
+    }
+
+    private suspend fun decodeVideo() {
         if (mediaDecoder == null) throw NullPointerException("Can't find MediaDecoder!")
         mediaExtractor.selectTrack(videoTrackIndex)
         mediaDecoder!!.start()
@@ -124,13 +227,13 @@ class VideoMediaCodecModule private constructor() : IMediaCodecModule {
                         e.printStackTrace()
                     }
                     //
-//                    Timber.d("outputIndex-outputIndex = $outputBufferIndex")
-//                    val image = mediaDecoder!!.getOutputImage(outputBufferIndex)!!
-//                    val file = File("/storage/emulated/0/DCIM/Camera/JPEG/Video${System.nanoTime()}.jpeg")
-//                    file.createNewFile()
-//                    if (!file.exists()) file.mkdirs()
-//                    Timber.d("file.exists() = ${file.exists()}")
-//                    compressToJpeg(file.absolutePath, image)
+                    //                    Timber.d("outputIndex-outputIndex = $outputBufferIndex")
+                    //                    val image = mediaDecoder!!.getOutputImage(outputBufferIndex)!!
+                    //                    val file = File("/storage/emulated/0/DCIM/Camera/JPEG/Video${System.nanoTime()}.jpeg")
+                    //                    file.createNewFile()
+                    //                    if (!file.exists()) file.mkdirs()
+                    //                    Timber.d("file.exists() = ${file.exists()}")
+                    //                    compressToJpeg(file.absolutePath, image)
                     //
                     mediaDecoder!!.releaseOutputBuffer(outputBufferIndex, false)
                     //
@@ -156,6 +259,9 @@ class VideoMediaCodecModule private constructor() : IMediaCodecModule {
         mediaDecoder?.release()
         mediaExtractor.release()
     }
+
+    override val coroutineContext: CoroutineContext
+        get() = Job()
 
 //    private fun compressToJpeg(fileName: String, image: Image) {
 //        val outStream: FileOutputStream
