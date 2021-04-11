@@ -6,19 +6,19 @@ import java.io.IOException
 
 class MediaExtractorModule : IMediaExtractorModule {
 
-    val mediaExtractor = MediaExtractor()
+    override val mediaExtractor = MediaExtractor()
 
-    var audioTrackIndex: Int? = null
+    override var audioTrackIndex: Int? = null
 
-    var videoTrackIndex: Int? = null
+    override var audioMediaFormat: MediaFormat? = null
 
-    var audioMediaFormat: MediaFormat? = null
+    override var audioMimeType: String? = null
 
-    var videoMediaFormat: MediaFormat? = null
+    override var videoTrackIndex: Int? = null
 
-    var audioMimeType: String? = null
+    override var videoMediaFormat: MediaFormat? = null
 
-    var videoMimeType: String? = null
+    override var videoMimeType: String? = null
 
     override fun extract(path: String) {
         try {

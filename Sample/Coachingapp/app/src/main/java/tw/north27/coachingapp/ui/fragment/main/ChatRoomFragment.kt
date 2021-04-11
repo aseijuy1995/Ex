@@ -25,10 +25,9 @@ import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
 import tw.north27.coachingapp.ext.*
-import tw.north27.coachingapp.media.DecodeSetting
-import tw.north27.coachingapp.media.EncodeSetting
+import tw.north27.coachingapp.media.CodecSetting
 import tw.north27.coachingapp.media.RecorderSetting
-import tw.north27.coachingapp.media.mediaCodec.VideoMediaCodecModule
+import tw.north27.coachingapp.media.mediaCodec.VideoCompressModule
 import tw.north27.coachingapp.media.mediaStore.Media
 import tw.north27.coachingapp.media.mediaStore.MimeType
 import tw.north27.coachingapp.model.result.*
@@ -272,34 +271,28 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                             val media = mediaList.first()
                             Timber.d("video: media = ${media}")
                             Timber.d("video: media.data = ${media.data}")
+                            val inputPath = media.data
 
-                            val yuvFile = File("/storage/emulated/0/DCIM/Camera/YUV_${System.nanoTime()}.yuv")
-                            yuvFile.createNewFile()
-                            if (!yuvFile.exists()) yuvFile.mkdirs()
-                            Timber.d("file.exists() = ${yuvFile.exists()}")
+//                            val yuvFile = File("/storage/emulated/0/DCIM/Camera/YUV/YUV_${System.nanoTime()}.yuv")
+                            val yuvFile = File("/storage/emulated/0/DCIM/Camera/YUV_${System.nanoTime()}.mp4")
+                            val outputPath = yuvFile.absolutePath
                             //
-                            val mp4File = File("/storage/emulated/0/DCIM/Camera/YUV_${System.nanoTime()}.mp4")
-                            mp4File.createNewFile()
-                            if (!mp4File.exists()) mp4File.mkdirs()
-                            Timber.d("file.exists() = ${mp4File.exists()}")
-                            VideoMediaCodecModule.create()
-                                .configDecoder(
-                                    DecodeSetting(
-                                        inputPath = media.data,
-                                        outputPath = yuvFile.absolutePath
+                            VideoCompressModule.get()
+                                .setCompress(
+                                    CodecSetting(
+                                        inputPath = inputPath,
+                                        outputPath = outputPath
                                     )
                                 )
-                                .configEncoder(
-                                    EncodeSetting(
-                                        outputPath = mp4File.absolutePath
-                                    )
-                                )
-                                .startMuxer()
-                                .decode()
-//                                .encode
+                                .compress()
+                            //
+//                            val mp4File = File("/storage/emulated/0/DCIM/Camera/YUV_${System.nanoTime()}.mp4")
+//                            mp4File.createNewFile()
+//                            if (!mp4File.exists()) mp4File.mkdirs()
+//                            Timber.d("file.exists() = ${mp4File.exists()}")
 
 //                            viewModel.audioDecodeToPcm(media.data)
-
+                            //
 //                            val videoByteArray = viewModel.compressedImg(mediaList)
 //                            val chatVideoList = mutableListOf<ChatVideo>()
 //                            videoByteArray.map { chatVideoList.add(ChatVideo(id = 0, byteArray = it, time = 0)) }
