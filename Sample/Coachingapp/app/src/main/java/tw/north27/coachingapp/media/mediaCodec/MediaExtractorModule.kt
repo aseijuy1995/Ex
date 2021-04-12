@@ -2,6 +2,7 @@ package tw.north27.coachingapp.media.mediaCodec
 
 import android.media.MediaExtractor
 import android.media.MediaFormat
+import timber.log.Timber
 import java.io.IOException
 
 class MediaExtractorModule : IMediaExtractorModule {
@@ -36,6 +37,7 @@ class MediaExtractorModule : IMediaExtractorModule {
             } else if (mimeType.startsWith(IMediaExtractorModule.MimeType.VIDEO.toString())) {
                 videoTrackIndex = index
                 videoMediaFormat = mediaFormat
+                Timber.d("videoMediaFormat = $videoMediaFormat")
                 videoMimeType = mimeType
             }
         }

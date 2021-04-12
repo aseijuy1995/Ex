@@ -25,7 +25,7 @@ import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
 import tw.north27.coachingapp.ext.*
-import tw.north27.coachingapp.media.CodecSetting
+import tw.north27.coachingapp.media.mediaCodec.CodecSetting
 import tw.north27.coachingapp.media.RecorderSetting
 import tw.north27.coachingapp.media.mediaCodec.VideoCompressModule
 import tw.north27.coachingapp.media.mediaStore.Media
@@ -277,14 +277,31 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                             val yuvFile = File("/storage/emulated/0/DCIM/Camera/YUV_${System.nanoTime()}.mp4")
                             val outputPath = yuvFile.absolutePath
                             //
+                            val file = File(outputPath)
+                            if (!file.parentFile.exists())
+                                file.parentFile.mkdirs()
+                            if (!file.exists())
+                                file.createNewFile()
+                            Timber.d("exists = ${file.exists()}, file = $outputPath")
+                            //
                             VideoCompressModule.get()
                                 .setCompress(
                                     CodecSetting(
                                         inputPath = inputPath,
                                         outputPath = outputPath
                                     )
-                                )
-                                .compress()
+                                ).compress()
+                            //
+//                            VideoProcessor.processor(context)
+//                                .input(inputPath)
+//                                .output(outputPath)
+//                                .bitrate(102400 * 100)       //输出视频比特率
+////                                .frameRate(25)   //帧率
+////                                .iFrameInterval(1)  //关键帧距，为0时可输出全关键帧视频（部分机器上需为-1）
+//                                .progressListener(VideoProgressListener {
+//                                    Timber.d("it = $it")
+//                                })
+//                                .process()
                             //
 //                            val mp4File = File("/storage/emulated/0/DCIM/Camera/YUV_${System.nanoTime()}.mp4")
 //                            mp4File.createNewFile()

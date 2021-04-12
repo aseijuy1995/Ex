@@ -3,17 +3,14 @@ package tw.north27.coachingapp.media.mediaCodec
 import android.graphics.ImageFormat
 import android.graphics.Rect
 import android.graphics.YuvImage
-import android.media.Image
-import android.media.MediaCodec
-import android.media.MediaExtractor
-import android.media.MediaFormat
+import android.media.*
 import android.util.Log
 import timber.log.Timber
-import tw.north27.coachingapp.media.CodecSetting
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.nio.ByteBuffer
+
 
 class VideoCompressModule private constructor(
     private val mediaExtractorModule: IMediaExtractorModule
@@ -53,7 +50,6 @@ class VideoCompressModule private constructor(
 
 
     //media extractor module
-
     private val mediaExtractor: MediaExtractor
         get() = mediaExtractorModule.mediaExtractor ?: throw NullPointerException("Can't find mediaExtractor!")
 
@@ -70,8 +66,8 @@ class VideoCompressModule private constructor(
     private var mediaDecoder: MediaCodec? = null
 
     private var mediaEncoder: MediaCodec? = null
-    //
 
+    //
     private val decodeOutputFile: File
         get() {
             val file = File(outputPath)
@@ -88,6 +84,11 @@ class VideoCompressModule private constructor(
             MediaExtractorModule()
         )
     }
+
+//    fun Compress(){
+//
+//    }
+
 
     override fun setCompress(setting: CodecSetting): IMediaCodecModule {
         this.setting = setting
@@ -112,6 +113,8 @@ class VideoCompressModule private constructor(
         val fileChannel = FileOutputStream(decodeOutputFile).channel
         val bufferInfo = MediaCodec.BufferInfo()
         //
+        val bufferInfo2 = MediaCodec.BufferInfo()
+        //
         mediaEncoder!!.start()
         //
         var isStop = false
@@ -119,12 +122,11 @@ class VideoCompressModule private constructor(
             //input
             //獲取可輸入的緩衝區索引值
             mediaDecoder!!.dequeueInputBuffer(-1).takeIf { it >= 0 }?.let { inputBufferIndex ->
-                Timber.d("decode input buffer index = $inputBufferIndex")
+//                Timber.d("decode input buffer index = $inputBufferIndex")
                 val inputByteBuffer = mediaDecoder!!.getInputBuffer(inputBufferIndex)!!//獲取可輸入的緩衝區
                 inputByteBuffer.clear()
-                Timber.d("decode input ByteBuffer capacity = ${inputByteBuffer.capacity()}")
                 val sampleSize = mediaExtractor.readSampleData(inputByteBuffer, 0)//將分離出的樣本讀出流至指定的緩衝區中
-                Timber.d("decode sampleSize = $sampleSize")
+//                Timber.d("decode sampleSize = $sampleSize")
                 if (sampleSize >= 0) {
                     //輸入的緩衝區中若有數據，則排至codec中開始解碼
                     mediaDecoder!!.queueInputBuffer(inputBufferIndex, 0, sampleSize, mediaExtractor.sampleTime, mediaExtractor.sampleFlags)
@@ -132,21 +134,17 @@ class VideoCompressModule private constructor(
                 } else {
                     //輸入的緩衝區中若為空時，需發送BUFFER_FLAG_END_OF_STREAM給codec
                     mediaDecoder!!.queueInputBuffer(inputBufferIndex, 0, 0, 0, MediaCodec.BUFFER_FLAG_END_OF_STREAM)
-                    mediaExtractor.unselectTrack(videoTrackIndex)
                     isStop = true
                 }
-            } ?: throw NullPointerException(
-                "Decode" +
-                        " input buffer not available"
-            )
+            } ?: throw NullPointerException("Decode input buffer not available")
             //output
             //獲取輸出緩衝區的索引值
-            val outputBufferIndex = mediaDecoder!!.dequeueOutputBuffer(bufferInfo, -1)
+            val decodeOutputBufferIndex = mediaDecoder!!.dequeueOutputBuffer(bufferInfo, -1)
             //輸出緩衝區索引值若大於0，則表示即有解碼成功之數據
-            Timber.d("outputIndex = $outputBufferIndex")
+//            Timber.d("decodeOutputBufferIndex = $decodeOutputBufferIndex")
             when {
-                outputBufferIndex >= 0 -> {
-                    val outputByteBuffer = mediaDecoder!!.getOutputBuffer(outputBufferIndex)!!
+                decodeOutputBufferIndex >= 0 -> {
+                    val decodeOutputByteBuffer = mediaDecoder!!.getOutputBuffer(decodeOutputBufferIndex)!!
 //                    try {
 //                        fileChannel.write(outputByteBuffer)
 //                    } catch (e: IOException) {
@@ -163,56 +161,48 @@ class VideoCompressModule private constructor(
 //                    compressToJpeg(file.absolutePath, image)
                     //
                     if (mediaEncoder != null) {
-                        //
                         mediaEncoder!!.dequeueInputBuffer(-1).takeIf { it >= 0 }?.let { inputBufferIndex ->
-                            Timber.d("encode input buffer index = $inputBufferIndex")
+//                            Timber.d("encode input buffer index = $inputBufferIndex")
                             val inputByteBuffer = mediaEncoder!!.getInputBuffer(inputBufferIndex)!!//獲取可輸入的緩衝區
                             inputByteBuffer.clear()
-                            Timber.d("encode input ByteBuffer capacity = ${inputByteBuffer.capacity()}")
-                            val byteArray = ByteArray(outputByteBuffer.limit())
-                            Timber.d("outputByteBuffer.limit() = ${outputByteBuffer.limit()}, byteArray.size = ${byteArray.size}")
-                            inputByteBuffer.put(byteArray)//將yuv畫面數據流至指定的輸入緩衝區中
-                            mediaEncoder!!.queueInputBuffer(inputBufferIndex, 0, byteArray.size, mediaExtractor.sampleTime, mediaExtractor.sampleFlags)
-                            //
-                            val bufferInfo2 = MediaCodec.BufferInfo()
+                            inputByteBuffer.put(decodeOutputByteBuffer)//將yuv畫面數據流至指定的輸入緩衝區中
+                            mediaEncoder!!.queueInputBuffer(inputBufferIndex, 0, decodeOutputByteBuffer.limit(), mediaExtractor.sampleTime, mediaExtractor.sampleFlags)
                             //輸出緩衝區索引值若大於0，則表示即有解碼成功之數據
-                            val outputBufferIndex = mediaEncoder!!.dequeueOutputBuffer(bufferInfo2, -1)
-                            Timber.d("outputBufferIndex = $outputBufferIndex")
+                            val encodeOutputBufferIndex = mediaEncoder!!.dequeueOutputBuffer(bufferInfo2, -1)
+//                            Timber.d("encodeOutputBufferIndex = $encodeOutputBufferIndex")
                             when {
-                                outputBufferIndex >= 0 -> {
-                                    val outputByteBuffer = mediaEncoder!!.getOutputBuffer(outputBufferIndex)
+                                encodeOutputBufferIndex >= 0 -> {
+                                    val encodeOutputByteBuffer = mediaEncoder!!.getOutputBuffer(encodeOutputBufferIndex)
+                                    Timber.d("bufferInfo2.size = ${bufferInfo2.size}")
                                     try {
-                                        fileChannel.write(outputByteBuffer)
+                                        fileChannel.write(encodeOutputByteBuffer)
                                     } catch (e: IOException) {
                                         Timber.e(e)
                                         e.printStackTrace()
                                     }
-                                    mediaEncoder!!.releaseOutputBuffer(outputBufferIndex, false)
+                                    mediaEncoder!!.releaseOutputBuffer(encodeOutputBufferIndex, false)
                                 }
-                                outputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED -> {
+                                encodeOutputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED -> {
                                     //MediaFormat格式轉換
                                     val mediaFormat = mediaDecoder!!.outputFormat
                                     Timber.d("INFO_OUTPUT_FORMAT_CHANGED = MediaFormat格式已更改, mediaFormat = $mediaFormat")
                                 }
-                                outputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER -> {
+                                encodeOutputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER -> {
                                     //超時
                                     Timber.d("INFO_TRY_AGAIN_LATER = 已超時")
                                 }
                             }
                         } ?: throw NullPointerException("Encode input buffer not available")
                     }
-
-                    //
-                    mediaDecoder!!.releaseOutputBuffer(outputBufferIndex, false)
-                    //
+                    mediaDecoder!!.releaseOutputBuffer(decodeOutputBufferIndex, false)
 
                 }
-                outputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED -> {
+                decodeOutputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED -> {
                     //MediaFormat格式轉換
                     val mediaFormat = mediaDecoder!!.outputFormat
                     Timber.d("INFO_OUTPUT_FORMAT_CHANGED = MediaFormat格式已更改, mediaFormat = $mediaFormat")
                 }
-                outputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER -> {
+                decodeOutputBufferIndex == MediaCodec.INFO_TRY_AGAIN_LATER -> {
                     //超時
                     Timber.d("INFO_TRY_AGAIN_LATER = 已超時")
                 }
@@ -251,10 +241,43 @@ class VideoCompressModule private constructor(
         }
         val mediaFormat = MediaFormat.createVideoFormat(mimeType, width, height)
         mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, colorFormat)//顏色格式
-        mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, bitRate)//bit - 比特率（以位/秒為單位）
+        val width = videoMediaFormat.getInteger(MediaFormat.KEY_WIDTH)
+        val height = videoMediaFormat.getInteger(MediaFormat.KEY_HEIGHT)
+        Timber.d("width = $width, height = $height")
+        mediaFormat.setInteger(MediaFormat.KEY_WIDTH, width)
+        mediaFormat.setInteger(MediaFormat.KEY_HEIGHT, height)
+
+
+        mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, bitRate)
         mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, frameRate)//fps - 幀速率（以幀/秒為單位）
         mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, iFrameInterval)//關鍵幀頻率的關鍵幀
+
+//        mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CQ)
 //        mediaFormat.setInteger(MediaFormat.KEY_MAX_INPUT_SIZE, 14000000)
+
+//        mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_VBR)
+        //
+        val capabilitiesType = mediaEncoder!!.codecInfo.getCapabilitiesForType(mimeType)
+        capabilitiesType.colorFormats.forEach {
+            Timber.d("capabilitiesType.colorFormat = $it")
+        }
+        val encoderCapabilities = capabilitiesType.encoderCapabilities
+        when {
+            encoderCapabilities.isBitrateModeSupported(MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CQ) -> {
+                Timber.d("Setting bitrate mode to constant quality")
+                mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CQ)
+            }
+            encoderCapabilities.isBitrateModeSupported(MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_VBR) -> {
+                Timber.d("Setting bitrate mode to variable bitrate")
+                mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_VBR)
+            }
+            encoderCapabilities.isBitrateModeSupported(MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CBR) -> {
+                Timber.d("Setting bitrate mode to constant bitrate")
+                mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CBR)
+            }
+        }
+
+        Timber.d("mediaFormat = $mediaFormat")
         mediaEncoder!!.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
         return this
     }
