@@ -11,6 +11,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import com.hw.videoprocessor.VideoProcessor
+import com.hw.videoprocessor.util.VideoProgressListener
 import com.jakewharton.rxbinding4.recyclerview.scrollStateChanges
 import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
@@ -27,6 +29,7 @@ import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
 import tw.north27.coachingapp.ext.*
 import tw.north27.coachingapp.media.mediaCodec.CodecSetting
 import tw.north27.coachingapp.media.RecorderSetting
+import tw.north27.coachingapp.media.mediaCodec.IMediaCodecModule
 import tw.north27.coachingapp.media.mediaCodec.VideoCompressModule
 import tw.north27.coachingapp.media.mediaStore.Media
 import tw.north27.coachingapp.media.mediaStore.MimeType
@@ -284,6 +287,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                                 file.createNewFile()
                             Timber.d("exists = ${file.exists()}, file = $outputPath")
                             //
+
                             VideoCompressModule.get()
                                 .setCompress(
                                     CodecSetting(
@@ -292,16 +296,16 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                                     )
                                 ).compress()
                             //
-//                            VideoProcessor.processor(context)
-//                                .input(inputPath)
-//                                .output(outputPath)
-//                                .bitrate(102400 * 100)       //输出视频比特率
-////                                .frameRate(25)   //帧率
-////                                .iFrameInterval(1)  //关键帧距，为0时可输出全关键帧视频（部分机器上需为-1）
-//                                .progressListener(VideoProgressListener {
-//                                    Timber.d("it = $it")
-//                                })
-//                                .process()
+                            VideoProcessor.processor(context)
+                                .input(inputPath)
+                                .output(outputPath)
+                                .bitrate(102400 * 100)       //输出视频比特率
+//                                .frameRate(25)   //帧率
+//                                .iFrameInterval(1)  //关键帧距，为0时可输出全关键帧视频（部分机器上需为-1）
+                                .progressListener(VideoProgressListener {
+                                    Timber.d("it = $it")
+                                })
+                                .process()
                             //
 //                            val mp4File = File("/storage/emulated/0/DCIM/Camera/YUV_${System.nanoTime()}.mp4")
 //                            mp4File.createNewFile()

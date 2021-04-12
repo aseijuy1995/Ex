@@ -8,8 +8,12 @@ import org.koin.dsl.module
 import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.media.*
-import tw.north27.coachingapp.media.mediaStore.IMediaStoreModule
+import tw.north27.coachingapp.media.mediaCodec.IMediaCodecModule
+import tw.north27.coachingapp.media.mediaCodec.IMediaExtractorModule
+import tw.north27.coachingapp.media.mediaCodec.MediaExtractorModule
+import tw.north27.coachingapp.media.mediaCodec.VideoCompressModule
 import tw.north27.coachingapp.media.mediaStore.AudioMediaStoreModule
+import tw.north27.coachingapp.media.mediaStore.IMediaStoreModule
 import tw.north27.coachingapp.media.mediaStore.ImageMediaStoreModule
 import tw.north27.coachingapp.media.mediaStore.VideoMediaStoreModule
 import tw.north27.coachingapp.module.http.OkHttpUtil
@@ -34,6 +38,8 @@ val utilModules = module {
     single<IMediaStoreModule>(named("audio")) { AudioMediaStoreModule(androidContext()) }
     single<IAudioMediaCodecModule> { AudioMediaCodecModule(androidContext()) }
     single<IMediaRecorderModule> { MediaRecorderModule() }
+    single<IMediaExtractorModule> { MediaExtractorModule() }
+    single<IMediaCodecModule>(named("video")) { VideoCompressModule(get()) }
 
 }
 

@@ -12,9 +12,7 @@ import java.io.IOException
 import java.nio.ByteBuffer
 
 
-class VideoCompressModule private constructor(
-    private val mediaExtractorModule: IMediaExtractorModule
-) : IMediaCodecModule {
+class VideoCompressModule(private val mediaExtractorModule: IMediaExtractorModule) : IMediaCodecModule {
 
     private var setting: CodecSetting? = null
 
@@ -48,7 +46,6 @@ class VideoCompressModule private constructor(
     private val format: Int
         get() = setting?.format ?: throw NullPointerException("Can't find video encode format!")
 
-
     //media extractor module
     private val mediaExtractor: MediaExtractor
         get() = mediaExtractorModule.mediaExtractor ?: throw NullPointerException("Can't find mediaExtractor!")
@@ -78,17 +75,6 @@ class VideoCompressModule private constructor(
             Timber.d("exists = ${file.exists()}, file = $outputPath")
             return file
         }
-
-    companion object {
-        fun get() = VideoCompressModule(
-            MediaExtractorModule()
-        )
-    }
-
-//    fun Compress(){
-//
-//    }
-
 
     override fun setCompress(setting: CodecSetting): IMediaCodecModule {
         this.setting = setting
@@ -230,7 +216,7 @@ class VideoCompressModule private constructor(
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        mediaDecoder!!.configure(videoMediaFormat, setting?.surface, setting?.crypto, 0)
+        mediaDecoder!!.configure(videoMediaFormat, null, null, 0)
     }
 
     private fun configEncoder(): IMediaCodecModule {

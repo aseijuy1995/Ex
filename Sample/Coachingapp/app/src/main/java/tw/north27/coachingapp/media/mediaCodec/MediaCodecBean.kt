@@ -1,15 +1,11 @@
 package tw.north27.coachingapp.media.mediaCodec
 
 import android.media.MediaCodecInfo
-import android.media.MediaCrypto
 import android.media.MediaMuxer
-import android.view.Surface
 
 data class CodecSetting(
     val inputPath: String,
     val outputPath: String,
-    val surface: Surface? = null,
-    val crypto: MediaCrypto? = null,
     //
     val mimeType: String = "video/avc",
     val width: Int = 1920,//分辨率
