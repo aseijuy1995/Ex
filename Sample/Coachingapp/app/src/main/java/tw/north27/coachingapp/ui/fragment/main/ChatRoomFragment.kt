@@ -26,8 +26,6 @@ import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
 import tw.north27.coachingapp.ext.*
 import tw.north27.coachingapp.media.RecorderSetting
-import tw.north27.coachingapp.media.mediaCodec.CodecSetting
-import tw.north27.coachingapp.media.mediaCodec.VideoCompressModule
 import tw.north27.coachingapp.media.mediaStore.Media
 import tw.north27.coachingapp.media.mediaStore.MimeType
 import tw.north27.coachingapp.model.result.*
@@ -272,19 +270,20 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                                 file.createNewFile()
                             Timber.d("exists = ${file.exists()}, file = $outputPath")
                             //
-                            VideoCompressModule.Compress().setCompress(
-                                CodecSetting(
-                                    inputPath = inputPath,
-                                    outputPath = outputPath
-                                )
-                            ).compress()
+//                            VideoCompressModule.Compress().setCompress(
+//                                CodecSetting(
+//                                    inputPath = inputPath,
+//                                    outputPath = outputPath
+//                                )
+//                            ).compress()
                             //
                             VideoProcessor.processor(context)
                                 .input(inputPath)
                                 .output(outputPath)
-                                .bitrate(102400 * 100)       //输出视频比特率
-//                                .frameRate(25)   //帧率
-//                                .iFrameInterval(1)  //关键帧距，为0时可输出全关键帧视频（部分机器上需为-1）
+//                                .bitrate(1024 * 1000)       //输出视频比特率
+                                .bitrate(2560 * 1000)       //输出视频比特率
+                                .frameRate(25)   //帧率
+                                .iFrameInterval(1)  //关键帧距，为0时可输出全关键帧视频（部分机器上需为-1）
                                 .progressListener(VideoProgressListener {
                                     Timber.d("it = $it")
                                 }).process()

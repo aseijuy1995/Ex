@@ -21,9 +21,9 @@ data class CodecSetting(
      * bit - 比特率（以位/秒為單位）
      * 影響影片顯示質量
      * */
-//    val bitRate: Int = width * height * 1,
-    val bitRate: Int = width * height * 3,
-    val frameRate: Int = 5,//流暢度
+    val bitRate: Int = width * height * 1,
+//    val bitRate: Int = width * height * 3,
+    val frameRate: Int = 30,//流暢度
     val iFrameInterval: Int = 1,
     val format: Int = MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4
 )

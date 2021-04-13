@@ -14,7 +14,7 @@ import java.io.IOException
 import java.nio.ByteBuffer
 
 
-class VideoCompressModule private constructor(
+class AudioCompressModule private constructor(
     private val mediaExtractorModule: IMediaExtractorModule
 ) : IMediaCodecModule {
     private var setting: CodecSetting? = null
@@ -22,7 +22,7 @@ class VideoCompressModule private constructor(
     class Compress : IMediaCodecModule.Compress, KoinComponent {
         private val mediaExtractorModule by inject<IMediaExtractorModule>()
 
-        private val videoCompressModule = VideoCompressModule(mediaExtractorModule)
+        private val videoCompressModule = AudioCompressModule(mediaExtractorModule)
 
         override fun setCompress(setting: CodecSetting): IMediaCodecModule {
             videoCompressModule.setCompressSetting(setting)
