@@ -49,9 +49,9 @@ class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
                 binding.smartRefreshLayoutChat.finishRefresh()
             }
             binding.rvChat.isVisible = (it is ViewState.Data)
-            binding.itemEmpty.clEmpty.isVisible = (it is ViewState.Empty)
-            binding.itemError.clError.isVisible = (it is ViewState.Error)
-            binding.itemNetwork.clNetwork.isVisible = (it is ViewState.Network)
+            binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
+            binding.itemError.root.isVisible = (it is ViewState.Error)
+            binding.itemNetwork.root.isVisible = (it is ViewState.Network)
 
             when (it) {
                 is ViewState.Initial -> {

@@ -10,11 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import com.hw.videoprocessor.VideoProcessor
 import com.hw.videoprocessor.util.VideoProgressListener
 import com.jakewharton.rxbinding4.recyclerview.scrollStateChanges
-import com.jakewharton.rxbinding4.view.clicks
 import com.jakewharton.rxbinding4.widget.textChanges
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -27,9 +25,8 @@ import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
 import tw.north27.coachingapp.ext.*
-import tw.north27.coachingapp.media.mediaCodec.CodecSetting
 import tw.north27.coachingapp.media.RecorderSetting
-import tw.north27.coachingapp.media.mediaCodec.IMediaCodecModule
+import tw.north27.coachingapp.media.mediaCodec.CodecSetting
 import tw.north27.coachingapp.media.mediaCodec.VideoCompressModule
 import tw.north27.coachingapp.media.mediaStore.Media
 import tw.north27.coachingapp.media.mediaStore.MimeType
@@ -51,41 +48,40 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.setChat(chat)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = this@ChatRoomFragment.viewModel
         }
+        viewModel.setChatRoomChat(chat)
         adapter = ChatRoomListAdapter(cxt)
         binding.rvChat.apply {
             adapter = this@ChatRoomFragment.adapter
-            scrollStateChanges().subscribeWithRxLife {
+            scrollStateChanges().observe(viewLifecycleOwner) {
                 when (it) {
                     RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this).resumeRequests()
                     RecyclerView.SCROLL_STATE_DRAGGING -> Glide.with(this).pauseRequests()
+                    RecyclerView.SCROLL_STATE_SETTLING -> Glide.with(this).pauseRequests()
                 }
             }
         }
-        viewModel.loadChatListFromChat(chat)
-
+        viewModel.loadChatList(chat)
         lifecycleScope.launch(Dispatchers.Main) {
-            viewModel.loadChatState.collect {
-//                if (it is ViewState.Load) showLoadingDialog()
-//                else dismissLoadingDialog()
-
+            viewModel.chatListState.collect {
                 binding.rvChat.isVisible = it is ViewState.Data
                 if (it is ViewState.Data) {
                     val list = it.data
                     adapter.submitList(list)
+                    /**
+                     * FIXME 滑動至未讀位置
+                     * */
                     viewModel.roomScrollToBottom(true)
                 }
-                binding.itemEmpty.clEmpty.isVisible = it is ViewState.Empty
-                binding.itemError.clError.isVisible = it is ViewState.Error
-                binding.itemNetwork.clNetwork.isVisible = it is ViewState.Network
+                binding.itemEmpty.root.isVisible = it is ViewState.Empty
+                binding.itemError.root.isVisible = it is ViewState.Error
+                binding.itemNetwork.root.isVisible = it is ViewState.Network
             }
         }
-
-        viewModel.message.subscribeWithRxLife {
+        viewModel.message.observe(viewLifecycleOwner) {
             viewModel.addChat(it)
         }
 
@@ -102,6 +98,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         val adapterDataObserver = object : RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                 super.onItemRangeInserted(positionStart, itemCount)
+                Timber.d("positionStart = $positionStart, itemCount = $itemCount")
                 viewModel.roomScrollToBottom(true)
             }
 
@@ -114,31 +111,19 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         //接收通知滑動置頂
         binding.rvChat.adapter?.registerAdapterDataObserver(adapterDataObserver)
 
-        binding.ivBack.clickThrottleFirst()
-            .subscribeWithRxLife {
-                findNavController().navigateUp()
-            }
-
-        /**
-         * 詳情頁面
-         * */
-        binding.ivDehaze.clicks().subscribeWithRxLife {
-
+        binding.ivBack.clickThrottleFirst().observe(viewLifecycleOwner) {
+            findNavController().navigateUp()
         }
 
-        binding.clChatRoom.clicks().subscribeWithRxLife {
-            cxt.hideKeyBoard(binding.clChatRoom)
-        }
-
-        binding.itemBottomChatRoom.etText.textChanges().subscribeWithRxLife {
+        binding.itemBottomChatRoom.etText.textChanges().observe(viewLifecycleOwner) {
             viewModel.inputEmpty(TextUtils.isEmpty(it.trim()))
         }
 
-        binding.itemBottomChatRoom.ivAdd.clicks().subscribeWithRxLife {
+        binding.itemBottomChatRoom.ivAdd.clickThrottleFirst().observe(viewLifecycleOwner) {
             findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomAddDialog())
         }
 
-        binding.itemBottomChatRoom.ivSend.clicks().subscribeWithRxLife {
+        binding.itemBottomChatRoom.ivSend.clickThrottleFirst().observe(viewLifecycleOwner) {
             val text = binding.itemBottomChatRoom.etText.text.toString()
             viewModel.send(
                 ChatInfo(
@@ -164,7 +149,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                 )
             )
             binding.itemBottomChatRoom.etText.setText("")
-            cxt.hideKeyBoard(binding.clChatRoom)
+            act.hideKeyBoard()
         }
 
         setFragmentResultListener(ChatRoomAddDialogFragment.REQUEST_KEY_CHAT_ROOM_ADD) { key, bundle ->
@@ -287,14 +272,12 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                                 file.createNewFile()
                             Timber.d("exists = ${file.exists()}, file = $outputPath")
                             //
-
-                            VideoCompressModule.get()
-                                .setCompress(
-                                    CodecSetting(
-                                        inputPath = inputPath,
-                                        outputPath = outputPath
-                                    )
-                                ).compress()
+                            VideoCompressModule.Compress().setCompress(
+                                CodecSetting(
+                                    inputPath = inputPath,
+                                    outputPath = outputPath
+                                )
+                            ).compress()
                             //
                             VideoProcessor.processor(context)
                                 .input(inputPath)
@@ -304,8 +287,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
 //                                .iFrameInterval(1)  //关键帧距，为0时可输出全关键帧视频（部分机器上需为-1）
                                 .progressListener(VideoProgressListener {
                                     Timber.d("it = $it")
-                                })
-                                .process()
+                                }).process()
                             //
 //                            val mp4File = File("/storage/emulated/0/DCIM/Camera/YUV_${System.nanoTime()}.mp4")
 //                            mp4File.createNewFile()
@@ -349,17 +331,6 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         adapter.imageClickRelay?.subscribeWithRxLife {
             findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPhoto(it.second.url.toString()))
         }
-
-        viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)
     }
-
-    private fun onToastObs(pair: Pair<ChatRoomViewModel.ToastType, String>) {
-        when (pair.first) {
-            ChatRoomViewModel.ToastType.LOAD_CHAT_MESSAGE_LIST -> {
-                Snackbar.make(binding.rvChat, pair.second, Snackbar.LENGTH_SHORT).show()
-            }
-        }
-    }
-
 
 }

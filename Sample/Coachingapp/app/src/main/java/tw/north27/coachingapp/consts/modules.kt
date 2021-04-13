@@ -39,7 +39,6 @@ val utilModules = module {
     single<IAudioMediaCodecModule> { AudioMediaCodecModule(androidContext()) }
     single<IMediaRecorderModule> { MediaRecorderModule() }
     single<IMediaExtractorModule> { MediaExtractorModule() }
-    single<IMediaCodecModule>(named("video")) { VideoCompressModule(get()) }
 
 }
 

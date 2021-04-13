@@ -58,7 +58,7 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
             adapter.loadStateFlow.collectLatest {
                 if (it.refresh is LoadState.Loading) {
                     binding.itemNotifyShinner.shimmerFrameLayoutNotify.startAlphaBreatheAnim()
-                    binding.itemEmpty.clEmpty.isVisible = false
+                    binding.itemEmpty.root.isVisible = false
                     binding.rvNotify.isVisible = false
                 }
                 if (it.refresh is LoadState.NotLoading) {
@@ -67,7 +67,7 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
                     if (adapter.itemCount > 0)
                         binding.rvNotify.isVisible = true
                     else
-                        binding.itemEmpty.clEmpty.isVisible = true
+                        binding.itemEmpty.root.isVisible = true
                 }
             }
         }

@@ -157,10 +157,10 @@ class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {
         viewModel.mediaList.observe(viewLifecycleOwner) {
             if (it.isNullOrEmpty()) {
                 binding.rvMedia.isVisible = false
-                binding.itemEmpty.clEmpty.isVisible = true
+                binding.itemEmpty.root.isVisible = true
             } else {
                 binding.rvMedia.isVisible = true
-                binding.itemEmpty.clEmpty.isVisible = false
+                binding.itemEmpty.root.isVisible = false
             }
             adapter.submitList(it)
         }

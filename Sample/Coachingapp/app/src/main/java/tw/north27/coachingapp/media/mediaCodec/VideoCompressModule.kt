@@ -5,6 +5,8 @@ import android.graphics.Rect
 import android.graphics.YuvImage
 import android.media.*
 import android.util.Log
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
@@ -12,39 +14,40 @@ import java.io.IOException
 import java.nio.ByteBuffer
 
 
-class VideoCompressModule(private val mediaExtractorModule: IMediaExtractorModule) : IMediaCodecModule {
-
-    private var setting: CodecSetting? = null
+class VideoCompressModule private constructor(
+    private val setting: CodecSetting,
+    private val mediaExtractorModule: IMediaExtractorModule
+) : IMediaCodecModule {
 
     private val inputPath: String
-        get() = setting?.inputPath ?: throw NullPointerException("Can't find video decode input path!")
+        get() = setting.inputPath ?: throw NullPointerException("Can't find video decode input path!")
 
     private val outputPath: String
-        get() = setting?.outputPath ?: throw NullPointerException("Can't find video encode output path!")
+        get() = setting.outputPath ?: throw NullPointerException("Can't find video encode output path!")
 
     private val mimeType: String
-        get() = setting?.mimeType ?: throw NullPointerException("Can't find video encode mimeType!")
+        get() = setting.mimeType ?: throw NullPointerException("Can't find video encode mimeType!")
 
     private val width: Int
-        get() = setting?.width ?: throw NullPointerException("Can't find video encode width!")
+        get() = setting.width ?: throw NullPointerException("Can't find video encode width!")
 
     private val height: Int
-        get() = setting?.height ?: throw NullPointerException("Can't find video encode height!")
+        get() = setting.height ?: throw NullPointerException("Can't find video encode height!")
 
     private val colorFormat: Int
-        get() = setting?.colorFormat ?: throw NullPointerException("Can't find video encode colorFormat!")
+        get() = setting.colorFormat ?: throw NullPointerException("Can't find video encode colorFormat!")
 
     private val bitRate: Int
-        get() = setting?.bitRate ?: throw NullPointerException("Can't find video encode bitRate!")
+        get() = setting.bitRate ?: throw NullPointerException("Can't find video encode bitRate!")
 
     private val frameRate: Int
-        get() = setting?.frameRate ?: throw NullPointerException("Can't find video encode frameRate!")
+        get() = setting.frameRate ?: throw NullPointerException("Can't find video encode frameRate!")
 
     private val iFrameInterval: Int
-        get() = setting?.iFrameInterval ?: throw NullPointerException("Can't find video encode iFrameInterval!")
+        get() = setting.iFrameInterval ?: throw NullPointerException("Can't find video encode iFrameInterval!")
 
     private val format: Int
-        get() = setting?.format ?: throw NullPointerException("Can't find video encode format!")
+        get() = setting.format ?: throw NullPointerException("Can't find video encode format!")
 
     //media extractor module
     private val mediaExtractor: MediaExtractor
@@ -76,12 +79,15 @@ class VideoCompressModule(private val mediaExtractorModule: IMediaExtractorModul
             return file
         }
 
-    override fun setCompress(setting: CodecSetting): IMediaCodecModule {
-        this.setting = setting
-        return this
+    class Compress : IMediaCodecModule.Compress, KoinComponent {
+        private val mediaExtractorModule by inject<IMediaExtractorModule>()
+
+        override fun setCompress(setting: CodecSetting): IMediaCodecModule {
+            return VideoCompressModule(setting, mediaExtractorModule)
+        }
     }
 
-    override fun compress() {
+    override suspend fun compress() {
         configDecoder()
         configEncoder()
         if (mediaDecoder == null) throw NullPointerException("Can't find MediaDecoder!")

@@ -43,8 +43,8 @@ class ChatRepository(val service: IApiService, val chatModule: IChatModule) : IC
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
 
-    override suspend fun loadChatListFromChat(chat: ChatInfo): Results<List<ChatInfo>> {
-        return safeApiResults { service.getChatListFromChat(chat) }
+    override suspend fun loadChatList(chat: ChatInfo): Results<List<ChatInfo>> {
+        return safeApiResults { service.getChatList(chat) }
     }
 
     override suspend fun executeServer(): String = chatModule.executeServer()

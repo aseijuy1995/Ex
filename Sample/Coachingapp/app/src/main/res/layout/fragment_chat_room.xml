@@ -8,13 +8,13 @@
         <variable
             name="viewModel"
             type="tw.north27.coachingapp.chat.ChatRoomViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_chat_room"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/yellow_fef5e0">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/tool_bar"
@@ -52,17 +52,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/iv_back"
                     app:layout_constraintTop_toTopOf="parent"
-                    bind:chatListTitleText="@{viewModel.chat}" />
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iv_dehaze"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_dehaze_24_white" />
+                    bind:chatRoomTitleText="@{viewModel.chat}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -70,43 +60,20 @@
 
         <include
             android:id="@+id/item_empty"
-            layout="@layout/item_empty"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            app:layout_constraintBottom_toTopOf="@id/item_bottom_chat_room"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tool_bar" />
+            layout="@layout/item_empty" />
 
         <include
             android:id="@+id/item_error"
-            layout="@layout/item_error"
-
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            app:layout_constraintBottom_toTopOf="@id/item_bottom_chat_room"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tool_bar" />
+            layout="@layout/item_error" />
 
         <include
             android:id="@+id/item_network"
-            layout="@layout/item_network"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_gravity="center"
-            app:layout_constraintBottom_toTopOf="@id/item_bottom_chat_room"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tool_bar" />
+            layout="@layout/item_network" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_chat"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/yellow_fef5e0"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toTopOf="@id/item_bottom_chat_room"
             app:layout_constraintEnd_toEndOf="parent"

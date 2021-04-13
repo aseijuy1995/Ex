@@ -442,7 +442,7 @@ class ApiService(val cxt: Context) : IApiService {
         return true
     }
 
-    override suspend fun getChatListFromChat(@Field(value = "chat") chat: ChatInfo): List<ChatInfo> {
+    override suspend fun getChatList(@Field(value = "chat") chat: ChatInfo): List<ChatInfo> {
         delay(1500)
         return listOf(
             ChatInfo(

@@ -11,14 +11,33 @@ import com.bumptech.glide.Glide
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.media.mediaStore.Media
 import tw.north27.coachingapp.ext.createDataStoreProto
 import tw.north27.coachingapp.ext.getValue
+import tw.north27.coachingapp.media.mediaStore.Media
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.model.result.ChatRead
+import tw.north27.coachingapp.module.pref.UserModule
 import tw.north27.coachingapp.protobuf.PREF_USER_NAME
 import tw.north27.coachingapp.protobuf.UserPreferencesSerializer
 
+/**
+ * ChatRoom
+ * */
+@BindingAdapter("bind:chatRoomTitleText")
+fun TextView.bindChatRoomTitleText(chat: ChatInfo) {
+    val userModule = UserModule(context)
+    val account = runBlocking { userModule.getValue { it.account }.first() }
+    text = when (account) {
+        chat.sender.account -> chat.recipient.name
+        chat.recipient.account -> chat.sender.name
+        else -> ""
+    }
+}
+
+
+/**
+ * 分割線
+ * */
 
 @BindingAdapter("bind:isVisibility")
 fun View.bindVisibility(isVisibility: Boolean = true) {

@@ -5,16 +5,18 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import tw.north27.coachingapp.chat.IMediaRepository
+import tw.north27.coachingapp.media.mediaCodec.CodecSetting
+import tw.north27.coachingapp.media.mediaCodec.VideoCompressModule
+import tw.north27.coachingapp.media.mediaStore.IMediaStoreModule
 import tw.north27.coachingapp.media.mediaStore.MediaAlbum
 import tw.north27.coachingapp.media.mediaStore.MediaAlbumSetting
-import tw.north27.coachingapp.media.mediaStore.IMediaStoreModule
 
 class MediaRepository(
     private val imageStoreModule: IMediaStoreModule,
     private val videoStoreModule: IMediaStoreModule,
     private val audioStoreModule: IMediaStoreModule,
     private val codecModule: IAudioMediaCodecModule,
-    private val recorderModule: IMediaRecorderModule,
+    private val recorderModule: IMediaRecorderModule
 ) : IMediaRepository {
 
     override fun getMediaAudio(albumSetting: MediaAlbumSetting): Observable<List<MediaAlbum>> =

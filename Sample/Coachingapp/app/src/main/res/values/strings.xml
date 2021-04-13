@@ -1,9 +1,19 @@
 <resources>
     <string name="app_name">Coaching</string>
     <string name="default_notification_channel_id">default_notification_channel_id</string>
-    <string name="network">網路連線失敗</string>
+    <string name="empty">Empty</string>
+    <string name="error">Error</string>
+    <string name="network">Network</string>
+    <string name="empty_content">沒有資料</string>
+    <string name="error_content">網路連線異常</string>
+    <string name="network_content">網路連線失敗</string>
+    <!--    -->
+    <!--    -->
+    <!--    -->
+    <!--    -->
+    <!--    -->
     <string name="network_desc">檢查是否開啟行動網路 or Wifi!</string>
-    <string name="error">網路連線異常</string>
+
     <string name="error_desc">請稍後在試!</string>
     <string name="maintain">維護通知</string>
     <string name="close">關閉</string>
@@ -35,7 +45,6 @@
     <string name="all">全部</string>
     <string name="have_read">已讀</string>
     <string name="un_read">未讀</string>
-    <string name="empty">沒有資料</string>
     <string name="open_sound_notify">開啟聲音通知</string>
     <string name="close_sound_notify">關閉聲音通知</string>
     <string name="deleted">已刪除</string>

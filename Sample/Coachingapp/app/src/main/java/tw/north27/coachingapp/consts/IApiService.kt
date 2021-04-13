@@ -111,7 +111,7 @@ interface IApiService {
      * 獲取指定聊天數據
      * */
     @GET
-    suspend fun getChatListFromChat(
+    suspend fun getChatList(
         @Field("chat") chat: ChatInfo
     ): List<ChatInfo>
 
