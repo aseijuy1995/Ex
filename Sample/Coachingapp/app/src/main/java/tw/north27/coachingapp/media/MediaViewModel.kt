@@ -44,7 +44,7 @@ class MediaViewModel(private val repo: IMediaRepository) : BaseViewModel() {
         isMultipleChoice = true,
         maxCount = 3,
         videoMinDuration = 0,//m
-        videoMaxDuration = 60000//1m
+        videoMaxDuration =1220000//1m
     )
 
     /**

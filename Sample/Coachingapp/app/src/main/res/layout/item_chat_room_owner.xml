@@ -15,19 +15,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <!--        android:background="@color/gray_1f1f1f"-->
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="03:00"
+            android:text="@{chat.sendTime}"
             android:textColor="@color/gray_aaaaaa"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@id/constraint_layout_chat"
             app:layout_constraintEnd_toStartOf="@id/constraint_layout_chat" />
-        <!--        android:text="@{chat.sendTime}"-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_layout_chat"
@@ -42,10 +40,11 @@
                 android:id="@+id/tv_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_solid_green_cornersradius_10_padding_top_btn_5_lt_rt_10"
+                android:background="@drawable/shape_solid_green_corners_radius_10_padding_top_btn_5_lt_rt_10"
                 android:maxWidth="250dp"
                 android:text="@{chat.text}"
                 android:textColor="@color/white"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -63,26 +62,31 @@
                 app:spanCount="2"
                 bind:isVisibility="@{chat.chatType == ChatType.IMAGE}" />
 
-            <!--            <include-->
-            <!--                android:id="@+id/view_recorder"-->
-            <!--                layout="@layout/item_chat_recording_owner"-->
-            <!--                app:chatItem="@{chatItem}"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                bind:isVisible="@{chatItem.audioMsg!=null}" />-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="250dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:isVisibility="@{chat.chatType == ChatType.VIDEO}" />
 
-            <!--            <androidx.recyclerview.widget.RecyclerView-->
-            <!--                android:id="@+id/rv_video"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:maxWidth="200dp"-->
-            <!--                android:orientation="vertical"-->
-            <!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                bind:isVisible="@{chatItem.videoListMsg!=null}" />-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_audio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="150dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:isVisibility="@{chat.chatType == ChatType.AUDIO}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

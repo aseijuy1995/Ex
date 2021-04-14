@@ -202,6 +202,11 @@ dependencies {
     implementation "com.tapadoo.android:alerter:1.0.6"
     //
     implementation "com.github.yellowcath:VideoProcessor:2.4.2"
+    //exoplayer
+    implementation "com.google.android.exoplayer:exoplayer:2.12.3"
+    implementation "com.google.android.exoplayer:exoplayer-ui:2.12.3"
+    implementation "com.google.android.exoplayer:exoplayer-dash:2.12.3"//dash
+    implementation "com.google.android.exoplayer:exoplayer-hls:2.12.3"//hls
 
 
 }

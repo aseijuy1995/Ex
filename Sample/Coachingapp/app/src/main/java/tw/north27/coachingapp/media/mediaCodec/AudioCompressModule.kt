@@ -22,11 +22,11 @@ class AudioCompressModule private constructor(
     class Compress : IMediaCodecModule.Compress, KoinComponent {
         private val mediaExtractorModule by inject<IMediaExtractorModule>()
 
-        private val videoCompressModule = AudioCompressModule(mediaExtractorModule)
+        private val audioCompressModule = AudioCompressModule(mediaExtractorModule)
 
         override fun setCompress(setting: CodecSetting): IMediaCodecModule {
-            videoCompressModule.setCompressSetting(setting)
-            return videoCompressModule
+            audioCompressModule.setCompressSetting(setting)
+            return audioCompressModule
         }
     }
 
@@ -36,47 +36,47 @@ class AudioCompressModule private constructor(
     }
 
     private val inputPath: String
-        get() = setting?.inputPath ?: throw NullPointerException("Can't find video decode input path!")
+        get() = setting?.inputPath ?: throw NullPointerException("Can't find audio decode input path!")
 
     private val outputPath: String
-        get() = setting?.outputPath ?: throw NullPointerException("Can't find video encode output path!")
+        get() = setting?.outputPath ?: throw NullPointerException("Can't find audio encode output path!")
 
     private val mimeType: String
-        get() = setting?.mimeType ?: throw NullPointerException("Can't find video encode mimeType!")
+        get() = setting?.mimeType ?: throw NullPointerException("Can't find v encode mimeType!")
 
     private val width: Int
-        get() = setting?.width ?: throw NullPointerException("Can't find video encode width!")
+        get() = setting?.width ?: throw NullPointerException("Can't find audio encode width!")
 
     private val height: Int
-        get() = setting?.height ?: throw NullPointerException("Can't find video encode height!")
+        get() = setting?.height ?: throw NullPointerException("Can't find audio encode height!")
 
     private val colorFormat: Int
-        get() = setting?.colorFormat ?: throw NullPointerException("Can't find video encode colorFormat!")
+        get() = setting?.colorFormat ?: throw NullPointerException("Can't find audio encode colorFormat!")
 
     private val bitRate: Int
-        get() = setting?.bitRate ?: throw NullPointerException("Can't find video encode bitRate!")
+        get() = setting?.bitRate ?: throw NullPointerException("Can't find audio encode bitRate!")
 
     private val frameRate: Int
-        get() = setting?.frameRate ?: throw NullPointerException("Can't find video encode frameRate!")
+        get() = setting?.frameRate ?: throw NullPointerException("Can't find audio encode frameRate!")
 
     private val iFrameInterval: Int
-        get() = setting?.iFrameInterval ?: throw NullPointerException("Can't find video encode iFrameInterval!")
+        get() = setting?.iFrameInterval ?: throw NullPointerException("Can't find audio encode iFrameInterval!")
 
     private val format: Int
-        get() = setting?.format ?: throw NullPointerException("Can't find video encode format!")
+        get() = setting?.format ?: throw NullPointerException("Can't find audio encode format!")
 
     //media extractor module
     private val mediaExtractor: MediaExtractor
         get() = mediaExtractorModule.mediaExtractor ?: throw NullPointerException("Can't find mediaExtractor!")
 
-    private val videoTrackIndex: Int
-        get() = mediaExtractorModule.videoTrackIndex ?: throw NullPointerException("Can't find video track index!")
+    private val audioTrackIndex: Int
+        get() = mediaExtractorModule.audioTrackIndex ?: throw NullPointerException("Can't find audio track index!")
 
-    private val videoMediaFormat: MediaFormat
-        get() = mediaExtractorModule.videoMediaFormat ?: throw NullPointerException("Can't find video mediaFormat!")
+    private val audioMediaFormat: MediaFormat
+        get() = mediaExtractorModule.audioMediaFormat ?: throw NullPointerException("Can't find audio mediaFormat!")
 
-    private val videoMimeType: String
-        get() = mediaExtractorModule.videoMimeType ?: throw NullPointerException("Can't find video mimeType!")
+    private val audioMimeType: String
+        get() = mediaExtractorModule.audioMimeType ?: throw NullPointerException("Can't find audio mimeType!")
 
     //codec
     private var mediaDecoder: MediaCodec? = null
@@ -101,13 +101,13 @@ class AudioCompressModule private constructor(
         if (mediaDecoder == null) throw NullPointerException("Can't find MediaDecoder!")
         if (mediaEncoder == null) throw NullPointerException("Can't find MediaEncoder!")
         //
-        compressVideo()
+        compressAudio()
         //
         close()
     }
 
-    private fun compressVideo() {
-        mediaExtractor.selectTrack(videoTrackIndex)
+    private fun compressAudio() {
+        mediaExtractor.selectTrack(audioTrackIndex)
         mediaDecoder!!.start()
         //
         val fileChannel = FileOutputStream(decodeOutputFile).channel
@@ -207,11 +207,11 @@ class AudioCompressModule private constructor(
     private fun configDecoder() {
         mediaExtractorModule.extract(inputPath)
         try {
-            mediaDecoder = MediaCodec.createDecoderByType(videoMimeType)
+            mediaDecoder = MediaCodec.createDecoderByType(audioMimeType)
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        mediaDecoder!!.configure(videoMediaFormat, null, null, 0)
+        mediaDecoder!!.configure(audioMediaFormat, null, null, 0)
     }
 
     private fun configEncoder(): IMediaCodecModule {
@@ -220,10 +220,10 @@ class AudioCompressModule private constructor(
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        val mediaFormat = MediaFormat.createVideoFormat(mimeType, width, height)
+        val mediaFormat = MediaFormat.createAudioFormat(mimeType, width, height)
         mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, colorFormat)//顏色格式
-        val width = videoMediaFormat.getInteger(MediaFormat.KEY_WIDTH)
-        val height = videoMediaFormat.getInteger(MediaFormat.KEY_HEIGHT)
+        val width = audioMediaFormat.getInteger(MediaFormat.KEY_WIDTH)
+        val height = audioMediaFormat.getInteger(MediaFormat.KEY_HEIGHT)
         Timber.d("width = $width, height = $height")
         mediaFormat.setInteger(MediaFormat.KEY_WIDTH, width)
         mediaFormat.setInteger(MediaFormat.KEY_HEIGHT, height)
@@ -232,31 +232,26 @@ class AudioCompressModule private constructor(
         mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, bitRate)
         mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, frameRate)//fps - 幀速率（以幀/秒為單位）
         mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, iFrameInterval)//關鍵幀頻率的關鍵幀
-
-//        mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CQ)
-//        mediaFormat.setInteger(MediaFormat.KEY_MAX_INPUT_SIZE, 14000000)
-
-//        mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_VBR)
         //
-        val capabilitiesType = mediaEncoder!!.codecInfo.getCapabilitiesForType(mimeType)
-        capabilitiesType.colorFormats.forEach {
-            Timber.d("capabilitiesType.colorFormat = $it")
-        }
-        val encoderCapabilities = capabilitiesType.encoderCapabilities
-        when {
-            encoderCapabilities.isBitrateModeSupported(MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CQ) -> {
-                Timber.d("Setting bitrate mode to constant quality")
-                mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CQ)
-            }
-            encoderCapabilities.isBitrateModeSupported(MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_VBR) -> {
-                Timber.d("Setting bitrate mode to variable bitrate")
-                mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_VBR)
-            }
-            encoderCapabilities.isBitrateModeSupported(MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CBR) -> {
-                Timber.d("Setting bitrate mode to constant bitrate")
-                mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CBR)
-            }
-        }
+//        val capabilitiesType = mediaEncoder!!.codecInfo.getCapabilitiesForType(mimeType)
+//        capabilitiesType.colorFormats.forEach {
+//            Timber.d("capabilitiesType.colorFormat = $it")
+//        }
+//        val encoderCapabilities = capabilitiesType.encoderCapabilities
+//        when {
+//            encoderCapabilities.isBitrateModeSupported(MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CQ) -> {
+//                Timber.d("Setting bitrate mode to constant quality")
+//                mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CQ)
+//            }
+//            encoderCapabilities.isBitrateModeSupported(MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_VBR) -> {
+//                Timber.d("Setting bitrate mode to variable bitrate")
+//                mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_VBR)
+//            }
+//            encoderCapabilities.isBitrateModeSupported(MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CBR) -> {
+//                Timber.d("Setting bitrate mode to constant bitrate")
+//                mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CBR)
+//            }
+//        }
 
         Timber.d("mediaFormat = $mediaFormat")
         mediaEncoder!!.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)

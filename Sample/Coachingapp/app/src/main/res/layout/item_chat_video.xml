@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="chatVideo"
+            type="tw.north27.coachingapp.model.result.ChatVideo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.google.android.exoplayer2.ui.StyledPlayerView
+            android:id="@+id/player_view"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:show_buffering="when_playing"
+            app:show_shuffle_button="true" />
+
+        <!--        <com.google.android.exoplayer2.ui.PlayerView-->
+        <!--            android:id="@+id/player_view"-->
+        <!--            android:layout_width="250dp"-->
+        <!--            android:layout_height="250dp"-->
+        <!--            app:controller_layout_id="@null"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <!--        &lt;!&ndash;        app:resize_mode="zoom"&ndash;&gt;-->
+        <!--        &lt;!&ndash;        app:surface_type="surface_view"&ndash;&gt;-->
+        <!--        &lt;!&ndash;        app:use_controller="false"&ndash;&gt;-->
+        <!--        &lt;!&ndash;        bind:videoByte="@{chatVideo.byteArray}"&ndash;&gt;-->
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

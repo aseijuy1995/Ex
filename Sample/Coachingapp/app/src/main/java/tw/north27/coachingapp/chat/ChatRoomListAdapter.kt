@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
-import com.jakewharton.rxbinding4.recyclerview.scrollStateChanges
 import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.coroutines.flow.first
@@ -19,12 +19,16 @@ import tw.north27.coachingapp.databinding.ItemChatRoomOwnerBinding
 import tw.north27.coachingapp.model.result.ChatImage
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.model.result.ChatType
+import tw.north27.coachingapp.model.result.ChatVideo
 import tw.north27.coachingapp.module.pref.UserModule
 
-class ChatRoomListAdapter(private val cxt: Context) : ListAdapter<ChatInfo, ChatRoomListAdapter.VH>(
+class ChatRoomListAdapter(
+    private val cxt: Context,
+    private val owner: LifecycleOwner
+) : ListAdapter<ChatInfo, ChatRoomListAdapter.VH>(
     object : DiffUtil.ItemCallback<ChatInfo>() {
         override fun areItemsTheSame(oldItem: ChatInfo, newItem: ChatInfo): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(oldItem: ChatInfo, newItem: ChatInfo): Boolean {
@@ -34,8 +38,10 @@ class ChatRoomListAdapter(private val cxt: Context) : ListAdapter<ChatInfo, Chat
 ) {
 
     val imageClickRelay = PublishRelay.create<Pair<View, ChatImage>>()
-//
-//    val itemRecordingClickRelay = PublishRelay.create<Pair<Boolean, ChatInfo>>()
+
+    val videoClickRelay = PublishRelay.create<Pair<View, ChatVideo>>()
+
+    val itemRecordingClickRelay = PublishRelay.create<Pair<Boolean, ChatInfo>>()
 
     private val userModule = UserModule(cxt)
 
@@ -86,32 +92,34 @@ class ChatRoomListAdapter(private val cxt: Context) : ListAdapter<ChatInfo, Chat
                         override fun isLayoutRTL(): Boolean = true
                     }.apply {
                         spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                            override fun getSpanSize(position: Int): Int = when {
-                                it.size % 2 == 0 -> 1
-                                position == it.size - 1 -> 2
-                                else -> 1
-                            }
+                            override fun getSpanSize(position: Int): Int = imageArrangementFormat(it, position)
                         }
                     }
                     rvImg.apply {
                         this.layoutManager = layoutManager
                         this.adapter = adapter
-                        scrollStateChanges().subscribeBy {
-                            when (it) {
-                                RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this).resumeRequests()
-                                RecyclerView.SCROLL_STATE_DRAGGING -> Glide.with(this).pauseRequests()
+                        addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                                super.onScrollStateChanged(recyclerView, newState)
+                                when (newState) {
+                                    RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this@apply).resumeRequests()
+                                    RecyclerView.SCROLL_STATE_DRAGGING -> Glide.with(this@apply).pauseRequests()
+                                }
+
                             }
-                        }
+                        })
                     }
                     adapter.submitList(it)
                     adapter.itemClickRelay.subscribeBy { imageClickRelay?.accept(it) }
                 }
             }
-
-//            chatInfo.videoListMsg?.let {
-//                rvVideo.adapter = ChatVideoListAdapter().apply { submitList(it) }
-//            }
-            //recording check
+            //video
+            chat.videos?.let {
+                val adapter = ChatVideoListAdapter(cxt, owner).apply { submitList(it) }
+                rvVideo.adapter = adapter
+                adapter.itemClickRelay.subscribeBy { videoClickRelay?.accept(it) }
+            }
+//            recording check
 //            viewRecorder.chkRecorder.setOnCheckedChangeListener { _, isChecked ->
 //                itemRecordingClickRelay.accept(Pair(isChecked, chatInfo))
 //            }
@@ -147,28 +155,34 @@ class ChatRoomListAdapter(private val cxt: Context) : ListAdapter<ChatInfo, Chat
                     val adapter = ChatImageListAdapter()
                     val layoutManager = object : GridLayoutManager(cxt, 2, LinearLayoutManager.VERTICAL, false) {}.apply {
                         spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                            override fun getSpanSize(position: Int): Int = when {
-                                it.size % 2 == 0 -> 1
-                                position == it.size - 1 -> 2
-                                else -> 1
-                            }
+                            override fun getSpanSize(position: Int): Int = imageArrangementFormat(it, position)
                         }
                     }
                     rvImg.apply {
                         this.layoutManager = layoutManager
                         this.adapter = adapter
-                        scrollStateChanges().subscribeBy {
-                            when (it) {
-                                RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this).resumeRequests()
-                                RecyclerView.SCROLL_STATE_DRAGGING -> Glide.with(this).pauseRequests()
+                        addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                                super.onScrollStateChanged(recyclerView, newState)
+                                when (newState) {
+                                    RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this@apply).resumeRequests()
+                                    RecyclerView.SCROLL_STATE_DRAGGING -> Glide.with(this@apply).pauseRequests()
+                                }
+
                             }
-                        }
+                        })
                     }
                     adapter.submitList(it)
                     adapter.itemClickRelay.subscribeBy { imageClickRelay?.accept(it) }
+
                 }
             }
-
+            //video
+            chat.videos?.let {
+                val adapter = ChatVideoListAdapter(cxt, owner).apply { submitList(it) }
+                rvVideo.adapter = adapter
+                adapter.itemClickRelay.subscribeBy { videoClickRelay?.accept(it) }
+            }
 
 //            ivRecorder.clicks().subscribe {
 ////                if (viewModel.mediaPlayerState.value!!) {
@@ -188,5 +202,11 @@ class ChatRoomListAdapter(private val cxt: Context) : ListAdapter<ChatInfo, Chat
             executePendingBindings()
         }
 
+    }
+
+    private fun imageArrangementFormat(it: List<ChatImage>, position: Int) = when {
+        it.size % 2 == 0 -> 1
+        position == it.size - 1 -> 2
+        else -> 1
     }
 }

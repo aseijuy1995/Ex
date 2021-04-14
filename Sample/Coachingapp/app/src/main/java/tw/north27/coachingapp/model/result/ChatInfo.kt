@@ -12,10 +12,10 @@ data class ChatInfo(
     var chatType: ChatType,//種類
     var text: String? = null,//文字
     var image: List<ChatImage>? = null,//圖片
-    var audios: ChatAudio? = null,//音訊
+    var audios: List<ChatAudio>? = null,//音訊
     var videos: List<ChatVideo>? = null,//影片
     var read: ChatRead,
-    var unReadCount: Int,//未讀數量
+    var unReadCount: Int = 0,//未讀數量
     var isSound: Boolean = true,//聲音開關
 
 ) : Parcelable
@@ -34,15 +34,14 @@ data class ChatImage(
 @Parcelize
 data class ChatAudio(
     val id: Int,
-    val url: String,
-    val time: Int
+    val url: String
 ) : Parcelable
 
 @Parcelize
 data class ChatVideo(
     val id: Int,
     val url: String? = null,
-    val byteArray: ByteArray? = null,
+//    val byteArray: ByteArray? = null,
     val time: Int
 ) : Parcelable
 

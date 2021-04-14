@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="chatAudio"
+            type="tw.north27.coachingapp.model.result.ChatAudio" />
+    </data>
+
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:id="@+id/view_recorder"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:background="@drawable/shape_solid_green_corners_radius_10_padding_top_btn_5_lt_rt_10"-->
+    <!--        android:maxWidth="200dp"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        bind:ignore="MissingDefaultResource">-->
+
+    <!--        <androidx.appcompat.widget.AppCompatCheckBox-->
+    <!--            android:id="@+id/chk_recorder"-->
+    <!--            android:layout_width="20dp"-->
+    <!--            android:layout_height="20dp"-->
+    <!--            android:background="@drawable/select_checkbox_checked_recording"-->
+    <!--            android:button="@null"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--        <androidx.appcompat.widget.AppCompatTextView-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginStart="5dp"-->
+    <!--            android:layout_marginEnd="5dp"-->
+    <!--            android:text="@{@string/time_format((chatItem.audioMsg.countDownTimer  / 60), (chatItem.audioMsg.countDownTimer % 60))}"-->
+    <!--            android:textColor="@color/gray_303030"-->
+    <!--            android:textSize="14sp"-->
+    <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toEndOf="@id/chk_recorder"-->
+    <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+</layout>

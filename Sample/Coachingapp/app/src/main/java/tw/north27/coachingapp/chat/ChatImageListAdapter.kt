@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.jakewharton.rxrelay3.BehaviorRelay
 import com.jakewharton.rxrelay3.PublishRelay
 import tw.north27.coachingapp.databinding.ItemChatImageBinding
 import tw.north27.coachingapp.model.result.ChatImage
@@ -33,7 +32,8 @@ class ChatImageListAdapter : ListAdapter<ChatImage, ChatImageListAdapter.VH>(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val binding = ItemChatImageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemChatImageBinding.inflate(inflater, parent, false)
         return VH(binding)
     }
 

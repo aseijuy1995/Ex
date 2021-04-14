@@ -47,6 +47,7 @@
                 android:maxWidth="250dp"
                 android:text="@{chat.text}"
                 android:textColor="@color/gray_666666"
+                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 bind:isVisibility="@{chat.chatType == ChatType.TEXT}" />
@@ -63,6 +64,20 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:spanCount="2"
                 bind:isVisibility="@{chat.chatType == ChatType.IMAGE}" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="250dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:isVisibility="@{chat.chatType == ChatType.VIDEO}" />
+
 
             <!--                        <androidx.constraintlayout.widget.ConstraintLayout-->
             <!--                android:id="@+id/view_recorder"-->
@@ -110,13 +125,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="03:00"
+            android:text="@{chat.sendTime}"
             android:textColor="@color/gray_aaaaaa"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@id/constraint_layout_chat"
             app:layout_constraintStart_toEndOf="@id/constraint_layout_chat" />
-        <!--    android:text="@{chat.sendTime}"-->
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
