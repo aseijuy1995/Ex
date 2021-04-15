@@ -3,9 +3,15 @@ package tw.north27.coachingapp.media.exoplayer
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.google.android.exoplayer2.BasePlayer
+import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.ui.StyledPlayerView
 
 fun StyledPlayerView.prepare(owner: LifecycleOwner, player: BasePlayer) {
+    this.player = player
+    player.addObs(owner)
+}
+
+fun PlayerView.prepare(owner: LifecycleOwner, player: BasePlayer) {
     this.player = player
     player.addObs(owner)
 }

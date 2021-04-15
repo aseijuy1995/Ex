@@ -25,8 +25,6 @@ import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
 import tw.north27.coachingapp.ext.*
-import tw.north27.coachingapp.media.mediaCodec.AudioCompressModule
-import tw.north27.coachingapp.media.mediaCodec.CodecSetting
 import tw.north27.coachingapp.media.mediaStore.Media
 import tw.north27.coachingapp.media.mediaStore.MimeType
 import tw.north27.coachingapp.model.result.*
@@ -196,19 +194,22 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
                     var chat: ChatInfo? = null
                     when (mimeType) {
                         MimeType.AUDIO -> {
+
                             val chatAudioList = mutableListOf<ChatAudio>()
                             mediaList.forEach {
                                 val inputPath = it.data
-                                val yuvFile = File("/storage/emulated/0/DCIM/Camera/AUDIO_${System.nanoTime()}.mp3")
-                                val outputPath = yuvFile.absolutePath
+                                val pcmFile = File("/storage/emulated/0/Recordings/AUDIO_${System.nanoTime()}.mp3")
+                                val outputPath = pcmFile.absolutePath
                                 //
-                                AudioCompressModule.Compress().setCompress(
-                                    CodecSetting(
-                                        inputPath = inputPath,
-                                        outputPath = outputPath
-                                    )
-                                ).compress()
-                                chatAudioList.add(ChatAudio(id = 0, url = outputPath))
+//                                AudioCompressModule.Compress().setCompress(
+//                                    CodecSetting(
+//                                        inputPath = inputPath,
+//                                        outputPath = outputPath,
+//                                        mimeType = MediaFormat.MIMETYPE_AUDIO_AAC
+//                                    )
+//                                ).compress()
+//                                chatAudioList.add(ChatAudio(id = 0, url = outputPath))
+                                chatAudioList.add(ChatAudio(id = 0, url = inputPath))
                             }
                             chat = ChatInfo(
                                 id = 5,

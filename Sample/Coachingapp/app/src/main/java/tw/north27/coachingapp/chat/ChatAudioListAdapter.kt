@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay3.PublishRelay
 import org.koin.core.KoinComponent
 import tw.north27.coachingapp.databinding.ItemChatAudioBinding
+import tw.north27.coachingapp.media.exoplayer.ExoPlayerConfig
+import tw.north27.coachingapp.media.exoplayer.prepare
 import tw.north27.coachingapp.model.result.ChatAudio
 
 class ChatAudioListAdapter(
@@ -34,18 +36,8 @@ class ChatAudioListAdapter(
 
         fun bind(chatAudio: ChatAudio) = binding.apply {
             this.chatAudio = chatAudio
-//            /**
-//             * FIXME 尚未撈取影片之協定
-//             * dash - https://bitmovin-a.akamaihd.net/content/playhouse-vr/mpds/105560.mpd
-//             * hls - https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8
-//             * */
-////            val player = ExoPlayerConfig.createDashPlayer(cxt, "https://bitmovin-a.akamaihd.net/content/playhouse-vr/mpds/105560.mpd")
-////            val player = ExoPlayerConfig.createPlayer(cxt, chatVideo.url)
-////            val player = ExoPlayerConfig.createHlsPlayer(cxt, "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8")
-////            val player = ExoPlayerConfig.createSmoothStreamingPlayer(cxt, "https://bitdash-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8")
-////            val player = ExoPlayerConfig.createProgressivePlayer(cxt, "https://bitmovin.com/player-content/playhouse-vr/progressive.mp4")
-//            val player = ExoPlayerConfig.createPlayer(cxt, chatAudio.url)
-//            playerView.prepare(owner, player)
+            val player = ExoPlayerConfig.createPlayer(cxt, chatAudio.url)
+            playerView.prepare(owner, player)
             itemView.setOnClickListener { itemClickRelay.accept(it to chatAudio) }
             executePendingBindings()
         }

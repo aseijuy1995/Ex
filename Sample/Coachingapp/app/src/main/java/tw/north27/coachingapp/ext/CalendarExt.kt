@@ -1,6 +1,5 @@
 package tw.north27.coachingapp.ext
 
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -12,6 +11,5 @@ import java.util.*
 fun Calendar.getDateTime(format: String, locale: Locale = Locale.getDefault()): String {
     val simpleDateFormat = SimpleDateFormat(format, locale)
     val str = simpleDateFormat.format(time)
-    Timber.d("str = $str")
     return str
 }

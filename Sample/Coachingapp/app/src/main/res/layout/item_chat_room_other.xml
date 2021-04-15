@@ -23,7 +23,6 @@
             android:layout_height="30dp"
             android:layout_margin="5dp"
             android:scaleType="centerCrop"
-            android:src="@mipmap/ic_version_pic"
             app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -77,6 +76,19 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 bind:isVisibility="@{chat.chatType == ChatType.VIDEO}" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_audio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="150dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:isVisibility="@{chat.chatType == ChatType.AUDIO}" />
 
 
             <!--                        <androidx.constraintlayout.widget.ConstraintLayout-->

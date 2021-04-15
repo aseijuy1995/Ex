@@ -1,17 +1,14 @@
 package tw.north27.coachingapp.media.mediaCodec
 
-import android.graphics.ImageFormat
-import android.graphics.Rect
-import android.graphics.YuvImage
-import android.media.*
-import android.util.Log
+import android.media.MediaCodec
+import android.media.MediaExtractor
+import android.media.MediaFormat
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.nio.ByteBuffer
 
 
 class AudioCompressModule private constructor(
@@ -44,26 +41,20 @@ class AudioCompressModule private constructor(
     private val mimeType: String
         get() = setting?.mimeType ?: throw NullPointerException("Can't find v encode mimeType!")
 
-    private val width: Int
-        get() = setting?.width ?: throw NullPointerException("Can't find audio encode width!")
-
-    private val height: Int
-        get() = setting?.height ?: throw NullPointerException("Can't find audio encode height!")
-
-    private val colorFormat: Int
-        get() = setting?.colorFormat ?: throw NullPointerException("Can't find audio encode colorFormat!")
+    private val aacProfile: Int
+        get() = setting?.aacProfile ?: throw NullPointerException("Can't find audio encode AAC Profile!")
 
     private val bitRate: Int
         get() = setting?.bitRate ?: throw NullPointerException("Can't find audio encode bitRate!")
 
-    private val frameRate: Int
-        get() = setting?.frameRate ?: throw NullPointerException("Can't find audio encode frameRate!")
+    private val maxInputSize: Int
+        get() = setting?.maxInputSize ?: throw NullPointerException("Can't find audio encode maxInputSize!")
 
-    private val iFrameInterval: Int
-        get() = setting?.iFrameInterval ?: throw NullPointerException("Can't find audio encode iFrameInterval!")
+    private val sampleRate: Int
+        get() = setting?.sampleRate ?: throw NullPointerException("Can't find audio encode sampleRate!")
 
-    private val format: Int
-        get() = setting?.format ?: throw NullPointerException("Can't find audio encode format!")
+    private val channelCount: Int
+        get() = setting?.channelCount ?: throw NullPointerException("Can't find audio encode channelCount!")
 
     //media extractor module
     private val mediaExtractor: MediaExtractor
@@ -83,8 +74,7 @@ class AudioCompressModule private constructor(
 
     private var mediaEncoder: MediaCodec? = null
 
-    //
-    private val decodeOutputFile: File
+    private val outputFile: File
         get() {
             val file = File(outputPath)
             if (!file.parentFile.exists())
@@ -100,7 +90,6 @@ class AudioCompressModule private constructor(
         configEncoder()
         if (mediaDecoder == null) throw NullPointerException("Can't find MediaDecoder!")
         if (mediaEncoder == null) throw NullPointerException("Can't find MediaEncoder!")
-        //
         compressAudio()
         //
         close()
@@ -109,15 +98,12 @@ class AudioCompressModule private constructor(
     private fun compressAudio() {
         mediaExtractor.selectTrack(audioTrackIndex)
         mediaDecoder!!.start()
+        mediaEncoder!!.start()
         //
-        val fileChannel = FileOutputStream(decodeOutputFile).channel
+        val fileChannel = FileOutputStream(outputFile).channel
         val bufferInfo = MediaCodec.BufferInfo()
-        //
         val bufferInfo2 = MediaCodec.BufferInfo()
         //
-        mediaEncoder!!.start()
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         var isDecodeDone = false
         while (!isDecodeDone) {
             //獲取可輸入的緩衝區索引值
@@ -146,11 +132,10 @@ class AudioCompressModule private constructor(
                         mediaEncoder!!.dequeueInputBuffer(-1).takeIf { it >= 0 }?.let { inputBufferIndex ->
                             val inputByteBuffer = mediaEncoder!!.getInputBuffer(inputBufferIndex)!!//獲取可輸入的緩衝區
                             inputByteBuffer.clear()
-                            inputByteBuffer.put(decodeOutputByteBuffer)//將yuv畫面數據流至指定的輸入緩衝區中
+                            inputByteBuffer.put(decodeOutputByteBuffer)//將數據流至指定的輸入緩衝區中
                             mediaEncoder!!.queueInputBuffer(inputBufferIndex, 0, decodeOutputByteBuffer.limit(), mediaExtractor.sampleTime, mediaExtractor.sampleFlags)
                             //輸出緩衝區索引值若大於0，則表示即有解碼成功之數據
                             val encodeOutputBufferIndex = mediaEncoder!!.dequeueOutputBuffer(bufferInfo2, -1)
-//                            Timber.d("encodeOutputBufferIndex = $encodeOutputBufferIndex")
                             when {
                                 encodeOutputBufferIndex >= 0 -> {
                                     val encodeOutputByteBuffer = mediaEncoder!!.getOutputBuffer(encodeOutputBufferIndex)
@@ -214,145 +199,19 @@ class AudioCompressModule private constructor(
         mediaDecoder!!.configure(audioMediaFormat, null, null, 0)
     }
 
-    private fun configEncoder(): IMediaCodecModule {
+    private fun configEncoder() {
+        val mediaFormat = MediaFormat.createAudioFormat(mimeType, sampleRate, channelCount)
+        mediaFormat.setInteger(MediaFormat.KEY_AAC_PROFILE, aacProfile)
+        mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, bitRate)
+        mediaFormat.setInteger(MediaFormat.KEY_MAX_INPUT_SIZE, maxInputSize)
+//        val duration = audioMediaFormat.getLong(MediaFormat.KEY_DURATION)
+//        mediaFormat.setLong(MediaFormat.KEY_DURATION, duration)
         try {
             mediaEncoder = MediaCodec.createEncoderByType(mimeType)
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        val mediaFormat = MediaFormat.createAudioFormat(mimeType, width, height)
-        mediaFormat.setInteger(MediaFormat.KEY_COLOR_FORMAT, colorFormat)//顏色格式
-        val width = audioMediaFormat.getInteger(MediaFormat.KEY_WIDTH)
-        val height = audioMediaFormat.getInteger(MediaFormat.KEY_HEIGHT)
-        Timber.d("width = $width, height = $height")
-        mediaFormat.setInteger(MediaFormat.KEY_WIDTH, width)
-        mediaFormat.setInteger(MediaFormat.KEY_HEIGHT, height)
-
-
-        mediaFormat.setInteger(MediaFormat.KEY_BIT_RATE, bitRate)
-        mediaFormat.setInteger(MediaFormat.KEY_FRAME_RATE, frameRate)//fps - 幀速率（以幀/秒為單位）
-        mediaFormat.setInteger(MediaFormat.KEY_I_FRAME_INTERVAL, iFrameInterval)//關鍵幀頻率的關鍵幀
-        //
-//        val capabilitiesType = mediaEncoder!!.codecInfo.getCapabilitiesForType(mimeType)
-//        capabilitiesType.colorFormats.forEach {
-//            Timber.d("capabilitiesType.colorFormat = $it")
-//        }
-//        val encoderCapabilities = capabilitiesType.encoderCapabilities
-//        when {
-//            encoderCapabilities.isBitrateModeSupported(MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CQ) -> {
-//                Timber.d("Setting bitrate mode to constant quality")
-//                mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CQ)
-//            }
-//            encoderCapabilities.isBitrateModeSupported(MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_VBR) -> {
-//                Timber.d("Setting bitrate mode to variable bitrate")
-//                mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_VBR)
-//            }
-//            encoderCapabilities.isBitrateModeSupported(MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CBR) -> {
-//                Timber.d("Setting bitrate mode to constant bitrate")
-//                mediaFormat.setInteger(MediaFormat.KEY_BITRATE_MODE, MediaCodecInfo.EncoderCapabilities.BITRATE_MODE_CBR)
-//            }
-//        }
-
-        Timber.d("mediaFormat = $mediaFormat")
         mediaEncoder!!.configure(mediaFormat, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE)
-        return this
-    }
-
-    //
-    //
-    //
-    private fun compressToJpeg(fileName: String, image: Image) {
-        val outStream: FileOutputStream
-        outStream = try {
-            FileOutputStream(fileName)
-        } catch (ioe: IOException) {
-            throw RuntimeException("Unable to create output file $fileName", ioe)
-        }
-        val rect: Rect = image.getCropRect()
-        val yuvImage = YuvImage(getDataFromImage(image, 2), ImageFormat.NV21, rect.width(), rect.height(), null)
-        yuvImage.compressToJpeg(rect, 100, outStream)
-    }
-
-    private fun getDataFromImage(image: Image, colorFormat: Int): ByteArray? {
-        require(!(colorFormat != 1 && colorFormat != 2)) { "only support COLOR_FormatI420 " + "and COLOR_FormatNV21" }
-        if (!isImageFormatSupported(image)) {
-            throw java.lang.RuntimeException("can't convert Image to byte array, format " + image.format)
-        }
-        val VERBOSE = true
-        val crop = image.cropRect
-        val format = image.format
-        val width = crop.width()
-        val height = crop.height()
-        val planes = image.planes
-        val data = ByteArray(width * height * ImageFormat.getBitsPerPixel(format) / 8)
-        val rowData = ByteArray(planes[0].rowStride)
-        if (VERBOSE) Log.v("TAG", "get data from " + planes.size + " planes")
-        var channelOffset = 0
-        var outputStride = 1
-        for (i in planes.indices) {
-            when (i) {
-                0 -> {
-                    channelOffset = 0
-                    outputStride = 1
-                }
-                1 -> if (colorFormat == 1) {
-                    channelOffset = width * height
-                    outputStride = 1
-                } else if (colorFormat == 2) {
-                    channelOffset = width * height + 1
-                    outputStride = 2
-                }
-                2 -> if (colorFormat == 1) {
-                    channelOffset = (width * height * 1.25).toInt()
-                    outputStride = 1
-                } else if (colorFormat == 2) {
-                    channelOffset = width * height
-                    outputStride = 2
-                }
-            }
-            val buffer: ByteBuffer = planes[i].buffer
-            val rowStride = planes[i].rowStride
-            val pixelStride = planes[i].pixelStride
-            if (VERBOSE) {
-                Log.v("TAG", "pixelStride $pixelStride")
-                Log.v("TAG", "rowStride $rowStride")
-                Log.v("TAG", "width $width")
-                Log.v("TAG", "height $height")
-                Log.v("TAG", "buffer size " + buffer.remaining())
-            }
-            val shift = if (i == 0) 0 else 1
-            val w = width shr shift
-            val h = height shr shift
-            buffer.position(rowStride * (crop.top shr shift) + pixelStride * (crop.left shr shift))
-            for (row in 0 until h) {
-                var length: Int
-                if (pixelStride == 1 && outputStride == 1) {
-                    length = w
-                    buffer.get(data, channelOffset, length)
-                    channelOffset += length
-                } else {
-                    length = (w - 1) * pixelStride + 1
-                    buffer.get(rowData, 0, length)
-                    for (col in 0 until w) {
-                        data[channelOffset] = rowData[col * pixelStride]
-                        channelOffset += outputStride
-                    }
-                }
-                if (row < h - 1) {
-                    buffer.position(buffer.position() + rowStride - length)
-                }
-            }
-            if (VERBOSE) Log.v("TAG", "Finished reading data from plane $i")
-        }
-        return data
-    }
-
-    private fun isImageFormatSupported(image: Image): Boolean {
-        val format = image.format
-        when (format) {
-            ImageFormat.YUV_420_888, ImageFormat.NV21, ImageFormat.YV12 -> return true
-        }
-        return false
     }
 
 }

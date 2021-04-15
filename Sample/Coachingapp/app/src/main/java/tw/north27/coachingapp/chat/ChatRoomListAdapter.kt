@@ -13,6 +13,7 @@ import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ItemChatRoomOtherBinding
 import tw.north27.coachingapp.databinding.ItemChatRoomOwnerBinding
@@ -84,6 +85,7 @@ class ChatRoomListAdapter(
     inner class OwnerVH(private val binding: ItemChatRoomOwnerBinding, val context: Context) : VH(binding) {
         override fun bind(chat: ChatInfo) = binding.apply {
             this.chat = chat
+            Timber.d("chat.chatType - ${chat.chatType}")
             //image
             if (chat.chatType == ChatType.IMAGE) {
                 chat.image?.let {
@@ -112,12 +114,19 @@ class ChatRoomListAdapter(
                     adapter.submitList(it)
                     adapter.itemClickRelay.subscribeBy { imageClickRelay?.accept(it) }
                 }
-            }
-            //video
-            chat.videos?.let {
-                val adapter = ChatVideoListAdapter(cxt, owner).apply { submitList(it) }
-                rvVideo.adapter = adapter
-                adapter.itemClickRelay.subscribeBy { videoClickRelay?.accept(it) }
+            } else if (chat.chatType == ChatType.VIDEO) {
+                //video
+                chat.videos?.let {
+                    val adapter = ChatVideoListAdapter(cxt, owner).apply { submitList(it) }
+                    rvVideo.adapter = adapter
+                    adapter.itemClickRelay.subscribeBy { videoClickRelay?.accept(it) }
+                }
+            } else if (chat.chatType == ChatType.AUDIO) {
+                //audio
+                chat.audios?.let {
+                    val adapter = ChatAudioListAdapter(cxt, owner).apply { submitList(it) }
+                    rvAudio.adapter = adapter
+                }
             }
 //            recording check
 //            viewRecorder.chkRecorder.setOnCheckedChangeListener { _, isChecked ->
@@ -176,12 +185,19 @@ class ChatRoomListAdapter(
                     adapter.itemClickRelay.subscribeBy { imageClickRelay?.accept(it) }
 
                 }
-            }
-            //video
-            chat.videos?.let {
-                val adapter = ChatVideoListAdapter(cxt, owner).apply { submitList(it) }
-                rvVideo.adapter = adapter
-                adapter.itemClickRelay.subscribeBy { videoClickRelay?.accept(it) }
+            } else if (chat.chatType == ChatType.VIDEO) {
+                //video
+                chat.videos?.let {
+                    val adapter = ChatVideoListAdapter(cxt, owner).apply { submitList(it) }
+                    rvVideo.adapter = adapter
+                    adapter.itemClickRelay.subscribeBy { videoClickRelay?.accept(it) }
+                }
+            } else if (chat.chatType == ChatType.AUDIO) {
+                //audio
+                chat.audios?.let {
+                    val adapter = ChatAudioListAdapter(cxt, owner).apply { submitList(it) }
+                    rvAudio.adapter = adapter
+                }
             }
 
 //            ivRecorder.clicks().subscribe {
