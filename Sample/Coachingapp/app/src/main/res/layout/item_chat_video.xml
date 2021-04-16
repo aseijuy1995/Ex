@@ -15,18 +15,15 @@
 
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/player_view"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             app:controller_layout_id="@layout/item_player_video"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!--        &lt;!&ndash;        app:resize_mode="zoom"&ndash;&gt;-->
-        <!--        &lt;!&ndash;        app:surface_type="surface_view"&ndash;&gt;-->
-        <!--        &lt;!&ndash;        app:use_controller="false"&ndash;&gt;-->
-        <!--        &lt;!&ndash;        bind:videoByte="@{chatVideo.byteArray}"&ndash;&gt;-->
+            app:layout_constraintTop_toTopOf="parent"
+            app:resize_mode="zoom"
+            app:surface_type="surface_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

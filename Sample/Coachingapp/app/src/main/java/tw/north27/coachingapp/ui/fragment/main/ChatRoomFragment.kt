@@ -113,6 +113,10 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
             findNavController().navigateUp()
         }
 
+        binding.ivTask.clickThrottleFirst().observe(viewLifecycleOwner) {
+
+        }
+
         binding.itemBottomChatRoom.etText.textChanges().observe(viewLifecycleOwner) {
             viewModel.inputEmpty(TextUtils.isEmpty(it.trim()))
         }
