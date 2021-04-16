@@ -16,7 +16,7 @@ class UserFragment : BaseDataBindingFragment<FragmentUserBinding>(R.layout.fragm
         doubleClickToExit()
 
         binding.itemSignOut.root.clickThrottleFirst().subscribeWithRxLife {
-            findNavController().navigate(UserFragmentDirections.actionFragmentUserToFragmentExitDialog())
+//            findNavController().navigate(UserFragmentDirections.actionFragmentUserToFragmentExitDialog())
         }
     }
 }

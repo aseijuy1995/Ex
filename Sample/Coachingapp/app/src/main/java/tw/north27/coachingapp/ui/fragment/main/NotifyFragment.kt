@@ -116,7 +116,7 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
          * 功能未處理
          * */
         adapter.moreClickRelay.subscribeWithRxLife {
-            findNavController().navigate(NotifyFragmentDirections.actionFragmentNotifyToFragmentNotifyMoreDialog(it.second))
+//            findNavController().navigate(NotifyFragmentDirections.actionFragmentNotifyToFragmentNotifyMoreDialog(it.second))
         }
 
         viewModel.toast.observe(viewLifecycleOwner, ::onToastObs)

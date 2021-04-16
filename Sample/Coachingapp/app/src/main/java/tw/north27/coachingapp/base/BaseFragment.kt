@@ -16,7 +16,6 @@ import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.ext.startDisposablesLifeObs
 import tw.north27.coachingapp.module.rx.IRxJavaSubscribe
 
@@ -53,14 +52,14 @@ open class BaseFragment(layoutId: Int) : Fragment(layoutId), IRxJavaSubscribe {
         bindToLifecycle(viewLifecycleOwner)
             .subscribe(onNext, onError, onComplete)
 
-    private val loadingDialogNavDirections = NavGraphDirections.actionToFragmentLoadingDialog()
+//    private val loadingDialogNavDirections = NavGraphDirections.actionToFragmentLoadingDialog()
 
     fun showLoadingDialog() {
-        findNavController().navigate(loadingDialogNavDirections)
+//        findNavController().navigate(loadingDialogNavDirections)
     }
 
     fun dismissLoadingDialog() {
-        findNavController().navigateUp()
+//        findNavController().navigateUp()
     }
 
     var count = 0

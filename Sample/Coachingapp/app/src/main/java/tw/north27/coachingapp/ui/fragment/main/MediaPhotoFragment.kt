@@ -15,7 +15,7 @@ class MediaPhotoFragment : BaseDataBindingFragment<FragmentMediaPhotoBinding>(R.
 
     private val viewModel by viewModel<MediaPhotoViewModel>()
 
-    private val args: MediaPhotoFragmentArgs by navArgs()
+//    private val args: MediaPhotoFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

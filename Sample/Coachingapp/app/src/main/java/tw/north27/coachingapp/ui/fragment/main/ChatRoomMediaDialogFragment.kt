@@ -6,31 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding4.view.clicks
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseBottomSheetDialogFragment
-import tw.north27.coachingapp.media.mediaStore.MimeType
 import tw.north27.coachingapp.databinding.FragmentChatRoomMediaDialogBinding
 import tw.north27.coachingapp.ext.dataBinding
 import tw.north27.coachingapp.media.*
-import tw.north27.coachingapp.media.mediaStore.MEDIA_ALBUM_AUDIO
-import tw.north27.coachingapp.media.mediaStore.MEDIA_ALBUM_IMAGE
-import tw.north27.coachingapp.media.mediaStore.MEDIA_ALBUM_VIDEO
-import java.util.concurrent.TimeUnit
 
 class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {
 
@@ -40,7 +27,7 @@ class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {
 
     private val viewModel by viewModel<MediaViewModel>()
 
-    private val args by navArgs<ChatRoomMediaDialogFragmentArgs>()
+//    private val args by navArgs<ChatRoomMediaDialogFragmentArgs>()
 
     private lateinit var adapter: ChatRoomMediaListAdapter
 
@@ -65,75 +52,75 @@ class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {
         }
         binding.toolbarMedia.setupWithNavController(findNavController())
 
-        when (args.mimeType) {
-            MimeType.AUDIO -> {
-                adapter = ChatRoomMediaListAdapter(args.mimeType, viewModel.audioSetting)
-                binding.rvMedia.apply {
-                    addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
-                        setDrawable(ContextCompat.getDrawable(cxt, R.drawable.shape_size_height_1_solid_gray) ?: return)
-                    })
-                    layoutManager = LinearLayoutManager(cxt)
-                    adapter = this@ChatRoomMediaDialogFragment.adapter
-                }
-                //audio
-                viewModel.getMediaAudio().subscribeWithRxLife {
-                    val mediaList = it.find { it.albumName == MEDIA_ALBUM_AUDIO }?.mediaList
-                    viewModel.setMediaList(mediaList)
-                }
-                /**
-                 * 播放音訊
-                 * */
-                adapter.itemClickRelay.subscribeWithRxLife {
-
-                }
-                adapter.itemSelectRelay.subscribeWithRxLife {
-                    viewModel.setChoiceOfMedia(it.third)
-                }
-            }
-            MimeType.IMAGE -> {
-                adapter = ChatRoomMediaListAdapter(args.mimeType, viewModel.imageSetting)
-                binding.rvMedia.apply {
-                    layoutManager = GridLayoutManager(cxt, 3)
-                    adapter = this@ChatRoomMediaDialogFragment.adapter
-                }
-                //image
-                viewModel.getMediaImage().subscribeWithRxLife {
-                    val mediaList = it.find { it.albumName == MEDIA_ALBUM_IMAGE }?.mediaList
-                    viewModel.setMediaList(mediaList)
-                }
-                adapter.itemClickRelay.throttleFirst(500, TimeUnit.MILLISECONDS).subscribeWithRxLife {
-                    lifecycleScope.launch {
-                        delay(500)
-                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPhoto(it.second.data))
-                    }
-
-                }
-                adapter.itemSelectRelay.subscribeWithRxLife {
-                    viewModel.setChoiceOfMedia(it.third)
-                }
-            }
-            MimeType.VIDEO -> {
-                adapter = ChatRoomMediaListAdapter(args.mimeType, viewModel.videoSetting)
-                binding.rvMedia.apply {
-                    layoutManager = GridLayoutManager(cxt, 3)
-                    adapter = this@ChatRoomMediaDialogFragment.adapter
-                }
-                //video
-                viewModel.getMediaVideo().subscribeWithRxLife {
-                    val mediaList = it.find { it.albumName == MEDIA_ALBUM_VIDEO }?.mediaList
-                    viewModel.setMediaList(mediaList)
-                }
-                /**
-                 * 放大播放影片
-                 * */
-                adapter.itemClickRelay.subscribeWithRxLife {
-//                    findNavController().navigate(MediaListDialogFragmentDirections.actionFragmentMediaListDialogToFragmentMediaPreview(it, From.MEDIA_LIST))
-                }
-                adapter.itemSelectRelay.subscribeWithRxLife {
-                    viewModel.setChoiceOfMedia(it.third)
-                }
-            }
-        }
+//        when (args.mimeType) {
+//            MimeType.AUDIO -> {
+//                adapter = ChatRoomMediaListAdapter(args.mimeType, viewModel.audioSetting)
+//                binding.rvMedia.apply {
+//                    addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
+//                        setDrawable(ContextCompat.getDrawable(cxt, R.drawable.shape_size_height_1_solid_gray) ?: return)
+//                    })
+//                    layoutManager = LinearLayoutManager(cxt)
+//                    adapter = this@ChatRoomMediaDialogFragment.adapter
+//                }
+//                //audio
+//                viewModel.getMediaAudio().subscribeWithRxLife {
+//                    val mediaList = it.find { it.albumName == MEDIA_ALBUM_AUDIO }?.mediaList
+//                    viewModel.setMediaList(mediaList)
+//                }
+//                /**
+//                 * 播放音訊
+//                 * */
+//                adapter.itemClickRelay.subscribeWithRxLife {
+//
+//                }
+//                adapter.itemSelectRelay.subscribeWithRxLife {
+//                    viewModel.setChoiceOfMedia(it.third)
+//                }
+//            }
+//            MimeType.IMAGE -> {
+//                adapter = ChatRoomMediaListAdapter(args.mimeType, viewModel.imageSetting)
+//                binding.rvMedia.apply {
+//                    layoutManager = GridLayoutManager(cxt, 3)
+//                    adapter = this@ChatRoomMediaDialogFragment.adapter
+//                }
+//                //image
+//                viewModel.getMediaImage().subscribeWithRxLife {
+//                    val mediaList = it.find { it.albumName == MEDIA_ALBUM_IMAGE }?.mediaList
+//                    viewModel.setMediaList(mediaList)
+//                }
+//                adapter.itemClickRelay.throttleFirst(500, TimeUnit.MILLISECONDS).subscribeWithRxLife {
+//                    lifecycleScope.launch {
+//                        delay(500)
+////                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPhoto(it.second.data))
+//                    }
+//
+//                }
+//                adapter.itemSelectRelay.subscribeWithRxLife {
+//                    viewModel.setChoiceOfMedia(it.third)
+//                }
+//            }
+//            MimeType.VIDEO -> {
+//                adapter = ChatRoomMediaListAdapter(args.mimeType, viewModel.videoSetting)
+//                binding.rvMedia.apply {
+//                    layoutManager = GridLayoutManager(cxt, 3)
+//                    adapter = this@ChatRoomMediaDialogFragment.adapter
+//                }
+//                //video
+//                viewModel.getMediaVideo().subscribeWithRxLife {
+//                    val mediaList = it.find { it.albumName == MEDIA_ALBUM_VIDEO }?.mediaList
+//                    viewModel.setMediaList(mediaList)
+//                }
+//                /**
+//                 * 放大播放影片
+//                 * */
+//                adapter.itemClickRelay.subscribeWithRxLife {
+////                    findNavController().navigate(MediaListDialogFragmentDirections.actionFragmentMediaListDialogToFragmentMediaPreview(it, From.MEDIA_LIST))
+//                }
+//                adapter.itemSelectRelay.subscribeWithRxLife {
+//                    viewModel.setChoiceOfMedia(it.third)
+//                }
+//            }
+//        }
 
         adapter.toastRelay.subscribeWithRxLife {
             Toast.makeText(cxt, it, Toast.LENGTH_SHORT).show()
@@ -143,7 +130,7 @@ class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {
         ivMenuSend.clicks().subscribeWithRxLife {
             setFragmentResult(
                 REQUEST_KEY_MEDIA, bundleOf(
-                    KEY_MIME_TYPE to args.mimeType,
+//                    KEY_MIME_TYPE to args.mimeType,
                     KEY_MEDIA_LIST to viewModel.choiceMediaList.value
                 )
             )
