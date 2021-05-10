@@ -1,3 +1,0 @@
-include(":AndroidLib")
-include(":app")
-rootProject.name = "CoachingApp_android"

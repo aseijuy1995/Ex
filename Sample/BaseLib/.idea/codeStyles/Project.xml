@@ -1,7 +1,9 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
-    <option name="RIGHT_MARGIN" value="250" />
+    <option name="RIGHT_MARGIN" value="200" />
     <JetCodeStyleSettings>
+      <option name="BLANK_LINES_AROUND_BLOCK_WHEN_BRANCHES" value="1" />
+      <option name="WRAP_ELVIS_EXPRESSIONS" value="2" />
       <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
     </JetCodeStyleSettings>
     <codeStyleSettings language="XML">
@@ -119,6 +121,23 @@
     </codeStyleSettings>
     <codeStyleSettings language="kotlin">
       <option name="CODE_STYLE_DEFAULTS" value="KOTLIN_OFFICIAL" />
+      <option name="RIGHT_MARGIN" value="200" />
+      <option name="KEEP_BLANK_LINES_IN_DECLARATIONS" value="1" />
+      <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
+      <option name="KEEP_BLANK_LINES_BEFORE_RBRACE" value="0" />
+      <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+      <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
+      <option name="METHOD_ANNOTATION_WRAP" value="5" />
+      <option name="CLASS_ANNOTATION_WRAP" value="5" />
+      <option name="FIELD_ANNOTATION_WRAP" value="5" />
+      <option name="PARAMETER_ANNOTATION_WRAP" value="5" />
+      <option name="VARIABLE_ANNOTATION_WRAP" value="5" />
+      <option name="ENUM_CONSTANTS_WRAP" value="5" />
+      <indentOptions>
+        <option name="CONTINUATION_INDENT_SIZE" value="4" />
+        <option name="TAB_SIZE" value="2" />
+        <option name="USE_TAB_CHARACTER" value="true" />
+      </indentOptions>
     </codeStyleSettings>
   </code_scheme>
 </component>
