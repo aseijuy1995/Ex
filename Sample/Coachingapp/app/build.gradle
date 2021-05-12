@@ -207,6 +207,10 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-ui:2.12.3"
     implementation "com.google.android.exoplayer:exoplayer-dash:2.12.3"//dash
     implementation "com.google.android.exoplayer:exoplayer-hls:2.12.3"//hls
+    //
+    //
+    //
+    implementation project(":BaseLib")
 
 
 }
