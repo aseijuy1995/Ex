@@ -23,4 +23,9 @@ object Versions {
 		const val lifecycle = "2.2.0"
 
 		const val dataStore = "1.0.0-beta01"
+
+		// Protobuf
+		const val protobufPlugin = "0.8.16"
+
+		const val protobuf = "3.10.0"
 }

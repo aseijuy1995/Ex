@@ -6,7 +6,8 @@ buildscript {
 		}
 		dependencies {
 				classpath(ClassPath.gradle)
-				classpath(ClassPath.gradlePlugin)
+				classpath(ClassPath.kotlinGradlePlugin)
+				classpath(ClassPath.protoGradlePlugin)
 		}
 }
 
@@ -14,7 +15,7 @@ allprojects {
 		repositories {
 				google()
 				mavenCentral()
-//				jcenter() // Warning: this repository is going to shut down soon
+				jcenter() // Warning: this repository is going to shut down soon
 		}
 }
 

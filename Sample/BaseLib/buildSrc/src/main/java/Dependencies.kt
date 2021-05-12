@@ -35,4 +35,8 @@ object Dependencies {
 
 				const val preferencesCore = "androidx.datastore:datastore-preferences-core:${Versions.dataStore}"
 		}
+
+		object Protobuf{
+				const val javalite = "com.google.protobuf:protobuf-javalite:${Versions.protobuf}"
+		}
 }
