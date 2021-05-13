@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+option java_package = "com.yujie.prefModule.protobuf";
+option java_outer_classname = "UserPrefProto";
+option java_multiple_files = true;
+
+message UserPref {
+  int64 uuid = 1;// uuid
+  string account = 2;// 帳號
+  string auth = 3;//權限
+  string accessToken = 4;// 訪問token
+  string refreshToken = 5;// 刷新token
+  string deviceId = 6;// 設備id
+  string fcmToken = 7;//推播token
+  bool isFirst = 8;// 第一次登入
+}

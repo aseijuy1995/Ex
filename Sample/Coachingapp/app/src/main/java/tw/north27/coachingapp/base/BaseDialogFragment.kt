@@ -2,17 +2,14 @@ package tw.north27.coachingapp.base
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
-import androidx.navigation.fragment.findNavController
 import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import tw.north27.coachingapp.ext.startDisposablesLifeObs
+import tw.north27.coachingapp.ext2.startDisposablesLifeObs
 import tw.north27.coachingapp.module.rx.IRxJavaSubscribe
 
 open class BaseDialogFragment(layoutId: Int) : DialogFragment(layoutId), IRxJavaSubscribe {

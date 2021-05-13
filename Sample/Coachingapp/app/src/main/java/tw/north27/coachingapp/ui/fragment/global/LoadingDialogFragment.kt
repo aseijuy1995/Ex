@@ -4,8 +4,7 @@ import android.os.Bundle
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseDialogFragment
 import tw.north27.coachingapp.databinding.FragmentLoadingDialogBinding
-import tw.north27.coachingapp.databinding.FragmentMaintainDialogBinding
-import tw.north27.coachingapp.ext.viewBinding
+import tw.north27.coachingapp.ext2.viewBinding
 
 class LoadingDialogFragment : BaseDialogFragment(R.layout.fragment_loading_dialog) {
 

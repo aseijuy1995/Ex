@@ -1,6 +1,9 @@
 package tw.north27.coachingapp.module.http
 
 import android.content.Context
+import com.yujie.prefmodule.dataStore.dataStoreUserPref
+import com.yujie.prefmodule.dataStore.getRefreshToken
+import com.yujie.prefmodule.dataStore.setDelegate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
@@ -10,15 +13,12 @@ import okhttp3.Interceptor
 import okhttp3.Response
 import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.consts.IApiService
-import tw.north27.coachingapp.ext.safeApiSimpleResults
-import tw.north27.coachingapp.module.pref.UserModule
+import tw.north27.coachingapp.ext2.safeApiSimpleResults
 import kotlin.coroutines.CoroutineContext
 
 class BaseTokenExpiredInterceptor(
-    private val context: Context,
+    private val cxt: Context,
 ) : Interceptor, CoroutineScope {
-
-    private val signInModule = UserModule(context)
 
     override val coroutineContext: CoroutineContext
         get() = Job()
@@ -28,8 +28,9 @@ class BaseTokenExpiredInterceptor(
         when (response.code) {
             //access token
             401 -> {
-                val service = RetrofitManager.get(BuildConfig.BASE_URL, OkHttpUtil(context, null, null).client).create<IApiService>()
-                val refreshToken = runBlocking { signInModule.getValue { it.refreshToken }.first() }
+                val service = RetrofitManager.get(BuildConfig.BASE_URL, OkHttpUtil(cxt, null, null).client).create<IApiService>()
+                val refreshToken = runBlocking { cxt.dataStoreUserPref.getRefreshToken().first() }
+
 
                 launch {
                     val results = safeApiSimpleResults { service.refreshToken(refreshToken) }
@@ -37,7 +38,7 @@ class BaseTokenExpiredInterceptor(
                     when (results) {
                         is SimpleResults.Successful -> {
                             results.data.also {
-                                signInModule.setValue(
+                                cxt.dataStoreUserPref.setDelegate(
                                     accessToken = it.accessToken,
                                     refreshToken = it.refreshToken
                                 )

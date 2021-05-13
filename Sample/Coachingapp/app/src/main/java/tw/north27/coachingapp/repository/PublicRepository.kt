@@ -2,7 +2,7 @@ package tw.north27.coachingapp.repository
 
 import tw.north27.coachingapp.consts.IApiService
 import tw.north27.coachingapp.model.result.AppConfig
-import tw.north27.coachingapp.ext.safeApiResults
+import tw.north27.coachingapp.ext2.safeApiResults
 import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.repository.inter.IPublicRepository
 

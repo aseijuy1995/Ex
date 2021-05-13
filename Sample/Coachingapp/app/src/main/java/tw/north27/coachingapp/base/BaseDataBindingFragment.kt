@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
-import tw.north27.coachingapp.ext.dataBinding
+import tw.north27.coachingapp.ext2.dataBinding
 
 open class BaseDataBindingFragment<T : ViewDataBinding>(private val layoutId: Int) : BaseFragment(layoutId) {
 

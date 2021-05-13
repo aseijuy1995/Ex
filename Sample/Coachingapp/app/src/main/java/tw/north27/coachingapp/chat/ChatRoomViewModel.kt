@@ -11,13 +11,13 @@ import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseAndroidViewModel
-import tw.north27.coachingapp.ext.*
+import tw.north27.coachingapp.ext2.*
 import tw.north27.coachingapp.media.RecorderSetting
 import tw.north27.coachingapp.media.mediaStore.Media
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.module.pref.UserModule
-import tw.north27.coachingapp.util.ViewState
+import tw.north27.coachingapp.util2.ViewState
 import java.io.File
 
 class ChatRoomViewModel(

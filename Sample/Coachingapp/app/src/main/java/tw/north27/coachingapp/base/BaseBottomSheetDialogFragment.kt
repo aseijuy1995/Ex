@@ -9,7 +9,7 @@ import com.trello.rxlifecycle4.android.lifecycle.kotlin.bindToLifecycle
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import tw.north27.coachingapp.ext.startDisposablesLifeObs
+import tw.north27.coachingapp.ext2.startDisposablesLifeObs
 import tw.north27.coachingapp.module.rx.IRxJavaSubscribe
 
 

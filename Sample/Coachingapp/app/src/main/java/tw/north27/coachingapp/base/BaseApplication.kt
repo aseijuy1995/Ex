@@ -12,10 +12,9 @@ import tw.north27.coachingapp.consts.modelModules
 import tw.north27.coachingapp.consts.repoModules
 import tw.north27.coachingapp.consts.utilModules
 import tw.north27.coachingapp.consts.viewModelModules
-import tw.north27.coachingapp.ext.startKoinModules
 import tw.north27.coachingapp.ext.startProcessLifeObs
+import tw.north27.coachingapp.ext2.startKoinModules
 import tw.north27.coachingapp.ext.startStrictMode
-import tw.north27.coachingapp.ext.startTimberLogger
 
 class BaseApplication : Application() {
 
@@ -24,10 +23,10 @@ class BaseApplication : Application() {
     }
 
     override fun onCreate() {
-//        if (BuildConfig.DEBUG) startStrictMode()
+        if (BuildConfig.DEBUG) startStrictMode()
         super.onCreate()
-        if (BuildConfig.DEBUG) startTimberLogger()
         startProcessLifeObs()
+
 
         startKoinModules(utilModules, modelModules, repoModules, viewModelModules)
 

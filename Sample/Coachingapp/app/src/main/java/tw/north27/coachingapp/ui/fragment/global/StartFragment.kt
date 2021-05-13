@@ -11,15 +11,15 @@ import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.databinding.FragmentStartBinding
-import tw.north27.coachingapp.ext.errorAlert
-import tw.north27.coachingapp.ext.networkAlert
-import tw.north27.coachingapp.ext.startAlphaBreatheAnim
-import tw.north27.coachingapp.ext.viewBinding
+import tw.north27.coachingapp.ext2.errorAlert
+import tw.north27.coachingapp.ext2.networkAlert
+import tw.north27.coachingapp.ext2.startAlphaBreatheAnim
+import tw.north27.coachingapp.ext2.viewBinding
 import tw.north27.coachingapp.http.UpdateHttpManager
 import tw.north27.coachingapp.model.result.AppState
 import tw.north27.coachingapp.model.result.SignState
 import tw.north27.coachingapp.ui.CoachingActivity
-import tw.north27.coachingapp.util.ViewState
+import tw.north27.coachingapp.util2.ViewState
 import tw.north27.coachingapp.viewModel.StartViewModel
 
 class StartFragment : BaseFragment(R.layout.fragment_start) {

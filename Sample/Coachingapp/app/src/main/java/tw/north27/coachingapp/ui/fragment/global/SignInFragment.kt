@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.touches
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -12,9 +11,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.databinding.FragmentSignInBinding
-import tw.north27.coachingapp.ext.*
+import tw.north27.coachingapp.ext2.*
 import tw.north27.coachingapp.ui.CoachingActivity
-import tw.north27.coachingapp.util.ViewState
+import tw.north27.coachingapp.util2.ViewState
 import tw.north27.coachingapp.viewModel.SignInViewModel
 
 class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {

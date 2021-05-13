@@ -3,25 +3,24 @@ package tw.north27.coachingapp.chat
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.yujie.prefmodule.dataStore.dataStore
+import com.yujie.prefmodule.dataStore.dataStoreUserPref
+import com.yujie.prefmodule.dataStore.getAccount
+import com.yujie.prefmodule.dataStore.getString
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.first
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import timber.log.Timber
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.ext.*
-import tw.north27.coachingapp.ext.ProcessLifeObs.Companion.APP_ON_FOREGROUND
+import tw.north27.coachingapp.ext2.Notify
 import tw.north27.coachingapp.model.result.ChatInfo
-import tw.north27.coachingapp.protobuf.PREF_USER_NAME
-import tw.north27.coachingapp.protobuf.UserPreferencesSerializer
+import tw.north27.coachingapp.util.AppViewState
+import tw.north27.coachingapp.util.ProcessLifeObs.Companion.APP_VIEW_STATE
 
 class ChatProcessWorkRequest(val cxt: Context, params: WorkerParameters) : CoroutineWorker(cxt, params), KoinComponent {
 
     private val chatRepo by inject<IChatRepository>()
-
-    private val dataStore = cxt.createDataStorePref()
-
-    private val userDataStore = cxt.createDataStoreProto(PREF_USER_NAME, UserPreferencesSerializer)
 
     companion object {
         val TAG = "ChatHandleWorker"
@@ -29,18 +28,18 @@ class ChatProcessWorkRequest(val cxt: Context, params: WorkerParameters) : Corou
 
     override suspend fun doWork(): Result = coroutineScope {
         try {
-            val isAppOnForeground = dataStore.getBoolean(APP_ON_FOREGROUND).first()
+            val appViewState = cxt.dataStore.getString(APP_VIEW_STATE).first()
 
-            val account = userDataStore.getValue { it.account }.first()
+            val account = cxt.dataStoreUserPref.getAccount().first()
 
             chatRepo.message.subscribe {
                 //判定是否為自己發出訊息
                 if (account != it.sender.account) {
-                    when (isAppOnForeground) {
-                        true -> {
+                    when (appViewState) {
+                        AppViewState.FOREGROUND.toString() -> {
                             sendNotification(it)
                         }
-                        false -> {
+                        AppViewState.BACKGROUND.toString() -> {
                             sendNotification(it)
                         }
                     }

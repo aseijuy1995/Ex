@@ -8,7 +8,6 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseAppCompatActivity
 import tw.north27.coachingapp.databinding.ActivityMainBinding
 
-
 class MainActivity : BaseAppCompatActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
 
     lateinit var navFragment: NavHostFragment

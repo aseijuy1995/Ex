@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import kotlinx.parcelize.Parcelize
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseViewModel
-import tw.north27.coachingapp.ext.asLiveData
+import tw.north27.coachingapp.ext2.asLiveData
 
 class ChatRoomAddViewModel : BaseViewModel() {
 

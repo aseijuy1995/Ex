@@ -102,10 +102,14 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-process:$lifecycle_version"
     //dataStore
-    def datastore_version = "1.0.0-alpha06"
-    implementation "androidx.datastore:datastore:$datastore_version"
-    implementation "androidx.datastore:datastore-preferences:$datastore_version"
-    implementation "androidx.datastore:datastore-core:$datastore_version"
+    def dataStore = "1.0.0-beta01"
+    implementation "androidx.datastore:datastore:${dataStore}"
+    implementation "androidx.datastore:datastore-rxjava3:${dataStore}"
+    implementation "androidx.datastore:datastore-core:${dataStore}"
+    implementation "androidx.datastore:datastore-preferences:${dataStore}"
+    implementation "androidx.datastore:datastore-preferences-rxjava3:${dataStore}"
+    implementation "androidx.datastore:datastore-preferences-core:${dataStore}"
+
     //protobuf
     implementation "com.google.protobuf:protobuf-javalite:3.10.0"
     //coroutines
@@ -210,8 +214,7 @@ dependencies {
     //
     //
     //
-    implementation project(":BaseLib")
-
+    implementation project(":PrefModule")
 
 }
 

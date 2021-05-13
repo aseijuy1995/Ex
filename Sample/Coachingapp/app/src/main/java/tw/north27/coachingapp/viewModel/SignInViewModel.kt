@@ -3,22 +3,23 @@ package tw.north27.coachingapp.viewModel
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.yujie.prefmodule.dataStore.dataStoreUserPref
+import com.yujie.prefmodule.dataStore.getDeviceId
+import com.yujie.prefmodule.dataStore.getFcmToken
+import com.yujie.prefmodule.dataStore.setDelegate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseAndroidViewModel
-import tw.north27.coachingapp.ext.asLiveData
+import tw.north27.coachingapp.ext2.asLiveData
 import tw.north27.coachingapp.model.result.SignInfo
 import tw.north27.coachingapp.model.result.SignState
 import tw.north27.coachingapp.module.http.ResponseResults
-import tw.north27.coachingapp.module.pref.UserModule
 import tw.north27.coachingapp.repository.inter.IUserRepository
-import tw.north27.coachingapp.util.ViewState
+import tw.north27.coachingapp.util2.ViewState
 
 class SignInViewModel(application: Application, val userRepo: IUserRepository) : BaseAndroidViewModel(application) {
-
-    private val userModule = UserModule(application)
 
     private val _signInState = MutableLiveData<ViewState<SignInfo>>(ViewState.Initial)
 
@@ -34,8 +35,9 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
             _signInState.postValue(ViewState.empty(context.getString(R.string.empty_password)))
         } else {
             viewModelScope.launch(Dispatchers.IO) {
-                val signInInfo = userModule.getValue { it }.first()
-                val results = userRepo.signIn(account, password, signInInfo.deviceId, signInInfo.fcmToken)
+                val deviceId = context.dataStoreUserPref.getDeviceId().first()
+                val fcmToken = context.dataStoreUserPref.getFcmToken().first()
+                val results = userRepo.signIn(account, password, deviceId, fcmToken)
                 when (results) {
                     is ResponseResults.Successful -> {
                         val signInInfo = results.data
@@ -63,7 +65,7 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
                                 isFirst = false
                             }
                         }
-                        userModule.setValue(
+                        context.dataStoreUserPref.setDelegate(
                             uuid = uuid,
                             account = account,
                             accessToken = accessToken,

@@ -6,10 +6,10 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseDialogFragment
 import tw.north27.coachingapp.databinding.FragmentMaintainDialogBinding
-import tw.north27.coachingapp.ext.clickThrottleFirst
-import tw.north27.coachingapp.ext.viewBinding
+import tw.north27.coachingapp.ext2.clickThrottleFirst
+import tw.north27.coachingapp.ext2.viewBinding
 import tw.north27.coachingapp.model.result.AppState
-import tw.north27.coachingapp.util.ViewState
+import tw.north27.coachingapp.util2.ViewState
 import tw.north27.coachingapp.viewModel.StartViewModel
 
 class MaintainDialogFragment : BaseDialogFragment(R.layout.fragment_maintain_dialog) {

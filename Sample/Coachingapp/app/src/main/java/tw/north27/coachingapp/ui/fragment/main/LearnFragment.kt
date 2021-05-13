@@ -5,7 +5,7 @@ import android.view.View
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.databinding.FragmentLearnBinding
-import tw.north27.coachingapp.ext.viewBinding
+import tw.north27.coachingapp.ext2.viewBinding
 
 class LearnFragment : BaseFragment(R.layout.fragment_learn) {
 

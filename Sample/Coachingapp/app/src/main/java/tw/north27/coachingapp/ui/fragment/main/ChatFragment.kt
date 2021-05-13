@@ -12,7 +12,7 @@ import tw.north27.coachingapp.adapter.ChatReadIndex
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.ChatViewModel
 import tw.north27.coachingapp.databinding.FragmentChatBinding
-import tw.north27.coachingapp.ext.viewBinding
+import tw.north27.coachingapp.ext2.viewBinding
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.model.result.ChatRead
 import tw.north27.coachingapp.model.result.ChatType

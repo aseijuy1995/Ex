@@ -5,7 +5,7 @@ import androidx.lifecycle.map
 import io.reactivex.rxjava3.core.Observable
 import tw.north27.coachingapp.base.BaseViewModel
 import tw.north27.coachingapp.chat.*
-import tw.north27.coachingapp.ext.asLiveData
+import tw.north27.coachingapp.ext2.asLiveData
 import tw.north27.coachingapp.media.mediaStore.Media
 import tw.north27.coachingapp.media.mediaStore.MediaAlbum
 import tw.north27.coachingapp.media.mediaStore.MediaAlbumSetting

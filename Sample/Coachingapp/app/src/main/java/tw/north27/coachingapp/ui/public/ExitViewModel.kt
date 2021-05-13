@@ -4,16 +4,15 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.base.BaseAndroidViewModel
-import tw.north27.coachingapp.ext.asLiveData
+import tw.north27.coachingapp.ext2.asLiveData
 import tw.north27.coachingapp.model.result.SignInfo
 import tw.north27.coachingapp.model.result.SignState
 import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.module.pref.UserModule
 import tw.north27.coachingapp.repository.inter.IUserRepository
-import tw.north27.coachingapp.util.ViewState
+import tw.north27.coachingapp.util2.ViewState
 
 class ExitViewModel(application: Application, val userRepo: IUserRepository) : BaseAndroidViewModel(application) {
 

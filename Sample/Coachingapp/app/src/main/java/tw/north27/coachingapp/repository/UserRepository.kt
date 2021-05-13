@@ -2,8 +2,8 @@ package tw.north27.coachingapp.repository
 
 import android.content.Context
 import tw.north27.coachingapp.consts.IApiService
-import tw.north27.coachingapp.ext.safeApiResponseResults
-import tw.north27.coachingapp.ext.safeApiResults
+import tw.north27.coachingapp.ext2.safeApiResponseResults
+import tw.north27.coachingapp.ext2.safeApiResults
 import tw.north27.coachingapp.model.result.SignInfo
 import tw.north27.coachingapp.module.http.ResponseResults
 import tw.north27.coachingapp.module.http.Results

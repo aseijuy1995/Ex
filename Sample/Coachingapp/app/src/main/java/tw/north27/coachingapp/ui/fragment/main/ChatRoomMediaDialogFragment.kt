@@ -16,7 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseBottomSheetDialogFragment
 import tw.north27.coachingapp.databinding.FragmentChatRoomMediaDialogBinding
-import tw.north27.coachingapp.ext.dataBinding
+import tw.north27.coachingapp.ext2.dataBinding
 import tw.north27.coachingapp.media.*
 
 class ChatRoomMediaDialogFragment : BaseBottomSheetDialogFragment() {

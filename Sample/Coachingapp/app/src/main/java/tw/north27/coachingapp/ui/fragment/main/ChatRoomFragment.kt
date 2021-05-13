@@ -24,12 +24,12 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
-import tw.north27.coachingapp.ext.*
+import tw.north27.coachingapp.ext2.*
 import tw.north27.coachingapp.media.mediaStore.Media
 import tw.north27.coachingapp.media.mediaStore.MimeType
 import tw.north27.coachingapp.model.result.*
-import tw.north27.coachingapp.util.SnackbarUtil
-import tw.north27.coachingapp.util.ViewState
+import tw.north27.coachingapp.util2.SnackbarUtil
+import tw.north27.coachingapp.util2.ViewState
 import java.io.File
 import java.util.*
 

@@ -10,10 +10,15 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.yujie.prefmodule.ext.dataStore
+import com.yujie.prefmodule.ext.getString
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.base.BaseApplication
 import tw.north27.coachingapp.ui.CoachingActivity
+import tw.north27.coachingapp.util.AppViewState
+import tw.north27.coachingapp.util.ProcessLifeObs.Companion.APP_VIEW_STATE
 
 class FcmService : FirebaseMessagingService() {
 
@@ -49,13 +54,14 @@ class FcmService : FirebaseMessagingService() {
         //data
         if (remoteMessage.data.isNotEmpty()) {
             Timber.d("data = ${remoteMessage.data}")
-            when (BaseApplication.appForegroundRelay.value) {
+            val appViewState = runBlocking { cxt.dataStore.getString(APP_VIEW_STATE).first() }
+            when (appViewState) {
                 //foreground
-                true -> {
+                AppViewState.FOREGROUND.toString() -> {
                     sendNotification(remoteMessage)
                 }
                 //background
-                false -> {
+                AppViewState.BACKGROUND.toString() -> {
                     sendNotification(remoteMessage)
                 }
             }
