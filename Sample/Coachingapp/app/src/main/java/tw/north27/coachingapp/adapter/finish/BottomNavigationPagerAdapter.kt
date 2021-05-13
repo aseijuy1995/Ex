@@ -4,9 +4,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import tw.north27.coachingapp.ui.TabChatFragment
-import tw.north27.coachingapp.ui.TabHomeFragment
-import tw.north27.coachingapp.ui.TabUserFragment
+import tw.north27.coachingapp.ui2.TabChatFragment
+import tw.north27.coachingapp.ui2.TabHomeFragment
+import tw.north27.coachingapp.ui2.TabUserFragment
 
 sealed class BottomNavigationIndex(val index: Int) {
     object HOME : BottomNavigationIndex(0)

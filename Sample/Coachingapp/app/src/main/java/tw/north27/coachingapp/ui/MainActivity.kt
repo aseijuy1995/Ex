@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import com.yujie.basemodule.BaseAppCompatActivity
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.base.BaseAppCompatActivity
 import tw.north27.coachingapp.databinding.ActivityMainBinding
 
 class MainActivity : BaseAppCompatActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {

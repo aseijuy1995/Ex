@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/fragment_home"
-        android:name="tw.north27.coachingapp.ui.fragment.main.HomeFragment"
+        android:name="tw.north27.coachingapp.ui2.fragment.main.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
 

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_user"
-        android:name="tw.north27.coachingapp.ui.fragment.main.UserFragment"
+        android:name="tw.north27.coachingapp.ui2.fragment.main.UserFragment"
         android:label="fragment_user"
         tools:layout="@layout/fragment_user">
 

@@ -3,7 +3,7 @@ package tw.north27.coachingapp.adapter
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import tw.north27.coachingapp.ui.fragment.main.ChatListFragment
+import tw.north27.coachingapp.ui2.fragment.main.ChatListFragment
 
 const val KEY_CHAT_READ_TYPE = "KEY_CHAT_READ_TYPE"
 
