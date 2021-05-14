@@ -8,14 +8,29 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.yujie.prefmodule.dataStore.dataStoreUserPref
 import com.yujie.prefmodule.dataStore.getAccount
+import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.media.mediaStore.Media
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.model.result.ChatRead
+
+/**
+ * 圖片高斯模糊
+ * */
+@BindingAdapter(value = ["bind:imgBlurRes", "bind:blurRadius", "bind:blurSampling"])
+fun ImageView.bindImgBlurRes(resId: Int, radius: Int = 15, sampling: Int = 5) {
+    Glide.with(this)
+        .load(resId)
+        .apply(RequestOptions.bitmapTransform(BlurTransformation(radius, sampling)))
+        .into(this)
+}
+
+//------------------------------------------------------------------------------------------------------------------------------
 
 /**
  * ChatRoom
@@ -52,7 +67,7 @@ fun ImageView.bindImgRes(resId: Int) {
 
 @BindingAdapter("bind:imgByteArray")
 fun ImageView.bindImgByteArray(byteArray: ByteArray) {
-    Glide.with(context).load(byteArray).placeholder(R.drawable.ic_pencil_logo).into(this)
+    Glide.with(context).load(byteArray).placeholder(R.drawable.ic_coffee_logo).into(this)
 }
 
 //

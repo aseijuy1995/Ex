@@ -3,6 +3,7 @@ package tw.north27.coachingapp.ui2.fragment.item
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
+import com.jakewharton.rxbinding4.view.clicks
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.base.BaseViewBindingBottomSheetDialogFragment
 import tw.north27.coachingapp.databinding.FragmentNotifyMoreDialogBinding
@@ -11,7 +12,7 @@ import tw.north27.coachingapp.notify.NotifyViewModel
 
 //import tw.north27.coachingapp.ui.fragment.main.NotifyFragmentArgs
 
-class NotifyMoreDialogFragment : BaseViewBindingBottomSheetDialogFragment<FragmentNotifyMoreDialogBinding>(FragmentNotifyMoreDialogBinding::inflate) {
+class NotifyMoreDialogFragment : BaseViewBindingBottomSheetDialogFragment<FragmentNotifyMoreDialogBinding>(FragmentNotifyMoreDialogBinding::bind) {
 
 //    private val args: NotifyFragmentArgs by navArgs()
 //    private val args: NotifyFragmentArgs by navArgs()

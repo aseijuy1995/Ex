@@ -2,20 +2,21 @@ package tw.north27.coachingapp.ui2.public
 
 import android.os.Bundle
 import android.view.View
+import com.yujie.basemodule.viewBinding
+import com.yujie.utilmodule.ViewState
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseDialogFragment
 import tw.north27.coachingapp.databinding.FragmentMaintainDialogBinding
-import tw.north27.coachingapp.ext2.viewBinding
+import tw.north27.coachingapp.ext2.clickThrottleFirst
 import tw.north27.coachingapp.model.result.AppState
-import tw.north27.coachingapp.util2.ViewState
-import tw.north27.coachingapp.viewModel.StartViewModel
+import tw.north27.coachingapp.viewModel.LaunchViewModel
 
 class MaintainDialogFragment : BaseDialogFragment(R.layout.fragment_maintain_dialog) {
 
     private val binding by viewBinding(FragmentMaintainDialogBinding::bind)
 
-    private val viewModel by sharedViewModel<StartViewModel>()
+    private val viewModel by sharedViewModel<LaunchViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

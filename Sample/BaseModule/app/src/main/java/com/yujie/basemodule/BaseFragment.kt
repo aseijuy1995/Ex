@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
 
-open class BaseFragment<T : ViewBinding>(layoutId: Int, viewBindingFactory: (View) -> T) : Fragment(layoutId) {
+abstract class BaseFragment<T : ViewBinding>(layoutId: Int) : Fragment(layoutId) {
+
+		abstract val viewBindingFactory: (View) -> T
 
 		protected val binding by viewBinding(viewBindingFactory)
 

@@ -7,6 +7,7 @@ import com.yujie.prefmodule.dataStore.dataStoreUserPref
 import com.yujie.prefmodule.dataStore.getDeviceId
 import com.yujie.prefmodule.dataStore.getFcmToken
 import com.yujie.prefmodule.dataStore.setDelegate
+import com.yujie.utilmodule.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -17,7 +18,6 @@ import tw.north27.coachingapp.model.result.SignInfo
 import tw.north27.coachingapp.model.result.SignState
 import tw.north27.coachingapp.module.http.ResponseResults
 import tw.north27.coachingapp.repository.inter.IUserRepository
-import tw.north27.coachingapp.util2.ViewState
 
 class SignInViewModel(application: Application, val userRepo: IUserRepository) : BaseAndroidViewModel(application) {
 

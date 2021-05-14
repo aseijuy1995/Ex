@@ -7,17 +7,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
 
-open class BaseFragment<T : ViewBinding>(layoutId: Int, viewBindingFactory: (View) -> T) : Fragment(layoutId) {
+abstract class BaseFragment<T : ViewBinding>(layoutId: Int) : Fragment(layoutId) {
 
-		protected val binding by viewBinding(viewBindingFactory)
+    abstract val viewBindingFactory: (View) -> T
 
-		protected lateinit var act: FragmentActivity
+    protected val binding by viewBinding(viewBindingFactory)
 
-		protected lateinit var cxt: Context
+    protected lateinit var act: FragmentActivity
 
-		override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-				super.onViewCreated(view, savedInstanceState)
-				act = requireActivity()
-				cxt = requireContext()
-		}
+    protected lateinit var cxt: Context
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        act = requireActivity()
+        cxt = requireContext()
+    }
 }

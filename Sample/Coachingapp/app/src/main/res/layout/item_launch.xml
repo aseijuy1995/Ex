@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="cursive"
+            android:gravity="center"
+            android:scaleY="0.8"
+            android:text="@string/c"
+            android:textColor="@color/blue_082e81"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="cursive"
+            android:gravity="center"
+            android:scaleY="0.8"
+            android:text="@string/o"
+            android:textColor="@color/blue_082e81"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="cursive"
+            android:gravity="center"
+            android:scaleY="0.8"
+            android:text="@string/a"
+            android:textColor="@color/blue_082e81"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="cursive"
+            android:gravity="center"
+            android:scaleY="0.8"
+            android:text="@string/c"
+            android:textColor="@color/blue_082e81"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="cursive"
+            android:gravity="center"
+            android:scaleY="0.8"
+            android:text="@string/h"
+            android:textColor="@color/blue_082e81"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="cursive"
+            android:gravity="center"
+            android:scaleY="0.8"
+            android:text="@string/i"
+            android:textColor="@color/blue_082e81"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="cursive"
+            android:gravity="center"
+            android:scaleY="0.8"
+            android:text="@string/n"
+            android:textColor="@color/blue_082e81"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="cursive"
+            android:gravity="center"
+            android:scaleY="0.8"
+            android:text="@string/g"
+            android:textColor="@color/blue_082e81"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="16sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:src="@drawable/ic_twotone_emoji_objects_24_red" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="16sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:src="@drawable/ic_twotone_sms_24_orange" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="16sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:src="@drawable/ic_twotone_help_center_24_yellow" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="16sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:src="@drawable/ic_twotone_watch_later_24_green" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="0dp"
+            android:layout_height="16sp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:src="@drawable/ic_twotone_insert_chart_outlined_24_blue" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

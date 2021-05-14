@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.jakewharton.rxrelay3.BehaviorRelay
+import com.yujie.utilmodule.ext.startTimberLogger
 import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.chat.ChatProcessWorkRequest
 import tw.north27.coachingapp.chat.ClientChatWorker
@@ -13,8 +14,8 @@ import tw.north27.coachingapp.consts.repoModules
 import tw.north27.coachingapp.consts.utilModules
 import tw.north27.coachingapp.consts.viewModelModules
 import tw.north27.coachingapp.ext.startProcessLifeObs
-import tw.north27.coachingapp.ext2.startKoinModules
 import tw.north27.coachingapp.ext.startStrictMode
+import tw.north27.coachingapp.ext2.startKoinModules
 
 class BaseApplication : Application() {
 
@@ -26,6 +27,7 @@ class BaseApplication : Application() {
         if (BuildConfig.DEBUG) startStrictMode()
         super.onCreate()
         startProcessLifeObs()
+        startTimberLogger()
 
 
         startKoinModules(utilModules, modelModules, repoModules, viewModelModules)

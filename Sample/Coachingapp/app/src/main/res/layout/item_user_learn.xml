@@ -31,12 +31,12 @@
 
             <include
                 layout="@layout/item_user_item"
-                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:icon="@{@drawable/ic_coffee_logo}"
                 bind:title='@{"學習歷程"}' />
 
             <include
                 layout="@layout/item_user_item"
-                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:icon="@{@drawable/ic_coffee_logo}"
                 bind:title='@{"學習分析"}' />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

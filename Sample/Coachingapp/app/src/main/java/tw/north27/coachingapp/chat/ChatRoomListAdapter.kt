@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.jakewharton.rxrelay3.PublishRelay
+import com.yujie.prefmodule.dataStore.dataStoreUserPref
+import com.yujie.prefmodule.dataStore.getAccount
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -21,7 +23,6 @@ import tw.north27.coachingapp.model.result.ChatImage
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.model.result.ChatType
 import tw.north27.coachingapp.model.result.ChatVideo
-import tw.north27.coachingapp.module.pref.UserModule
 
 class ChatRoomListAdapter(
     private val cxt: Context,
@@ -44,14 +45,12 @@ class ChatRoomListAdapter(
 
     val itemRecordingClickRelay = PublishRelay.create<Pair<Boolean, ChatInfo>>()
 
-    private val userModule = UserModule(cxt)
-
     enum class Sender(val value: Int) {
         OWNER(1), OTHER(2)
     }
 
     override fun getItemViewType(position: Int): Int {
-        val account = runBlocking { userModule.getValue { it.account }.first() }
+        val account = runBlocking { cxt.dataStoreUserPref.getAccount().first() }
         val chatAccount = getItem(position).sender.account
         return if (account == chatAccount)
             Sender.OWNER.value

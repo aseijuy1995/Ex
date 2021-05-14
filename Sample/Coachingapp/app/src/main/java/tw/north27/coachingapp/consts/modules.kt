@@ -25,7 +25,7 @@ import tw.north27.coachingapp.repository.inter.IPublicRepository
 import tw.north27.coachingapp.repository.inter.IUserRepository
 import tw.north27.coachingapp.ui2.public.ExitViewModel
 import tw.north27.coachingapp.viewModel.SignInViewModel
-import tw.north27.coachingapp.viewModel.StartViewModel
+import tw.north27.coachingapp.viewModel.LaunchViewModel
 
 val utilModules = module {
     single<OkHttpUtil> { OkHttpUtil(androidContext()) }
@@ -63,7 +63,7 @@ val repoModules = module {
 }
 
 val viewModelModules = module {
-    viewModel { StartViewModel(androidApplication(), get(), get()) }
+    viewModel { LaunchViewModel(androidApplication(), get(), get()) }
     viewModel { SignInViewModel(androidApplication(), get()) }
     viewModel { NotifyViewModel(get()) }
     viewModel { ChatViewModel(get()) }

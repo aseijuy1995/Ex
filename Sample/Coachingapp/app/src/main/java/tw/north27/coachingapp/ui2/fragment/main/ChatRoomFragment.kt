@@ -3,6 +3,8 @@ package tw.north27.coachingapp.ui2.fragment.main
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import androidx.core.view.isVisible
+import androidx.core.view.size
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -10,6 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hw.videoprocessor.VideoProcessor
 import com.hw.videoprocessor.util.VideoProgressListener
+import com.jakewharton.rxbinding4.recyclerview.scrollStateChanges
+import com.jakewharton.rxbinding4.widget.textChanges
+import com.yujie.basemodule.viewBinding
+import com.yujie.utilmodule.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -20,12 +26,14 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
-import tw.north27.coachingapp.ext2.*
+import tw.north27.coachingapp.ext2.clickThrottleFirst
+import tw.north27.coachingapp.ext2.getDateTime
+import tw.north27.coachingapp.ext2.hideKeyBoard
+import tw.north27.coachingapp.ext2.observe
 import tw.north27.coachingapp.media.mediaStore.Media
 import tw.north27.coachingapp.media.mediaStore.MimeType
 import tw.north27.coachingapp.model.result.*
 import tw.north27.coachingapp.util2.SnackbarUtil
-import tw.north27.coachingapp.util2.ViewState
 import java.io.File
 import java.util.*
 

@@ -4,6 +4,7 @@ import android.app.Activity
 import com.tapadoo.alerter.Alerter
 import tw.north27.coachingapp.R
 
+
 fun Activity.networkAlert() {
     Alerter.create(this)
         .setIcon(R.drawable.ic_baseline_network_wifi_24_white)

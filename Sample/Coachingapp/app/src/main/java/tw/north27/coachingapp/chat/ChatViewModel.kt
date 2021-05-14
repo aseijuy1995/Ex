@@ -2,6 +2,7 @@ package tw.north27.coachingapp.chat
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.yujie.utilmodule.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
@@ -10,7 +11,6 @@ import tw.north27.coachingapp.base.BaseViewModel
 import tw.north27.coachingapp.ext2.asLiveData
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.module.http.Results
-import tw.north27.coachingapp.util2.ViewState
 
 class ChatViewModel(private val chatRepo: IChatRepository) : BaseViewModel(), KoinComponent {
 

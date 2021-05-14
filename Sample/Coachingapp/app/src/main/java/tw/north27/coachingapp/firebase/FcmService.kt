@@ -10,8 +10,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.yujie.prefmodule.ext.dataStore
-import com.yujie.prefmodule.ext.getString
+import com.yujie.prefmodule.dataStore.dataStore
+import com.yujie.prefmodule.dataStore.getString
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import tw.north27.coachingapp.R

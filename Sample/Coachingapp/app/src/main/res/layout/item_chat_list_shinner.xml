@@ -28,8 +28,8 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@id/tv_text"
             app:layout_constraintEnd_toStartOf="@id/tv_time"
-            app:layout_constraintStart_toEndOf="@id/iv_icon"
-            app:layout_constraintTop_toTopOf="@id/iv_icon"
+            app:layout_constraintStart_toEndOf="@id/iv_logo_background"
+            app:layout_constraintTop_toTopOf="@id/iv_logo_background"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -53,9 +53,9 @@
             android:background="@drawable/shape_solid_white_corners_radius_10"
             android:minLines="2"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/iv_icon"
+            app:layout_constraintBottom_toBottomOf="@id/iv_logo_background"
             app:layout_constraintEnd_toStartOf="@id/tv_time"
-            app:layout_constraintStart_toEndOf="@id/iv_icon"
+            app:layout_constraintStart_toEndOf="@id/iv_logo_background"
             app:layout_constraintTop_toBottomOf="@id/tv_name"
             app:layout_constraintVertical_chainStyle="packed" />
 

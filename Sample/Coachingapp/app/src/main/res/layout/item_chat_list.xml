@@ -54,8 +54,8 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@id/tv_text"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@id/iv_icon"
-                app:layout_constraintTop_toTopOf="@id/iv_icon"
+                app:layout_constraintStart_toEndOf="@id/iv_logo_background"
+                app:layout_constraintTop_toTopOf="@id/iv_logo_background"
                 app:layout_constraintVertical_chainStyle="packed"
                 bind:chatListTitleText="@{chat}" />
 
@@ -96,9 +96,9 @@
                 android:maxLines="2"
                 android:text="@{chat.text}"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@id/iv_icon"
+                app:layout_constraintBottom_toBottomOf="@id/iv_logo_background"
                 app:layout_constraintEnd_toStartOf="@id/tv_time"
-                app:layout_constraintStart_toEndOf="@id/iv_icon"
+                app:layout_constraintStart_toEndOf="@id/iv_logo_background"
                 app:layout_constraintTop_toBottomOf="@id/tv_name"
                 app:layout_constraintVertical_chainStyle="packed"
                 bind:chatTextStyle="@{chat.read}" />

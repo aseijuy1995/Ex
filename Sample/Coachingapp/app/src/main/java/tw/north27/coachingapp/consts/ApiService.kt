@@ -1,13 +1,16 @@
 package tw.north27.coachingapp.consts
 
 import android.content.Context
+import com.yujie.prefmodule.dataStore.dataStoreUserPref
+import com.yujie.prefmodule.dataStore.getDeviceId
+import com.yujie.prefmodule.dataStore.getFcmToken
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import retrofit2.Response
 import retrofit2.http.Field
 import timber.log.Timber
 import tw.north27.coachingapp.model.result.*
-import tw.north27.coachingapp.module.pref.UserModule
 
 class ApiService(val cxt: Context) : IApiService {
 
@@ -31,28 +34,27 @@ class ApiService(val cxt: Context) : IApiService {
                 time = "2021/03/01 16:00",
             )
         )
-        appConfig = AppConfig(
-            appState = AppState.RUN,
-            updateInfo = UpdateInfo(
-                versionName = "1.0.0",
-                url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
-                desc = "1. 今天要加班(現在幾點了?)\n2. 噴灑殺蟲劑，殺死些Dug蟲蟲\n3. 泡茶休息下~~~\n\t請稍等...",
-                size = "5M",
-                isMandatory = false
-            )
-        )
+//        appConfig = AppConfig(
+//            appState = AppState.RUN,
+//            updateInfo = UpdateInfo(
+//                versionName = "1.0.0",
+//                url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
+//                desc = "1. 今天要加班(現在幾點了?)\n2. 噴灑殺蟲劑，殺死些Dug蟲蟲\n3. 泡茶休息下~~~\n\t請稍等...",
+//                size = "5M",
+//                isMandatory = false
+//            )
+//        )
         return appConfig
     }
 
     override suspend fun checkSignIn(account: String, deviceId: String, fcmToken: String): Response<SignInfo> {
         delay(1500)
-        val userModule = UserModule(cxt)
-        val user = userModule.getValue { it }.first()
-        Timber.d("account = ${user.account}/$account, deviceId = ${user.deviceId}/$deviceId, fcmToken = ${user.fcmToken}/$fcmToken")
+        val deviceId2 = runBlocking { cxt.dataStoreUserPref.getDeviceId().first() }
+        val fcmToken2 = runBlocking { cxt.dataStoreUserPref.getFcmToken().first() }
         /**
          * 測試參數不同時會執行失敗
          * */
-        return if (account == "north27" && deviceId == user.deviceId && fcmToken == user.fcmToken)
+        return if (account == "north27" && deviceId == deviceId2 && fcmToken == fcmToken2)
             Response.success<SignInfo>(
                 SignInfo(
                     signState = SignState.SIGN_IN_SUCCESS,
@@ -75,10 +77,10 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun signIn(account: String, password: String, deviceId: String, fcmToken: String): Response<SignInfo> {
         delay(1500)
-        val userModule = UserModule(cxt)
-        val user = userModule.getValue { it }.first()
-        Timber.d("account = ${user.account}/$account, deviceId = ${user.deviceId}/$deviceId, fcmToken = ${user.fcmToken}/$fcmToken")
-        return if (account == "north27" && password == "north27" && deviceId == user.deviceId && fcmToken == user.fcmToken)
+        val deviceId2 = runBlocking { cxt.dataStoreUserPref.getDeviceId().first() }
+        val fcmToken2 = runBlocking { cxt.dataStoreUserPref.getFcmToken().first() }
+
+        return if (account == "north27" && password == "north27" && deviceId == deviceId2 && fcmToken == fcmToken2)
             Response.success<SignInfo>(
                 SignInfo(
                     signState = SignState.SIGN_IN_SUCCESS,

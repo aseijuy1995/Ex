@@ -30,37 +30,37 @@
 
             <include
                 layout="@layout/item_user_item"
-                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:icon="@{@drawable/ic_coffee_logo}"
                 bind:title='@{"簡訊"}' />
 
             <include
                 layout="@layout/item_user_item"
-                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:icon="@{@drawable/ic_coffee_logo}"
                 bind:title='@{"FB"}' />
 
             <include
                 layout="@layout/item_user_item"
-                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:icon="@{@drawable/ic_coffee_logo}"
                 bind:title='@{"LINE"}' />
 
             <include
                 layout="@layout/item_user_item"
-                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:icon="@{@drawable/ic_coffee_logo}"
                 bind:title='@{"WeChat"}' />
 
             <include
                 layout="@layout/item_user_item"
-                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:icon="@{@drawable/ic_coffee_logo}"
                 bind:title='@{"Telefram"}' />
 
             <include
                 layout="@layout/item_user_item"
-                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:icon="@{@drawable/ic_coffee_logo}"
                 bind:title='@{"Skype"}' />
 
             <include
                 layout="@layout/item_user_item"
-                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:icon="@{@drawable/ic_coffee_logo}"
                 bind:title='@{"Message"}' />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

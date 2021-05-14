@@ -1,4 +1,18 @@
 <resources>
+    <string name="c">C</string>
+    <string name="o">O</string>
+    <string name="a">A</string>
+    <string name="h">H</string>
+    <string name="i">I</string>
+    <string name="n">N</string>
+    <string name="g">G</string>
+    <string name="google_play_service_title">Google Play服務</string>
+    <string name="google_play_service_text">請前往Play Store下載</string>
+    <!--    -->
+    <!--    -->
+    <!--    -->
+    <!--    -->
+    <!--    -->
     <string name="app_name">Coaching</string>
     <string name="default_notification_channel_id">default_notification_channel_id</string>
     <string name="empty">Empty</string>

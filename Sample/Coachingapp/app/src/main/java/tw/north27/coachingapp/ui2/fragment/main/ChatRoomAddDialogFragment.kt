@@ -6,13 +6,14 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
+import com.jakewharton.rxbinding4.view.clicks
 import com.tbruyelle.rxpermissions3.RxPermissions
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.base.BaseViewBindingBottomSheetDialogFragment
 import tw.north27.coachingapp.chat.ChatRoomAddViewModel
 import tw.north27.coachingapp.databinding.FragmentChatRoomAddDialogBinding
 
-class ChatRoomAddDialogFragment : BaseViewBindingBottomSheetDialogFragment<FragmentChatRoomAddDialogBinding>(FragmentChatRoomAddDialogBinding::inflate) {
+class ChatRoomAddDialogFragment : BaseViewBindingBottomSheetDialogFragment<FragmentChatRoomAddDialogBinding>(FragmentChatRoomAddDialogBinding::bind) {
 
     private val viewModel by viewModel<ChatRoomAddViewModel>()
 

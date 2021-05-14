@@ -30,22 +30,22 @@
 
             <include
                 layout="@layout/item_user_item"
-                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:icon="@{@drawable/ic_coffee_logo}"
                 bind:title='@{"關於Coaching"}' />
 
             <include
                 layout="@layout/item_user_item"
-                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:icon="@{@drawable/ic_coffee_logo}"
                 bind:title='@{"常見問題"}' />
 
             <include
                 layout="@layout/item_user_item"
-                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:icon="@{@drawable/ic_coffee_logo}"
                 bind:title='@{"隱私政策"}' />
 
             <include
                 layout="@layout/item_user_item"
-                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:icon="@{@drawable/ic_coffee_logo}"
                 bind:title='@{"聯繫我們"}' />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

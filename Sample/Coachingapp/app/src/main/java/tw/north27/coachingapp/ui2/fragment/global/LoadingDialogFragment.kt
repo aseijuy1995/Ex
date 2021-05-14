@@ -1,10 +1,10 @@
 package tw.north27.coachingapp.ui2.fragment.global
 
 import android.os.Bundle
+import com.yujie.basemodule.viewBinding
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseDialogFragment
 import tw.north27.coachingapp.databinding.FragmentLoadingDialogBinding
-import tw.north27.coachingapp.ext2.viewBinding
 
 class LoadingDialogFragment : BaseDialogFragment(R.layout.fragment_loading_dialog) {
 

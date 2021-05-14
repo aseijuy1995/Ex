@@ -3,6 +3,7 @@ package tw.north27.coachingapp.ui2.fragment.main
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
+import com.jakewharton.rxbinding4.view.clicks
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseDataBindingFragment

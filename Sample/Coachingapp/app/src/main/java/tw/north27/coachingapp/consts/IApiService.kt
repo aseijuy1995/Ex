@@ -10,18 +10,23 @@ import tw.north27.coachingapp.model.result.*
 interface IApiService {
 
     /**
-     * 刷新token
-     * */
-    @FormUrlEncoded
-    @POST
-    suspend fun refreshToken(@Field("refresh_token") refreshToken: String): TokenInfo
-
-    /**
      * 取得更新資訊
      * @param fcmToken:未登入才可收到app通知
      * */
     @GET
     suspend fun getAppConfig(@Query("fcmToken") fcmToken: String): AppConfig
+    //
+    //
+    //
+    //
+    //
+
+    /**
+     * 刷新token
+     * */
+    @FormUrlEncoded
+    @POST
+    suspend fun refreshToken(@Field("refresh_token") refreshToken: String): TokenInfo
 
     /**
      * 檢查登入

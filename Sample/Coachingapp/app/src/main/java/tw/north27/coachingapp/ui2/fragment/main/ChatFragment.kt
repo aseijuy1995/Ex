@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.jakewharton.rxbinding4.view.clicks
+import com.yujie.basemodule.viewBinding
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.ChatPagerAdapter
@@ -11,7 +13,6 @@ import tw.north27.coachingapp.adapter.ChatReadIndex
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.ChatViewModel
 import tw.north27.coachingapp.databinding.FragmentChatBinding
-import tw.north27.coachingapp.ext2.viewBinding
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.model.result.ChatRead
 import tw.north27.coachingapp.model.result.ChatType

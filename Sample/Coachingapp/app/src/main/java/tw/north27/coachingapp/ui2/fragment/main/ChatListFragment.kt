@@ -3,20 +3,25 @@ package tw.north27.coachingapp.ui2.fragment.main
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.*
 import com.google.android.material.snackbar.Snackbar
+import com.yujie.basemodule.viewBinding
+import com.yujie.utilmodule.ViewState
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.ChatViewModel
 import tw.north27.coachingapp.databinding.FragmentChatListBinding
-import tw.north27.coachingapp.ext2.*
+import tw.north27.coachingapp.ext2.errorAlert
+import tw.north27.coachingapp.ext2.networkAlert
+import tw.north27.coachingapp.ext2.startAlphaBreatheAnim
+import tw.north27.coachingapp.ext2.stop
 import tw.north27.coachingapp.model.result.ChatRead
-import tw.north27.coachingapp.util2.ViewState
 
 class ChatListFragment : BaseFragment(R.layout.fragment_chat_list) {
 

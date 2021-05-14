@@ -2,25 +2,25 @@ package tw.north27.coachingapp.module.http
 
 import android.content.Context
 import android.util.Base64
+import com.yujie.prefmodule.dataStore.dataStoreUserPref
+import com.yujie.prefmodule.dataStore.getAccessToken
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
-import tw.north27.coachingapp.module.pref.UserModule
 
-class BaseTokenInterceptor(val context: Context) : Interceptor {
-
-    private val signInModule = UserModule(context)
+class BaseTokenInterceptor(val cxt: Context) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
 
-        val signInDataStore = runBlocking { signInModule.getValue { it }.first() }
-        val accessToken = signInDataStore.accessToken?.let { "Basic " + Base64.encodeToString(it.toByteArray(), Base64.NO_WRAP) } ?: ""
+        val accessToken = runBlocking { cxt.dataStoreUserPref.getAccessToken().first() }
+
+        val accessToken2 = accessToken?.let { "Basic " + Base64.encodeToString(it.toByteArray(), Base64.NO_WRAP) } ?: ""
 
         return chain.proceed(
             request.newBuilder()
-                .addHeader("Authorization", accessToken)
+                .addHeader("Authorization", accessToken2)
                 .build()
         )
     }

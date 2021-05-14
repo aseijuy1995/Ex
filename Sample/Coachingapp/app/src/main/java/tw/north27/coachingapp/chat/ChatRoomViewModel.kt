@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import com.yujie.utilmodule.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -16,8 +17,6 @@ import tw.north27.coachingapp.media.RecorderSetting
 import tw.north27.coachingapp.media.mediaStore.Media
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.module.http.Results
-import tw.north27.coachingapp.module.pref.UserModule
-import tw.north27.coachingapp.util2.ViewState
 import java.io.File
 
 class ChatRoomViewModel(
@@ -166,8 +165,6 @@ class ChatRoomViewModel(
     enum class ToastType {
         LOAD_CHAT_MESSAGE_LIST
     }
-
-    private val userModule = UserModule(application)
 
 //    fun addChatMessage(chat: ChatInfo) {
 //        _chatMessageList

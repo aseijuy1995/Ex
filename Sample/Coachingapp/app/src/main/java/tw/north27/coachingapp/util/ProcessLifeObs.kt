@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.yujie.prefmodule.ext.dataStore
-import com.yujie.prefmodule.ext.setString
+import com.yujie.prefmodule.dataStore.dataStore
+import com.yujie.prefmodule.dataStore.setString
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
