@@ -15,7 +15,7 @@
         <!-- Customize your theme here. -->
         <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
 
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+<!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
     </style>
 
     <!-- Global -->
