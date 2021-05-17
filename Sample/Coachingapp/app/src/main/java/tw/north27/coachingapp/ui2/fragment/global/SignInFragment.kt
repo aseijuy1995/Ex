@@ -12,8 +12,11 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.databinding.FragmentSignInBinding
-import tw.north27.coachingapp.ext2.*
-import tw.north27.coachingapp.ui2.HomeActivity
+import tw.north27.coachingapp.ext2.clickThrottleFirst
+import tw.north27.coachingapp.ext2.errorAlert
+import tw.north27.coachingapp.ext2.hideKeyBoard
+import tw.north27.coachingapp.ext2.networkAlert
+import tw.north27.coachingapp.ui2.Main2Activity
 import tw.north27.coachingapp.viewModel.SignInViewModel
 
 class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
@@ -49,7 +52,7 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
                 is ViewState.Data -> {
                     dismissLoadingDialog()
 //                    findNavController().navigate(NavGraphDirections.actionToFragmentHome())
-                    startActivity(Intent(act, HomeActivity::class.java))
+                    startActivity(Intent(act, Main2Activity::class.java))
                     act.finish()
                 }
                 is ViewState.Error -> {

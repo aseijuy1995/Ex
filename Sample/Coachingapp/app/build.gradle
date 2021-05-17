@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "tw.north27.coachingapp"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0.0"
@@ -63,8 +63,12 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     //SpinKit
     implementation "com.github.ybq:Android-SpinKit:1.4.0"
-    //高斯模糊
-    implementation 'jp.wasabeef:glide-transformations:4.3.0'
+    //Glide - 高斯模糊
+    def glide = "4.11.0"
+    implementation "com.github.bumptech.glide:glide:$glide"
+    implementation "com.github.bumptech.glide:okhttp3-integration:$glide"
+    kapt "com.github.bumptech.glide:compiler:$glide"
+    implementation "jp.wasabeef:glide-transformations:4.3.0"
     //firebase
     implementation platform("com.google.firebase:firebase-bom:26.6.0")
     implementation "com.google.firebase:firebase-analytics-ktx"
@@ -180,11 +184,6 @@ dependencies {
     //imageview
     implementation "de.hdodenhof:circleimageview:3.1.0"
     implementation "com.makeramen:roundedimageview:2.3.0"
-    //Glide
-    def glide_version = "4.11.0"
-    implementation "com.github.bumptech.glide:glide:$glide_version"
-    implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
-    kapt "com.github.bumptech.glide:compiler:$glide_version"
     //SmartRefreshLayout
     implementation "com.scwang.smart:refresh-layout-kernel:2.0.3"
     implementation "com.scwang.smart:refresh-header-classics:2.0.3"

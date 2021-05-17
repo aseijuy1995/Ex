@@ -1,19 +1,17 @@
 package tw.north27.coachingapp.ui2.fragment.global
 
-import android.hardware.usb.UsbDevice.getDeviceId
+import android.os.Build
 import android.os.Bundle
-import android.telephony.TelephonyManager
 import android.view.View
-import com.google.android.gms.common.GoogleApiAvailability
-import com.google.firebase.messaging.FirebaseMessaging
-import com.tapadoo.alerter.Alerter
+import android.view.WindowInsetsController
+import android.view.WindowManager
 import com.yujie.basemodule.BaseFragment
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentLaunchBinding
 import tw.north27.coachingapp.util2.bindImgBlurRes
 import tw.north27.coachingapp.viewModel.LaunchViewModel
+
 
 class LaunchFragment : BaseFragment<FragmentLaunchBinding>(R.layout.fragment_launch) {
 
@@ -24,24 +22,25 @@ class LaunchFragment : BaseFragment<FragmentLaunchBinding>(R.layout.fragment_lau
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.ivBackground.bindImgBlurRes(R.drawable.ic_launch_background)
-        GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(act)
-            .addOnSuccessListener {
-                FirebaseMessaging.getInstance().token.addOnCompleteListener {
-                    if (!it.isSuccessful) return@addOnCompleteListener
-                    it.result?.takeIf { it.isNotEmpty() }?.let { fcmToken ->
-                        Timber.d("fcmToken = $fcmToken")
-                        viewModel.getAppConfig(fcmToken)
-                    }
-                }
-            }.addOnFailureListener {
-                Alerter.create(act)
-                    .setIcon(R.drawable.ic_baseline_error_24_white)
-                    .setTitle(getString(R.string.google_play_service_title))
-                    .setText(R.string.google_play_service_text)
-                    .setBackgroundColor(R.color.yellow_f7cd3b)
-                    .show()
-            }
+        initView()
+
+//        GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(act)
+//            .addOnSuccessListener {
+//                FirebaseMessaging.getInstance().token.addOnCompleteListener {
+//                    if (!it.isSuccessful) return@addOnCompleteListener
+//                    it.result?.takeIf { it.isNotEmpty() }?.let { fcmToken ->
+//                        Timber.d("fcmToken = $fcmToken")
+//                        viewModel.getAppConfig(fcmToken)
+//                    }
+//                }
+//            }.addOnFailureListener {
+//        Alerter.create(act)
+//            .setIcon(R.drawable.ic_baseline_error_24_white)
+//            .setTitle(getString(R.string.google_play_service_title))
+//            .setText(R.string.google_play_service_text)
+//            .setBackgroundColor(R.color.yellow_f7cd3b)
+//            .show()
+//            }
 
 //        viewModel.appConfigState.observe(viewLifecycleOwner) {
 //            when (it) {
@@ -109,6 +108,24 @@ class LaunchFragment : BaseFragment<FragmentLaunchBinding>(R.layout.fragment_lau
 //                }
 //            }
 //        }
+    }
+
+    private fun initView() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            act.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            act.window.apply {
+                addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+                statusBarColor = resources.getColor(android.R.color.transparent)
+            }
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            act.window.decorView.windowInsetsController?.setSystemBarsAppearance(WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS, WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS)
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            act.window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        }
+        binding.ivBackground.bindImgBlurRes(R.drawable.ic_launch_background)
     }
 
 }

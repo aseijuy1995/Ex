@@ -7,10 +7,10 @@ import com.yujie.basemodule.BaseAppCompatActivity
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.finish.BottomNavigationIndex
 import tw.north27.coachingapp.adapter.finish.BottomNavigationPagerAdapter
-import tw.north27.coachingapp.databinding.ActivityCoachingBinding
+import tw.north27.coachingapp.databinding.ActivityMain2Binding
 
 
-class HomeActivity : BaseAppCompatActivity<ActivityCoachingBinding>(ActivityCoachingBinding::inflate) {
+class Main2Activity : BaseAppCompatActivity<ActivityMain2Binding>(ActivityMain2Binding::inflate) {
 
     lateinit var navFragment: NavHostFragment
 

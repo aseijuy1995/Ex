@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import timber.log.Timber
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.ui2.HomeActivity
+import tw.north27.coachingapp.ui2.Main2Activity
 import tw.north27.coachingapp.util.AppViewState
 import tw.north27.coachingapp.util.ProcessLifeObs.Companion.APP_VIEW_STATE
 
@@ -81,7 +81,7 @@ class FcmService : FirebaseMessagingService() {
         val pendingIntent = PendingIntent.getActivity(
             cxt,
             0,
-            Intent(this, HomeActivity::class.java)
+            Intent(this, Main2Activity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
             PendingIntent.FLAG_ONE_SHOT
         )
