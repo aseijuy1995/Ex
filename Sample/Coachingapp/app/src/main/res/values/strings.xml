@@ -12,14 +12,15 @@
     <!--  MaintainFragment  -->
     <string name="expected_complete_time">預計完成時間</string>
     <string name="close">關閉</string>
-
+    <!--  UpdateDialogFragment  -->
+    <string name="update_title">有新版本 %s 是否前往更新?</string>
+    <string name="update_text">版本內文</string>
+    <string name="update_size">新版本大小</string>
+    <string name="update">更新</string>
     <!--    -->
     <!--    -->
     <!--    -->
     <!--    -->
-    <!--    -->
-
-
 
 
     <string name="empty">Empty</string>

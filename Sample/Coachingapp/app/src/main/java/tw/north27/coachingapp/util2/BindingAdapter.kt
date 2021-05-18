@@ -28,12 +28,12 @@ import tw.north27.coachingapp.model.result.ChatRead
  * */
 @BindingAdapter(value = ["bind:imgBlurRes", "bind:imgBlurRadius", "bind:imgBlurSampling"])
 fun ImageView.bindImgBlurRes(
-    @DrawableRes resId: Int,
+    @DrawableRes drawableResId: Int,
     radius: Int = 15,
     sampling: Int = 3
 ) {
     Glide.with(this)
-        .load(resId)
+        .load(drawableResId)
         .apply(RequestOptions.bitmapTransform(BlurTransformation(radius, sampling)))
         .into(this)
 }

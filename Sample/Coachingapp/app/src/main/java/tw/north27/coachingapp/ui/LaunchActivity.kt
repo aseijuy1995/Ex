@@ -15,7 +15,7 @@ import tw.north27.coachingapp.databinding.ActivityLaunchBinding
 class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaunchBinding::inflate) {
 
     override fun onSupportNavigateUp(): Boolean {
-        return super.onSupportNavigateUp() || findNavController(R.id.frag_container_view).navigateUp()
+        return super.onSupportNavigateUp() || findNavController(R.id.fragment_container_view_launch).navigateUp()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

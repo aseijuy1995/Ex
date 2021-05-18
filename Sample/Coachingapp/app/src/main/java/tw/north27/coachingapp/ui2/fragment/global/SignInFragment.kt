@@ -14,9 +14,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.databinding.FragmentSignInBinding
-import tw.north27.coachingapp.ext2.clickThrottleFirst
+import tw.north27.coachingapp.ext2.clicksObserve
 import tw.north27.coachingapp.ext2.hideKeyBoard
-import tw.north27.coachingapp.ui2.Main2Activity
+import tw.north27.coachingapp.ui.Launch2Activity
 import tw.north27.coachingapp.viewModel.SignInViewModel
 
 class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
@@ -32,7 +32,7 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
             act.hideKeyBoard()
         }
 
-        binding.btnSignIn.clickThrottleFirst().subscribeWithRxLife {
+        binding.btnSignIn.clicksObserve(owner = viewLifecycleOwner) {
             val account = binding.etAccount.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
             viewModel.signIn(account, password)
@@ -52,7 +52,7 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
                 is ViewState.Data -> {
                     dismissLoadingDialog()
 //                    findNavController().navigate(NavGraphDirections.actionToFragmentHome())
-                    startActivity(Intent(act, Main2Activity::class.java))
+                    startActivity(Intent(act, Launch2Activity::class.java))
                     act.finish()
                 }
                 is ViewState.Error -> {

@@ -1,21 +1,23 @@
-package tw.north27.coachingapp.ui2.fragment.global
+package tw.north27.coachingapp.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.GoogleApiAvailability
-import com.vector.update_app_kotlin.check
-import com.vector.update_app_kotlin.updateApp
 import com.yujie.basemodule.BaseFragment
 import com.yujie.pushmodule.fcm.FirebaseMsg
 import com.yujie.utilmodule.ViewState
+import com.yujie.utilmodule.ext.showErrorAlert
 import com.yujie.utilmodule.ext.showGoogleServiceAlert
+import com.yujie.utilmodule.ext.showNetworkAlert
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentStartBinding
-import tw.north27.coachingapp.util.UpdateHttpManager
+import tw.north27.coachingapp.ext.updateApp
 import tw.north27.coachingapp.model.result.AppState
+import tw.north27.coachingapp.model.result.SignState
 import tw.north27.coachingapp.util2.bindImgBlurRes
 import tw.north27.coachingapp.viewModel.LaunchViewModel
 
@@ -48,50 +50,52 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                         }
                         AppState.RUN -> {
                             val updateInfo = appConfig.updateInfo!!
-                            act.updateApp(updateInfo.url, UpdateHttpManager(cxt, updateInfo)) {
-                                topPic = R.drawable.ic_background_update
-                                setUpdateDialogFragmentListener { viewModel.checkSignIn() }
-                            }.check { noNewApp { viewModel.checkSignIn() } }
-
+                            act.updateApp(updateInfo.versionName).builder {
+                                text = updateInfo.text
+                                url = updateInfo.url
+                                size = updateInfo.size
+                                isMandatory = updateInfo.isMandatory
+                                viewId = R.id.fragment_container_view_launch
+                            }.execute(noNewVersion = { viewModel.checkSignIn() })
                         }
                     }
                 }
                 is ViewState.Error, is ViewState.Network -> {
-                    viewModel.getAppConfig()
+//                    viewModel.getAppConfig()
                 }
             }
         }
 
-//        viewModel.signInState.observe(viewLifecycleOwner) {
-//            when (it) {
-//                is ViewState.Initial -> {
-//                }
-//                is ViewState.Load -> {
-//                }
-//                is ViewState.Empty -> {
-////                    findNavController().navigate(NavDirections.actionToFragmentSignIn())
-//                }
-//                is ViewState.Data -> {
-//                    val signIn = it.data
-//                    when (signIn.signState) {
-//                        SignState.SIGN_IN_SUCCESS -> {
-////                            findNavController().navigate(NavGraphDirections.actionToFragmentHome())
-//                            startActivity(Intent(act, HomeActivity::class.java))
-//                            act.finish()
-//                        }
-//                        SignState.SIGN_IN_FAILURE -> {
-////                            findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())
-//                        }
-//                    }
-//                }
-//                is ViewState.Error -> {
-//                    act.errorAlert()
-//                }
-//                is ViewState.Network -> {
-//                    act.networkAlert()
-//                }
-//            }
-//        }
+        viewModel.signInState.observe(viewLifecycleOwner) {
+            when (it) {
+                is ViewState.Initial -> {
+                }
+                is ViewState.Load -> {
+                }
+                is ViewState.Empty -> {
+//                    findNavController().navigate(NavDirections.actionToFragmentSignIn())
+                }
+                is ViewState.Data -> {
+                    val signIn = it.data
+                    when (signIn.signState) {
+                        SignState.SIGN_IN_SUCCESS -> {
+//                            findNavController().navigate(NavGraphDirections.actionToFragmentHome())
+                            startActivity(Intent(act, Launch2Activity::class.java))
+                            act.finish()
+                        }
+                        SignState.SIGN_IN_FAILURE -> {
+//                            findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())
+                        }
+                    }
+                }
+                is ViewState.Error -> {
+                    act.showErrorAlert()
+                }
+                is ViewState.Network -> {
+                    act.showNetworkAlert()
+                }
+            }
+        }
     }
 
 }

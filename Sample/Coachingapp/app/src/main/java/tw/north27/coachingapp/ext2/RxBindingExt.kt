@@ -1,8 +1,11 @@
 package tw.north27.coachingapp.ext2
 
 import android.view.View
+import androidx.lifecycle.LifecycleOwner
 import com.jakewharton.rxbinding4.view.clicks
+import com.yujie.utilmodule.ext.observe
 import java.util.concurrent.TimeUnit
 
 
-fun View.clickThrottleFirst(windowDuration: Long = 500, unit: TimeUnit = TimeUnit.MILLISECONDS) = clicks().throttleFirst(windowDuration, unit)
+fun View.clicksObserve(windowDuration: Long = 500, unit: TimeUnit = TimeUnit.MILLISECONDS, owner: LifecycleOwner, onNext: (Unit) -> Unit) =
+    clicks().throttleFirst(windowDuration, unit).observe(owner, onNext)

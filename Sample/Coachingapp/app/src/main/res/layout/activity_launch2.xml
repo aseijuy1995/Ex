@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui2.Main2Activity">
+    tools:context=".ui.Launch2Activity">
 
     <!--    <androidx.fragment.app.FragmentContainerView-->
     <!--        android:id="@+id/frag_container_view"-->

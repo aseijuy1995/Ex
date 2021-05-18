@@ -56,7 +56,7 @@
     <!--    -->
     <fragment
         android:id="@+id/fragment_start"
-        android:name="tw.north27.coachingapp.ui2.fragment.global.StartFragment"
+        android:name="tw.north27.coachingapp.ui.StartFragment"
         android:label="fragment_start"
         tools:layout="@layout/fragment_start">
 
@@ -64,18 +64,30 @@
             android:id="@+id/action_fragment_start_to_fragment_maintain_dialog"
             app:destination="@id/fragment_maintain_dialog" />
 
+        <action
+            android:id="@+id/action_fragment_start_to_fragment_update_dialog"
+            app:destination="@id/fragment_update_dialog" />
+
     </fragment>
+
+    <dialog
+        android:id="@+id/fragment_maintain_dialog"
+        android:name="tw.north27.coachingapp.ui.MaintainDialogFragment"
+        android:label="fragment_maintain_dialog"
+        tools:layout="@layout/fragment_maintain_dialog" />
+
+    <dialog
+        android:id="@+id/fragment_update_dialog"
+        android:name="tw.north27.coachingapp.ui.UpdateDialogFragment"
+        android:label="fragment_update_dialog"
+        tools:layout="@layout/fragment_update_dialog" />
+
     <!--    -->
     <!--    -->
     <!--    -->
     <!--    -->
     <!--    -->
 
-    <dialog
-        android:id="@+id/fragment_maintain_dialog"
-        android:name="tw.north27.coachingapp.ui2.public.MaintainDialogFragment"
-        android:label="fragment_maintain_dialog"
-        tools:layout="@layout/fragment_maintain_dialog" />
 
     <dialog
         android:id="@+id/fragment_exit_dialog"

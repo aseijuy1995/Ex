@@ -27,7 +27,7 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.*
 import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
-import tw.north27.coachingapp.ext2.clickThrottleFirst
+import tw.north27.coachingapp.ext2.clicksObserve
 import tw.north27.coachingapp.ext2.getDateTime
 import tw.north27.coachingapp.ext2.hideKeyBoard
 import tw.north27.coachingapp.media.mediaStore.Media
@@ -113,11 +113,11 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         //接收通知滑動置頂
         binding.rvChat.adapter?.registerAdapterDataObserver(adapterDataObserver)
 
-        binding.ivBack.clickThrottleFirst().observe(viewLifecycleOwner) {
+        binding.ivBack.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()
         }
 
-        binding.ivTask.clickThrottleFirst().observe(viewLifecycleOwner) {
+        binding.ivTask.clicksObserve(owner = viewLifecycleOwner) {
 
         }
 
@@ -125,11 +125,11 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
             viewModel.inputEmpty(TextUtils.isEmpty(it.trim()))
         }
 
-        binding.itemBottomChatRoom.ivAdd.clickThrottleFirst().observe(viewLifecycleOwner) {
+        binding.itemBottomChatRoom.ivAdd.clicksObserve(owner = viewLifecycleOwner) {
 //            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomAddDialog())
         }
 
-        binding.itemBottomChatRoom.ivSend.clickThrottleFirst().observe(viewLifecycleOwner) {
+        binding.itemBottomChatRoom.ivSend.clicksObserve(owner = viewLifecycleOwner) {
             val text = binding.itemBottomChatRoom.etText.text.toString()
             viewModel.send(
                 ChatInfo(

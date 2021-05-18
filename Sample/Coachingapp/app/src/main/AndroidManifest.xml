@@ -31,7 +31,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui2.Main2Activity" />
+        <activity android:name=".ui.Launch2Activity" />
 
         <service
             android:name=".push.FcmService"

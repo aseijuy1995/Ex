@@ -42,11 +42,11 @@ class ApiService(val cxt: Context) : IApiService {
         return AppConfig(
             appState = AppState.RUN,
             updateInfo = UpdateInfo(
-                versionName = "1.0.1",
+                versionName = "1.0.0",
                 url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
                 text = "1. 今天要加班(現在幾點了?)\n2. 噴灑殺蟲劑，殺死些Dug蟲蟲\n3. 泡茶休息下~~~\n\t請稍等...",
                 size = "5M",
-                isMandatory = false
+                isMandatory = true
             )
         )
     }

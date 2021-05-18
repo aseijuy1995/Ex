@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui2
+package tw.north27.coachingapp.ui
 
 import android.os.Bundle
 import androidx.navigation.NavController
@@ -7,10 +7,10 @@ import com.yujie.basemodule.BaseAppCompatActivity
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.finish.BottomNavigationIndex
 import tw.north27.coachingapp.adapter.finish.BottomNavigationPagerAdapter
-import tw.north27.coachingapp.databinding.ActivityMain2Binding
+import tw.north27.coachingapp.databinding.ActivityLaunch2Binding
 
 
-class Main2Activity : BaseAppCompatActivity<ActivityMain2Binding>(ActivityMain2Binding::inflate) {
+class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLaunch2Binding::inflate) {
 
     lateinit var navFragment: NavHostFragment
 
