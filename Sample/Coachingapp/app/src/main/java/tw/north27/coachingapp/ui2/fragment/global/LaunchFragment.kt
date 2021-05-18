@@ -31,6 +31,7 @@ class LaunchFragment : BaseFragment<FragmentLaunchBinding>(R.layout.fragment_lau
                     it.result?.takeIf { it.isNotEmpty() }?.let { fcmToken ->
                         Timber.d("fcmToken = $fcmToken")
                         viewModel.getAppConfig(fcmToken)
+                        
                     }
                 }
             }.addOnFailureListener {
