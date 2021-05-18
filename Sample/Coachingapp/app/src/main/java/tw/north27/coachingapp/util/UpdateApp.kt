@@ -2,12 +2,8 @@ package tw.north27.coachingapp.util
 
 import android.app.Activity
 import androidx.annotation.DrawableRes
-import androidx.navigation.Navigation.findNavController
-
-import tw.north27.coachingapp.R
 import tw.north27.coachingapp.ext.versionCode
 import tw.north27.coachingapp.ext.versionName
-import tw.north27.coachingapp.ui.StartFragmentDirections
 
 /**
  * 版本更新
@@ -37,16 +33,6 @@ class UpdateApp<T> constructor(
     ) {
         var versionNameMode: VersionNameMode = VersionNameMode.DEFAULT
 
-        //        var isUpdateDialog: Boolean = true
-        var drawableResId: Int = R.drawable.ic_background_update
-        var title: String = act.getString(R.string.update_title)
-        var text: String = act.getString(R.string.update_text)
-        var url: String? = null
-        var size: String? = null
-        var isMandatory: Boolean = true
-
-        var viewId: Int? = null
-
         fun builder(builder: UpdateApp.Builder<T>.() -> Unit): UpdateApp<T> {
             builder.invoke(this)
             return UpdateApp(act, this)
@@ -54,36 +40,27 @@ class UpdateApp<T> constructor(
     }
 
     fun execute(
-        newVersion: ((currentVersion: T, targetVersion: T) -> Unit)? = null,
+        newVersion: ((current: T, target: T) -> Unit)? = null,
         noNewVersion: ((currentVersion: T) -> Unit)? = null
     ) {
         if (build.versionName != null) {
             when (build.versionNameMode) {
                 VersionNameMode.FRONT -> {
-                    if (compareFront(build.versionName)) {
-                        newVersion?.invoke(act.versionName as T, build.versionName as T)
-                        build.viewId?.let { findNavController(act, it).navigate(StartFragmentDirections.actionFragmentStartToFragmentUpdateDialog()) }
-                    } else noNewVersion?.invoke(build.versionName as T)
+                    if (compareFront(build.versionName)) newVersion?.invoke(act.versionName as T, build.versionName as T)
+                    else noNewVersion?.invoke(build.versionName as T)
                 }
                 VersionNameMode.MIDDLE -> {
-                    if (compareMiddle(build.versionName)) {
-                        newVersion?.invoke(act.versionName as T, build.versionName as T)
-                        build.viewId?.let { findNavController(act, it).navigate(StartFragmentDirections.actionFragmentStartToFragmentUpdateDialog()) }
-                    } else noNewVersion?.invoke(build.versionName as T)
+                    if (compareMiddle(build.versionName)) newVersion?.invoke(act.versionName as T, build.versionName as T)
+                    else noNewVersion?.invoke(build.versionName as T)
                 }
                 VersionNameMode.DEFAULT -> {
-                    if (compareDefault(build.versionName)) {
-                        newVersion?.invoke(act.versionName as T, build.versionName as T)
-                        build.viewId?.let { findNavController(act, it).navigate(StartFragmentDirections.actionFragmentStartToFragmentUpdateDialog()) }
-                    } else noNewVersion?.invoke(build.versionName as T)
+                    if (compareDefault(build.versionName)) newVersion?.invoke(act.versionName as T, build.versionName as T)
+                    else noNewVersion?.invoke(build.versionName as T)
                 }
             }
         } else if (build.versionCode != null) {
-            if (build.versionCode.toLong() > act.versionCode) {
-                newVersion?.invoke(act.versionCode as T, build.versionCode.toLong() as T)
-                build.viewId?.let { findNavController(act, it).navigate(StartFragmentDirections.actionFragmentStartToFragmentUpdateDialog()) }
-            } else
-                noNewVersion?.invoke(build.versionCode.toLong() as T)
+            if (build.versionCode.toLong() > act.versionCode) newVersion?.invoke(act.versionCode as T, build.versionCode.toLong() as T)
+            else noNewVersion?.invoke(build.versionCode.toLong() as T)
         } else {
             throw Exception("Please Enter versionName or versionCode!")
         }

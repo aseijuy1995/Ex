@@ -2,8 +2,8 @@ package tw.north27.coachingapp.consts
 
 import android.content.Context
 import com.yujie.prefmodule.dataStore.dataStoreUserPref
-import com.yujie.prefmodule.dataStore.getDeviceId
 import com.yujie.prefmodule.dataStore.getFcmToken
+import com.yujie.prefmodule.dataStore.getUuid
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -14,6 +14,10 @@ import timber.log.Timber
 import tw.north27.coachingapp.model.result.*
 
 class ApiService(val cxt: Context) : IApiService {
+
+    private val accountTest = "north27"
+    private val accessTokenTest = "accessTokenTest"
+    private val refreshTokenTest = "refreshTokenTest"
 
     override suspend fun refreshToken(refreshToken: String): TokenInfo {
         delay(500)
@@ -42,7 +46,7 @@ class ApiService(val cxt: Context) : IApiService {
         return AppConfig(
             appState = AppState.RUN,
             updateInfo = UpdateInfo(
-                versionName = "1.0.0",
+                versionName = "1.0.1",
                 url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
                 text = "1. 今天要加班(現在幾點了?)\n2. 噴灑殺蟲劑，殺死些Dug蟲蟲\n3. 泡茶休息下~~~\n\t請稍等...",
                 size = "5M",
@@ -51,20 +55,17 @@ class ApiService(val cxt: Context) : IApiService {
         )
     }
 
-    override suspend fun checkSignIn(account: String, deviceId: String, fcmToken: String): Response<SignInfo> {
+    override suspend fun checkSignIn(uuid: String, account: String, fcmToken: String): Response<SignInfo> {
         delay(1500)
-        val deviceId2 = runBlocking { cxt.dataStoreUserPref.getDeviceId().first() }
-        val fcmToken2 = runBlocking { cxt.dataStoreUserPref.getFcmToken().first() }
-        /**
-         * 測試參數不同時會執行失敗
-         * */
-        return if (account == "north27" && deviceId == deviceId2 && fcmToken == fcmToken2)
+        val uuidTest = runBlocking { cxt.dataStoreUserPref.getUuid().first() }
+        val fcmTokenTest = runBlocking { cxt.dataStoreUserPref.getFcmToken().first() }
+        return if (account == accountTest && uuid == uuidTest && fcmToken == fcmTokenTest)
             Response.success<SignInfo>(
                 SignInfo(
                     signState = SignState.SIGN_IN_SUCCESS,
                     isFirst = true,
-                    accessToken = "accessToken001",
-                    refreshToken = "refreshToken001",
+                    accessToken = accessTokenTest,
+                    refreshToken = refreshTokenTest,
                     user = UserInfo(
                         id = 0,
                         account = "north27",
@@ -81,10 +82,10 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun signIn(account: String, password: String, deviceId: String, fcmToken: String): Response<SignInfo> {
         delay(1500)
-        val deviceId2 = runBlocking { cxt.dataStoreUserPref.getDeviceId().first() }
+        val uuid2 = runBlocking { cxt.dataStoreUserPref.getUuid().first() }
         val fcmToken2 = runBlocking { cxt.dataStoreUserPref.getFcmToken().first() }
 
-        return if (account == "north27" && password == "north27" && deviceId == deviceId2 && fcmToken == fcmToken2)
+        return if (account == "north27" && password == "north27" && deviceId == uuid2 && fcmToken == fcmToken2)
             Response.success<SignInfo>(
                 SignInfo(
                     signState = SignState.SIGN_IN_SUCCESS,

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.GoogleApiAvailability
 import com.yujie.basemodule.BaseFragment
@@ -18,6 +19,7 @@ import tw.north27.coachingapp.databinding.FragmentStartBinding
 import tw.north27.coachingapp.ext.updateApp
 import tw.north27.coachingapp.model.result.AppState
 import tw.north27.coachingapp.model.result.SignState
+import tw.north27.coachingapp.util.UpdateApp
 import tw.north27.coachingapp.util2.bindImgBlurRes
 import tw.north27.coachingapp.viewModel.LaunchViewModel
 
@@ -51,12 +53,10 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                         AppState.RUN -> {
                             val updateInfo = appConfig.updateInfo!!
                             act.updateApp(updateInfo.versionName).builder {
-                                text = updateInfo.text
-                                url = updateInfo.url
-                                size = updateInfo.size
-                                isMandatory = updateInfo.isMandatory
-                                viewId = R.id.fragment_container_view_launch
-                            }.execute(noNewVersion = { viewModel.checkSignIn() })
+                                versionNameMode = UpdateApp.VersionNameMode.DEFAULT
+                            }.execute(
+                                newVersion = { _, _ -> findNavController().navigate(StartFragmentDirections.actionFragmentStartToFragmentUpdateDialog()) },
+                                noNewVersion = { viewModel.checkSignIn() })
                         }
                     }
                 }
@@ -64,6 +64,10 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
 //                    viewModel.getAppConfig()
                 }
             }
+        }
+
+        setFragmentResultListener(UpdateDialogFragment.REQUEST_KEY_UPDATE_CLOSE) { _, bundle ->
+            bundle.getBoolean(UpdateDialogFragment.KEY_UPDATE_CLOSE).takeIf { it }?.let { viewModel.checkSignIn() }
         }
 
         viewModel.signInState.observe(viewLifecycleOwner) {

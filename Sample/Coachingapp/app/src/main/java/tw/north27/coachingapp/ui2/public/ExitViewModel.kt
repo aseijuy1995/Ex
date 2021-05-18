@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.yujie.prefmodule.dataStore.dataStoreUserPref
 import com.yujie.prefmodule.dataStore.getAccount
-import com.yujie.prefmodule.dataStore.getDeviceId
+import com.yujie.prefmodule.dataStore.getUuid
 import com.yujie.prefmodule.dataStore.setDelegate
 import com.yujie.utilmodule.ViewState
 import kotlinx.coroutines.Dispatchers
@@ -30,9 +30,9 @@ class ExitViewModel(application: Application, val userRepo: IUserRepository) : B
         viewModelScope.launch(Dispatchers.IO) {
 
             val account = runBlocking { context.dataStoreUserPref.getAccount().first() }
-            val deviceId = runBlocking { context.dataStoreUserPref.getDeviceId().first() }
+            val uuid = runBlocking { context.dataStoreUserPref.getUuid().first() }
 
-            val results = userRepo.signOut(account, deviceId)
+            val results = userRepo.signOut(account, uuid)
             when (results) {
                 is Results.Successful -> {
                     val signOutInfo = results.data

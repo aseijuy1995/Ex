@@ -8,7 +8,6 @@ import com.yujie.pushmodule.fcm.FirebaseMsg
 import com.yujie.utilmodule.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.base.BaseAndroidViewModel
 import tw.north27.coachingapp.ext2.asLiveData
@@ -60,52 +59,54 @@ class LaunchViewModel(
     fun checkSignIn() {
         viewModelScope.launch(Dispatchers.IO) {
             _signInState.postValue(ViewState.load())
-            val account = context.dataStoreUserPref.getAccount().first()
-            val deviceId = context.dataStoreUserPref.getDeviceId().first()
-            val fcmToken = context.dataStoreUserPref.getFcmToken().first()
-
-            if (account.isEmpty() || deviceId.isEmpty() || fcmToken.isEmpty()) {
-                _signInState.postValue(ViewState.empty())
-                return@launch
-            }
-            val results = userRepo.checkSignIn(account, deviceId, fcmToken)
-            when (results) {
-                is ResponseResults.Successful -> {
-                    val signIn = results.data
-                    val account: String
-                    val accessToken: String
-                    val refreshToken: String
-                    val isFirst: Boolean
-                    when (signIn.signState) {
-                        SignState.SIGN_IN_SUCCESS -> {
-                            signIn.user.also {
-                                account = it!!.account
-                                accessToken = signIn.accessToken!!
-                                refreshToken = signIn.refreshToken!!
-                                isFirst = signIn.isFirst!!
+            context.dataStoreUserPref.data.collect {
+                val uuid = if (it.uuid.isNullOrEmpty()) UUID.randomUUID().toString() else it.uuid
+                val account = it.account
+                val fcmToken = it.fcmToken
+                if (account.isEmpty() || fcmToken.isEmpty()) {
+                    _signInState.postValue(ViewState.empty())
+                } else {
+                    val results = userRepo.checkSignIn(account, deviceId, fcmToken)
+                    when (results) {
+                        is ResponseResults.Successful -> {
+                            val signIn = results.data
+                            val account: String
+                            val accessToken: String
+                            val refreshToken: String
+                            val isFirst: Boolean
+                            when (signIn.signState) {
+                                SignState.SIGN_IN_SUCCESS -> {
+                                    signIn.user.also {
+                                        account = it!!.account
+                                        accessToken = signIn.accessToken!!
+                                        refreshToken = signIn.refreshToken!!
+                                        isFirst = signIn.isFirst!!
+                                    }
+                                }
+                                //SignState.SIGN_IN_FAILURE
+                                else -> {
+                                    account = ""
+                                    accessToken = ""
+                                    refreshToken = ""
+                                    isFirst = false
+                                }
                             }
+                            context.dataStoreUserPref.setDelegate(
+                                account = account,
+                                accessToken = accessToken,
+                                refreshToken = refreshToken,
+                                isFirst = isFirst,
+                            )
+                            _signInState.postValue(ViewState.data(signIn))
                         }
-                        //SignState.SIGN_IN_FAILURE
-                        else -> {
-                            account = ""
-                            accessToken = ""
-                            refreshToken = ""
-                            isFirst = false
+                        is ResponseResults.ClientErrors -> {
+                            _signInState.postValue(ViewState.error(results.e))
+                        }
+                        is ResponseResults.NetWorkError -> {
+                            _signInState.postValue(ViewState.network(results.e))
                         }
                     }
-                    context.dataStoreUserPref.setDelegate(
-                        account = account,
-                        accessToken = accessToken,
-                        refreshToken = refreshToken,
-                        isFirst = isFirst,
-                    )
-                    _signInState.postValue(ViewState.data(signIn))
-                }
-                is ResponseResults.ClientErrors -> {
-                    _signInState.postValue(ViewState.error(results.e))
-                }
-                is ResponseResults.NetWorkError -> {
-                    _signInState.postValue(ViewState.network(results.e))
+
                 }
             }
         }

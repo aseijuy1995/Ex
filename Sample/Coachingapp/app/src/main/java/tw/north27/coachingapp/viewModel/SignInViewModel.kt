@@ -4,8 +4,8 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.yujie.prefmodule.dataStore.dataStoreUserPref
-import com.yujie.prefmodule.dataStore.getDeviceId
 import com.yujie.prefmodule.dataStore.getFcmToken
+import com.yujie.prefmodule.dataStore.getUuid
 import com.yujie.prefmodule.dataStore.setDelegate
 import com.yujie.utilmodule.ViewState
 import kotlinx.coroutines.Dispatchers
@@ -35,9 +35,9 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
             _signInState.postValue(ViewState.empty(context.getString(R.string.empty_password)))
         } else {
             viewModelScope.launch(Dispatchers.IO) {
-                val deviceId = context.dataStoreUserPref.getDeviceId().first()
+                val uuid = context.dataStoreUserPref.getUuid().first()
                 val fcmToken = context.dataStoreUserPref.getFcmToken().first()
-                val results = userRepo.signIn(account, password, deviceId, fcmToken)
+                val results = userRepo.signIn(account, password, uuid, fcmToken)
                 when (results) {
                     is ResponseResults.Successful -> {
                         val signInInfo = results.data

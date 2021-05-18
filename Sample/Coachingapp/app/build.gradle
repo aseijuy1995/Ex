@@ -2,7 +2,7 @@ plugins {
     id "com.android.application"
     id "kotlin-android"
     id "com.google.gms.google-services"
-//    id "com.google.protobuf"
+    id "com.google.protobuf"
     id "androidx.navigation.safeargs.kotlin"
     id "kotlin-kapt"
     id "kotlin-parcelize"
@@ -77,7 +77,31 @@ dependencies {
     implementation "com.github.tapadoo:alerter:7.1.0"
     //Google
     implementation "com.google.android.gms:play-services-base:17.6.0"
-
+    //dataStore
+    def dataStore = "1.0.0-beta01"
+    implementation "androidx.datastore:datastore:${dataStore}"
+    implementation "androidx.datastore:datastore-rxjava3:${dataStore}"
+    implementation "androidx.datastore:datastore-core:${dataStore}"
+    implementation "androidx.datastore:datastore-preferences:${dataStore}"
+    implementation "androidx.datastore:datastore-preferences-rxjava3:${dataStore}"
+    implementation "androidx.datastore:datastore-preferences-core:${dataStore}"
+    //protobuf
+    implementation "com.google.protobuf:protobuf-javalite:3.10.0"
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
 
     /**
      * JetPack
@@ -112,17 +136,6 @@ dependencies {
 //    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-process:$lifecycle_version"
-    //dataStore
-    def dataStore = "1.0.0-beta01"
-    implementation "androidx.datastore:datastore:${dataStore}"
-    implementation "androidx.datastore:datastore-rxjava3:${dataStore}"
-    implementation "androidx.datastore:datastore-core:${dataStore}"
-    implementation "androidx.datastore:datastore-preferences:${dataStore}"
-    implementation "androidx.datastore:datastore-preferences-rxjava3:${dataStore}"
-    implementation "androidx.datastore:datastore-preferences-core:${dataStore}"
-
-    //protobuf
-//    implementation "com.google.protobuf:protobuf-javalite:3.10.0"
     //coroutines
     def coroutine_version = "1.4.2"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
@@ -229,17 +242,17 @@ dependencies {
 // Generates the java Protobuf-lite code for the Protobufs in this project. See
 // https://github.com/google/protobuf-gradle-plugin#customizing-protobuf-compilation
 // for more information.
-//protobuf {
-//    protoc {
-//        artifact = "com.google.protobuf:protoc:3.10.0"
-//    }
-//    generateProtoTasks {
-//        all().each { task ->
-//            task.builtins {
-//                java {
-//                    option 'lite'
-//                }
-//            }
-//        }
-//    }
-//}
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.10.0"
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option 'lite'
+                }
+            }
+        }
+    }
+}

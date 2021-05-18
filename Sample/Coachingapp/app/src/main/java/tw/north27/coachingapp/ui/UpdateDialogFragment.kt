@@ -4,7 +4,9 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.yujie.basemodule.BaseDialogFragment
 import com.yujie.utilmodule.ViewState
@@ -21,6 +23,12 @@ class UpdateDialogFragment : BaseDialogFragment<FragmentUpdateDialogBinding>(R.l
         get() = FragmentUpdateDialogBinding::bind
 
     private val viewModel by sharedViewModel<LaunchViewModel>()
+
+    companion object {
+        const val REQUEST_KEY_UPDATE_CLOSE = "REQUEST_KEY_UPDATE_CLOSE"
+
+        const val KEY_UPDATE_CLOSE = "KEY_UPDATE_CLOSE"
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,8 +52,15 @@ class UpdateDialogFragment : BaseDialogFragment<FragmentUpdateDialogBinding>(R.l
                             cxt.startActivity(intent)
                         }
 
+                        binding.tvText.isVisible = updateInfo.text.isNotEmpty()
+                        binding.tvSize.isVisible = updateInfo.size.isNotEmpty()
                         binding.linearLayoutClose.isVisible = !updateInfo.isMandatory
+
                         binding.linearLayoutClose.clicksObserve(owner = viewLifecycleOwner) {
+                            setFragmentResult(
+                                REQUEST_KEY_UPDATE_CLOSE,
+                                bundleOf(KEY_UPDATE_CLOSE to true)
+                            )
                             findNavController().navigateUp()
                         }
                     }

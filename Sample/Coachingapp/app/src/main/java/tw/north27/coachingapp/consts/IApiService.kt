@@ -19,7 +19,20 @@ interface IApiService {
         @Query("uuid") uuid: String,
         @Query("fcm_token") fcmToken: String
     ): AppConfig
-    //
+
+    /**
+     * 檢查登入
+     * @param uuid >> 用於當前手機安裝的唯一id（後續可用於判定下載量ｏｒ訪客登陸）
+     * @param account >> 驗證用
+     * @param fcmToken >> 用於未登入也可收到推播
+     * */
+    @GET
+    suspend fun checkSignIn(
+        @Query("uuid") uuid: String,
+        @Query("account") account: String,
+        @Query("fcm_token") fcmToken: String
+    ): Response<SignInfo>
+
     //
     //
     //
@@ -31,16 +44,6 @@ interface IApiService {
     @FormUrlEncoded
     @POST
     suspend fun refreshToken(@Field("refresh_token") refreshToken: String): TokenInfo
-
-    /**
-     * 檢查登入
-     * */
-    @GET
-    suspend fun checkSignIn(
-        @Query("account") account: String,
-        @Query("deviceId") deviceId: String,
-        @Query("fcmToken") fcmToken: String
-    ): Response<SignInfo>
 
 
     /**

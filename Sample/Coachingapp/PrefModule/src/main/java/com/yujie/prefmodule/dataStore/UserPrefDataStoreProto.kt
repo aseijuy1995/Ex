@@ -50,8 +50,6 @@ fun DataStore<UserPref>.getAccessToken(): Flow<String> = getDelegate(UserPref::g
 
 fun DataStore<UserPref>.getRefreshToken(): Flow<String> = getDelegate(UserPref::getRefreshToken)
 
-fun DataStore<UserPref>.getDeviceId(): Flow<String> = getDelegate(UserPref::getDeviceId)
-
 fun DataStore<UserPref>.getFcmToken(): Flow<String> = getDelegate(UserPref::getFcmToken)
 
 fun DataStore<UserPref>.getIsFirst(): Flow<Boolean> = getDelegate(UserPref::getIsFirst)
@@ -130,7 +128,6 @@ suspend fun DataStore<UserPref>.clear(): DataStore<UserPref> {
             .setAuth("")
             .setAccessToken("")
             .setRefreshToken("")
-            .setDeviceId("")
             .setFcmToken("")
             .setIsFirst(false)
             .build()
