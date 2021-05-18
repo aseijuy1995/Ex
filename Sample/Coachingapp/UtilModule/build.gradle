@@ -54,4 +54,14 @@ dependencies {
     implementation 'jp.co.cyberagent.android:gpuimage:2.1.0'
     //Alerter
     implementation "com.github.tapadoo:alerter:7.1.0"
+    //RxPermission
+    implementation "com.github.tbruyelle:rxpermissions:0.12"
+    //Reactivex
+    implementation "io.reactivex.rxjava3:rxjava:3.0.9"
+    implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
+    implementation "io.reactivex.rxjava3:rxkotlin:3.0.1"
+    //Rxlifecycle
+    def rxlifecycle = "4.0.2"
+    implementation "com.trello.rxlifecycle4:rxlifecycle-kotlin:$rxlifecycle"
+    implementation "com.trello.rxlifecycle4:rxlifecycle-android-lifecycle-kotlin:$rxlifecycle"
 }

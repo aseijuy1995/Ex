@@ -16,6 +16,7 @@ import com.jakewharton.rxbinding4.recyclerview.scrollStateChanges
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.yujie.basemodule.viewBinding
 import com.yujie.utilmodule.ViewState
+import com.yujie.utilmodule.ext.observe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
@@ -29,7 +30,6 @@ import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
 import tw.north27.coachingapp.ext2.clickThrottleFirst
 import tw.north27.coachingapp.ext2.getDateTime
 import tw.north27.coachingapp.ext2.hideKeyBoard
-import tw.north27.coachingapp.ext2.observe
 import tw.north27.coachingapp.media.mediaStore.Media
 import tw.north27.coachingapp.media.mediaStore.MimeType
 import tw.north27.coachingapp.model.result.*

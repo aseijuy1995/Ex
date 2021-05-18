@@ -14,7 +14,7 @@ import com.yujie.utilmodule.ext.showGoogleServiceAlert
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentStartBinding
-import tw.north27.coachingapp.http.UpdateHttpManager
+import tw.north27.coachingapp.util.UpdateHttpManager
 import tw.north27.coachingapp.model.result.AppState
 import tw.north27.coachingapp.util2.bindImgBlurRes
 import tw.north27.coachingapp.viewModel.LaunchViewModel
@@ -47,12 +47,12 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                             findNavController().navigate(StartFragmentDirections.actionFragmentStartToFragmentMaintainDialog())
                         }
                         AppState.RUN -> {
-                            appConfig.updateInfo?.let {
-                                act.updateApp(it.url, UpdateHttpManager(cxt, it)) {
-                                    topPic = R.mipmap.ic_version_pic
-                                    setUpdateDialogFragmentListener { viewModel.checkSignIn() }
-                                }.check { noNewApp { viewModel.checkSignIn() } }
-                            }
+                            val updateInfo = appConfig.updateInfo!!
+                            act.updateApp(updateInfo.url, UpdateHttpManager(cxt, updateInfo)) {
+                                topPic = R.drawable.ic_background_update
+                                setUpdateDialogFragmentListener { viewModel.checkSignIn() }
+                            }.check { noNewApp { viewModel.checkSignIn() } }
+
                         }
                     }
                 }

@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.View
 import com.yujie.basemodule.BaseDialogFragment
 import com.yujie.utilmodule.ViewState
+import com.yujie.utilmodule.ext.observe
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentMaintainDialogBinding
 import tw.north27.coachingapp.ext2.clickThrottleFirst
-import tw.north27.coachingapp.ext2.observe
 import tw.north27.coachingapp.model.result.AppState
 import tw.north27.coachingapp.viewModel.LaunchViewModel
 
@@ -38,7 +38,7 @@ class MaintainDialogFragment : BaseDialogFragment<FragmentMaintainDialogBinding>
             }
         }
 
-        binding.btnClose.clickThrottleFirst().observe() {
+        binding.btnClose.clickThrottleFirst().observe(viewLifecycleOwner) {
             act.finishAffinity()
         }
     }

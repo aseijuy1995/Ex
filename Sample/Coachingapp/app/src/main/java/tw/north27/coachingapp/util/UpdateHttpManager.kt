@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.http
+package tw.north27.coachingapp.util
 
 import android.content.Context
 import android.content.Intent
@@ -12,7 +12,7 @@ import tw.north27.coachingapp.model.result.UpdateInfo
 class UpdateHttpManager(private val cxt: Context, private val updateInfo: UpdateInfo) : HttpManager {
 
     override fun download(url: String, path: String, fileName: String, callback: HttpManager.FileCallback) {
-        Timber.d("download() url = $url, path = $path, fileName = $fileName")
+        Timber.i("url = $url, path = $path, fileName = $fileName")
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
             flags = Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
         }
@@ -20,7 +20,7 @@ class UpdateHttpManager(private val cxt: Context, private val updateInfo: Update
     }
 
     override fun asyncGet(url: String, params: MutableMap<String, String>, callBack: HttpManager.Callback) {
-        Timber.d("asyncGet() url = $url, params = $params")
+        Timber.i("url = $url, params = $params")
         val newVersion = updateInfo.versionName.replace(".", "").toInt()
         val currentVersion = BuildConfig.VERSION_NAME.replace(".", "").toInt()
         val update = if (newVersion > currentVersion) "Yes" else "No"
@@ -28,7 +28,7 @@ class UpdateHttpManager(private val cxt: Context, private val updateInfo: Update
             "update" to update,
             "new_version" to updateInfo.versionName,
             "apk_file_url" to updateInfo.url,
-            "update_log" to updateInfo.desc,
+            "update_log" to updateInfo.text,
             "target_size" to updateInfo.size,
 //            "new_md5" to updateInfo.md5,
             "new_md5" to "",
@@ -39,7 +39,7 @@ class UpdateHttpManager(private val cxt: Context, private val updateInfo: Update
     }
 
     override fun asyncPost(url: String, params: MutableMap<String, String>, callBack: HttpManager.Callback) {
-        Timber.d("asyncPost() url = $url, params = $params")
+        Timber.d("url = $url, params = $params")
     }
 
 }

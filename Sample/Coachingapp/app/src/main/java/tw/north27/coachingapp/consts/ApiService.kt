@@ -28,27 +28,27 @@ class ApiService(val cxt: Context) : IApiService {
         @Query(value = "fcm_token") fcmToken: String
     ): AppConfig {
         delay(1500)
-        return AppConfig(
-            appState = AppState.MAINTAIN,
-            maintainInfo = MaintainInfo(
-                title = "維護通知",
-                text = "1. 不可視因素遭受攻擊。\n" +
-                        "2. 增加監控、效能分析、執行網路維護。\n" +
-                        "3. 描述統一規範化。\n" +
-                        "",
-                time = "2021/03/01 16:00",
-            )
-        )
-//        appConfig = AppConfig(
-//            appState = AppState.RUN,
-//            updateInfo = UpdateInfo(
-//                versionName = "1.0.0",
-//                url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
-//                desc = "1. 今天要加班(現在幾點了?)\n2. 噴灑殺蟲劑，殺死些Dug蟲蟲\n3. 泡茶休息下~~~\n\t請稍等...",
-//                size = "5M",
-//                isMandatory = false
+//        return AppConfig(
+//            appState = AppState.MAINTAIN,
+//            maintainInfo = MaintainInfo(
+//                title = "維護通知",
+//                text = "1. 不可視因素遭受攻擊。\n" +
+//                        "2. 增加監控、效能分析、執行網路維護。\n" +
+//                        "3. 描述統一規範化。\n" +
+//                        "",
+//                time = "2021/03/01 16:00",
 //            )
 //        )
+        return AppConfig(
+            appState = AppState.RUN,
+            updateInfo = UpdateInfo(
+                versionName = "1.0.1",
+                url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
+                text = "1. 今天要加班(現在幾點了?)\n2. 噴灑殺蟲劑，殺死些Dug蟲蟲\n3. 泡茶休息下~~~\n\t請稍等...",
+                size = "5M",
+                isMandatory = false
+            )
+        )
     }
 
     override suspend fun checkSignIn(account: String, deviceId: String, fcmToken: String): Response<SignInfo> {

@@ -7,13 +7,13 @@ import com.yujie.prefmodule.dataStore.dataStore
 import com.yujie.prefmodule.dataStore.dataStoreUserPref
 import com.yujie.prefmodule.dataStore.getAccount
 import com.yujie.prefmodule.dataStore.getString
+import com.yujie.pushmodule.Notify
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.first
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import timber.log.Timber
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.ext2.Notify
 import tw.north27.coachingapp.model.result.ChatInfo
 import tw.north27.coachingapp.util.AppViewState
 import tw.north27.coachingapp.util.ProcessLifeObs.Companion.APP_VIEW_STATE

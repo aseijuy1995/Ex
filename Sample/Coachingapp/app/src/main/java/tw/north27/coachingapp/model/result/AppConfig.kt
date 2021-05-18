@@ -25,10 +25,17 @@ data class MaintainInfo(
     val time: String
 )
 
+/**
+ * versionName >> 版本名
+ * url >> google play url
+ * text >> 內文
+ * size >> apk size
+ * isMandatory >> 是否強制更新
+ * */
 data class UpdateInfo(
-    val versionName: String,//版本名
-    val url: String,//google play url
-    val desc: String,//description
-    val size: String,//apk size
-    val isMandatory: Boolean//是否強制更新
+    val versionName: String,
+    val url: String,
+    val text: String,
+    val size: String,
+    val isMandatory: Boolean
 )
