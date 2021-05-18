@@ -4,8 +4,10 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.yujie.prefmodule.dataStore.*
+import com.yujie.pushmodule.fcm.FirebaseMsg
 import com.yujie.utilmodule.ViewState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.base.BaseAndroidViewModel
@@ -17,6 +19,7 @@ import tw.north27.coachingapp.module.http.ResponseResults
 import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.repository.inter.IPublicRepository
 import tw.north27.coachingapp.repository.inter.IUserRepository
+import java.util.*
 
 class LaunchViewModel(
     application: Application,
@@ -28,20 +31,23 @@ class LaunchViewModel(
 
     val appConfigState = _appConfigState.asLiveData()
 
-    fun getAppConfig(fcmToken: String) {
+    fun getAppConfig() {
         viewModelScope.launch(Dispatchers.IO) {
             _appConfigState.postValue(ViewState.load())
-            context.dataStoreUserPref.setFcmToken(fcmToken)
-            val results = publicRepo.getAppConfig(fcmToken)
-            when (results) {
-                is Results.Successful -> {
-                    _appConfigState.postValue(ViewState.data(results.data!!))
-                }
-                is Results.ClientErrors -> {
-                    _appConfigState.postValue(ViewState.error(results.e))
-                }
-                is Results.NetWorkError -> {
-                    _appConfigState.postValue(ViewState.network(results.e))
+            context.dataStoreUserPref.setFcmToken(FirebaseMsg.fcmToken!!)
+            context.dataStoreUserPref.getUuid().collect {
+                val uuid = if (it.isNotEmpty()) it else UUID.randomUUID().toString()
+                val results = publicRepo.getAppConfig(uuid, FirebaseMsg.fcmToken!!)
+                when (results) {
+                    is Results.Successful -> {
+                        _appConfigState.postValue(ViewState.data(results.data!!))
+                    }
+                    is Results.ClientErrors -> {
+                        _appConfigState.postValue(ViewState.error(results.e))
+                    }
+                    is Results.NetWorkError -> {
+                        _appConfigState.postValue(ViewState.network(results.e))
+                    }
                 }
             }
         }

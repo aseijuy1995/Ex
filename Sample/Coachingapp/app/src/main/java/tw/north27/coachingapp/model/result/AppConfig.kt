@@ -6,14 +6,23 @@ data class AppConfig(
     val updateInfo: UpdateInfo? = null
 )
 
+/**
+ * MAINTAIN >> 維護中
+ * RUN >> 運行中
+ * */
 enum class AppState {
-    RUN,//運行中
-    MAINTAIN;//維護中
+    MAINTAIN, RUN;
 }
 
+/**
+ * title >> 標題
+ * text >> 內文
+ * time >> 預計完成時間
+ * */
 data class MaintainInfo(
-    val desc: String,//description
-    val time: String//預計完成時間
+    val title: String,
+    val text: String,
+    val time: String
 )
 
 data class UpdateInfo(

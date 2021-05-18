@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import retrofit2.Response
 import retrofit2.http.Field
+import retrofit2.http.Query
 import timber.log.Timber
 import tw.north27.coachingapp.model.result.*
 
@@ -22,15 +23,19 @@ class ApiService(val cxt: Context) : IApiService {
         )
     }
 
-    override suspend fun getAppConfig(fcmToken: String): AppConfig {
+    override suspend fun getAppConfig(
+        @Query(value = "uuid") uuid: String,
+        @Query(value = "fcm_token") fcmToken: String
+    ): AppConfig {
         delay(1500)
-        var appConfig: AppConfig
-        appConfig = AppConfig(
+        return AppConfig(
             appState = AppState.MAINTAIN,
             maintainInfo = MaintainInfo(
-                desc = "1. 不可視因素遭受攻擊。\n" +
+                title = "維護通知",
+                text = "1. 不可視因素遭受攻擊。\n" +
                         "2. 增加監控、效能分析、執行網路維護。\n" +
-                        "3. 描述統一規範化。",
+                        "3. 描述統一規範化。\n" +
+                        "",
                 time = "2021/03/01 16:00",
             )
         )
@@ -44,7 +49,6 @@ class ApiService(val cxt: Context) : IApiService {
 //                isMandatory = false
 //            )
 //        )
-        return appConfig
     }
 
     override suspend fun checkSignIn(account: String, deviceId: String, fcmToken: String): Response<SignInfo> {

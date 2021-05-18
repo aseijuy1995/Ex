@@ -60,4 +60,8 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxjava:3.0.9"
     implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
     implementation "io.reactivex.rxjava3:rxkotlin:3.0.1"
+    //Rxlifecycle
+    def rxlifecycle = "4.0.2"
+    implementation "com.trello.rxlifecycle4:rxlifecycle-kotlin:$rxlifecycle"
+    implementation "com.trello.rxlifecycle4:rxlifecycle-android-lifecycle-kotlin:$rxlifecycle"
 }

@@ -7,17 +7,25 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
 
-open class BaseDialogFragment<T : ViewBinding>(layoutId: Int, viewBindingFactory: (View) -> T) : DialogFragment(layoutId) {
+abstract class BaseDialogFragment<T : ViewBinding>(layoutId: Int) : DialogFragment(layoutId) {
 
-		protected val binding by viewBinding(viewBindingFactory)
+    abstract val viewBindingFactory: (View) -> T
 
-		protected lateinit var act: FragmentActivity
+    protected val binding by viewBinding(viewBindingFactory)
 
-		protected lateinit var cxt: Context
+    protected lateinit var act: FragmentActivity
 
-		override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-				super.onViewCreated(view, savedInstanceState)
-				act = requireActivity()
-				cxt = requireContext()
-		}
+    protected lateinit var cxt: Context
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isCancelable = false
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        act = requireActivity()
+        cxt = requireContext()
+    }
+
 }

@@ -56,9 +56,9 @@
     <!--    -->
     <fragment
         android:id="@+id/fragment_start"
-        android:name="tw.north27.coachingapp.ui2.fragment.global.LaunchFragment"
+        android:name="tw.north27.coachingapp.ui2.fragment.global.StartFragment"
         android:label="fragment_start"
-        tools:layout="@layout/fragment_launch">
+        tools:layout="@layout/fragment_start">
 
         <action
             android:id="@+id/action_fragment_start_to_fragment_maintain_dialog"

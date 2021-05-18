@@ -70,11 +70,13 @@ dependencies {
     implementation platform("com.google.firebase:firebase-bom:26.6.0")
     implementation "com.google.firebase:firebase-analytics-ktx"
     implementation "com.google.firebase:firebase-messaging-ktx"
-    implementation "com.google.firebase:firebase-messaging-directboot:21.0.1"
+    implementation "com.google.firebase:firebase-messaging-directboot:22.0.0"
     //SpinKit
     implementation "com.github.ybq:Android-SpinKit:1.4.0"
-    //alerter
+    //Alerter
     implementation "com.github.tapadoo:alerter:7.1.0"
+    //Google
+    implementation "com.google.android.gms:play-services-base:17.6.0"
 
 
     /**
@@ -176,7 +178,7 @@ dependencies {
     implementation "org.koin:koin-androidx-fragment:$koin_version"
     //timber & logger
     implementation "com.jakewharton.timber:timber:4.7.1"
-    implementation "com.orhanobut:logger:2.2.0"
+//    implementation "com.orhanobut:logger:2.2.0"
     //progress
     implementation "com.github.ybq:Android-SpinKit:1.4.0"
 //    //Update
@@ -219,6 +221,7 @@ dependencies {
     implementation project(":PrefModule")
     implementation project(":BaseModule")
     implementation project(":UtilModule")
+    implementation project(":PushModule")
 
 }
 

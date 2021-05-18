@@ -11,10 +11,14 @@ interface IApiService {
 
     /**
      * 取得更新資訊
-     * @param fcmToken:未登入才可收到app通知
+     * @param uuid >> 用於當前手機安裝的唯一id（後續可用於判定下載量ｏｒ訪客登陸）
+     * @param fcmToken >> 用於未登入也可收到推播
      * */
     @GET
-    suspend fun getAppConfig(@Query("fcmToken") fcmToken: String): AppConfig
+    suspend fun getAppConfig(
+        @Query("uuid") uuid: String,
+        @Query("fcm_token") fcmToken: String
+    ): AppConfig
     //
     //
     //

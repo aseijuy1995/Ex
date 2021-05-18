@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "507313939111",
+    "project_id": "pushmodule-7de24",
+    "storage_bucket": "pushmodule-7de24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:507313939111:android:69eb76877728b30e38b182",
+        "android_client_info": {
+          "package_name": "com.yujie.pushmodule"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "507313939111-010m7gsev31vo0oms04n4qb8k9ng4qtc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJZZKKBQ3tHtozq0jD1PKwj2zHVg2fOFU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "507313939111-010m7gsev31vo0oms04n4qb8k9ng4qtc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
