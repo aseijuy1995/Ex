@@ -15,29 +15,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_logo_background"
+    <FrameLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="130dp"
         android:background="@drawable/shape_solid_white_corners_radius_15"
+        android:backgroundTint="@color/yellow_fef5e0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_logo_foreground"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="20dp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_logo_background"
-        app:layout_constraintDimensionRatio="H,1:1"
-        app:layout_constraintEnd_toEndOf="@id/iv_logo_background"
-        app:layout_constraintStart_toStartOf="@id/iv_logo_background"
-        app:layout_constraintTop_toTopOf="@id/iv_logo_background"
-        app:srcCompat="@drawable/ic_coffee_logo" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_logo_foreground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="24dp"
+            app:srcCompat="@mipmap/ic_pencil_logo" />
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/spin_kit_view"
+            style="@style/SpinKitView.Large.CubeGrid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="24dp"
+            app:SpinKit_Color="@color/yellow_fef5e0" />
+
+    </FrameLayout>
 
     <include
         android:id="@+id/item_launch"

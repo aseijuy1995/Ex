@@ -2,9 +2,12 @@ package tw.north27.coachingapp.ui2.fragment.global
 
 import android.os.Bundle
 import android.view.View
-import com.tapadoo.alerter.Alerter
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.firebase.messaging.FirebaseMessaging
 import com.yujie.basemodule.BaseFragment
+import com.yujie.utilmodule.ext.showGoogleServiceAlert
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentLaunchBinding
 import tw.north27.coachingapp.util2.bindImgBlurRes
@@ -21,24 +24,18 @@ class LaunchFragment : BaseFragment<FragmentLaunchBinding>(R.layout.fragment_lau
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.ivBackground.bindImgBlurRes(R.drawable.ic_launch_background)
-
-//        GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(act)
-//            .addOnSuccessListener {
-//                FirebaseMessaging.getInstance().token.addOnCompleteListener {
-//                    if (!it.isSuccessful) return@addOnCompleteListener
-//                    it.result?.takeIf { it.isNotEmpty() }?.let { fcmToken ->
-//                        Timber.d("fcmToken = $fcmToken")
-//                        viewModel.getAppConfig(fcmToken)
-//                    }
-//                }
-//            }.addOnFailureListener {
-        Alerter.create(act)
-            .setIcon(R.drawable.ic_baseline_error_24_white)
-            .setTitle(getString(R.string.google_play_service_title))
-            .setText(R.string.google_play_service_text)
-            .setBackgroundColor(R.color.yellow_f7cd3b)
-            .show()
-//            }
+        GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(act)
+            .addOnSuccessListener {
+                FirebaseMessaging.getInstance().token.addOnCompleteListener {
+                    if (!it.isSuccessful) return@addOnCompleteListener
+                    it.result?.takeIf { it.isNotEmpty() }?.let { fcmToken ->
+                        Timber.d("fcmToken = $fcmToken")
+                        viewModel.getAppConfig(fcmToken)
+                    }
+                }
+            }.addOnFailureListener {
+                act.showGoogleServiceAlert()
+            }
 
 //        viewModel.appConfigState.observe(viewLifecycleOwner) {
 //            when (it) {

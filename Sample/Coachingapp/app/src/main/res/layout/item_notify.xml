@@ -34,10 +34,10 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:src="@drawable/ic_baseline_circle_24_green"
-            app:layout_constraintBottom_toTopOf="@id/iv_logo_background"
-            app:layout_constraintEnd_toStartOf="@id/iv_logo_background"
-            app:layout_constraintStart_toStartOf="@id/iv_logo_background"
-            app:layout_constraintTop_toTopOf="@id/iv_logo_background"
+            app:layout_constraintBottom_toTopOf="@id/iv_icon"
+            app:layout_constraintEnd_toStartOf="@id/iv_icon"
+            app:layout_constraintStart_toStartOf="@id/iv_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_icon"
             bind:isVisibility="@{!notifyInfo.isRead}" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -52,8 +52,8 @@
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/iv_more"
-            app:layout_constraintStart_toEndOf="@id/iv_logo_background"
-            app:layout_constraintTop_toTopOf="@id/iv_logo_background"
+            app:layout_constraintStart_toEndOf="@id/iv_icon"
+            app:layout_constraintTop_toTopOf="@id/iv_icon"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -66,7 +66,7 @@
             android:text="@{notifyInfo.time}"
             android:textColor="@color/gray_aaaaaa"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/iv_logo_background"
+            app:layout_constraintBottom_toBottomOf="@id/iv_icon"
             app:layout_constraintEnd_toStartOf="@id/iv_more"
             app:layout_constraintStart_toStartOf="@id/tv_title"
             app:layout_constraintTop_toBottomOf="@id/tv_title" />
@@ -84,8 +84,8 @@
             android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/iv_more"
-            app:layout_constraintStart_toStartOf="@id/iv_logo_background"
-            app:layout_constraintTop_toBottomOf="@id/iv_logo_background"
+            app:layout_constraintStart_toStartOf="@id/iv_icon"
+            app:layout_constraintTop_toBottomOf="@id/iv_icon"
             app:layout_constraintVertical_bias="0.0" />
 
         <androidx.appcompat.widget.AppCompatImageView
@@ -94,9 +94,9 @@
             android:layout_height="25dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
+            android:src="@drawable/ic_baseline_more_horiz_24_gray"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/ic_baseline_more_horiz_24_gray" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

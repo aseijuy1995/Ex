@@ -30,7 +30,7 @@ import tw.north27.coachingapp.model.result.ChatRead
 fun ImageView.bindImgBlurRes(
     @DrawableRes resId: Int,
     radius: Int = 15,
-    sampling: Int = 5
+    sampling: Int = 3
 ) {
     Glide.with(this)
         .load(resId)
@@ -75,7 +75,7 @@ fun ImageView.bindImgRes(resId: Int) {
 
 @BindingAdapter("bind:imgByteArray")
 fun ImageView.bindImgByteArray(byteArray: ByteArray) {
-    Glide.with(context).load(byteArray).placeholder(R.drawable.ic_coffee_logo).into(this)
+    Glide.with(context).load(byteArray).placeholder(R.drawable.ic_pencil_logo).into(this)
 }
 
 //

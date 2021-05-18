@@ -8,14 +8,14 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.touches
 import com.yujie.basemodule.viewBinding
 import com.yujie.utilmodule.ViewState
+import com.yujie.utilmodule.ext.showErrorAlert
+import com.yujie.utilmodule.ext.showNetworkAlert
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.databinding.FragmentSignInBinding
 import tw.north27.coachingapp.ext2.clickThrottleFirst
-import tw.north27.coachingapp.ext2.errorAlert
 import tw.north27.coachingapp.ext2.hideKeyBoard
-import tw.north27.coachingapp.ext2.networkAlert
 import tw.north27.coachingapp.ui2.Main2Activity
 import tw.north27.coachingapp.viewModel.SignInViewModel
 
@@ -56,10 +56,10 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
                     act.finish()
                 }
                 is ViewState.Error -> {
-                    act.errorAlert()
+                    act.showErrorAlert()
                 }
                 is ViewState.Network -> {
-                    act.networkAlert()
+                    act.showNetworkAlert()
                 }
             }
         }

@@ -49,4 +49,9 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.retrofit2:retrofit-mock:$retrofit"
+    //高斯
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
+    implementation 'jp.co.cyberagent.android:gpuimage:2.1.0'
+    //Alerter
+    implementation "com.github.tapadoo:alerter:7.1.0"
 }

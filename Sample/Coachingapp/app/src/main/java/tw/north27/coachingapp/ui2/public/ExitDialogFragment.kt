@@ -5,13 +5,13 @@ import android.view.View
 import android.widget.Toast
 import com.yujie.basemodule.viewBinding
 import com.yujie.utilmodule.ViewState
+import com.yujie.utilmodule.ext.showErrorAlert
+import com.yujie.utilmodule.ext.showNetworkAlert
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.base.BaseDialogFragment
 import tw.north27.coachingapp.databinding.FragmentExitDialogBinding
 import tw.north27.coachingapp.ext2.clickThrottleFirst
-import tw.north27.coachingapp.ext2.errorAlert
-import tw.north27.coachingapp.ext2.networkAlert
 import tw.north27.coachingapp.model.result.SignState
 
 class ExitDialogFragment : BaseDialogFragment(R.layout.fragment_exit_dialog) {
@@ -56,10 +56,10 @@ class ExitDialogFragment : BaseDialogFragment(R.layout.fragment_exit_dialog) {
                     }
                 }
                 is ViewState.Error -> {
-                    act.errorAlert()
+                    act.showErrorAlert()
                 }
                 is ViewState.Network -> {
-                    act.networkAlert()
+                    act.showNetworkAlert()
                 }
 
             }
