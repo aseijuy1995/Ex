@@ -17,8 +17,7 @@
 
         <!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
 
-        <item name="android:colorButtonNormal">@color/green_00ba9b</item>
-        <item name="colorButtonNormal">@color/green_00ba9b</item>
+        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
     </style>
 
 

@@ -1,6 +1,7 @@
 package tw.north27.coachingapp.ui
 
 import android.os.Build
+import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
@@ -10,9 +11,16 @@ import androidx.navigation.findNavController
 import com.yujie.basemodule.BaseAppCompatActivity
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ActivityLaunchBinding
+import tw.north27.coachingapp.util2.bindImgBlurRes
 
 
 class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaunchBinding::inflate) {
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding.ivBackground.bindImgBlurRes(R.drawable.ic_launch_background)
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         return super.onSupportNavigateUp() || findNavController(R.id.fragment_container_view_launch).navigateUp()

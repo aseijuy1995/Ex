@@ -29,11 +29,3 @@ fun Context.hideKeyBoard(vararg views: View) {
         imm.hideSoftInputFromWindow(it.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 }
-
-fun Activity.hideKeyBoard() {
-    val imm = this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-    var view: View? = currentFocus
-    if (view == null)
-        view = View(this)
-    imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-}

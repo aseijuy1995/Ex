@@ -36,7 +36,6 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.ivBackground.bindImgBlurRes(R.drawable.ic_launch_background)
         GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(act)
             .addOnSuccessListener {
                 FirebaseMsg.getInstance(complete = { viewModel.getAppConfig() })

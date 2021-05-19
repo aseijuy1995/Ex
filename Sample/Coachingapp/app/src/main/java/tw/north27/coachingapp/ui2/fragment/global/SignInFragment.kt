@@ -6,29 +6,27 @@ import android.view.MotionEvent
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.touches
-import com.yujie.basemodule.viewBinding
+import com.yujie.basemodule.BaseFragment
 import com.yujie.utilmodule.ViewState
-import com.yujie.utilmodule.ext.showErrorAlert
-import com.yujie.utilmodule.ext.showNetworkAlert
+import com.yujie.utilmodule.ext.observe
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.databinding.FragmentSignInBinding
 import tw.north27.coachingapp.ext2.clicksObserve
 import tw.north27.coachingapp.ext2.hideKeyBoard
 import tw.north27.coachingapp.ui.Launch2Activity
 import tw.north27.coachingapp.viewModel.SignInViewModel
 
-class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
+class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sign_in) {
 
-    private val binding by viewBinding(FragmentSignInBinding::bind)
+    override val viewBindingFactory: (View) -> FragmentSignInBinding
+        get() = FragmentSignInBinding::bind
 
     private val viewModel by viewModel<SignInViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.root.touches { it.action == MotionEvent.ACTION_UP }.subscribeWithRxLife {
+        binding.root.touches { it.action == MotionEvent.ACTION_UP }.observe(viewLifecycleOwner) {
             act.hideKeyBoard()
         }
 
@@ -43,23 +41,23 @@ class SignInFragment : BaseFragment(R.layout.fragment_sign_in) {
                 is ViewState.Initial -> {
                 }
                 is ViewState.Load -> {
-                    showLoadingDialog()
+//                    showLoadingDialog()
                 }
                 is ViewState.Empty -> {
-                    dismissLoadingDialog()
+//                    dismissLoadingDialog()
                     Snackbar.make(binding.root, it.str!!, Snackbar.LENGTH_SHORT).show()
                 }
                 is ViewState.Data -> {
-                    dismissLoadingDialog()
+//                    dismissLoadingDialog()
 //                    findNavController().navigate(NavGraphDirections.actionToFragmentHome())
                     startActivity(Intent(act, Launch2Activity::class.java))
                     act.finish()
                 }
                 is ViewState.Error -> {
-                    act.showErrorAlert()
+//                    act.showErrorAlert()
                 }
                 is ViewState.Network -> {
-                    act.showNetworkAlert()
+//                    act.showNetworkAlert()
                 }
             }
         }
