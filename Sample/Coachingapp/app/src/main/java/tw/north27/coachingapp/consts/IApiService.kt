@@ -11,8 +11,8 @@ interface IApiService {
 
     /**
      * 取得更新資訊
-     * @param uuid >> 用於當前手機安裝的唯一id（後續可用於判定下載量ｏｒ訪客登陸）
-     * @param fcmToken >> 用於未登入也可收到推播
+     * @param uuid >> 唯一id（下載量 & 登入數量）
+     * @param fcmToken >> firebase cloud messaging（未登入可收推播）
      * */
     @GET
     suspend fun getAppConfig(
@@ -22,28 +22,33 @@ interface IApiService {
 
     /**
      * 檢查登入
-     * @param uuid >> 用於當前手機安裝的唯一id（後續可用於判定下載量ｏｒ訪客登陸）
-     * @param account >> 驗證用
-     * @param fcmToken >> 用於未登入也可收到推播
+     * @param uuid >> 用於當前手機安裝的唯一id（下載量 & 登入數量）
+     * @param account >> 帳號（驗證用）
+     * @param accessToken >> 訪問token（驗證用）
+     * @param fcmToken >> firebase cloud messaging token（驗證成功需刷新）
      * */
-    @GET
+    @POST
     suspend fun checkSignIn(
-        @Query("uuid") uuid: String,
-        @Query("account") account: String,
-        @Query("fcm_token") fcmToken: String
-    ): Response<SignInfo>
-
-    //
-    //
-    //
-    //
+        @Field("uuid") uuid: String,
+        @Field("account") account: String,//
+        @Field("access_token") accessToken: String,//
+        @Field("fcm_token") fcmToken: String,
+    ): Response<SignIn>
 
     /**
      * 刷新token
      * */
-    @FormUrlEncoded
-    @POST
-    suspend fun refreshToken(@Field("refresh_token") refreshToken: String): TokenInfo
+    @GET
+    suspend fun refreshToken(
+//        @Query("account") account: String,
+//        @Query("access_token") accessToken: String,
+        @Query("refresh_token") refreshToken: String
+    ): TokenInfo
+
+    //
+    //
+    //
+    //
 
 
     /**
@@ -55,7 +60,7 @@ interface IApiService {
         @Query("password") password: String,
         @Query("deviceId") deviceId: String,
         @Query("fcmToken") fcmToken: String
-    ): Response<SignInfo>
+    ): Response<SignIn>
 
     /**
      * 登出
@@ -66,7 +71,7 @@ interface IApiService {
     suspend fun signOut(
         @Query("account") account: String,
         @Query("deviceId") deviceId: String
-    ): SignInfo
+    ): SignIn
 
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////

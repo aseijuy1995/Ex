@@ -13,10 +13,7 @@ import tw.north27.coachingapp.adapter.ChatReadIndex
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.ChatViewModel
 import tw.north27.coachingapp.databinding.FragmentChatBinding
-import tw.north27.coachingapp.model.result.ChatInfo
-import tw.north27.coachingapp.model.result.ChatRead
-import tw.north27.coachingapp.model.result.ChatType
-import tw.north27.coachingapp.model.result.UserInfo
+import tw.north27.coachingapp.model.result.*
 
 class ChatFragment : BaseFragment(R.layout.fragment_chat) {
 
@@ -54,12 +51,14 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
                     sender = UserInfo(
                         id = -1,
                         account = "north27",
+                        auth = Authority.STUDENT,
                         avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                         name = "阿吉"
                     ),
                     recipient = UserInfo(
                         id = 5,
                         account = "lbj7871",
+                        auth = Authority.STUDENT,
                         avatarPath = "https://cf.shopee.tw/file/66f6a55ddd243f22b78c99847406b516",
                         name = "lbj7871"
                     ),

@@ -19,11 +19,6 @@
         android:id="@+id/action_to_fragment_loading_dialog"
         app:destination="@id/fragment_loading_dialog" />
 
-    <action
-        android:id="@+id/action_to_fragment_sign_in"
-        app:destination="@id/fragment_sign_in"
-        app:popUpTo="@id/fragment_start"
-        app:popUpToInclusive="true" />
 
     <action
         android:id="@+id/action_to_fragment_home"
@@ -52,8 +47,14 @@
     <!--    -->
     <!--    -->
     <!--    -->
-    <!--    -->
-    <!--    -->
+    <!--  Global Action  -->
+    <action
+        android:id="@+id/action_to_fragment_sign_in"
+        app:destination="@id/fragment_sign_in"
+        app:popUpTo="@id/fragment_start"
+        app:popUpToInclusive="true" />
+
+    <!--  Fragment Page  -->
     <fragment
         android:id="@+id/fragment_start"
         android:name="tw.north27.coachingapp.ui.StartFragment"
@@ -82,6 +83,12 @@
         android:label="fragment_update_dialog"
         tools:layout="@layout/fragment_update_dialog" />
 
+    <fragment
+        android:id="@+id/fragment_sign_in"
+        android:name="tw.north27.coachingapp.ui2.fragment.global.SignInFragment"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in" />
+
     <!--    -->
     <!--    -->
     <!--    -->
@@ -97,11 +104,7 @@
 
     <!---->
     <!--    -->
-    <fragment
-        android:id="@+id/fragment_sign_in"
-        android:name="tw.north27.coachingapp.ui2.fragment.global.SignInFragment"
-        android:label="fragment_sign_in"
-        tools:layout="@layout/fragment_sign_in" />
+
 
     <fragment
         android:id="@+id/fragment_home"

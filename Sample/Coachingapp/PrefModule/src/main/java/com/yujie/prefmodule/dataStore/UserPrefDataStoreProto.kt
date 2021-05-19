@@ -56,8 +56,10 @@ fun DataStore<UserPref>.getIsFirst(): Flow<Boolean> = getDelegate(UserPref::getI
 
 private inline fun <T, R> DataStore<T>.getDelegate(crossinline transform: suspend (value: T) -> R) = data.map(transform)
 
+fun <T> DataStore<T>.getUserPref() = data
+
 suspend fun DataStore<UserPref>.setDelegate(
-    uuid: Long? = null,
+    uuid: String? = null,
     account: String? = null,
     auth: String? = null,
     accessToken: String? = null,
@@ -81,7 +83,7 @@ suspend fun DataStore<UserPref>.setDelegate(
     return this
 }
 
-suspend fun DataStore<UserPref>.setUuid(uuid: Long): DataStore<UserPref> {
+suspend fun DataStore<UserPref>.setUuid(uuid: String): DataStore<UserPref> {
     setDelegate(uuid = uuid)
     return this
 }
@@ -124,6 +126,7 @@ suspend fun DataStore<UserPref>.setIsFirst(isFirst: Boolean): DataStore<UserPref
 suspend fun DataStore<UserPref>.clear(): DataStore<UserPref> {
     updateData {
         it.toBuilder()
+            .setUuid("")
             .setAccount("")
             .setAuth("")
             .setAccessToken("")

@@ -18,14 +18,9 @@ class ApiService(val cxt: Context) : IApiService {
     private val accountTest = "north27"
     private val accessTokenTest = "accessTokenTest"
     private val refreshTokenTest = "refreshTokenTest"
-
-    override suspend fun refreshToken(refreshToken: String): TokenInfo {
-        delay(500)
-        return TokenInfo(
-            accessToken = "accessToken002",
-            refreshToken = "refreshToken002"
-        )
-    }
+    private val avatarPathTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
+    private val nameTest = "北緯科技"
+    private val emailTest = "north27@north27.tw"
 
     override suspend fun getAppConfig(
         @Query(value = "uuid") uuid: String,
@@ -46,7 +41,7 @@ class ApiService(val cxt: Context) : IApiService {
         return AppConfig(
             appState = AppState.RUN,
             updateInfo = UpdateInfo(
-                versionName = "1.0.1",
+                versionName = "1.0.0",
                 url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
                 text = "1. 今天要加班(現在幾點了?)\n2. 噴灑殺蟲劑，殺死些Dug蟲蟲\n3. 泡茶休息下~~~\n\t請稍等...",
                 size = "5M",
@@ -55,60 +50,98 @@ class ApiService(val cxt: Context) : IApiService {
         )
     }
 
-    override suspend fun checkSignIn(uuid: String, account: String, fcmToken: String): Response<SignInfo> {
+    override suspend fun checkSignIn(
+        @Query(value = "uuid") uuid: String,
+        @Query(value = "account") account: String,
+        @Query(value = "access_token") accessToken: String,
+        @Query(value = "fcm_token") fcmToken: String
+    ): Response<SignIn> {
         delay(1500)
         val uuidTest = runBlocking { cxt.dataStoreUserPref.getUuid().first() }
         val fcmTokenTest = runBlocking { cxt.dataStoreUserPref.getFcmToken().first() }
-        return if (account == accountTest && uuid == uuidTest && fcmToken == fcmTokenTest)
-            Response.success<SignInfo>(
-                SignInfo(
-                    signState = SignState.SIGN_IN_SUCCESS,
-                    isFirst = true,
-                    accessToken = accessTokenTest,
-                    refreshToken = refreshTokenTest,
-                    user = UserInfo(
-                        id = 0,
-                        account = "north27",
-                        avatarPath = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939",
-                        name = "北緯科技",
-                        email = "North27@north27.tw"
+        Timber.d("uuid == uuidTest : ${uuid == uuidTest}")
+        Timber.d("fcmToken == fcmTokenTest : ${fcmToken == fcmTokenTest}")
+        return if (account == accountTest && accessToken == accessTokenTest)
+            Response.success<SignIn>(
+                SignIn(
+                    signInState = SignInState.SIGN_IN,
+                    signInInfo = SignInInfo(
+                        isFirst = true,
+                        accessToken = accessTokenTest,
+                        refreshToken = refreshTokenTest,
+                        userInfo = UserInfo(
+                            id = 0,
+                            account = accountTest,
+                            avatarPath = avatarPathTest,
+                            name = nameTest,
+                            auth = Authority.STUDENT,
+                            email = emailTest
+                        )
                     )
                 )
             )
         else
-            Response.success<SignInfo>(SignInfo(signState = SignState.SIGN_IN_FAILURE))
+            Response.success<SignIn>(
+                SignIn(
+                    signInState = SignInState.SIGN_OUT,
+                    signOutInfo = SignOutInfo(msg = "密碼已被修改，請重新登入!")
+                )
+            )
 
     }
 
-    override suspend fun signIn(account: String, password: String, deviceId: String, fcmToken: String): Response<SignInfo> {
+    override suspend fun refreshToken(@Query(value = "refresh_token") refreshToken: String): TokenInfo {
+        delay(500)
+        return TokenInfo(
+            accessToken = "accessToken002",
+            refreshToken = "refreshToken002"
+        )
+    }
+//    override suspend fun refreshToken(@Query(value = "account") account: String, @Query(value = "access_token") accessToken: String, @Query(value = "refresh_token") refreshToken: String): TokenInfo {
+//        delay(500)
+//        return TokenInfo(
+//            accessToken = "accessToken002",
+//            refreshToken = "refreshToken002"
+//        )
+//    }
+    //
+    //
+    //
+    //
+    //
+    //
+
+    override suspend fun signIn(account: String, password: String, deviceId: String, fcmToken: String): Response<SignIn> {
         delay(1500)
         val uuid2 = runBlocking { cxt.dataStoreUserPref.getUuid().first() }
         val fcmToken2 = runBlocking { cxt.dataStoreUserPref.getFcmToken().first() }
-
         return if (account == "north27" && password == "north27" && deviceId == uuid2 && fcmToken == fcmToken2)
-            Response.success<SignInfo>(
-                SignInfo(
-                    signState = SignState.SIGN_IN_SUCCESS,
-                    isFirst = true,
-                    accessToken = "accessToken001",
-                    refreshToken = "refreshToken001",
-                    user = UserInfo(
-                        id = 0,
-                        account = "north27",
-                        avatarPath = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939",
-                        name = "North27",
-                        email = "b0972911675@north27.tw",
-                        fcmToken = fcmToken
+            Response.success<SignIn>(
+                SignIn(
+                    signInState = SignInState.SIGN_IN,
+                    signInInfo = SignInInfo(
+                        isFirst = true,
+                        accessToken = "accessToken001",
+                        refreshToken = "refreshToken001",
+                        userInfo = UserInfo(
+                            id = 0,
+                            account = "north27",
+                            auth = Authority.STUDENT,
+                            avatarPath = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939",
+                            name = "North27",
+                            email = "b0972911675@north27.tw",
+//                            fcmToken = fcmToken
+                        )
                     )
                 )
             )
         else
-            Response.success<SignInfo>(SignInfo(signState = SignState.SIGN_IN_FAILURE))
+            Response.success<SignIn>(SignIn(signInState = SignInState.SIGN_OUT))
     }
 
-    override suspend fun signOut(account: String, deviceId: String): SignInfo {
+    override suspend fun signOut(account: String, deviceId: String): SignIn {
         delay(1500)
-        return SignInfo(signState = SignState.SIGN_OUT_SUCCESS)
+        return SignIn(signInState = SignInState.SIGN_OUT)
     }
 
     //////////////////////////////////////////////////////////////////////////////////////////////
@@ -124,12 +157,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 0,
                     account = "jason.89",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://cf.shopee.tw/file/7da238c4f922ccc81be94692d9449eec",
                     name = "jason.89"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -145,12 +180,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 1,
                     account = "yc86209",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://cf.shopee.tw/file/1a765f40612e142a1e308bd4c3cb07b9",
                     name = "yc86209"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -166,12 +203,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 2,
                     account = "turboted",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
                     name = "turboted"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -187,12 +226,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 3,
                     account = "ghr7v2c41o",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://cf.shopee.tw/file/da790bc3a58c6099ec5b759af0bda797",
                     name = "ghr7v2c41o"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -208,12 +249,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 4,
                     account = "iuea654321",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
                     name = "iuea654321"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -229,12 +272,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 5,
                     account = "lbj7871",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://cf.shopee.tw/file/66f6a55ddd243f22b78c99847406b516",
                     name = "lbj7871"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -250,12 +295,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 6,
                     account = "jimmy_jbj",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://cf.shopee.tw/file/77f6988c95356ae95bf22ff65682c92c",
                     name = "jimmy_jbj"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -271,12 +318,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 7,
                     account = "cg71124",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
                     name = "cg71124"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -292,12 +341,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 8,
                     account = "shopee24h",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://cf.shopee.tw/file/589630be1b03af44d5c8ce0ddc73b4e4",
                     name = "shopee24h"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -315,12 +366,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 9,
                     account = "itbook168",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
                     name = "itbook168"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -336,12 +389,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 10,
                     account = "e4dcomic",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://cf.shopee.tw/file/60f61225f97535ce4a86695743e4d26c",
                     name = "e4dcomic"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -357,12 +412,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 11,
                     account = "l91113001",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://cf.shopee.tw/file/8813359970cc66bca769e27b69701bd7",
                     name = "l91113001"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -378,12 +435,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 12,
                     account = "zeloves.hz",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
                     name = "zeloves.hz"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -399,12 +458,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 13,
                     account = "xhkjdzsf",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://cf.shopee.tw/file/106f2613e695547c9be9a6d7edf21560",
                     name = "xhkjdzsf"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -420,12 +481,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 14,
                     account = "dmf666",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://cf.shopee.tw/file/56022c505d88d5f690e9ab833e1c7593",
                     name = "dmf666"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -457,12 +520,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 100,
                     account = "jie110",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
                     name = "阿吉 - 測試號"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -485,12 +550,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉",
                 ),
                 recipient = UserInfo(
                     id = 100,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
                     name = "阿吉 - 測試號",
                 ),
@@ -521,12 +588,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
                 recipient = UserInfo(
                     id = 100,
                     account = "jie110",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
                     name = "阿吉 - 測試號"
                 ),
@@ -550,12 +619,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
                 recipient = UserInfo(
                     id = 100,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
                     name = "阿吉 - 測試號"
                 ),
@@ -570,12 +641,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 100,
                     account = "jie110",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
                     name = "阿吉 - 測試號"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -593,12 +666,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 100,
                     account = "jie110",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
                     name = "阿吉 - 測試號"
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉"
                 ),
@@ -617,12 +692,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉",
                 ),
                 recipient = UserInfo(
                     id = 100,
                     account = "jie110",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
                     name = "阿吉 - 測試號",
                 ),
@@ -640,12 +717,14 @@ class ApiService(val cxt: Context) : IApiService {
                 sender = UserInfo(
                     id = 100,
                     account = "jie110",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
                     name = "阿吉 - 測試號",
                 ),
                 recipient = UserInfo(
                     id = -1,
                     account = "north27",
+                    auth = Authority.STUDENT,
                     avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                     name = "阿吉",
                 ),

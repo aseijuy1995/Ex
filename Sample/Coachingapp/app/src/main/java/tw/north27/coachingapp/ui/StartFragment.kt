@@ -3,25 +3,28 @@ package tw.north27.coachingapp.ui
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.GoogleApiAvailability
 import com.yujie.basemodule.BaseFragment
 import com.yujie.pushmodule.fcm.FirebaseMsg
 import com.yujie.utilmodule.ViewState
-import com.yujie.utilmodule.ext.showErrorAlert
 import com.yujie.utilmodule.ext.showGoogleServiceAlert
-import com.yujie.utilmodule.ext.showNetworkAlert
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentStartBinding
 import tw.north27.coachingapp.ext.updateApp
 import tw.north27.coachingapp.model.result.AppState
-import tw.north27.coachingapp.model.result.SignState
+import tw.north27.coachingapp.model.result.SignInState
 import tw.north27.coachingapp.util.UpdateApp
 import tw.north27.coachingapp.util2.bindImgBlurRes
-import tw.north27.coachingapp.viewModel.LaunchViewModel
+import tw.north27.coachingapp.viewModel.StartViewModel
 
 
 class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start) {
@@ -29,7 +32,7 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
     override val viewBindingFactory: (View) -> FragmentStartBinding
         get() = FragmentStartBinding::bind
 
-    private val viewModel by sharedViewModel<LaunchViewModel>()
+    private val viewModel by sharedViewModel<StartViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,6 +63,7 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                         }
                     }
                 }
+                //FIXME　整合處理各頁面錯誤
                 is ViewState.Error, is ViewState.Network -> {
 //                    viewModel.getAppConfig()
                 }
@@ -71,32 +75,29 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
         }
 
         viewModel.signInState.observe(viewLifecycleOwner) {
+            binding.spinKitView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
             when (it) {
-                is ViewState.Initial -> {
-                }
-                is ViewState.Load -> {
-                }
                 is ViewState.Empty -> {
-//                    findNavController().navigate(NavDirections.actionToFragmentSignIn())
+                    findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())
                 }
                 is ViewState.Data -> {
                     val signIn = it.data
-                    when (signIn.signState) {
-                        SignState.SIGN_IN_SUCCESS -> {
-//                            findNavController().navigate(NavGraphDirections.actionToFragmentHome())
+                    when (signIn.signInState) {
+                        SignInState.SIGN_IN -> {
                             startActivity(Intent(act, Launch2Activity::class.java))
                             act.finish()
                         }
-                        SignState.SIGN_IN_FAILURE -> {
-//                            findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())
+                        SignInState.SIGN_OUT -> {
+                            lifecycleScope.launch {
+                                Toast.makeText(cxt, signIn.signOutInfo!!.msg, Toast.LENGTH_SHORT).show()
+                                delay(1500)
+                                findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())
+                            }
                         }
                     }
                 }
-                is ViewState.Error -> {
-                    act.showErrorAlert()
-                }
-                is ViewState.Network -> {
-                    act.showNetworkAlert()
+                is ViewState.Error, is ViewState.Network -> {
+
                 }
             }
         }

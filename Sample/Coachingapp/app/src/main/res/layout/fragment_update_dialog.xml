@@ -93,6 +93,7 @@
                 android:id="@+id/btn_update"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:backgroundTint="@color/green_00ba9b"
                 android:gravity="center"
                 android:minHeight="40dp"
                 android:text="@string/update"
@@ -108,8 +109,8 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="wrap_content"
         android:id="@+id/linear_layout_close"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"

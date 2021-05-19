@@ -14,14 +14,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import tw.north27.coachingapp.base.BaseAndroidViewModel
 import tw.north27.coachingapp.ext2.asLiveData
-import tw.north27.coachingapp.model.result.SignInfo
-import tw.north27.coachingapp.model.result.SignState
+import tw.north27.coachingapp.model.result.SignIn
+import tw.north27.coachingapp.model.result.SignInState
 import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.repository.inter.IUserRepository
 
 class ExitViewModel(application: Application, val userRepo: IUserRepository) : BaseAndroidViewModel(application) {
 
-    private val _signOutState = MutableLiveData<ViewState<SignInfo>>(ViewState.Initial)
+    private val _signOutState = MutableLiveData<ViewState<SignIn>>(ViewState.Initial)
 
     val signOutState = _signOutState.asLiveData()
 
@@ -36,9 +36,9 @@ class ExitViewModel(application: Application, val userRepo: IUserRepository) : B
             when (results) {
                 is Results.Successful -> {
                     val signOutInfo = results.data
-                    if (signOutInfo.signState == SignState.SIGN_OUT_SUCCESS) {
+                    if (signOutInfo.signInState == SignInState.SIGN_OUT) {
                         context.dataStoreUserPref.setDelegate(
-                            uuid = -1,
+                            uuid = "uuidTest",
                             account = "",
                             accessToken = "",
                             refreshToken = "",

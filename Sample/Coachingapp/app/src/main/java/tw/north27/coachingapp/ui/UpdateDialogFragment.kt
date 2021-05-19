@@ -15,14 +15,14 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentUpdateDialogBinding
 import tw.north27.coachingapp.ext2.clicksObserve
 import tw.north27.coachingapp.model.result.AppState
-import tw.north27.coachingapp.viewModel.LaunchViewModel
+import tw.north27.coachingapp.viewModel.StartViewModel
 
 class UpdateDialogFragment : BaseDialogFragment<FragmentUpdateDialogBinding>(R.layout.fragment_update_dialog) {
 
     override val viewBindingFactory: (View) -> FragmentUpdateDialogBinding
         get() = FragmentUpdateDialogBinding::bind
 
-    private val viewModel by sharedViewModel<LaunchViewModel>()
+    private val viewModel by sharedViewModel<StartViewModel>()
 
     companion object {
         const val REQUEST_KEY_UPDATE_CLOSE = "REQUEST_KEY_UPDATE_CLOSE"

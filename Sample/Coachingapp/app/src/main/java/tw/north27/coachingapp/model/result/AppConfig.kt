@@ -1,5 +1,10 @@
 package tw.north27.coachingapp.model.result
 
+/**
+ * appState >> App狀態
+ * maintainInfo >> 維護資訊
+ * updateInfo >> 更新資訊
+ * */
 data class AppConfig(
     val appState: AppState,
     val maintainInfo: MaintainInfo? = null,

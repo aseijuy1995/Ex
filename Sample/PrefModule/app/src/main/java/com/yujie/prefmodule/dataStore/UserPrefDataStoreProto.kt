@@ -40,7 +40,7 @@ object UserPrefSerializer : Serializer<UserPref> {
 		}
 }
 
-fun DataStore<UserPref>.getUuid(): Flow<Long> = getDelegate(UserPref::getUuid)
+fun DataStore<UserPref>.getUuid(): Flow<String> = getDelegate(UserPref::getUuid)
 
 fun DataStore<UserPref>.getAccount(): Flow<String> = getDelegate(UserPref::getAccount)
 
@@ -50,8 +50,6 @@ fun DataStore<UserPref>.getAccessToken(): Flow<String> = getDelegate(UserPref::g
 
 fun DataStore<UserPref>.getRefreshToken(): Flow<String> = getDelegate(UserPref::getRefreshToken)
 
-fun DataStore<UserPref>.getDeviceId(): Flow<String> = getDelegate(UserPref::getDeviceId)
-
 fun DataStore<UserPref>.getFcmToken(): Flow<String> = getDelegate(UserPref::getFcmToken)
 
 fun DataStore<UserPref>.getIsFirst(): Flow<Boolean> = getDelegate(UserPref::getIsFirst)
@@ -59,7 +57,7 @@ fun DataStore<UserPref>.getIsFirst(): Flow<Boolean> = getDelegate(UserPref::getI
 private inline fun <T, R> DataStore<T>.getDelegate(crossinline transform: suspend (value: T) -> R) = data.map(transform)
 
 suspend fun DataStore<UserPref>.setDelegate(
-		uuid: Long? = null,
+		uuid: String? = null,
 		account: String? = null,
 		auth: String? = null,
 		accessToken: String? = null,
@@ -83,7 +81,7 @@ suspend fun DataStore<UserPref>.setDelegate(
 		return this
 }
 
-suspend fun DataStore<UserPref>.setUuid(uuid: Long): DataStore<UserPref> {
+suspend fun DataStore<UserPref>.setUuid(uuid: String): DataStore<UserPref> {
 		setDelegate(uuid = uuid)
 		return this
 }
@@ -126,12 +124,11 @@ suspend fun DataStore<UserPref>.setIsFirst(isFirst: Boolean): DataStore<UserPref
 suspend fun DataStore<UserPref>.clear(): DataStore<UserPref> {
 		updateData {
 				it.toBuilder()
-						.setUuid(0L)
+						.setUuid("")
 						.setAccount("")
 						.setAuth("")
 						.setAccessToken("")
 						.setRefreshToken("")
-						.setDeviceId("")
 						.setFcmToken("")
 						.setIsFirst(false)
 						.build()

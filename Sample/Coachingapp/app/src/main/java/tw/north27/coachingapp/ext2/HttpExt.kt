@@ -22,7 +22,6 @@ suspend fun <T> safeApiResults(data: suspend () -> T): Results<T> {
     }
 }
 
-
 suspend fun <T> safeApiResponseResults(data: suspend () -> Response<T>): ResponseResults<T> {
     return withContext(Dispatchers.IO) {
         try {
