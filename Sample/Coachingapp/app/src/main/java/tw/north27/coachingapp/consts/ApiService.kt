@@ -25,6 +25,9 @@ class ApiService(val cxt: Context) : IApiService {
     private val nameTest = "北緯科技"
     private val emailTest = "north27@north27.tw"
 
+    //
+    private val signInSuccessMsgTest = "即將登入..."
+
     override suspend fun getAppConfig(
         @Query(value = "uuid") uuid: String,
         @Query(value = "fcm_token") fcmToken: String
@@ -75,11 +78,13 @@ class ApiService(val cxt: Context) : IApiService {
                             auth = authorityTest,
                             avatarPath = avatarPathTest,
                             name = nameTest,
-                            email = emailTest
+                            email = emailTest,
                         ),
                         isFirst = true,
                         accessToken = accessTokenTest,
-                        refreshToken = refreshTokenTest
+                        refreshToken = refreshTokenTest,
+                        fcmToken = fcmToken,
+                        msg = signInSuccessMsgTest
                     )
                 )
             )
@@ -87,16 +92,21 @@ class ApiService(val cxt: Context) : IApiService {
             Response.success<SignIn>(
                 SignIn(
                     signInState = SignInState.SIGN_OUT,
-                    signOutInfo = SignOutInfo(msg = "密碼已被修改，請重新登入!")
+                    signOutInfo = SignOutInfo(
+                        msg = "密碼已被修改，請重新登入!"
+                    )
                 )
             )
 
     }
 
-    override suspend fun signIn(uuid: String, account: String, password: String, fcmToken: String): Response<SignIn> {
+    override suspend fun signIn(
+        uuid: String,
+        account: String,
+        password: String,
+        fcmToken: String
+    ): Response<SignIn> {
         delay(1500)
-        val uuid2 = runBlocking { cxt.dataStoreUserPref.getUuid().first() }
-        val fcmToken2 = runBlocking { cxt.dataStoreUserPref.getFcmToken().first() }
         return if (account == accountTest && password == passwordTest)
             Response.success<SignIn>(
                 SignIn(
@@ -112,7 +122,9 @@ class ApiService(val cxt: Context) : IApiService {
                         ),
                         isFirst = true,
                         accessToken = accessTokenTest,
-                        refreshToken = refreshTokenTest
+                        refreshToken = refreshTokenTest,
+                        fcmToken = fcmToken,
+                        msg = signInSuccessMsgTest
                     )
                 )
             )

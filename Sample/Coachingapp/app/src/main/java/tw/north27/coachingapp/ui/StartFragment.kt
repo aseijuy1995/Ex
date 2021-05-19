@@ -23,7 +23,6 @@ import tw.north27.coachingapp.ext.updateApp
 import tw.north27.coachingapp.model.result.AppState
 import tw.north27.coachingapp.model.result.SignInState
 import tw.north27.coachingapp.util.UpdateApp
-import tw.north27.coachingapp.util2.bindImgBlurRes
 import tw.north27.coachingapp.viewModel.StartViewModel
 
 
@@ -83,12 +82,16 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                     val signIn = it.data
                     when (signIn.signInState) {
                         SignInState.SIGN_IN -> {
-                            startActivity(Intent(act, Launch2Activity::class.java))
-                            act.finish()
+                            lifecycleScope.launch {
+                                Toast.makeText(cxt, signIn.signInInfo?.msg, Toast.LENGTH_SHORT).show()
+                                delay(1500)
+                                startActivity(Intent(act, Launch2Activity::class.java))
+                                act.finish()
+                            }
                         }
                         SignInState.SIGN_OUT -> {
                             lifecycleScope.launch {
-                                Toast.makeText(cxt, signIn.signOutInfo!!.msg, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(cxt, signIn.signOutInfo?.msg, Toast.LENGTH_SHORT).show()
                                 delay(1500)
                                 findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())
                             }

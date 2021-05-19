@@ -52,6 +52,17 @@ interface IApiService {
     ): Response<SignIn>
 
     /**
+     * 登出
+     * 登出需發送api原因於解除與設備之關聯以及移除綁定的fcmToken
+     * 只要fcmToken & deviceId確實刪除不在綁定即返回登出成功
+     * */
+    @GET
+    suspend fun signOut(
+        @Query("account") account: String,
+        @Query("deviceId") deviceId: String
+    ): SignIn
+
+    /**
      * 刷新token
      * */
     @GET
@@ -67,16 +78,7 @@ interface IApiService {
     //
 
 
-    /**
-     * 登出
-     * 登出需發送api原因於解除與設備之關聯以及移除綁定的fcmToken
-     * 只要fcmToken & deviceId確實刪除不在綁定即返回登出成功
-     * */
-    @GET
-    suspend fun signOut(
-        @Query("account") account: String,
-        @Query("deviceId") deviceId: String
-    ): SignIn
+
 
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////

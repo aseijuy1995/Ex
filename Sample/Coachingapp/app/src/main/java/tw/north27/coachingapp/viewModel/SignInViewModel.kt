@@ -37,7 +37,7 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
             viewModelScope.launch(Dispatchers.IO) {
                 val uuid = cxt.dataStoreUserPref.getUuid().first()
                 val fcmToken = cxt.dataStoreUserPref.getFcmToken().first()
-                val results = userRepo.signIn(account, password, uuid, fcmToken)
+                val results = userRepo.signIn(uuid, account, password, fcmToken)
                 when (results) {
                     is ResponseResults.Successful -> {
                         val signIn = results.data
@@ -73,14 +73,7 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
                             refreshToken = refreshTokenNew,
                             isFirst = isFirstNew
                         )
-                        when (signIn.signInState) {
-                            SignInState.SIGN_IN -> {
-                                _signInState.postValue(ViewState.data(signIn))
-                            }
-                            SignInState.SIGN_OUT -> {
-                                _signInState.postValue(ViewState.empty(signIn.signOutInfo?.msg))
-                            }
-                        }
+                        _signInState.postValue(ViewState.data(signIn))
                     }
                     is ResponseResults.ClientErrors -> {
                         _signInState.postValue(ViewState.error(results.e))

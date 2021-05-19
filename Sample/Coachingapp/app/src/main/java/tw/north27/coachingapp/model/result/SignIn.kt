@@ -37,13 +37,15 @@ enum class SignInState {
  * accessToken >> 訪問用token
  * refreshToken >> 刷新用token
  * fcmToken >> 推撥token
+ * msg >> 訊息
  * */
 data class SignInInfo(
     val userInfo: UserInfo? = null,
     val isFirst: Boolean? = null,
     val accessToken: String? = null,
     val refreshToken: String? = null,
-    val fcmToken: String? = null
+    val fcmToken: String? = null,
+    val msg: String? = null,
 )
 
 /**
