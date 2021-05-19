@@ -64,7 +64,6 @@ suspend fun DataStore<UserPref>.setDelegate(
     auth: String? = null,
     accessToken: String? = null,
     refreshToken: String? = null,
-    deviceId: String? = null,
     fcmToken: String? = null,
     isFirst: Boolean? = null
 ): DataStore<UserPref> {
@@ -75,7 +74,6 @@ suspend fun DataStore<UserPref>.setDelegate(
             auth?.let { setAuth(it) }
             accessToken?.let { setAccessToken(it) }
             refreshToken?.let { setRefreshToken(it) }
-            deviceId?.let { setDeviceId(it) }
             fcmToken?.let { setFcmToken(it) }
             isFirst?.let { setIsFirst(it) }
         }.build()
@@ -105,11 +103,6 @@ suspend fun DataStore<UserPref>.setAccessToken(accessToken: String): DataStore<U
 
 suspend fun DataStore<UserPref>.setRefreshToken(refreshToken: String): DataStore<UserPref> {
     setDelegate(refreshToken = refreshToken)
-    return this
-}
-
-suspend fun DataStore<UserPref>.setDeviceId(deviceId: String): DataStore<UserPref> {
-    setDelegate(deviceId = deviceId)
     return this
 }
 

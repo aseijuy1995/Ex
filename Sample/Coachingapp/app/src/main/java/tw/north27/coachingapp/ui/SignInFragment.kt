@@ -1,20 +1,22 @@
-package tw.north27.coachingapp.ui2.fragment.global
+package tw.north27.coachingapp.ui
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.touches
 import com.yujie.basemodule.BaseFragment
 import com.yujie.utilmodule.ViewState
 import com.yujie.utilmodule.ext.observe
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentSignInBinding
 import tw.north27.coachingapp.ext2.clicksObserve
 import tw.north27.coachingapp.ext2.hideKeyBoard
-import tw.north27.coachingapp.ui.Launch2Activity
+import tw.north27.coachingapp.ui2.fragment.global.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.SignInViewModel
 
 class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sign_in) {
@@ -36,28 +38,28 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
             viewModel.signIn(account, password)
         }
 
+//        var dialog: DialogFragment? = null
         viewModel.signInState.observe(viewLifecycleOwner) {
             when (it) {
-                is ViewState.Initial -> {
-                }
                 is ViewState.Load -> {
-//                    showLoadingDialog()
+//                    dialog = LoadingDialogFragment.get()
+//                    dialog?.show(parentFragmentManager, "LoadingDialogFragment")
+                    LoadingDialogFragment.show(parentFragmentManager)
+//                    findNavController().navigate(NavGraphDirections.actionToFragmentLoadingDialog())
                 }
                 is ViewState.Empty -> {
-//                    dismissLoadingDialog()
+                    LoadingDialogFragment.dismiss()
+//                    dialog?.dismiss()
                     Snackbar.make(binding.root, it.str!!, Snackbar.LENGTH_SHORT).show()
                 }
                 is ViewState.Data -> {
-//                    dismissLoadingDialog()
-//                    findNavController().navigate(NavGraphDirections.actionToFragmentHome())
+                    LoadingDialogFragment.dismiss()
+//                    dialog?.dismiss()
                     startActivity(Intent(act, Launch2Activity::class.java))
                     act.finish()
                 }
-                is ViewState.Error -> {
-//                    act.showErrorAlert()
-                }
-                is ViewState.Network -> {
-//                    act.showNetworkAlert()
+                is ViewState.Error, is ViewState.Network -> {
+
                 }
             }
         }

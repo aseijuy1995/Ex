@@ -3,6 +3,7 @@ package tw.north27.coachingapp.viewModel
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.yujie.basemodule.BaseAndroidViewModel
 import com.yujie.prefmodule.dataStore.dataStoreUserPref
 import com.yujie.prefmodule.dataStore.getFcmToken
 import com.yujie.prefmodule.dataStore.getUuid
@@ -12,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.base.BaseAndroidViewModel
 import tw.north27.coachingapp.ext2.asLiveData
 import tw.north27.coachingapp.model.result.SignIn
 import tw.north27.coachingapp.model.result.SignInState
@@ -28,73 +28,71 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
     fun signIn(account: String?, password: String?) {
         _signInState.postValue(ViewState.load())
         if (account.isNullOrEmpty() && password.isNullOrEmpty()) {
-            _signInState.postValue(ViewState.empty(context.getString(R.string.empty_account_password)))
+            _signInState.postValue(ViewState.empty(cxt.getString(R.string.enter_account_password)))
         } else if (account.isNullOrEmpty()) {
-            _signInState.postValue(ViewState.empty(context.getString(R.string.empty_account)))
+            _signInState.postValue(ViewState.empty(cxt.getString(R.string.enter_account)))
         } else if (password.isNullOrEmpty()) {
-            _signInState.postValue(ViewState.empty(context.getString(R.string.empty_password)))
+            _signInState.postValue(ViewState.empty(cxt.getString(R.string.enter_password)))
         } else {
             viewModelScope.launch(Dispatchers.IO) {
-//                val uuid = context.dataStoreUserPref.getUuid().first()
-//                val fcmToken = context.dataStoreUserPref.getFcmToken().first()
-//                val results = userRepo.signIn(account, password, uuid, fcmToken)
-//                when (results) {
-//                    is ResponseResults.Successful -> {
-//                        val signInInfo = results.data
-//                        val uuid: Long
-//                        val account: String
-//                        val accessToken: String
-//                        val refreshToken: String
-//                        val isFirst: Boolean
-//                        when (signInInfo.signInState) {
-//                            SignInState.SIGN_IN -> {
-//                                signInInfo.user.also {
-//                                    uuid = 0
-//                                    account = it!!.account
-//                                    accessToken = signInInfo.accessToken!!
-//                                    refreshToken = signInInfo.refreshToken!!
-//                                    isFirst = signInInfo.isFirst!!
-//                                }
-//                            }
-//                            //SignState.SIGN_IN_FAILURE
-//                            else -> {
-//                                uuid = -1
-//                                account = ""
-//                                accessToken = ""
-//                                refreshToken = ""
-//                                isFirst = false
-//                            }
-//                        }
-//                        context.dataStoreUserPref.setDelegate(
-//                            uuid = uuid,
-//                            account = account,
-//                            accessToken = accessToken,
-//                            refreshToken = refreshToken,
-//                            deviceId = "deviceId001",
-//                            isFirst = isFirst
-//                        )
-//
-//                        when (signInInfo.signInState) {
-//                            SignInState.SIGN_IN -> {
-//                                _signInState.postValue(ViewState.data(signInInfo))
-//                            }
-//                            SignInState.SIGN_OUT -> {
-//                                _signInState.postValue(ViewState.empty(context.getString(R.string.error_account_password)))
-//                            }
-//                        }
-//                    }
-//                    is ResponseResults.ClientErrors -> {
-//                        _signInState.postValue(ViewState.error(results.e))
-//                    }
-//                    is ResponseResults.NetWorkError -> {
-//                        _signInState.postValue(ViewState.network(results.e))
-//                    }
-//                }
+                val uuid = cxt.dataStoreUserPref.getUuid().first()
+                val fcmToken = cxt.dataStoreUserPref.getFcmToken().first()
+                val results = userRepo.signIn(account, password, uuid, fcmToken)
+                when (results) {
+                    is ResponseResults.Successful -> {
+                        val signIn = results.data
+                        val accountNew: String
+                        val authNew: String
+                        val accessTokenNew: String
+                        val refreshTokenNew: String
+                        val fcmTokenNew: String
+                        val isFirstNew: Boolean
+                        when (signIn.signInState) {
+                            SignInState.SIGN_IN -> {
+                                val signInInfo = signIn.signInInfo!!
+                                val userInfo = signInInfo.userInfo!!
+                                accountNew = userInfo.account
+                                authNew = userInfo.auth.toString()
+                                accessTokenNew = signInInfo.accessToken!!
+                                refreshTokenNew = signInInfo.refreshToken!!
+                                fcmTokenNew = signInInfo.fcmToken!!
+                                isFirstNew = signInInfo.isFirst!!
+                            }
+                            SignInState.SIGN_OUT -> {
+                                accountNew = ""
+                                authNew = ""
+                                accessTokenNew = ""
+                                refreshTokenNew = ""
+                                isFirstNew = false
+                            }
+                        }
+                        cxt.dataStoreUserPref.setDelegate(
+                            account = accountNew,
+                            auth = authNew,
+                            accessToken = accessTokenNew,
+                            refreshToken = refreshTokenNew,
+                            isFirst = isFirstNew
+                        )
+                        when (signIn.signInState) {
+                            SignInState.SIGN_IN -> {
+                                _signInState.postValue(ViewState.data(signIn))
+                            }
+                            SignInState.SIGN_OUT -> {
+                                _signInState.postValue(ViewState.empty(signIn.signOutInfo?.msg))
+                            }
+                        }
+                    }
+                    is ResponseResults.ClientErrors -> {
+                        _signInState.postValue(ViewState.error(results.e))
+                    }
+                    is ResponseResults.NetWorkError -> {
+                        _signInState.postValue(ViewState.network(results.e))
+                    }
+                }
 
             }
 
         }
-
     }
 
 

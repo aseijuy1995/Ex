@@ -15,7 +15,10 @@ import tw.north27.coachingapp.model.result.*
 
 class ApiService(val cxt: Context) : IApiService {
 
+    private val userIdTest = 0
     private val accountTest = "north27"
+    private val passwordTest = "north27"
+    private val authorityTest = Authority.STUDENT
     private val accessTokenTest = "accessTokenTest"
     private val refreshTokenTest = "refreshTokenTest"
     private val avatarPathTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
@@ -66,17 +69,17 @@ class ApiService(val cxt: Context) : IApiService {
                 SignIn(
                     signInState = SignInState.SIGN_IN,
                     signInInfo = SignInInfo(
-                        isFirst = true,
-                        accessToken = accessTokenTest,
-                        refreshToken = refreshTokenTest,
                         userInfo = UserInfo(
                             id = 0,
                             account = accountTest,
+                            auth = authorityTest,
                             avatarPath = avatarPathTest,
                             name = nameTest,
-                            auth = Authority.STUDENT,
                             email = emailTest
-                        )
+                        ),
+                        isFirst = true,
+                        accessToken = accessTokenTest,
+                        refreshToken = refreshTokenTest
                     )
                 )
             )
@@ -88,6 +91,38 @@ class ApiService(val cxt: Context) : IApiService {
                 )
             )
 
+    }
+
+    override suspend fun signIn(uuid: String, account: String, password: String, fcmToken: String): Response<SignIn> {
+        delay(1500)
+        val uuid2 = runBlocking { cxt.dataStoreUserPref.getUuid().first() }
+        val fcmToken2 = runBlocking { cxt.dataStoreUserPref.getFcmToken().first() }
+        return if (account == accountTest && password == passwordTest)
+            Response.success<SignIn>(
+                SignIn(
+                    signInState = SignInState.SIGN_IN,
+                    signInInfo = SignInInfo(
+                        userInfo = UserInfo(
+                            id = userIdTest,
+                            account = accountTest,
+                            auth = authorityTest,
+                            avatarPath = avatarPathTest,
+                            name = nameTest,
+                            email = emailTest
+                        ),
+                        isFirst = true,
+                        accessToken = accessTokenTest,
+                        refreshToken = refreshTokenTest
+                    )
+                )
+            )
+        else
+            Response.success<SignIn>(
+                SignIn(
+                    signInState = SignInState.SIGN_OUT,
+                    signOutInfo = SignOutInfo("帳號、密碼錯誤，請再試一次")
+                )
+            )
     }
 
     override suspend fun refreshToken(@Query(value = "refresh_token") refreshToken: String): TokenInfo {
@@ -110,34 +145,6 @@ class ApiService(val cxt: Context) : IApiService {
     //
     //
     //
-
-    override suspend fun signIn(account: String, password: String, deviceId: String, fcmToken: String): Response<SignIn> {
-        delay(1500)
-        val uuid2 = runBlocking { cxt.dataStoreUserPref.getUuid().first() }
-        val fcmToken2 = runBlocking { cxt.dataStoreUserPref.getFcmToken().first() }
-        return if (account == "north27" && password == "north27" && deviceId == uuid2 && fcmToken == fcmToken2)
-            Response.success<SignIn>(
-                SignIn(
-                    signInState = SignInState.SIGN_IN,
-                    signInInfo = SignInInfo(
-                        isFirst = true,
-                        accessToken = "accessToken001",
-                        refreshToken = "refreshToken001",
-                        userInfo = UserInfo(
-                            id = 0,
-                            account = "north27",
-                            auth = Authority.STUDENT,
-                            avatarPath = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939",
-                            name = "North27",
-                            email = "b0972911675@north27.tw",
-//                            fcmToken = fcmToken
-                        )
-                    )
-                )
-            )
-        else
-            Response.success<SignIn>(SignIn(signInState = SignInState.SIGN_OUT))
-    }
 
     override suspend fun signOut(account: String, deviceId: String): SignIn {
         delay(1500)

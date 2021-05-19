@@ -26,47 +26,37 @@
             app:layout_constraintTop_toBottomOf="@id/fl_icon" />
 
         <Constraint
-            android:id="@+id/til_account"
+            android:id="@+id/et_account"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
+            android:layout_marginTop="60dp"
             android:layout_marginEnd="50dp"
-            android:layout_marginBottom="30dp"
             android:alpha="0.0"
-            app:layout_constraintBottom_toTopOf="@id/til_password"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
         <Constraint
-            android:id="@+id/til_password"
+            android:id="@+id/et_password"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="50dp"
-            android:layout_marginBottom="30dp"
             android:alpha="0.0"
-            android:background="@drawable/shape_solid_white_corners_radius_5_padding_top_btn_lt_rt_10"
-            android:ems="10"
-            android:hint="@string/hilt_account"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@id/btn_sign_in"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_account" />
 
         <Constraint
             android:id="@+id/btn_sign_in"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
             android:layout_marginBottom="0dp"
             android:alpha="0.0"
-            android:background="@drawable/shape_gradient_angle_270_green_corners_radius_10_padding_top_btn_10_lt_rt_15"
-            android:text="@string/sign_in"
-            android:textColor="@color/white"
-            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -78,8 +68,8 @@
             android:id="@+id/fl_icon"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="130dp"
-            android:layout_marginEnd="130dp"
+            android:layout_marginStart="125dp"
+            android:layout_marginEnd="125dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -98,46 +88,41 @@
             app:layout_constraintTop_toBottomOf="@id/fl_icon" />
 
         <Constraint
-            android:id="@+id/til_account"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            android:alpha="1.0"
-            app:layout_constraintBottom_toTopOf="@id/til_password"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_title" />
-        <!--        app:layout_constraintVertical_chainStyle="packed"-->
-
-        <Constraint
-            android:id="@+id/til_password"
+            android:id="@+id/et_account"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="50dp"
             android:alpha="1.0"
-            app:layout_constraintBottom_toTopOf="@id/btn_sign_in"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/til_account" />
+            app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+        <Constraint
+            android:id="@+id/et_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="50dp"
+            android:alpha="1.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_account" />
 
         <Constraint
             android:id="@+id/btn_sign_in"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
-            android:layout_marginBottom="50dp"
             android:alpha="1.0"
-            android:background="@drawable/shape_gradient_angle_270_green_corners_radius_10_padding_top_btn_10_lt_rt_15"
-            android:text="@string/sign_in"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/item_start"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_password"
+            app:layout_constraintVertical_bias="0.8" />
 
     </ConstraintSet>
 
@@ -171,7 +156,7 @@
         app:constraintSetStart="@+id/start"
         app:duration="1000">
 
-        <OnSwipe app:touchAnchorId="@id/til_account" />
+        <OnSwipe app:touchAnchorId="@id/et_account" />
     </Transition>
 
     <Transition
@@ -181,7 +166,7 @@
         app:constraintSetStart="@+id/start"
         app:duration="1000">
 
-        <OnSwipe app:touchAnchorId="@id/til_password" />
+        <OnSwipe app:touchAnchorId="@id/et_password" />
     </Transition>
 
     <Transition

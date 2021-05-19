@@ -22,17 +22,33 @@ interface IApiService {
 
     /**
      * 檢查登入
-     * @param uuid >> 用於當前手機安裝的唯一id（下載量 & 登入數量）
+     * @param uuid >> 唯一id（下載量 & 登入數量）
      * @param account >> 帳號（驗證用）
      * @param accessToken >> 訪問token（驗證用）
      * @param fcmToken >> firebase cloud messaging token（驗證成功需刷新）
      * */
+    //走POST將account&accessToken存於header即可
     @POST
     suspend fun checkSignIn(
         @Field("uuid") uuid: String,
-        @Field("account") account: String,//
-        @Field("access_token") accessToken: String,//
+        @Field("account") account: String,
+        @Field("access_token") accessToken: String,
         @Field("fcm_token") fcmToken: String,
+    ): Response<SignIn>
+
+    /**
+     * 登入
+     * @param uuid >> 唯一id（下載量 & 登入數量）
+     * @param account >> 帳號（驗證用）
+     * @param password >> 密碼（驗證用）
+     * @param fcmToken >> firebase cloud messaging token（驗證成功需綁定帳號）
+     * */
+    @GET
+    suspend fun signIn(
+        @Query("uuid") uuid: String,
+        @Query("account") account: String,
+        @Query("password") password: String,
+        @Query("fcmToken") fcmToken: String
     ): Response<SignIn>
 
     /**
@@ -50,17 +66,6 @@ interface IApiService {
     //
     //
 
-
-    /**
-     * 登入
-     * */
-    @GET
-    suspend fun signIn(
-        @Query("account") account: String,
-        @Query("password") password: String,
-        @Query("deviceId") deviceId: String,
-        @Query("fcmToken") fcmToken: String
-    ): Response<SignIn>
 
     /**
      * 登出

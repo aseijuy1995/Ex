@@ -44,7 +44,7 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
             }
 
         viewModel.appConfigState.observe(viewLifecycleOwner) {
-            binding.spinKitView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
+            binding.svkView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
             when (it) {
                 is ViewState.Data -> {
                     val appConfig = it.data
@@ -74,7 +74,7 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
         }
 
         viewModel.signInState.observe(viewLifecycleOwner) {
-            binding.spinKitView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
+            binding.svkView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
             when (it) {
                 is ViewState.Empty -> {
                     findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())

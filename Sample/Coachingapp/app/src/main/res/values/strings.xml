@@ -16,9 +16,20 @@
     <string name="update_title">有新版本\"%s\"，是否前往更新?</string>
     <string name="update_size">新版本大小</string>
     <string name="update">更新</string>
+    <!--  SignInFragment  -->
+    <string name="enter_account">請輸入帳號</string>
+    <string name="enter_password">請輸入密碼</string>
+    <string name="sign_in">登入</string>
+    <string name="enter_account_password">請輸入帳號、密碼</string>
     <!--    -->
     <!--    -->
-    <!--    -->
+
+    <!-- SignIn -->
+    <string name="error_account_password">帳密有誤!</string>
+    <string name="sign_out_desc">你確定要登出嗎?</string>
+    <string name="sign_out">登出</string>
+    <string name="define">確定</string>
+    <string name="sign_out_success">登出成功</string>
     <!--    -->
 
 
@@ -33,18 +44,6 @@
     <!--    -->
     <!--    -->
     <!--    -->
-    <!-- SignIn -->
-    <string name="hilt_account">請輸入帳號</string>
-    <string name="hilt_password">請輸入密碼</string>
-    <string name="sign_in">登入</string>
-    <string name="empty_account_password">帳密不可為空</string>
-    <string name="empty_account">帳號不可為空</string>
-    <string name="empty_password">密碼不可為空</string>
-    <string name="error_account_password">帳密有誤!</string>
-    <string name="sign_out_desc">你確定要登出嗎?</string>
-    <string name="sign_out">登出</string>
-    <string name="define">確定</string>
-    <string name="sign_out_success">登出成功</string>
     <!-- Main -->
     <string name="home">主頁</string>
     <string name="list">列表</string>

@@ -15,8 +15,8 @@ class UserRepository(val service: IApiService, val context: Context) : IUserRepo
         return safeApiResponseResults { service.checkSignIn(uuid, account, accessToken, fcmToken) }
     }
 
-    override suspend fun signIn(account: String, password: String, deviceId: String, fcmToken: String): ResponseResults<SignIn> {
-        return safeApiResponseResults { service.signIn(account, password, deviceId, fcmToken) }
+    override suspend fun signIn(uuid: String, account: String, password: String, fcmToken: String): ResponseResults<SignIn> {
+        return safeApiResponseResults { service.signIn(uuid, account, password, fcmToken) }
     }
 
     override suspend fun signOut(account: String, deviceId: String): Results<SignIn> {

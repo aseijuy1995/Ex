@@ -54,9 +54,9 @@ class UpdateDialogFragment : BaseDialogFragment<FragmentUpdateDialogBinding>(R.l
 
                         binding.tvText.isVisible = updateInfo.text.isNotEmpty()
                         binding.tvSize.isVisible = updateInfo.size.isNotEmpty()
-                        binding.linearLayoutClose.isVisible = !updateInfo.isMandatory
+                        binding.llcClose.isVisible = !updateInfo.isMandatory
 
-                        binding.linearLayoutClose.clicksObserve(owner = viewLifecycleOwner) {
+                        binding.llcClose.clicksObserve(owner = viewLifecycleOwner) {
                             setFragmentResult(
                                 REQUEST_KEY_UPDATE_CLOSE,
                                 bundleOf(KEY_UPDATE_CLOSE to true)

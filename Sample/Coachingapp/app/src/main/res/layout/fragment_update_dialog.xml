@@ -7,7 +7,7 @@
     android:maxHeight="500dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout_view"
+        android:id="@+id/cl_view"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -109,14 +109,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/linear_layout_close"
+        android:id="@+id/llc_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/constraint_layout_view">
+        app:layout_constraintTop_toBottomOf="@id/cl_view">
 
         <View
             android:layout_width="1dp"

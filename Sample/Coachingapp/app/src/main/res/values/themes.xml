@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Coachingapp" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.Coachingapp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!--    <style name="Theme.Coachingapp" parent="Theme.MaterialComponents.Light.NoActionBar">&ndash;&gt;-->
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/green_38af6c</item>
@@ -17,14 +17,15 @@
 
         <!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
 
-        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>
+<!--        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>-->
+
     </style>
 
 
     <style name="LoadingDialogTheme" parent="Theme.MaterialComponents.Light.Dialog">
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowElevation">5dp</item>
-        <item name="dialogCornerRadius">15dp</item>
+        <item name="dialogCornerRadius">5dp</item>
         <item name="android:background">@color/blue_293c4f</item>
     </style>
 
