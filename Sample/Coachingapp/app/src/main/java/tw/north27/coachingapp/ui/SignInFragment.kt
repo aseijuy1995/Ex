@@ -70,7 +70,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
 
                 }
                 is ViewState.Error, is ViewState.Network -> {
-
+                    LoadingDialogFragment.dismiss()
                 }
             }
         }
