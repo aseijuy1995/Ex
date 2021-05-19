@@ -53,13 +53,13 @@ interface IApiService {
 
     /**
      * 登出
-     * 登出需發送api原因於解除與設備之關聯以及移除綁定的fcmToken
-     * 只要fcmToken & deviceId確實刪除不在綁定即返回登出成功
+     * @param uuid >> 唯一id（解除綁定）
+     * @param account >> 帳號（指定登出號）
      * */
     @GET
     suspend fun signOut(
+        @Query("uuid") deviceId: String,
         @Query("account") account: String,
-        @Query("deviceId") deviceId: String
     ): SignIn
 
     /**
@@ -76,8 +76,6 @@ interface IApiService {
     //
     //
     //
-
-
 
 
     //////////////////////////////////////////////////////////////////////////////////////////////

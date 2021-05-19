@@ -21,13 +21,14 @@
     <string name="enter_password">請輸入密碼</string>
     <string name="sign_in">登入</string>
     <string name="enter_account_password">請輸入帳號、密碼</string>
-    <!--    -->
+    <!--  SignOutFragment  -->
+    <string name="sign_out">登出</string>
     <!--    -->
 
     <!-- SignIn -->
     <string name="error_account_password">帳密有誤!</string>
     <string name="sign_out_desc">你確定要登出嗎?</string>
-    <string name="sign_out">登出</string>
+
     <string name="define">確定</string>
     <string name="sign_out_success">登出成功</string>
     <!--    -->

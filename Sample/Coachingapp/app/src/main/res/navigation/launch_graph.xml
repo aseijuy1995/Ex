@@ -47,9 +47,8 @@
         app:popUpToInclusive="true" />
 
     <action
-        android:id="@+id/action_to_fragment_loading_dialog"
-        app:destination="@id/fragment_loading_dialog"
-        app:popUpToInclusive="true" />
+        android:id="@+id/action_to_fragment_sign_out_dialog"
+        app:destination="@id/fragment_sign_out_dialog" />
 
     <!--  Fragment Page  -->
     <fragment
@@ -86,18 +85,17 @@
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" />
 
-    <!--    -->
-    <!--    -->
-    <!--    -->
-    <!--    -->
-    <!--    -->
-
-
     <dialog
-        android:id="@+id/fragment_exit_dialog"
-        android:name="tw.north27.coachingapp.ui2.public.ExitDialogFragment"
-        android:label="fragment_exit_dialog"
-        tools:layout="@layout/fragment_exit_dialog" />
+        android:id="@+id/fragment_sign_out_dialog"
+        android:name="tw.north27.coachingapp.ui.SignOutDialogFragment"
+        android:label="fragment_sign_out_dialog"
+        tools:layout="@layout/fragment_sign_out_dialog" />
+
+    <!--    -->
+    <!--    -->
+    <!--    -->
+    <!--    -->
+    <!--    -->
 
     <!---->
     <!--    -->
@@ -119,13 +117,7 @@
         android:id="@+id/fragment_user"
         android:name="tw.north27.coachingapp.ui2.fragment.main.UserFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user">
-
-        <action
-            android:id="@+id/action_fragment_user_to_fragment_exit_dialog"
-            app:destination="@id/fragment_exit_dialog" />
-
-    </fragment>
+        tools:layout="@layout/fragment_user" />
 
     <!-- Chat -->
     <fragment

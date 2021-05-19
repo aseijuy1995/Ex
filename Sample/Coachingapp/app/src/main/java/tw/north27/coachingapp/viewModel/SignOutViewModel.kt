@@ -1,8 +1,9 @@
-package tw.north27.coachingapp.ui2.public
+package tw.north27.coachingapp.viewModel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.yujie.basemodule.BaseAndroidViewModel
 import com.yujie.prefmodule.dataStore.dataStoreUserPref
 import com.yujie.prefmodule.dataStore.getAccount
 import com.yujie.prefmodule.dataStore.getUuid
@@ -11,43 +12,42 @@ import com.yujie.utilmodule.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import tw.north27.coachingapp.base.BaseAndroidViewModel
 import tw.north27.coachingapp.ext2.asLiveData
 import tw.north27.coachingapp.model.result.SignIn
 import tw.north27.coachingapp.model.result.SignInState
 import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.repository.inter.IUserRepository
 
-class ExitViewModel(application: Application, val userRepo: IUserRepository) : BaseAndroidViewModel(application) {
+class SignOutViewModel(application: Application, val userRepo: IUserRepository) : BaseAndroidViewModel(application) {
 
     private val _signOutState = MutableLiveData<ViewState<SignIn>>(ViewState.Initial)
 
     val signOutState = _signOutState.asLiveData()
 
     fun signOut() {
-        _signOutState.postValue(ViewState.load())
         viewModelScope.launch(Dispatchers.IO) {
-
-            val account = runBlocking { context.dataStoreUserPref.getAccount().first() }
-            val uuid = runBlocking { context.dataStoreUserPref.getUuid().first() }
-
+            _signOutState.postValue(ViewState.load())
+            val uuid = cxt.dataStoreUserPref.getUuid().first()
+            val account = cxt.dataStoreUserPref.getAccount().first()
             val results = userRepo.signOut(account, uuid)
             when (results) {
                 is Results.Successful -> {
-                    val signOutInfo = results.data
-                    if (signOutInfo.signInState == SignInState.SIGN_OUT) {
-                        context.dataStoreUserPref.setDelegate(
-                            uuid = "uuidTest",
-                            account = "",
-                            accessToken = "",
-                            refreshToken = "",
-                            isFirst = false
-                        )
-                        _signOutState.postValue(ViewState.data(signOutInfo))
-                    } else {
-                        _signOutState.postValue(ViewState.empty())
+                    val signIn = results.data
+                    when (signIn.signInState) {
+                        SignInState.SIGN_OUT -> {
+                            cxt.dataStoreUserPref.setDelegate(
+                                account = "",
+                                auth = "",
+                                accessToken = "",
+                                refreshToken = "",
+                                isFirst = false
+                            )
+                        }
+                        SignInState.SIGN_IN -> {
+
+                        }
                     }
+                    _signOutState.postValue(ViewState.data(signIn))
                 }
                 is Results.ClientErrors -> {
                     _signOutState.postValue(ViewState.error(results.e))

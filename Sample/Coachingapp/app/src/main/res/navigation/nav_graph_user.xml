@@ -13,7 +13,7 @@
 
         <action
             android:id="@+id/action_fragment_user_to_fragment_exit_dialog"
-            app:destination="@id/fragment_exit_dialog" />
+            app:destination="@id/fragment_sign_out_dialog" />
 
     </fragment>
 

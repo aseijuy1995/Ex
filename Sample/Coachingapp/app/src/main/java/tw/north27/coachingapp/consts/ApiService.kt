@@ -137,6 +137,22 @@ class ApiService(val cxt: Context) : IApiService {
             )
     }
 
+    override suspend fun signOut(account: String, deviceId: String): SignIn {
+        delay(1500)
+        return SignIn(
+            signInState = SignInState.SIGN_OUT,
+            signOutInfo = SignOutInfo(
+                msg = "成功登出!"
+            )
+        )
+//        return SignIn(
+//            signInState = SignInState.SIGN_IN,
+//            signInInfo = SignInInfo(
+//                msg = "登出失敗，請刪除APP並重新下載!"
+//            )
+//        )
+    }
+
     override suspend fun refreshToken(@Query(value = "refresh_token") refreshToken: String): TokenInfo {
         delay(500)
         return TokenInfo(
@@ -157,11 +173,6 @@ class ApiService(val cxt: Context) : IApiService {
     //
     //
     //
-
-    override suspend fun signOut(account: String, deviceId: String): SignIn {
-        delay(1500)
-        return SignIn(signInState = SignInState.SIGN_OUT)
-    }
 
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
