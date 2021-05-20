@@ -4,19 +4,46 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import tw.north27.coachingapp.ui2.TabChatFragment
-import tw.north27.coachingapp.ui2.TabHomeFragment
-import tw.north27.coachingapp.ui2.TabUserFragment
+import tw.north27.coachingapp.model.result.Authority
+import tw.north27.coachingapp.ui2.fragment.main.MainHomeFragment
+import tw.north27.coachingapp.ui2.fragment.main.NoticeCenterFragment
+import tw.north27.coachingapp.ui2.fragment.main.PersonalCenterFragment
+import tw.north27.coachingapp.ui2.fragment.main.QuestionAreaFragment
 
 sealed class BottomNavigationIndex(val index: Int) {
-    object HOME : BottomNavigationIndex(0)
-    object Chat : BottomNavigationIndex(1)
-    object Learn : BottomNavigationIndex(2)
-    object Notify : BottomNavigationIndex(3)
-    object User : BottomNavigationIndex(4)
+    class MainHome(index: Int) : BottomNavigationIndex(index)
+    class QuestionArea(index: Int) : BottomNavigationIndex(index)
+    class StudyRoom(index: Int) : BottomNavigationIndex(index)
+    class NoticeCenter(index: Int) : BottomNavigationIndex(index)
+    class PersonalCenter(index: Int) : BottomNavigationIndex(index)
 }
 
-class BottomNavigationPagerAdapter(fragManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragManager, lifecycle) {
+class BottomNavigationPagerAdapter(
+    fragManager: FragmentManager,
+    lifecycle: Lifecycle,
+    val auth: String
+) : FragmentStateAdapter(fragManager, lifecycle) {
+
+    val fragmentFactory: Map<Int, () -> Fragment> = when (auth) {
+        Authority.TEACHER.toString() -> {
+            mapOf(
+                BottomNavigationIndex.MainHome(0).index to { MainHomeFragment() },
+                BottomNavigationIndex.QuestionArea(1).index to { QuestionAreaFragment() },
+                BottomNavigationIndex.NoticeCenter(2).index to { NoticeCenterFragment() },
+                BottomNavigationIndex.PersonalCenter(3).index to { PersonalCenterFragment() },
+            )
+        }
+        Authority.STUDENT.toString() -> {
+            mapOf(
+                BottomNavigationIndex.QuestionArea(0).index to { QuestionAreaFragment() },
+                BottomNavigationIndex.NoticeCenter(1).index to { NoticeCenterFragment() },
+                BottomNavigationIndex.PersonalCenter(2).index to { PersonalCenterFragment() },
+            )
+        }
+        else -> {
+            mapOf()
+        }
+    }
 
     override fun getItemCount(): Int {
         return fragmentFactory.size
@@ -26,16 +53,4 @@ class BottomNavigationPagerAdapter(fragManager: FragmentManager, lifecycle: Life
         return fragmentFactory[position]?.invoke() ?: throw IndexOutOfBoundsException()
     }
 
-    private val fragmentFactory = mapOf<Int, () -> Fragment>(
-//        BottomNavigationIndex.HOME.index to { HomeFragment() },
-//        BottomNavigationIndex.Chat.index to { ChatFragment() },
-//        BottomNavigationIndex.Learn.index to { LearnFragment() },
-//        BottomNavigationIndex.Notify.index to { NotifyFragment() },
-//        BottomNavigationIndex.User.index to { UserFragment() },
-        BottomNavigationIndex.HOME.index to { TabHomeFragment() },
-        BottomNavigationIndex.Chat.index to { TabChatFragment() },
-        BottomNavigationIndex.Learn.index to { TabUserFragment() },
-        BottomNavigationIndex.Notify.index to { TabHomeFragment() },
-        BottomNavigationIndex.User.index to { TabUserFragment() },
-    )
 }
