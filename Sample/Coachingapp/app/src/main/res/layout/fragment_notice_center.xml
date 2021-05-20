@@ -41,14 +41,14 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_notifications_24_white"
+                    app:srcCompat="@drawable/ic_twotone_notifications_24_white"
                     bind:isNotifyOpen="@{viewModel.notifyOpen}" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/notify"
+                    android:text="@string/notice_center"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"

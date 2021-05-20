@@ -26,10 +26,10 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
 //        navController.addOnDestinationChangedListener { _, destination, _ ->
 //            binding.bottomNavigationView.isVisible =
 //                when (destination.id) {
-//                    R.id.fragment_home,
-//                    R.id.fragment_chat,
-//                    R.id.fragment_learn,
-//                    R.id.fragment_notify,
+//                    R.id.fragment_main_home,
+//                    R.id.fragment_question_area,
+//                    R.id.fragment_study_room,
+//                    R.id.fragment_notice_center,
 //                    R.id.fragment_user,
 //                    -> true
 //                    else
@@ -41,23 +41,23 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
         binding.viewPager2.isUserInputEnabled = false
         binding.bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.fragment_home -> {
+                R.id.fragment_main_home -> {
                     binding.viewPager2.currentItem = BottomNavigationIndex.HOME.index
                     return@setOnNavigationItemSelectedListener true
                 }
-                R.id.fragment_chat -> {
+                R.id.fragment_question_area -> {
                     binding.viewPager2.currentItem = BottomNavigationIndex.Chat.index
                     return@setOnNavigationItemSelectedListener true
                 }
-                R.id.fragment_learn -> {
+                R.id.fragment_study_room -> {
                     binding.viewPager2.currentItem = BottomNavigationIndex.Learn.index
                     return@setOnNavigationItemSelectedListener true
                 }
-                R.id.fragment_notify -> {
+                R.id.fragment_notice_center -> {
                     binding.viewPager2.currentItem = BottomNavigationIndex.Notify.index
                     return@setOnNavigationItemSelectedListener true
                 }
-                R.id.fragment_user -> {
+                R.id.fragment_personal_center -> {
                     binding.viewPager2.currentItem = BottomNavigationIndex.User.index
                     return@setOnNavigationItemSelectedListener true
                 }

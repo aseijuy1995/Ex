@@ -21,16 +21,22 @@
     <string name="enter_password">請輸入密碼</string>
     <string name="sign_in">登入</string>
     <string name="enter_account_password">請輸入帳號、密碼</string>
+    <!--  Launch2Activity  -->
+    <string name="main_home">Coaching</string>
+    <string name="question_area">發問區</string>
+    <string name="study_room">學習室</string>
+    <string name="notice_center">通知中心</string>
+    <string name="personal_center">個人中心</string>
     <!--  SignOutFragment  -->
     <string name="sign_out">登出</string>
     <!--    -->
 
-    <!-- SignIn -->
-    <string name="error_account_password">帳密有誤!</string>
-    <string name="sign_out_desc">你確定要登出嗎?</string>
+    <!--    -->
+    <!--    -->
+    <!--    -->
 
-    <string name="define">確定</string>
-    <string name="sign_out_success">登出成功</string>
+    <!-- SignOutDialogFragment -->
+    <string name="sign_out_desc">你確定要登出嗎?</string>
     <!--    -->
 
 
@@ -46,11 +52,6 @@
     <!--    -->
     <!--    -->
     <!-- Main -->
-    <string name="home">主頁</string>
-    <string name="list">列表</string>
-    <string name="learn">學習</string>
-    <string name="notify">通知</string>
-    <string name="person">個人</string>
 
     <!-- Chat -->
     <string name="chat_list">聊天列表</string>

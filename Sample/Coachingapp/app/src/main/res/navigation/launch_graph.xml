@@ -103,28 +103,28 @@
 
     <fragment
         android:id="@+id/fragment_home"
-        android:name="tw.north27.coachingapp.ui2.fragment.main.HomeFragment"
+        android:name="tw.north27.coachingapp.ui2.fragment.main.MainHomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_main_home" />
 
     <fragment
-        android:id="@+id/fragment_learn"
-        android:name="tw.north27.coachingapp.ui2.fragment.main.LearnFragment"
-        android:label="fragment_learn"
-        tools:layout="@layout/fragment_learn" />
+        android:id="@+id/fragment_study_room"
+        android:name="tw.north27.coachingapp.ui2.fragment.main.StudyRoomFragment"
+        android:label="fragment_study_room"
+        tools:layout="@layout/fragment_study_room" />
 
     <fragment
-        android:id="@+id/fragment_user"
-        android:name="tw.north27.coachingapp.ui2.fragment.main.UserFragment"
+        android:id="@+id/fragment_personal_center"
+        android:name="tw.north27.coachingapp.ui2.fragment.main.PersonalCenterFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_personal_center" />
 
     <!-- Chat -->
     <fragment
         android:id="@+id/fragment_chat"
-        android:name="tw.north27.coachingapp.ui2.fragment.main.ChatFragment"
+        android:name="tw.north27.coachingapp.ui2.fragment.main.QuestionAreaFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_question_area" />
 
     <fragment
         android:id="@+id/fragment_chat_list"
@@ -203,10 +203,10 @@
 
     <!-- Notify -->
     <fragment
-        android:id="@+id/fragment_notify"
-        android:name="tw.north27.coachingapp.ui2.fragment.main.NotifyFragment"
+        android:id="@+id/fragment_notice_center"
+        android:name="tw.north27.coachingapp.ui2.fragment.main.NoticeCenterFragment"
         android:label="fragment_notify"
-        tools:layout="@layout/fragment_notify">
+        tools:layout="@layout/fragment_notice_center">
 
         <action
             android:id="@+id/action_fragment_notify_to_fragment_notify_more_dialog"

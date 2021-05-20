@@ -6,14 +6,14 @@ import androidx.navigation.fragment.findNavController
 import com.yujie.basemodule.BaseFragment
 import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.databinding.FragmentUserBinding
+import tw.north27.coachingapp.databinding.FragmentPersonalCenterBinding
 import tw.north27.coachingapp.ext2.clicksObserve
 
 
-class UserFragment : BaseFragment<FragmentUserBinding>(R.layout.fragment_user) {
+class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.layout.fragment_personal_center) {
 
-    override val viewBindingFactory: (View) -> FragmentUserBinding
-        get() = FragmentUserBinding::bind
+    override val viewBindingFactory: (View) -> FragmentPersonalCenterBinding
+        get() = FragmentPersonalCenterBinding::bind
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

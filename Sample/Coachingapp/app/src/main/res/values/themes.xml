@@ -3,8 +3,8 @@
     <style name="Theme.Coachingapp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!--    <style name="Theme.Coachingapp" parent="Theme.MaterialComponents.Light.NoActionBar">&ndash;&gt;-->
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/green_38af6c</item>
-        <item name="colorPrimaryVariant">@color/green_41d578</item>
+        <item name="colorPrimary">@color/green_00ba9b</item>
+        <item name="colorPrimaryVariant">@color/green_00ba9b</item>
         <item name="colorOnPrimary">@color/white</item>>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -17,7 +17,7 @@
 
         <!--        <item name="android:navigationBarColor">@android:color/transparent</item>-->
 
-<!--        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>-->
+        <!--        <item name="textInputStyle">@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox</item>-->
 
     </style>
 

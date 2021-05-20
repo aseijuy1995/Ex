@@ -196,5 +196,5 @@ fun TextView.bindMediaSelectTitle(mediaList: List<Media>?) {
  * */
 @BindingAdapter("bind:isNotifyOpen")
 fun ImageView.bindIsReadColor(isOpen: Boolean) {
-    setImageResource(if (isOpen) R.drawable.ic_baseline_notifications_24_white else R.drawable.ic_baseline_notifications_off_24_white)
+    setImageResource(if (isOpen) R.drawable.ic_twotone_notifications_24_white else R.drawable.ic_baseline_notifications_off_24_white)
 }

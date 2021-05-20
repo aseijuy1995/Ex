@@ -12,12 +12,12 @@ import tw.north27.coachingapp.adapter.ChatPagerAdapter
 import tw.north27.coachingapp.adapter.ChatReadIndex
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.ChatViewModel
-import tw.north27.coachingapp.databinding.FragmentChatBinding
+import tw.north27.coachingapp.databinding.FragmentQuestionAreaBinding
 import tw.north27.coachingapp.model.result.*
 
-class ChatFragment : BaseFragment(R.layout.fragment_chat) {
+class QuestionAreaFragment : BaseFragment(R.layout.fragment_question_area) {
 
-    private val binding by viewBinding<FragmentChatBinding>(FragmentChatBinding::bind)
+    private val binding by viewBinding<FragmentQuestionAreaBinding>(FragmentQuestionAreaBinding::bind)
 
     private val viewModel by sharedViewModel<ChatViewModel>()
 
@@ -28,7 +28,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat) {
         doubleClickToExit()
         adapter = ChatPagerAdapter(this)
         binding.viewPager2Chat.apply {
-            adapter = this@ChatFragment.adapter
+            adapter = this@QuestionAreaFragment.adapter
             offscreenPageLimit = 2
         }
         TabLayoutMediator(binding.tabLayoutChat, binding.viewPager2Chat) { tab: TabLayout.Tab, position: Int ->

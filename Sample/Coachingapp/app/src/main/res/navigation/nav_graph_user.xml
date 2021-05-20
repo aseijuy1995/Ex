@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_user"
-    app:startDestination="@id/fragment_user">
+    app:startDestination="@id/fragment_personal_center">
 
     <fragment
-        android:id="@+id/fragment_user"
-        android:name="tw.north27.coachingapp.ui2.fragment.main.UserFragment"
+        android:id="@+id/fragment_personal_center"
+        android:name="tw.north27.coachingapp.ui2.fragment.main.PersonalCenterFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user">
+        tools:layout="@layout/fragment_personal_center">
 
         <action
             android:id="@+id/action_fragment_user_to_fragment_exit_dialog"

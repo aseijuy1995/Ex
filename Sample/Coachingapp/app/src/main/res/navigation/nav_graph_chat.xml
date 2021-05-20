@@ -9,8 +9,8 @@
     <!-- Chat -->
     <fragment
         android:id="@+id/fragment_chat"
-        android:name="tw.north27.coachingapp.ui2.fragment.main.ChatFragment"
+        android:name="tw.north27.coachingapp.ui2.fragment.main.QuestionAreaFragment"
         android:label="fragment_chat"
-        tools:layout="@layout/fragment_chat" />
+        tools:layout="@layout/fragment_question_area" />
 
 </navigation>

@@ -35,7 +35,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_bottom_navigation_coaching" />
+        app:menu="@menu/launch2_bottom_navigation" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,7 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.NotifyListAdapter
 import tw.north27.coachingapp.base.BaseDataBindingFragment
-import tw.north27.coachingapp.databinding.FragmentNotifyBinding
+import tw.north27.coachingapp.databinding.FragmentNoticeCenterBinding
 import tw.north27.coachingapp.ext2.startAlphaBreatheAnim
 import tw.north27.coachingapp.ext2.stop
 import tw.north27.coachingapp.notify.BaseLoadStateAdapter
@@ -25,7 +25,7 @@ import tw.north27.coachingapp.notify.NotifyViewModel
 //https://github.com/android/architecture-components-samples/issues/281
 //https://gist.github.com/guness/df12d8cc4f595af1395f4a1f5bca5f00
 
-class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.fragment_notify) {
+class NoticeCenterFragment : BaseDataBindingFragment<FragmentNoticeCenterBinding>(R.layout.fragment_notice_center) {
 
     private val viewModel by sharedViewModel<NotifyViewModel>()
 
@@ -37,7 +37,7 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = this@NotifyFragment.viewModel
+            viewModel = this@NoticeCenterFragment.viewModel
         }
         doubleClickToExit()
         loadAdapter = BaseLoadStateAdapter(viewLifecycleOwner, compositeDisposable)
@@ -46,7 +46,7 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
             addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
                 setDrawable(ContextCompat.getDrawable(cxt, R.drawable.shape_size_height_5_solid_gray) ?: return)
             })
-            adapter = this@NotifyFragment.adapter.withLoadStateFooter(loadAdapter)
+            adapter = this@NoticeCenterFragment.adapter.withLoadStateFooter(loadAdapter)
         }
 
         viewModel.getNotifyList().observe(viewLifecycleOwner) {
@@ -91,7 +91,7 @@ class NotifyFragment : BaseDataBindingFragment<FragmentNotifyBinding>(R.layout.f
         binding.ivNotify.clicks().subscribeWithRxLife {
             showLoadingDialog()
             when (binding.ivNotify.drawable.current.constantState) {
-                ContextCompat.getDrawable(cxt, R.drawable.ic_baseline_notifications_24_white)?.constantState -> viewModel.switchNotify(false)
+                ContextCompat.getDrawable(cxt, R.drawable.ic_twotone_notifications_24_white)?.constantState -> viewModel.switchNotify(false)
                 ContextCompat.getDrawable(cxt, R.drawable.ic_baseline_notifications_off_24_white)?.constantState -> viewModel.switchNotify(true)
             }
         }
