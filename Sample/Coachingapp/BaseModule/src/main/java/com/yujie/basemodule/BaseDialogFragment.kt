@@ -28,5 +28,4 @@ abstract class BaseDialogFragment<T : ViewBinding>(layoutId: Int) : DialogFragme
         act = requireActivity()
         cxt = requireContext()
     }
-
 }

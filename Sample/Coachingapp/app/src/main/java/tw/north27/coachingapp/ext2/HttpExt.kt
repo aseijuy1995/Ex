@@ -38,6 +38,9 @@ suspend fun <T> safeApiResponseResults(data: suspend () -> Response<T>): Respons
             }
         } catch (e: IOException) {
             ResponseResults.netWorkError(e)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ResponseResults.netWorkError(e as IOException)
         }
     }
 }

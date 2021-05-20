@@ -75,7 +75,7 @@
     <string name="phone">撥打電話</string>
     <string name="permission_deny">權限已被拒絕</string>
     <string name="go_settings">前往設定</string>
-    <string name="video_duration_format">%02d:%02d</string>
+<!--    <string name="video_duration_format">%2d:%2d</string>-->
     <string name="choice_count">已選%s項</string>
     <string name="send">發送</string>
     <string name="setting">設定</string>

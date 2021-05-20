@@ -93,7 +93,7 @@
                 android:id="@+id/btn_update"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/green_00ba9b"
+                android:backgroundTint="?attr/actionBarTheme"
                 android:gravity="center"
                 android:minHeight="40dp"
                 android:text="@string/update"

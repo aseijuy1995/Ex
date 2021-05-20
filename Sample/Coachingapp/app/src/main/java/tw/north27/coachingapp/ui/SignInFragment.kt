@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.touches
@@ -42,6 +43,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
         }
 
         viewModel.signInState.observe(viewLifecycleOwner) {
+            binding.svkView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
             when (it) {
                 is ViewState.Load -> {
                     LoadingDialogFragment.show(parentFragmentManager)

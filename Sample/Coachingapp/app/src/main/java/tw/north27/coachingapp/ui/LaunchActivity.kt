@@ -16,14 +16,13 @@ import tw.north27.coachingapp.util2.bindImgBlurRes
 
 class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaunchBinding::inflate) {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.ivBackground.bindImgBlurRes(R.drawable.ic_launch_background)
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return super.onSupportNavigateUp() || findNavController(R.id.fragment_container_view_launch).navigateUp()
+        return super.onSupportNavigateUp() || findNavController(R.id.fcv_launch).navigateUp()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

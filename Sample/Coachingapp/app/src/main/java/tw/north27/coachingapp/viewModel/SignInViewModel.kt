@@ -82,7 +82,6 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
                         _signInState.postValue(ViewState.network(results.e))
                     }
                 }
-
             }
 
         }

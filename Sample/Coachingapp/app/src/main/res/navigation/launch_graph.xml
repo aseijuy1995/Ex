@@ -4,15 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/fragment_start">
-    <!--        app:startDestination="@id/fragment_home">-->
-
-    <action
-        android:id="@+id/action_to_fragment_home"
-        app:destination="@id/fragment_home"
-        app:enterAnim="@anim/slide_in_right"
-        app:exitAnim="@anim/slide_out_left"
-        app:popEnterAnim="@anim/slide_in_left"
-        app:popExitAnim="@anim/slide_out_right" />
 
     <action
         android:id="@+id/action_to_fragment_chat_room"
@@ -31,6 +22,9 @@
 
     <!--  Page  -->
     <!--    -->
+    <action
+        android:id="@+id/action_to_fragment_loading_dialog"
+        app:destination="@id/fragment_loading_dialog" />
     <!--    -->
     <!--    -->
     <dialog
@@ -100,31 +94,6 @@
     <!---->
     <!--    -->
 
-
-    <fragment
-        android:id="@+id/fragment_home"
-        android:name="tw.north27.coachingapp.ui2.fragment.main.MainHomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_main_home" />
-
-    <fragment
-        android:id="@+id/fragment_study_room"
-        android:name="tw.north27.coachingapp.ui2.fragment.main.StudyRoomFragment"
-        android:label="fragment_study_room"
-        tools:layout="@layout/fragment_study_room" />
-
-    <fragment
-        android:id="@+id/fragment_personal_center"
-        android:name="tw.north27.coachingapp.ui2.fragment.main.PersonalCenterFragment"
-        android:label="fragment_user"
-        tools:layout="@layout/fragment_personal_center" />
-
-    <!-- Chat -->
-    <fragment
-        android:id="@+id/fragment_chat"
-        android:name="tw.north27.coachingapp.ui2.fragment.main.QuestionAreaFragment"
-        android:label="fragment_chat"
-        tools:layout="@layout/fragment_question_area" />
 
     <fragment
         android:id="@+id/fragment_chat_list"
@@ -200,36 +169,6 @@
             app:nullable="false" />
 
     </fragment>
-
-    <!-- Notify -->
-    <fragment
-        android:id="@+id/fragment_notice_center"
-        android:name="tw.north27.coachingapp.ui2.fragment.main.NoticeCenterFragment"
-        android:label="fragment_notify"
-        tools:layout="@layout/fragment_notice_center">
-
-        <action
-            android:id="@+id/action_fragment_notify_to_fragment_notify_more_dialog"
-            app:destination="@id/fragment_notify_more_dialog">
-
-            <argument
-                android:name="notifyInfo"
-                app:argType="tw.north27.coachingapp.model.result.NotifyInfo"
-                app:nullable="false" />
-        </action>
-
-        <argument
-            android:name="notifyInfo"
-            app:argType="tw.north27.coachingapp.model.result.NotifyInfo"
-            app:nullable="false" />
-
-    </fragment>
-
-    <dialog
-        android:id="@+id/fragment_notify_more_dialog"
-        android:name="tw.north27.coachingapp.ui2.fragment.item.NotifyMoreDialogFragment"
-        android:label="fragment_notify_more_dialog"
-        tools:layout="@layout/fragment_notify_more_dialog" />
 
 
 </navigation>

@@ -163,8 +163,9 @@ fun TextView.bindChatBadgeStyle(chat: ChatInfo) {
  * */
 @BindingAdapter("bind:mediaDuration")
 fun TextView.bindMediaDuration(media: Media) {
-    val durationFormat = context.getString(R.string.video_duration_format)
-    val time = String.format(durationFormat, ((media.duration / 1000) % 3600) / 60, ((media.duration / 1000) % 60))
+//    val durationFormat = context.getString(R.string.video_duration_format)
+//    val time = String.format(durationFormat, ((media.duration / 1000) % 3600) / 60, ((media.duration / 1000) % 60))
+    val time = "${((media.duration / 1000) % 3600) / 60}:${((media.duration / 1000) % 60)}}"
     text = time
 }
 

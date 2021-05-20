@@ -24,9 +24,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Coachingapp">
-        <activity
-            android:name=".ui.LaunchActivity"
-            android:launchMode="singleTask">
+        <activity android:name=".ui.LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,9 +32,7 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.Launch2Activity"
-            android:launchMode="singleTask" />
+        <activity android:name=".ui.Launch2Activity" />
 
         <service
             android:name=".push.FcmService"
