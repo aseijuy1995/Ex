@@ -68,8 +68,6 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                             Toast.makeText(cxt, signIn.signOutInfo?.msg, Toast.LENGTH_SHORT).show()
                         }
                     }
-
-
                 }
                 is ViewState.Error, is ViewState.Network -> {
                     LoadingDialogFragment.dismiss()
