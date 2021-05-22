@@ -15,6 +15,33 @@ import tw.north27.coachingapp.model.result.*
 
 class ApiService(val cxt: Context) : IApiService {
 
+
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+//    override suspend fun refreshToken(@Query(value = "account") account: String, @Query(value = "access_token") accessToken: String, @Query(value = "refresh_token") refreshToken: String): TokenInfo {
+//        delay(500)
+//        return TokenInfo(
+//            accessToken = "accessToken002",
+//            refreshToken = "refreshToken002"
+//        )
+//    }
+    //
+    //
+    //
+    //
+    //
+    //
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+
     private val userIdTest = 0
     private val accountTest = "north27"
     private val passwordTest = "north27"
@@ -27,7 +54,326 @@ class ApiService(val cxt: Context) : IApiService {
 
     //
     private val signInSuccessMsgTest = "即將登入..."
+    private val teacherInfoList = listOf<UserInfo>(
+        UserInfo(
+            id = 1,
+            account = "chienChien",
+            auth = Authority.TEACHER,
+            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/405/322/normal/hbfwvp.png?1603952064",
+            name = "chienChien",
+            email = "chienChien@gmail.com",
+            teacherInfo = TeacherInfo(
+                desc = "哈囉～你好，我是芊芊。\n" +
+                        "\uD83D\uDC9B 師大中文畢業、有教學證照TCSOL，聽說讀寫有效加強 \uD83D\uDCAF\n" +
+                        "\uD83D\uDC9B 有實體課教學經驗，學生年齡廣： 5~55歲\n" +
+                        "\uD83D\uDC9B 可全英文、初級韓語、一點點日語授課 \uD83C\uDD97\n" +
+                        "\uD83D\uDC9B 史上最愛笑的老師，孩子們最愛的中文課\n" +
+                        "\uD83D\uDC9B 注重口說，輕鬆有趣，上課笑聲\uD83C\uDE35️\uD83C\uDE35️\n" +
+                        "\uD83D\uDC9B 可客製化，繁/簡/注音/拼音 \uD83C\uDD97\n" +
+                        "\uD83D\uDC9B 認真看待每一堂課，希望學生都在歡樂中有所收穫",
+                score = 5.0,
+                subjectList = listOf(Subject.CHINESE)
+            )
+        ),
+        UserInfo(
+            id = 2,
+            account = "missLin",
+            auth = Authority.TEACHER,
+            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/485/086/normal/spkxab.png?1621247145",
+            name = "Miss Lin",
+            email = "missLin@gmail.com",
+            teacherInfo = TeacherInfo(
+                desc = "\uD83D\uDD8A 曾任國民小學老師\uD83D\uDC23 超耐心，有經驗，有方法\n" +
+                        "\uD83D\uDC4F 透過繪本、遊戲兒歌、主題式閱讀，培養孩子中文對話能力及語感\n" +
+                        "✨ 專注兒童中文教學\uD83D\uDC24 開設25分鐘課程，短時間集中注意力，學習效果也更好喔～\n" +
+                        "✏️ 回購課程有優惠有優惠~請諮詢Miss Lin!\n" +
+                        "\uD83C\uDF89 獨特的教學法，讓孩子愛上中文學習！點擊【瀏覽全部自我介紹】探索更多\uD83D\uDC47\uD83C\uDFFB\n" +
+                        "\uD83C\uDF10 想要更暸解老師，也可以到老師的部落格去看看 kuhsiang.com",
+                score = 4.9,
+                subjectList = listOf(Subject.CHINESE)
+            )
+        ),
+        UserInfo(
+            id = 3,
+            account = "kIWI",
+            auth = Authority.TEACHER,
+            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/063/801/normal/dliopk.png?1587162839",
+            name = "KIWI",
+            email = "kIWI@gmail.com",
+            teacherInfo = TeacherInfo(
+                desc = "\uD83D\uDC8E團課滿班滿班滿班~~~熱門團課→✨幼兒4yr ↑ 識字團課+小一翰林+知識中文團課✨→一直開✨一直開✨一直開✨~快來尋問團班時段哦！✨\n" +
+                        "\uD83D\uDC8E(為了讓學生能夠達成學習目標，Kiwi花很多的時間備課，所以課表上沒開放太多的時間，若要約課，請傳訊息，Kiwi會幫妳約哦！)\uD83D\uDC8E\n" +
+                        "♥️♥️我是Kiwi老師，來自台灣，目前定居加拿大，來看看我的課有什麼特別的♥️♥️\n" +
+                        "\n" +
+                        "\uD83D\uDC8E老師有10年的豐富經驗，多方面多元化的題材，讓你永遠有討論不完的話題\n" +
+                        "\uD83D\uDC8E老師總是全力促進學生的思考、口說\n" +
+                        "\uD83D\uDC8E超有趣的小遊戲，提高孩子的上課樂趣",
+                score = 4.9,
+                subjectList = listOf(Subject.CHINESE, Subject.SOCIETY)
+            )
+        ),
+        UserInfo(
+            id = 4,
+            account = "andrea",
+            auth = Authority.TEACHER,
+            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/381/609/normal/kzxfmi.png?1615736927",
+            name = "Andrea",
+            email = "andrea@gmail.com",
+            teacherInfo = TeacherInfo(
+                desc = "\uD83D\uDC49\uD83C\uDFFB已授課時數超過2000小時(含線上與實體)\n" +
+                        "\uD83D\uDC49\uD83C\uDFFB學生來自世界各地：美加、歐洲、亞洲、俄羅斯都有我的學生。\n" +
+                        "\uD83D\uDC49\uD83C\uDFFB學生年齡廣泛：3至65歲皆有，不論是學齡前亦或是退休後。\n" +
+                        "\uD83D\uDD06因應台灣停課，有課業學習需求之台灣學生/家長可以私訊索取優惠價格\uD83D\uDD06\n" +
+                        "\uD83D\uDD06如果沒有開放您想選擇的時段，歡迎隨時私訊詢問，Andrea會盡力滿足您需求\uD83D\uDD06\n",
+                score = 4.9,
+                subjectList = listOf(Subject.CHINESE)
+            )
+        ),
+        UserInfo(
+            id = 5,
+            account = "yoyo",
+            auth = Authority.TEACHER,
+            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/179/750/normal/psrnjt.png?1610427294",
+            name = "YOYO",
+            email = "yoyo@gmail.com",
+            teacherInfo = TeacherInfo(
+                desc = "\uD83D\uDCE2\uD83D\uDCE2\uD83D\uDCE2多益/文法/閱讀團班開課啦！！！早鳥優惠95折！！！\n" +
+                        "\uD83D\uDCCC想提高多益分數，卻沒有方法嗎？\n" +
+                        "\uD83D\uDCCC有詞彙不足，文章看不懂的困擾嗎？\n" +
+                        "\uD83D\uDCCC想和外國人交流卻有有發音不准，影響聽力的障礙嗎？\n" +
+                        "\n" +
+                        "\uD83D\uDC54其實YOYO真的懂。\n" +
+                        "英語學了20年的我，還以為自己很厲害。\n" +
+                        "真正跨出台灣才發現，原來，我只會課本書裡的英文....\n" +
+                        "\n" +
+                        "\uD83D\uDC54但是我沒有氣餒，所以現在的我能夠進入百大企業。\n" +
+                        "也因為英文說得好，在職場占了很大的優勢。\n" +
+                        "在公司負責國際市場開拓，台灣，大陸，歐美以及中東。\n" +
+                        "\n" +
+                        "\uD83D\uDCBCYOYO一路走來磕磕碰碰，如果你想知道...\n" +
+                        "①怎麼從多益500分進步到900分！\n" +
+                        "②如何跳脫教科書說出一口活英文！\n" +
+                        "\uD83C\uDF88時間就是金錢!想把英語學好就快點來吧！\n" +
+                        "\uD83C\uDF88Instagram: YOYO_BUSINESS_ENGLISH",
+                score = 5.0,
+                subjectList = listOf(Subject.ENGLISH)
+            )
+        ),
+        UserInfo(
+            id = 6,
+            account = "rose",
+            auth = Authority.TEACHER,
+            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/049/219/normal/ehtvpb.png?1617187714",
+            name = "Rose",
+            email = "rose@gmail.com",
+            teacherInfo = TeacherInfo(
+                desc = "⚠️ 學生已爆量 \uD83D\uDD25 請先私訊詢問、告知程度 \uD83D\uDE0A 謝謝 \n" +
+                        "\uD83C\uDF1F 升學補教老師 | 熟知台灣學生的痛點\n" +
+                        "\uD83C\uDFC6 平台頂尖教師 | AT 學生破兩百位\n" +
+                        "\uD83E\uDD47 5+ 年以上全職英語教學 | 完成破萬堂課程\n" +
+                        "\uD83D\uDC8E 教學專長 | 「教科書」所學應用於「生活」和「工作」\n" +
+                        "⚡️ 出版影音課程 | 2020年和snapask合作推出“學測黑馬計畫”\n" +
+                        "\uD83E\uDDF8 IG: onemin.english 發起人 | 會教的老師只要一分鐘即能解釋易混淆字\n" +
+                        "\uD83C\uDDFA\uD83C\uDDF8 曾旅居美國 | 標準的美式口音",
+                score = 5.0,
+                subjectList = listOf(Subject.ENGLISH)
+            )
+        ),
+        UserInfo(
+            id = 7,
+            account = "micky",
+            auth = Authority.TEACHER,
+            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/396/065/normal/cdgzhf.png?1614517235",
+            name = "Micky",
+            email = "micky@gmail.com",
+            teacherInfo = TeacherInfo(
+                desc = "❤️你好，那裡有驚人的學習者，這是你的驚人老師米奇！ ❤️\n" +
+                        "\uD83D\uDD25。這裡只給您最好的教育。\n" +
+                        "\uD83D\uDD25。母語為英語的人，出生於美國\n" +
+                        "\uD83D\uDD25。每個課程的重點都是您，您和您！\n" +
+                        "\n" +
+                        "\n" +
+                        "⭐最好的在線英語課程。\n" +
+                        "⭐有趣的課程材料。\n" +
+                        "⭐保證進度。\n" +
+                        "⭐只有最好的英語課程才有6年以上。\n",
+                score = 4.9,
+                subjectList = listOf(Subject.ENGLISH)
+            )
+        ),
+        UserInfo(
+            id = 8,
+            account = "alan",
+            auth = Authority.TEACHER,
+            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/454/197/normal/xqajyq.png?1615287258",
+            name = "Alan",
+            email = "micky@gmail.com",
+            teacherInfo = TeacherInfo(
+                desc = "會說英文、中文\n" +
+                        "\n" +
+                        "10多年的教學經驗告訴我，同齡的孩子對於數學的理解度是有很大的差異，\n" +
+                        "然而學校教育是統一的進度，一旦學生跟不上，若無法加以個別的指導，\n" +
+                        "該學生將會不斷的落後，到最後只好放棄數學領域。\n" +
+                        "\n" +
+                        "\uD83D\uDD37Alan老師為什麼是你的最佳人選呢\uD83D\uDD37\n" +
+                        "【十年任教經歷】Alan已任教十年，給你最高CP值的課程編排 \n" +
+                        "【專業教育背景】老師畢業於師範學院，穩扎穩打的專業教育背景\n" +
+                        "【實作課程設計】課堂中有大量實作演練，一步一腳印奠定數學基礎",
+                score = 4.9,
+                subjectList = listOf(Subject.MATH)
+            )
+        ),
+        UserInfo(
+            id = 9,
+            account = "tony",
+            auth = Authority.TEACHER,
+            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/609/572/normal/nlhdtn.png?1620446864",
+            name = "Tony",
+            email = "tony@gmail.com",
+            teacherInfo = TeacherInfo(
+                desc = "跟著Tony學數學是你最好的選擇!! Let's go～～\n" +
+                        "\uD83D\uDCD6清大數學系畢業\n" +
+                        "\uD83D\uDCD6就讀台大研究所\n" +
+                        "\uD83D\uDCD6七年資深家教及補教經驗\n" +
+                        "\uD83D\uDCD6已幫助多名學生進入明星中學及大學\n" +
+                        "\uD83D\uDCD6完全客製化課程，用學生感興趣的話題引導出背後的數學邏輯\n" +
+                        "\n" +
+                        "\uD83D\uDCDA25分鐘數學診療門診\uD83D\uDCDA\n" +
+                        "讓Tony更了解你的弱點以及程度\n" +
+                        "客製出最適合你的課程安排\uD83D\uDC4D\n" +
+                        "- 免費教材，不需購買課本\n" +
+                        "- 找到學生弱點，擊敗弱點化為優勢！\n" +
+                        "- 規劃學習目標以及計劃，有效提升數學能力",
+                score = 5.0,
+                subjectList = listOf(Subject.MATH)
+            )
+        ),
+        UserInfo(
+            id = 10,
+            account = "eason",
+            auth = Authority.TEACHER,
+            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/600/908/normal/wvrwhf.png?1618157750",
+            name = "Eason陳羿丞",
+            email = "eason@gmail.com",
+            teacherInfo = TeacherInfo(
+                desc = "您好，我在補習班教書已有超過10年的時間，過去幫助許多學生突破自己，不論程度如何，有從段考24分進步到75分的案例，也有從80分進步到穩定95分以上的學生。關鍵是針對各種不同的狀況，找到問題並改變突破，透過我的經驗可以提供您適合的規劃跟建議，找到方法！期待與您討論，怎麼樣順利達標！\n" +
+                        "\n" +
+                        "1、國中會考自然科統整式教學。\n" +
+                        "2、生活化的學習內容，更能理解、記憶、融會貫通。\n" +
+                        "3、針對不同程度，給予不同深度跟廣度的內容。\n" +
+                        "4、互動式課程，幫助您在當下就學習，減少課後負擔。\n" +
+                        "5、透過客製化安排，幫助您順利在會考拿下理想分數。",
+                score = 5.0,
+                subjectList = listOf(Subject.NATURAL)
+            )
+        ),
+        UserInfo(
+            id = 11,
+            account = "catfishTeacher",
+            auth = Authority.TEACHER,
+            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/431/253/normal/jjzfgo.png?1606364504",
+            name = "鯰魚老師",
+            email = "catfishTeacher@gmail.com",
+            teacherInfo = TeacherInfo(
+                desc = "\uD83D\uDC1E我專職在補習班/家教/自然科學實驗12年以上\n" +
+                        "\uD83D\uDC33我很熟悉108課綱發展，快速掌握命題新趨勢\n" +
+                        "\uD83E\uDD8B主要教授國小、國中、高中生物與自然科學實驗\n" +
+                        "\uD83D\uDC0C流暢的圖文e化教學，讓你學習不用想像\n" +
+                        "\uD83D\uDC22讓您孩子快樂學習並輕鬆擁有好成績\n" +
+                        "\uD83D\uDC3C免費索取【鯰魚生物秘笈】網址: cclfun.com",
+                score = 5.0,
+                subjectList = listOf(Subject.NATURAL)
+            )
+        ),
+        UserInfo(
+            id = 12,
+            account = "zhengKaihan",
+            auth = Authority.TEACHER,
+            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/510/964/normal/samstu.png?1611670666",
+            name = "鄭凱瀚",
+            email = "zhengKaihan@gmail.com",
+            teacherInfo = TeacherInfo(
+                desc = "就讀國立中山大學，學測社會頂標，教學風格活潑有趣，讓學生不再是死讀書，而是把社會玩得很愉快！不同學生運用不同學習方式，教學時，我會在體驗課觀察你所適合的方式，在正式課程時則是準備好一套專屬於你的教材，讓你得心應手。\n" +
+                        "\n" +
+                        "重視圖表分類，以及學生自主思考，透過引導式的教學來讓你可以靠自己找出答案，運用想像力來讓你的社會更加清楚。\n" +
+                        "社會不是用背的，是用來玩的！在上課過程中，會藉由圖解來讓你更明白，在面對考試時，我會教你如何分解題目，讓你不再是盲目作答。\n" +
+                        "\n" +
+                        "期待讓你從對社會感興趣到熱愛社會，利用肢體的實際體驗，了解每種地形分類，不同的氣候類型，讓自己用繪畫來彩色出屬於你自己的社會，不需要死背，活絡思緒讓地理自動了解你，只要你想要學習，我能把一切都交給你！",
+                score = 4.5,
+                subjectList = listOf(Subject.SOCIETY)
+            )
+        ),
+        UserInfo(
+            id = 13,
+            account = "lydia",
+            auth = Authority.TEACHER,
+            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/335/039/normal/ufchzp.png?1603374353",
+            name = "Lydia",
+            email = "lydia@gmail.com",
+            teacherInfo = TeacherInfo(
+                desc = "【舊生回饋大優惠4/15~5/15】\n" +
+                        "Step1.撰寫五星評價(內容須含上課內容及狀況）\n" +
+                        "Step2..私訊告知我審查！\n" +
+                        "Step3.即可享有回購優惠85折\n" +
+                        "❗活動僅限4/15至5/15，回購85折優惠亦限於期限內購買❗\n" +
+                        "*活動折扣不得與其他優惠券一同使用\n" +
+                        "๑۩۞۩๑ ๑۩۞۩๑ ๑۩۞۩๑ ๑۩۞۩๑ ๑۩۞۩๑ ๑۩۞۩๑\n" +
+                        "\uD83D\uDD06新制學測國文社會類科頂標，讓我分享我的學習方法，頂標你也可以！\n" +
+                        "\uD83D\uDD06國中小、高中歷史、社會各類科私藏學習法，獨家傳授！\n" +
+                        "\uD83D\uDD06歷史就是一連串的故事，擺脫學校劃重點背誦，知識融合生活才能貫通～\n" +
+                        "\uD83D\uDD06地理才不像社會科！靠理解、想像得高分不難\n" +
+                        "\uD83D\uDD06公民是各種社會現況和觀察，讓法律系的我來幫你/妳！",
+                score = 5.0,
+                subjectList = listOf(Subject.SOCIETY)
+            )
+        ),
+        UserInfo(
+            id = 14,
+            account = "jessica",
+            auth = Authority.TEACHER,
+            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/083/752/normal/etsomh.png?1613789421",
+            name = "Jessica",
+            email = "jessica@gmail.com",
+            teacherInfo = TeacherInfo(
+                desc = "\uD83E\uDD47國立台灣師範大學畢業\n" +
+                        "\uD83E\uDD47教育部認證語言教學證照\n" +
+                        "\uD83E\uDD477年台灣國中小私立雙語學校家教經驗（康橋、復興、薇格）\n" +
+                        "\n" +
+                        "可教授的課程：\n" +
+                        "\uD83E\uDD47國小：全科教學（國文、英文、數學、社會、自然）\n" +
+                        "\uD83E\uDD47國中：國文、英文、社會科\n" +
+                        "\n" +
+                        "＊可安排每天固定線上輔導完成作業\n" +
+                        "＊解題技巧輔導、培養學生解題思維及提升效率\n" +
+                        "＊培養學生有效率的讀書技巧及方式\n" +
+                        "＊除了教學亦擅長鼓勵激勵學生\n",
+                score = 5.0,
+                subjectList = listOf(Subject.SOCIETY)
+            )
+        ),
+        UserInfo(
+            id = 15,
+            account = "ivy",
+            auth = Authority.TEACHER,
+            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/432/954/normal/duybxa.png?1620795602",
+            name = "Ivy師",
+            email = "ivy@gmail.com",
+            teacherInfo = TeacherInfo(
+                desc = "熟知學校授課方式及教學系統\n" +
+                        "掌握解題技巧和出題方向\n" +
+                        "不用再苦苦尋覓合適的老師，一鍵開啟試聽\n" +
+                        "＝＝＝＝＝＝＝＝＝＝＝＝＝\n" +
+                        "女孩上課不尷尬，不必擔心安全問題，輕鬆放心提升成績",
+                score = 5.0,
+                subjectList = listOf(Subject.SOCIETY)
+            )
+        )
 
+
+    )
+
+    var deleteNotify: NotifyInfo? = null
+    var isReadAllNotify: Boolean? = null
     override suspend fun getAppConfig(
         @Query(value = "uuid") uuid: String,
         @Query(value = "fcm_token") fcmToken: String
@@ -160,23 +506,16 @@ class ApiService(val cxt: Context) : IApiService {
             refreshToken = "refreshToken002"
         )
     }
-//    override suspend fun refreshToken(@Query(value = "account") account: String, @Query(value = "access_token") accessToken: String, @Query(value = "refresh_token") refreshToken: String): TokenInfo {
-//        delay(500)
-//        return TokenInfo(
-//            accessToken = "accessToken002",
-//            refreshToken = "refreshToken002"
-//        )
-//    }
-    //
-    //
-    //
-    //
-    //
-    //
 
-    //////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////
+    override suspend fun getLoadTeacher(): List<UserInfo> {
+        delay(1500)
+        return teacherInfoList
+    }
+
+    //
+    //
+    //
+    //
 
     override suspend fun getLoadChat(): List<ChatInfo> {
         delay(1500)
@@ -778,8 +1117,6 @@ class ApiService(val cxt: Context) : IApiService {
 
     }
 
-    var deleteNotify: NotifyInfo? = null
-    var isReadAllNotify: Boolean? = null
     override suspend fun getLoadNotify(@Field(value = "page") page: Int): List<NotifyInfo> {
         var notifyList = mutableListOf<Pair<Int, MutableList<NotifyInfo>>>()
         var page = page

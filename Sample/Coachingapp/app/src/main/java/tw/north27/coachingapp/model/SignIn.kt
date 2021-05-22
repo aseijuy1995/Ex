@@ -62,11 +62,15 @@ data class UserInfo(
     val id: Int,
     val account: String,
     val auth: Authority,
-    val avatarPath: String,
+    val avatarPath: String? = null,
     val name: String,
-    val email: String? = null
-//    val fcmToken: String? = null,//推撥token
-) : Parcelable
+    val email: String? = null,
+    //
+    val studentInfo: StudentInfo? = null,
+    val teacherInfo: TeacherInfo? = null,
+
+
+    ) : Parcelable
 
 /**
  * STUDENT >> 學生
@@ -75,3 +79,37 @@ data class UserInfo(
 enum class Authority {
     STUDENT, TEACHER
 }
+
+@Parcelize
+data class StudentInfo(
+    val desc: String
+) : Parcelable
+
+/**
+ * desc >> 簡介
+ * score >> 評分
+ * subjectList >> 科目列表
+ * */
+@Parcelize
+data class TeacherInfo(
+    val desc: String,
+    val score: Double,
+    val subjectList: List<Subject>
+) : Parcelable
+
+/**
+ * CHINESE >> 國語
+ * ENGLISH >> 英文
+ * MATH >> 數學
+ * NATURAL >> 自然
+ * SOCIETY >> 社會
+ * */
+enum class Subject {
+    CHINESE, ENGLISH, MATH, NATURAL, SOCIETY
+}
+
+//@Parcelize
+//data class CommentInfo(
+//    val id: Int,
+//    val subject: Subject
+//) : Parcelable

@@ -72,6 +72,16 @@ interface IApiService {
         @Query("refresh_token") refreshToken: String
     ): TokenInfo
 
+    /**
+     * 獲取老師列表
+     * */
+    @GET
+    suspend fun getLoadTeacher(): List<UserInfo>
+
+    //
+    //
+    //
+    //
     //
     //
     //

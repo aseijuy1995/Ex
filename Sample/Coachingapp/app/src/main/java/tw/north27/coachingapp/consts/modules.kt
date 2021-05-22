@@ -20,9 +20,10 @@ import tw.north27.coachingapp.notify.INotifyRepository
 import tw.north27.coachingapp.notify.NotifyRepository
 import tw.north27.coachingapp.notify.NotifyViewModel
 import tw.north27.coachingapp.repository.PublicRepository
-import tw.north27.coachingapp.repository.UserRepository
+import tw.north27.coachingapp.repository.nofinish.UserRepository
 import tw.north27.coachingapp.repository.inter.IPublicRepository
-import tw.north27.coachingapp.repository.inter.IUserRepository
+import tw.north27.coachingapp.repository.nofinish.IUserRepository
+import tw.north27.coachingapp.viewModel.MainHomeViewModel
 import tw.north27.coachingapp.viewModel.SignOutViewModel
 import tw.north27.coachingapp.viewModel.SignInViewModel
 import tw.north27.coachingapp.viewModel.StartViewModel
@@ -65,6 +66,8 @@ val repoModules = module {
 val viewModelModules = module {
     viewModel { StartViewModel(androidApplication(), get(), get()) }
     viewModel { SignInViewModel(androidApplication(), get()) }
+    viewModel { MainHomeViewModel(androidApplication(),get()) }
+    //
     viewModel { NotifyViewModel(get()) }
     viewModel { ChatViewModel(get()) }
     viewModel { ChatRoomViewModel(androidApplication(), get(), get()) }

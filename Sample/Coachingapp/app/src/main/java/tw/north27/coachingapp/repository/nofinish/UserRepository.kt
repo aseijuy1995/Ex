@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.repository
+package tw.north27.coachingapp.repository.nofinish
 
 import android.content.Context
 import tw.north27.coachingapp.consts.IApiService
@@ -7,7 +7,6 @@ import tw.north27.coachingapp.ext2.safeApiResults
 import tw.north27.coachingapp.model.result.SignIn
 import tw.north27.coachingapp.module.http.ResponseResults
 import tw.north27.coachingapp.module.http.Results
-import tw.north27.coachingapp.repository.inter.IUserRepository
 
 class UserRepository(val service: IApiService, val context: Context) : IUserRepository {
 

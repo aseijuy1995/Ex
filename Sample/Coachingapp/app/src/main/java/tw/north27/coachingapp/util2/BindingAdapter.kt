@@ -22,7 +22,7 @@ import tw.north27.coachingapp.model.result.ChatRead
 
 /**
  * 圖片高斯模糊
- * @param resId >> Resource資源（bind:imgBlurRes）
+ * @param drawableResId >> Resource資源（bind:imgBlurRes）
  * @param radius >> （bind:imgBlurRadius）
  * @param sampling >> 採樣(模糊)（bind:imgBlurSampling）
  * */
@@ -36,6 +36,21 @@ fun ImageView.bindImgBlurRes(
         .load(drawableResId)
         .apply(RequestOptions.bitmapTransform(BlurTransformation(radius, sampling)))
         .into(this)
+}
+
+/**
+ * 圖片
+ * @param url >> 圖片url
+ * @param placeholderResId >> 預設圖片Drawable（bind:imgPlaceholderRes）
+ * */
+@BindingAdapter("bind:imgUrl2", )
+//"bind:imgPlaceholderRes"
+fun ImageView.bindImgUrl2(
+    url: String?,
+//    @DrawableRes placeholderResId: Int
+) {
+//    Glide.with(this).load(url).placeholder(placeholderResId).centerCrop().into(this)
+    Glide.with(this).load(url).placeholder(R.drawable.ic_baseline_person_24_gray).centerCrop().into(this)
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
@@ -64,8 +79,8 @@ fun View.bindVisibility(isVisibility: Boolean = true) {
 }
 
 @BindingAdapter("bind:imgUrl")
-fun ImageView.bindImgUrl(url: String) {
-    Glide.with(this).load(url).placeholder(R.mipmap.ic_pencil_logo).centerCrop().into(this)
+fun ImageView.bindImgUrl(url: String?) {
+    Glide.with(this).load(url).placeholder(R.drawable.ic_pencil_logo).centerCrop().into(this)
 }
 
 @BindingAdapter("bind:imgRes")

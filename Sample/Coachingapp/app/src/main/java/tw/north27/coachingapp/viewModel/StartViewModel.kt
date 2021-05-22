@@ -18,7 +18,7 @@ import tw.north27.coachingapp.model.result.SignInState
 import tw.north27.coachingapp.module.http.ResponseResults
 import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.repository.inter.IPublicRepository
-import tw.north27.coachingapp.repository.inter.IUserRepository
+import tw.north27.coachingapp.repository.nofinish.IUserRepository
 import java.util.*
 
 class StartViewModel(

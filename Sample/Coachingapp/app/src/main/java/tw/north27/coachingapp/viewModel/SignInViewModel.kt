@@ -17,7 +17,7 @@ import tw.north27.coachingapp.ext2.asLiveData
 import tw.north27.coachingapp.model.result.SignIn
 import tw.north27.coachingapp.model.result.SignInState
 import tw.north27.coachingapp.module.http.ResponseResults
-import tw.north27.coachingapp.repository.inter.IUserRepository
+import tw.north27.coachingapp.repository.nofinish.IUserRepository
 
 class SignInViewModel(application: Application, val userRepo: IUserRepository) : BaseAndroidViewModel(application) {
 
@@ -26,15 +26,15 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
     val signInState = _signInState.asLiveData()
 
     fun signIn(account: String?, password: String?) {
-        _signInState.postValue(ViewState.load())
-        if (account.isNullOrEmpty() && password.isNullOrEmpty()) {
-            _signInState.postValue(ViewState.empty(cxt.getString(R.string.enter_account_password)))
-        } else if (account.isNullOrEmpty()) {
-            _signInState.postValue(ViewState.empty(cxt.getString(R.string.enter_account)))
-        } else if (password.isNullOrEmpty()) {
-            _signInState.postValue(ViewState.empty(cxt.getString(R.string.enter_password)))
-        } else {
-            viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _signInState.postValue(ViewState.load())
+            if (account.isNullOrEmpty() && password.isNullOrEmpty()) {
+                _signInState.postValue(ViewState.empty(cxt.getString(R.string.enter_account_password)))
+            } else if (account.isNullOrEmpty()) {
+                _signInState.postValue(ViewState.empty(cxt.getString(R.string.enter_account)))
+            } else if (password.isNullOrEmpty()) {
+                _signInState.postValue(ViewState.empty(cxt.getString(R.string.enter_password)))
+            } else {
                 val uuid = cxt.dataStoreUserPref.getUuid().first()
                 val fcmToken = cxt.dataStoreUserPref.getFcmToken().first()
                 val results = userRepo.signIn(uuid, account, password, fcmToken)
@@ -83,7 +83,6 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
                     }
                 }
             }
-
         }
     }
 

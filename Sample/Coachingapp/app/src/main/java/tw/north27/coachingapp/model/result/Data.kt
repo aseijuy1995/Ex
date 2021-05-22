@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.model
+package tw.north27.coachingapp.model.result
 
 data class Data(
     val completed: Boolean,

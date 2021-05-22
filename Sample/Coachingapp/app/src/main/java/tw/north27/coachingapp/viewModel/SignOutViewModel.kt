@@ -16,7 +16,7 @@ import tw.north27.coachingapp.ext2.asLiveData
 import tw.north27.coachingapp.model.result.SignIn
 import tw.north27.coachingapp.model.result.SignInState
 import tw.north27.coachingapp.module.http.Results
-import tw.north27.coachingapp.repository.inter.IUserRepository
+import tw.north27.coachingapp.repository.nofinish.IUserRepository
 
 class SignOutViewModel(application: Application, val userRepo: IUserRepository) : BaseAndroidViewModel(application) {
 
