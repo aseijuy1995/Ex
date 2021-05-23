@@ -58,13 +58,13 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:${dataStore}"
     implementation "androidx.datastore:datastore-preferences-rxjava3:${dataStore}"
     implementation "androidx.datastore:datastore-preferences-core:${dataStore}"
-    def protobuf = "3.0.1"
-    implementation "com.google.protobuf:protobuf-lite:${protobuf}"
+    def protobuf = "3.10.0"
+    implementation  "com.google.protobuf:protobuf-javalite:${protobuf}"
 }
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.7.0"
+        artifact = "com.google.protobuf:protoc:3.10.0"
     }
     plugins {
         javalite {
@@ -74,10 +74,9 @@ protobuf {
     generateProtoTasks {
         all().each { task ->
             task.builtins {
-                remove java
-            }
-            task.plugins {
-                javalite {}
+                java {
+                    option "lite"
+                }
             }
         }
     }
