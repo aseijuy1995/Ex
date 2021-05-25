@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Coaching</string>
     <string name="default_notification_channel_id">default_notification_channel_id</string>
+    <string name="empty">Empty</string>
+    <string name="empty_content">沒有資料</string>
+    <string name="error">Error</string>
+    <string name="error_content">網路連線異常</string>
+    <string name="network">Network</string>
+    <string name="network_content">網路連線失敗</string>
     <!--  StartFragment  -->
     <string name="c">C</string>
     <string name="o">O</string>
@@ -38,14 +44,6 @@
     <!-- SignOutDialogFragment -->
     <string name="sign_out_desc">你確定要登出嗎?</string>
     <!--    -->
-
-
-    <string name="empty">Empty</string>
-    <string name="error">Error</string>
-    <string name="network">Network</string>
-    <string name="empty_content">沒有資料</string>
-    <string name="error_content">網路連線異常</string>
-    <string name="network_content">網路連線失敗</string>
     <!--    -->
     <!--    -->
     <!--    -->

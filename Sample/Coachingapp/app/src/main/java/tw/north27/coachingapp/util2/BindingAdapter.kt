@@ -10,8 +10,8 @@ import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.yujie.prefmodule.dataStore.dataStoreUserPref
 import com.yujie.prefmodule.dataStore.getAccount
+import com.yujie.prefmodule.dataStore.userPref
 import jp.wasabeef.glide.transformations.BlurTransformation
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -60,7 +60,7 @@ fun ImageView.bindImgUrl2(
  * */
 @BindingAdapter("bind:chatRoomTitleText")
 fun TextView.bindChatRoomTitleText(chat: ChatInfo) {
-    val account = runBlocking { context.dataStoreUserPref.getAccount().first() }
+    val account = runBlocking { context.userPref.getAccount().first() }
     text = when (account) {
         chat.sender.account -> chat.recipient.name
         chat.recipient.account -> chat.sender.name
@@ -109,7 +109,7 @@ fun View.bindIsReadColor(isRead: Boolean) {
  * */
 @BindingAdapter("bind:chatListImageAvatarUrl")
 fun ImageView.bindChatListImageAvatarUrl(chat: ChatInfo) {
-    val account = runBlocking { context.dataStoreUserPref.getAccount().first() }
+    val account = runBlocking { context.userPref.getAccount().first() }
     val avatarPath = when (account) {
         chat.sender.account -> chat.recipient.avatarPath
         chat.recipient.account -> chat.sender.avatarPath
@@ -123,7 +123,7 @@ fun ImageView.bindChatListImageAvatarUrl(chat: ChatInfo) {
  * */
 @BindingAdapter("bind:chatListTitleText")
 fun TextView.bindChatListTitleText(chat: ChatInfo) {
-    val account = runBlocking { context.dataStoreUserPref.getAccount().first() }
+    val account = runBlocking { context.userPref.getAccount().first() }
 
     val name = when (account) {
         chat.sender.account -> chat.recipient.name

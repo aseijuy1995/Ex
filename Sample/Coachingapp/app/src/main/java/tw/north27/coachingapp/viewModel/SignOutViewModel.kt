@@ -4,17 +4,16 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.yujie.basemodule.BaseAndroidViewModel
-import com.yujie.prefmodule.dataStore.dataStoreUserPref
-import com.yujie.prefmodule.dataStore.getAccount
-import com.yujie.prefmodule.dataStore.getUuid
-import com.yujie.prefmodule.dataStore.setDelegate
+import com.yujie.prefmodule.dataStore.get
+import com.yujie.prefmodule.dataStore.setUserPref
+import com.yujie.prefmodule.dataStore.userPref
+import com.yujie.prefmodule.protobuf.UserPref
 import com.yujie.utilmodule.ViewState
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.ext2.asLiveData
-import tw.north27.coachingapp.model.result.SignIn
-import tw.north27.coachingapp.model.result.SignInState
+import tw.north27.coachingapp.model.SignIn
+import tw.north27.coachingapp.model.SignInState
 import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.repository.nofinish.IUserRepository
 
@@ -27,17 +26,18 @@ class SignOutViewModel(application: Application, val userRepo: IUserRepository) 
     fun signOut() {
         viewModelScope.launch(Dispatchers.IO) {
             _signOutState.postValue(ViewState.load())
-            val uuid = cxt.dataStoreUserPref.getUuid().first()
-            val account = cxt.dataStoreUserPref.getAccount().first()
+            val userPref = cxt.userPref.get()
+            val uuid = userPref.uuid
+            val account = userPref.account
             val results = userRepo.signOut(account, uuid)
             when (results) {
                 is Results.Successful -> {
                     val signIn = results.data
                     when (signIn.signInState) {
                         SignInState.SIGN_OUT -> {
-                            cxt.dataStoreUserPref.setDelegate(
+                            cxt.userPref.setUserPref(
                                 account = "",
-                                auth = "",
+                                auth = UserPref.Authority.UNKNOWN,
                                 accessToken = "",
                                 refreshToken = "",
                                 isFirst = false

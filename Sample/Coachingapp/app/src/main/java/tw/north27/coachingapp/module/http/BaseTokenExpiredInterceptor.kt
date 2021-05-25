@@ -1,9 +1,7 @@
 package tw.north27.coachingapp.module.http
 
 import android.content.Context
-import com.yujie.prefmodule.dataStore.dataStoreUserPref
-import com.yujie.prefmodule.dataStore.getRefreshToken
-import com.yujie.prefmodule.dataStore.setDelegate
+import com.yujie.prefmodule.dataStore.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
@@ -29,7 +27,7 @@ class BaseTokenExpiredInterceptor(
             //access token
             401 -> {
                 val service = RetrofitManager.get(BuildConfig.BASE_URL, OkHttpUtil(cxt, null, null).client).create<IApiService>()
-                val refreshToken = runBlocking { cxt.dataStoreUserPref.getRefreshToken().first() }
+                val refreshToken = runBlocking { cxt.userPref.getRefreshToken().first() }
 
 
                 launch {
@@ -38,7 +36,7 @@ class BaseTokenExpiredInterceptor(
                     when (results) {
                         is SimpleResults.Successful -> {
                             results.data.also {
-                                cxt.dataStoreUserPref.setDelegate(
+                                cxt.userPref.setUserPref(
                                     accessToken = it.accessToken,
                                     refreshToken = it.refreshToken
                                 )

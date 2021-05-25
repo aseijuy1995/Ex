@@ -17,8 +17,8 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.NotifyListAdapter
 import tw.north27.coachingapp.base.BaseDataBindingFragment
 import tw.north27.coachingapp.databinding.FragmentNoticeCenterBinding
-import tw.north27.coachingapp.ext2.startAlphaBreatheAnim
-import tw.north27.coachingapp.ext2.stop
+import tw.north27.coachingapp.ext.start
+import tw.north27.coachingapp.ext.stop
 import tw.north27.coachingapp.notify.BaseLoadStateAdapter
 import tw.north27.coachingapp.notify.NotifyViewModel
 
@@ -56,7 +56,7 @@ class NoticeCenterFragment : BaseDataBindingFragment<FragmentNoticeCenterBinding
         lifecycleScope.launch {
             adapter.loadStateFlow.collectLatest {
                 if (it.refresh is LoadState.Loading) {
-                    binding.itemNotifyShinner.shimmerFrameLayoutNotify.startAlphaBreatheAnim()
+                    binding.itemNotifyShinner.shimmerFrameLayoutNotify.start()
                     binding.itemEmpty.root.isVisible = false
                     binding.rvNotify.isVisible = false
                 }

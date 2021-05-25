@@ -6,6 +6,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jakewharton.rxbinding4.view.clicks
 import com.yujie.basemodule.viewBinding
+import com.yujie.prefmodule.protobuf.UserPref
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.ChatPagerAdapter
@@ -13,6 +14,7 @@ import tw.north27.coachingapp.adapter.ChatReadIndex
 import tw.north27.coachingapp.base.BaseFragment
 import tw.north27.coachingapp.chat.ChatViewModel
 import tw.north27.coachingapp.databinding.FragmentQuestionAreaBinding
+import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.model.result.*
 
 class QuestionAreaFragment : BaseFragment(R.layout.fragment_question_area) {
@@ -51,14 +53,14 @@ class QuestionAreaFragment : BaseFragment(R.layout.fragment_question_area) {
                     sender = UserInfo(
                         id = -1,
                         account = "north27",
-                        auth = Authority.STUDENT,
+                        auth = UserPref.Authority.STUDENT,
                         avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
                         name = "阿吉"
                     ),
                     recipient = UserInfo(
                         id = 5,
                         account = "lbj7871",
-                        auth = Authority.STUDENT,
+                        auth = UserPref.Authority.STUDENT,
                         avatarPath = "https://cf.shopee.tw/file/66f6a55ddd243f22b78c99847406b516",
                         name = "lbj7871"
                     ),

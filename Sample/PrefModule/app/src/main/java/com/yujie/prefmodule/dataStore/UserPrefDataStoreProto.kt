@@ -6,7 +6,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
 import androidx.datastore.preferences.protobuf.InvalidProtocolBufferException
-import com.yujie.prefModule.protobuf.UserPref
+import com.yujie.prefmodule.protobuf.UserPref
 import kotlinx.coroutines.flow.Flow
 import java.io.InputStream
 import java.io.OutputStream

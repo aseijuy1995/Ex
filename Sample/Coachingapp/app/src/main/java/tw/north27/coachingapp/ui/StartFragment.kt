@@ -20,8 +20,8 @@ import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentStartBinding
 import tw.north27.coachingapp.ext.updateApp
-import tw.north27.coachingapp.model.result.AppState
-import tw.north27.coachingapp.model.result.SignInState
+import tw.north27.coachingapp.model.AppState
+import tw.north27.coachingapp.model.SignInState
 import tw.north27.coachingapp.util.UpdateApp
 import tw.north27.coachingapp.viewModel.StartViewModel
 

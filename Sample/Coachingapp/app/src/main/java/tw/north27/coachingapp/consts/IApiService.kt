@@ -5,6 +5,9 @@ package tw.north27.coachingapp.consts
 
 import retrofit2.Response
 import retrofit2.http.*
+import tw.north27.coachingapp.model.AppConfig
+import tw.north27.coachingapp.model.SignIn
+import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.model.result.*
 
 interface IApiService {

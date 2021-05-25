@@ -1,7 +1,7 @@
 package tw.north27.coachingapp.repository.inter
 
-import tw.north27.coachingapp.model.result.AppConfig
-import tw.north27.coachingapp.model.result.UserInfo
+import tw.north27.coachingapp.model.AppConfig
+import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.module.http.Results
 
 interface IPublicRepository {

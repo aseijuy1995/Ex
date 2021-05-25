@@ -8,7 +8,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentMaintainDialogBinding
 import tw.north27.coachingapp.ext2.clicksObserve
-import tw.north27.coachingapp.model.result.AppState
+import tw.north27.coachingapp.model.AppState
 import tw.north27.coachingapp.viewModel.StartViewModel
 
 class MaintainDialogFragment : BaseDialogFragment<FragmentMaintainDialogBinding>(R.layout.fragment_maintain_dialog) {

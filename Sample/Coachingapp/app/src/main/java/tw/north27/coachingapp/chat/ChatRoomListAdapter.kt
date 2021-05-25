@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
 import com.bumptech.glide.Glide
 import com.jakewharton.rxrelay3.PublishRelay
-import com.yujie.prefmodule.dataStore.dataStoreUserPref
 import com.yujie.prefmodule.dataStore.getAccount
+import com.yujie.prefmodule.dataStore.userPref
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -50,7 +50,7 @@ class ChatRoomListAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        val account = runBlocking { cxt.dataStoreUserPref.getAccount().first() }
+        val account = runBlocking { cxt.userPref.getAccount().first() }
         val chatAccount = getItem(position).sender.account
         return if (account == chatAccount)
             Sender.OWNER.value

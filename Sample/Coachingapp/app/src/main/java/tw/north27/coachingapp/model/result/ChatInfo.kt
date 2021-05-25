@@ -2,6 +2,7 @@ package tw.north27.coachingapp.model.result
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
+import tw.north27.coachingapp.model.UserInfo
 
 @Parcelize
 data class ChatInfo(

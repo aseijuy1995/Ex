@@ -3,10 +3,7 @@ package tw.north27.coachingapp.chat
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.yujie.prefmodule.dataStore.dataStore
-import com.yujie.prefmodule.dataStore.dataStoreUserPref
-import com.yujie.prefmodule.dataStore.getAccount
-import com.yujie.prefmodule.dataStore.getString
+import com.yujie.prefmodule.dataStore.*
 import com.yujie.pushmodule.Notify
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.first
@@ -30,7 +27,7 @@ class ChatProcessWorkRequest(val cxt: Context, params: WorkerParameters) : Corou
         try {
             val appViewState = cxt.dataStore.getString(APP_VIEW_STATE).first()
 
-            val account = cxt.dataStoreUserPref.getAccount().first()
+            val account = cxt.userPref.getAccount().first()
 
             chatRepo.message.subscribe {
                 //判定是否為自己發出訊息

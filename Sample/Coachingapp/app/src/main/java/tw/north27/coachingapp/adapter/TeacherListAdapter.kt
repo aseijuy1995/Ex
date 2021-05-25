@@ -1,12 +1,14 @@
 package tw.north27.coachingapp.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.jakewharton.rxrelay3.PublishRelay
 import tw.north27.coachingapp.databinding.ItemTeacherBinding
-import tw.north27.coachingapp.model.result.UserInfo
+import tw.north27.coachingapp.model.UserInfo
 
 class TeacherListAdapter : ListAdapter<UserInfo, TeacherListAdapter.VH>(object : DiffUtil.ItemCallback<UserInfo>() {
     override fun areItemsTheSame(oldItem: UserInfo, newItem: UserInfo): Boolean {
@@ -19,11 +21,12 @@ class TeacherListAdapter : ListAdapter<UserInfo, TeacherListAdapter.VH>(object :
 }
 ) {
 
-//    val itemClickRelay = PublishRelay.create<Pair<View, ChatInfo>>()
+    val itemClickRelay = PublishRelay.create<Pair<View, UserInfo>>()
 
     inner class VH(val binding: ItemTeacherBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(userInfo: UserInfo) = binding.apply {
             this.userInfo = userInfo
+            itemView.setOnClickListener { itemClickRelay.accept(it to userInfo) }
             executePendingBindings()
         }
     }

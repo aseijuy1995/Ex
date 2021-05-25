@@ -1,6 +1,7 @@
-package tw.north27.coachingapp.model.result
+package tw.north27.coachingapp.model
 
 import android.os.Parcelable
+import com.yujie.prefmodule.protobuf.UserPref
 import kotlinx.parcelize.Parcelize
 
 /**
@@ -61,7 +62,7 @@ data class SignOutInfo(
 data class UserInfo(
     val id: Int,
     val account: String,
-    val auth: Authority,
+    val auth: UserPref.Authority,
     val avatarPath: String? = null,
     val name: String,
     val email: String? = null,
@@ -71,14 +72,6 @@ data class UserInfo(
 
 
     ) : Parcelable
-
-/**
- * STUDENT >> 學生
- * TEACHER >> 老師
- * */
-enum class Authority {
-    STUDENT, TEACHER
-}
 
 @Parcelize
 data class StudentInfo(

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.yujie.basemodule.BaseAndroidViewModel
 import com.yujie.prefmodule.dataStore.*
+import com.yujie.prefmodule.protobuf.UserPref
 import com.yujie.pushmodule.fcm.FirebaseMsg
 import com.yujie.utilmodule.ViewState
 import kotlinx.coroutines.Dispatchers
@@ -12,9 +13,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import tw.north27.coachingapp.ext2.asLiveData
-import tw.north27.coachingapp.model.result.AppConfig
-import tw.north27.coachingapp.model.result.SignIn
-import tw.north27.coachingapp.model.result.SignInState
+import tw.north27.coachingapp.model.AppConfig
+import tw.north27.coachingapp.model.SignIn
+import tw.north27.coachingapp.model.SignInState
 import tw.north27.coachingapp.module.http.ResponseResults
 import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.repository.inter.IPublicRepository
@@ -34,13 +35,13 @@ class StartViewModel(
     fun getAppConfig() {
         viewModelScope.launch(Dispatchers.IO) {
             _appConfigState.postValue(ViewState.load())
-            cxt.dataStoreUserPref.setFcmToken(FirebaseMsg.fcmToken!!)
-            if (cxt.dataStoreUserPref.getUuid().first().isEmpty()) {
+            cxt.userPref.setFcmToken(FirebaseMsg.fcmToken!!)
+            if (cxt.userPref.getUuid().first().isEmpty()) {
                 val uuid = UUID.randomUUID().toString()
                 Timber.i("UUID = $uuid")
-                cxt.dataStoreUserPref.setUuid(uuid)
+                cxt.userPref.setUuid(uuid)
             }
-            val uuid = cxt.dataStoreUserPref.getUuid().first()
+            val uuid = cxt.userPref.getUuid().first()
             val results = publicRepo.getAppConfig(uuid, FirebaseMsg.fcmToken!!)
             when (results) {
                 is Results.Successful -> {
@@ -63,10 +64,11 @@ class StartViewModel(
     fun checkSignIn() {
         viewModelScope.launch(Dispatchers.IO) {
             _signInState.postValue(ViewState.load())
-            val uuid = cxt.dataStoreUserPref.getUuid().first()
-            val account = cxt.dataStoreUserPref.getAccount().first()
-            val accessToken = cxt.dataStoreUserPref.getAccessToken().first()
-            val fcmToken = cxt.dataStoreUserPref.getFcmToken().first()
+            val userPref = cxt.userPref.get()
+            val uuid = userPref.uuid
+            val account = userPref.account
+            val accessToken = userPref.accessToken
+            val fcmToken = userPref.fcmToken
 
             if (account.isEmpty() || accessToken.isEmpty()) {
                 _signInState.postValue(ViewState.empty())
@@ -76,7 +78,7 @@ class StartViewModel(
                     is ResponseResults.Successful -> {
                         val signIn = results.data
                         val accountNew: String
-                        val authNew: String
+                        val authNew: UserPref.Authority
                         val accessTokenNew: String
                         val refreshTokenNew: String
                         val fcmTokenNew: String
@@ -86,7 +88,7 @@ class StartViewModel(
                                 val signInInfo = signIn.signInInfo!!
                                 val userInfo = signInInfo.userInfo!!
                                 accountNew = userInfo.account
-                                authNew = userInfo.auth.toString()
+                                authNew = userInfo.auth
                                 accessTokenNew = signInInfo.accessToken!!
                                 refreshTokenNew = signInInfo.refreshToken!!
                                 fcmTokenNew = signInInfo.fcmToken!!
@@ -94,13 +96,13 @@ class StartViewModel(
                             }
                             SignInState.SIGN_OUT -> {
                                 accountNew = ""
-                                authNew = ""
+                                authNew = UserPref.Authority.UNKNOWN
                                 accessTokenNew = ""
                                 refreshTokenNew = ""
                                 isFirstNew = false
                             }
                         }
-                        cxt.dataStoreUserPref.setDelegate(
+                        cxt.userPref.setUserPref(
                             account = accountNew,
                             auth = authNew,
                             accessToken = accessTokenNew,

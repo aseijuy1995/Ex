@@ -8,13 +8,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.yujie.basemodule.BaseAppCompatActivity
-import com.yujie.prefmodule.dataStore.dataStoreUserPref
 import com.yujie.prefmodule.dataStore.getAuth
+import com.yujie.prefmodule.dataStore.userPref
+import com.yujie.prefmodule.protobuf.UserPref
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ActivityLaunch2Binding
-import tw.north27.coachingapp.model.result.Authority
 
 
 class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLaunch2Binding::inflate) {
@@ -40,35 +40,35 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
         }
 
         lifecycleScope.launch {
-            val auth = dataStoreUserPref.getAuth().first()
+            val auth = userPref.getAuth().first()
             binding.bnvLaunch2.menu.findItem(R.id.fragment_main_home).isVisible =
                 when (auth) {
-                    Authority.STUDENT.toString() -> true
-                    Authority.TEACHER.toString() -> false
+                    UserPref.Authority.STUDENT -> true
+                    UserPref.Authority.TEACHER -> false
                     else -> false
                 }
             binding.bnvLaunch2.menu.findItem(R.id.fragment_question_area).isVisible =
                 when (auth) {
-                    Authority.STUDENT.toString() -> true
-                    Authority.TEACHER.toString() -> true
+                    UserPref.Authority.STUDENT -> true
+                    UserPref.Authority.TEACHER -> true
                     else -> false
                 }
             binding.bnvLaunch2.menu.findItem(R.id.fragment_study_room).isVisible =
                 when (auth) {
-                    Authority.STUDENT.toString() -> false
-                    Authority.TEACHER.toString() -> false
+                    UserPref.Authority.STUDENT -> false
+                    UserPref.Authority.TEACHER -> false
                     else -> false
                 }
             binding.bnvLaunch2.menu.findItem(R.id.fragment_notice_center).isVisible =
                 when (auth) {
-                    Authority.STUDENT.toString() -> true
-                    Authority.TEACHER.toString() -> true
+                    UserPref.Authority.STUDENT -> true
+                    UserPref.Authority.TEACHER -> true
                     else -> false
                 }
             binding.bnvLaunch2.menu.findItem(R.id.fragment_personal_center).isVisible =
                 when (auth) {
-                    Authority.STUDENT.toString() -> true
-                    Authority.TEACHER.toString() -> true
+                    UserPref.Authority.STUDENT -> true
+                    UserPref.Authority.TEACHER -> true
                     else -> false
                 }
         }

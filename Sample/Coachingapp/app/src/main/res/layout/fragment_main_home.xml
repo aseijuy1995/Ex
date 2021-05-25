@@ -12,7 +12,7 @@
         android:layout_gravity="center" />
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/smart_refresh_layout_notify"
+        android:id="@+id/srl_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/green_00ba9b"
@@ -35,25 +35,26 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_view"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_margin="5dp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tb_main_home"
                 app:spanCount="2" />
 
             <include
                 android:id="@+id/item_empty"
-                layout="@layout/item_empty"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center" />
+                layout="@layout/item_empty" />
 
             <include
-                android:id="@+id/item_notify_shinner"
+                android:id="@+id/item_error"
+                layout="@layout/item_error" />
+
+            <include
+                android:id="@+id/item_network"
+                layout="@layout/item_network" />
+
+            <include
+                android:id="@+id/item_shinner"
                 layout="@layout/fragment_main_home_shinner"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

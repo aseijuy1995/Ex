@@ -8,7 +8,7 @@ import com.yujie.utilmodule.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.ext2.asLiveData
-import tw.north27.coachingapp.model.result.UserInfo
+import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.module.http.Results
 import tw.north27.coachingapp.repository.inter.IPublicRepository
 

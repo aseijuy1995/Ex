@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.model.result
+package tw.north27.coachingapp.model
 
 /**
  * appState >> App狀態

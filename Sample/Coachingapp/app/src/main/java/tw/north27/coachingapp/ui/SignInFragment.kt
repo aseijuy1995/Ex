@@ -19,7 +19,7 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentSignInBinding
 import tw.north27.coachingapp.ext2.clicksObserve
 import tw.north27.coachingapp.ext2.hideKeyBoard
-import tw.north27.coachingapp.model.result.SignInState
+import tw.north27.coachingapp.model.SignInState
 import tw.north27.coachingapp.ui2.fragment.global.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.SignInViewModel
 

@@ -4,18 +4,16 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.yujie.basemodule.BaseAndroidViewModel
-import com.yujie.prefmodule.dataStore.dataStoreUserPref
-import com.yujie.prefmodule.dataStore.getFcmToken
-import com.yujie.prefmodule.dataStore.getUuid
-import com.yujie.prefmodule.dataStore.setDelegate
+import com.yujie.prefmodule.dataStore.*
+import com.yujie.prefmodule.protobuf.UserPref
 import com.yujie.utilmodule.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.ext2.asLiveData
-import tw.north27.coachingapp.model.result.SignIn
-import tw.north27.coachingapp.model.result.SignInState
+import tw.north27.coachingapp.model.SignIn
+import tw.north27.coachingapp.model.SignInState
 import tw.north27.coachingapp.module.http.ResponseResults
 import tw.north27.coachingapp.repository.nofinish.IUserRepository
 
@@ -35,14 +33,15 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
             } else if (password.isNullOrEmpty()) {
                 _signInState.postValue(ViewState.empty(cxt.getString(R.string.enter_password)))
             } else {
-                val uuid = cxt.dataStoreUserPref.getUuid().first()
-                val fcmToken = cxt.dataStoreUserPref.getFcmToken().first()
+                val userPref = cxt.userPref.get()
+                val uuid = userPref.uuid
+                val fcmToken = userPref.fcmToken
                 val results = userRepo.signIn(uuid, account, password, fcmToken)
                 when (results) {
                     is ResponseResults.Successful -> {
                         val signIn = results.data
                         val accountNew: String
-                        val authNew: String
+                        val authNew: UserPref.Authority
                         val accessTokenNew: String
                         val refreshTokenNew: String
                         val fcmTokenNew: String
@@ -52,7 +51,7 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
                                 val signInInfo = signIn.signInInfo!!
                                 val userInfo = signInInfo.userInfo!!
                                 accountNew = userInfo.account
-                                authNew = userInfo.auth.toString()
+                                authNew = userInfo.auth
                                 accessTokenNew = signInInfo.accessToken!!
                                 refreshTokenNew = signInInfo.refreshToken!!
                                 fcmTokenNew = signInInfo.fcmToken!!
@@ -60,13 +59,13 @@ class SignInViewModel(application: Application, val userRepo: IUserRepository) :
                             }
                             SignInState.SIGN_OUT -> {
                                 accountNew = ""
-                                authNew = ""
+                                authNew = UserPref.Authority.UNKNOWN
                                 accessTokenNew = ""
                                 refreshTokenNew = ""
                                 isFirstNew = false
                             }
                         }
-                        cxt.dataStoreUserPref.setDelegate(
+                        cxt.userPref.setUserPref(
                             account = accountNew,
                             auth = authNew,
                             accessToken = accessTokenNew,

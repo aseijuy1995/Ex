@@ -1,6 +1,6 @@
 package tw.north27.coachingapp.repository.nofinish
 
-import tw.north27.coachingapp.model.result.SignIn
+import tw.north27.coachingapp.model.SignIn
 import tw.north27.coachingapp.module.http.ResponseResults
 import tw.north27.coachingapp.module.http.Results
 
