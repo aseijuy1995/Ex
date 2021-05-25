@@ -35,7 +35,8 @@
     <string name="personal_center">個人中心</string>
     <!--  SignOutFragment  -->
     <string name="sign_out">登出</string>
-    <!--    -->
+    <!--  MainHomeFragment  -->
+    <string name="filter">篩選</string>
 
     <!--    -->
     <!--    -->
