@@ -7,27 +7,26 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.Grade
+import tw.north27.coachingapp.model.Subject
 
+class SubjectAdapter : BaseAdapter() {
+    private var subjectList: List<Subject>? = null
 
-class GradeArrayAdapter : BaseAdapter() {
-    var gradeList: List<Grade>? = null
-
-    fun submit(gradeList: List<Grade>) {
-        this.gradeList = gradeList
+    fun submitData(subjectList: List<Subject>? = null) {
+        this.subjectList = subjectList
         notifyDataSetChanged()
     }
 
     override fun getCount(): Int {
-        return gradeList?.size ?: 0
+        return subjectList?.size ?: 0
     }
 
-    override fun getItem(position: Int): Grade? {
-        return gradeList?.get(position)
+    override fun getItem(position: Int): Subject? {
+        return subjectList?.get(position)
     }
 
     override fun getItemId(position: Int): Long {
-        return gradeList?.get(position)?.id ?: 0
+        return subjectList?.get(position)?.id ?: 0
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -41,8 +40,8 @@ class GradeArrayAdapter : BaseAdapter() {
         } else {
             holder = view.tag as VH
         }
-        val grade = getItem(position)
-        holder.tvText.text = grade?.text
+        val subject = getItem(position)
+        holder.tvText.text = subject?.text
         return view!!
     }
 

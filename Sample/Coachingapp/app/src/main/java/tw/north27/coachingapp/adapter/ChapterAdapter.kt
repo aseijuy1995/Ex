@@ -7,27 +7,26 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.Subject
+import tw.north27.coachingapp.model.Chapter
 
+class ChapterAdapter : BaseAdapter() {
+    private var chapterList: List<Chapter>? = null
 
-class UnitAdapter : BaseAdapter() {
-    var subjectList: List<Subject>? = null
-
-    fun submit(gradeList: List<Subject>) {
-        this.subjectList = gradeList
+    fun submitData(chapterList: List<Chapter>? = null) {
+        this.chapterList = chapterList
         notifyDataSetChanged()
     }
 
     override fun getCount(): Int {
-        return subjectList?.size ?: 0
+        return chapterList?.size ?: 0
     }
 
-    override fun getItem(position: Int): Subject? {
-        return subjectList?.get(position)
+    override fun getItem(position: Int): Chapter? {
+        return chapterList?.get(position)
     }
 
     override fun getItemId(position: Int): Long {
-        return subjectList?.get(position)?.id ?: 0
+        return chapterList?.get(position)?.id ?: 0
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -41,8 +40,8 @@ class UnitAdapter : BaseAdapter() {
         } else {
             holder = view.tag as VH
         }
-        val subject = getItem(position)
-        holder.tvText.text = subject?.text
+        val chapter = getItem(position)
+        holder.tvText.text = chapter?.text
         return view!!
     }
 

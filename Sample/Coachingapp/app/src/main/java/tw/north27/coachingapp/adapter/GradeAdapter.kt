@@ -9,11 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.Grade
 
+class GradeAdapter : BaseAdapter() {
+    private var gradeList: List<Grade>? = null
 
-class GradeArrayAdapter : BaseAdapter() {
-    var gradeList: List<Grade>? = null
-
-    fun submit(gradeList: List<Grade>) {
+    fun submitData(gradeList: List<Grade>? = null) {
         this.gradeList = gradeList
         notifyDataSetChanged()
     }
