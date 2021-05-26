@@ -84,7 +84,7 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                         SignInState.SIGN_IN -> {
                             lifecycleScope.launch {
                                 Toast.makeText(cxt, signIn.signInInfo?.msg, Toast.LENGTH_SHORT).show()
-                                delay(1500)
+                                delay(500)
                                 startActivity(Intent(act, Launch2Activity::class.java))
                                 act.finish()
                             }
@@ -92,7 +92,7 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                         SignInState.SIGN_OUT -> {
                             lifecycleScope.launch {
                                 Toast.makeText(cxt, signIn.signOutInfo?.msg, Toast.LENGTH_SHORT).show()
-                                delay(1500)
+                                delay(500)
                                 findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())
                             }
                         }

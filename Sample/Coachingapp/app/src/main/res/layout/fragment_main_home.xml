@@ -7,76 +7,91 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.yujie.utilmodule.view.DrawerContent
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/gray_eeeeee"
+        app:layoutDescription="@xml/item_drawer_layout_scene">
 
-        <include
-            android:id="@+id/tb_main_home"
-            layout="@layout/toolbar_main_home"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_height="match_parent">
 
-        <com.scwang.smart.refresh.layout.SmartRefreshLayout
-            android:id="@+id/srl_view"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@color/green_00ba9b"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tb_main_home">
-
-            <pl.droidsonroids.gif.GifImageView
+            <include
+                android:id="@+id/tb_main_home"
+                layout="@layout/toolbar_main_home"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_margin="40dp"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/ic_refresh_gif" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/gray_eeeeee">
+            <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                android:id="@+id/srl_view"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/green_00ba9b"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tb_main_home">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_view"
+                <pl.droidsonroids.gif.GifImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_margin="40dp"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/ic_refresh_gif" />
+
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
-                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                    app:spanCount="2" />
+                    android:background="@color/gray_eeeeee">
 
-                <include
-                    android:id="@+id/item_empty"
-                    layout="@layout/item_empty" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="5dp"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:spanCount="2" />
 
-                <include
-                    android:id="@+id/item_error"
-                    layout="@layout/item_error" />
+                    <include
+                        android:id="@+id/item_empty"
+                        layout="@layout/item_empty" />
 
-                <include
-                    android:id="@+id/item_network"
-                    layout="@layout/item_network" />
+                    <include
+                        android:id="@+id/item_error"
+                        layout="@layout/item_error" />
 
-                <include
-                    android:id="@+id/item_shinner"
-                    layout="@layout/fragment_main_home_shinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    <include
+                        android:id="@+id/item_network"
+                        layout="@layout/item_network" />
 
-            </FrameLayout>
+                    <include
+                        android:id="@+id/item_shinner"
+                        layout="@layout/fragment_main_home_shinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
-        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+                </FrameLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.yujie.utilmodule.view.DrawerContent>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nv_view"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:fitsSystemWindows="true" />
+        android:fitsSystemWindows="true">
+
+        <include
+            android:id="@+id/item_main_home_drawer_layout"
+            layout="@layout/item_main_home_drawer_layout" />
+
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

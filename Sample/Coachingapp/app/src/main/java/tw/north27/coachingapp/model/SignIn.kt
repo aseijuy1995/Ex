@@ -97,12 +97,6 @@ data class TeacherInfo(
  * NATURAL >> 自然
  * SOCIETY >> 社會
  * */
-enum class Subject {
-    CHINESE, ENGLISH, MATH, NATURAL, SOCIETY
-}
-
-//@Parcelize
-//data class CommentInfo(
-//    val id: Int,
-//    val subject: Subject
-//) : Parcelable
+//enum class Subject {
+//    CHINESE, ENGLISH, MATH, NATURAL, SOCIETY
+//}

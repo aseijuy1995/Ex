@@ -53,7 +53,7 @@ class ApiService(val cxt: Context) : IApiService {
 
     //
     private val signInSuccessMsgTest = "即將登入..."
-    private val teacherInfoList = listOf<UserInfo>(
+    private val teacherInfoListTest = listOf<UserInfo>(
         UserInfo(
             id = 1,
             account = "chienChien",
@@ -71,7 +71,7 @@ class ApiService(val cxt: Context) : IApiService {
                         "\uD83D\uDC9B 可客製化，繁/簡/注音/拼音 \uD83C\uDD97\n" +
                         "\uD83D\uDC9B 認真看待每一堂課，希望學生都在歡樂中有所收穫",
                 score = 5.0,
-                subjectList = listOf(Subject.CHINESE)
+                subjectList = listOf(Subject(id = 1, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "國文"))
             )
         ),
         UserInfo(
@@ -89,7 +89,7 @@ class ApiService(val cxt: Context) : IApiService {
                         "\uD83C\uDF89 獨特的教學法，讓孩子愛上中文學習！點擊【瀏覽全部自我介紹】探索更多\uD83D\uDC47\uD83C\uDFFB\n" +
                         "\uD83C\uDF10 想要更暸解老師，也可以到老師的部落格去看看 kuhsiang.com",
                 score = 4.9,
-                subjectList = listOf(Subject.CHINESE)
+                subjectList = listOf(Subject(id = 1, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "國文"))
             )
         ),
         UserInfo(
@@ -108,7 +108,7 @@ class ApiService(val cxt: Context) : IApiService {
                         "\uD83D\uDC8E老師總是全力促進學生的思考、口說\n" +
                         "\uD83D\uDC8E超有趣的小遊戲，提高孩子的上課樂趣",
                 score = 4.9,
-                subjectList = listOf(Subject.CHINESE, Subject.SOCIETY)
+                subjectList = listOf(Subject(id = 1, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "國文"), Subject(id = 5, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "社會"))
             )
         ),
         UserInfo(
@@ -125,7 +125,7 @@ class ApiService(val cxt: Context) : IApiService {
                         "\uD83D\uDD06因應台灣停課，有課業學習需求之台灣學生/家長可以私訊索取優惠價格\uD83D\uDD06\n" +
                         "\uD83D\uDD06如果沒有開放您想選擇的時段，歡迎隨時私訊詢問，Andrea會盡力滿足您需求\uD83D\uDD06\n",
                 score = 4.9,
-                subjectList = listOf(Subject.CHINESE)
+                subjectList = listOf(Subject(id = 1, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "國文"))
             )
         ),
         UserInfo(
@@ -155,7 +155,7 @@ class ApiService(val cxt: Context) : IApiService {
                         "\uD83C\uDF88時間就是金錢!想把英語學好就快點來吧！\n" +
                         "\uD83C\uDF88Instagram: YOYO_BUSINESS_ENGLISH",
                 score = 5.0,
-                subjectList = listOf(Subject.ENGLISH)
+                subjectList = listOf(Subject(id = 2, gradeIdList = listOf(7, 8, 9), text = "英語"))
             )
         ),
         UserInfo(
@@ -175,7 +175,7 @@ class ApiService(val cxt: Context) : IApiService {
                         "\uD83E\uDDF8 IG: onemin.english 發起人 | 會教的老師只要一分鐘即能解釋易混淆字\n" +
                         "\uD83C\uDDFA\uD83C\uDDF8 曾旅居美國 | 標準的美式口音",
                 score = 5.0,
-                subjectList = listOf(Subject.ENGLISH)
+                subjectList = listOf(Subject(id = 2, gradeIdList = listOf(7, 8, 9), text = "英語"))
             )
         ),
         UserInfo(
@@ -197,7 +197,7 @@ class ApiService(val cxt: Context) : IApiService {
                         "⭐保證進度。\n" +
                         "⭐只有最好的英語課程才有6年以上。\n",
                 score = 4.9,
-                subjectList = listOf(Subject.ENGLISH)
+                subjectList = listOf(Subject(id = 2, gradeIdList = listOf(7, 8, 9), text = "英語"))
             )
         ),
         UserInfo(
@@ -222,7 +222,7 @@ class ApiService(val cxt: Context) : IApiService {
                         "- 找到學生弱點，擊敗弱點化為優勢！\n" +
                         "- 規劃學習目標以及計劃，有效提升數學能力",
                 score = 5.0,
-                subjectList = listOf(Subject.MATH)
+                subjectList = listOf(Subject(id = 3, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "數學"))
             )
         ),
         UserInfo(
@@ -241,7 +241,7 @@ class ApiService(val cxt: Context) : IApiService {
                         "4、互動式課程，幫助您在當下就學習，減少課後負擔。\n" +
                         "5、透過客製化安排，幫助您順利在會考拿下理想分數。",
                 score = 5.0,
-                subjectList = listOf(Subject.NATURAL)
+                subjectList = listOf(Subject(id = 4, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "自然"))
             )
         ),
         UserInfo(
@@ -259,7 +259,7 @@ class ApiService(val cxt: Context) : IApiService {
                         "\uD83D\uDC22讓您孩子快樂學習並輕鬆擁有好成績\n" +
                         "\uD83D\uDC3C免費索取【鯰魚生物秘笈】網址: cclfun.com",
                 score = 5.0,
-                subjectList = listOf(Subject.NATURAL)
+                subjectList = listOf(Subject(id = 4, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "自然"))
             )
         ),
         UserInfo(
@@ -277,7 +277,7 @@ class ApiService(val cxt: Context) : IApiService {
                         "\n" +
                         "期待讓你從對社會感興趣到熱愛社會，利用肢體的實際體驗，了解每種地形分類，不同的氣候類型，讓自己用繪畫來彩色出屬於你自己的社會，不需要死背，活絡思緒讓地理自動了解你，只要你想要學習，我能把一切都交給你！",
                 score = 4.5,
-                subjectList = listOf(Subject.SOCIETY)
+                subjectList = listOf(Subject(id = 5, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "社會"))
             )
         ),
         UserInfo(
@@ -301,7 +301,7 @@ class ApiService(val cxt: Context) : IApiService {
                         "\uD83D\uDD06地理才不像社會科！靠理解、想像得高分不難\n" +
                         "\uD83D\uDD06公民是各種社會現況和觀察，讓法律系的我來幫你/妳！",
                 score = 5.0,
-                subjectList = listOf(Subject.SOCIETY)
+                subjectList = listOf(Subject(id = 5, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "社會"))
             )
         ),
         UserInfo(
@@ -325,7 +325,7 @@ class ApiService(val cxt: Context) : IApiService {
                         "＊培養學生有效率的讀書技巧及方式\n" +
                         "＊除了教學亦擅長鼓勵激勵學生\n",
                 score = 5.0,
-                subjectList = listOf(Subject.SOCIETY)
+                subjectList = listOf(Subject(id = 5, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "社會"))
             )
         ),
         UserInfo(
@@ -342,9 +342,112 @@ class ApiService(val cxt: Context) : IApiService {
                         "＝＝＝＝＝＝＝＝＝＝＝＝＝\n" +
                         "女孩上課不尷尬，不必擔心安全問題，輕鬆放心提升成績",
                 score = 5.0,
-                subjectList = listOf(Subject.SOCIETY)
+                subjectList = listOf(Subject(id = 5, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "社會"))
             )
         )
+    )
+    private val gradeListTest = listOf<Grade>(
+        Grade(id = 0, text = "預設"),
+        Grade(id = 1, text = "一年級"),
+        Grade(id = 2, text = "二年級"),
+        Grade(id = 3, text = "三年級"),
+        Grade(id = 4, text = "四年級"),
+        Grade(id = 5, text = "五年級"),
+        Grade(id = 6, text = "六年級"),
+        Grade(id = 7, text = "七年級"),
+        Grade(id = 8, text = "八年級"),
+        Grade(id = 9, text = "九年級"),
+    )
+    private val subjectListTest = listOf<Subject>(
+        Subject(id = 0, gradeIdList = listOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9), text = "預設"),
+        Subject(id = 1, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "國文"),
+        Subject(id = 2, gradeIdList = listOf(7, 8, 9), text = "英語"),
+        Subject(id = 3, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "數學"),
+        Subject(id = 4, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "自然"),
+        Subject(id = 5, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "社會"),
+        Subject(id = 6, gradeIdList = listOf(7, 8, 9), text = "科技"),
+    )
+    private val chapterListTest = listOf<Chapter>(
+        Chapter(id = 0, gradeId = 0, subjectId = 0, text = "預設"),
+        //
+        Chapter(id = 1, gradeId = 1, subjectId = 1, text = "手拉手"),
+        Chapter(id = 2, gradeId = 1, subjectId = 1, text = "排一排"),
+        Chapter(id = 3, gradeId = 1, subjectId = 1, text = "來數數"),
+        Chapter(id = 4, gradeId = 1, subjectId = 1, text = "找一找"),
+        Chapter(id = 5, gradeId = 1, subjectId = 1, text = "雨來了"),
+        Chapter(id = 6, gradeId = 1, subjectId = 1, text = "山坡上的學校"),
+        Chapter(id = 7, gradeId = 1, subjectId = 1, text = "值日生"),
+        Chapter(id = 8, gradeId = 1, subjectId = 1, text = "運動會"),
+        Chapter(id = 9, gradeId = 1, subjectId = 1, text = "做卡片"),
+        Chapter(id = 10, gradeId = 1, subjectId = 1, text = "紙飛機"),
+        //
+        Chapter(id = 11, gradeId = 2, subjectId = 1, text = "踩影子"),
+        Chapter(id = 12, gradeId = 2, subjectId = 1, text = "再玩一次"),
+        Chapter(id = 13, gradeId = 2, subjectId = 1, text = "謝謝好朋友"),
+        Chapter(id = 14, gradeId = 2, subjectId = 1, text = "水草下的呱呱"),
+        Chapter(id = 15, gradeId = 2, subjectId = 1, text = "沙灘上的畫"),
+        Chapter(id = 16, gradeId = 2, subjectId = 1, text = "草叢裡的星星"),
+        Chapter(id = 17, gradeId = 2, subjectId = 1, text = "神奇的竹筒飯"),
+        Chapter(id = 18, gradeId = 2, subjectId = 1, text = "不一樣的故事"),
+        Chapter(id = 19, gradeId = 2, subjectId = 1, text = "美味的一堂課"),
+        Chapter(id = 20, gradeId = 2, subjectId = 1, text = "加加減減"),
+        Chapter(id = 21, gradeId = 2, subjectId = 1, text = "門、鬥大仙"),
+        Chapter(id = 22, gradeId = 2, subjectId = 1, text = "詠鵝"),
+        //
+        Chapter(id = 23, gradeId = 3, subjectId = 1, text = "時間是什麼"),
+        Chapter(id = 24, gradeId = 3, subjectId = 1, text = "神奇鐘錶店"),
+        Chapter(id = 25, gradeId = 3, subjectId = 1, text = "明天再寫"),
+        Chapter(id = 26, gradeId = 3, subjectId = 1, text = "提早五分鐘"),
+        Chapter(id = 27, gradeId = 3, subjectId = 1, text = "不賣馬的人"),
+        Chapter(id = 28, gradeId = 3, subjectId = 1, text = "老榕樹"),
+        Chapter(id = 29, gradeId = 3, subjectId = 1, text = "王子的耳朵"),
+        Chapter(id = 30, gradeId = 3, subjectId = 1, text = "世界上的海洋"),
+        Chapter(id = 31, gradeId = 3, subjectId = 1, text = "大自然的雕刻家"),
+        Chapter(id = 32, gradeId = 3, subjectId = 1, text = "月世界"),
+        Chapter(id = 33, gradeId = 3, subjectId = 1, text = "看海豚跳舞"),
+        Chapter(id = 34, gradeId = 3, subjectId = 1, text = "客家擂茶"),
+        Chapter(id = 35, gradeId = 3, subjectId = 1, text = "秋千上的婚禮"),
+        Chapter(id = 36, gradeId = 3, subjectId = 1, text = "小鎮風情"),
+        //
+        Chapter(id = 37, gradeId = 4, subjectId = 1, text = "水中奇景"),
+        Chapter(id = 38, gradeId = 4, subjectId = 1, text = "大海的旋律"),
+        Chapter(id = 39, gradeId = 4, subjectId = 1, text = "海底世界"),
+        Chapter(id = 40, gradeId = 4, subjectId = 1, text = "藍色的海洋大軍"),
+        Chapter(id = 41, gradeId = 4, subjectId = 1, text = "老榕樹下讀報紙"),
+        Chapter(id = 42, gradeId = 4, subjectId = 1, text = "特別的滋味"),
+        Chapter(id = 43, gradeId = 4, subjectId = 1, text = "收藏秋天"),
+        Chapter(id = 44, gradeId = 4, subjectId = 1, text = "靜靜的淡水河"),
+        Chapter(id = 45, gradeId = 4, subjectId = 1, text = "鹿谷美地，凍頂茶香"),
+        Chapter(id = 46, gradeId = 4, subjectId = 1, text = "落山風"),
+        Chapter(id = 47, gradeId = 4, subjectId = 1, text = "澎湖，我來了"),
+        Chapter(id = 48, gradeId = 4, subjectId = 1, text = "圓夢之旅"),
+        Chapter(id = 49, gradeId = 4, subjectId = 1, text = "松鼠先生的麵包"),
+        Chapter(id = 50, gradeId = 4, subjectId = 1, text = "身心手腦四合一"),
+        //英文
+        Chapter(id = 51, gradeId = 7, subjectId = 2, text = "Who's That Handsome Boy?"),
+        Chapter(id = 52, gradeId = 7, subjectId = 2, text = "Where Is the Bedroom?"),
+        Chapter(id = 53, gradeId = 7, subjectId = 2, text = "Look at the Sign"),
+        Chapter(id = 54, gradeId = 7, subjectId = 2, text = "What Time Is the Concert?"),
+        Chapter(id = 55, gradeId = 7, subjectId = 2, text = "What's the Date?"),
+        Chapter(id = 56, gradeId = 7, subjectId = 2, text = "There Are Some Elephants over There"),
+        //
+        Chapter(id = 57, gradeId = 8, subjectId = 2, text = "How Was the Weather in Australia？"),
+        Chapter(id = 58, gradeId = 8, subjectId = 2, text = "You Can Learn About Game Design After You Join the Club"),
+        Chapter(id = 59, gradeId = 8, subjectId = 2, text = "Mom Was Doing the Dishes at Half past Twelve"),
+        Chapter(id = 60, gradeId = 8, subjectId = 2, text = "What Do You Want to Be in the Future？"),
+        Chapter(id = 61, gradeId = 8, subjectId = 2, text = "How Do We Get to Big Ben？"),
+        Chapter(id = 62, gradeId = 8, subjectId = 2, text = "She’ll Wear a Sweater to the Party"),
+        Chapter(id = 63, gradeId = 8, subjectId = 2, text = "She’ll Wear a Sweater to the Party"),
+        //
+        Chapter(id = 64, gradeId = 9, subjectId = 2, text = "Have You Decided on the Gift?"),
+        Chapter(id = 65, gradeId = 9, subjectId = 2, text = "Seeing Is Believing, Isn't It?"),
+        Chapter(id = 66, gradeId = 9, subjectId = 2, text = "People Get Excited About Halloween"),
+        Chapter(id = 67, gradeId = 9, subjectId = 2, text = "Spiders Are Served as Food Here"),
+        Chapter(id = 68, gradeId = 9, subjectId = 2, text = "Can You Tell Me What to Do?"),
+        Chapter(id = 69, gradeId = 9, subjectId = 2, text = "They Asked Me If I Liked Taiwan"),
+        Chapter(id = 70, gradeId = 9, subjectId = 2, text = "Studying Is Important, and So Is Taking Up a Hobby"),
+        Chapter(id = 71, gradeId = 9, subjectId = 2, text = "She Is the Girl Who Helps the Homeless"),
+        Chapter(id = 72, gradeId = 9, subjectId = 2, text = "A Girl I Met Online Asked Me Out"),
     )
 
     var deleteNotify: NotifyInfo? = null
@@ -485,7 +588,30 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun getLoadTeacher(): List<UserInfo> {
         delay(1500)
-        return teacherInfoList
+        return teacherInfoListTest
+    }
+
+    override suspend fun getGrade(): List<Grade> {
+        return gradeListTest
+    }
+
+    override suspend fun getSubject(gradeId: Long?): List<Subject> {
+        return if (gradeId != null)
+            subjectListTest.filter { (it.gradeIdList.find { it == gradeId } != null) }
+        else
+            subjectListTest.filter { (it.gradeIdList.find { it == 0L } != null) }
+    }
+
+    override suspend fun getChapter(gradeId: Long?, subjectId: Long?): List<Chapter> {
+        return if (gradeId != null && subjectId != null) {
+            chapterListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId }
+        } else if (gradeId != null) {
+            chapterListTest.filter { it.gradeId == gradeId }
+        } else if (subjectId != null) {
+            chapterListTest.filter { it.subjectId == subjectId }
+        } else {
+            chapterListTest.filter { it.gradeId == 0L && it.subjectId == 0L }
+        }
     }
 
     //

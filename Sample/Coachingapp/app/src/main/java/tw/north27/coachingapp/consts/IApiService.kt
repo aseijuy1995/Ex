@@ -5,9 +5,7 @@ package tw.north27.coachingapp.consts
 
 import retrofit2.Response
 import retrofit2.http.*
-import tw.north27.coachingapp.model.AppConfig
-import tw.north27.coachingapp.model.SignIn
-import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.result.*
 
 interface IApiService {
@@ -80,6 +78,32 @@ interface IApiService {
      * */
     @GET
     suspend fun getLoadTeacher(): List<UserInfo>
+
+    /**
+     * 取得學級
+     * */
+    @GET
+    suspend fun getGrade(): List<Grade>
+
+    /**
+     * 取得科目
+     * @param gradeId >> 學級id
+     * */
+    @GET
+    suspend fun getSubject(
+        @Query("grade_id") gradeId: Long? = 0,
+    ): List<Subject>
+
+    /**
+     * 取得單元
+     * @param gradeId >> 學級id
+     * @param subjectId >> 科目id
+     * */
+    @GET
+    suspend fun getChapter(
+        @Query("grade_id") gradeId: Long? = 0,
+        @Query("subject_id") subjectId: Long? = 0
+    ): List<Chapter>
 
     //
     //
