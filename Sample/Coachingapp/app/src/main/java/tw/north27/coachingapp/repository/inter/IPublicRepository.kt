@@ -11,7 +11,7 @@ interface IPublicRepository {
         fcmToken: String
     ): Results<AppConfig>
 
-    suspend fun getLoadTeacher(): Results<List<UserInfo>>
+    suspend fun getLoadTeacher(gradeId: Long? = null, subjectId: Long? = null, chapterId:Long? = null): Results<List<UserInfo>>
 
     suspend fun getGrade(): Results<List<Grade>>
 

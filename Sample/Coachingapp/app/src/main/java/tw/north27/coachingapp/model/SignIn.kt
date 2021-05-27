@@ -81,13 +81,13 @@ data class StudentInfo(
 /**
  * desc >> 簡介
  * score >> 評分
- * subjectList >> 科目列表
+ * chapterList >> 章節列表
  * */
 @Parcelize
 data class TeacherInfo(
     val desc: String,
     val score: Double,
-    val subjectList: List<Subject>
+    val chapterList : List<Chapter>,
 ) : Parcelable
 
 /**

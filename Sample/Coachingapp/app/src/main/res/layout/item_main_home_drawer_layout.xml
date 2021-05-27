@@ -57,7 +57,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:text="@string/subject"
             android:textColor="@color/black"
             android:textSize="16sp" />
@@ -76,7 +78,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:text="@string/chapter"
             android:textColor="@color/black"
             android:textSize="16sp" />
@@ -99,13 +103,13 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_cancel"
+                android:id="@+id/btn_clear"
                 android:layout_width="wrap_content"
                 android:layout_height="34dp"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:background="?attr/colorPrimary"
-                android:text="@string/cancel"
+                android:text="@string/clear"
                 android:textColor="@color/white"
                 android:textSize="14sp" />
 
@@ -121,5 +125,32 @@
                 android:textSize="14sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:layout_margin="10dp"
+            android:background="?attr/colorPrimary"
+            android:text="@string/cancel"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/v_bottom"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:background="?attr/colorPrimary"
+        android:gravity="center"
+        android:text="@string/north27"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+    </androidx.appcompat.widget.AppCompatTextView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

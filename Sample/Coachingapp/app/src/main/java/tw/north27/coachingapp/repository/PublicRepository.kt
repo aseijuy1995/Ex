@@ -10,7 +10,7 @@ class PublicRepository(val service: IApiService) : IPublicRepository {
 
     override suspend fun getAppConfig(uuid: String, fcmToken: String): Results<AppConfig> = safeApiResults { service.getAppConfig(uuid, fcmToken) }
 
-    override suspend fun getLoadTeacher(): Results<List<UserInfo>> = safeApiResults { service.getLoadTeacher() }
+    override suspend fun getLoadTeacher(gradeId: Long?, subjectId: Long?, chapterId: Long?): Results<List<UserInfo>> = safeApiResults { service.getLoadTeacher(gradeId, subjectId, chapterId) }
 
     override suspend fun getGrade(): Results<List<Grade>> = safeApiResults { service.getGrade() }
 

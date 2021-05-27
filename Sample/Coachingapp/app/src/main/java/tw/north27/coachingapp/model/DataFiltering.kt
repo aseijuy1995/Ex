@@ -28,9 +28,10 @@ data class Subject(
  * id >> 單元id
  * text >> 單元名稱
  * */
+@Parcelize
 data class Chapter(
     val id: Long,
     val gradeId: Long,//串接數據需剃除
     val subjectId: Long,//串接數據需剃除
     val text: String
-)
+): Parcelable

@@ -24,10 +24,14 @@ class MainHomeViewModel(
 
     val teacherInfoState = _teacherInfoState.asLiveData()
 
-    fun getLoadTeacher() {
+    fun getLoadTeacher(
+        gradeId: Long? = null,
+        subjectId: Long? = null,
+        chapterId: Long? = null
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
             _teacherInfoState.postValue(ViewState.load())
-            val results = publicRepo.getLoadTeacher()
+            val results = publicRepo.getLoadTeacher(gradeId, subjectId, chapterId)
             when (results) {
                 is Results.Successful -> {
                     if (results.data.isEmpty())

@@ -75,9 +75,16 @@ interface IApiService {
 
     /**
      * 獲取老師列表
+     * @param gradeId >> 學級id
+     * @param subjectId >> 科目id
+     * @param chapterId >> 章節id
      * */
     @GET
-    suspend fun getLoadTeacher(): List<UserInfo>
+    suspend fun getLoadTeacher(
+        @Query("grade_id") gradeId: Long? = null,
+        @Query("subject_id") subjectId: Long? = null,
+        @Query("chapter_id") chapterId: Long? = null
+    ): List<UserInfo>
 
     /**
      * 取得學級

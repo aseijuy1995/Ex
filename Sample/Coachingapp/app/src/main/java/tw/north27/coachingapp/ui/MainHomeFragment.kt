@@ -11,6 +11,7 @@ import com.yujie.basemodule.BaseFragment
 import com.yujie.utilmodule.ViewState
 import com.yujie.utilmodule.ext.observe
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import timber.log.Timber
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.ChapterAdapter
 import tw.north27.coachingapp.adapter.GradeAdapter
@@ -19,7 +20,9 @@ import tw.north27.coachingapp.adapter.TeacherListAdapter
 import tw.north27.coachingapp.databinding.FragmentMainHomeBinding
 import tw.north27.coachingapp.ext.isVisible
 import tw.north27.coachingapp.ext2.clicksObserve
+import tw.north27.coachingapp.model.Chapter
 import tw.north27.coachingapp.model.Grade
+import tw.north27.coachingapp.model.Subject
 import tw.north27.coachingapp.viewModel.MainHomeViewModel
 
 class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment_main_home) {
@@ -51,9 +54,7 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
         binding.itemMainHomeDrawerLayout.spChapter.adapter = chapterAdapter
         //
         binding.srlView.autoRefresh()
-        viewModel.getGrade()
-        viewModel.getSubject()
-        viewModel.getChapter()
+        defaultSelection()
 
         viewModel.teacherInfoState.observe(viewLifecycleOwner) {
             binding.itemShinner.sflView.isVisible = (it is ViewState.Load)
@@ -61,10 +62,12 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
             binding.rvView.isVisible = (it is ViewState.Data)
             binding.itemError.root.isVisible = (it is ViewState.Error)
             binding.itemNetwork.root.isVisible = (it is ViewState.Network)
+            if (it !is ViewState.Initial && it !is ViewState.Load) {
+                binding.srlView.finishRefresh()
+            }
             when (it) {
                 is ViewState.Data -> {
                     adapter.submitList(it.data)
-                    binding.srlView.finishRefresh()
                 }
                 is ViewState.Error, is ViewState.Network -> {
                 }
@@ -77,7 +80,7 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
         }
 
         binding.srlView.setOnRefreshListener {
-            viewModel.getLoadTeacher()
+            getLoadTeacher()
         }
 
         adapter.itemClickRelay.observe(viewLifecycleOwner) {
@@ -89,6 +92,7 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
                 gradeAdapter.submitData()
             } else if (it is ViewState.Data) {
                 gradeAdapter.submitData(it.data)
+                binding.itemMainHomeDrawerLayout.spGrade.setSelection(0)
             }
         }
         viewModel.subjectListState.observe(viewLifecycleOwner) {
@@ -96,6 +100,7 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
                 subjectAdapter.submitData()
             } else if (it is ViewState.Data) {
                 subjectAdapter.submitData(it.data)
+                binding.itemMainHomeDrawerLayout.spSubject.setSelection(0)
             }
         }
         viewModel.chapterListState.observe(viewLifecycleOwner) {
@@ -103,6 +108,7 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
                 chapterAdapter.submitData()
             } else if (it is ViewState.Data) {
                 chapterAdapter.submitData(it.data)
+                binding.itemMainHomeDrawerLayout.spChapter.setSelection(0)
             }
         }
 
@@ -135,11 +141,35 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
         }
 
         binding.itemMainHomeDrawerLayout.btnFilter.clicksObserve(owner = viewLifecycleOwner) {
+            getLoadTeacher()
             binding.drawerLayout.closeDrawer(GravityCompat.END)
         }
+
+        binding.itemMainHomeDrawerLayout.btnClear.clicksObserve(owner = viewLifecycleOwner) {
+            defaultSelection()
+        }
+
         binding.itemMainHomeDrawerLayout.btnCancel.clicksObserve(owner = viewLifecycleOwner) {
             binding.drawerLayout.closeDrawer(GravityCompat.END)
         }
+    }
+
+    private fun getLoadTeacher() {
+        val grade = binding.itemMainHomeDrawerLayout.spGrade.selectedItem as Grade
+        val subject = binding.itemMainHomeDrawerLayout.spSubject.selectedItem as Subject
+        val chapter = binding.itemMainHomeDrawerLayout.spChapter.selectedItem as Chapter
+        Timber.i("grade.id = ${grade.id}, subject.id = ${subject.id}, chapter.id = ${chapter.id}")
+        viewModel.getLoadTeacher(
+            gradeId = grade.id,
+            subjectId = subject.id,
+            chapterId = chapter.id
+        )
+    }
+
+    private fun defaultSelection() {
+        viewModel.getGrade()
+        viewModel.getSubject()
+        viewModel.getChapter()
     }
 
 //    var count = 0
