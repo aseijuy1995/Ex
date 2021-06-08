@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_package = "com.yujie.dataStore";
+option java_multiple_files = true;
+
+message UserPref {
+    string uuid = 1;// uuid
+    string account = 2;// 帳號
+    //權限
+    enum Authority {
+        UNKNOWN = 0;//None(空值)
+        GENERAL = 1;//一般
+        ADVANCED = 2;//高級
+    }
+    Authority auth = 3;
+    string accessToken = 4;// 訪問token
+    string refreshToken = 5;// 刷新token
+    string pushToken = 6;//推播token
+    bool isFirst = 7;// 第一次登入
+}
+

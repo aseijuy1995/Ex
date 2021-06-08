@@ -206,7 +206,7 @@ dependencies {
     //gif
     implementation "pl.droidsonroids.gif:android-gif-drawable:1.2.19"
     //shimmer
-    implementation "com.facebook.shimmer:shimmer:0.5.0"
+    implementation "com.facebook.shimmer: :0.5.0"
     //swipe
     //noinspection GradleCompatible
     implementation "com.android.support:recyclerview-v7:21.0.0"
