@@ -1,4 +1,4 @@
-package com.yujie.datastore
+package com.yujie.utilmodule.pref
 
 import android.content.Context
 import androidx.datastore.core.CorruptionException
@@ -6,8 +6,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
 import androidx.datastore.preferences.protobuf.InvalidProtocolBufferException
-import com.yujie.dataStore.UserPref
-
+import com.yujie.utilmodule.UserPref
 import kotlinx.coroutines.flow.Flow
 import java.io.InputStream
 import java.io.OutputStream
@@ -27,7 +26,7 @@ object UserPrefSerializer : Serializer<UserPref> {
 				try {
 						return UserPref.parseFrom(input)
 				} catch (e: InvalidProtocolBufferException) {
-						throw CorruptionException("Cannot read com.yujie.datastore.proto.", e)
+						throw CorruptionException("Cannot read com.yujie.utilmodule.proto.", e)
 				}
 		}
 
@@ -43,6 +42,10 @@ suspend fun DataStore<UserPref>.setUuid(uuid: String): UserPref = setUserPref(uu
 fun DataStore<UserPref>.getAccount(): Flow<String> = getDelegate(UserPref::getAccount)
 
 suspend fun DataStore<UserPref>.setAccount(account: String): UserPref = setUserPref(account = account)
+
+fun DataStore<UserPref>.getPassword(): Flow<String> = getDelegate(UserPref::getPassword)
+
+suspend fun DataStore<UserPref>.setPassword(password: String): UserPref = setUserPref(password = password)
 
 fun DataStore<UserPref>.getAuth(): Flow<UserPref.Authority> = getDelegate(UserPref::getAuth)
 
@@ -67,6 +70,7 @@ suspend fun DataStore<UserPref>.setIsFirst(isFirst: Boolean): UserPref = setUser
 suspend fun DataStore<UserPref>.setUserPref(
 		uuid: String? = null,
 		account: String? = null,
+		password: String? = null,
 		auth: UserPref.Authority? = null,
 		accessToken: String? = null,
 		refreshToken: String? = null,
@@ -77,6 +81,7 @@ suspend fun DataStore<UserPref>.setUserPref(
 				it.toBuilder().apply {
 						uuid?.let { setUuid(it) }
 						account?.let { setAccount(it) }
+						password?.let { setPassword(it) }
 						auth?.let { setAuth(it) }
 						accessToken?.let { setAccessToken(it) }
 						refreshToken?.let { setRefreshToken(it) }
@@ -91,6 +96,7 @@ suspend fun DataStore<UserPref>.clear(): UserPref {
 				it.toBuilder()
 						.setUuid("")
 						.setAccount("")
+						.setPassword("")
 						.setAuth(UserPref.Authority.UNKNOWN)
 						.setAccessToken("")
 						.setRefreshToken("")

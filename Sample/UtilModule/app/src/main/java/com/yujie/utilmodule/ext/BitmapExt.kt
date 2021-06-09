@@ -6,7 +6,6 @@ import android.renderscript.Allocation
 import android.renderscript.Element
 import android.renderscript.RenderScript
 import android.renderscript.ScriptIntrinsicBlur
-import jp.wasabeef.glide.transformations.BlurTransformation
 
 private fun Bitmap.rsBlur(context: Context, radius: Int): Bitmap {
 		//(1)

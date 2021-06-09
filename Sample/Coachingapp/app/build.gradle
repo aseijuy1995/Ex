@@ -183,14 +183,14 @@ dependencies {
     /**
      * Util
      * */
-    //koin
-    def koin_version = "2.1.6"
-    implementation "org.koin:koin-core:$koin_version"
-    implementation "org.koin:koin-androidx-scope:$koin_version"
-    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
-    implementation "org.koin:koin-androidx-fragment:$koin_version"
-    //timber & logger
-    implementation "com.jakewharton.timber:timber:4.7.1"
+//    //koin
+//    def koin_version = "2.1.6"
+//    implementation "org.koin:koin-core:$koin_version"
+//    implementation "org.koin:koin-androidx-scope:$koin_version"
+//    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+//    implementation "org.koin:koin-androidx-fragment:$koin_version"
+//    //timber & logger
+//    implementation "com.jakewharton.timber:timber:4.7.1"
 //    implementation "com.orhanobut:logger:2.2.0"
     //progress
     implementation "com.github.ybq:Android-SpinKit:1.4.0"
@@ -231,7 +231,6 @@ dependencies {
     //
     //
     //
-    implementation project(":PrefModule")
     implementation project(":BaseModule")
     implementation project(":UtilModule")
     implementation project(":PushModule")

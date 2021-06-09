@@ -71,7 +71,7 @@ class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
         viewModel.loadChatList(chat)
         lifecycleScope.launch(Dispatchers.Main) {
             viewModel.chatListState.collect {
-                binding.rvChat. isVisible = it is ViewState.Data
+                binding.rvChat.isVisible = it is ViewState.Data
                 if (it is ViewState.Data) {
                     val list = it.data
                     adapter.submitList(list)

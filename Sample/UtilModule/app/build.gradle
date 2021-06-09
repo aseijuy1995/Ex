@@ -1,6 +1,8 @@
 plugins {
-    id "com.android.library"
+//    id "com.android.library"
+    id "com.android.application"
     id "kotlin-android"
+    id "com.google.protobuf"
 }
 
 android {
@@ -8,10 +10,12 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
+        applicationId "com.yujie.utilModule"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,35 +37,103 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation "androidx.core:core-ktx:1.3.2"
-    implementation "androidx.appcompat:appcompat:1.2.0"
+    implementation "androidx.core:core-ktx:1.5.0"
+    implementation "androidx.appcompat:appcompat:1.3.0"
     implementation "com.google.android.material:material:1.3.0"
     implementation "androidx.constraintlayout:constraintlayout:2.0.4"
-    testImplementation "junit:junit:4.+"
+    testImplementation "junit:junit:4.13.2"
     androidTestImplementation "androidx.test.ext:junit:1.1.2"
     androidTestImplementation "androidx.test.espresso:espresso-core:3.3.0"
-    //Timber
-    implementation "com.jakewharton.timber:timber:4.7.1"
-    //Logger
-    implementation "com.orhanobut:logger:2.2.0"
-    //Retrofit
+    /**
+     * JetPack
+     * */
+    //dataStore
+    implementation "androidx.datastore:datastore:1.0.0-beta01"
+    implementation "androidx.datastore:datastore-rxjava2:1.0.0-beta01"
+    implementation "androidx.datastore:datastore-rxjava3:1.0.0-beta01"
+    implementation "androidx.datastore:datastore-core:1.0.0-beta01"
+    //
+    implementation "androidx.datastore:datastore-preferences:1.0.0-beta01"
+    implementation "androidx.datastore:datastore-preferences-rxjava2:1.0.0-beta01"
+    implementation "androidx.datastore:datastore-preferences-rxjava3:1.0.0-beta01"
+    implementation "androidx.datastore:datastore-preferences-core:1.0.0-beta01"
+    /**
+     * Http
+     * */
+    //Squareup
+    def okhttp = "4.9.1"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    implementation "com.squareup.okhttp3:mockwebserver:$okhttp"
     def retrofit = "2.9.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.retrofit2:retrofit-mock:$retrofit"
-    //高斯
-    implementation 'jp.wasabeef:glide-transformations:4.3.0'
-    implementation 'jp.co.cyberagent.android:gpuimage:2.1.0'
-    //Alerter
-    implementation "com.github.tapadoo:alerter:7.1.0"
-    //RxPermission
-    implementation "com.github.tbruyelle:rxpermissions:0.12"
+    /**
+     * Rx
+     * */
     //Reactivex
     implementation "io.reactivex.rxjava3:rxjava:3.0.9"
     implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
     implementation "io.reactivex.rxjava3:rxkotlin:3.0.1"
-    //Rxlifecycle
+    //RxLifecycle
     def rxlifecycle = "4.0.2"
     implementation "com.trello.rxlifecycle4:rxlifecycle-kotlin:$rxlifecycle"
     implementation "com.trello.rxlifecycle4:rxlifecycle-android-lifecycle-kotlin:$rxlifecycle"
+    //RxPermission
+    implementation "com.github.tbruyelle:rxpermissions:0.12"
+    /**
+     * Koin
+     * */
+    def koin = "3.0.2"
+//    implementation "org.koin:koin-android:$koin"
+//    implementation "org.koin:koin-core:$koin"
+//    implementation "org.koin:koin-androidx-scope:$koin"
+//    implementation "org.koin:koin-androidx-viewmodel:$koin"
+//    implementation "org.koin:koin-androidx-fragment:$koin"
+//    testImplementation "org.koin:koin-test:$koin"
+    //
+    implementation "io.insert-koin:koin-core:$koin"
+    implementation "io.insert-koin:koin-android:$koin"
+    implementation "io.insert-koin:koin-android-ext:$koin"
+    implementation "io.insert-koin:koin-androidx-workmanager:$koin"
+//    implementation "io.insert-koin:koin-androidx-compose:$koin"
+    /**
+     * Util
+     * */
+    //Protobuf
+    implementation 'com.google.protobuf:protobuf-javalite:3.10.0'
+    //Log
+    implementation "com.jakewharton.timber:timber:4.7.1"
+    implementation "com.orhanobut:logger:2.2.0"
+    //Alerter
+    implementation "com.github.tapadoo:alerter:7.1.0"
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+//    //高斯
+//    implementation 'jp.wasabeef:glide-transformations:4.3.0'
+//    implementation 'jp.co.cyberagent.android:gpuimage:2.1.0'
+}
+
+protobuf {
+    protoc {
+        //從存儲庫下載可執行文件執行預編譯
+        artifact = "com.google.protobuf:protoc:3.10.0"
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option "lite"
+                }
+            }
+        }
+    }
 }

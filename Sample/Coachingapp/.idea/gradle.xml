@@ -13,7 +13,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/BaseModule" />
-            <option value="$PROJECT_DIR$/PrefModule" />
             <option value="$PROJECT_DIR$/PushModule" />
             <option value="$PROJECT_DIR$/UtilModule" />
             <option value="$PROJECT_DIR$/app" />

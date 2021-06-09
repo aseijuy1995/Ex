@@ -9,33 +9,42 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
+var client: OkHttpClient = OkHttpClient.Builder()
+    .connectTimeout(10, TimeUnit.SECONDS)//連接超時
+    .readTimeout(30, TimeUnit.SECONDS)//IO讀取超時
+    .writeTimeout(10, TimeUnit.SECONDS)//IO寫入超時
+    .callTimeout(60, TimeUnit.SECONDS)//完整請求超時
+    .retryOnConnectionFailure(true)//失敗重連
+    .addInterceptor(HttpLoggingInterceptor(BaseHttpLoggingInterceptor).apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    })
+    .pingInterval(40, TimeUnit.SECONDS)
+    .build()
+
+
 class OkHttpUtil(
     private val context: Context,
-    private val tokenInterceptor: Interceptor? = BaseTokenInterceptor(context),
-    private val tokenExpiredInterceptor: Interceptor? = BaseTokenExpiredInterceptor(context)
+    private val tokenInterceptor: Interceptor? = null,
+    private val tokenExpiredInterceptor: Interceptor? = null
 ) {
 
     private val TAG = javaClass.simpleName
 
-    val client: OkHttpClient
-
-    init {
-        client = OkHttpClient.Builder()
-            .connectTimeout(10, TimeUnit.SECONDS)//連接超時
-            .readTimeout(30, TimeUnit.SECONDS)//IO讀取超時
-            .writeTimeout(10, TimeUnit.SECONDS)//IO寫入超時
-            .callTimeout(60, TimeUnit.SECONDS)//完整請求超時
-            .retryOnConnectionFailure(true)//失敗重連
-            .apply {
-                tokenInterceptor?.let { addInterceptor(it) }//Auth
-                tokenExpiredInterceptor?.let { addInterceptor(it) }//Auth Expired
-            }
-            .addInterceptor(HttpLoggingInterceptor(BaseHttpLoggingInterceptor).apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
-            .pingInterval(40, TimeUnit.SECONDS)
-            .build()
-    }
+    val client: OkHttpClient = OkHttpClient.Builder()
+        .connectTimeout(10, TimeUnit.SECONDS)//連接超時
+        .readTimeout(30, TimeUnit.SECONDS)//IO讀取超時
+        .writeTimeout(10, TimeUnit.SECONDS)//IO寫入超時
+        .callTimeout(60, TimeUnit.SECONDS)//完整請求超時
+        .retryOnConnectionFailure(true)//失敗重連
+        .apply {
+            tokenInterceptor?.let { addInterceptor(it) }//Auth
+            tokenExpiredInterceptor?.let { addInterceptor(it) }//Auth Expired
+        }
+        .addInterceptor(HttpLoggingInterceptor(BaseHttpLoggingInterceptor).apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        })
+        .pingInterval(40, TimeUnit.SECONDS)
+        .build()
 
     fun get(url: String, params: Map<String, String>): Request {
         val builder = url.toHttpUrl().newBuilder()

@@ -3,4 +3,3 @@ rootProject.name = "Coachingapp"
 include ':BaseModule'
 include ':PushModule'
 include ':UtilModule'
-include ':PrefModule'
