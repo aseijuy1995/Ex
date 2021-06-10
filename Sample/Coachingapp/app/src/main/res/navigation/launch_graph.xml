@@ -55,9 +55,9 @@
             android:id="@+id/action_fragment_start_to_fragment_maintain_dialog"
             app:destination="@id/fragment_maintain_dialog" />
 
-        <!--        <action-->
-        <!--            android:id="@+id/action_fragment_start_to_fragment_update_dialog"-->
-        <!--            app:destination="@id/fragment_update_dialog" />-->
+        <action
+            android:id="@+id/action_fragment_start_to_fragment_update_dialog"
+            app:destination="@id/fragment_update_dialog" />
 
     </fragment>
 

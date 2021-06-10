@@ -1,8 +1,6 @@
 package com.yujie.utilmodule.http
 
-import BaseAuthTokenRequestInterceptor
-import BaseAuthTokenResponseInterceptor
-import HttpAuth
+import com.yujie.utilmodule.http.HttpAuth
 import android.content.Context
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
@@ -12,9 +10,9 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 
 class OkHttpUtil(
-		private val cxt: Context,
-		private val httpAuth: HttpAuth = HttpAuth.NONE,
-		private val builder: ((OkHttpClient.Builder) -> OkHttpClient.Builder)? = null
+    private val cxt: Context,
+    private val httpAuth: HttpAuth = HttpAuth.NONE,
+    private val builder: ((OkHttpClient.Builder) -> OkHttpClient.Builder)? = null
 ) {
 		private val clientBuilder = OkHttpClient.Builder()
 				.connectTimeout(10, TimeUnit.SECONDS)//連接超時

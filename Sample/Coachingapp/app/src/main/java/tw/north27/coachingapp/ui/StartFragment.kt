@@ -6,14 +6,15 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.GoogleApiAvailability
-import com.vector.update_app_kotlin.updateApp
 import com.yujie.pushmodule.fcm.FirebaseMsg
 import com.yujie.utilmodule.base.BaseFragment
 import com.yujie.utilmodule.ext.alertGoogleService
+import com.yujie.utilmodule.util.UpdateApp
 import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentStartBinding
+import tw.north27.coachingapp.ext.updateApp
 import tw.north27.coachingapp.model.AppState
 import tw.north27.coachingapp.viewModel.StartViewModel
 
@@ -49,13 +50,13 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                                 versionNameMode = UpdateApp.VersionNameMode.DEFAULT
                             }.execute(
                                 newVersion = { _, _ -> findNavController().navigate(StartFragmentDirections.actionFragmentStartToFragmentUpdateDialog()) },
-                                noNewVersion = { viewModel.checkSignIn() })
+//                                noNewVersion = { viewModel.checkSignIn() }
+                            )
                         }
                     }
                 }
                 //FIXME　整合處理各頁面錯誤
                 is ViewState.Error, is ViewState.Network -> {
-//                    viewModel.getAppConfig()
                 }
             }
         }

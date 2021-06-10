@@ -4,6 +4,8 @@ import com.yujie.utilmodule.base.BaseApplication
 import com.yujie.utilmodule.ext.startKoinModules
 import com.yujie.utilmodule.util.startStrictMode
 import tw.north27.coachingapp.BuildConfig
+import tw.north27.coachingapp.consts.modelModules
+import tw.north27.coachingapp.consts.repoModules
 import tw.north27.coachingapp.consts.viewModelModules
 
 class App : BaseApplication() {
@@ -12,11 +14,12 @@ class App : BaseApplication() {
         if (BuildConfig.DEBUG) startStrictMode()
         super.onCreate()
         startKoinModules(
-            viewModelModules
+            viewModelModules,
+            repoModules,
+            modelModules,
             //
 //            utilModules,
-//            modelModules,
-//            repoModules,
+
         )
 
 //        startChatManager()

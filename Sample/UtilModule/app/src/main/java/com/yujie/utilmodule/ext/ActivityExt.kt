@@ -69,16 +69,6 @@ fun Activity.alertGoogleService(
 				.show()
 }
 
-/**
- * 版本名更新
- * */
-fun Activity.updateApp(newVersionName: String) = UpdateApp.with(this, newVersionName)
-
-/**
- * 版本號更新
- * */
-fun Activity.updateApp(newVersionCode: Long) = UpdateApp.with(this, newVersionCode)
-
 fun Activity.hideKeyBoard() {
 		val imm = this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 		var view: View? = currentFocus

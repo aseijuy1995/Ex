@@ -1,4 +1,5 @@
 import android.content.Context
+import android.os.Build
 import com.yujie.utilmodule.front.DetectAppStateLifeObs
 
 //package com.yujie.utilmodule.ext
@@ -45,3 +46,17 @@ import com.yujie.utilmodule.front.DetectAppStateLifeObs
  * APP_VIEW_STATE
  * */
 fun Context.startAppState() = DetectAppStateLifeObs(this)
+
+/**
+ * 版本名
+ * */
+val Context.versionName: String
+    get() = packageManager.getPackageInfo(packageName, 0).versionName
+
+/**
+ * 版本號
+ * */
+val Context.versionCode: Long
+    get() = packageManager.getPackageInfo(packageName, 0)!!.run {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) longVersionCode else versionCode.toLong()
+    }

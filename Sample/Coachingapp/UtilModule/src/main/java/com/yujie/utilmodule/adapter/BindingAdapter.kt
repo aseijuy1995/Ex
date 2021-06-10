@@ -14,19 +14,19 @@ import jp.wasabeef.glide.transformations.BlurTransformation
  * @param sampling >> 採樣(模糊)（bind:imgBlurSampling）
  * */
 @BindingAdapter(
-		value = [
-				"bind:imgRes",
-				"bind:blurRadius",
-				"bind:blurSampling"
-		]
+    value = [
+        "bind:imgRes",
+        "bind:blurRadius",
+        "bind:blurSampling"
+    ]
 )
 fun ImageView.bindImgRes(
-		@DrawableRes resId: Int,
-		radius: Int = 15,
-		sampling: Int = 3
+    @DrawableRes resId: Int,
+    radius: Int = 15,
+    sampling: Int = 3
 ) {
-		Glide.with(this)
-				.load(resId)
-				.apply(RequestOptions.bitmapTransform(BlurTransformation(radius, sampling)))
-				.into(this)
+    Glide.with(this)
+        .load(resId)
+        .apply(RequestOptions.bitmapTransform(BlurTransformation(radius, sampling)))
+        .into(this)
 }
