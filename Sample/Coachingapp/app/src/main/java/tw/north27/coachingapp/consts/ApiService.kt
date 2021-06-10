@@ -1,57 +1,54 @@
-//package tw.north27.coachingapp.consts
-//
-//import android.content.Context
-//import com.yujie.prefmodule.dataStore.userPref
-//import com.yujie.prefmodule.protobuf.UserPref
-//import kotlinx.coroutines.delay
-//import kotlinx.coroutines.flow.first
-//import retrofit2.Response
-//import retrofit2.http.Field
-//import retrofit2.http.Query
-//import timber.log.Timber
-//import tw.north27.coachingapp.model.*
-//import tw.north27.coachingapp.model.result.*
-//
-//class ApiService(val cxt: Context) : IApiService {
-//
-//
-//    //
-//    //
-//    //
-//    //
-//    //
-//    //
-//    //
-//    //
-////    override suspend fun refreshToken(@Query(value = "account") account: String, @Query(value = "access_token") accessToken: String, @Query(value = "refresh_token") refreshToken: String): TokenInfo {
-////        delay(500)
-////        return TokenInfo(
-////            accessToken = "accessToken002",
-////            refreshToken = "refreshToken002"
-////        )
-////    }
-//    //
-//    //
-//    //
-//    //
-//    //
-//    //
-//
-//    //////////////////////////////////////////////////////////////////////////////////////////////
-//    //////////////////////////////////////////////////////////////////////////////////////////////
-//    //////////////////////////////////////////////////////////////////////////////////////////////
-//
-//    private val userIdTest = 0
-//    private val accountTest = "north27"
-//    private val passwordTest = "north27"
-//    private val authorityTest = UserPref.Authority.STUDENT
-//    private val accessTokenTest = "accessTokenTest"
-//    private val refreshTokenTest = "refreshTokenTest"
-//    private val avatarPathTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
-//    private val nameTest = "北緯科技"
-//    private val emailTest = "north27@north27.tw"
-//
-//    //
+package tw.north27.coachingapp.consts
+
+import android.content.Context
+import kotlinx.coroutines.delay
+import retrofit2.http.Query
+import tw.north27.coachingapp.model.AppConfig
+import tw.north27.coachingapp.model.AppState
+import tw.north27.coachingapp.model.MaintainInfo
+import tw.north27.coachingapp.model.RunInfo
+
+class ApiService(val cxt: Context) : IApiService {
+
+
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+//    override suspend fun refreshToken(@Query(value = "account") account: String, @Query(value = "access_token") accessToken: String, @Query(value = "refresh_token") refreshToken: String): TokenInfo {
+//        delay(500)
+//        return TokenInfo(
+//            accessToken = "accessToken002",
+//            refreshToken = "refreshToken002"
+//        )
+//    }
+    //
+    //
+    //
+    //
+    //
+    //
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+
+    private val userIdTest = 0
+    private val accountTest = "north27"
+    private val passwordTest = "north27"
+
+    //    private val authorityTest = UserPref.Authority.STUDENT
+    private val accessTokenTest = "accessTokenTest"
+    private val refreshTokenTest = "refreshTokenTest"
+    private val avatarPathTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
+    private val nameTest = "北緯科技"
+    private val emailTest = "north27@north27.tw"
+
+    //
 //    private val signInSuccessMsgTest = "即將登入..."
 //    private val gradeListTest = listOf<Grade>(
 //        Grade(id = 0, text = "預設"),
@@ -632,25 +629,27 @@
 //
 //    var deleteNotify: NotifyInfo? = null
 //    var isReadAllNotify: Boolean? = null
-//    override suspend fun getAppConfig(
-//        @Query(value = "uuid") uuid: String,
-//        @Query(value = "fcm_token") fcmToken: String
-//    ): AppConfig {
-//        delay(1500)
-////        return AppConfig(
-////            appState = AppState.MAINTAIN,
-////            maintainInfo = MaintainInfo(
-////                title = "維護通知",
-////                text = "1. 不可視因素遭受攻擊。\n" +
-////                        "2. 增加監控、效能分析、執行網路維護。\n" +
-////                        "3. 描述統一規範化。\n" +
-////                        "",
-////                time = "2021/03/01 16:00",
-////            )
-////        )
+//
+
+    override suspend fun getAppConfig(
+        @Query(value = "uuid") uuid: String,
+        @Query(value = "push_token") pushToken: String
+    ): AppConfig {
+        delay(1500)
+        return AppConfig(
+            appState = AppState.MAINTAIN,
+            maintainInfo = MaintainInfo(
+                title = "維護通知",
+                text = "1. 不可視因素遭受攻擊。\n" +
+                        "2. 增加監控、效能分析、執行網路維護。\n" +
+                        "3. 描述統一規範化。\n" +
+                        "",
+                time = "2021/03/01 16:00",
+            )
+        )
 //        return AppConfig(
 //            appState = AppState.RUN,
-//            updateInfo = UpdateInfo(
+//            runInfo = RunInfo(
 //                versionName = "1.0.0",
 //                url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
 //                text = "1. 今天要加班(現在幾點了?)\n2. 噴灑殺蟲劑，殺死些Dug蟲蟲\n3. 泡茶休息下~~~\n\t請稍等...",
@@ -658,8 +657,8 @@
 //                isMandatory = true
 //            )
 //        )
-//    }
-//
+    }
+
 //    override suspend fun checkSignIn(
 //        @Query(value = "uuid") uuid: String,
 //        @Query(value = "account") account: String,
@@ -1645,5 +1644,5 @@
 //        delay(500)
 //        return true
 //    }
-//
-//}
+
+}

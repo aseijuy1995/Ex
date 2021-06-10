@@ -2,7 +2,6 @@ package tw.north27.coachingapp.viewModel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.yujie.utilmodule.UserPref
 import com.yujie.utilmodule.base.BaseAndroidViewModel
 import com.yujie.utilmodule.http.Results
@@ -11,9 +10,6 @@ import com.yujie.utilmodule.pref.setUserPref
 import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import tw.north27.coachingapp.ext2.asLiveData
 import tw.north27.coachingapp.model.SignIn
 import tw.north27.coachingapp.model.SignInState
 import tw.north27.coachingapp.repository.nofinish.IUserRepository

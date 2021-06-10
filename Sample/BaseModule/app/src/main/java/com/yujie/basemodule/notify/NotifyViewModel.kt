@@ -5,7 +5,7 @@
 //import androidx.lifecycle.asLiveData
 //import androidx.paging.PagingData
 //import androidx.paging.cachedIn
-//import tw.north27.coachingapp.ext2.asLiveData
+//import com.yujie.basemodule.ext2.asLiveData
 //import tw.north27.coachingapp.model.result.NotifyInfo
 //
 //class NotifyViewModel(private val notifyRepo: INotifyRepository) : BaseViewModel() {

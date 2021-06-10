@@ -2,13 +2,10 @@ package tw.north27.coachingapp.viewModel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.yujie.utilmodule.base.BaseAndroidViewModel
 import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import tw.north27.coachingapp.ext2.asLiveData
 import tw.north27.coachingapp.model.Chapter
 import tw.north27.coachingapp.model.Grade
 import tw.north27.coachingapp.model.Subject

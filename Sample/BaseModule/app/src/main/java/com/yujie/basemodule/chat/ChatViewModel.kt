@@ -9,7 +9,7 @@
 //import kotlinx.coroutines.launch
 //import org.koin.core.component.KoinComponent
 //import tw.north27.coachingapp.adapter.ChatReadIndex
-//import tw.north27.coachingapp.ext2.asLiveData
+//import com.yujie.basemodule.ext2.asLiveData
 //import tw.north27.coachingapp.model.result.ChatInfo
 //
 //class ChatViewModel(private val chatRepo: IChatRepository) : BaseViewModel(), KoinComponent {

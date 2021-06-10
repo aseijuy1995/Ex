@@ -22,8 +22,8 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 )
 fun ImageView.bindImgRes(
     @DrawableRes resId: Int,
-    radius: Int = 15,
-    sampling: Int = 3
+    radius: Int = 1,
+    sampling: Int = 10
 ) {
     Glide.with(this)
         .load(resId)

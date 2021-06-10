@@ -1,7 +1,7 @@
 //package tw.north27.coachingapp.media
 //
 //import androidx.lifecycle.MutableLiveData
-//import tw.north27.coachingapp.ext2.asLiveData
+//import com.yujie.basemodule.ext2.asLiveData
 //
 //class MediaPhotoViewModel : BaseViewModel() {
 //

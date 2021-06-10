@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.repository.nofinish
+package tw.north27.coachingapp.repository
 
 import com.yujie.utilmodule.http.ResponseResults
 import com.yujie.utilmodule.http.Results

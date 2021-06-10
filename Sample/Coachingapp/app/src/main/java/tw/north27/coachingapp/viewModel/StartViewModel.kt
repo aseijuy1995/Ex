@@ -1,62 +1,60 @@
-//package tw.north27.coachingapp.viewModel
-//
-//import android.app.Application
-//import androidx.lifecycle.MutableLiveData
-//import androidx.lifecycle.viewModelScope
-//import com.yujie.pushmodule.fcm.FirebaseMsg
-//import com.yujie.utilmodule.UserPref
-//import com.yujie.utilmodule.base.BaseAndroidViewModel
-//import com.yujie.utilmodule.http.ResponseResults
-//import com.yujie.utilmodule.http.Results
-//import com.yujie.utilmodule.pref.*
-//import com.yujie.utilmodule.util.ViewState
-//import com.yujie.utilmodule.util.logI
-//import kotlinx.coroutines.Dispatchers
-//import kotlinx.coroutines.flow.first
-//import kotlinx.coroutines.launch
-//import tw.north27.coachingapp.ext2.asLiveData
-//import tw.north27.coachingapp.model.AppConfig
-//import tw.north27.coachingapp.model.SignIn
-//import tw.north27.coachingapp.model.SignInState
-//import tw.north27.coachingapp.repository.inter.IPublicRepository
-//import tw.north27.coachingapp.repository.nofinish.IUserRepository
-//import java.util.*
-//
-//class StartViewModel(
-//    application: Application,
-//    private val publicRepo: IPublicRepository,
-//    private val userRepo: IUserRepository
-//) : BaseAndroidViewModel(application) {
-//
-//    private val _appConfigState = MutableLiveData<ViewState<AppConfig>>(ViewState.Initial)
-//
-//    val appConfigState = _appConfigState.asLiveData()
-//
-//    fun getAppConfig() {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            _appConfigState.postValue(ViewState.load())
-//            cxt.userPref.setPushToken(FirebaseMsg.fcmToken!!)
-//            if (cxt.userPref.getUuid().first().isEmpty()) {
-//                val uuid = UUID.randomUUID().toString()
-//                logI("UUID = $uuid")
-//                cxt.userPref.setUuid(uuid)
-//            }
-//            val uuid = cxt.userPref.getUuid().first()
-//            val results = publicRepo.getAppConfig(uuid, FirebaseMsg.fcmToken!!)
-//            when (results) {
-//                is Results.Successful<AppConfig> -> {
-//                    _appConfigState.postValue(ViewState.data(results.data!!))
-//                }
-//                is Results.ClientErrors -> {
-//                    _appConfigState.postValue(ViewState.error(results.e))
-//                }
-//                is Results.NetWorkError -> {
-//                    _appConfigState.postValue(ViewState.network(results.e))
-//                }
-//            }
-//        }
-//    }
-//
+package tw.north27.coachingapp.viewModel
+
+import android.app.Application
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.yujie.pushmodule.fcm.FirebaseMsg
+import com.yujie.utilmodule.base.BaseAndroidViewModel
+import com.yujie.utilmodule.ext.asLiveData
+import com.yujie.utilmodule.http.Results
+import com.yujie.utilmodule.pref.getUuid
+import com.yujie.utilmodule.pref.setPushToken
+import com.yujie.utilmodule.pref.setUuid
+import com.yujie.utilmodule.pref.userPref
+import com.yujie.utilmodule.util.ViewState
+import com.yujie.utilmodule.util.logI
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import tw.north27.coachingapp.model.AppConfig
+import tw.north27.coachingapp.repository.IPublicRepository
+import tw.north27.coachingapp.repository.IUserRepository
+import java.util.*
+
+class StartViewModel(
+    application: Application,
+    private val publicRepo: IPublicRepository,
+    private val userRepo: IUserRepository
+) : BaseAndroidViewModel(application) {
+
+    private val _appConfigState = MutableLiveData<ViewState<AppConfig>>(ViewState.initial())
+
+    val appConfigState = _appConfigState.asLiveData()
+
+    fun getAppConfig() = viewModelScope.launch(Dispatchers.IO) {
+        _appConfigState.postValue(ViewState.load())
+        cxt.userPref.setPushToken(FirebaseMsg.fcmToken!!)
+        var uuid = cxt.userPref.getUuid().first()
+        if (uuid.isEmpty()) {
+            uuid = UUID.randomUUID().toString()
+            cxt.userPref.setUuid(uuid)
+            logI("uuid = $uuid")
+        }
+        val results = publicRepo.getAppConfig(uuid, FirebaseMsg.fcmToken!!)
+        when (results) {
+            is Results.Successful<AppConfig> -> {
+                _appConfigState.postValue(ViewState.data(results.data!!))
+            }
+            is Results.ClientErrors -> {
+                _appConfigState.postValue(ViewState.error(results.e))
+            }
+            is Results.NetWorkError -> {
+                _appConfigState.postValue(ViewState.network(results.e))
+            }
+        }
+    }
+
+
 //    private val _signInState = MutableLiveData<ViewState<SignIn>>(ViewState.Initial)
 //
 //    val signInState = _signInState.asLiveData()
@@ -121,5 +119,5 @@
 //            }
 //        }
 //    }
-//
-//}
+
+}

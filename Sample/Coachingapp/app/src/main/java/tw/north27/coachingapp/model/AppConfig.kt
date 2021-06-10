@@ -3,12 +3,12 @@ package tw.north27.coachingapp.model
 /**
  * appState >> App狀態
  * maintainInfo >> 維護資訊
- * updateInfo >> 更新資訊
+ * runInfo >> 運行資訊
  * */
 data class AppConfig(
     val appState: AppState,
     val maintainInfo: MaintainInfo? = null,
-    val updateInfo: UpdateInfo? = null
+    val runInfo: RunInfo? = null
 )
 
 /**
@@ -37,7 +37,7 @@ data class MaintainInfo(
  * size >> apk size
  * isMandatory >> 是否強制更新
  * */
-data class UpdateInfo(
+data class RunInfo(
     val versionName: String,
     val url: String,
     val text: String,

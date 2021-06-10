@@ -15,11 +15,25 @@ import tw.north27.coachingapp.databinding.ActivityLaunchBinding
 
 class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaunchBinding::inflate) {
 
+    private val backgroundResList = listOf<Int>(
+        R.drawable.ic_launch_background1,
+        R.drawable.ic_launch_background2,
+        R.drawable.ic_launch_background3,
+        R.drawable.ic_launch_background4,
+        R.drawable.ic_launch_background5,
+        R.drawable.ic_launch_background6,
+        R.drawable.ic_launch_background7,
+        R.drawable.ic_launch_background8,
+    )
+
+    val backgroundRes: Int
+        get() = backgroundResList[(0..backgroundResList.size).random()]
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.ivBackground.bindImgRes(
-            resId = R.drawable.ic_launch_background,
-            radius = 15,
+            resId = backgroundRes,
+            radius = 10,
             sampling = 3
         )
     }

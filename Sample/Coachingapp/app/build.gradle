@@ -86,7 +86,7 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences-rxjava3:${dataStore}"
     implementation "androidx.datastore:datastore-preferences-core:${dataStore}"
     def protobuf = "3.10.0"
-    implementation  "com.google.protobuf:protobuf-javalite:${protobuf}"
+    implementation "com.google.protobuf:protobuf-javalite:${protobuf}"
     //
     //
     //
