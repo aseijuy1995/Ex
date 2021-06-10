@@ -1,7 +1,13 @@
 package tw.north27.coachingapp.consts
 
-import org.koin.androidx.experimental.dsl.viewModel
+import org.koin.android.ext.koin.androidApplication
+import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import tw.north27.coachingapp.repository.IPublicRepository
+import tw.north27.coachingapp.repository.IUserRepository
+import tw.north27.coachingapp.repository.PublicRepository
+import tw.north27.coachingapp.repository.UserRepository
 import tw.north27.coachingapp.viewModel.StartViewModel
 
 //val utilModules = module {
@@ -25,9 +31,10 @@ import tw.north27.coachingapp.viewModel.StartViewModel
 //    single<IApiService> { ApiService(androidContext()) }
 //}
 
-//val repoModules = module {
-//    single<IPublicRepository> { PublicRepository(get()) }
-//    single<IUserRepository> { UserRepository(get(), androidContext()) }
+val repoModules = module {
+    single<IPublicRepository> { PublicRepository(get()) }
+    single<IUserRepository> { UserRepository(get(), androidContext()) }
+
 //    single<INotifyRepository> { NotifyRepository(get()) }
 //    single<IChatRepository> { ChatRepository(get(), get()) }
 //    single<IMediaRepository> {
@@ -39,11 +46,12 @@ import tw.north27.coachingapp.viewModel.StartViewModel
 //            get<IMediaRecorderModule>()
 //        )
 //    }
-//
-//}
+
+}
 
 val viewModelModules = module {
-    viewModel { StartViewModel(androidApplication(), get(), get()) }
+    viewModel<StartViewModel> { StartViewModel(androidApplication(), get(), get()) }
+
 //    viewModel { SignInViewModel(androidApplication(), get()) }
 //    viewModel { MainHomeViewModel(androidApplication(), get()) }
 //    //

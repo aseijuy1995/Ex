@@ -1,10 +1,13 @@
 package com.yujie.utilmodule.ext
 
 import android.app.Activity
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import com.tapadoo.alerter.Alerter
 import com.yujie.utilmodule.R
+import com.yujie.utilmodule.util.UpdateApp
 
 /**
  * 錯誤警報
@@ -64,4 +67,22 @@ fun Activity.alertGoogleService(
 				.setBackgroundColorRes(backColorRes)
 				.setDuration(duration)
 				.show()
+}
+
+/**
+ * 版本名更新
+ * */
+fun Activity.updateApp(newVersionName: String) = UpdateApp.with(this, newVersionName)
+
+/**
+ * 版本號更新
+ * */
+fun Activity.updateApp(newVersionCode: Long) = UpdateApp.with(this, newVersionCode)
+
+fun Activity.hideKeyBoard() {
+		val imm = this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+		var view: View? = currentFocus
+		if (view == null)
+				view = View(this)
+		imm.hideSoftInputFromWindow(view.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
 }

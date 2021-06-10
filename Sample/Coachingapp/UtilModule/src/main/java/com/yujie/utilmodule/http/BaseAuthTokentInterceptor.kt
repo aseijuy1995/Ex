@@ -1,5 +1,3 @@
-package com.yujie.utilmodule.http
-
 import android.content.Context
 import android.util.Base64
 import com.yujie.utilmodule.pref.getAccessToken
@@ -15,53 +13,53 @@ import okhttp3.Response
 import kotlin.coroutines.CoroutineContext
 
 enum class HttpAuth {
-    NONE, BASIC, BEARER
+		NONE, BASIC, BEARER
 }
 
 class BaseAuthTokenRequestInterceptor(
-    private val cxt: Context,
-    private val httpAuth: HttpAuth = HttpAuth.NONE
+		private val cxt: Context,
+		private val httpAuth: HttpAuth = HttpAuth.NONE
 ) : Interceptor {
 
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val request = chain.request()
-        //
-        var authToken: String? = null
-        when (httpAuth) {
-            HttpAuth.NONE -> {
-                return chain.proceed(request)
-            }
+		override fun intercept(chain: Interceptor.Chain): Response {
+				val request = chain.request()
+				//
+				var authToken: String? = null
+				when (httpAuth) {
+						HttpAuth.NONE -> {
+								return chain.proceed(request)
+						}
 
-            HttpAuth.BASIC -> {
-                val userPref = runBlocking { cxt.userPref.getDelegate { it }.first() }
-                val account = userPref.account
-                val password = userPref.password
-                authToken = if (account.isNotEmpty() && password.isNotEmpty()) "Basic ${Credentials.basic(account, password)}" else ""
-            }
+						HttpAuth.BASIC -> {
+								val userPref = runBlocking { cxt.userPref.getDelegate { it }.first() }
+								val account = userPref.account
+								val password = userPref.password
+								authToken = if (account.isNotEmpty() && password.isNotEmpty()) "Basic ${Credentials.basic(account, password)}" else ""
+						}
 
-            HttpAuth.BEARER -> {
-                val accessToken = runBlocking { cxt.userPref.getAccessToken().first() }
-                authToken = if (accessToken.isNotEmpty()) "Bearer ${Base64.encodeToString(accessToken.toByteArray(), Base64.NO_WRAP)}" else ""
-            }
-        }
-        val newRequest = request.newBuilder()
-            .addHeader("Authorization", authToken)
-            .build()
+						HttpAuth.BEARER -> {
+								val accessToken = runBlocking { cxt.userPref.getAccessToken().first() }
+								authToken = if (accessToken.isNotEmpty()) "Bearer ${Base64.encodeToString(accessToken.toByteArray(), Base64.NO_WRAP)}" else ""
+						}
+				}
+				val newRequest = request.newBuilder()
+						.addHeader("Authorization", authToken)
+						.build()
 
-        return chain.proceed(newRequest)
-    }
+				return chain.proceed(newRequest)
+		}
 }
 
 class BaseAuthTokenResponseInterceptor(
-    private val cxt: Context,
-    private val httpAuth: HttpAuth = HttpAuth.NONE
+		private val cxt: Context,
+		private val httpAuth: HttpAuth = HttpAuth.NONE
 ) : Interceptor, CoroutineScope {
 
-    override val coroutineContext: CoroutineContext
-        get() = Job()
+		override val coroutineContext: CoroutineContext
+				get() = Job()
 
-    override fun intercept(chain: Interceptor.Chain): Response {
-        val response = chain.proceed(chain.request())
+		override fun intercept(chain: Interceptor.Chain): Response {
+				val response = chain.proceed(chain.request())
 //				when (response.code) {
 //						//access token
 //						401 -> {
@@ -93,6 +91,6 @@ class BaseAuthTokenResponseInterceptor(
 //								}
 //						}
 //				}
-        return response
-    }
+				return response
+		}
 }

@@ -9,24 +9,24 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
  * 圖片高斯模糊
- * @param resId >> drawable res
- * @param radius >> 範圍
- * @param sampling >> 採樣(模糊)
+ * @param drawableResId >> Resource資源（bind:imgBlurRes）
+ * @param radius >> （bind:imgBlurRadius）
+ * @param sampling >> 採樣(模糊)（bind:imgBlurSampling）
  * */
 @BindingAdapter(
-    value = [
-        "bind:imgRes",
-        "bind:blurRadius",
-        "bind:blurSampling"
-    ]
+		value = [
+				"bind:imgRes",
+				"bind:blurRadius",
+				"bind:blurSampling"
+		]
 )
 fun ImageView.bindImgRes(
-    @DrawableRes resId: Int,
-    radius: Int = 1,
-    sampling: Int = 10
+		@DrawableRes resId: Int,
+		radius: Int = 15,
+		sampling: Int = 3
 ) {
-    Glide.with(this)
-        .load(resId)
-        .apply(RequestOptions.bitmapTransform(BlurTransformation(radius, sampling)))
-        .into(this)
+		Glide.with(this)
+				.load(resId)
+				.apply(RequestOptions.bitmapTransform(BlurTransformation(radius, sampling)))
+				.into(this)
 }

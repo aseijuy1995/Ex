@@ -98,6 +98,11 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxjava:3.0.9"
     implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
     implementation "io.reactivex.rxjava3:rxkotlin:3.0.1"
+    //RxBinding
+    def rxbinding = "4.0.0"
+    implementation "com.jakewharton.rxbinding4:rxbinding:$rxbinding"
+    implementation "com.jakewharton.rxbinding4:rxbinding-core:$rxbinding"
+    implementation "com.jakewharton.rxbinding4:rxbinding-recyclerview:$rxbinding"
     //RxLifecycle
     def rxlifecycle = "4.0.2"
     implementation "com.trello.rxlifecycle4:rxlifecycle-kotlin:$rxlifecycle"

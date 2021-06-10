@@ -43,7 +43,7 @@ class StartViewModel(
         val results = publicRepo.getAppConfig(uuid, FirebaseMsg.fcmToken!!)
         when (results) {
             is Results.Successful<AppConfig> -> {
-                _appConfigState.postValue(ViewState.data(results.data!!))
+                _appConfigState.postValue(ViewState.data(results.data))
             }
             is Results.ClientErrors -> {
                 _appConfigState.postValue(ViewState.error(results.e))

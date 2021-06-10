@@ -1,5 +1,7 @@
 package com.yujie.utilmodule.http
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -21,4 +23,16 @@ sealed class Results<out T> {
 
     //IOException
     data class NetWorkError(val e: IOException) : Results<Nothing>()
+}
+
+suspend fun <T> safeApiResults(data: suspend () -> T): Results<T> {
+    return withContext(Dispatchers.IO) {
+        try {
+            Results.successful(data.invoke())
+        } catch (e: HttpException) {
+            Results.clientErrors(e)
+        } catch (e: IOException) {
+            Results.netWorkError(e)
+        }
+    }
 }
