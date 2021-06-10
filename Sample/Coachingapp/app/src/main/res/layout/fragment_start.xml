@@ -36,8 +36,8 @@
     </FrameLayout>
 
     <include
-        android:id="@+id/item_start"
-        layout="@layout/item_start"
+        android:id="@+id/item_mark"
+        layout="@layout/item_mark"
         android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="60dp"

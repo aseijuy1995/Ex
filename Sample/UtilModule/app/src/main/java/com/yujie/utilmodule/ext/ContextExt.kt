@@ -1,3 +1,6 @@
+import android.content.Context
+import com.yujie.utilmodule.front.DetectAppStateLifeObs
+
 //package com.yujie.utilmodule.ext
 //
 //import android.annotation.SuppressLint
@@ -36,3 +39,9 @@
 //				connectivityManager.registerNetworkCallback(request, networkCallback)
 //		}
 //}
+
+/**
+ * 啟動偵測前景狀態
+ * APP_VIEW_STATE
+ * */
+fun Context.startAppState() = DetectAppStateLifeObs(this)

@@ -1,0 +1,54 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<layout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:bind="http://schemas.android.com/tools">-->
+
+<!--    <data>-->
+
+<!--    </data>-->
+
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/card_view_about"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:cardCornerRadius="5dp">-->
+
+<!--        <androidx.appcompat.widget.LinearLayoutCompat-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:paddingStart="20dp"-->
+<!--                android:paddingTop="10dp"-->
+<!--                android:paddingBottom="10dp"-->
+<!--                android:text="關於"-->
+<!--                android:textSize="14sp"-->
+<!--                android:textStyle="bold" />-->
+
+<!--            <include-->
+<!--                layout="@layout/item_user_item"-->
+<!--                bind:icon="@{@drawable/ic_pencil_logo}"-->
+<!--                bind:title='@{"關於Coaching"}' />-->
+
+<!--            <include-->
+<!--                layout="@layout/item_user_item"-->
+<!--                bind:icon="@{@drawable/ic_pencil_logo}"-->
+<!--                bind:title='@{"常見問題"}' />-->
+
+<!--            <include-->
+<!--                layout="@layout/item_user_item"-->
+<!--                bind:icon="@{@drawable/ic_pencil_logo}"-->
+<!--                bind:title='@{"隱私政策"}' />-->
+
+<!--            <include-->
+<!--                layout="@layout/item_user_item"-->
+<!--                bind:icon="@{@drawable/ic_pencil_logo}"-->
+<!--                bind:title='@{"聯繫我們"}' />-->
+
+<!--        </androidx.appcompat.widget.LinearLayoutCompat>-->
+
+<!--    </androidx.cardview.widget.CardView>-->
+<!--</layout>-->

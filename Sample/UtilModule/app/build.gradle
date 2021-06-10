@@ -1,7 +1,8 @@
 plugins {
-//    id "com.android.library"
-    id "com.android.application"
+    id "com.android.library"
+//    id "com.android.application"
     id "kotlin-android"
+    id "kotlin-kapt"
     id "com.google.protobuf"
 }
 
@@ -10,7 +11,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.yujie.utilModule"
+//        applicationId "com.yujie.utilModule"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
@@ -33,6 +34,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
 }
 
 dependencies {
@@ -47,16 +52,24 @@ dependencies {
     /**
      * JetPack
      * */
-    //dataStore
-    implementation "androidx.datastore:datastore:1.0.0-beta01"
-    implementation "androidx.datastore:datastore-rxjava2:1.0.0-beta01"
-    implementation "androidx.datastore:datastore-rxjava3:1.0.0-beta01"
-    implementation "androidx.datastore:datastore-core:1.0.0-beta01"
-    //
-    implementation "androidx.datastore:datastore-preferences:1.0.0-beta01"
-    implementation "androidx.datastore:datastore-preferences-rxjava2:1.0.0-beta01"
-    implementation "androidx.datastore:datastore-preferences-rxjava3:1.0.0-beta01"
-    implementation "androidx.datastore:datastore-preferences-core:1.0.0-beta01"
+    def lifecycle = "2.3.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-service:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-process:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle"
+    //DataStore
+    def dataStore = "1.0.0-beta01"
+    implementation "androidx.datastore:datastore:$dataStore"
+    implementation "androidx.datastore:datastore-rxjava2:$dataStore"
+    implementation "androidx.datastore:datastore-rxjava3:$dataStore"
+    implementation "androidx.datastore:datastore-core:$dataStore"
+    //DataStore - Preferences
+    implementation "androidx.datastore:datastore-preferences:$dataStore"
+    implementation "androidx.datastore:datastore-preferences-rxjava2:$dataStore"
+    implementation "androidx.datastore:datastore-preferences-rxjava3:$dataStore"
+    implementation "androidx.datastore:datastore-preferences-core:$dataStore"
     /**
      * Http
      * */
@@ -69,6 +82,15 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.retrofit2:retrofit-mock:$retrofit"
+    //Glide
+    def glide = "4.11.0"
+    implementation "com.github.bumptech.glide:glide:$glide"
+    implementation "com.github.bumptech.glide:okhttp3-integration:$glide"
+    kapt "com.github.bumptech.glide:compiler:$glide"
+    //Glide - Transformations
+    implementation "jp.wasabeef:glide-transformations:4.3.0"
+    //Glide - GPU
+    implementation "jp.co.cyberagent.android:gpuimage:2.1.0"
     /**
      * Rx
      * */
@@ -86,18 +108,10 @@ dependencies {
      * Koin
      * */
     def koin = "3.0.2"
-//    implementation "org.koin:koin-android:$koin"
-//    implementation "org.koin:koin-core:$koin"
-//    implementation "org.koin:koin-androidx-scope:$koin"
-//    implementation "org.koin:koin-androidx-viewmodel:$koin"
-//    implementation "org.koin:koin-androidx-fragment:$koin"
-//    testImplementation "org.koin:koin-test:$koin"
-    //
     implementation "io.insert-koin:koin-core:$koin"
     implementation "io.insert-koin:koin-android:$koin"
     implementation "io.insert-koin:koin-android-ext:$koin"
     implementation "io.insert-koin:koin-androidx-workmanager:$koin"
-//    implementation "io.insert-koin:koin-androidx-compose:$koin"
     /**
      * Util
      * */

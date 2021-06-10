@@ -1,125 +1,125 @@
-package tw.north27.coachingapp.viewModel
-
-import android.app.Application
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import com.yujie.basemodule.BaseAndroidViewModel
-import com.yujie.prefmodule.dataStore.*
-import com.yujie.prefmodule.protobuf.UserPref
-import com.yujie.pushmodule.fcm.FirebaseMsg
-import com.yujie.utilmodule.ViewState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import timber.log.Timber
-import tw.north27.coachingapp.ext2.asLiveData
-import tw.north27.coachingapp.model.AppConfig
-import tw.north27.coachingapp.model.SignIn
-import tw.north27.coachingapp.model.SignInState
-import tw.north27.coachingapp.module.http.ResponseResults
-import tw.north27.coachingapp.module.http.Results
-import tw.north27.coachingapp.repository.inter.IPublicRepository
-import tw.north27.coachingapp.repository.nofinish.IUserRepository
-import java.util.*
-
-class StartViewModel(
-    application: Application,
-    private val publicRepo: IPublicRepository,
-    private val userRepo: IUserRepository
-) : BaseAndroidViewModel(application) {
-
-    private val _appConfigState = MutableLiveData<ViewState<AppConfig>>(ViewState.Initial)
-
-    val appConfigState = _appConfigState.asLiveData()
-
-    fun getAppConfig() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _appConfigState.postValue(ViewState.load())
-            cxt.userPref.setFcmToken(FirebaseMsg.fcmToken!!)
-            if (cxt.userPref.getUuid().first().isEmpty()) {
-                val uuid = UUID.randomUUID().toString()
-                Timber.i("UUID = $uuid")
-                cxt.userPref.setUuid(uuid)
-            }
-            val uuid = cxt.userPref.getUuid().first()
-            val results = publicRepo.getAppConfig(uuid, FirebaseMsg.fcmToken!!)
-            when (results) {
-                is Results.Successful -> {
-                    _appConfigState.postValue(ViewState.data(results.data!!))
-                }
-                is Results.ClientErrors -> {
-                    _appConfigState.postValue(ViewState.error(results.e))
-                }
-                is Results.NetWorkError -> {
-                    _appConfigState.postValue(ViewState.network(results.e))
-                }
-            }
-        }
-    }
-
-    private val _signInState = MutableLiveData<ViewState<SignIn>>(ViewState.Initial)
-
-    val signInState = _signInState.asLiveData()
-
-    fun checkSignIn() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _signInState.postValue(ViewState.load())
-            val userPref = cxt.userPref.get()
-            val uuid = userPref.uuid
-            val account = userPref.account
-            val accessToken = userPref.accessToken
-            val fcmToken = userPref.fcmToken
-
-            if (account.isEmpty() || accessToken.isEmpty()) {
-                _signInState.postValue(ViewState.empty())
-            } else {
-                val results = userRepo.checkSignIn(uuid, account, accessToken, fcmToken)
-                when (results) {
-                    is ResponseResults.Successful -> {
-                        val signIn = results.data
-                        val accountNew: String
-                        val authNew: UserPref.Authority
-                        val accessTokenNew: String
-                        val refreshTokenNew: String
-                        val fcmTokenNew: String
-                        val isFirstNew: Boolean
-                        when (signIn.signInState) {
-                            SignInState.SIGN_IN -> {
-                                val signInInfo = signIn.signInInfo!!
-                                val userInfo = signInInfo.userInfo!!
-                                accountNew = userInfo.account
-                                authNew = userInfo.auth
-                                accessTokenNew = signInInfo.accessToken!!
-                                refreshTokenNew = signInInfo.refreshToken!!
-                                fcmTokenNew = signInInfo.fcmToken!!
-                                isFirstNew = signInInfo.isFirst!!
-                            }
-                            SignInState.SIGN_OUT -> {
-                                accountNew = ""
-                                authNew = UserPref.Authority.UNKNOWN
-                                accessTokenNew = ""
-                                refreshTokenNew = ""
-                                isFirstNew = false
-                            }
-                        }
-                        cxt.userPref.setUserPref(
-                            account = accountNew,
-                            auth = authNew,
-                            accessToken = accessTokenNew,
-                            refreshToken = refreshTokenNew,
-                            isFirst = isFirstNew,
-                        )
-                        _signInState.postValue(ViewState.data(signIn))
-                    }
-                    is ResponseResults.ClientErrors -> {
-                        _signInState.postValue(ViewState.error(results.e))
-                    }
-                    is ResponseResults.NetWorkError -> {
-                        _signInState.postValue(ViewState.network(results.e))
-                    }
-                }
-            }
-        }
-    }
-
-}
+//package tw.north27.coachingapp.viewModel
+//
+//import android.app.Application
+//import androidx.lifecycle.MutableLiveData
+//import androidx.lifecycle.viewModelScope
+//import com.yujie.pushmodule.fcm.FirebaseMsg
+//import com.yujie.utilmodule.UserPref
+//import com.yujie.utilmodule.base.BaseAndroidViewModel
+//import com.yujie.utilmodule.http.ResponseResults
+//import com.yujie.utilmodule.http.Results
+//import com.yujie.utilmodule.pref.*
+//import com.yujie.utilmodule.util.ViewState
+//import com.yujie.utilmodule.util.logI
+//import kotlinx.coroutines.Dispatchers
+//import kotlinx.coroutines.flow.first
+//import kotlinx.coroutines.launch
+//import tw.north27.coachingapp.ext2.asLiveData
+//import tw.north27.coachingapp.model.AppConfig
+//import tw.north27.coachingapp.model.SignIn
+//import tw.north27.coachingapp.model.SignInState
+//import tw.north27.coachingapp.repository.inter.IPublicRepository
+//import tw.north27.coachingapp.repository.nofinish.IUserRepository
+//import java.util.*
+//
+//class StartViewModel(
+//    application: Application,
+//    private val publicRepo: IPublicRepository,
+//    private val userRepo: IUserRepository
+//) : BaseAndroidViewModel(application) {
+//
+//    private val _appConfigState = MutableLiveData<ViewState<AppConfig>>(ViewState.Initial)
+//
+//    val appConfigState = _appConfigState.asLiveData()
+//
+//    fun getAppConfig() {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            _appConfigState.postValue(ViewState.load())
+//            cxt.userPref.setPushToken(FirebaseMsg.fcmToken!!)
+//            if (cxt.userPref.getUuid().first().isEmpty()) {
+//                val uuid = UUID.randomUUID().toString()
+//                logI("UUID = $uuid")
+//                cxt.userPref.setUuid(uuid)
+//            }
+//            val uuid = cxt.userPref.getUuid().first()
+//            val results = publicRepo.getAppConfig(uuid, FirebaseMsg.fcmToken!!)
+//            when (results) {
+//                is Results.Successful<AppConfig> -> {
+//                    _appConfigState.postValue(ViewState.data(results.data!!))
+//                }
+//                is Results.ClientErrors -> {
+//                    _appConfigState.postValue(ViewState.error(results.e))
+//                }
+//                is Results.NetWorkError -> {
+//                    _appConfigState.postValue(ViewState.network(results.e))
+//                }
+//            }
+//        }
+//    }
+//
+//    private val _signInState = MutableLiveData<ViewState<SignIn>>(ViewState.Initial)
+//
+//    val signInState = _signInState.asLiveData()
+//
+//    fun checkSignIn() {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            _signInState.postValue(ViewState.load())
+//            val userPref = cxt.userPref.getDelegate { it }.first()
+//            val uuid = userPref.uuid
+//            val account = userPref.account
+//            val accessToken = userPref.accessToken
+//            val fcmToken = userPref.pushToken
+//
+//            if (account.isEmpty() || accessToken.isEmpty()) {
+//                _signInState.postValue(ViewState.empty())
+//            } else {
+//                val results = userRepo.checkSignIn(uuid, account, accessToken, fcmToken)
+//                when (results) {
+//                    is ResponseResults.Successful<SignIn> -> {
+//                        val signIn = results.data
+//                        val accountNew: String
+//                        val authNew: UserPref.Authority
+//                        val accessTokenNew: String
+//                        val refreshTokenNew: String
+//                        val pushTokenNew: String
+//                        val isFirstNew: Boolean
+//                        when (signIn.signInState) {
+//                            SignInState.SIGN_IN -> {
+//                                val signInInfo = signIn.signInInfo!!
+//                                val userInfo = signInInfo.userInfo!!
+//                                accountNew = userInfo.account
+//                                authNew = userInfo.auth
+//                                accessTokenNew = signInInfo.accessToken!!
+//                                refreshTokenNew = signInInfo.refreshToken!!
+//                                pushTokenNew = signInInfo.fcmToken!!
+//                                isFirstNew = signInInfo.isFirst!!
+//                            }
+//                            SignInState.SIGN_OUT -> {
+//                                accountNew = ""
+//                                authNew = UserPref.Authority.UNKNOWN
+//                                accessTokenNew = ""
+//                                refreshTokenNew = ""
+//                                isFirstNew = false
+//                            }
+//                        }
+//                        cxt.userPref.setUserPref(
+//                            account = accountNew,
+//                            auth = authNew,
+//                            accessToken = accessTokenNew,
+//                            refreshToken = refreshTokenNew,
+//                            isFirst = isFirstNew,
+//                        )
+//                        _signInState.postValue(ViewState.data(signIn))
+//                    }
+//                    is ResponseResults.ClientErrors -> {
+//                        _signInState.postValue(ViewState.error(results.e))
+//                    }
+//                    is ResponseResults.NetWorkError -> {
+//                        _signInState.postValue(ViewState.network(results.e))
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//}

@@ -1,11 +1,16 @@
-package com.yujie.utilmodule.ext
-
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
-import android.os.Build
+import com.yujie.utilmodule.front.DetectAppStateLifeObs
 
+//package com.yujie.utilmodule.ext
+//
+//import android.annotation.SuppressLint
+//import android.content.Context
+//import android.net.ConnectivityManager
+//import android.net.NetworkCapabilities
+//import android.net.NetworkRequest
+//import android.os.Build
+//import androidx.fragment.app.FragmentActivity
+//
 //@SuppressLint("ServiceCast")
 //fun FragmentActivity.imel() {
 //		val rxPermissions = RxPermissions(this)
@@ -22,7 +27,7 @@ import android.os.Build
 ////						}
 //				}
 //}
-
+//
 //fun Context.startNetworkReceive(networkCallback: ConnectivityManager.NetworkCallback) {
 //		val connectivityManager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 //		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -34,3 +39,9 @@ import android.os.Build
 //				connectivityManager.registerNetworkCallback(request, networkCallback)
 //		}
 //}
+
+/**
+ * 啟動偵測前景狀態
+ * APP_VIEW_STATE
+ * */
+fun Context.startAppState() = DetectAppStateLifeObs(this)

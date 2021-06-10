@@ -8,17 +8,20 @@ import android.view.WindowInsetsController
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
-import com.yujie.basemodule.BaseAppCompatActivity
+import com.yujie.utilmodule.adapter.bindImgRes
+import com.yujie.utilmodule.base.BaseAppCompatActivity
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ActivityLaunchBinding
-import tw.north27.coachingapp.util2.bindImgBlurRes
-
 
 class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaunchBinding::inflate) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.ivBackground.bindImgBlurRes(R.drawable.ic_launch_background)
+        binding.ivBackground.bindImgRes(
+            resId = R.drawable.ic_launch_background,
+            radius = 15,
+            sampling = 3
+        )
     }
 
     override fun onSupportNavigateUp(): Boolean {

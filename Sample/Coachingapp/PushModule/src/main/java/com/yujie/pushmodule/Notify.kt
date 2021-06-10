@@ -36,7 +36,7 @@ class Notify {
 
 				fun builder(builder: Notify.Builder.() -> Unit): Builder {
 						builder(this)
-						notification = NotificationCompat.Builder(cxt, channelId!!)
+						notification = NotificationCompat.Builder(cxt, channelId)
 								.setSmallIcon(icon)
 								.setContentTitle(title)
 								.setContentText(text)
