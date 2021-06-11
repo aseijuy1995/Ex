@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.touches
 import com.yujie.utilmodule.base.BaseFragment
 import com.yujie.utilmodule.ext.clicksObserve
+import com.yujie.utilmodule.ext.hideKeyBoard
 import com.yujie.utilmodule.ext.observe
 import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.delay
@@ -32,7 +33,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.root.touches { it.action == MotionEvent.ACTION_UP }.observe(viewLifecycleOwner) {
-//            act.hideKeyBoard()
+            act.hideKeyBoard()
         }
 
         binding.btnSignIn.clicksObserve(owner = viewLifecycleOwner) {

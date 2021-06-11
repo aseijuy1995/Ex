@@ -2,7 +2,9 @@ package tw.north27.coachingapp.viewModel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.yujie.utilmodule.base.BaseAndroidViewModel
+import com.yujie.utilmodule.ext.asLiveData
 import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
@@ -10,6 +12,7 @@ import tw.north27.coachingapp.model.Chapter
 import tw.north27.coachingapp.model.Grade
 import tw.north27.coachingapp.model.Subject
 import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.repository.IPublicRepository
 import tw.north27.coachingapp.repository.inter.IPublicRepository
 
 class MainHomeViewModel(

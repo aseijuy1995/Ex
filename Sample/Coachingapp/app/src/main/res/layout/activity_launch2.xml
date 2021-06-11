@@ -15,8 +15,8 @@
         app:layout_constraintBottom_toTopOf="@id/bnv_launch2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-    <!--    app:navGraph="@navigation/launch2_graph"-->
+        app:layout_constraintTop_toTopOf="parent"
+        app:navGraph="@navigation/launch2_graph" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnv_launch2"
@@ -26,6 +26,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/launch2_bottom_navigation" />
+        app:menu="@menu/menu_launch2_bnv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

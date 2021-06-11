@@ -7,7 +7,6 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import com.tapadoo.alerter.Alerter
 import com.yujie.utilmodule.R
-import com.yujie.utilmodule.util.UpdateApp
 
 /**
  * 錯誤警報
@@ -69,6 +68,9 @@ fun Activity.alertGoogleService(
 				.show()
 }
 
+/**
+ * 收起鍵盤
+ * */
 fun Activity.hideKeyBoard() {
 		val imm = this.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 		var view: View? = currentFocus

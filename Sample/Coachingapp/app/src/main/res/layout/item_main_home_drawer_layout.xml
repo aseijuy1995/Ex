@@ -57,6 +57,25 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/grade"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <Spinner
+            android:id="@+id/sp_grade"
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
+            android:overlapAnchor="false"
+            android:spinnerMode="dropdown" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
@@ -99,8 +118,8 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_clear"
@@ -129,7 +148,9 @@
             android:id="@+id/btn_cancel"
             android:layout_width="match_parent"
             android:layout_height="34dp"
-            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:background="?attr/colorPrimary"
             android:text="@string/cancel"
             android:textColor="@color/white"
@@ -137,20 +158,29 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/v_bottom"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:background="?attr/colorPrimary"
-        android:gravity="center"
-        android:text="@string/north27"
-        android:textColor="@color/white"
-        android:textSize="12sp"
+
+    <include
+        android:id="@+id/item_mark"
+        layout="@layout/item_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent" />
 
-
-    </androidx.appcompat.widget.AppCompatTextView>
+    <!--    <androidx.appcompat.widget.AppCompatTextView-->
+    <!--        android:id="@+id/v_bottom"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="60dp"-->
+    <!--        android:background="?attr/colorPrimary"-->
+    <!--        android:gravity="center"-->
+    <!--        android:text="@string/north27"-->
+    <!--        android:textColor="@color/white"-->
+    <!--        android:textSize="12sp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent">-->
+    <!--    </androidx.appcompat.widget.AppCompatTextView>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
