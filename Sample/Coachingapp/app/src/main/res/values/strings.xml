@@ -23,10 +23,10 @@
     <string name="update_size">新版本大小</string>
     <string name="update">更新</string>
     <!--  SignInFragment  -->
+    <string name="enter_account_password">請輸入帳號、密碼</string>
     <string name="enter_account">請輸入帳號</string>
     <string name="enter_password">請輸入密碼</string>
     <string name="sign_in">登入</string>
-    <string name="enter_account_password">請輸入帳號、密碼</string>
     <!--  Launch2Activity  -->
     <string name="main_home">Coaching</string>
     <string name="question_area">發問區</string>

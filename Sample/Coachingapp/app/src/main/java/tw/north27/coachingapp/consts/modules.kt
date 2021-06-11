@@ -8,6 +8,7 @@ import tw.north27.coachingapp.repository.IPublicRepository
 import tw.north27.coachingapp.repository.IUserRepository
 import tw.north27.coachingapp.repository.PublicRepository
 import tw.north27.coachingapp.repository.UserRepository
+import tw.north27.coachingapp.viewModel.SignInViewModel
 import tw.north27.coachingapp.viewModel.StartViewModel
 
 //val utilModules = module {
@@ -51,8 +52,8 @@ val repoModules = module {
 
 val viewModelModules = module {
     viewModel<StartViewModel> { StartViewModel(androidApplication(), get() as IPublicRepository, get() as IUserRepository) }
+    viewModel { SignInViewModel(androidApplication(), get()) }
 
-//    viewModel { SignInViewModel(androidApplication(), get()) }
 //    viewModel { MainHomeViewModel(androidApplication(), get()) }
 //    //
 //    viewModel { NotifyViewModel(get()) }

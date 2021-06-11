@@ -24,10 +24,11 @@ class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaun
         R.drawable.ic_launch_background6,
         R.drawable.ic_launch_background7,
         R.drawable.ic_launch_background8,
+        R.drawable.ic_launch_background9,
     )
 
     val backgroundRes: Int
-        get() = backgroundResList[(0..backgroundResList.size).random()]
+        get() = backgroundResList[backgroundResList.indices.random()]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

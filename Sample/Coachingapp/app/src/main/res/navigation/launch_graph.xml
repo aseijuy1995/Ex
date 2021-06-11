@@ -29,16 +29,16 @@
     <!--    &lt;!&ndash;    &ndash;&gt;-->
     <!--    <dialog-->
     <!--        android:id="@+id/fragment_loading_dialog"-->
-    <!--        android:name="tw.north27.coachingapp.ui2.fragment.global.LoadingDialogFragment"-->
+    <!--        android:name="tw.north27.coachingapp.ui.LoadingDialogFragment"-->
     <!--        android:label="fragment_loading_dialog"-->
     <!--        tools:layout="@layout/fragment_loading_dialog" />-->
 
-    <!--    &lt;!&ndash;  Global Action  &ndash;&gt;-->
-    <!--    <action-->
-    <!--        android:id="@+id/action_to_fragment_sign_in"-->
-    <!--        app:destination="@id/fragment_sign_in"-->
-    <!--        app:popUpTo="@id/fragment_start"-->
-    <!--        app:popUpToInclusive="true" />-->
+    <!--  Global Action  -->
+    <action
+        android:id="@+id/action_to_fragment_sign_in"
+        app:destination="@id/fragment_sign_in"
+        app:popUpTo="@id/fragment_start"
+        app:popUpToInclusive="true" />
 
     <!--    <action-->
     <!--        android:id="@+id/action_to_fragment_sign_out_dialog"-->
@@ -73,11 +73,11 @@
         android:label="fragment_update_dialog"
         tools:layout="@layout/fragment_update_dialog" />
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/fragment_sign_in"-->
-    <!--        android:name="tw.north27.coachingapp.ui.SignInFragment"-->
-    <!--        android:label="fragment_sign_in"-->
-    <!--        tools:layout="@layout/fragment_sign_in" />-->
+    <fragment
+        android:id="@+id/fragment_sign_in"
+        android:name="tw.north27.coachingapp.ui.SignInFragment"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in" />
 
     <!--    <dialog-->
     <!--        android:id="@+id/fragment_sign_out_dialog"-->

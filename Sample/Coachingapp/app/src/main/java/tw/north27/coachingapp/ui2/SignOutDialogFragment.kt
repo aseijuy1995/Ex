@@ -14,7 +14,7 @@ package tw.north27.coachingapp.ui2//package tw.north27.coachingapp.ui
 //import tw.north27.coachingapp.databinding.FragmentSignOutDialogBinding
 //import tw.north27.coachingapp.ext2.clicksObserve
 //import tw.north27.coachingapp.model.SignInState
-//import tw.north27.coachingapp.ui2.fragment.global.LoadingDialogFragment
+//import tw.north27.coachingapp.ui.LoadingDialogFragment
 //import tw.north27.coachingapp.viewModel.SignOutViewModel
 //
 //class SignOutDialogFragment : BaseDialogFragment<FragmentSignOutDialogBinding>(R.layout.fragment_sign_out_dialog) {

@@ -3,9 +3,12 @@ package tw.north27.coachingapp.consts
 //https://www.jianshu.com/p/62ab11ddacc8
 //https://www.huaweicloud.com/articles/138c673c96294a6661b16960ff4db613.html
 
+import retrofit2.http.Field
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Query
 import tw.north27.coachingapp.model.AppConfig
+import tw.north27.coachingapp.model.SignIn
 
 interface IApiService {
 
@@ -20,48 +23,48 @@ interface IApiService {
         @Query("push_token") pushToken: String
     ): AppConfig
 
-//    /**
-//     * 檢查登入
-//     * @param uuid >> 唯一id（下載量 & 登入數量）
-//     * @param account >> 帳號（驗證用）
-//     * @param accessToken >> 訪問token（驗證用）
-//     * @param fcmToken >> firebase cloud messaging token（驗證成功需刷新）
-//     * */
-//    //走POST將account&accessToken存於header即可
-//    @POST
-//    suspend fun checkSignIn(
-//        @Field("uuid") uuid: String,
-//        @Field("account") account: String,
-//        @Field("access_token") accessToken: String,
-//        @Field("fcm_token") fcmToken: String,
-//    ): Response<SignIn>
-//
-//    /**
-//     * 登入
-//     * @param uuid >> 唯一id（下載量 & 登入數量）
-//     * @param account >> 帳號（驗證用）
-//     * @param password >> 密碼（驗證用）
-//     * @param fcmToken >> firebase cloud messaging token（驗證成功需綁定帳號）
-//     * */
-//    @GET
-//    suspend fun signIn(
-//        @Query("uuid") uuid: String,
-//        @Query("account") account: String,
-//        @Query("password") password: String,
-//        @Query("fcmToken") fcmToken: String
-//    ): Response<SignIn>
-//
-//    /**
-//     * 登出
-//     * @param uuid >> 唯一id（解除綁定）
-//     * @param account >> 帳號（指定登出號）
-//     * */
-//    @GET
-//    suspend fun signOut(
-//        @Query("uuid") deviceId: String,
-//        @Query("account") account: String,
-//    ): SignIn
-//
+    /**
+     * 檢查登入
+     *
+     * 將accessToken放於header - auth作為驗證依據
+     *
+     * @param uuid >> 唯一id（下載量 & 登入數量）
+     * @param account >> 帳號（驗證成功綁定pushToken用）
+     * @param pushToken >> firebase cloud messaging token（驗證成功需刷新）
+     * */
+    @POST
+    suspend fun checkSignIn(
+        @Field("uuid") uuid: String,
+        @Field("account") account: String,
+        @Field("push_token") pushToken: String,
+    ): SignIn
+
+    /**
+     * 登入
+     * @param uuid >> 唯一id（下載量 & 登入數量）
+     * @param account >> 帳號（驗證用）
+     * @param password >> 密碼（驗證用）
+     * @param pushToken >> firebase cloud messaging token（驗證成功需綁定帳號）
+     * */
+    @POST
+    suspend fun signIn(
+        @Field("uuid") uuid: String,
+        @Field("account") account: String,
+        @Field("password") password: String,
+        @Field("push_token") pushToken: String
+    ): SignIn
+
+    /**
+     * 登出
+     * @param uuid >> 唯一id（解除綁定）
+     * @param account >> 帳號（指定登出號）
+     * */
+    @POST
+    suspend fun signOut(
+        @Field("uuid") uuid: String,
+        @Field("account") account: String,
+    ): SignIn
+
 //    /**
 //     * 刷新token
 //     * */

@@ -1,11 +1,14 @@
 package tw.north27.coachingapp.consts
 
 import android.content.Context
+import com.yujie.utilmodule.UserPref
+import com.yujie.utilmodule.pref.userPref
+import com.yujie.utilmodule.util.logD
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
+import retrofit2.http.Field
 import retrofit2.http.Query
-import tw.north27.coachingapp.model.AppConfig
-import tw.north27.coachingapp.model.AppState
-import tw.north27.coachingapp.model.RunInfo
+import tw.north27.coachingapp.model.*
 
 class ApiService(val cxt: Context) : IApiService {
 
@@ -35,20 +38,6 @@ class ApiService(val cxt: Context) : IApiService {
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
-
-    private val userIdTest = 0
-    private val accountTest = "north27"
-    private val passwordTest = "north27"
-
-    //    private val authorityTest = UserPref.Authority.STUDENT
-    private val accessTokenTest = "accessTokenTest"
-    private val refreshTokenTest = "refreshTokenTest"
-    private val avatarPathTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
-    private val nameTest = "北緯科技"
-    private val emailTest = "north27@north27.tw"
-
-    //
-//    private val signInSuccessMsgTest = "即將登入..."
 //    private val gradeListTest = listOf<Grade>(
 //        Grade(id = 0, text = "預設"),
 //        Grade(id = 1, text = "一年級"),
@@ -630,6 +619,18 @@ class ApiService(val cxt: Context) : IApiService {
 //    var isReadAllNotify: Boolean? = null
 //
 
+    private val userIdTest = 0
+    private val accountTest = "north27"
+    private val passwordTest = "north27"
+    private val authorityTest = UserPref.Authority.STUDENT
+
+    private val accessTokenTest = "accessTokenTest"
+    private val refreshTokenTest = "refreshTokenTest"
+    private val avatarPathTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
+    private val nameTest = "北緯科技"
+    private val emailTest = "north27@north27.tw"
+
+
     override suspend fun getAppConfig(
         @Query(value = "uuid") uuid: String,
         @Query(value = "push_token") pushToken: String
@@ -649,113 +650,113 @@ class ApiService(val cxt: Context) : IApiService {
         return AppConfig(
             appState = AppState.RUN,
             runInfo = RunInfo(
-                versionName = "1.0.1",
+                versionName = "1.0.0",
                 url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
                 text = "1. 今天要加班(現在幾點了?)\n2. 噴灑殺蟲劑，殺死些Dug蟲蟲\n3. 泡茶休息下~~~\n\t請稍等...",
                 size = "5M",
-                isMandatory = true
+                isMandatory = false
             )
         )
     }
 
-//    override suspend fun checkSignIn(
-//        @Query(value = "uuid") uuid: String,
-//        @Query(value = "account") account: String,
-//        @Query(value = "access_token") accessToken: String,
-//        @Query(value = "fcm_token") fcmToken: String
-//    ): Response<SignIn> {
-//        delay(1500)
-//        val userPref = cxt.userPref.data.first()
-//        val uuidTest = userPref.uuid
-//        val fcmTokenTest = userPref.fcmToken
-//        Timber.d("uuid == uuidTest : ${uuid == uuidTest}")
-//        Timber.d("fcmToken == fcmTokenTest : ${fcmToken == fcmTokenTest}")
-//        return if (account == accountTest && accessToken == accessTokenTest)
-//            Response.success<SignIn>(
-//                SignIn(
-//                    signInState = SignInState.SIGN_IN,
-//                    signInInfo = SignInInfo(
-//                        userInfo = UserInfo(
-//                            id = 0,
-//                            account = accountTest,
-//                            auth = authorityTest,
-//                            avatarPath = avatarPathTest,
-//                            name = nameTest,
-//                            email = emailTest,
-//                        ),
-//                        isFirst = true,
-//                        accessToken = accessTokenTest,
-//                        refreshToken = refreshTokenTest,
-//                        fcmToken = fcmToken,
-//                        msg = signInSuccessMsgTest
-//                    )
-//                )
-//            )
-//        else
-//            Response.success<SignIn>(
-//                SignIn(
-//                    signInState = SignInState.SIGN_OUT,
-//                    signOutInfo = SignOutInfo(
-//                        msg = "密碼已被修改，請重新登入!"
-//                    )
-//                )
-//            )
-//
-//    }
-//
-//    override suspend fun signIn(
-//        uuid: String,
-//        account: String,
-//        password: String,
-//        fcmToken: String
-//    ): Response<SignIn> {
-//        delay(1500)
-//        return if (account == accountTest && password == passwordTest)
-//            Response.success<SignIn>(
-//                SignIn(
-//                    signInState = SignInState.SIGN_IN,
-//                    signInInfo = SignInInfo(
-//                        userInfo = UserInfo(
-//                            id = userIdTest,
-//                            account = accountTest,
-//                            auth = authorityTest,
-//                            avatarPath = avatarPathTest,
-//                            name = nameTest,
-//                            email = emailTest
-//                        ),
-//                        isFirst = true,
-//                        accessToken = accessTokenTest,
-//                        refreshToken = refreshTokenTest,
-//                        fcmToken = fcmToken,
-//                        msg = signInSuccessMsgTest
-//                    )
-//                )
-//            )
-//        else
-//            Response.success<SignIn>(
-//                SignIn(
-//                    signInState = SignInState.SIGN_OUT,
-//                    signOutInfo = SignOutInfo("帳號、密碼錯誤，請再試一次")
-//                )
-//            )
-//    }
-//
-//    override suspend fun signOut(account: String, deviceId: String): SignIn {
-//        delay(1500)
-//        return SignIn(
-//            signInState = SignInState.SIGN_OUT,
-//            signOutInfo = SignOutInfo(
-//                msg = "成功登出!"
-//            )
-//        )
-////        return SignIn(
-////            signInState = SignInState.SIGN_IN,
-////            signInInfo = SignInInfo(
-////                msg = "登出失敗，請刪除APP並重新下載!"
-////            )
-////        )
-//    }
-//
+    override suspend fun checkSignIn(
+        @Query(value = "uuid") uuid: String,
+        @Query(value = "account") account: String,
+        @Query(value = "push_token") pushToken: String
+    ): SignIn {
+        delay(1500)
+        val userPref = cxt.userPref.data.first()
+        val uuidTest = userPref.uuid
+        val pushTokenTest = userPref.pushToken
+        logD("uuid == uuidTest : ${uuid == uuidTest}")
+        logD("pushToken == pushTokenTest : ${pushToken == pushTokenTest}")
+        //accessToken驗證，當前依傳入的account驗證
+        return if (account == accountTest)
+            SignIn(
+                signInState = SignInState.SIGN_IN,
+                signInInfo = SignInInfo(
+                    userInfo = UserInfo(
+                        id = 0,
+                        account = accountTest,
+                        auth = authorityTest,
+                        avatarPath = avatarPathTest,
+                        name = nameTest,
+                        email = emailTest,
+                    ),
+                    isFirst = true,
+                    accessToken = accessTokenTest,
+                    refreshToken = refreshTokenTest,
+                    pushToken = pushToken,
+                    msg = "即將登入..."
+                )
+            )
+        else
+            SignIn(
+                signInState = SignInState.SIGN_OUT,
+                signOutInfo = SignOutInfo(
+                    msg = "密碼已被修改，請重新登入!"
+                )
+            )
+    }
+
+    override suspend fun signIn(
+        @Field("uuid") uuid: String,
+        @Field("account") account: String,
+        @Field("password") password: String,
+        @Field("push_token") pushToken: String
+    ): SignIn {
+        delay(1500)
+        logD("account == accountTest : ${account == accountTest}")
+        logD("password == passwordTest : ${password == passwordTest}")
+        return if (account == accountTest && password == passwordTest)
+            SignIn(
+                signInState = SignInState.SIGN_IN,
+                signInInfo = SignInInfo(
+                    userInfo = UserInfo(
+                        id = userIdTest,
+                        account = accountTest,
+                        auth = authorityTest,
+                        avatarPath = avatarPathTest,
+                        name = nameTest,
+                        email = emailTest
+                    ),
+                    isFirst = true,
+                    accessToken = accessTokenTest,
+                    refreshToken = refreshTokenTest,
+                    pushToken = pushToken,
+                    msg = "即將登入..."
+                )
+            )
+        else
+            SignIn(
+                signInState = SignInState.SIGN_OUT,
+                signOutInfo = SignOutInfo(
+                    msg = "帳號、密碼錯誤，請再試一次!"
+                )
+            )
+    }
+
+    override suspend fun signOut(
+        @Field("uuid") uuid: String,
+        @Field("account") account: String,
+    ): SignIn {
+        delay(1500)
+        if (account == accountTest)
+            return SignIn(
+                signInState = SignInState.SIGN_OUT,
+                signOutInfo = SignOutInfo(
+                    msg = "成功登出!"
+                )
+            )
+        else
+            return SignIn(
+                signInState = SignInState.SIGN_IN,
+                signInInfo = SignInInfo(
+                    msg = "登出失敗，請刪除APP並重新下載!"
+                )
+            )
+    }
+
 //    override suspend fun refreshToken(@Query(value = "refresh_token") refreshToken: String): TokenInfo {
 //        delay(500)
 //        return TokenInfo(

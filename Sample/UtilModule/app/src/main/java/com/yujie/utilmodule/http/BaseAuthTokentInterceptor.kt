@@ -31,7 +31,7 @@ class BaseAuthTokenRequestInterceptor(
 						}
 
 						HttpAuth.BASIC -> {
-								val userPref = runBlocking { cxt.userPref.getDelegate { it }.first() }
+								val userPref = runBlocking { cxt.userPref.data.first() }
 								val account = userPref.account
 								val password = userPref.password
 								authToken = if (account.isNotEmpty() && password.isNotEmpty()) "Basic ${Credentials.basic(account, password)}" else ""
