@@ -10,15 +10,13 @@ class PublicRepository(val service: IApiService) : IPublicRepository {
 
     override suspend fun getAppConfig(uuid: String, pushToken: String): Results<AppConfig> = safeApiResults { service.getAppConfig(uuid, pushToken) }
 
-//    override suspend fun getLoadTeacher(gradeId: Long?, subjectId: Long?, chapterId: Long?): Results<List<UserInfo>> = safeApiResults { service.getLoadTeacher(gradeId, subjectId, chapterId) }
-
     override suspend fun getEducationList(): Results<List<Education>> = safeApiResults { service.getEducationList() }
 
     override suspend fun getGradeList(educationId: Long?): Results<List<Grade>> = safeApiResults {
         if (educationId == 0L)
             service.getGradeList()
         else
-            service.getGradeList(educationId)
+            service.getGradeList(educationId = educationId)
     }
 
     override suspend fun getSubjectList(educationId: Long?, gradeId: Long?): Results<List<Subject>> = safeApiResults {
@@ -29,7 +27,7 @@ class PublicRepository(val service: IApiService) : IPublicRepository {
         else if (gradeId == 0L)
             service.getSubjectList(educationId = educationId)
         else
-            service.getSubjectList(educationId, gradeId)
+            service.getSubjectList(educationId = educationId, gradeId = gradeId)
     }
 
     override suspend fun getUnitList(educationId: Long?, gradeId: Long?, subjectId: Long?): Results<List<Unit>> = safeApiResults {
@@ -48,7 +46,7 @@ class PublicRepository(val service: IApiService) : IPublicRepository {
         else if (subjectId == 0L)
             service.getUnitList(educationId = educationId, gradeId = gradeId)
         else
-            service.getUnitList(educationId, gradeId, subjectId)
+            service.getUnitList(educationId = educationId, gradeId = gradeId, subjectId = subjectId)
     }
 
 }

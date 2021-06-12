@@ -12,44 +12,43 @@ import kotlinx.coroutines.launch
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.Unit
 import tw.north27.coachingapp.repository.IPublicRepository
+import tw.north27.coachingapp.repository.IUserRepository
 
 class MainHomeViewModel(
     application: Application,
     private val publicRepo: IPublicRepository,
+    private val userRepo: IUserRepository,
 ) : BaseAndroidViewModel(application) {
 
-    private val _teacherInfoState = MutableLiveData<ViewState<List<UserInfo>>>(ViewState.Initial)
+    private val _teacherListState = MutableLiveData<ViewState<List<UserInfo>>>(ViewState.initial())
 
-    val teacherInfoState = _teacherInfoState.asLiveData()
+    val teacherListState = _teacherListState.asLiveData()
 
-    fun getLoadTeacher(
-        gradeId: Long? = null,
-        subjectId: Long? = null,
-        chapterId: Long? = null
-    ) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            _teacherInfoState.postValue(ViewState.load())
-//            val results = publicRepo.getLoadTeacher(gradeId, subjectId, chapterId)
-//            when (results) {
-//                is Results.Successful<List<UserInfo>> -> {
-//                    if (results.data.isEmpty())
-//                        _teacherInfoState.postValue(ViewState.empty())
-//                    else
-//                        _teacherInfoState.postValue(ViewState.data(results.data!!))
-//                }
-//                is Results.ClientErrors -> {
-//                    _teacherInfoState.postValue(ViewState.error(results.e))
-//                }
-//                is Results.NetWorkError -> {
-//                    _teacherInfoState.postValue(ViewState.network(results.e))
-//                }
-//            }
-//        }
+    fun getTeacherList(educationId: Long? = null, gradeId: Long? = null, subjectId: Long? = null, unitId: Long? = null) = viewModelScope.launch(Dispatchers.IO) {
+        _teacherListState.postValue(ViewState.load())
+        val results = userRepo.getTeacherList(educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId)
+        when (results) {
+            is Results.Successful<List<UserInfo>> -> {
+                if (results.data.isEmpty())
+                    _teacherListState.postValue(ViewState.empty())
+                else
+                    _teacherListState.postValue(ViewState.data(results.data))
+            }
+            is Results.ClientErrors -> {
+                _teacherListState.postValue(ViewState.error(results.e))
+            }
+            is Results.NetWorkError -> {
+                _teacherListState.postValue(ViewState.network(results.e))
+            }
+        }
     }
 
     val defaultEducation = Education(id = null, text = "預設")
+
     val defaultGradle = Grade(id = null, text = "預設", educationId = null)
+
     val defaultSubject = Subject(id = null, text = "預設", educationIdList = listOf(), gradleIdList = listOf())
+
     val defaultUnit = Unit(id = null, text = "預設", educationId = null, gradeId = null, subjectId = null)
 
     private val _educationListState = MutableLiveData<ViewState<List<Education>>>(ViewState.initial())
@@ -81,7 +80,7 @@ class MainHomeViewModel(
 
     fun getGradeList(educationId: Long? = 0) = viewModelScope.launch(Dispatchers.IO) {
         _gradeListState.postValue(ViewState.load())
-        val results = publicRepo.getGradeList(educationId)
+        val results = publicRepo.getGradeList(educationId = educationId)
         when (results) {
             is Results.Successful<List<Grade>> -> {
                 if (results.data.isEmpty())
@@ -121,25 +120,25 @@ class MainHomeViewModel(
         }
     }
 
-    private val _chapterListState = MutableLiveData<ViewState<List<Unit>>>(ViewState.initial())
+    private val _unitListState = MutableLiveData<ViewState<List<Unit>>>(ViewState.initial())
 
-    val chapterListState = _chapterListState.asLiveData()
+    val unitListState = _unitListState.asLiveData()
 
     fun getUnitList(educationId: Long? = 0, gradeId: Long? = 0, subjectId: Long? = 0) = viewModelScope.launch(Dispatchers.IO) {
-        _chapterListState.postValue(ViewState.load())
+        _unitListState.postValue(ViewState.load())
         val results = publicRepo.getUnitList(educationId = educationId, gradeId = gradeId, subjectId = subjectId)
         when (results) {
             is Results.Successful<List<Unit>> -> {
                 if (results.data.isEmpty())
-                    _chapterListState.postValue(ViewState.empty())
+                    _unitListState.postValue(ViewState.empty())
                 else
-                    _chapterListState.postValue(ViewState.data(results.data))
+                    _unitListState.postValue(ViewState.data(results.data))
             }
             is Results.ClientErrors -> {
-                _chapterListState.postValue(ViewState.error(results.e))
+                _unitListState.postValue(ViewState.error(results.e))
             }
             is Results.NetWorkError -> {
-                _chapterListState.postValue(ViewState.network(results.e))
+                _unitListState.postValue(ViewState.network(results.e))
             }
         }
     }

@@ -54,7 +54,7 @@ val repoModules = module {
 val viewModelModules = module {
     viewModel<StartViewModel> { StartViewModel(androidApplication(), get() as IPublicRepository, get() as IUserRepository) }
     viewModel<SignInViewModel> { SignInViewModel(androidApplication(), get()) }
-    viewModel<MainHomeViewModel> { MainHomeViewModel(androidApplication(), get()) }
+    viewModel<MainHomeViewModel> { MainHomeViewModel(androidApplication(), get(), get()) }
 //    //
 //    viewModel { NotifyViewModel(get()) }
 //    viewModel { ChatViewModel(get()) }

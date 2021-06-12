@@ -124,7 +124,7 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
             if (it is ViewState.Empty || it is ViewState.Data)
                 binding.itemDrawerLayoutMainHome.spSubject.setSelection(0)
         }
-        viewModel.chapterListState.observe(viewLifecycleOwner) {
+        viewModel.unitListState.observe(viewLifecycleOwner) {
             if (it is ViewState.Empty)
                 chapterAdapter.submitData(listOf(viewModel.defaultUnit))
             else if (it is ViewState.Data) {
@@ -175,7 +175,7 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
         }
 
         binding.itemDrawerLayoutMainHome.btnFilter.clicksObserve(owner = viewLifecycleOwner) {
-            getLoadTeacher()
+            getTeacherList()
             binding.drawerLayout.closeDrawer(GravityCompat.END)
         }
 
@@ -188,7 +188,7 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
         }
     }
 
-    private fun getLoadTeacher() {
+    private fun getTeacherList() {
         val education = binding.itemDrawerLayoutMainHome.spEducation.selectedItem as Education
         val grade = binding.itemDrawerLayoutMainHome.spGrade.selectedItem as Grade
         val subject = binding.itemDrawerLayoutMainHome.spSubject.selectedItem as Subject
@@ -204,9 +204,9 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
 
     private fun getDefaultSelection() {
         viewModel.getEducationList()
-//        viewModel.getGradeList()
-//        viewModel.getSubjectList()
-//        viewModel.getUnitList()
+        viewModel.getGradeList()
+        viewModel.getSubjectList()
+        viewModel.getUnitList()
     }
 
 //    var count = 0

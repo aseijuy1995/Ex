@@ -74,19 +74,6 @@ interface IApiService {
 //        @Query("refresh_token") refreshToken: String
 //    ): TokenInfo
 //
-//    /**
-//     * 獲取老師列表
-//     * @param gradeId >> 學級id
-//     * @param subjectId >> 科目id
-//     * @param chapterId >> 章節id
-//     * */
-//    @GET
-//    suspend fun getLoadTeacher(
-//        @Query("grade_id") gradeId: Long? = null,
-//        @Query("subject_id") subjectId: Long? = null,
-//        @Query("chapter_id") chapterId: Long? = null
-//    ): List<UserInfo>
-//
 
     /**
      * 取得教育
@@ -138,6 +125,22 @@ interface IApiService {
         @Query("grade_id") gradeId: Long? = null,
         @Query("subject_id") subjectId: Long? = null
     ): List<tw.north27.coachingapp.model.Unit>
+
+    /**
+     * 取得老師列表
+     * @param educationId >> 教育id
+     * @param gradeId >> 年級id
+     * @param subjectId >> 科目id
+     * @param unitId >> 單元id
+     * */
+    @POST
+    suspend fun getTeacherList(
+        @Query("education_id") educationId: Long? = null,
+        @Query("grade_id") gradeId: Long? = null,
+        @Query("subject_id") subjectId: Long? = null,
+        @Query("unit_id") unitId: Long? = null
+    ): List<UserInfo>
+
 //
 //    //
 //    //

@@ -8,8 +8,6 @@ interface IPublicRepository {
 
     suspend fun getAppConfig(uuid: String, pushToken: String): Results<AppConfig>
 
-    //    suspend fun getLoadTeacher(gradeId: Long? = null, subjectId: Long? = null, chapterId: Long? = null): Results<List<UserInfo>>
-//
     suspend fun getEducationList(): Results<List<Education>>
 
     suspend fun getGradeList(educationId: Long?): Results<List<Grade>>

@@ -56,6 +56,9 @@ data class SignOutInfo(
     val msg: String? = null,
 )
 
+/**
+ * desc >> 簡介
+ * */
 @Parcelize
 data class UserInfo(
     val id: Long,
@@ -64,6 +67,7 @@ data class UserInfo(
     val avatarPath: String? = null,
     val name: String,
     val email: String? = null,
+    val desc: String? = null,
     //
     val studentInfo: StudentInfo? = null,
     val teacherInfo: TeacherInfo? = null,
@@ -77,14 +81,16 @@ data class StudentInfo(
 ) : Parcelable
 
 /**
- * desc >> 簡介
  * score >> 評分
- * chapterList >> 章節列表
+ * questionsNum >> 提問數
+ * responseRate >> 回覆率
+ * unitList >> 單元列表
  * */
 @Parcelize
 data class TeacherInfo(
-    val desc: String,
     val score: Double,
+    val questionsNum: Int,
+    val responseRate: Int,
     val unitList: List<Unit>,
 ) : Parcelable
 

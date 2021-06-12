@@ -1,7 +1,6 @@
 package tw.north27.coachingapp.consts
 
 import android.content.Context
-import com.yujie.utilmodule.UserPref
 import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.logD
 import kotlinx.coroutines.delay
@@ -9,7 +8,6 @@ import kotlinx.coroutines.flow.first
 import retrofit2.http.Field
 import retrofit2.http.Query
 import tw.north27.coachingapp.model.*
-import tw.north27.coachingapp.model.Unit
 
 class ApiService(val cxt: Context) : IApiService {
 
@@ -43,498 +41,12 @@ class ApiService(val cxt: Context) : IApiService {
 //
 //
 //        )
-//    private val teacherInfoListTest = listOf<UserInfo>(
-//        UserInfo(
-//            id = 1,
-//            account = "chienChien",
-//            auth = UserPref.Authority.TEACHER,
-//            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/405/322/normal/hbfwvp.png?1603952064",
-//            name = "chienChien",
-//            email = "chienChien@gmail.com",
-//            teacherInfo = TeacherInfo(
-//                desc = "哈囉～你好，我是芊芊。\n" +
-//                        "\uD83D\uDC9B 師大中文畢業、有教學證照TCSOL，聽說讀寫有效加強 \uD83D\uDCAF\n" +
-//                        "\uD83D\uDC9B 有實體課教學經驗，學生年齡廣： 5~55歲\n" +
-//                        "\uD83D\uDC9B 可全英文、初級韓語、一點點日語授課 \uD83C\uDD97\n" +
-//                        "\uD83D\uDC9B 史上最愛笑的老師，孩子們最愛的中文課\n" +
-//                        "\uD83D\uDC9B 注重口說，輕鬆有趣，上課笑聲\uD83C\uDE35️\uD83C\uDE35️\n" +
-//                        "\uD83D\uDC9B 可客製化，繁/簡/注音/拼音 \uD83C\uDD97\n" +
-//                        "\uD83D\uDC9B 認真看待每一堂課，希望學生都在歡樂中有所收穫",
-//                score = 5.0,
-//                chapterList = chapterListTest.filter { it.subjectId == 1L }
-//            )
-//        ),
-//        UserInfo(
-//            id = 2,
-//            account = "missLin",
-//            auth = UserPref.Authority.TEACHER,
-//            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/485/086/normal/spkxab.png?1621247145",
-//            name = "Miss Lin",
-//            email = "missLin@gmail.com",
-//            teacherInfo = TeacherInfo(
-//                desc = "\uD83D\uDD8A 曾任國民小學老師\uD83D\uDC23 超耐心，有經驗，有方法\n" +
-//                        "\uD83D\uDC4F 透過繪本、遊戲兒歌、主題式閱讀，培養孩子中文對話能力及語感\n" +
-//                        "✨ 專注兒童中文教學\uD83D\uDC24 開設25分鐘課程，短時間集中注意力，學習效果也更好喔～\n" +
-//                        "✏️ 回購課程有優惠有優惠~請諮詢Miss Lin!\n" +
-//                        "\uD83C\uDF89 獨特的教學法，讓孩子愛上中文學習！點擊【瀏覽全部自我介紹】探索更多\uD83D\uDC47\uD83C\uDFFB\n" +
-//                        "\uD83C\uDF10 想要更暸解老師，也可以到老師的部落格去看看 kuhsiang.com",
-//                score = 4.9,
-//                chapterList = chapterListTest.filter { it.subjectId == 1L }
-//            )
-//        ),
-//        UserInfo(
-//            id = 3,
-//            account = "kIWI",
-//            auth = UserPref.Authority.TEACHER,
-//            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/063/801/normal/dliopk.png?1587162839",
-//            name = "KIWI",
-//            email = "kIWI@gmail.com",
-//            teacherInfo = TeacherInfo(
-//                desc = "\uD83D\uDC8E團課滿班滿班滿班~~~熱門團課→✨幼兒4yr ↑ 識字團課+小一翰林+知識中文團課✨→一直開✨一直開✨一直開✨~快來尋問團班時段哦！✨\n" +
-//                        "\uD83D\uDC8E(為了讓學生能夠達成學習目標，Kiwi花很多的時間備課，所以課表上沒開放太多的時間，若要約課，請傳訊息，Kiwi會幫妳約哦！)\uD83D\uDC8E\n" +
-//                        "♥️♥️我是Kiwi老師，來自台灣，目前定居加拿大，來看看我的課有什麼特別的♥️♥️\n" +
-//                        "\n" +
-//                        "\uD83D\uDC8E老師有10年的豐富經驗，多方面多元化的題材，讓你永遠有討論不完的話題\n" +
-//                        "\uD83D\uDC8E老師總是全力促進學生的思考、口說\n" +
-//                        "\uD83D\uDC8E超有趣的小遊戲，提高孩子的上課樂趣",
-//                score = 4.9,
-//                chapterList = chapterListTest.filter { it.subjectId == 1L || it.subjectId == 5L }
-//            )
-//        ),
-//        UserInfo(
-//            id = 4,
-//            account = "andrea",
-//            auth = UserPref.Authority.TEACHER,
-//            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/381/609/normal/kzxfmi.png?1615736927",
-//            name = "Andrea",
-//            email = "andrea@gmail.com",
-//            teacherInfo = TeacherInfo(
-//                desc = "\uD83D\uDC49\uD83C\uDFFB已授課時數超過2000小時(含線上與實體)\n" +
-//                        "\uD83D\uDC49\uD83C\uDFFB學生來自世界各地：美加、歐洲、亞洲、俄羅斯都有我的學生。\n" +
-//                        "\uD83D\uDC49\uD83C\uDFFB學生年齡廣泛：3至65歲皆有，不論是學齡前亦或是退休後。\n" +
-//                        "\uD83D\uDD06因應台灣停課，有課業學習需求之台灣學生/家長可以私訊索取優惠價格\uD83D\uDD06\n" +
-//                        "\uD83D\uDD06如果沒有開放您想選擇的時段，歡迎隨時私訊詢問，Andrea會盡力滿足您需求\uD83D\uDD06\n",
-//                score = 4.9,
-//                chapterList = chapterListTest.filter { it.subjectId == 1L }
-//            )
-//        ),
-//        UserInfo(
-//            id = 5,
-//            account = "yoyo",
-//            auth = UserPref.Authority.TEACHER,
-//            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/179/750/normal/psrnjt.png?1610427294",
-//            name = "YOYO",
-//            email = "yoyo@gmail.com",
-//            teacherInfo = TeacherInfo(
-//                desc = "\uD83D\uDCE2\uD83D\uDCE2\uD83D\uDCE2多益/文法/閱讀團班開課啦！！！早鳥優惠95折！！！\n" +
-//                        "\uD83D\uDCCC想提高多益分數，卻沒有方法嗎？\n" +
-//                        "\uD83D\uDCCC有詞彙不足，文章看不懂的困擾嗎？\n" +
-//                        "\uD83D\uDCCC想和外國人交流卻有有發音不准，影響聽力的障礙嗎？\n" +
-//                        "\n" +
-//                        "\uD83D\uDC54其實YOYO真的懂。\n" +
-//                        "英語學了20年的我，還以為自己很厲害。\n" +
-//                        "真正跨出台灣才發現，原來，我只會課本書裡的英文....\n" +
-//                        "\n" +
-//                        "\uD83D\uDC54但是我沒有氣餒，所以現在的我能夠進入百大企業。\n" +
-//                        "也因為英文說得好，在職場占了很大的優勢。\n" +
-//                        "在公司負責國際市場開拓，台灣，大陸，歐美以及中東。\n" +
-//                        "\n" +
-//                        "\uD83D\uDCBCYOYO一路走來磕磕碰碰，如果你想知道...\n" +
-//                        "①怎麼從多益500分進步到900分！\n" +
-//                        "②如何跳脫教科書說出一口活英文！\n" +
-//                        "\uD83C\uDF88時間就是金錢!想把英語學好就快點來吧！\n" +
-//                        "\uD83C\uDF88Instagram: YOYO_BUSINESS_ENGLISH",
-//                score = 5.0,
-//                chapterList = chapterListTest.filter { it.subjectId == 2L }
-//            )
-//        ),
-//        UserInfo(
-//            id = 6,
-//            account = "rose",
-//            auth = UserPref.Authority.TEACHER,
-//            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/049/219/normal/ehtvpb.png?1617187714",
-//            name = "Rose",
-//            email = "rose@gmail.com",
-//            teacherInfo = TeacherInfo(
-//                desc = "⚠️ 學生已爆量 \uD83D\uDD25 請先私訊詢問、告知程度 \uD83D\uDE0A 謝謝 \n" +
-//                        "\uD83C\uDF1F 升學補教老師 | 熟知台灣學生的痛點\n" +
-//                        "\uD83C\uDFC6 平台頂尖教師 | AT 學生破兩百位\n" +
-//                        "\uD83E\uDD47 5+ 年以上全職英語教學 | 完成破萬堂課程\n" +
-//                        "\uD83D\uDC8E 教學專長 | 「教科書」所學應用於「生活」和「工作」\n" +
-//                        "⚡️ 出版影音課程 | 2020年和snapask合作推出“學測黑馬計畫”\n" +
-//                        "\uD83E\uDDF8 IG: onemin.english 發起人 | 會教的老師只要一分鐘即能解釋易混淆字\n" +
-//                        "\uD83C\uDDFA\uD83C\uDDF8 曾旅居美國 | 標準的美式口音",
-//                score = 5.0,
-//                chapterList = chapterListTest.filter { it.subjectId == 2L }
-//            )
-//        ),
-//        UserInfo(
-//            id = 7,
-//            account = "micky",
-//            auth = UserPref.Authority.TEACHER,
-//            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/396/065/normal/cdgzhf.png?1614517235",
-//            name = "Micky",
-//            email = "micky@gmail.com",
-//            teacherInfo = TeacherInfo(
-//                desc = "❤️你好，那裡有驚人的學習者，這是你的驚人老師米奇！ ❤️\n" +
-//                        "\uD83D\uDD25。這裡只給您最好的教育。\n" +
-//                        "\uD83D\uDD25。母語為英語的人，出生於美國\n" +
-//                        "\uD83D\uDD25。每個課程的重點都是您，您和您！\n" +
-//                        "\n" +
-//                        "\n" +
-//                        "⭐最好的在線英語課程。\n" +
-//                        "⭐有趣的課程材料。\n" +
-//                        "⭐保證進度。\n" +
-//                        "⭐只有最好的英語課程才有6年以上。\n",
-//                score = 4.9,
-//                chapterList = chapterListTest.filter { it.subjectId == 2L }
-//            )
-//        ),
-//        UserInfo(
-//            id = 8,
-//            account = "tony",
-//            auth = UserPref.Authority.TEACHER,
-//            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/609/572/normal/nlhdtn.png?1620446864",
-//            name = "Tony",
-//            email = "tony@gmail.com",
-//            teacherInfo = TeacherInfo(
-//                desc = "跟著Tony學數學是你最好的選擇!! Let's go～～\n" +
-//                        "\uD83D\uDCD6清大數學系畢業\n" +
-//                        "\uD83D\uDCD6就讀台大研究所\n" +
-//                        "\uD83D\uDCD6七年資深家教及補教經驗\n" +
-//                        "\uD83D\uDCD6已幫助多名學生進入明星中學及大學\n" +
-//                        "\uD83D\uDCD6完全客製化課程，用學生感興趣的話題引導出背後的數學邏輯\n" +
-//                        "\n" +
-//                        "\uD83D\uDCDA25分鐘數學診療門診\uD83D\uDCDA\n" +
-//                        "讓Tony更了解你的弱點以及程度\n" +
-//                        "客製出最適合你的課程安排\uD83D\uDC4D\n" +
-//                        "- 免費教材，不需購買課本\n" +
-//                        "- 找到學生弱點，擊敗弱點化為優勢！\n" +
-//                        "- 規劃學習目標以及計劃，有效提升數學能力",
-//                score = 5.0,
-//                chapterList = chapterListTest.filter { it.subjectId == 3L }
-//            )
-//        ),
-//        UserInfo(
-//            id = 9,
-//            account = "eason",
-//            auth = UserPref.Authority.TEACHER,
-//            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/600/908/normal/wvrwhf.png?1618157750",
-//            name = "Eason陳羿丞",
-//            email = "eason@gmail.com",
-//            teacherInfo = TeacherInfo(
-//                desc = "您好，我在補習班教書已有超過10年的時間，過去幫助許多學生突破自己，不論程度如何，有從段考24分進步到75分的案例，也有從80分進步到穩定95分以上的學生。關鍵是針對各種不同的狀況，找到問題並改變突破，透過我的經驗可以提供您適合的規劃跟建議，找到方法！期待與您討論，怎麼樣順利達標！\n" +
-//                        "\n" +
-//                        "1、國中會考自然科統整式教學。\n" +
-//                        "2、生活化的學習內容，更能理解、記憶、融會貫通。\n" +
-//                        "3、針對不同程度，給予不同深度跟廣度的內容。\n" +
-//                        "4、互動式課程，幫助您在當下就學習，減少課後負擔。\n" +
-//                        "5、透過客製化安排，幫助您順利在會考拿下理想分數。",
-//                score = 5.0,
-//                chapterList = chapterListTest.filter { it.subjectId == 4L }
-//            )
-//        ),
-//        UserInfo(
-//            id = 10,
-//            account = "catfishTeacher",
-//            auth = UserPref.Authority.TEACHER,
-//            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/431/253/normal/jjzfgo.png?1606364504",
-//            name = "鯰魚老師",
-//            email = "catfishTeacher@gmail.com",
-//            teacherInfo = TeacherInfo(
-//                desc = "\uD83D\uDC1E我專職在補習班/家教/自然科學實驗12年以上\n" +
-//                        "\uD83D\uDC33我很熟悉108課綱發展，快速掌握命題新趨勢\n" +
-//                        "\uD83E\uDD8B主要教授國小、國中、高中生物與自然科學實驗\n" +
-//                        "\uD83D\uDC0C流暢的圖文e化教學，讓你學習不用想像\n" +
-//                        "\uD83D\uDC22讓您孩子快樂學習並輕鬆擁有好成績\n" +
-//                        "\uD83D\uDC3C免費索取【鯰魚生物秘笈】網址: cclfun.com",
-//                score = 5.0,
-//                chapterList = chapterListTest.filter { it.subjectId == 4L }
-//            )
-//        ),
-//        UserInfo(
-//            id = 11,
-//            account = "zhengKaihan",
-//            auth = UserPref.Authority.TEACHER,
-//            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/510/964/normal/samstu.png?1611670666",
-//            name = "鄭凱瀚",
-//            email = "zhengKaihan@gmail.com",
-//            teacherInfo = TeacherInfo(
-//                desc = "就讀國立中山大學，學測社會頂標，教學風格活潑有趣，讓學生不再是死讀書，而是把社會玩得很愉快！不同學生運用不同學習方式，教學時，我會在體驗課觀察你所適合的方式，在正式課程時則是準備好一套專屬於你的教材，讓你得心應手。\n" +
-//                        "\n" +
-//                        "重視圖表分類，以及學生自主思考，透過引導式的教學來讓你可以靠自己找出答案，運用想像力來讓你的社會更加清楚。\n" +
-//                        "社會不是用背的，是用來玩的！在上課過程中，會藉由圖解來讓你更明白，在面對考試時，我會教你如何分解題目，讓你不再是盲目作答。\n" +
-//                        "\n" +
-//                        "期待讓你從對社會感興趣到熱愛社會，利用肢體的實際體驗，了解每種地形分類，不同的氣候類型，讓自己用繪畫來彩色出屬於你自己的社會，不需要死背，活絡思緒讓地理自動了解你，只要你想要學習，我能把一切都交給你！",
-//                score = 4.5,
-//                chapterList = chapterListTest.filter { it.subjectId == 5L }
-//            )
-//        ),
-//        UserInfo(
-//            id = 12,
-//            account = "lydia",
-//            auth = UserPref.Authority.TEACHER,
-//            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/335/039/normal/ufchzp.png?1603374353",
-//            name = "Lydia",
-//            email = "lydia@gmail.com",
-//            teacherInfo = TeacherInfo(
-//                desc = "【舊生回饋大優惠4/15~5/15】\n" +
-//                        "Step1.撰寫五星評價(內容須含上課內容及狀況）\n" +
-//                        "Step2..私訊告知我審查！\n" +
-//                        "Step3.即可享有回購優惠85折\n" +
-//                        "❗活動僅限4/15至5/15，回購85折優惠亦限於期限內購買❗\n" +
-//                        "*活動折扣不得與其他優惠券一同使用\n" +
-//                        "๑۩۞۩๑ ๑۩۞۩๑ ๑۩۞۩๑ ๑۩۞۩๑ ๑۩۞۩๑ ๑۩۞۩๑\n" +
-//                        "\uD83D\uDD06新制學測國文社會類科頂標，讓我分享我的學習方法，頂標你也可以！\n" +
-//                        "\uD83D\uDD06國中小、高中歷史、社會各類科私藏學習法，獨家傳授！\n" +
-//                        "\uD83D\uDD06歷史就是一連串的故事，擺脫學校劃重點背誦，知識融合生活才能貫通～\n" +
-//                        "\uD83D\uDD06地理才不像社會科！靠理解、想像得高分不難\n" +
-//                        "\uD83D\uDD06公民是各種社會現況和觀察，讓法律系的我來幫你/妳！",
-//                score = 5.0,
-//                chapterList = chapterListTest.filter { it.subjectId == 5L }
-//            )
-//        ),
-//        UserInfo(
-//            id = 13,
-//            account = "jessica",
-//            auth = UserPref.Authority.TEACHER,
-//            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/083/752/normal/etsomh.png?1613789421",
-//            name = "Jessica",
-//            email = "jessica@gmail.com",
-//            teacherInfo = TeacherInfo(
-//                desc = "\uD83E\uDD47國立台灣師範大學畢業\n" +
-//                        "\uD83E\uDD47教育部認證語言教學證照\n" +
-//                        "\uD83E\uDD477年台灣國中小私立雙語學校家教經驗（康橋、復興、薇格）\n" +
-//                        "\n" +
-//                        "可教授的課程：\n" +
-//                        "\uD83E\uDD47國小：全科教學（國文、英文、數學、社會、自然）\n" +
-//                        "\uD83E\uDD47國中：國文、英文、社會科\n" +
-//                        "\n" +
-//                        "＊可安排每天固定線上輔導完成作業\n" +
-//                        "＊解題技巧輔導、培養學生解題思維及提升效率\n" +
-//                        "＊培養學生有效率的讀書技巧及方式\n" +
-//                        "＊除了教學亦擅長鼓勵激勵學生\n",
-//                score = 5.0,
-//                chapterList = chapterListTest.filter { it.subjectId == 5L }
-//            )
-//        ),
-//        UserInfo(
-//            id = 14,
-//            account = "ivy",
-//            auth = UserPref.Authority.TEACHER,
-//            avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/432/954/normal/duybxa.png?1620795602",
-//            name = "Ivy師",
-//            email = "ivy@gmail.com",
-//            teacherInfo = TeacherInfo(
-//                desc = "熟知學校授課方式及教學系統\n" +
-//                        "掌握解題技巧和出題方向\n" +
-//                        "不用再苦苦尋覓合適的老師，一鍵開啟試聽\n" +
-//                        "＝＝＝＝＝＝＝＝＝＝＝＝＝\n" +
-//                        "女孩上課不尷尬，不必擔心安全問題，輕鬆放心提升成績",
-//                score = 5.0,
-//                chapterList = chapterListTest.filter { it.subjectId == 5L }
-//            )
-//        )
-//    )
+
 //
 //
 //    var deleteNotify: NotifyInfo? = null
 //    var isReadAllNotify: Boolean? = null
 //
-
-    private val userIdTest = 0L
-    private val accountTest = "north27"
-    private val passwordTest = "north27"
-    private val authorityTest = UserPref.Authority.STUDENT
-
-    private val accessTokenTest = "accessTokenTest"
-    private val refreshTokenTest = "refreshTokenTest"
-    private val avatarPathTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
-    private val nameTest = "北緯科技"
-    private val emailTest = "north27@north27.tw"
-
-    //
-    private val educationListTest = listOf<Education>(
-        Education(id = 1, text = "國小"),
-        Education(id = 2, text = "國中"),
-        Education(id = 3, text = "高中")
-    )
-    private val gradeListTest = listOf<Grade>(
-        Grade(id = 1, text = "(國小)一年級", educationId = 1),
-        Grade(id = 2, text = "(國小)二年級", educationId = 1),
-        Grade(id = 3, text = "(國小)三年級", educationId = 1),
-        Grade(id = 4, text = "(國小)四年級", educationId = 1),
-        Grade(id = 5, text = "(國小)五年級", educationId = 1),
-        Grade(id = 6, text = "(國小)六年級", educationId = 1),
-        Grade(id = 7, text = "(國中)一年級", educationId = 2),
-        Grade(id = 8, text = "(國中)二年級", educationId = 2),
-        Grade(id = 9, text = "(國中)三年級", educationId = 2),
-        Grade(id = 10, text = "(高中)一年級", educationId = 3),
-        Grade(id = 11, text = "(高中)二年級", educationId = 3),
-        Grade(id = 12, text = "(高中)三年級", educationId = 3),
-    )
-    private val subjectListTest = listOf<Subject>(
-        Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6)),
-        Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)),
-        Subject(id = 3, text = "生活", educationIdList = listOf(1), gradleIdList = listOf(1, 2)),
-        Subject(id = 4, text = "自然", educationIdList = listOf(1, 2), gradleIdList = listOf(3, 4, 5, 6, 7, 8, 9)),
-        Subject(id = 5, text = "社會", educationIdList = listOf(1, 2), gradleIdList = listOf(3, 4, 5, 6, 7, 8, 9)),
-        Subject(id = 6, text = "藝文", educationIdList = listOf(1, 2), gradleIdList = listOf(3, 4, 5, 6, 7, 8, 9)),
-        Subject(id = 7, text = "綜合", educationIdList = listOf(1, 2), gradleIdList = listOf(3, 4, 5, 6, 7, 8, 9)),
-        Subject(id = 8, text = "健體", educationIdList = listOf(1, 2), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9)),
-        Subject(id = 9, text = "閩南語", educationIdList = listOf(1), gradleIdList = listOf(2, 4, 6)),
-        Subject(id = 10, text = "國文", educationIdList = listOf(2, 3), gradleIdList = listOf(7, 8, 9, 10, 11, 12)),
-        Subject(id = 11, text = "英文", educationIdList = listOf(2), gradleIdList = listOf(7, 8, 9)),
-        Subject(id = 12, text = "科技", educationIdList = listOf(2), gradleIdList = listOf(7, 8, 9)),
-        Subject(id = 13, text = "生物", educationIdList = listOf(3), gradleIdList = listOf(10, 11, 12)),
-        Subject(id = 14, text = "物理", educationIdList = listOf(3), gradleIdList = listOf(10, 11, 12)),
-        Subject(id = 15, text = "化學", educationIdList = listOf(3), gradleIdList = listOf(10, 11, 12)),
-        Subject(id = 16, text = "地科", educationIdList = listOf(3), gradleIdList = listOf(10, 11, 12)),
-        Subject(id = 17, text = "地理", educationIdList = listOf(3), gradleIdList = listOf(10, 11, 12)),
-        Subject(id = 18, text = "歷史", educationIdList = listOf(3), gradleIdList = listOf(10, 11, 12)),
-        Subject(id = 19, text = "公民", educationIdList = listOf(3), gradleIdList = listOf(10)),
-    )
-    private val unitListTest = listOf<tw.north27.coachingapp.model.Unit>(
-        Unit(id = 1, educationId = 1, gradeId = 1, subjectId = 1, text = "手拉手"),
-        Unit(id = 2, educationId = 1, gradeId = 1, subjectId = 1, text = "排一排"),
-        Unit(id = 3, educationId = 1, gradeId = 1, subjectId = 1, text = "來數數"),
-        Unit(id = 4, educationId = 1, gradeId = 1, subjectId = 1, text = "找一找"),
-        Unit(id = 5, educationId = 1, gradeId = 2, subjectId = 1, text = "踩影子"),
-        Unit(id = 6, educationId = 1, gradeId = 2, subjectId = 1, text = "再玩一次"),
-        Unit(id = 7, educationId = 1, gradeId = 2, subjectId = 1, text = "謝謝好朋友"),
-        Unit(id = 8, educationId = 1, gradeId = 2, subjectId = 1, text = "統整活動一"),
-        Unit(id = 9, educationId = 1, gradeId = 3, subjectId = 1, text = "時間是什麼"),
-        Unit(id = 10, educationId = 1, gradeId = 3, subjectId = 1, text = "神奇鐘錶店"),
-        Unit(id = 11, educationId = 1, gradeId = 3, subjectId = 1, text = "明天再寫"),
-        Unit(id = 12, educationId = 1, gradeId = 3, subjectId = 1, text = "提早五分鐘"),
-        Unit(id = 13, educationId = 1, gradeId = 3, subjectId = 1, text = "統整活動一"),
-        Unit(id = 14, educationId = 1, gradeId = 4, subjectId = 1, text = "水中奇景"),
-        Unit(id = 15, educationId = 1, gradeId = 4, subjectId = 1, text = "大海的旋律"),
-        Unit(id = 16, educationId = 1, gradeId = 4, subjectId = 1, text = "海底世界"),
-        Unit(id = 17, educationId = 1, gradeId = 4, subjectId = 1, text = "藍色的海洋大軍"),
-        Unit(id = 18, educationId = 1, gradeId = 4, subjectId = 1, text = "統整活動一"),
-        Unit(id = 19, educationId = 1, gradeId = 5, subjectId = 1, text = "貝殼砂"),
-        Unit(id = 20, educationId = 1, gradeId = 5, subjectId = 1, text = "湖邊散步"),
-        Unit(id = 21, educationId = 1, gradeId = 5, subjectId = 1, text = "一池子的綠"),
-        Unit(id = 22, educationId = 1, gradeId = 5, subjectId = 1, text = "與山為鄰"),
-        Unit(id = 23, educationId = 1, gradeId = 5, subjectId = 1, text = "統整活動一"),
-        Unit(id = 24, educationId = 1, gradeId = 6, subjectId = 1, text = "旅客留言簿"),
-        Unit(id = 25, educationId = 1, gradeId = 6, subjectId = 1, text = "遊走在世界的市場裡"),
-        Unit(id = 26, educationId = 1, gradeId = 6, subjectId = 1, text = "我乘雲朵歸來"),
-        Unit(id = 27, educationId = 1, gradeId = 6, subjectId = 1, text = "再別康橋"),
-        Unit(id = 28, educationId = 1, gradeId = 6, subjectId = 1, text = "統整活動一"),
-        //
-        Unit(id = 29, educationId = 1, gradeId = 1, subjectId = 2, text = "1～5的數"),
-        Unit(id = 31, educationId = 1, gradeId = 1, subjectId = 2, text = "6～10的數"),
-        Unit(id = 32, educationId = 1, gradeId = 1, subjectId = 2, text = "點數與對應"),
-        Unit(id = 33, educationId = 1, gradeId = 2, subjectId = 2, text = "數到200"),
-        Unit(id = 34, educationId = 1, gradeId = 2, subjectId = 2, text = "位值與化聚"),
-        Unit(id = 35, educationId = 1, gradeId = 2, subjectId = 2, text = "付錢"),
-        Unit(id = 36, educationId = 1, gradeId = 2, subjectId = 2, text = "數的大小比較"),
-        Unit(id = 37, educationId = 1, gradeId = 3, subjectId = 2, text = "認識數線"),
-        Unit(id = 38, educationId = 1, gradeId = 3, subjectId = 2, text = "在數線上做大小比較"),
-        Unit(id = 39, educationId = 1, gradeId = 3, subjectId = 2, text = "在數線上做加減"),
-        Unit(id = 40, educationId = 1, gradeId = 3, subjectId = 2, text = "數間隔"),
-        Unit(id = 41, educationId = 1, gradeId = 4, subjectId = 2, text = "十萬以內的數"),
-        Unit(id = 42, educationId = 1, gradeId = 4, subjectId = 2, text = "認識萬的家族"),
-        Unit(id = 43, educationId = 1, gradeId = 4, subjectId = 2, text = "一億以內的數"),
-        Unit(id = 44, educationId = 1, gradeId = 4, subjectId = 2, text = "十萬以內的加減"),
-        Unit(id = 45, educationId = 1, gradeId = 5, subjectId = 2, text = "三位小數"),
-        Unit(id = 46, educationId = 1, gradeId = 5, subjectId = 2, text = "多位小數與大小比較"),
-        Unit(id = 47, educationId = 1, gradeId = 5, subjectId = 2, text = "多位小數的加減"),
-        Unit(id = 48, educationId = 1, gradeId = 5, subjectId = 2, text = "分數和小數的數線"),
-        Unit(id = 49, educationId = 1, gradeId = 6, subjectId = 2, text = "質數與合數"),
-        Unit(id = 50, educationId = 1, gradeId = 6, subjectId = 2, text = "質因數分解"),
-        Unit(id = 51, educationId = 1, gradeId = 6, subjectId = 2, text = "最大公因數"),
-        Unit(id = 52, educationId = 1, gradeId = 6, subjectId = 2, text = "最小公倍數"),
-        //
-        Unit(id = 53, educationId = 1, gradeId = 1, subjectId = 3, text = "我上一年級了"),
-        Unit(id = 54, educationId = 1, gradeId = 1, subjectId = 3, text = "我的新學校"),
-        Unit(id = 55, educationId = 1, gradeId = 1, subjectId = 3, text = "大樹高小花香"),
-        Unit(id = 56, educationId = 1, gradeId = 1, subjectId = 3, text = "聲音的世界"),
-        Unit(id = 57, educationId = 1, gradeId = 1, subjectId = 3, text = "玩具總動員"),
-        Unit(id = 58, educationId = 1, gradeId = 1, subjectId = 3, text = "新年快樂"),
-        Unit(id = 59, educationId = 1, gradeId = 2, subjectId = 3, text = "奇妙的影子"),
-        Unit(id = 60, educationId = 1, gradeId = 2, subjectId = 3, text = "和風做朋友"),
-        Unit(id = 61, educationId = 1, gradeId = 2, subjectId = 3, text = "泡泡真有趣"),
-        Unit(id = 62, educationId = 1, gradeId = 2, subjectId = 3, text = "動物好朋友"),
-        Unit(id = 63, educationId = 1, gradeId = 2, subjectId = 3, text = "美麗的色彩"),
-        Unit(id = 64, educationId = 1, gradeId = 2, subjectId = 3, text = "溫暖過冬天"),
-        Unit(id = 65, educationId = 1, gradeId = 2, subjectId = 3, text = "溫暖過冬天"),
-        //
-        Unit(id = 66, educationId = 1, gradeId = 3, subjectId = 4, text = "植物的葉子、莖和根"),
-        Unit(id = 67, educationId = 1, gradeId = 3, subjectId = 4, text = "植物的花、果實和種子"),
-        Unit(id = 68, educationId = 1, gradeId = 3, subjectId = 4, text = "植物與生活"),
-        Unit(id = 69, educationId = 1, gradeId = 4, subjectId = 4, text = "大家來賞月"),
-        Unit(id = 70, educationId = 1, gradeId = 4, subjectId = 4, text = "月亮位置的移動"),
-        Unit(id = 71, educationId = 1, gradeId = 4, subjectId = 4, text = "月相的變化"),
-        Unit(id = 72, educationId = 1, gradeId = 5, subjectId = 4, text = "一天中太陽位置的變化"),
-        Unit(id = 73, educationId = 1, gradeId = 5, subjectId = 4, text = "一年中太陽位置的變化"),
-        Unit(id = 74, educationId = 1, gradeId = 5, subjectId = 4, text = "太陽與生活"),
-        Unit(id = 75, educationId = 1, gradeId = 6, subjectId = 4, text = "大氣中的水"),
-        Unit(id = 76, educationId = 1, gradeId = 6, subjectId = 4, text = "認識天氣圖"),
-        Unit(id = 77, educationId = 1, gradeId = 6, subjectId = 4, text = "颱風與防災"),
-        //
-        Unit(id = 78, educationId = 1, gradeId = 3, subjectId = 5, text = "我會認真學習"),
-        Unit(id = 79, educationId = 1, gradeId = 3, subjectId = 5, text = "我會善用時間"),
-        Unit(id = 80, educationId = 1, gradeId = 4, subjectId = 5, text = "家鄉的地名"),
-        Unit(id = 81, educationId = 1, gradeId = 4, subjectId = 5, text = "地圖上的家鄉"),
-        Unit(id = 82, educationId = 1, gradeId = 5, subjectId = 5, text = "認識我們的家園"),
-        Unit(id = 83, educationId = 1, gradeId = 5, subjectId = 5, text = "海洋中的家園"),
-        Unit(id = 84, educationId = 1, gradeId = 6, subjectId = 5, text = "資源與生活"),
-        Unit(id = 85, educationId = 1, gradeId = 6, subjectId = 5, text = "物產概況"),
-        //
-        Unit(id = 86, educationId = 1, gradeId = 3, subjectId = 6, text = "創意大玩家"),
-        Unit(id = 87, educationId = 1, gradeId = 3, subjectId = 6, text = "創意冒險地圖"),
-        Unit(id = 88, educationId = 1, gradeId = 3, subjectId = 6, text = "奇幻世界"),
-        Unit(id = 89, educationId = 1, gradeId = 3, subjectId = 6, text = "家人"),
-        Unit(id = 90, educationId = 1, gradeId = 4, subjectId = 6, text = "校園之美"),
-        Unit(id = 91, educationId = 1, gradeId = 4, subjectId = 6, text = "生活中的視覺藝術"),
-        Unit(id = 92, educationId = 1, gradeId = 4, subjectId = 6, text = "自然之美"),
-        Unit(id = 93, educationId = 1, gradeId = 5, subjectId = 6, text = "天生好手"),
-        Unit(id = 94, educationId = 1, gradeId = 5, subjectId = 6, text = "我生長的地方"),
-        Unit(id = 95, educationId = 1, gradeId = 5, subjectId = 6, text = "環保你我他"),
-        Unit(id = 96, educationId = 1, gradeId = 6, subjectId = 6, text = "視覺藝術點線面"),
-        Unit(id = 97, educationId = 1, gradeId = 6, subjectId = 6, text = "視覺藝術大進擊"),
-        Unit(id = 98, educationId = 1, gradeId = 6, subjectId = 6, text = "版畫藝術"),
-        //
-        Unit(id = 99, educationId = 1, gradeId = 3, subjectId = 7, text = "認識你我他"),
-        Unit(id = 100, educationId = 1, gradeId = 3, subjectId = 7, text = "共同的任務"),
-        Unit(id = 101, educationId = 1, gradeId = 4, subjectId = 7, text = "體驗文化活動"),
-        Unit(id = 102, educationId = 1, gradeId = 4, subjectId = 7, text = "文化生活小記者"),
-        Unit(id = 103, educationId = 1, gradeId = 5, subjectId = 7, text = "環境新鮮事"),
-        Unit(id = 104, educationId = 1, gradeId = 5, subjectId = 7, text = "環境適應面面觀"),
-        Unit(id = 105, educationId = 1, gradeId = 6, subjectId = 7, text = "時間管理師"),
-        Unit(id = 106, educationId = 1, gradeId = 6, subjectId = 7, text = "小小理財員"),
-        //
-        Unit(id = 107, educationId = 1, gradeId = 1, subjectId = 8, text = "長大真好"),
-        Unit(id = 108, educationId = 1, gradeId = 1, subjectId = 8, text = "清潔衛生好習慣"),
-        Unit(id = 109, educationId = 1, gradeId = 2, subjectId = 8, text = "健康飲食"),
-        Unit(id = 110, educationId = 1, gradeId = 2, subjectId = 8, text = "飲食追追追"),
-        Unit(id = 111, educationId = 1, gradeId = 2, subjectId = 8, text = "飲食安全小秘訣"),
-        Unit(id = 112, educationId = 1, gradeId = 3, subjectId = 8, text = "奇妙的生命"),
-        Unit(id = 113, educationId = 1, gradeId = 3, subjectId = 8, text = "成長的奧妙"),
-        Unit(id = 114, educationId = 1, gradeId = 3, subjectId = 8, text = "關懷銀髮族"),
-        Unit(id = 115, educationId = 1, gradeId = 3, subjectId = 8, text = "永恆的回憶"),
-        Unit(id = 116, educationId = 1, gradeId = 4, subjectId = 8, text = "閃躲高手"),
-        Unit(id = 117, educationId = 1, gradeId = 4, subjectId = 8, text = "排球樂"),
-        Unit(id = 118, educationId = 1, gradeId = 5, subjectId = 8, text = "籃球天地"),
-        Unit(id = 119, educationId = 1, gradeId = 5, subjectId = 8, text = "移動傳球變化多"),
-        Unit(id = 120, educationId = 1, gradeId = 5, subjectId = 8, text = "我是神射手"),
-        Unit(id = 121, educationId = 1, gradeId = 5, subjectId = 8, text = "與球共舞"),
-        Unit(id = 122, educationId = 1, gradeId = 6, subjectId = 8, text = "上籃練習"),
-        Unit(id = 123, educationId = 1, gradeId = 6, subjectId = 8, text = "防守動作與移位步伐"),
-        Unit(id = 124, educationId = 1, gradeId = 6, subjectId = 8, text = "對戰遊戲"),
-        Unit(id = 125, educationId = 1, gradeId = 6, subjectId = 8, text = "趣味鬥牛賽"),
-        //
-        Unit(id = 126, educationId = 1, gradeId = 2, subjectId = 9, text = "看新娘"),
-        Unit(id = 127, educationId = 1, gradeId = 2, subjectId = 9, text = "中秋暝"),
-        Unit(id = 128, educationId = 1, gradeId = 2, subjectId = 9, text = "故事磅米芳(一)"),
-        Unit(id = 129, educationId = 1, gradeId = 4, subjectId = 9, text = "臺灣！臺灣！"),
-        Unit(id = 130, educationId = 1, gradeId = 4, subjectId = 9, text = "伴手禮"),
-        Unit(id = 131, educationId = 1, gradeId = 6, subjectId = 9, text = "無尾熊無尾"),
-        Unit(id = 132, educationId = 1, gradeId = 6, subjectId = 9, text = "反序詞"),
-    )
 
 
     override suspend fun getAppConfig(
@@ -707,33 +219,43 @@ class ApiService(val cxt: Context) : IApiService {
             unitListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }
     }
 
-//    override suspend fun getGrade(): List<Grade> {
-//        return gradeListTest
-//    }
-//
-//    override suspend fun getSubject(gradeId: Long?): List<Subject> {
-//        return if (gradeId != null)
-//            subjectListTest.filter { (it.gradeIdList.find { it == gradeId } != null) }
-//        else
-//            subjectListTest.filter { (it.gradeIdList.find { it == 0L } != null) }
-//    }
-//
-//    override suspend fun getChapter(gradeId: Long?, subjectId: Long?): List<Chapter> {
-//        return if (gradeId != null && subjectId != null) {
-//            unitListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId }
-//        } else if (gradeId != null) {
-//            unitListTest.filter { it.gradeId == gradeId }
-//        } else if (subjectId != null) {
-//            unitListTest.filter { it.subjectId == subjectId }
-//        } else {
-//            unitListTest.filter { it.gradeId == 0L && it.subjectId == 0L }
-//        }
-//    }
-    //
-    //
-    //
-    //
-    //
+    override suspend fun getTeacherList(educationId: Long?, gradeId: Long?, subjectId: Long?, unitId: Long?): List<UserInfo> {
+        delay(1500)
+        return if (educationId == null && gradeId == null && subjectId == null && unitId == null)
+            teacherInfoListTest
+        else if (educationId == null && gradeId == null && subjectId == null)
+            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.id == unitId }?.size ?: 0 > 0 }
+        else if (educationId == null && gradeId == null && unitId == null)
+            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.subjectId == subjectId }?.size ?: 0 > 0 }
+        else if (educationId == null && subjectId == null && unitId == null)
+            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.gradeId == gradeId }?.size ?: 0 > 0 }
+        else if (gradeId == null && subjectId == null && unitId == null)
+            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId }?.size ?: 0 > 0 }
+        //
+        else if (educationId == null && gradeId == null)
+            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
+        else if (educationId == null && subjectId == null)
+            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.gradeId == gradeId && it.id == unitId }?.size ?: 0 > 0 }
+        else if (educationId == null && unitId == null)
+            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.gradeId == gradeId && it.subjectId == subjectId }?.size ?: 0 > 0 }
+        else if (gradeId == null && subjectId == null)
+            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.id == unitId }?.size ?: 0 > 0 }
+        else if (gradeId == null && unitId == null)
+            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.subjectId == subjectId }?.size ?: 0 > 0 }
+        else if (subjectId == null && unitId == null)
+            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.gradeId == gradeId }?.size ?: 0 > 0 }
+        else if (educationId == null)
+            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
+        else if (gradeId == null)
+            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
+        else if (subjectId == null)
+            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.gradeId == gradeId && it.id == unitId }?.size ?: 0 > 0 }
+        else if (unitId == null)
+            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }?.size ?: 0 > 0 }
+        else
+            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
+    }
+
 
     //    override suspend fun refreshToken(@Query(value = "refresh_token") refreshToken: String): TokenInfo {
 //        delay(500)
@@ -743,32 +265,6 @@ class ApiService(val cxt: Context) : IApiService {
 //        )
 //    }
 //
-//    override suspend fun getLoadTeacher(
-//        gradeId: Long?,
-//        subjectId: Long?,
-//        chapterId: Long?
-//    ): List<UserInfo> {
-//        delay(1500)
-//        return if (gradeId != null && subjectId != null && chapterId != null && gradeId != 0L && subjectId != 0L && chapterId != 0L) {
-//            teacherInfoListTest.filter {
-//                it.teacherInfo!!.chapterList.find {
-//                    it.gradeId == gradeId && it.subjectId == subjectId && it.id == chapterId
-//                } != null
-//            }
-//        } else if (gradeId != null && subjectId != null && gradeId != 0L && subjectId != 0L) {
-//            teacherInfoListTest.filter {
-//                it.teacherInfo!!.chapterList.find {
-//                    it.gradeId == gradeId && it.subjectId == subjectId
-//                } != null
-//            }
-//        } else if (gradeId != null && gradeId != 0L) {
-//            teacherInfoListTest.filter {
-//                it.teacherInfo!!.chapterList.find { it.subjectId == subjectId } != null
-//            }
-//        } else {
-//            teacherInfoListTest
-//        }
-//    }
 //
 
 //
