@@ -10,8 +10,8 @@ message UserPref {
   //權限
   enum Authority {
     UNKNOWN = 0;//None(空值)
-    GENERAL = 1;//一般
-    ADVANCED = 2;//高級
+    STUDENT = 1;//一般
+    TEACHER = 2;//高級
   }
   Authority auth = 4;
   string accessToken = 5;// 訪問token

@@ -68,8 +68,8 @@
                         layout="@layout/item_network" />
 
                     <include
-                        android:id="@+id/item_shinner"
-                        layout="@layout/fragment_main_home_shinner"
+                        android:id="@+id/item_shimmer"
+                        layout="@layout/fragment_main_home_shimmer"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
 

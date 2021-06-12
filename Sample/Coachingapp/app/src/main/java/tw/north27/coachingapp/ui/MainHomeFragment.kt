@@ -9,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.yujie.utilmodule.base.BaseFragment
 import com.yujie.utilmodule.ext.clicksObserve
+import com.yujie.utilmodule.ext.isVisible
 import com.yujie.utilmodule.ext.observe
 import com.yujie.utilmodule.util.ViewState
 import com.yujie.utilmodule.util.logI
@@ -58,7 +59,7 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
         binding.srlView.autoRefresh()
 
         viewModel.teacherListState.observe(viewLifecycleOwner) {
-            binding.itemShinner.sflView.isVisible = (it is ViewState.Load)
+            binding.itemShimmer.sflView.isVisible = (it is ViewState.Load)
             binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
             binding.rvView.isVisible = (it is ViewState.Data)
             binding.itemError.root.isVisible = (it is ViewState.Error)
