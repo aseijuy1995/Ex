@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.first
 import retrofit2.http.Field
 import retrofit2.http.Query
 import tw.north27.coachingapp.model.*
+import tw.north27.coachingapp.model.Unit
 
 class ApiService(val cxt: Context) : IApiService {
 
@@ -38,285 +39,7 @@ class ApiService(val cxt: Context) : IApiService {
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////
-//    private val gradeListTest = listOf<Grade>(
-//        Grade(id = 0, text = "預設"),
-//        Grade(id = 1, text = "一年級"),
-//        Grade(id = 2, text = "二年級"),
-//        Grade(id = 3, text = "三年級"),
-//        Grade(id = 4, text = "四年級"),
-//        Grade(id = 5, text = "五年級"),
-//        Grade(id = 6, text = "六年級"),
-//        Grade(id = 7, text = "七年級"),
-//        Grade(id = 8, text = "八年級"),
-//        Grade(id = 9, text = "九年級"),
-//    )
-//    private val subjectListTest = listOf<Subject>(
-//        Subject(id = 0, gradeIdList = listOf(0), text = "預設"),
-//        Subject(id = 1, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "國文"),
-//        Subject(id = 2, gradeIdList = listOf(7, 8, 9), text = "英語"),
-//        Subject(id = 3, gradeIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9), text = "數學"),
-//        Subject(id = 4, gradeIdList = listOf(3, 4, 5, 6, 7, 8, 9), text = "自然"),
-//        Subject(id = 5, gradeIdList = listOf(3, 4, 5, 6, 7, 8, 9), text = "社會"),
-//        Subject(id = 6, gradeIdList = listOf(7, 8), text = "科技"),
-//    )
-//    private val chapterListTest = listOf<Chapter>(
-//        Chapter(id = 0, gradeId = 0, subjectId = 0, text = "預設"),
-//        //
-//        Chapter(id = 1, gradeId = 1, subjectId = 1, text = "手拉手"),
-//        Chapter(id = 2, gradeId = 1, subjectId = 1, text = "排一排"),
-//        Chapter(id = 3, gradeId = 1, subjectId = 1, text = "來數數"),
-//        Chapter(id = 4, gradeId = 1, subjectId = 1, text = "找一找"),
-//        Chapter(id = 5, gradeId = 1, subjectId = 1, text = "雨來了"),
-//        Chapter(id = 6, gradeId = 1, subjectId = 1, text = "山坡上的學校"),
-//        Chapter(id = 7, gradeId = 1, subjectId = 1, text = "值日生"),
-//        Chapter(id = 8, gradeId = 1, subjectId = 1, text = "運動會"),
-//        Chapter(id = 9, gradeId = 1, subjectId = 1, text = "做卡片"),
-//        Chapter(id = 10, gradeId = 1, subjectId = 1, text = "紙飛機"),
-//        //
-//        Chapter(id = 11, gradeId = 2, subjectId = 1, text = "踩影子"),
-//        Chapter(id = 12, gradeId = 2, subjectId = 1, text = "再玩一次"),
-//        Chapter(id = 13, gradeId = 2, subjectId = 1, text = "謝謝好朋友"),
-//        Chapter(id = 14, gradeId = 2, subjectId = 1, text = "水草下的呱呱"),
-//        Chapter(id = 15, gradeId = 2, subjectId = 1, text = "沙灘上的畫"),
-//        Chapter(id = 16, gradeId = 2, subjectId = 1, text = "草叢裡的星星"),
-//        Chapter(id = 17, gradeId = 2, subjectId = 1, text = "神奇的竹筒飯"),
-//        Chapter(id = 18, gradeId = 2, subjectId = 1, text = "不一樣的故事"),
-//        Chapter(id = 19, gradeId = 2, subjectId = 1, text = "美味的一堂課"),
-//        Chapter(id = 20, gradeId = 2, subjectId = 1, text = "加加減減"),
-//        Chapter(id = 21, gradeId = 2, subjectId = 1, text = "門、鬥大仙"),
-//        Chapter(id = 22, gradeId = 2, subjectId = 1, text = "詠鵝"),
-//        //
-//        Chapter(id = 23, gradeId = 3, subjectId = 1, text = "時間是什麼"),
-//        Chapter(id = 24, gradeId = 3, subjectId = 1, text = "神奇鐘錶店"),
-//        Chapter(id = 25, gradeId = 3, subjectId = 1, text = "明天再寫"),
-//        Chapter(id = 26, gradeId = 3, subjectId = 1, text = "提早五分鐘"),
-//        Chapter(id = 27, gradeId = 3, subjectId = 1, text = "不賣馬的人"),
-//        Chapter(id = 28, gradeId = 3, subjectId = 1, text = "老榕樹"),
-//        Chapter(id = 29, gradeId = 3, subjectId = 1, text = "王子的耳朵"),
-//        Chapter(id = 30, gradeId = 3, subjectId = 1, text = "世界上的海洋"),
-//        Chapter(id = 31, gradeId = 3, subjectId = 1, text = "大自然的雕刻家"),
-//        Chapter(id = 32, gradeId = 3, subjectId = 1, text = "月世界"),
-//        Chapter(id = 33, gradeId = 3, subjectId = 1, text = "看海豚跳舞"),
-//        Chapter(id = 34, gradeId = 3, subjectId = 1, text = "客家擂茶"),
-//        Chapter(id = 35, gradeId = 3, subjectId = 1, text = "秋千上的婚禮"),
-//        Chapter(id = 36, gradeId = 3, subjectId = 1, text = "小鎮風情"),
-//        //
-//        Chapter(id = 37, gradeId = 4, subjectId = 1, text = "水中奇景"),
-//        Chapter(id = 38, gradeId = 4, subjectId = 1, text = "大海的旋律"),
-//        Chapter(id = 39, gradeId = 4, subjectId = 1, text = "海底世界"),
-//        Chapter(id = 40, gradeId = 4, subjectId = 1, text = "藍色的海洋大軍"),
-//        Chapter(id = 41, gradeId = 4, subjectId = 1, text = "老榕樹下讀報紙"),
-//        Chapter(id = 42, gradeId = 4, subjectId = 1, text = "特別的滋味"),
-//        Chapter(id = 43, gradeId = 4, subjectId = 1, text = "收藏秋天"),
-//        Chapter(id = 44, gradeId = 4, subjectId = 1, text = "靜靜的淡水河"),
-//        Chapter(id = 45, gradeId = 4, subjectId = 1, text = "鹿谷美地，凍頂茶香"),
-//        Chapter(id = 46, gradeId = 4, subjectId = 1, text = "落山風"),
-//        Chapter(id = 47, gradeId = 4, subjectId = 1, text = "澎湖，我來了"),
-//        Chapter(id = 48, gradeId = 4, subjectId = 1, text = "圓夢之旅"),
-//        Chapter(id = 49, gradeId = 4, subjectId = 1, text = "松鼠先生的麵包"),
-//        Chapter(id = 50, gradeId = 4, subjectId = 1, text = "身心手腦四合一"),
-//        //
-//        Chapter(id = 51, gradeId = 5, subjectId = 1, text = "貝殼砂"),
-//        Chapter(id = 52, gradeId = 5, subjectId = 1, text = "湖邊散步"),
-//        Chapter(id = 53, gradeId = 5, subjectId = 1, text = "一池子的綠"),
-//        Chapter(id = 54, gradeId = 5, subjectId = 1, text = "與山為鄰"),
-//        Chapter(id = 55, gradeId = 5, subjectId = 1, text = "我的隱身術"),
-//        Chapter(id = 56, gradeId = 5, subjectId = 1, text = "書信"),
-//        Chapter(id = 57, gradeId = 5, subjectId = 1, text = "幸福的味道"),
-//        Chapter(id = 58, gradeId = 5, subjectId = 1, text = "古今西湖詩選"),
-//        Chapter(id = 59, gradeId = 5, subjectId = 1, text = "擅長推理的人"),
-//        Chapter(id = 60, gradeId = 5, subjectId = 1, text = "角力士糞金龜"),
-//        Chapter(id = 61, gradeId = 5, subjectId = 1, text = "敏銳觀察"),
-//        Chapter(id = 62, gradeId = 5, subjectId = 1, text = "讓我做你的眼睛"),
-//        Chapter(id = 63, gradeId = 5, subjectId = 1, text = "一萬五千元的學生證"),
-//        Chapter(id = 64, gradeId = 5, subjectId = 1, text = "誰該被派去非洲"),
-//        //
-//        Chapter(id = 65, gradeId = 6, subjectId = 1, text = "旅客留言簿"),
-//        Chapter(id = 66, gradeId = 6, subjectId = 1, text = "遊走在世界的市場裡"),
-//        Chapter(id = 67, gradeId = 6, subjectId = 1, text = "我乘雲朵歸來"),
-//        Chapter(id = 68, gradeId = 6, subjectId = 1, text = "再別康橋"),
-//        //
-//        Chapter(id = 69, gradeId = 7, subjectId = 1, text = "夏夜"),
-//        Chapter(id = 70, gradeId = 7, subjectId = 1, text = "論語選"),
-//        Chapter(id = 71, gradeId = 7, subjectId = 1, text = "雅量"),
-//        Chapter(id = 72, gradeId = 7, subjectId = 1, text = "母親的教誨"),
-//        Chapter(id = 73, gradeId = 7, subjectId = 1, text = "兒時記趣"),
-//        Chapter(id = 74, gradeId = 7, subjectId = 1, text = "背影"),
-//        //
-//        Chapter(id = 75, gradeId = 8, subjectId = 1, text = "田園之秋選"),
-//        Chapter(id = 76, gradeId = 8, subjectId = 1, text = "古詩選"),
-//        Chapter(id = 77, gradeId = 8, subjectId = 1, text = "故鄉的桂花雨"),
-//        //
-//        Chapter(id = 78, gradeId = 9, subjectId = 1, text = "故鄉的桂花雨"),
-//        Chapter(id = 79, gradeId = 9, subjectId = 1, text = "生於憂患死於安樂"),
-//        Chapter(id = 80, gradeId = 9, subjectId = 1, text = "詞選"),
-//        //英文
-//        Chapter(id = 81, gradeId = 7, subjectId = 2, text = "Who's That Handsome Boy?"),
-//        Chapter(id = 82, gradeId = 7, subjectId = 2, text = "Where Is the Bedroom?"),
-//        Chapter(id = 83, gradeId = 7, subjectId = 2, text = "Look at the Sign"),
-//        Chapter(id = 84, gradeId = 7, subjectId = 2, text = "What Time Is the Concert?"),
-//        Chapter(id = 85, gradeId = 7, subjectId = 2, text = "What's the Date?"),
-//        Chapter(id = 86, gradeId = 7, subjectId = 2, text = "There Are Some Elephants over There"),
-//        //
-//        Chapter(id = 87, gradeId = 8, subjectId = 2, text = "How Was the Weather in Australia？"),
-//        Chapter(id = 88, gradeId = 8, subjectId = 2, text = "You Can Learn About Game Design After You Join the Club"),
-//        Chapter(id = 89, gradeId = 8, subjectId = 2, text = "Mom Was Doing the Dishes at Half past Twelve"),
-//        Chapter(id = 90, gradeId = 8, subjectId = 2, text = "What Do You Want to Be in the Future？"),
-//        Chapter(id = 91, gradeId = 8, subjectId = 2, text = "How Do We Get to Big Ben？"),
-//        Chapter(id = 92, gradeId = 8, subjectId = 2, text = "She’ll Wear a Sweater to the Party"),
-//        Chapter(id = 93, gradeId = 8, subjectId = 2, text = "She’ll Wear a Sweater to the Party"),
-//        //
-//        Chapter(id = 94, gradeId = 9, subjectId = 2, text = "Have You Decided on the Gift?"),
-//        Chapter(id = 95, gradeId = 9, subjectId = 2, text = "Seeing Is Believing, Isn't It?"),
-//        Chapter(id = 96, gradeId = 9, subjectId = 2, text = "People Get Excited About Halloween"),
-//        Chapter(id = 97, gradeId = 9, subjectId = 2, text = "Spiders Are Served as Food Here"),
-//        Chapter(id = 98, gradeId = 9, subjectId = 2, text = "Can You Tell Me What to Do?"),
-//        Chapter(id = 99, gradeId = 9, subjectId = 2, text = "They Asked Me If I Liked Taiwan"),
-//        Chapter(id = 100, gradeId = 9, subjectId = 2, text = "Studying Is Important, and So Is Taking Up a Hobby"),
-//        Chapter(id = 101, gradeId = 9, subjectId = 2, text = "She Is the Girl Who Helps the Homeless"),
-//        Chapter(id = 102, gradeId = 9, subjectId = 2, text = "A Girl I Met Online Asked Me Out"),
-//        //數學
-//        Chapter(id = 103, gradeId = 1, subjectId = 3, text = "10以內的數"),
-//        Chapter(id = 104, gradeId = 1, subjectId = 3, text = "比長短"),
-//        Chapter(id = 105, gradeId = 1, subjectId = 3, text = "順序與多少"),
-//        Chapter(id = 106, gradeId = 1, subjectId = 3, text = "分與合"),
-//        Chapter(id = 107, gradeId = 1, subjectId = 3, text = "認識形狀"),
-//        //
-//        Chapter(id = 108, gradeId = 2, subjectId = 3, text = "200以內的數"),
-//        Chapter(id = 109, gradeId = 2, subjectId = 3, text = "二位數的加減法"),
-//        Chapter(id = 110, gradeId = 2, subjectId = 3, text = "認識公分"),
-//        //
-//        Chapter(id = 111, gradeId = 3, subjectId = 3, text = "數線"),
-//        Chapter(id = 112, gradeId = 3, subjectId = 3, text = "10000以內的數"),
-//        Chapter(id = 113, gradeId = 3, subjectId = 3, text = "10000以內的加減"),
-//        Chapter(id = 114, gradeId = 3, subjectId = 3, text = "乘法"),
-//        Chapter(id = 115, gradeId = 3, subjectId = 3, text = "周界和周長"),
-//        //
-//        Chapter(id = 116, gradeId = 4, subjectId = 3, text = "一億以內的數"),
-//        Chapter(id = 117, gradeId = 4, subjectId = 3, text = "乘法"),
-//        Chapter(id = 118, gradeId = 4, subjectId = 3, text = "角度"),
-//        Chapter(id = 119, gradeId = 4, subjectId = 3, text = "公里"),
-//        Chapter(id = 120, gradeId = 4, subjectId = 3, text = "除法"),
-//        //
-//        Chapter(id = 121, gradeId = 5, subjectId = 3, text = "多位小數"),
-//        Chapter(id = 122, gradeId = 5, subjectId = 3, text = "因數與公因數"),
-//        Chapter(id = 123, gradeId = 5, subjectId = 3, text = "倍數與公倍數"),
-//        Chapter(id = 124, gradeId = 5, subjectId = 3, text = "平面圖形"),
-//        Chapter(id = 125, gradeId = 5, subjectId = 3, text = "多位數的乘除"),
-//        //
-//        Chapter(id = 126, gradeId = 6, subjectId = 3, text = "最大公因數與最小公倍數"),
-//        Chapter(id = 127, gradeId = 6, subjectId = 3, text = "分數的除法"),
-//        Chapter(id = 128, gradeId = 6, subjectId = 3, text = "長條圖與折線圖"),
-//        Chapter(id = 129, gradeId = 6, subjectId = 3, text = "小數的除法"),
-//        Chapter(id = 130, gradeId = 6, subjectId = 3, text = "圓周長與扇形弧長"),
-//        Chapter(id = 131, gradeId = 6, subjectId = 3, text = "比、比值與正比"),
-//        Chapter(id = 132, gradeId = 6, subjectId = 3, text = "比、縮放圖與比例尺"),
-//        Chapter(id = 133, gradeId = 6, subjectId = 3, text = "圓與扇形的面積"),
-//        Chapter(id = 134, gradeId = 6, subjectId = 3, text = "規律問題"),
-//        //
-//        Chapter(id = 135, gradeId = 7, subjectId = 3, text = "數與數線"),
-//        Chapter(id = 136, gradeId = 7, subjectId = 3, text = "標準分解式與分數運算"),
-//        //
-//        Chapter(id = 137, gradeId = 8, subjectId = 3, text = "乘法公式與多項式"),
-//        Chapter(id = 138, gradeId = 8, subjectId = 3, text = "二次方根與畢氏定理"),
-//        Chapter(id = 139, gradeId = 8, subjectId = 3, text = "因式分解"),
-//        Chapter(id = 140, gradeId = 8, subjectId = 3, text = "一元二次方程式"),
-//        //
-//        Chapter(id = 141, gradeId = 9, subjectId = 3, text = "相似形"),
-//        Chapter(id = 142, gradeId = 9, subjectId = 3, text = "圓形"),
-//        Chapter(id = 143, gradeId = 9, subjectId = 3, text = "外心、內心與重心"),
-//        //自然
-//        Chapter(id = 144, gradeId = 3, subjectId = 4, text = "植物的身體"),
-//        Chapter(id = 145, gradeId = 3, subjectId = 4, text = "奇妙的磁鐵"),
-//        //
-//        Chapter(id = 146, gradeId = 4, subjectId = 4, text = "月亮"),
-//        Chapter(id = 147, gradeId = 4, subjectId = 4, text = "水生生物的世界"),
-//        Chapter(id = 148, gradeId = 4, subjectId = 4, text = "運輸工具與能源"),
-//        //
-//        Chapter(id = 149, gradeId = 5, subjectId = 4, text = "觀測太陽"),
-//        //
-//        Chapter(id = 150, gradeId = 6, subjectId = 4, text = "多變的天氣"),
-//        Chapter(id = 151, gradeId = 6, subjectId = 4, text = "聲音與樂器"),
-//        Chapter(id = 152, gradeId = 6, subjectId = 4, text = "地表的變化"),
-//        Chapter(id = 153, gradeId = 6, subjectId = 4, text = "電磁作用"),
-//        //
-//        Chapter(id = 154, gradeId = 7, subjectId = 4, text = "生命世界與科學方法"),
-//        Chapter(id = 155, gradeId = 7, subjectId = 4, text = "生物體的組成"),
-//        Chapter(id = 156, gradeId = 7, subjectId = 4, text = "生物體的營養"),
-//        Chapter(id = 157, gradeId = 7, subjectId = 4, text = "生物體的運輸作用"),
-//        Chapter(id = 158, gradeId = 7, subjectId = 4, text = "生物體的協調作用"),
-//        Chapter(id = 159, gradeId = 7, subjectId = 4, text = "生物體的恆定"),
-//        //
-//        Chapter(id = 160, gradeId = 8, subjectId = 4, text = "基本測量"),
-//        Chapter(id = 161, gradeId = 8, subjectId = 4, text = "物質的世界"),
-//        Chapter(id = 162, gradeId = 8, subjectId = 4, text = "波動與聲音"),
-//        //
-//        Chapter(id = 163, gradeId = 9, subjectId = 4, text = "直線運動"),
-//        Chapter(id = 164, gradeId = 9, subjectId = 4, text = "力與運動"),
-//        Chapter(id = 165, gradeId = 9, subjectId = 4, text = "能量-由功到熱"),
-//        Chapter(id = 166, gradeId = 9, subjectId = 4, text = "電流、電壓與歐姆定律"),
-//        Chapter(id = 167, gradeId = 9, subjectId = 4, text = "地球的環境"),
-//        Chapter(id = 168, gradeId = 9, subjectId = 4, text = "變動的地球"),
-//        Chapter(id = 169, gradeId = 9, subjectId = 4, text = "浩瀚的宇宙"),
-//        Chapter(id = 170, gradeId = 9, subjectId = 4, text = "運輸科技概說"),
-//        Chapter(id = 171, gradeId = 9, subjectId = 4, text = "運輸科技的原理與應用"),
-//        //社會
-//        Chapter(id = 172, gradeId = 3, subjectId = 5, text = "我會快樂學習"),
-//        Chapter(id = 173, gradeId = 3, subjectId = 5, text = "家庭生活"),
-//        //
-//        Chapter(id = 174, gradeId = 4, subjectId = 5, text = "家鄉的地名與位置"),
-//        Chapter(id = 175, gradeId = 4, subjectId = 5, text = "家鄉的自然環境"),
-//        Chapter(id = 176, gradeId = 4, subjectId = 5, text = "家鄉的開發"),
-//        //
-//        Chapter(id = 177, gradeId = 5, subjectId = 5, text = "嗨！臺灣你好"),
-//        Chapter(id = 178, gradeId = 5, subjectId = 5, text = "臺灣的自然環境"),
-//        Chapter(id = 179, gradeId = 5, subjectId = 5, text = "臺灣遠古的故事"),
-//        Chapter(id = 180, gradeId = 5, subjectId = 5, text = "大航海時代的臺灣"),
-//        //
-//        Chapter(id = 181, gradeId = 6, subjectId = 5, text = "臺灣的自然資源與物產"),
-//        Chapter(id = 182, gradeId = 6, subjectId = 5, text = "生產與消費"),
-//        Chapter(id = 183, gradeId = 6, subjectId = 5, text = "投資理財與經濟活動"),
-//        Chapter(id = 184, gradeId = 6, subjectId = 5, text = "法治你我他"),
-//        Chapter(id = 185, gradeId = 6, subjectId = 5, text = "社會變遷"),
-//        Chapter(id = 186, gradeId = 6, subjectId = 5, text = "福爾摩沙我的家"),
-//        //
-//        Chapter(id = 187, gradeId = 7, subjectId = 5, text = "認識位置與地圖"),
-//        Chapter(id = 188, gradeId = 7, subjectId = 5, text = "世界中的臺灣"),
-//        Chapter(id = 189, gradeId = 7, subjectId = 5, text = "地形"),
-//        Chapter(id = 190, gradeId = 7, subjectId = 5, text = "史前臺灣與原住民文化"),
-//        Chapter(id = 191, gradeId = 7, subjectId = 5, text = "大航海時代各方勢力的競逐"),
-//        Chapter(id = 192, gradeId = 7, subjectId = 5, text = "公民與公民德行"),
-//        Chapter(id = 193, gradeId = 7, subjectId = 5, text = "權利與校園生活"),
-//        //
-//        Chapter(id = 194, gradeId = 8, subjectId = 5, text = "中國的自然環境"),
-//        Chapter(id = 195, gradeId = 8, subjectId = 5, text = "地形"),
-//        Chapter(id = 196, gradeId = 8, subjectId = 5, text = "氣候與水文"),
-//        Chapter(id = 197, gradeId = 8, subjectId = 5, text = "從史前到春秋戰國"),
-//        Chapter(id = 198, gradeId = 8, subjectId = 5, text = "秦漢大一統帝國的建立"),
-//        Chapter(id = 199, gradeId = 8, subjectId = 5, text = "魏晉南北朝的分與合"),
-//        Chapter(id = 200, gradeId = 8, subjectId = 5, text = "現代國家與民主政治"),
-//        Chapter(id = 201, gradeId = 8, subjectId = 5, text = "中央政府"),
-//        Chapter(id = 202, gradeId = 8, subjectId = 5, text = "地方政府"),
-//        //
-//        Chapter(id = 203, gradeId = 9, subjectId = 5, text = "西亞與中亞"),
-//        Chapter(id = 204, gradeId = 9, subjectId = 5, text = "歐洲概說與南歐"),
-//        Chapter(id = 205, gradeId = 9, subjectId = 5, text = "古文明的誕生"),
-//        Chapter(id = 206, gradeId = 9, subjectId = 5, text = "希臘與羅馬文化"),
-//        Chapter(id = 207, gradeId = 9, subjectId = 5, text = "選擇與消費"),
-//        Chapter(id = 208, gradeId = 9, subjectId = 5, text = "生產與利潤"),
-//        //科學
-//        Chapter(id = 209, gradeId = 7, subjectId = 6, text = "生活科技導論"),
-//        Chapter(id = 210, gradeId = 7, subjectId = 6, text = "認識科技"),
-//        Chapter(id = 211, gradeId = 7, subjectId = 6, text = "資訊科技導論"),
-//        Chapter(id = 212, gradeId = 7, subjectId = 6, text = "基礎程式設計"),
-//        Chapter(id = 213, gradeId = 7, subjectId = 6, text = "資料處理與分析"),
-//        //
-//        Chapter(id = 214, gradeId = 8, subjectId = 6, text = "認識能源"),
-//        Chapter(id = 215, gradeId = 8, subjectId = 6, text = "創意線控仿生獸設計"),
-//        Chapter(id = 216, gradeId = 8, subjectId = 6, text = "能源與生活周遭的關聯"),
-//        Chapter(id = 217, gradeId = 8, subjectId = 6, text = "資訊倫理"),
-//        Chapter(id = 218, gradeId = 8, subjectId = 6, text = "進階程式設計"),
-//        Chapter(id = 219, gradeId = 8, subjectId = 6, text = "資訊科技與相關法律"),
+
 //
 //
 //        )
@@ -619,7 +342,7 @@ class ApiService(val cxt: Context) : IApiService {
 //    var isReadAllNotify: Boolean? = null
 //
 
-    private val userIdTest = 0
+    private val userIdTest = 0L
     private val accountTest = "north27"
     private val passwordTest = "north27"
     private val authorityTest = UserPref.Authority.STUDENT
@@ -629,6 +352,189 @@ class ApiService(val cxt: Context) : IApiService {
     private val avatarPathTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
     private val nameTest = "北緯科技"
     private val emailTest = "north27@north27.tw"
+
+    //
+    private val educationListTest = listOf<Education>(
+        Education(id = 1, text = "國小"),
+        Education(id = 2, text = "國中"),
+        Education(id = 3, text = "高中")
+    )
+    private val gradeListTest = listOf<Grade>(
+        Grade(id = 1, text = "(國小)一年級", educationId = 1),
+        Grade(id = 2, text = "(國小)二年級", educationId = 1),
+        Grade(id = 3, text = "(國小)三年級", educationId = 1),
+        Grade(id = 4, text = "(國小)四年級", educationId = 1),
+        Grade(id = 5, text = "(國小)五年級", educationId = 1),
+        Grade(id = 6, text = "(國小)六年級", educationId = 1),
+        Grade(id = 7, text = "(國中)一年級", educationId = 2),
+        Grade(id = 8, text = "(國中)二年級", educationId = 2),
+        Grade(id = 9, text = "(國中)三年級", educationId = 2),
+        Grade(id = 10, text = "(高中)一年級", educationId = 3),
+        Grade(id = 11, text = "(高中)二年級", educationId = 3),
+        Grade(id = 12, text = "(高中)三年級", educationId = 3),
+    )
+    private val subjectListTest = listOf<Subject>(
+        Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6)),
+        Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)),
+        Subject(id = 3, text = "生活", educationIdList = listOf(1), gradleIdList = listOf(1, 2)),
+        Subject(id = 4, text = "自然", educationIdList = listOf(1, 2), gradleIdList = listOf(3, 4, 5, 6, 7, 8, 9)),
+        Subject(id = 5, text = "社會", educationIdList = listOf(1, 2), gradleIdList = listOf(3, 4, 5, 6, 7, 8, 9)),
+        Subject(id = 6, text = "藝文", educationIdList = listOf(1, 2), gradleIdList = listOf(3, 4, 5, 6, 7, 8, 9)),
+        Subject(id = 7, text = "綜合", educationIdList = listOf(1, 2), gradleIdList = listOf(3, 4, 5, 6, 7, 8, 9)),
+        Subject(id = 8, text = "健體", educationIdList = listOf(1, 2), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9)),
+        Subject(id = 9, text = "閩南語", educationIdList = listOf(1), gradleIdList = listOf(2, 4, 6)),
+        Subject(id = 10, text = "國文", educationIdList = listOf(2, 3), gradleIdList = listOf(7, 8, 9, 10, 11, 12)),
+        Subject(id = 11, text = "英文", educationIdList = listOf(2), gradleIdList = listOf(7, 8, 9)),
+        Subject(id = 12, text = "科技", educationIdList = listOf(2), gradleIdList = listOf(7, 8, 9)),
+        Subject(id = 13, text = "生物", educationIdList = listOf(3), gradleIdList = listOf(10, 11, 12)),
+        Subject(id = 14, text = "物理", educationIdList = listOf(3), gradleIdList = listOf(10, 11, 12)),
+        Subject(id = 15, text = "化學", educationIdList = listOf(3), gradleIdList = listOf(10, 11, 12)),
+        Subject(id = 16, text = "地科", educationIdList = listOf(3), gradleIdList = listOf(10, 11, 12)),
+        Subject(id = 17, text = "地理", educationIdList = listOf(3), gradleIdList = listOf(10, 11, 12)),
+        Subject(id = 18, text = "歷史", educationIdList = listOf(3), gradleIdList = listOf(10, 11, 12)),
+        Subject(id = 19, text = "公民", educationIdList = listOf(3), gradleIdList = listOf(10)),
+    )
+    private val unitListTest = listOf<tw.north27.coachingapp.model.Unit>(
+        Unit(id = 1, educationId = 1, gradeId = 1, subjectId = 1, text = "手拉手"),
+        Unit(id = 2, educationId = 1, gradeId = 1, subjectId = 1, text = "排一排"),
+        Unit(id = 3, educationId = 1, gradeId = 1, subjectId = 1, text = "來數數"),
+        Unit(id = 4, educationId = 1, gradeId = 1, subjectId = 1, text = "找一找"),
+        Unit(id = 5, educationId = 1, gradeId = 2, subjectId = 1, text = "踩影子"),
+        Unit(id = 6, educationId = 1, gradeId = 2, subjectId = 1, text = "再玩一次"),
+        Unit(id = 7, educationId = 1, gradeId = 2, subjectId = 1, text = "謝謝好朋友"),
+        Unit(id = 8, educationId = 1, gradeId = 2, subjectId = 1, text = "統整活動一"),
+        Unit(id = 9, educationId = 1, gradeId = 3, subjectId = 1, text = "時間是什麼"),
+        Unit(id = 10, educationId = 1, gradeId = 3, subjectId = 1, text = "神奇鐘錶店"),
+        Unit(id = 11, educationId = 1, gradeId = 3, subjectId = 1, text = "明天再寫"),
+        Unit(id = 12, educationId = 1, gradeId = 3, subjectId = 1, text = "提早五分鐘"),
+        Unit(id = 13, educationId = 1, gradeId = 3, subjectId = 1, text = "統整活動一"),
+        Unit(id = 14, educationId = 1, gradeId = 4, subjectId = 1, text = "水中奇景"),
+        Unit(id = 15, educationId = 1, gradeId = 4, subjectId = 1, text = "大海的旋律"),
+        Unit(id = 16, educationId = 1, gradeId = 4, subjectId = 1, text = "海底世界"),
+        Unit(id = 17, educationId = 1, gradeId = 4, subjectId = 1, text = "藍色的海洋大軍"),
+        Unit(id = 18, educationId = 1, gradeId = 4, subjectId = 1, text = "統整活動一"),
+        Unit(id = 19, educationId = 1, gradeId = 5, subjectId = 1, text = "貝殼砂"),
+        Unit(id = 20, educationId = 1, gradeId = 5, subjectId = 1, text = "湖邊散步"),
+        Unit(id = 21, educationId = 1, gradeId = 5, subjectId = 1, text = "一池子的綠"),
+        Unit(id = 22, educationId = 1, gradeId = 5, subjectId = 1, text = "與山為鄰"),
+        Unit(id = 23, educationId = 1, gradeId = 5, subjectId = 1, text = "統整活動一"),
+        Unit(id = 24, educationId = 1, gradeId = 6, subjectId = 1, text = "旅客留言簿"),
+        Unit(id = 25, educationId = 1, gradeId = 6, subjectId = 1, text = "遊走在世界的市場裡"),
+        Unit(id = 26, educationId = 1, gradeId = 6, subjectId = 1, text = "我乘雲朵歸來"),
+        Unit(id = 27, educationId = 1, gradeId = 6, subjectId = 1, text = "再別康橋"),
+        Unit(id = 28, educationId = 1, gradeId = 6, subjectId = 1, text = "統整活動一"),
+        //
+        Unit(id = 29, educationId = 1, gradeId = 1, subjectId = 2, text = "1～5的數"),
+        Unit(id = 31, educationId = 1, gradeId = 1, subjectId = 2, text = "6～10的數"),
+        Unit(id = 32, educationId = 1, gradeId = 1, subjectId = 2, text = "點數與對應"),
+        Unit(id = 33, educationId = 1, gradeId = 2, subjectId = 2, text = "數到200"),
+        Unit(id = 34, educationId = 1, gradeId = 2, subjectId = 2, text = "位值與化聚"),
+        Unit(id = 35, educationId = 1, gradeId = 2, subjectId = 2, text = "付錢"),
+        Unit(id = 36, educationId = 1, gradeId = 2, subjectId = 2, text = "數的大小比較"),
+        Unit(id = 37, educationId = 1, gradeId = 3, subjectId = 2, text = "認識數線"),
+        Unit(id = 38, educationId = 1, gradeId = 3, subjectId = 2, text = "在數線上做大小比較"),
+        Unit(id = 39, educationId = 1, gradeId = 3, subjectId = 2, text = "在數線上做加減"),
+        Unit(id = 40, educationId = 1, gradeId = 3, subjectId = 2, text = "數間隔"),
+        Unit(id = 41, educationId = 1, gradeId = 4, subjectId = 2, text = "十萬以內的數"),
+        Unit(id = 42, educationId = 1, gradeId = 4, subjectId = 2, text = "認識萬的家族"),
+        Unit(id = 43, educationId = 1, gradeId = 4, subjectId = 2, text = "一億以內的數"),
+        Unit(id = 44, educationId = 1, gradeId = 4, subjectId = 2, text = "十萬以內的加減"),
+        Unit(id = 45, educationId = 1, gradeId = 5, subjectId = 2, text = "三位小數"),
+        Unit(id = 46, educationId = 1, gradeId = 5, subjectId = 2, text = "多位小數與大小比較"),
+        Unit(id = 47, educationId = 1, gradeId = 5, subjectId = 2, text = "多位小數的加減"),
+        Unit(id = 48, educationId = 1, gradeId = 5, subjectId = 2, text = "分數和小數的數線"),
+        Unit(id = 49, educationId = 1, gradeId = 6, subjectId = 2, text = "質數與合數"),
+        Unit(id = 50, educationId = 1, gradeId = 6, subjectId = 2, text = "質因數分解"),
+        Unit(id = 51, educationId = 1, gradeId = 6, subjectId = 2, text = "最大公因數"),
+        Unit(id = 52, educationId = 1, gradeId = 6, subjectId = 2, text = "最小公倍數"),
+        //
+        Unit(id = 53, educationId = 1, gradeId = 1, subjectId = 3, text = "我上一年級了"),
+        Unit(id = 54, educationId = 1, gradeId = 1, subjectId = 3, text = "我的新學校"),
+        Unit(id = 55, educationId = 1, gradeId = 1, subjectId = 3, text = "大樹高小花香"),
+        Unit(id = 56, educationId = 1, gradeId = 1, subjectId = 3, text = "聲音的世界"),
+        Unit(id = 57, educationId = 1, gradeId = 1, subjectId = 3, text = "玩具總動員"),
+        Unit(id = 58, educationId = 1, gradeId = 1, subjectId = 3, text = "新年快樂"),
+        Unit(id = 59, educationId = 1, gradeId = 2, subjectId = 3, text = "奇妙的影子"),
+        Unit(id = 60, educationId = 1, gradeId = 2, subjectId = 3, text = "和風做朋友"),
+        Unit(id = 61, educationId = 1, gradeId = 2, subjectId = 3, text = "泡泡真有趣"),
+        Unit(id = 62, educationId = 1, gradeId = 2, subjectId = 3, text = "動物好朋友"),
+        Unit(id = 63, educationId = 1, gradeId = 2, subjectId = 3, text = "美麗的色彩"),
+        Unit(id = 64, educationId = 1, gradeId = 2, subjectId = 3, text = "溫暖過冬天"),
+        Unit(id = 65, educationId = 1, gradeId = 2, subjectId = 3, text = "溫暖過冬天"),
+        //
+        Unit(id = 66, educationId = 1, gradeId = 3, subjectId = 4, text = "植物的葉子、莖和根"),
+        Unit(id = 67, educationId = 1, gradeId = 3, subjectId = 4, text = "植物的花、果實和種子"),
+        Unit(id = 68, educationId = 1, gradeId = 3, subjectId = 4, text = "植物與生活"),
+        Unit(id = 69, educationId = 1, gradeId = 4, subjectId = 4, text = "大家來賞月"),
+        Unit(id = 70, educationId = 1, gradeId = 4, subjectId = 4, text = "月亮位置的移動"),
+        Unit(id = 71, educationId = 1, gradeId = 4, subjectId = 4, text = "月相的變化"),
+        Unit(id = 72, educationId = 1, gradeId = 5, subjectId = 4, text = "一天中太陽位置的變化"),
+        Unit(id = 73, educationId = 1, gradeId = 5, subjectId = 4, text = "一年中太陽位置的變化"),
+        Unit(id = 74, educationId = 1, gradeId = 5, subjectId = 4, text = "太陽與生活"),
+        Unit(id = 75, educationId = 1, gradeId = 6, subjectId = 4, text = "大氣中的水"),
+        Unit(id = 76, educationId = 1, gradeId = 6, subjectId = 4, text = "認識天氣圖"),
+        Unit(id = 77, educationId = 1, gradeId = 6, subjectId = 4, text = "颱風與防災"),
+        //
+        Unit(id = 78, educationId = 1, gradeId = 3, subjectId = 5, text = "我會認真學習"),
+        Unit(id = 79, educationId = 1, gradeId = 3, subjectId = 5, text = "我會善用時間"),
+        Unit(id = 80, educationId = 1, gradeId = 4, subjectId = 5, text = "家鄉的地名"),
+        Unit(id = 81, educationId = 1, gradeId = 4, subjectId = 5, text = "地圖上的家鄉"),
+        Unit(id = 82, educationId = 1, gradeId = 5, subjectId = 5, text = "認識我們的家園"),
+        Unit(id = 83, educationId = 1, gradeId = 5, subjectId = 5, text = "海洋中的家園"),
+        Unit(id = 84, educationId = 1, gradeId = 6, subjectId = 5, text = "資源與生活"),
+        Unit(id = 85, educationId = 1, gradeId = 6, subjectId = 5, text = "物產概況"),
+        //
+        Unit(id = 86, educationId = 1, gradeId = 3, subjectId = 6, text = "創意大玩家"),
+        Unit(id = 87, educationId = 1, gradeId = 3, subjectId = 6, text = "創意冒險地圖"),
+        Unit(id = 88, educationId = 1, gradeId = 3, subjectId = 6, text = "奇幻世界"),
+        Unit(id = 89, educationId = 1, gradeId = 3, subjectId = 6, text = "家人"),
+        Unit(id = 90, educationId = 1, gradeId = 4, subjectId = 6, text = "校園之美"),
+        Unit(id = 91, educationId = 1, gradeId = 4, subjectId = 6, text = "生活中的視覺藝術"),
+        Unit(id = 92, educationId = 1, gradeId = 4, subjectId = 6, text = "自然之美"),
+        Unit(id = 93, educationId = 1, gradeId = 5, subjectId = 6, text = "天生好手"),
+        Unit(id = 94, educationId = 1, gradeId = 5, subjectId = 6, text = "我生長的地方"),
+        Unit(id = 95, educationId = 1, gradeId = 5, subjectId = 6, text = "環保你我他"),
+        Unit(id = 96, educationId = 1, gradeId = 6, subjectId = 6, text = "視覺藝術點線面"),
+        Unit(id = 97, educationId = 1, gradeId = 6, subjectId = 6, text = "視覺藝術大進擊"),
+        Unit(id = 98, educationId = 1, gradeId = 6, subjectId = 6, text = "版畫藝術"),
+        //
+        Unit(id = 99, educationId = 1, gradeId = 3, subjectId = 7, text = "認識你我他"),
+        Unit(id = 100, educationId = 1, gradeId = 3, subjectId = 7, text = "共同的任務"),
+        Unit(id = 101, educationId = 1, gradeId = 4, subjectId = 7, text = "體驗文化活動"),
+        Unit(id = 102, educationId = 1, gradeId = 4, subjectId = 7, text = "文化生活小記者"),
+        Unit(id = 103, educationId = 1, gradeId = 5, subjectId = 7, text = "環境新鮮事"),
+        Unit(id = 104, educationId = 1, gradeId = 5, subjectId = 7, text = "環境適應面面觀"),
+        Unit(id = 105, educationId = 1, gradeId = 6, subjectId = 7, text = "時間管理師"),
+        Unit(id = 106, educationId = 1, gradeId = 6, subjectId = 7, text = "小小理財員"),
+        //
+        Unit(id = 107, educationId = 1, gradeId = 1, subjectId = 8, text = "長大真好"),
+        Unit(id = 108, educationId = 1, gradeId = 1, subjectId = 8, text = "清潔衛生好習慣"),
+        Unit(id = 109, educationId = 1, gradeId = 2, subjectId = 8, text = "健康飲食"),
+        Unit(id = 110, educationId = 1, gradeId = 2, subjectId = 8, text = "飲食追追追"),
+        Unit(id = 111, educationId = 1, gradeId = 2, subjectId = 8, text = "飲食安全小秘訣"),
+        Unit(id = 112, educationId = 1, gradeId = 3, subjectId = 8, text = "奇妙的生命"),
+        Unit(id = 113, educationId = 1, gradeId = 3, subjectId = 8, text = "成長的奧妙"),
+        Unit(id = 114, educationId = 1, gradeId = 3, subjectId = 8, text = "關懷銀髮族"),
+        Unit(id = 115, educationId = 1, gradeId = 3, subjectId = 8, text = "永恆的回憶"),
+        Unit(id = 116, educationId = 1, gradeId = 4, subjectId = 8, text = "閃躲高手"),
+        Unit(id = 117, educationId = 1, gradeId = 4, subjectId = 8, text = "排球樂"),
+        Unit(id = 118, educationId = 1, gradeId = 5, subjectId = 8, text = "籃球天地"),
+        Unit(id = 119, educationId = 1, gradeId = 5, subjectId = 8, text = "移動傳球變化多"),
+        Unit(id = 120, educationId = 1, gradeId = 5, subjectId = 8, text = "我是神射手"),
+        Unit(id = 121, educationId = 1, gradeId = 5, subjectId = 8, text = "與球共舞"),
+        Unit(id = 122, educationId = 1, gradeId = 6, subjectId = 8, text = "上籃練習"),
+        Unit(id = 123, educationId = 1, gradeId = 6, subjectId = 8, text = "防守動作與移位步伐"),
+        Unit(id = 124, educationId = 1, gradeId = 6, subjectId = 8, text = "對戰遊戲"),
+        Unit(id = 125, educationId = 1, gradeId = 6, subjectId = 8, text = "趣味鬥牛賽"),
+        //
+        Unit(id = 126, educationId = 1, gradeId = 2, subjectId = 9, text = "看新娘"),
+        Unit(id = 127, educationId = 1, gradeId = 2, subjectId = 9, text = "中秋暝"),
+        Unit(id = 128, educationId = 1, gradeId = 2, subjectId = 9, text = "故事磅米芳(一)"),
+        Unit(id = 129, educationId = 1, gradeId = 4, subjectId = 9, text = "臺灣！臺灣！"),
+        Unit(id = 130, educationId = 1, gradeId = 4, subjectId = 9, text = "伴手禮"),
+        Unit(id = 131, educationId = 1, gradeId = 6, subjectId = 9, text = "無尾熊無尾"),
+        Unit(id = 132, educationId = 1, gradeId = 6, subjectId = 9, text = "反序詞"),
+    )
 
 
     override suspend fun getAppConfig(
@@ -757,7 +663,79 @@ class ApiService(val cxt: Context) : IApiService {
             )
     }
 
-//    override suspend fun refreshToken(@Query(value = "refresh_token") refreshToken: String): TokenInfo {
+    override suspend fun getEducationList(): List<Education> {
+        return educationListTest
+    }
+
+    override suspend fun getGradeList(educationId: Long?): List<Grade> {
+        println("educationId = $educationId")
+        return if (educationId == null)
+            gradeListTest
+        else
+            gradeListTest.filter { it.educationId == educationId }
+    }
+
+    override suspend fun getSubjectList(educationId: Long?, gradeId: Long?): List<Subject> {
+        println("educationId = $educationId, gradeId = $gradeId")
+        return if (educationId == null && gradeId == null)
+            subjectListTest
+        else if (educationId == null)
+            subjectListTest.filter { it.gradleIdList.contains(gradeId) }
+        else if (gradeId == null)
+            subjectListTest.filter { it.educationIdList.contains(educationId) }
+        else
+            subjectListTest
+    }
+
+    override suspend fun getUnitList(educationId: Long?, gradeId: Long?, subjectId: Long?): List<tw.north27.coachingapp.model.Unit> {
+        println("educationId = $educationId, gradeId = $gradeId, subjectId = $subjectId")
+        return if (educationId == null && gradeId == null && subjectId == null)
+            unitListTest
+        else if (educationId == null && gradeId == null)
+            unitListTest.filter { it.subjectId == subjectId }
+        else if (educationId == null && subjectId == null)
+            unitListTest.filter { it.gradeId == gradeId }
+        else if (gradeId == null && subjectId == null)
+            unitListTest.filter { it.educationId == educationId }
+        else if (educationId == null)
+            unitListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId }
+        else if (gradeId == null)
+            unitListTest.filter { it.educationId == educationId && it.subjectId == subjectId }
+        else if (subjectId == null)
+            unitListTest.filter { it.educationId == educationId && it.gradeId == gradeId }
+        else
+            unitListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }
+    }
+
+//    override suspend fun getGrade(): List<Grade> {
+//        return gradeListTest
+//    }
+//
+//    override suspend fun getSubject(gradeId: Long?): List<Subject> {
+//        return if (gradeId != null)
+//            subjectListTest.filter { (it.gradeIdList.find { it == gradeId } != null) }
+//        else
+//            subjectListTest.filter { (it.gradeIdList.find { it == 0L } != null) }
+//    }
+//
+//    override suspend fun getChapter(gradeId: Long?, subjectId: Long?): List<Chapter> {
+//        return if (gradeId != null && subjectId != null) {
+//            unitListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId }
+//        } else if (gradeId != null) {
+//            unitListTest.filter { it.gradeId == gradeId }
+//        } else if (subjectId != null) {
+//            unitListTest.filter { it.subjectId == subjectId }
+//        } else {
+//            unitListTest.filter { it.gradeId == 0L && it.subjectId == 0L }
+//        }
+//    }
+    //
+    //
+    //
+    //
+    //
+
+    //    override suspend fun refreshToken(@Query(value = "refresh_token") refreshToken: String): TokenInfo {
 //        delay(500)
 //        return TokenInfo(
 //            accessToken = "accessToken002",
@@ -792,28 +770,7 @@ class ApiService(val cxt: Context) : IApiService {
 //        }
 //    }
 //
-//    override suspend fun getGrade(): List<Grade> {
-//        return gradeListTest
-//    }
-//
-//    override suspend fun getSubject(gradeId: Long?): List<Subject> {
-//        return if (gradeId != null)
-//            subjectListTest.filter { (it.gradeIdList.find { it == gradeId } != null) }
-//        else
-//            subjectListTest.filter { (it.gradeIdList.find { it == 0L } != null) }
-//    }
-//
-//    override suspend fun getChapter(gradeId: Long?, subjectId: Long?): List<Chapter> {
-//        return if (gradeId != null && subjectId != null) {
-//            chapterListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId }
-//        } else if (gradeId != null) {
-//            chapterListTest.filter { it.gradeId == gradeId }
-//        } else if (subjectId != null) {
-//            chapterListTest.filter { it.subjectId == subjectId }
-//        } else {
-//            chapterListTest.filter { it.gradeId == 0L && it.subjectId == 0L }
-//        }
-//    }
+
 //
 //    //
 //    //

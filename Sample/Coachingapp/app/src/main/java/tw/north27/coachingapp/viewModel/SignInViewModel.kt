@@ -41,7 +41,7 @@ class SignInViewModel(
             val pushToken = userPref.pushToken
             val results = userRepo.signIn(uuid, account, password, pushToken)
             when (results) {
-                is Results.Successful -> {
+                is Results.Successful<SignIn> -> {
                     val signIn = results.data
                     val accountNew: String
                     val authNew: UserPref.Authority
@@ -86,6 +86,5 @@ class SignInViewModel(
             }
         }
     }
-
 
 }

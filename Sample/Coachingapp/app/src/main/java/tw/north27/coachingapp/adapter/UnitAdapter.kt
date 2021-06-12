@@ -7,26 +7,26 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.Subject
+import tw.north27.coachingapp.model.Unit
 
-class SubjectAdapter : BaseAdapter() {
-    private var subjectList: List<Subject>? = null
+class UnitAdapter : BaseAdapter() {
+    private var unitList: List<Unit>? = null
 
-    fun submitData(subjectList: List<Subject>? = null) {
-        this.subjectList = subjectList
+    fun submitData(unitList: List<Unit>) {
+        this.unitList = unitList
         notifyDataSetChanged()
     }
 
     override fun getCount(): Int {
-        return subjectList?.size ?: 0
+        return unitList?.size ?: 0
     }
 
-    override fun getItem(position: Int): Subject? {
-        return subjectList?.get(position)
+    override fun getItem(position: Int): Unit? {
+        return unitList?.get(position)
     }
 
     override fun getItemId(position: Int): Long {
-        return subjectList?.get(position)?.id ?: 0
+        return unitList?.get(position)?.id ?: 0
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -34,14 +34,13 @@ class SubjectAdapter : BaseAdapter() {
         var view: View? = convertView
         if (view == null) {
             val inflater = LayoutInflater.from(parent?.context)
-            view = inflater.inflate(R.layout.item_spinner_list, parent, false)
+            view = inflater.inflate(R.layout.item_spinner_text, parent, false)
             holder = VH(view)
             view?.tag = holder
         } else {
             holder = view.tag as VH
         }
-        val subject = getItem(position)
-        holder.tvText.text = subject?.text
+        holder.tvText.text = getItem(position)?.text
         return view!!
     }
 

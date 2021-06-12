@@ -12,7 +12,7 @@ import tw.north27.coachingapp.model.Grade
 class GradeAdapter : BaseAdapter() {
     private var gradeList: List<Grade>? = null
 
-    fun submitData(gradeList: List<Grade>? = null) {
+    fun submitData(gradeList: List<Grade>) {
         this.gradeList = gradeList
         notifyDataSetChanged()
     }
@@ -34,14 +34,13 @@ class GradeAdapter : BaseAdapter() {
         var view: View? = convertView
         if (view == null) {
             val inflater = LayoutInflater.from(parent?.context)
-            view = inflater.inflate(R.layout.item_spinner_list, parent, false)
+            view = inflater.inflate(R.layout.item_spinner_text, parent, false)
             holder = VH(view)
             view?.tag = holder
         } else {
             holder = view.tag as VH
         }
-        val grade = getItem(position)
-        holder.tvText.text = grade?.text
+        holder.tvText.text = getItem(position)?.text
         return view!!
     }
 

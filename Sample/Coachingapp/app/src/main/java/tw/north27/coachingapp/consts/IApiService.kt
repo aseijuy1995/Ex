@@ -7,8 +7,7 @@ import retrofit2.http.Field
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
-import tw.north27.coachingapp.model.AppConfig
-import tw.north27.coachingapp.model.SignIn
+import tw.north27.coachingapp.model.*
 
 interface IApiService {
 
@@ -88,31 +87,57 @@ interface IApiService {
 //        @Query("chapter_id") chapterId: Long? = null
 //    ): List<UserInfo>
 //
-//    /**
-//     * 取得學級
-//     * */
-//    @GET
-//    suspend fun getGrade(): List<Grade>
-//
-//    /**
-//     * 取得科目
-//     * @param gradeId >> 學級id
-//     * */
-//    @GET
-//    suspend fun getSubject(
-//        @Query("grade_id") gradeId: Long? = 0,
-//    ): List<Subject>
-//
-//    /**
-//     * 取得單元
-//     * @param gradeId >> 學級id
-//     * @param subjectId >> 科目id
-//     * */
-//    @GET
-//    suspend fun getChapter(
-//        @Query("grade_id") gradeId: Long? = 0,
-//        @Query("subject_id") subjectId: Long? = 0
-//    ): List<Chapter>
+
+    /**
+     * 取得教育
+     *
+     * & 年級 & 科目 & 單元可一起撈取，但為雙平台邏輯相同故在server端處理
+     * */
+    @GET
+    suspend fun getEducationList(): List<Education>
+
+    /**
+     * 取得年級
+     *
+     * 0 >> 預設值(全撈取)
+     *
+     * @param educationId >> 教育id
+     * */
+    @GET
+    suspend fun getGradeList(
+        @Query("education_id") educationId: Long? = null
+    ): List<Grade>
+
+    /**
+     * 取得科目
+     *
+     * 0 >> 預設值(全撈取)
+     *
+     * @param educationId >> 教育id
+     * @param gradeId >> 年級id
+     * */
+    @GET
+    suspend fun getSubjectList(
+        @Query("education_id") educationId: Long? = null,
+        @Query("grade_id") gradeId: Long? = null
+    ): List<Subject>
+
+    /**
+     * 取得單元
+     *
+     * 0 >> 預設值(全撈取)
+     *
+     * @param educationId >> 教育id
+     * @param gradeId >> 年級id
+     * @param subjectId >> 科目id
+     * */
+
+    @GET
+    suspend fun getUnitList(
+        @Query("education_id") educationId: Long? = null,
+        @Query("grade_id") gradeId: Long? = null,
+        @Query("subject_id") subjectId: Long? = null
+    ): List<tw.north27.coachingapp.model.Unit>
 //
 //    //
 //    //

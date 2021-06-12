@@ -7,26 +7,26 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.Chapter
+import tw.north27.coachingapp.model.Subject
 
-class ChapterAdapter : BaseAdapter() {
-    private var chapterList: List<Chapter>? = null
+class SubjectAdapter : BaseAdapter() {
+    private var subjectList: List<Subject>? = null
 
-    fun submitData(chapterList: List<Chapter>? = null) {
-        this.chapterList = chapterList
+    fun submitData(subjectList: List<Subject>) {
+        this.subjectList = subjectList
         notifyDataSetChanged()
     }
 
     override fun getCount(): Int {
-        return chapterList?.size ?: 0
+        return subjectList?.size ?: 0
     }
 
-    override fun getItem(position: Int): Chapter? {
-        return chapterList?.get(position)
+    override fun getItem(position: Int): Subject? {
+        return subjectList?.get(position)
     }
 
     override fun getItemId(position: Int): Long {
-        return chapterList?.get(position)?.id ?: 0
+        return subjectList?.get(position)?.id ?: 0
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -34,14 +34,13 @@ class ChapterAdapter : BaseAdapter() {
         var view: View? = convertView
         if (view == null) {
             val inflater = LayoutInflater.from(parent?.context)
-            view = inflater.inflate(R.layout.item_spinner_list, parent, false)
+            view = inflater.inflate(R.layout.item_spinner_text, parent, false)
             holder = VH(view)
             view?.tag = holder
         } else {
             holder = view.tag as VH
         }
-        val chapter = getItem(position)
-        holder.tvText.text = chapter?.text
+        holder.tvText.text = getItem(position)?.text
         return view!!
     }
 

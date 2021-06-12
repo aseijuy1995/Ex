@@ -58,7 +58,7 @@ data class SignOutInfo(
 
 @Parcelize
 data class UserInfo(
-    val id: Int,
+    val id: Long,
     val account: String,
     val auth: UserPref.Authority,
     val avatarPath: String? = null,
@@ -85,7 +85,7 @@ data class StudentInfo(
 data class TeacherInfo(
     val desc: String,
     val score: Double,
-    val chapterList: List<Chapter>,
+    val unitList: List<Unit>,
 ) : Parcelable
 
 /**

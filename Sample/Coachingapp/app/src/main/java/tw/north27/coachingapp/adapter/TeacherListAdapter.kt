@@ -8,8 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay3.PublishRelay
 import tw.north27.coachingapp.databinding.ItemTeacherBinding
-import tw.north27.coachingapp.model.Chapter
+import tw.north27.coachingapp.model.Unit
 import tw.north27.coachingapp.model.UserInfo
+
 
 class TeacherListAdapter : ListAdapter<UserInfo, TeacherListAdapter.VH>(object : DiffUtil.ItemCallback<UserInfo>() {
     override fun areItemsTheSame(oldItem: UserInfo, newItem: UserInfo): Boolean {
@@ -28,8 +29,8 @@ class TeacherListAdapter : ListAdapter<UserInfo, TeacherListAdapter.VH>(object :
         fun bind(userInfo: UserInfo) = binding.apply {
             this.userInfo = userInfo
             val adapter = LabelListAdapter()
-            rvLabel.adapter =adapter
-            val subjectIdList = userInfo.teacherInfo!!.chapterList.map(Chapter::subjectId).toSet()
+            rvLabel.adapter = adapter
+            val subjectIdList = userInfo.teacherInfo!!.unitList.map(Unit::subjectId).toSet()
             adapter.submitData()
             itemView.setOnClickListener { itemClickRelay.accept(it to userInfo) }
             executePendingBindings()

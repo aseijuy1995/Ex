@@ -40,10 +40,11 @@
     <string name="filter_teacher">篩選老師</string>
     <string name="clear">清空</string>
     <string name="cancel">取消</string>
-<!--    <string name="grade">學級</string>-->
+
+    <string name="education">教育</string>
     <string name="grade">年級</string>
     <string name="subject">科目</string>
-    <string name="chapter">章節</string>
+    <string name="unit">單元</string>
     <string name="north27">© 北緯二十七度科技有限公司</string>
 
     <!--    -->

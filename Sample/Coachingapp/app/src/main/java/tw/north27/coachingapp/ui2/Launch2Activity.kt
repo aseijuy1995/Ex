@@ -2,11 +2,17 @@ package tw.north27.coachingapp.ui2
 
 import android.os.Bundle
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.yujie.utilmodule.UserPref
 import com.yujie.utilmodule.base.BaseAppCompatActivity
+import com.yujie.utilmodule.pref.getAuth
+import com.yujie.utilmodule.pref.userPref
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ActivityLaunch2Binding
 
@@ -49,7 +55,7 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
                 }
             binding.bnvLaunch2.menu.findItem(R.id.fragment_study_room).isVisible =
                 when (auth) {
-                    UserPref.Authority.STUDENT -> false
+                    UserPref.Authority.STUDENT -> true
                     UserPref.Authority.TEACHER -> false
                     else -> false
                 }

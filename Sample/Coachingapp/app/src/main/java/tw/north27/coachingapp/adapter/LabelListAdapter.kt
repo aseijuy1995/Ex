@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.databinding.ItemLabelBinding
 
-class LabelListAdapter() : RecyclerView.Adapter<LabelListAdapter.VH>() {
+class LabelListAdapter : RecyclerView.Adapter<LabelListAdapter.VH>() {
     private var labelList: List<String>? = null
 
     fun submitData(labelList: List<String>? = null) {
