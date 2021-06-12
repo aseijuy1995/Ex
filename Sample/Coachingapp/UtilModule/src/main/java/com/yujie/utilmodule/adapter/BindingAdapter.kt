@@ -16,17 +16,20 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 @BindingAdapter(
     value = [
         "bind:imgRes",
+        "bind:imgUrl",
         "bind:blurRadius",
         "bind:blurSampling"
     ]
 )
-fun ImageView.bindImgRes(
-    @DrawableRes resId: Int,
-    radius: Int = 15,
-    sampling: Int = 3
+fun ImageView.bindImg(
+    @DrawableRes resId: Int? = null,
+    url: String? = null,
+    radius: Int = 1,
+    sampling: Int = 1
 ) {
+    println("resId:${resId == null}, url:${url == null}")
     Glide.with(this)
-        .load(resId)
+        .load(resId ?: url ?: "")
         .apply(RequestOptions.bitmapTransform(BlurTransformation(radius, sampling)))
         .into(this)
 }

@@ -8,7 +8,7 @@ import android.view.WindowInsetsController
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
-import com.yujie.utilmodule.adapter.bindImgRes
+import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseAppCompatActivity
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ActivityLaunchBinding
@@ -32,7 +32,7 @@ class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaun
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.ivBackground.bindImgRes(
+        binding.ivBackground.bindImg(
             resId = backgroundRes,
             radius = 10,
             sampling = 3

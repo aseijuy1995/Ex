@@ -11,7 +11,7 @@ import tw.north27.coachingapp.consts.viewModelModules
 class App : BaseApplication() {
 
     override fun onCreate() {
-        if (BuildConfig.DEBUG) startStrictMode()
+//        if (BuildConfig.DEBUG) startStrictMode()
         super.onCreate()
         startKoinModules(
             viewModelModules,

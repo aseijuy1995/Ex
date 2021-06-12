@@ -4,18 +4,17 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.yujie.utilmodule.base.BaseFragment
 import com.yujie.utilmodule.ext.clicksObserve
+import com.yujie.utilmodule.ext.observe
 import com.yujie.utilmodule.util.ViewState
 import com.yujie.utilmodule.util.logI
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.adapter.EducationAdapter
-import tw.north27.coachingapp.adapter.GradeAdapter
-import tw.north27.coachingapp.adapter.SubjectAdapter
-import tw.north27.coachingapp.adapter.UnitAdapter
+import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.databinding.FragmentMainHomeBinding
 import tw.north27.coachingapp.model.Education
 import tw.north27.coachingapp.model.Grade
@@ -24,13 +23,12 @@ import tw.north27.coachingapp.model.Unit
 import tw.north27.coachingapp.ui2.Launch2Activity
 import tw.north27.coachingapp.viewModel.MainHomeViewModel
 
-
 class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment_main_home) {
 
     override val viewBindingFactory: (View) -> FragmentMainHomeBinding
         get() = FragmentMainHomeBinding::bind
 
-//    private val adapter = TeacherListAdapter()
+    private val adapter = TeacherListAdapter()
 
     private val viewModel by viewModel<MainHomeViewModel>()
 
@@ -50,46 +48,45 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
         binding.tbMainHome.tbView.setupWithNavController(navController)
 //        binding.nvView.setupWithNavController(navController)
         //
-//        binding.rvView.adapter = adapter
+        binding.rvView.adapter = adapter
         binding.itemDrawerLayoutMainHome.spEducation.adapter = educationAdapter
         binding.itemDrawerLayoutMainHome.spGrade.adapter = gradeAdapter
         binding.itemDrawerLayoutMainHome.spSubject.adapter = subjectAdapter
         binding.itemDrawerLayoutMainHome.spUnit.adapter = chapterAdapter
 
-
-        binding.srlView.autoRefresh()
         getDefaultSelection()
+        binding.srlView.autoRefresh()
 
-//        viewModel.teacherInfoState.observe(viewLifecycleOwner) {
-//            binding.itemShinner.sflView.isVisible = (it is ViewState.Load)
-//            binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
-//            binding.rvView.isVisible = (it is ViewState.Data)
-//            binding.itemError.root.isVisible = (it is ViewState.Error)
-//            binding.itemNetwork.root.isVisible = (it is ViewState.Network)
-//            if (it !is ViewState.Initial && it !is ViewState.Load) {
-//                binding.srlView.finishRefresh()
-//            }
-//            when (it) {
-//                is ViewState.Data -> {
-////                    adapter.submitList(it.data)
-//                }
-//                is ViewState.Error, is ViewState.Network -> {
-//                }
-//            }
-//
-//        }
-//
-//        binding.tbMainHome.ivFilter.clicksObserve(owner = viewLifecycleOwner) {
-//            binding.drawerLayout.openDrawer(GravityCompat.END)
-//        }
-//
-//        binding.srlView.setOnRefreshListener {
-//            getLoadTeacher()
-//        }
+        viewModel.teacherListState.observe(viewLifecycleOwner) {
+            binding.itemShinner.sflView.isVisible = (it is ViewState.Load)
+            binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
+            binding.rvView.isVisible = (it is ViewState.Data)
+            binding.itemError.root.isVisible = (it is ViewState.Error)
+            binding.itemNetwork.root.isVisible = (it is ViewState.Network)
+            if (it !is ViewState.Initial && it !is ViewState.Load)
+                binding.srlView.finishRefresh()
+            when (it) {
+                is ViewState.Data -> {
+                    adapter.submitList(it.data)
+                }
+                //FIXME　整合處理各頁面錯誤
+                is ViewState.Error, is ViewState.Network -> {
+                }
+            }
 
-//        adapter.itemClickRelay.observe(viewLifecycleOwner) {
-//
-//        }
+        }
+
+        binding.tbMainHome.ivFilter.clicksObserve(owner = viewLifecycleOwner) {
+            binding.drawerLayout.openDrawer(GravityCompat.END)
+        }
+
+        binding.srlView.setOnRefreshListener {
+            getTeacherList()
+        }
+
+        adapter.itemClickRelay.observe(viewLifecycleOwner) {
+
+        }
 
         viewModel.educationListState.observe(viewLifecycleOwner) {
             if (it is ViewState.Empty)
@@ -175,7 +172,7 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
         }
 
         binding.itemDrawerLayoutMainHome.btnFilter.clicksObserve(owner = viewLifecycleOwner) {
-            getTeacherList()
+            binding.srlView.autoRefresh()
             binding.drawerLayout.closeDrawer(GravityCompat.END)
         }
 
@@ -194,12 +191,12 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
         val subject = binding.itemDrawerLayoutMainHome.spSubject.selectedItem as Subject
         val chapter = binding.itemDrawerLayoutMainHome.spUnit.selectedItem as Unit
         logI("grade.id = ${grade.id}, subject.id = ${subject.id}, chapter.id = ${chapter.id}")
-//        viewModel.getLoadTeacher(
-//            education = education.id,
-//            gradeId = grade.id,
-//            subjectId = subject.id,
-//            chapterId = chapter.id
-//        )
+        viewModel.getTeacherList(
+            educationId = education.id,
+            gradeId = grade.id,
+            subjectId = subject.id,
+            unitId = chapter.id
+        )
     }
 
     private fun getDefaultSelection() {

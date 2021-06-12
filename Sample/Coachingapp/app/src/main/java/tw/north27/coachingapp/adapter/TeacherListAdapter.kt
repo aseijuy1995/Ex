@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay3.PublishRelay
+import com.yujie.utilmodule.adapter.bindImg
 import tw.north27.coachingapp.databinding.ItemTeacherBinding
 import tw.north27.coachingapp.model.Unit
 import tw.north27.coachingapp.model.UserInfo
@@ -28,6 +29,7 @@ class TeacherListAdapter : ListAdapter<UserInfo, TeacherListAdapter.VH>(object :
     inner class VH(val binding: ItemTeacherBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(userInfo: UserInfo) = binding.apply {
             this.userInfo = userInfo
+            binding.ivAvatar.bindImg(url = userInfo.avatarPath)
             val adapter = LabelListAdapter()
             rvLabel.adapter = adapter
             val subjectIdList = userInfo.teacherInfo!!.unitList.map(Unit::subjectId).toSet()
