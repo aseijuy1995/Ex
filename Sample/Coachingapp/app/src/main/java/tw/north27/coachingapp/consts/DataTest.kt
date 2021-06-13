@@ -285,6 +285,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 4.99,
             questionsNum = 117,
             responseRate = 92,
+            subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
     ),
@@ -363,6 +364,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 165,
             responseRate = 100,
+            subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
     ),
@@ -439,6 +441,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 4.99,
             questionsNum = 62,
             responseRate = 100,
+            subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
     ),
@@ -488,6 +491,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 4.91,
             questionsNum = 10,
             responseRate = 93,
+            subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
     ),
@@ -547,6 +551,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 18,
             responseRate = 89,
+            subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
     ),
@@ -585,6 +590,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 174,
             responseRate = 88,
+            subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
     ),
@@ -626,6 +632,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 68,
             responseRate = 98,
+            subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
     ),
@@ -714,6 +721,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 68,
             responseRate = 98,
+            subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
     ),
@@ -757,6 +765,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 5,
             responseRate = 100,
+            subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
     ),
@@ -838,6 +847,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 5,
             responseRate = 100,
+            subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
     ),
@@ -957,6 +967,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 72,
             responseRate = 94,
+            subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
     ),
@@ -1031,6 +1042,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 137,
             responseRate = 96,
+            subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
     ),
@@ -1096,6 +1108,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 4.98,
             questionsNum = 41,
             responseRate = 100,
+            subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
     ),
@@ -1182,6 +1195,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 75,
             responseRate = 95,
+            subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
     ),
@@ -1243,6 +1257,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 10,
             responseRate = 94,
+            subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
     ),
@@ -1302,6 +1317,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 45,
             responseRate = 100,
+            subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
     ),
@@ -1346,6 +1362,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 9,
             responseRate = 98,
+            subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
     ),
@@ -1382,6 +1399,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 2,
             responseRate = 100,
+            subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
     ),
@@ -1405,6 +1423,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 13,
             responseRate = 98,
+            subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
     ),
@@ -1490,6 +1509,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             score = 5.0,
             questionsNum = 14,
             responseRate = 100,
+            subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
     ),

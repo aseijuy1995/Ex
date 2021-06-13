@@ -21,7 +21,7 @@
         android:layout_margin="10dp"
         android:text="@string/filter_teacher"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/iv_header"
         app:layout_constraintStart_toStartOf="@+id/iv_header" />
@@ -38,16 +38,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:text="@string/education"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <com.yujie.utilmodule.view.RepeatSpinner
             android:id="@+id/sp_education"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
+            android:layout_height="30dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
@@ -60,16 +63,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
             android:text="@string/grade"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <com.yujie.utilmodule.view.RepeatSpinner
             android:id="@+id/sp_grade"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
+            android:layout_height="30dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
@@ -82,16 +85,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
             android:text="@string/subject"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <com.yujie.utilmodule.view.RepeatSpinner
             android:id="@+id/sp_subject"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
+            android:layout_height="30dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
@@ -104,16 +107,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
             android:text="@string/unit"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <com.yujie.utilmodule.view.RepeatSpinner
             android:id="@+id/sp_unit"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
+            android:layout_height="30dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
@@ -124,43 +127,43 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:layout_margin="10dp"
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_clear"
-                android:layout_width="wrap_content"
-                android:layout_height="34dp"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:background="?attr/colorPrimary"
                 android:text="@string/clear"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_filter"
-                android:layout_width="wrap_content"
-                android:layout_height="34dp"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:background="?attr/colorPrimary"
                 android:text="@string/filter"
                 android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_cancel"
             android:layout_width="match_parent"
-            android:layout_height="34dp"
+            android:layout_height="30dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:background="?attr/colorPrimary"
             android:text="@string/cancel"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

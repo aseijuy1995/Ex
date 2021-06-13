@@ -230,6 +230,8 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-hls:2.12.3"//hls
     //
     //
+    //MPAndroidChart
+    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
     //
     implementation project(":UtilModule")
     implementation project(":PushModule")

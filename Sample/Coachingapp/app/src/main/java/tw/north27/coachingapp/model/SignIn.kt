@@ -91,6 +91,7 @@ data class TeacherInfo(
     val score: Double,
     val questionsNum: Int,
     val responseRate: Int,
+    val subjectList: List<Subject>,
     val unitList: List<Unit>,
 ) : Parcelable
 

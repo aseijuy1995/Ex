@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay3.PublishRelay
 import com.yujie.utilmodule.adapter.bindImg
 import tw.north27.coachingapp.databinding.ItemTeacherBinding
-import tw.north27.coachingapp.model.Unit
+import tw.north27.coachingapp.model.Subject
 import tw.north27.coachingapp.model.UserInfo
 
 
@@ -30,10 +30,10 @@ class TeacherListAdapter : ListAdapter<UserInfo, TeacherListAdapter.VH>(object :
         fun bind(userInfo: UserInfo) = binding.apply {
             this.userInfo = userInfo
             binding.ivAvatar.bindImg(url = userInfo.avatarPath)
-            val adapter = LabelListAdapter()
-            rvLabel.adapter = adapter
-            val subjectIdList = userInfo.teacherInfo!!.unitList.map(Unit::subjectId).toSet()
-            adapter.submitData()
+            val adapter = SubjectLabelListAdapter()
+            rvSubject.adapter = adapter
+            val subjectList = userInfo.teacherInfo!!.subjectList.map(Subject::text).toSet().toList()
+            adapter.submitData(subjectList)
             itemView.setOnClickListener { itemClickRelay.accept(it to userInfo) }
             executePendingBindings()
         }
