@@ -40,14 +40,17 @@
     <string name="filter_teacher">篩選老師</string>
     <string name="clear">清空</string>
     <string name="cancel">取消</string>
-
     <string name="education">教育</string>
     <string name="grade">年級</string>
     <string name="subject">科目</string>
     <string name="unit">單元</string>
     <string name="north27">© 北緯二十七度科技有限公司</string>
-    <string name="response_rate">回覆率</string>
 
+    <string name="score">評分</string>
+    <string name="answer_num">回答數</string>
+    <string name="response_rate">回覆率</string>
+    <!--  TeacherDetailDialogFragment  -->
+    <string name="ready_to_ask">準備發問!</string>
     <!--    -->
     <!--    -->
     <!--    -->

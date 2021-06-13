@@ -59,7 +59,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                         SignInState.SIGN_IN -> {
                             lifecycleScope.launch {
                                 Toast.makeText(cxt, signIn.signInInfo?.msg, Toast.LENGTH_SHORT).show()
-                                delay(1500)
+                                delay(200)
                                 startActivity(Intent(act, Launch2Activity::class.java))
                                 act.finish()
                             }

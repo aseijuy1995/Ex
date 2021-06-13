@@ -82,14 +82,14 @@ data class StudentInfo(
 
 /**
  * score >> 評分
- * questionsNum >> 提問數
+ * answerNum >> 回答數
  * responseRate >> 回覆率
  * unitList >> 單元列表
  * */
 @Parcelize
 data class TeacherInfo(
     val score: Double,
-    val questionsNum: Int,
+    val answerNum: Int,
     val responseRate: Int,
     val subjectList: List<Subject>,
     val unitList: List<Unit>,

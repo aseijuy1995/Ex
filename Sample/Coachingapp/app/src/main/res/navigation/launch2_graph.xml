@@ -9,7 +9,21 @@
         android:id="@+id/fragment_main_home"
         android:name="tw.north27.coachingapp.ui.MainHomeFragment"
         android:label="fragment_main_home"
-        tools:layout="@layout/fragment_main_home" />
+        tools:layout="@layout/fragment_main_home">
+
+        <action
+            android:id="@+id/action_fragment_main_home_to_fragment_teacher_detail_dialog"
+            app:destination="@id/fragment_teacher_detail_dialog">
+
+            <argument
+                android:name="userInfo"
+                app:argType="tw.north27.coachingapp.model.UserInfo"
+                app:nullable="false" />
+
+        </action>
+
+
+    </fragment>
 
     <!--    <fragment-->
     <!--        android:id="@+id/fragment_question_area"-->
@@ -46,6 +60,24 @@
     <!--            app:nullable="false" />-->
 
     <!--    </fragment>-->
+
+
+    <!--    -->
+    <!--    -->
+    <dialog
+        android:id="@+id/fragment_teacher_detail_dialog"
+        android:name="tw.north27.coachingapp.ui.TeacherDetailDialogFragment"
+        android:label="fragment_teacher_detail_dialog"
+        tools:layout="@layout/fragment_teacher_detail_dialog">
+
+        <argument
+            android:name="userInfo"
+            app:argType="tw.north27.coachingapp.model.UserInfo"
+            app:nullable="false" />
+
+    </dialog>
+    <!--    -->
+    <!--    -->
 
     <!--    <dialog-->
     <!--        android:id="@+id/fragment_notify_more_dialog"-->

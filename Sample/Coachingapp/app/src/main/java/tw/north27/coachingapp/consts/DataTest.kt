@@ -283,9 +283,11 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\uD83C\uDFC6夯實您的中文語法水平",
         teacherInfo = TeacherInfo(
             score = 4.99,
-            questionsNum = 117,
+            answerNum = 117,
             responseRate = 92,
-            subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
+            subjectList = listOf(
+                Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))
+            ),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
     ),
@@ -362,7 +364,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "✨ 寫作練習",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 165,
+            answerNum = 165,
             responseRate = 100,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
@@ -439,7 +441,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "➤一起幫助孩子，能夠開心愉快學習， 長大後才會感謝我們 !",
         teacherInfo = TeacherInfo(
             score = 4.99,
-            questionsNum = 62,
+            answerNum = 62,
             responseRate = 100,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
@@ -489,7 +491,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\uD83C\uDFAF商務普通話",
         teacherInfo = TeacherInfo(
             score = 4.91,
-            questionsNum = 10,
+            answerNum = 10,
             responseRate = 93,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
@@ -549,7 +551,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "✌3. 免費分享線上app及軟體-讓您離線也能學中文! 線上教太極及氣功, 讓您學中文又能體會中華文化!",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 18,
+            answerNum = 18,
             responseRate = 89,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
@@ -588,7 +590,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "我已經迫不及待地想在課堂中見到您，讓我們一起輕鬆快樂地學習中文吧！",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 174,
+            answerNum = 174,
             responseRate = 88,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
@@ -630,7 +632,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "*告诉我你的学习目标，课程内容根据你的需求而定制！",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 68,
+            answerNum = 68,
             responseRate = 98,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
@@ -719,7 +721,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "2、\u200B\u200B取消課程記得提前12小時，若無故未出席會視為課程完成哦",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 68,
+            answerNum = 68,
             responseRate = 98,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
@@ -763,7 +765,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "願你們都能享受高中國文課!",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 5,
+            answerNum = 5,
             responseRate = 100,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
@@ -845,7 +847,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\uD83D\uDC95 如需要改期或特殊情況，請提前私訊老師哦，謝謝理解~",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 5,
+            answerNum = 5,
             responseRate = 100,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
@@ -965,7 +967,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "『  人們總覺得數學很難，是因為他們不理解生活有多複雜  』",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 72,
+            answerNum = 72,
             responseRate = 94,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
@@ -1040,7 +1042,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "4. 如果可以，在課堂前準備問題在課堂中問我，釐清觀念，是我認為最有效率的數學學習方法！",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 137,
+            answerNum = 137,
             responseRate = 96,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
@@ -1106,7 +1108,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "Ｌ同學 指導一個月：再興中學數學成績進步20分",
         teacherInfo = TeacherInfo(
             score = 4.98,
-            questionsNum = 41,
+            answerNum = 41,
             responseRate = 100,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
@@ -1193,7 +1195,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "想探索自己的無限潛力？私訊我，來上課吧！",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 75,
+            answerNum = 75,
             responseRate = 95,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
@@ -1255,7 +1257,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "舉例：若上課時間為週三晚間六點，則最晚需於週二提出請假需求。",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 10,
+            answerNum = 10,
             responseRate = 94,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
@@ -1315,7 +1317,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "✨ 關於數學課程或有什麼疑問，歡迎私訊我，謝謝 \uD83D\uDE0A",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 45,
+            answerNum = 45,
             responseRate = 100,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
@@ -1360,7 +1362,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "4. 正式課程10分鐘或體驗課程5分鐘未進教室，視為曠課。該預約課程不退款",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 9,
+            answerNum = 9,
             responseRate = 98,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
@@ -1397,7 +1399,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "如果您願意努力，只是缺一個能幫助您實現目標的人，歡迎來找我，很樂意為您服務。",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 2,
+            answerNum = 2,
             responseRate = 100,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
@@ -1421,7 +1423,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "教學範圍：小學，初中，A Level數學，GCSE 數學，DSE 數學，大學電子工程數學",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 13,
+            answerNum = 13,
             responseRate = 98,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
@@ -1507,7 +1509,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "㊙️課外有問題也能問我",
         teacherInfo = TeacherInfo(
             score = 5.0,
-            questionsNum = 14,
+            answerNum = 14,
             responseRate = 100,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }

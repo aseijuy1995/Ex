@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import com.yujie.utilmodule.base.BaseFragment
@@ -86,7 +87,7 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
         }
 
         adapter.itemClickRelay.observe(viewLifecycleOwner) {
-
+            findNavController().navigate(MainHomeFragmentDirections.actionFragmentMainHomeToFragmentTeacherDetailDialog(it.second))
         }
 
         viewModel.educationListState.observe(viewLifecycleOwner) {
