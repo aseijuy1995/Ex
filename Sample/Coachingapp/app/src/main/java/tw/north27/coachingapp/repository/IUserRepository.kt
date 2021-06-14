@@ -13,4 +13,6 @@ interface IUserRepository {
     suspend fun signOut(uuid: String, account: String): Results<SignIn>
 
     suspend fun getTeacherList(educationId: Long? = null, gradeId: Long? = null, subjectId: Long? = null, unitId: Long? = null): Results<List<UserInfo>>
+
+    suspend fun getUserInfo(account: String): Results<UserInfo>
 }

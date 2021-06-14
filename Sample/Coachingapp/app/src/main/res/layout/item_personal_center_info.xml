@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="userInfo"
+            type="tw.north27.coachingapp.model.UserInfo" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="15dp"
+        app:cardCornerRadius="5dp">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingBottom="5dp"
+                android:text="@string/personal_info"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <include
+                layout="@layout/item_personal_center"
+                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:title='@{String.format("%s：%s", @string/birthday,String.valueOf(userInfo.birthday))}' />
+
+            <include
+                layout="@layout/item_personal_center"
+                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:title='@{String.format("%s：%s",@string/telephone,userInfo.telephone)}' />
+
+            <include
+                layout="@layout/item_personal_center"
+                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:title='@{String.format("%s：%s",@string/email,userInfo.email)}' />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="userInfo"
+            type="tw.north27.coachingapp.model.UserInfo" />
+
+        <import type="tw.north27.coachingapp.model.Gender" />
+
+        <import type="com.yujie.utilmodule.UserPref.Authority" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="15dp"
+        app:cardCornerRadius="5dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_solid_white_corners_radius_5"
+            android:padding="10dp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/riv_avatar"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_baseline_person_24_gray"
+                app:layout_constraintBottom_toBottomOf="@id/tv_auth"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_name"
+                app:riv_corner_radius="5dp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_gender"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@{(userInfo.gender==Gender.MALE) ? @drawable/shape_solid_blue_corners_radius_30:(userInfo.gender==Gender.FEMALE)?@drawable/shape_solid_red_corners_radius_30:@drawable/shape_solid_green_corners_radius_30}"
+                android:gravity="center"
+                android:text='@{(userInfo.gender==Gender.MALE) ? @string/male :(userInfo.gender==Gender.FEMALE) ?@string/female :@string/not}'
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                app:layout_constraintBottom_toBottomOf="@id/riv_avatar"
+                app:layout_constraintEnd_toEndOf="@id/riv_avatar" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{userInfo.name}"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/tv_id"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/riv_avatar"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text='@{String.format("%s：%s",@string/id , String.valueOf(userInfo.id))}'
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_name"
+                app:layout_constraintTop_toBottomOf="@id/tv_name" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_school"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text='@{String.format("%s：%s", @string/school,userInfo.studentInfo.school)}'
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_gradle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_id"
+                app:layout_constraintTop_toBottomOf="@+id/tv_id"
+                bind:isVisible="@{userInfo.studentInfo!=null}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_gradle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text='@{String.format("%s：%s",@string/grade, String.valueOf(userInfo.studentInfo.grade.text))}'
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/tv_auth"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_school"
+                app:layout_constraintTop_toBottomOf="@+id/tv_school"
+                bind:isVisible="@{userInfo.studentInfo!=null}" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_auth"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text='@{String.format("%s：%s",@string/authority, (userInfo.auth==Authority.STUDENT)?@string/student:(userInfo.auth==Authority.TEACHER)?@string/teacher: @string/unknown)}'
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_gradle"
+                app:layout_constraintTop_toBottomOf="@+id/tv_gradle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui2
+package tw.north27.coachingapp.ui
 
 import android.os.Bundle
 import androidx.core.view.isVisible

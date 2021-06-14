@@ -31,17 +31,24 @@
     <!--        android:label="fragment_question_area"-->
     <!--        tools:layout="@layout/fragment_question_area" />-->
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/fragment_study_room"-->
-    <!--        android:name="tw.north27.coachingapp.ui2.fragment.main.StudyRoomFragment"-->
-    <!--        android:label="fragment_study_room"-->
-    <!--        tools:layout="@layout/fragment_study_room" />-->
+    <fragment
+        android:id="@+id/fragment_study_room"
+        android:name="tw.north27.coachingapp.ui.StudyRoomFragment"
+        android:label="fragment_study_room"
+        tools:layout="@layout/fragment_study_room" />
 
     <!--    <fragment-->
     <!--        android:id="@+id/fragment_notice_center"-->
     <!--        android:name="tw.north27.coachingapp.ui2.fragment.main.NoticeCenterFragment"-->
     <!--        android:label="fragment_notice_center"-->
     <!--        tools:layout="@layout/fragment_notice_center">-->
+
+
+    <fragment
+        android:id="@+id/fragment_personal_center"
+        android:name="tw.north27.coachingapp.ui.PersonalCenterFragment"
+        android:label="fragment_personal_center"
+        tools:layout="@layout/fragment_personal_center" />
 
 
     <!--        <action-->
@@ -84,12 +91,5 @@
     <!--        android:name="tw.north27.coachingapp.ui2.fragment.item.NotifyMoreDialogFragment"-->
     <!--        android:label="fragment_notify_more_dialog"-->
     <!--        tools:layout="@layout/fragment_notify_more_dialog" />-->
-
-    <!--    <fragment-->
-    <!--        android:id="@+id/fragment_personal_center"-->
-    <!--        android:name="tw.north27.coachingapp.ui2.fragment.main.PersonalCenterFragment"-->
-    <!--        android:label="fragment_personal_center"-->
-    <!--        tools:layout="@layout/fragment_personal_center" />-->
-
 
 </navigation>

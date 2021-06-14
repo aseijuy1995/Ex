@@ -3,6 +3,7 @@ package tw.north27.coachingapp.model
 import android.os.Parcelable
 import com.yujie.utilmodule.UserPref
 import kotlinx.parcelize.Parcelize
+import java.time.LocalDate
 
 /**
  * 可用於登入&登出
@@ -66,18 +67,33 @@ data class UserInfo(
     val auth: UserPref.Authority,
     val avatarPath: String? = null,
     val name: String,
-    val email: String? = null,
+    val gender: Gender? = null,
     val desc: String? = null,
+//    val birthday: LocalDate? = null,
+    val birthday: String? = null,
+    val telephone: String? = null,
+    val email: String? = null,
     //
     val studentInfo: StudentInfo? = null,
     val teacherInfo: TeacherInfo? = null,
+) : Parcelable
 
+/**
+ * MALE >> 男
+ * FEMALE >> 女
+ * */
+enum class Gender {
+    MALE, FEMALE
+}
 
-    ) : Parcelable
-
+/**
+ * school >> 學校
+ * grade >> 年級
+ * */
 @Parcelize
 data class StudentInfo(
-    val desc: String
+    val school: String,
+    val grade: Grade
 ) : Parcelable
 
 /**

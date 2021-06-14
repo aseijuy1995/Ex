@@ -141,6 +141,19 @@ interface IApiService {
         @Query("unit_id") unitId: Long? = null
     ): List<UserInfo>
 
+
+//    PersonalCenter
+    /**
+     * 將accessToken放於header - auth作為驗證依據
+     *
+     * 取得用戶資訊
+     * @param account >> 帳號
+     * */
+    @POST
+    suspend fun getUserInfo(
+        @Field("account") account: String
+    ): UserInfo
+
 //
 //    //
 //    //

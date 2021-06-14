@@ -1,7 +1,9 @@
 package com.yujie.utilmodule.adapter
 
+import android.view.View
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -37,4 +39,12 @@ fun ImageView.bindImg(
         .apply(RequestOptions.bitmapTransform(BlurTransformation(radius, sampling)))
         .apply(RequestOptions.bitmapTransform(RoundedCorners(roundingRadius)))
         .into(this)
+}
+
+/**
+ *
+ * */
+@BindingAdapter("bind:isVisible")
+fun View.bindVisible(isVisible: Boolean = true) {
+    this.isVisible = isVisible
 }

@@ -20,11 +20,12 @@ data class Education(
  * text >> 學級名稱
  * educationId >> 教育id //僅測試用
  * */
+@Parcelize
 data class Grade(
     val id: Long?,
     val text: String,
     val educationId: Long?
-)
+) : Parcelable
 
 /**
  * 科目

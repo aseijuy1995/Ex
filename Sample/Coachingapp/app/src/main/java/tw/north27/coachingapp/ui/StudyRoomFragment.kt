@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui2.fragment.main
+package tw.north27.coachingapp.ui
 
 import android.os.Bundle
 import android.view.View

@@ -1,5 +1,7 @@
 package tw.north27.coachingapp.consts
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.yujie.utilmodule.UserPref
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.Unit
@@ -8,12 +10,32 @@ val userIdTest = 0L
 val accountTest = "north27"
 val passwordTest = "north27"
 val authorityTest = UserPref.Authority.STUDENT
-
 val accessTokenTest = "accessTokenTest"
 val refreshTokenTest = "refreshTokenTest"
 val avatarPathTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
 val nameTest = "北緯科技"
 val emailTest = "north27@north27.tw"
+
+@RequiresApi(Build.VERSION_CODES.O)
+val userInfoTest = UserInfo(
+    id = 83138683,
+    account = accountTest,
+    auth = authorityTest,
+    avatarPath = avatarPathTest,
+    name = nameTest,
+    gender = Gender.MALE,
+//    birthday = LocalDate.of(2020, 7, 27),
+    birthday = "2020年7月27日",
+    telephone = "0912-345-678",
+    email = emailTest,
+
+    desc = "這是簡單的自我介紹！這是簡單的自我介紹2！這是簡單的自我介紹3！這是簡單的自我介紹4！這是簡單的自我介紹5！",
+    studentInfo = StudentInfo(
+        school = "新北市板橋區板橋國小",
+        grade = Grade(id = 1, text = "(國小)一年級", educationId = 1)
+    )
+)
+
 
 //
 val educationListTest = listOf<Education>(

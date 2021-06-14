@@ -43,6 +43,9 @@
     <color name="blue_eeeeff">#EEEEFF</color>
     <color name="purple_ffeeff">#FFEEFF</color>
     <color name="red_ffeeee">#FFEEEE</color>
+    <!--    -->
+    <color name="blue_18bfeb">#18BFEB</color>
+    <color name="red_fc7673">#FC7673</color>
 
 
 </resources>

@@ -8,9 +8,7 @@ import tw.north27.coachingapp.repository.IPublicRepository
 import tw.north27.coachingapp.repository.IUserRepository
 import tw.north27.coachingapp.repository.PublicRepository
 import tw.north27.coachingapp.repository.UserRepository
-import tw.north27.coachingapp.viewModel.MainHomeViewModel
-import tw.north27.coachingapp.viewModel.SignInViewModel
-import tw.north27.coachingapp.viewModel.StartViewModel
+import tw.north27.coachingapp.viewModel.*
 
 //val utilModules = module {
 //    single<OkHttpUtil> { OkHttpUtil(androidContext()) }
@@ -55,6 +53,8 @@ val viewModelModules = module {
     viewModel<StartViewModel> { StartViewModel(androidApplication(), get() as IPublicRepository, get() as IUserRepository) }
     viewModel<SignInViewModel> { SignInViewModel(androidApplication(), get()) }
     viewModel<MainHomeViewModel> { MainHomeViewModel(androidApplication(), get(), get()) }
+    viewModel<SignOutViewModel> { SignOutViewModel(androidApplication(), get()) }
+    viewModel<PersonalCenterViewModel> { PersonalCenterViewModel(androidApplication(), get()) }
 //    //
 //    viewModel { NotifyViewModel(get()) }
 //    viewModel { ChatViewModel(get()) }
@@ -62,5 +62,5 @@ val viewModelModules = module {
 //    viewModel { ChatRoomAddViewModel() }
 //    viewModel { MediaViewModel(get()) }
 //    viewModel { MediaPhotoViewModel() }
-//    viewModel { SignOutViewModel(androidApplication(), get()) }
+
 }

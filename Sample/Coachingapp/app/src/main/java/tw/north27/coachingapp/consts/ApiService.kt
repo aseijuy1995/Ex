@@ -93,14 +93,7 @@ class ApiService(val cxt: Context) : IApiService {
             SignIn(
                 signInState = SignInState.SIGN_IN,
                 signInInfo = SignInInfo(
-                    userInfo = UserInfo(
-                        id = 0,
-                        account = accountTest,
-                        auth = authorityTest,
-                        avatarPath = avatarPathTest,
-                        name = nameTest,
-                        email = emailTest,
-                    ),
+                    userInfo = userInfoTest,
                     isFirst = true,
                     accessToken = accessTokenTest,
                     refreshToken = refreshTokenTest,
@@ -130,14 +123,7 @@ class ApiService(val cxt: Context) : IApiService {
             SignIn(
                 signInState = SignInState.SIGN_IN,
                 signInInfo = SignInInfo(
-                    userInfo = UserInfo(
-                        id = userIdTest,
-                        account = accountTest,
-                        auth = authorityTest,
-                        avatarPath = avatarPathTest,
-                        name = nameTest,
-                        email = emailTest
-                    ),
+                    userInfo = userInfoTest,
                     isFirst = true,
                     accessToken = accessTokenTest,
                     refreshToken = refreshTokenTest,
@@ -179,7 +165,7 @@ class ApiService(val cxt: Context) : IApiService {
         return educationListTest
     }
 
-    override suspend fun getGradeList(educationId: Long?): List<Grade> {
+    override suspend fun getGradeList(@Query("education_id") educationId: Long?): List<Grade> {
         println("educationId = $educationId")
         return if (educationId == null)
             gradeListTest
@@ -187,7 +173,10 @@ class ApiService(val cxt: Context) : IApiService {
             gradeListTest.filter { it.educationId == educationId }
     }
 
-    override suspend fun getSubjectList(educationId: Long?, gradeId: Long?): List<Subject> {
+    override suspend fun getSubjectList(
+        @Query("education_id") educationId: Long?,
+        @Query("grade_id") gradeId: Long?
+    ): List<Subject> {
         println("educationId = $educationId, gradeId = $gradeId")
         return if (educationId == null && gradeId == null)
             subjectListTest
@@ -199,7 +188,11 @@ class ApiService(val cxt: Context) : IApiService {
             subjectListTest
     }
 
-    override suspend fun getUnitList(educationId: Long?, gradeId: Long?, subjectId: Long?): List<tw.north27.coachingapp.model.Unit> {
+    override suspend fun getUnitList(
+        @Query("education_id") educationId: Long?,
+        @Query("grade_id") gradeId: Long?,
+        @Query("subject_id") subjectId: Long?
+    ): List<tw.north27.coachingapp.model.Unit> {
         println("educationId = $educationId, gradeId = $gradeId, subjectId = $subjectId")
         return if (educationId == null && gradeId == null && subjectId == null)
             unitListTest
@@ -219,7 +212,12 @@ class ApiService(val cxt: Context) : IApiService {
             unitListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }
     }
 
-    override suspend fun getTeacherList(educationId: Long?, gradeId: Long?, subjectId: Long?, unitId: Long?): List<UserInfo> {
+    override suspend fun getTeacherList(
+        @Query("education_id") educationId: Long?,
+        @Query("grade_id") gradeId: Long?,
+        @Query("subject_id") subjectId: Long?,
+        @Query("unit_id") unitId: Long?
+    ): List<UserInfo> {
         delay(1500)
         return if (educationId == null && gradeId == null && subjectId == null && unitId == null)
             teacherInfoListTest
@@ -254,6 +252,11 @@ class ApiService(val cxt: Context) : IApiService {
             teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }?.size ?: 0 > 0 }
         else
             teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
+    }
+
+    override suspend fun getUserInfo(@Field("account") account: String): UserInfo {
+        delay(1500)
+        return userInfoTest
     }
 
 

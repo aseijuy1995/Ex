@@ -45,12 +45,28 @@
     <string name="subject">科目</string>
     <string name="unit">單元</string>
     <string name="north27">© 北緯二十七度科技有限公司</string>
-
+    <!--  TeacherDetailDialogFragment  -->
     <string name="score">評分</string>
     <string name="answer_num">回答數</string>
     <string name="response_rate">回覆率</string>
-    <!--  TeacherDetailDialogFragment  -->
     <string name="ready_to_ask">準備發問!</string>
+    <!-- PersonalCenterFragment -->
+    <string name="id">ID</string>
+    <string name="school">學校</string>
+    <string name="authority">權限</string>
+    <string name="not">未</string>
+    <string name="male">男</string>
+    <string name="female">女</string>
+    <string name="unknown">UNKNOWN</string>
+    <string name="student">學生</string>
+    <string name="teacher">老師</string>
+    <string name="state_msg">狀態消息</string>
+    <string name="personal_info">個人資訊</string>
+    <string name="telephone">電話</string>
+    <string name="email">E-Mail</string>
+    <string name="birthday">生日</string>
+
+
     <!--    -->
     <!--    -->
     <!--    -->
@@ -94,7 +110,5 @@
     <string name="limit_selection">選取已達上限</string>
     <!-- Notify -->
     <string name="not_read_yet_sure_to_delete_it">尚未讀取，確定要刪除嗎?</string>
-    <!-- User -->
-    <string name="user_title">個人中心</string>
 
 </resources>

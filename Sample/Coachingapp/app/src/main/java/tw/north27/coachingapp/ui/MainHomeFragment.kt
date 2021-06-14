@@ -22,7 +22,6 @@ import tw.north27.coachingapp.model.Education
 import tw.north27.coachingapp.model.Grade
 import tw.north27.coachingapp.model.Subject
 import tw.north27.coachingapp.model.Unit
-import tw.north27.coachingapp.ui2.Launch2Activity
 import tw.north27.coachingapp.viewModel.MainHomeViewModel
 
 class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment_main_home) {
