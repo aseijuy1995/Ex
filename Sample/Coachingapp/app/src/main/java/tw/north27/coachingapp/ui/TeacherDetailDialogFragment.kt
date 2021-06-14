@@ -1,9 +1,13 @@
 package tw.north27.coachingapp.ui
 
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
@@ -42,35 +46,57 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
             rvSubject.adapter = adapter
         }
         binding.ivAvatar.bindImg(url = userInfo.avatarPath, roundingRadius = 10)
-        val subjectList = userInfo.teacherInfo!!.subjectList.map(Subject::text).toSet().toList()
-        adapter.submitData(subjectList)
-        //
-        val pieEntryList = listOf(
-            PieEntry(userInfo.teacherInfo?.responseRate?.toFloat()!!, "已回覆")
-        )
-        val pieDataSet = PieDataSet(pieEntryList, "已回覆")
-        val pieData = PieData(pieDataSet)
-        pieData.setDrawValues(true)
-        binding.pcResponseRate.apply {
-//            setUsePercentValues(false)
-            description.isEnabled = false
-//                isRotationEnabled = false
-            isHighlightPerTapEnabled = true
-            animateY(500)
-
-            //
-            setDrawHoleEnabled(true)
-            holeRadius = 20f
-            setEntryLabelTextSize(10F)
-            //
-
-            transparentCircleRadius = 10f
-            data = pieData
-        }.invalidate()
+        setSubjectLabel()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) setResponseRatePieChart()
         //
         binding.ivClear.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()
         }
 
+    }
+
+    private fun setSubjectLabel() {
+        val subjectList = userInfo.teacherInfo!!.subjectList.map(Subject::text).toSet().toList()
+        adapter.submitData(subjectList)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun setResponseRatePieChart() {
+        val pieEntryList = listOf(
+            PieEntry(userInfo.teacherInfo?.responseRate?.toFloat()!!, "已回覆"),
+            PieEntry(100 - userInfo.teacherInfo?.responseRate?.toFloat()!!, "未回覆")
+        )
+        val colorList = arrayListOf<Int>(
+            cxt.getColor(R.color.green_00ba9b),
+            cxt.getColor(R.color.blue_02abe2),
+        )
+        val pieDataSet = PieDataSet(pieEntryList, "")
+        pieDataSet.apply {
+            sliceSpace = 2f
+            selectionShift = 5f
+            colors = colorList
+        }
+        val pieData = PieData(pieDataSet)
+        pieData.setDrawValues(true)
+        binding.pcResponseRate.apply {
+            setUsePercentValues(false)
+            description.isEnabled = false
+            rotationAngle = 90f
+            isHighlightPerTapEnabled = true
+            animateY(1200, Easing.EaseOutBounce)
+
+
+            setEntryLabelColor(Color.BLACK)
+            setEntryLabelTextSize(8f)
+
+            holeRadius = 70f
+
+            centerText = "${cxt.getString(R.string.response_rate)}\n${userInfo.teacherInfo?.responseRate?.toFloat()}%"
+            setCenterTextSize(12f)
+            legend.isEnabled = false
+
+
+            data = pieData
+        }.invalidate()
     }
 }
