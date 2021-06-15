@@ -48,7 +48,16 @@
         android:id="@+id/fragment_personal_center"
         android:name="tw.north27.coachingapp.ui.PersonalCenterFragment"
         android:label="fragment_personal_center"
-        tools:layout="@layout/fragment_personal_center" />
+        tools:layout="@layout/fragment_personal_center">
+
+        <action
+            android:id="@+id/action_fragment_personal_center_to_fragment_personal_center_edit"
+            app:destination="@id/fragment_personal_center_edit"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
 
     <!--        <action-->
@@ -91,5 +100,11 @@
     <!--        android:name="tw.north27.coachingapp.ui2.fragment.item.NotifyMoreDialogFragment"-->
     <!--        android:label="fragment_notify_more_dialog"-->
     <!--        tools:layout="@layout/fragment_notify_more_dialog" />-->
+
+    <fragment
+        android:id="@+id/fragment_personal_center_edit"
+        android:name="tw.north27.coachingapp.ui.PersonalCenterEditFragment"
+        android:label="fragment_personal_center_edit"
+        tools:layout="@layout/fragment_personal_center_edit" />
 
 </navigation>

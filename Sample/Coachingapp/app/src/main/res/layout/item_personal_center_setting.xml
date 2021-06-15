@@ -5,43 +5,46 @@
 
     <data>
 
+        <variable
+            name="userInfo"
+            type="tw.north27.coachingapp.model.UserInfo" />
     </data>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view_setting"
+        android:id="@+id/cv_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="15dp"
         app:cardCornerRadius="5dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="20dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:text="系統設定"
-                android:textSize="16sp"
+                android:gravity="center_vertical"
+                android:paddingBottom="5dp"
+                android:text="@string/settings"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <include
                 layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_pencil_logo}"
-                bind:title='@{"語系"}' />
+                bind:icon="@{@drawable/ic_twotone_quickreply_24_gray}"
+                bind:isSwitch="@{true}"
+                bind:isSwitchOn="@{userInfo.replyNotice}"
+                bind:title='@{@string/reply_notice}' />
 
             <include
                 layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_pencil_logo}"
-                bind:title='@{"地區"}' />
-
-            <include
-                layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_pencil_logo}"
-                bind:title='@{"通知提醒"}' />
+                bind:icon="@{@drawable/ic_twotone_message_24_gray}"
+                bind:isSwitch="@{true}"
+                bind:isSwitchOn="@{userInfo.msgNotice}"
+                bind:title='@{@string/msg_notice}' />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

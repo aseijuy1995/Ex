@@ -34,17 +34,22 @@
 
             <include
                 layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:icon="@{@drawable/ic_twotone_today_24_gray}"
                 bind:title='@{String.format("%s：%s", @string/birthday,String.valueOf(userInfo.birthday))}' />
 
             <include
                 layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_pencil_logo}"
-                bind:title='@{String.format("%s：%s",@string/telephone,userInfo.telephone)}' />
+                bind:icon="@{@drawable/ic_twotone_contact_phone_24_gray}"
+                bind:title='@{String.format("%s：%s",@string/home_phone,userInfo.homePhone)}' />
 
             <include
                 layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_pencil_logo}"
+                bind:icon="@{@drawable/ic_baseline_smartphone_24_gray}"
+                bind:title='@{String.format("%s：%s",@string/cell_phone,userInfo.cellPhone)}' />
+
+            <include
+                layout="@layout/item_personal_center"
+                bind:icon="@{@drawable/ic_twotone_email_24_gray}"
                 bind:title='@{String.format("%s：%s",@string/email,userInfo.email)}' />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

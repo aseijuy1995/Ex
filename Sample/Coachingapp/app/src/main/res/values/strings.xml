@@ -33,8 +33,6 @@
     <string name="study_room">學習室</string>
     <string name="notice_center">通知中心</string>
     <string name="personal_center">個人中心</string>
-    <!--  SignOutFragment  -->
-    <string name="sign_out">登出</string>
     <!--  MainHomeFragment  -->
     <string name="filter">篩選</string>
     <string name="filter_teacher">篩選老師</string>
@@ -51,6 +49,7 @@
     <string name="response_rate">回覆率</string>
     <string name="ready_to_ask">準備發問!</string>
     <!-- PersonalCenterFragment -->
+    <string name="edit">編輯</string>
     <string name="id">ID</string>
     <string name="school">學校</string>
     <string name="authority">權限</string>
@@ -62,12 +61,35 @@
     <string name="teacher">老師</string>
     <string name="state_msg">狀態消息</string>
     <string name="personal_info">個人資訊</string>
-    <string name="telephone">電話</string>
+    <string name="cell_phone">手機</string>
+    <string name="home_phone">家電</string>
     <string name="email">E-Mail</string>
     <string name="birthday">生日</string>
+    <string name="learning_footprint">學習足跡</string>
+    <string name="course">歷程</string>
+    <string name="analysis">分析</string>
+    <string name="settings">設定</string>
+    <string name="reply_notice">回覆通知</string>
+    <string name="msg_notice">訊息通知</string>
+    <string name="share">分享</string>
+    <string name="promotion_link">推廣連結</string>
+    <string name="about">關於</string>
+    <string name="about_coaching">關於 Coaching</string>
+    <string name="common_problem">常見問題</string>
+    <string name="privacy_policy">隱私政策</string>
+    <string name="contact_us">聯繫我們</string>
+    <string name="sign_out">登出</string>
+    <!--  PersonalCenterEditFragment  -->
+    <string name="name">名稱</string>
+    <string name="enter_name">請輸入名稱</string>
+    <string name="enter_school">請輸入學校名稱</string>
+    <string name="gender">性別</string>
+    <string name="enter_state_msg">請輸入狀態消息</string>
+    <string name="enter_cell_phone">請輸入手機號</string>
+    <string name="enter_home_phone">請輸入家電號</string>
+    <string name="enter_email">請輸入E-Mail</string>
+    <!--  SignOutFragment  -->
 
-
-    <!--    -->
     <!--    -->
     <!--    -->
 

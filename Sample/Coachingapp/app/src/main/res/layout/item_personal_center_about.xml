@@ -8,45 +8,50 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card_view_about"
+        android:id="@+id/cv_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="15dp"
         app:cardCornerRadius="5dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="20dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:text="關於"
+                android:gravity="center_vertical"
+                android:paddingBottom="5dp"
+                android:text="@string/about"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <include
                 layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_pencil_logo}"
-                bind:title='@{"關於Coaching"}' />
+                bind:icon="@{@drawable/ic_twotone_ballot_24_gray}"
+                bind:isClick="@{true}"
+                bind:title='@{@string/about_coaching}' />
 
             <include
                 layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_pencil_logo}"
-                bind:title='@{"常見問題"}' />
+                bind:icon="@{@drawable/ic_twotone_contact_support_24_gray}"
+                bind:isClick="@{true}"
+                bind:title='@{@string/common_problem}' />
 
             <include
                 layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_pencil_logo}"
-                bind:title='@{"隱私政策"}' />
+                bind:icon="@{@drawable/ic_twotone_privacy_tip_24_gray}"
+                bind:isClick="@{true}"
+                bind:title='@{@string/privacy_policy}' />
 
             <include
                 layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_pencil_logo}"
-                bind:title='@{"聯繫我們"}' />
+                bind:icon="@{@drawable/ic_twotone_connect_without_contact_24_gray}"
+                bind:isClick="@{true}"
+                bind:title='@{@string/contact_us}' />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

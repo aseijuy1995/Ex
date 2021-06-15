@@ -155,7 +155,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginTop="10dp"
-                    android:background="@drawable/shape_solid_green_corners_radius_10"
+                    android:background="@drawable/shape_solid_green_corners_radius_5"
                     android:text="@string/ready_to_ask"
                     android:textColor="@color/white"
                     android:textSize="14sp" />

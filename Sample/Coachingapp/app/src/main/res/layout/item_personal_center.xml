@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
@@ -11,6 +12,18 @@
         <variable
             name="title"
             type="String" />
+
+        <variable
+            name="isClick"
+            type="Boolean" />
+
+        <variable
+            name="isSwitch"
+            type="Boolean" />
+
+        <variable
+            name="isSwitchOn"
+            type="Boolean" />
 
     </data>
 
@@ -39,6 +52,32 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_icon"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_click"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_baseline_keyboard_arrow_right_24_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            bind:isVisible="@{(isClick!=null)?isClick:false}" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:checked="@{isSwitchOn}"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:textColor="@color/gray_aaaaaa"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:showText="false"
+            bind:isVisible="@{(isSwitch!=null)?isSwitch:false}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

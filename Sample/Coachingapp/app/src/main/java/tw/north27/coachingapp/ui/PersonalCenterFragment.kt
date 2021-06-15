@@ -2,8 +2,10 @@ package tw.north27.coachingapp.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseFragment
+import com.yujie.utilmodule.ext.clicksObserve
 import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
@@ -55,6 +57,10 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
                 }
 
             }
+        }
+
+        binding.itemPersonalCenterUser.ivEdit.clicksObserve(owner = viewLifecycleOwner) {
+            findNavController().navigate(PersonalCenterFragmentDirections.actionFragmentPersonalCenterToFragmentPersonalCenterEdit())
         }
 
 

@@ -3,7 +3,6 @@ package tw.north27.coachingapp.model
 import android.os.Parcelable
 import com.yujie.utilmodule.UserPref
 import kotlinx.parcelize.Parcelize
-import java.time.LocalDate
 
 /**
  * 可用於登入&登出
@@ -71,8 +70,12 @@ data class UserInfo(
     val desc: String? = null,
 //    val birthday: LocalDate? = null,
     val birthday: String? = null,
-    val telephone: String? = null,
+    val cellPhone: String? = null,
+    val homePhone: String? = null,
     val email: String? = null,
+    //
+    val replyNotice: Boolean? = null,//回覆通知開關
+    val msgNotice: Boolean? = null,//訊息通知開關
     //
     val studentInfo: StudentInfo? = null,
     val teacherInfo: TeacherInfo? = null,

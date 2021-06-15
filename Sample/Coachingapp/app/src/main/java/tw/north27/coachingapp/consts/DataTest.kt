@@ -26,10 +26,12 @@ val userInfoTest = UserInfo(
     gender = Gender.MALE,
 //    birthday = LocalDate.of(2020, 7, 27),
     birthday = "2020年7月27日",
-    telephone = "0912-345-678",
+    cellPhone = "0912-345-678",
+    homePhone = "02-3456-7890",
     email = emailTest,
-
     desc = "這是簡單的自我介紹！這是簡單的自我介紹2！這是簡單的自我介紹3！這是簡單的自我介紹4！這是簡單的自我介紹5！",
+    replyNotice = false,
+    msgNotice = true,
     studentInfo = StudentInfo(
         school = "新北市板橋區板橋國小",
         grade = Grade(id = 1, text = "(國小)一年級", educationId = 1)
