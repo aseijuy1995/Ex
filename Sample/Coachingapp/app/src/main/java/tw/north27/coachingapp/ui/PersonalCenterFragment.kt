@@ -42,6 +42,11 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
         viewModel.getUserInfo()
 
         viewModel.userInfoState.observe(viewLifecycleOwner) {
+            binding.itemShimmer.sflView.isVisible = (it is ViewState.Load)
+//            binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
+//            binding.rvView.isVisible = (it is ViewState.Data)
+//            binding.itemError.root.isVisible = (it is ViewState.Error)
+//            binding.itemNetwork.root.isVisible = (it is ViewState.Network)
             when (it) {
                 is ViewState.Load -> {
                 }

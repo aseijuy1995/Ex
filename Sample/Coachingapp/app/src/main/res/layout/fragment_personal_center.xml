@@ -50,7 +50,16 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <include
+            android:id="@+id/item_shimmer"
+            layout="@layout/fragment_personal_center_shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/item"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
