@@ -91,7 +91,7 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
 
             holeRadius = 70f
 
-            centerText = "${cxt.getString(R.string.response_rate)}\n${userInfo.teacherInfo?.replyRate?.toFloat()}%"
+            centerText = "${cxt.getString(R.string.reply_rate)}\n${userInfo.teacherInfo?.replyRate?.toFloat()}%"
             setCenterTextSize(12f)
             legend.isEnabled = false
 

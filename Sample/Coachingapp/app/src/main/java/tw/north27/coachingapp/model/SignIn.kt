@@ -115,9 +115,11 @@ data class StudentInfo(
 ) : Parcelable
 
 /**
- * avgReviewScore >> 平均評論分數
- * responseRate >> 回覆率
- * replyRate >> 回覆數
+ * avgReviewScore >> 平均分數
+ * eachScoreList >> 各評分數量
+ * replyRate >> 回覆率
+ * replyNum >> 回覆數
+
  * commectList >> 評論列表
  * subjectList >> (暫時)科目列表
  * unitList >> 單元列表
@@ -127,9 +129,10 @@ data class StudentInfo(
 @Parcelize
 data class TeacherInfo(
     val avgCommectScore: Double,
+    val eachScoreList: List<Score>? = null,
     val replyRate: Int,
     val replyNum: Int,
-    val commectList: List<Commect>? = null,
+//    val commectList: List<Commect>? = null,
     val subjectList: List<Subject>,
     val unitList: List<Unit>,
 ) : Parcelable
@@ -145,12 +148,27 @@ data class UserConfig(
     val msgNotice: Boolean? = null,
 ) : Parcelable
 
+/**
+ * grade >> 等級
+ * count >> 數量
+ * */
+@Parcelize
+data class Score(
+    val grade: Float,
+    val count: Int
+) : Parcelable
 
 /**
  * 評論
+ * id >> 評論id
+ * account >> 評論者id
+ * score >> 評分，1~5分
+ * msg >> 評論內容
  * */
 @Parcelize
 data class Commect(
-    val replyNotice: Boolean? = null,
-    val msgNotice: Boolean? = null,
+    val id: Long,
+    val account: String,
+    val score: Int,
+    val msg: String,
 ) : Parcelable

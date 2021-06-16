@@ -9,7 +9,9 @@ import tw.north27.coachingapp.model.Unit
 val userIdTest = 0L
 val accountTest = "north27"
 val passwordTest = "north27"
-val authorityTest = UserPref.Authority.STUDENT
+
+//val authorityTest = UserPref.Authority.STUDENT
+val authorityTest = UserPref.Authority.TEACHER
 val accessTokenTest = "accessTokenTest"
 val refreshTokenTest = "refreshTokenTest"
 val avatarPathTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
@@ -36,7 +38,18 @@ val userInfoTest = UserInfo(
         grade = Grade(id = 1, text = "(國小)一年級", educationId = 1)
     ),
     teacherInfo = TeacherInfo(
-        avgCommectScore = 4.99,
+        avgCommectScore = 3.7,
+        eachScoreList = listOf(
+            Score(1f, 12),
+            Score(1.5f, 5),
+            Score(2f, 7),
+            Score(2.5f, 15),
+            Score(3f, 20),
+            Score(3.5f, 16),
+            Score(4f, 14),
+            Score(4.5f, 18),
+            Score(5f, 20)
+        ),
         replyNum = 117,
         replyRate = 92,
         subjectList = listOf(
@@ -47,7 +60,7 @@ val userInfoTest = UserInfo(
     userConfig = UserConfig(
         replyNotice = false,
         msgNotice = true,
-    )
+    ),
 )
 
 

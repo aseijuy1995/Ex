@@ -13,28 +13,46 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        bind:isVisible="@{userInfo.auth == Authority.TEACHER}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="15dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="5dp"
+        bind:isVisible="@{userInfo.auth == Authority.TEACHER}">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="400dp"
             android:layout_margin="10dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingBottom="5dp"
+                android:text="@string/teacher_info"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pc_avg_commect_score"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="270dp"
+                android:layout_height="0dp"
                 android:layout_weight="1" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/green_00ba9b" />
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pc_reply_rate"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="270dp"
+                android:layout_height="0dp"
                 android:layout_weight="1" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

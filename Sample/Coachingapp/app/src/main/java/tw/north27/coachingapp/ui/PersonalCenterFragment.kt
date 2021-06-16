@@ -1,10 +1,20 @@
 package tw.north27.coachingapp.ui
 
 import android.annotation.SuppressLint
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.components.Legend
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
+import com.yujie.utilmodule.UserPref
 import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseFragment
 import com.yujie.utilmodule.ext.clicksObserve
@@ -13,7 +23,10 @@ import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentPersonalCenterBinding
+import tw.north27.coachingapp.model.TeacherInfo
+import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.viewModel.PersonalCenterViewModel
+
 
 class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.layout.fragment_personal_center) {
 
@@ -71,21 +84,23 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
 
                 is ViewState.Data -> {
                     val userInfo = it.data
-                    binding.itemPersonalCenterUser.ivAvatar.bindImg(
-                        url = userInfo.avatarPath,
-                        roundingRadius = 10
-                    )
-                    binding.userInfo = it.data
+                    binding.apply {
+                        this.userInfo = userInfo
+                        itemPersonalCenterUser.ivAvatar.bindImg(
+                            url = userInfo.avatarPath,
+                            roundingRadius = 10
+                        )
+                    }
+                    if (userInfo.auth == UserPref.Authority.TEACHER) setTeacherInfo(userInfo)
+
+
                 }
                 //FIXME　整合處理各頁面錯誤
-                is ViewState.Error -> {
+                is ViewState.Error, is ViewState.Network -> {
                 }
-                is ViewState.Network -> {
-
-                }
-
             }
         }
+
 
         //編輯
         binding.itemPersonalCenterUser.ivEdit.clicksObserve(owner = viewLifecycleOwner) {
@@ -134,5 +149,62 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
 
 
 //        doubleClickToExit()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun setTeacherInfo(userInfo: UserInfo) {
+        val teacherInfo = userInfo.teacherInfo
+        setScoreChart(teacherInfo, pieEntryList, userInfo)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun setScoreChart(teacherInfo: TeacherInfo?, userInfo: UserInfo) {
+        val pieEntryList = mutableListOf<PieEntry>()
+        teacherInfo?.eachScoreList?.forEach { pieEntryList.add(PieEntry(it.count.toFloat(), "${it.grade} ${getString(R.string.star)} - ${it.count}${getString(R.string.pen)}")) }
+        val colorList = arrayListOf<Int>(
+            cxt.getColor(R.color.red_e50014),
+            cxt.getColor(R.color.orange_f09401),
+            cxt.getColor(R.color.yellow_f7cd3b),
+            cxt.getColor(R.color.green_00ba9b),
+            cxt.getColor(R.color.blue_02abe2),
+            cxt.getColor(R.color.blue_082e81),
+            cxt.getColor(R.color.purple_c792ea),
+            cxt.getColor(R.color.green_00b900),
+            cxt.getColor(R.color.red_ff5370),
+        )
+        val pieDataSet = PieDataSet(pieEntryList, "")
+        pieDataSet.apply {
+            sliceSpace = 2f
+            selectionShift = 10f
+            colors = colorList
+        }
+        val pieData = PieData(pieDataSet)
+        pieData.apply {
+            setDrawValues(true)
+            setValueFormatter(PercentFormatter(binding.itemPersonalCenterTeacher.pcAvgCommectScore))
+            setValueTextColor(Color.WHITE)
+            setValueTextSize(10f)
+        }
+        binding.itemPersonalCenterTeacher.pcAvgCommectScore.apply {
+            setUsePercentValues(true)
+            description.isEnabled = false
+            rotationAngle = 90f
+            isHighlightPerTapEnabled = true
+            animateY(1500, Easing.EaseInQuart)
+            setDrawEntryLabels(false)
+            holeRadius = 60f
+            centerText = "${cxt.getString(R.string.score)}\n${userInfo.teacherInfo?.avgCommectScore?.toFloat()}%"
+            setCenterTextSize(14f)
+
+            legend.apply {
+                verticalAlignment = Legend.LegendVerticalAlignment.CENTER
+                horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+                orientation = Legend.LegendOrientation.VERTICAL
+                setDrawInside(false)
+                xOffset = 0f
+                form = Legend.LegendForm.CIRCLE
+            }
+            data = pieData
+        }.invalidate()
     }
 }
