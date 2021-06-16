@@ -55,8 +55,8 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
         binding.itemDrawerLayoutMainHome.spSubject.adapter = subjectAdapter
         binding.itemDrawerLayoutMainHome.spUnit.adapter = chapterAdapter
 
-        getDefaultSelection()
-        binding.srlView.autoRefresh()
+//        getDefaultSelection()
+//        binding.srlView.autoRefresh()
 
         viewModel.teacherListState.observe(viewLifecycleOwner) {
             binding.itemShimmer.sflView.isVisible = (it is ViewState.Load)
@@ -74,7 +74,6 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
                 is ViewState.Error, is ViewState.Network -> {
                 }
             }
-
         }
 
         binding.tbMainHome.ivFilter.clicksObserve(owner = viewLifecycleOwner) {

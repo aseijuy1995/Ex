@@ -57,7 +57,17 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_fragment_personal_center_to_fragment_sign_out_dialog"
+            app:destination="@id/fragment_sign_out_dialog" />
     </fragment>
+
+    <dialog
+        android:id="@+id/fragment_sign_out_dialog"
+        android:name="tw.north27.coachingapp.ui.SignOutDialogFragment"
+        android:label="fragment_sign_out_dialog"
+        tools:layout="@layout/fragment_sign_out_dialog" />
 
 
     <!--        <action-->

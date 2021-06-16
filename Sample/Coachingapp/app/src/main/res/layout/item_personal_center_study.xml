@@ -5,6 +5,11 @@
 
     <data>
 
+        <variable
+            name="userInfo"
+            type="tw.north27.coachingapp.model.UserInfo" />
+
+        <import type="com.yujie.utilmodule.UserPref.Authority" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -12,7 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="15dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="5dp"
+        bind:isVisible="@{userInfo.auth == Authority.STUDENT}">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -30,12 +36,14 @@
                 android:textStyle="bold" />
 
             <include
+                android:id="@+id/item_course"
                 layout="@layout/item_personal_center"
                 bind:icon="@{@drawable/ic_twotone_history_toggle_off_24_gray}"
                 bind:isClick="@{true}"
                 bind:title='@{@string/course}' />
 
             <include
+                android:id="@+id/item_analysis"
                 layout="@layout/item_personal_center"
                 bind:icon="@{@drawable/ic_twotone_area_chart_24_gray}"
                 bind:isClick="@{true}"

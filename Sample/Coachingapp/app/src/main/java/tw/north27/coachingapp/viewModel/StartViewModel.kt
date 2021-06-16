@@ -54,7 +54,6 @@ class StartViewModel(
         }
     }
 
-
     private val _signInState = MutableLiveData<ViewState<SignIn>>(ViewState.initial())
 
     val signInState = _signInState.asLiveData()

@@ -24,8 +24,9 @@ data class SignIn(
 )
 
 /**
- * SIGN_IN >> 登入中
- * SIGN_OUT >> 登出中
+ * 登出入狀態
+ * SIGN_IN >> 登入
+ * SIGN_OUT >> 登出
  * */
 enum class SignInState {
     SIGN_IN,
@@ -33,11 +34,12 @@ enum class SignInState {
 }
 
 /**
+ * 登入資訊
  * userInfo >> 用戶資訊
  * isFirst >> 是否第一次登入
  * accessToken >> 訪問用token
  * refreshToken >> 刷新用token
- * fcmToken >> 推撥token
+ * pushToken >> 推撥token
  * msg >> 訊息
  * */
 data class SignInInfo(
@@ -50,6 +52,7 @@ data class SignInInfo(
 )
 
 /**
+ * 登出資訊
  * msg >> 訊息
  * */
 data class SignOutInfo(
@@ -57,7 +60,19 @@ data class SignOutInfo(
 )
 
 /**
+ * 用戶資訊
+ * id >> 用戶id
+ * account >> 帳號
+ * auth >> 權限，UNKNOWN、STUDENT、TEACHER
+ * avatarPath >> 頭貼
+ * name >> 名稱
+ * gender >> 性別
  * desc >> 簡介
+ * birthday >> 生日
+ * cellPhone >> 手機號
+ * homePhone >> 家電號
+ * email >> E-Mail
+ * replyRemind >> E-Mail
  * */
 @Parcelize
 data class UserInfo(
@@ -73,12 +88,12 @@ data class UserInfo(
     val cellPhone: String? = null,
     val homePhone: String? = null,
     val email: String? = null,
-    //
-    val replyNotice: Boolean? = null,//回覆通知開關
-    val msgNotice: Boolean? = null,//訊息通知開關
-    //
     val studentInfo: StudentInfo? = null,
     val teacherInfo: TeacherInfo? = null,
+    //
+    val userConfig: UserConfig? = null,//訊息通知開關
+    //
+
 ) : Parcelable
 
 /**
@@ -100,27 +115,42 @@ data class StudentInfo(
 ) : Parcelable
 
 /**
- * score >> 評分
- * answerNum >> 回答數
+ * avgReviewScore >> 平均評論分數
  * responseRate >> 回覆率
+ * replyRate >> 回覆數
+ * commectList >> 評論列表
+ * subjectList >> (暫時)科目列表
  * unitList >> 單元列表
+ *
+ *
  * */
 @Parcelize
 data class TeacherInfo(
-    val score: Double,
-    val answerNum: Int,
-    val responseRate: Int,
+    val avgCommectScore: Double,
+    val replyRate: Int,
+    val replyNum: Int,
+    val commectList: List<Commect>? = null,
     val subjectList: List<Subject>,
     val unitList: List<Unit>,
 ) : Parcelable
 
 /**
- * CHINESE >> 國語
- * ENGLISH >> 英文
- * MATH >> 數學
- * NATURAL >> 自然
- * SOCIETY >> 社會
+ * 用戶設定
+ * replyRemind >> 回覆提醒開關
+ * msgRemind >> 訊息提醒開關
  * */
-//enum class Subject {
-//    CHINESE, ENGLISH, MATH, NATURAL, SOCIETY
-//}
+@Parcelize
+data class UserConfig(
+    val replyNotice: Boolean? = null,
+    val msgNotice: Boolean? = null,
+) : Parcelable
+
+
+/**
+ * 評論
+ * */
+@Parcelize
+data class Commect(
+    val replyNotice: Boolean? = null,
+    val msgNotice: Boolean? = null,
+) : Parcelable

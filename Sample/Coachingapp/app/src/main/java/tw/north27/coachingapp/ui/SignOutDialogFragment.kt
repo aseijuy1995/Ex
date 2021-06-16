@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui2//package tw.north27.coachingapp.ui
+package tw.north27.coachingapp.ui
 
 import android.os.Bundle
 import android.view.View
@@ -27,27 +27,17 @@ class SignOutDialogFragment : BaseDialogFragment<FragmentSignOutDialogBinding>(R
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnSignOut.clicksObserve(owner = viewLifecycleOwner) {
-            viewModel.signOut()
-        }
-
-        binding.ivClose.clicksObserve(owner = viewLifecycleOwner) {
-            findNavController().navigateUp()
-        }
-
         viewModel.signOutState.observe(viewLifecycleOwner) {
+            if (it is ViewState.Load) LoadingDialogFragment.show(parentFragmentManager)
+            if (it !is ViewState.Initial && it !is ViewState.Load) LoadingDialogFragment.dismiss()
             when (it) {
-                is ViewState.Load -> {
-                    LoadingDialogFragment.show(parentFragmentManager)
-                }
                 is ViewState.Data -> {
-                    LoadingDialogFragment.dismiss()
                     val signIn = it.data
                     when (signIn.signInState) {
                         SignInState.SIGN_OUT -> {
                             lifecycleScope.launch {
                                 Toast.makeText(cxt, signIn.signOutInfo?.msg, Toast.LENGTH_SHORT).show()
-                                delay(1500)
+                                delay(200)
                                 act.finishAffinity()
                             }
                         }
@@ -56,10 +46,18 @@ class SignOutDialogFragment : BaseDialogFragment<FragmentSignOutDialogBinding>(R
                         }
                     }
                 }
+                //FIXME　整合處理各頁面錯誤
                 is ViewState.Error, is ViewState.Network -> {
-                    LoadingDialogFragment.dismiss()
                 }
             }
+        }
+
+        binding.btnSignOut.clicksObserve(owner = viewLifecycleOwner) {
+            viewModel.signOut()
+        }
+
+        binding.ivClose.clicksObserve(owner = viewLifecycleOwner) {
+            findNavController().navigateUp()
         }
     }
 }

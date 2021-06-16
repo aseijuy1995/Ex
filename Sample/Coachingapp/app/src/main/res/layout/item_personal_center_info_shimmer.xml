@@ -16,10 +16,7 @@
         <View
             android:layout_width="60dp"
             android:layout_height="20dp"
-            android:gravity="center_vertical"
-            android:paddingBottom="5dp"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:paddingBottom="5dp" />
 
         <include layout="@layout/item_personal_center_shimmer" />
 

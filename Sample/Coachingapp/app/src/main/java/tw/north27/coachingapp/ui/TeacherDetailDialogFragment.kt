@@ -63,8 +63,8 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setResponseRatePieChart() {
         val pieEntryList = listOf(
-            PieEntry(userInfo.teacherInfo?.responseRate?.toFloat()!!, "已回覆"),
-            PieEntry(100 - userInfo.teacherInfo?.responseRate?.toFloat()!!, "未回覆")
+            PieEntry(userInfo.teacherInfo?.replyRate?.toFloat()!!, "已回覆"),
+            PieEntry(100 - userInfo.teacherInfo?.replyRate?.toFloat()!!, "未回覆")
         )
         val colorList = arrayListOf<Int>(
             cxt.getColor(R.color.green_00ba9b),
@@ -91,7 +91,7 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
 
             holeRadius = 70f
 
-            centerText = "${cxt.getString(R.string.response_rate)}\n${userInfo.teacherInfo?.responseRate?.toFloat()}%"
+            centerText = "${cxt.getString(R.string.response_rate)}\n${userInfo.teacherInfo?.replyRate?.toFloat()}%"
             setCenterTextSize(12f)
             legend.isEnabled = false
 

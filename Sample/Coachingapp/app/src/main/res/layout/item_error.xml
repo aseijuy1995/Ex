@@ -10,9 +10,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
+        android:maxLines="1"
         android:text="@string/error"
         android:textColor="@color/purple_ffeeff"
-        android:textSize="100sp"
+        android:textSize="80sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,8 +22,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_img"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

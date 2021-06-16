@@ -20,7 +20,10 @@ class PersonalCenterViewModel(
     private val userRepo: IUserRepository
 ) : BaseAndroidViewModel(application) {
 
-    private val _userInfoState = MutableLiveData<ViewState<UserInfo>>(ViewState.initial())
+    private val _userInfoState: MutableLiveData<ViewState<UserInfo>> by lazy {
+        getUserInfo()
+        MutableLiveData(ViewState.initial())
+    }
 
     val userInfoState = _userInfoState.asLiveData()
 

@@ -7,7 +7,7 @@
     android:maxHeight="500dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_view"
+        android:id="@+id/cl_layout"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -20,7 +20,7 @@
             android:id="@+id/iv_background"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@drawable/ic_background_update"
+            android:background="@drawable/ic_update_background"
             android:scaleType="centerCrop"
             android:src="@drawable/shape_gradient_angle_270_color_tran_gray"
             app:layout_constraintDimensionRatio="H,16:9"
@@ -43,8 +43,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/update_title"
-                android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textColor="@color/gray_666666"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -55,8 +55,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="@string/update_size"
-                android:textColor="@color/black"
-                android:textSize="12sp"
+                android:textColor="@color/gray_666666"
+                android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_title" />
@@ -70,7 +70,7 @@
                 android:ellipsize="end"
                 android:maxLines="6"
                 android:textColor="@color/gray_666666"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintBottom_toTopOf="@id/btn_update"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,12 +80,12 @@
                 android:id="@+id/btn_update"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="?attr/colorPrimary"
+                android:backgroundTint="@color/green_00ba9b"
                 android:gravity="center"
-                android:minHeight="40dp"
+                android:minHeight="36dp"
                 android:text="@string/update"
                 android:textColor="@color/white"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -98,26 +98,24 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/llc_close"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_view">
+        app:layout_constraintTop_toBottomOf="@id/cl_layout">
 
         <View
             android:layout_width="1dp"
-            android:layout_height="55dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:background="@color/gray_eeeeee" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/lib_update_app_close"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:src="@mipmap/lib_update_app_close" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

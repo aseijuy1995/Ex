@@ -35,7 +35,8 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
                 R.id.fragment_study_room,
                 R.id.fragment_notice_center,
                 R.id.fragment_personal_center,
-                R.id.fragment_teacher_detail_dialog -> true
+                R.id.fragment_teacher_detail_dialog,
+                R.id.fragment_sign_out_dialog -> true
                 else -> false
             }
         }

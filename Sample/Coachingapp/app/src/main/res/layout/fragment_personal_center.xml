@@ -21,20 +21,23 @@
             android:layout_height="200dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/ctl_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:collapsedTitleGravity="center"
+                app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleGravity="start|bottom"
-                app:expandedTitleMarginBottom="10dp"
-                app:expandedTitleMarginStart="10dp"
-                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed">
+                app:expandedTitleMargin="10dp"
+                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+                app:scrimAnimationDuration="500">
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_background"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/ic_personal_center_background1"
+                    android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/shape_gradient_angle_270_color_tran_gray"
                     app:layout_collapseMode="parallax"
                     app:layout_collapseParallaxMultiplier="0.3" />
 
@@ -50,16 +53,8 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <include
-            android:id="@+id/item_shimmer"
-            layout="@layout/fragment_personal_center_shimmer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
         <androidx.core.widget.NestedScrollView
-            android:id="@+id/item"
+            android:id="@+id/nsv_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
@@ -81,6 +76,16 @@
                 <include
                     android:id="@+id/item_personal_center_state_msg"
                     layout="@layout/item_personal_center_state_msg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    bind:userInfo="@{userInfo}" />
+
+                <include
+                    android:id="@+id/item_personal_center_teacher"
+                    layout="@layout/item_personal_center_teacher"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
@@ -114,7 +119,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp" />
+                    android:layout_marginBottom="10dp"
+                    bind:userInfo="@{userInfo}" />
 
                 <include
                     android:id="@+id/item_personal_center_setting"
@@ -154,6 +160,37 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.core.widget.NestedScrollView>
+
+        <include
+            android:id="@+id/item_empty"
+            layout="@layout/item_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <include
+            android:id="@+id/item_error"
+            layout="@layout/item_error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <include
+            android:id="@+id/item_network"
+            layout="@layout/item_network"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <include
+            android:id="@+id/item_shimmer"
+            layout="@layout/fragment_personal_center_shimmer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

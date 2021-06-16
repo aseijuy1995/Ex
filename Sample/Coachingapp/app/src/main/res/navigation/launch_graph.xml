@@ -40,9 +40,6 @@
         app:popUpTo="@id/fragment_start"
         app:popUpToInclusive="true" />
 
-    <action
-        android:id="@+id/action_to_fragment_sign_out_dialog"
-        app:destination="@id/fragment_sign_out_dialog" />
 
     <!--  Fragment Page  -->
     <fragment
@@ -78,12 +75,6 @@
         android:name="tw.north27.coachingapp.ui.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" />
-
-    <dialog
-        android:id="@+id/fragment_sign_out_dialog"
-        android:name="tw.north27.coachingapp.ui2.SignOutDialogFragment"
-        android:label="fragment_sign_out_dialog"
-        tools:layout="@layout/fragment_sign_out_dialog" />
 
     <!--    &lt;!&ndash;    &ndash;&gt;-->
     <!--    &lt;!&ndash;    &ndash;&gt;-->

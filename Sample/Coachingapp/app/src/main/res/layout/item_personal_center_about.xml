@@ -30,24 +30,28 @@
                 android:textStyle="bold" />
 
             <include
+                android:id="@+id/item_about_coaching"
                 layout="@layout/item_personal_center"
                 bind:icon="@{@drawable/ic_twotone_ballot_24_gray}"
                 bind:isClick="@{true}"
                 bind:title='@{@string/about_coaching}' />
 
             <include
+                android:id="@+id/item_common_problem"
                 layout="@layout/item_personal_center"
                 bind:icon="@{@drawable/ic_twotone_contact_support_24_gray}"
                 bind:isClick="@{true}"
                 bind:title='@{@string/common_problem}' />
 
             <include
+                android:id="@+id/item_privacy_policy"
                 layout="@layout/item_personal_center"
                 bind:icon="@{@drawable/ic_twotone_privacy_tip_24_gray}"
                 bind:isClick="@{true}"
                 bind:title='@{@string/privacy_policy}' />
 
             <include
+                android:id="@+id/item_contact_us"
                 layout="@layout/item_personal_center"
                 bind:icon="@{@drawable/ic_twotone_connect_without_contact_24_gray}"
                 bind:isClick="@{true}"

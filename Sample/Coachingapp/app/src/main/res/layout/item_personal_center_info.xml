@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="15dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="5dp"
+        bind:isVisible="@{userInfo.birthday!=null || userInfo.homePhone!=null || userInfo.cellPhone!=null || userInfo.email!=null}">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -35,21 +36,25 @@
             <include
                 layout="@layout/item_personal_center"
                 bind:icon="@{@drawable/ic_twotone_today_24_gray}"
+                bind:isVisible="@{userInfo.birthday!=null}"
                 bind:title='@{String.format("%s：%s", @string/birthday,String.valueOf(userInfo.birthday))}' />
 
             <include
                 layout="@layout/item_personal_center"
                 bind:icon="@{@drawable/ic_twotone_contact_phone_24_gray}"
+                bind:isVisible="@{userInfo.homePhone!=null}"
                 bind:title='@{String.format("%s：%s",@string/home_phone,userInfo.homePhone)}' />
 
             <include
                 layout="@layout/item_personal_center"
                 bind:icon="@{@drawable/ic_baseline_smartphone_24_gray}"
+                bind:isVisible="@{userInfo.cellPhone!=null}"
                 bind:title='@{String.format("%s：%s",@string/cell_phone,userInfo.cellPhone)}' />
 
             <include
                 layout="@layout/item_personal_center"
                 bind:icon="@{@drawable/ic_twotone_email_24_gray}"
+                bind:isVisible="@{userInfo.email!=null}"
                 bind:title='@{String.format("%s：%s",@string/email,userInfo.email)}' />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

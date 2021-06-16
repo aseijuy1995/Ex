@@ -30,6 +30,7 @@
                 android:textStyle="bold" />
 
             <include
+                android:id="@+id/item_link"
                 layout="@layout/item_personal_center"
                 bind:icon="@{@drawable/ic_twotone_link_24_gray}"
                 bind:isClick="@{true}"

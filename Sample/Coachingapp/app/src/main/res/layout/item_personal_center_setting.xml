@@ -33,18 +33,20 @@
                 android:textStyle="bold" />
 
             <include
+                android:id="@+id/item_reply_remind"
                 layout="@layout/item_personal_center"
                 bind:icon="@{@drawable/ic_twotone_quickreply_24_gray}"
                 bind:isSwitch="@{true}"
-                bind:isSwitchOn="@{userInfo.replyNotice}"
-                bind:title='@{@string/reply_notice}' />
+                bind:isSwitchOn="@{userInfo.userConfig.replyNotice}"
+                bind:title="@{@string/reply_remind}" />
 
             <include
+                android:id="@+id/item_msg_remind"
                 layout="@layout/item_personal_center"
                 bind:icon="@{@drawable/ic_twotone_message_24_gray}"
                 bind:isSwitch="@{true}"
-                bind:isSwitchOn="@{userInfo.msgNotice}"
-                bind:title='@{@string/msg_notice}' />
+                bind:isSwitchOn="@{userInfo.userConfig.msgNotice}"
+                bind:title="@{@string/msg_remind}" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

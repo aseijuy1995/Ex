@@ -20,7 +20,10 @@ class MainHomeViewModel(
     private val userRepo: IUserRepository,
 ) : BaseAndroidViewModel(application) {
 
-    private val _teacherListState = MutableLiveData<ViewState<List<UserInfo>>>(ViewState.initial())
+    private val _teacherListState: MutableLiveData<ViewState<List<UserInfo>>> by lazy {
+        getTeacherList()
+        MutableLiveData<ViewState<List<UserInfo>>>(ViewState.initial())
+    }
 
     val teacherListState = _teacherListState.asLiveData()
 
@@ -51,7 +54,10 @@ class MainHomeViewModel(
 
     val defaultUnit = Unit(id = null, text = "預設", educationId = null, gradeId = null, subjectId = null)
 
-    private val _educationListState = MutableLiveData<ViewState<List<Education>>>(ViewState.initial())
+    private val _educationListState: MutableLiveData<ViewState<List<Education>>> by lazy {
+        getEducationList()
+        MutableLiveData<ViewState<List<Education>>>(ViewState.initial())
+    }
 
     val educationListState = _educationListState.asLiveData()
 
@@ -74,7 +80,10 @@ class MainHomeViewModel(
         }
     }
 
-    private val _gradeListState = MutableLiveData<ViewState<List<Grade>>>(ViewState.initial())
+    private val _gradeListState: MutableLiveData<ViewState<List<Grade>>> by lazy {
+        getGradeList()
+        MutableLiveData<ViewState<List<Grade>>>(ViewState.initial())
+    }
 
     val gradeListState = _gradeListState.asLiveData()
 
@@ -97,7 +106,10 @@ class MainHomeViewModel(
         }
     }
 
-    private val _subjectListState = MutableLiveData<ViewState<List<Subject>>>(ViewState.initial())
+    private val _subjectListState: MutableLiveData<ViewState<List<Subject>>> by lazy {
+        getSubjectList()
+        MutableLiveData<ViewState<List<Subject>>>(ViewState.initial())
+    }
 
     val subjectListState = _subjectListState.asLiveData()
 
@@ -120,7 +132,10 @@ class MainHomeViewModel(
         }
     }
 
-    private val _unitListState = MutableLiveData<ViewState<List<Unit>>>(ViewState.initial())
+    private val _unitListState: MutableLiveData<ViewState<List<Unit>>> by lazy {
+        getUnitList()
+        MutableLiveData<ViewState<List<Unit>>>(ViewState.initial())
+    }
 
     val unitListState = _unitListState.asLiveData()
 

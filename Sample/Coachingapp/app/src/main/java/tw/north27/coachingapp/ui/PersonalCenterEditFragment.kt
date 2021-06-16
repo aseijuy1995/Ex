@@ -2,7 +2,9 @@ package tw.north27.coachingapp.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.yujie.utilmodule.base.BaseFragment
+import com.yujie.utilmodule.ext.clicksObserve
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentPersonalCenterEditBinding
 
@@ -14,6 +16,10 @@ class PersonalCenterEditFragment : BaseFragment<FragmentPersonalCenterEditBindin
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.lifecycleOwner = viewLifecycleOwner
+
+        binding.tbPersonalCenterEdit.ivBack.clicksObserve(owner = viewLifecycleOwner) {
+            findNavController().navigateUp()
+        }
 
 //        viewModel.getUserInfo()
 //

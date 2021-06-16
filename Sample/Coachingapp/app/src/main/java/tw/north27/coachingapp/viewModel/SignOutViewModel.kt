@@ -19,43 +19,42 @@ import tw.north27.coachingapp.repository.IUserRepository
 
 class SignOutViewModel(application: Application, val userRepo: IUserRepository) : BaseAndroidViewModel(application) {
 
-    private val _signOutState = MutableLiveData<ViewState<SignIn>>(ViewState.Initial)
+    private val _signOutState = MutableLiveData<ViewState<SignIn>>(ViewState.initial())
 
     val signOutState = _signOutState.asLiveData()
 
-    fun signOut() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _signOutState.postValue(ViewState.load())
-            val userPref = cxt.userPref.data.first()
-            val uuid = userPref.uuid
-            val account = userPref.account
-            val results = userRepo.signOut(account, uuid)
-            when (results) {
-                is Results.Successful -> {
-                    val signIn = results.data
-                    when (signIn.signInState) {
-                        SignInState.SIGN_OUT -> {
-                            cxt.userPref.setUserPref(
-                                account = "",
-                                auth = UserPref.Authority.UNKNOWN,
-                                accessToken = "",
-                                refreshToken = "",
-                                isFirst = false
-                            )
-                        }
-                        SignInState.SIGN_IN -> {
-
-                        }
+    fun signOut() = viewModelScope.launch(Dispatchers.IO) {
+        _signOutState.postValue(ViewState.load())
+        val userPref = cxt.userPref.data.first()
+        val uuid = userPref.uuid
+        val account = userPref.account
+        val results = userRepo.signOut(account, uuid)
+        when (results) {
+            is Results.Successful -> {
+                val signIn = results.data
+                when (signIn.signInState) {
+                    SignInState.SIGN_OUT -> {
+                        cxt.userPref.setUserPref(
+                            account = "",
+                            auth = UserPref.Authority.UNKNOWN,
+                            accessToken = "",
+                            refreshToken = "",
+                            isFirst = false
+                        )
                     }
-                    _signOutState.postValue(ViewState.data(signIn))
+                    SignInState.SIGN_IN -> {
+
+                    }
                 }
-                is Results.ClientErrors -> {
-                    _signOutState.postValue(ViewState.error(results.e))
-                }
-                is Results.NetWorkError -> {
-                    _signOutState.postValue(ViewState.network(results.e))
-                }
+                _signOutState.postValue(ViewState.data(signIn))
+            }
+            is Results.ClientErrors -> {
+                _signOutState.postValue(ViewState.error(results.e))
+            }
+            is Results.NetWorkError -> {
+                _signOutState.postValue(ViewState.network(results.e))
             }
         }
     }
+
 }

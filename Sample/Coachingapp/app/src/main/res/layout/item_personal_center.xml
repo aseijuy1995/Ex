@@ -14,6 +14,10 @@
             type="String" />
 
         <variable
+            name="isVisible"
+            type="Boolean" />
+
+        <variable
             name="isClick"
             type="Boolean" />
 
@@ -30,8 +34,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        bind:isVisible="@{(isVisible!=null)?isVisible:true}">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_icon"
@@ -65,7 +69,7 @@
             bind:isVisible="@{(isClick!=null)?isClick:false}" />
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch1"
+            android:id="@+id/sc_switch"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
             android:checked="@{isSwitchOn}"

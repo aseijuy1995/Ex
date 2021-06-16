@@ -53,6 +53,7 @@
     <string name="id">ID</string>
     <string name="school">學校</string>
     <string name="authority">權限</string>
+
     <string name="not">未</string>
     <string name="male">男</string>
     <string name="female">女</string>
@@ -69,8 +70,10 @@
     <string name="course">歷程</string>
     <string name="analysis">分析</string>
     <string name="settings">設定</string>
-    <string name="reply_notice">回覆通知</string>
-    <string name="msg_notice">訊息通知</string>
+
+    <string name="reply_remind">回覆提醒</string>
+    <string name="msg_remind">訊息提醒</string>
+
     <string name="share">分享</string>
     <string name="promotion_link">推廣連結</string>
     <string name="about">關於</string>
@@ -94,7 +97,8 @@
     <!--    -->
 
     <!-- SignOutDialogFragment -->
-    <string name="sign_out_desc">你確定要登出嗎?</string>
+    <string name="sign_out_title">即將登出</string>
+    <string name="sign_out_text">你確定要登出嗎？</string>
     <!--    -->
     <!--    -->
     <!--    -->

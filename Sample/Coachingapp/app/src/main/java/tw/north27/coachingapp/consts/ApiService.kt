@@ -58,9 +58,10 @@ class ApiService(val cxt: Context) : IApiService {
 //            appState = AppState.MAINTAIN,
 //            maintainInfo = MaintainInfo(
 //                title = "維護通知",
-//                text = "1. 不可視因素遭受攻擊。\n" +
-//                        "2. 增加監控、效能分析、執行網路維護。\n" +
-//                        "3. 描述統一規範化。\n" +
+//                text = "維護內容：\n" +
+//                        "\t1. 不可視因素遭受攻擊。\n" +
+//                        "\t2. 增加監控、效能分析、執行網路維護。\n" +
+//                        "\t3. 描述統一規範化。\n" +
 //                        "",
 //                time = "2021/03/01 16:00",
 //            )
@@ -70,7 +71,10 @@ class ApiService(val cxt: Context) : IApiService {
             runInfo = RunInfo(
                 versionName = "1.0.0",
                 url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
-                text = "1. 今天要加班(現在幾點了?)\n2. 噴灑殺蟲劑，殺死些Dug蟲蟲\n3. 泡茶休息下~~~\n\t請稍等...",
+                text = "修正內容：\n\n" +
+                        "\t1. 今天要加班(現在幾點了?)。\n" +
+                        "\t2. 噴灑殺蟲劑，殺死些Dug蟲蟲。" +
+                        "\n\t3. 泡茶休息下~~~。",
                 size = "5M",
                 isMandatory = false
             )
