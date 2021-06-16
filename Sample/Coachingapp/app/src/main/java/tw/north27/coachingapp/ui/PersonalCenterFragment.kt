@@ -154,7 +154,7 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setTeacherInfo(userInfo: UserInfo) {
         val teacherInfo = userInfo.teacherInfo
-        setScoreChart(teacherInfo, pieEntryList, userInfo)
+        setScoreChart(teacherInfo, userInfo)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
