@@ -25,7 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                app:collapsedTitleGravity="center"
+                app:collapsedTitleGravity="start"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleGravity="start|bottom"
                 app:expandedTitleMargin="10dp"
