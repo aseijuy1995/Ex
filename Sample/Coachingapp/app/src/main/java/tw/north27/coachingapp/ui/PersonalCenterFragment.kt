@@ -94,7 +94,7 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
         }
 
         viewModel.commentListState.observe(viewLifecycleOwner) {
-//            binding.itemPersonalCenterComment.rvComment.isVisible = (it is ViewState.Data)
+            binding.itemPersonalCenterComment.rvComment.isVisible = (it is ViewState.Data)
             when (it) {
                 is ViewState.Data -> {
                     val commentList = it.data

@@ -48,7 +48,7 @@ fun getEachCommentScoreInfoListTest(): List<ScoreInfo> {
  * */
 fun getAvgCommentScore(): Double {
     val scoreListTest = getEachCommentScoreInfoListTest()
-    val score = scoreListTest.sumByDouble { it.grade * it.grade }
+    val score = scoreListTest.sumByDouble { it.grade * it.count }
     val size = scoreListTest.sumBy(ScoreInfo::count)
     return DecimalFormat("##0.00").format(score / size).toDouble()
 }
