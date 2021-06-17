@@ -94,6 +94,10 @@
     <string name="enter_cell_phone">請輸入手機號</string>
     <string name="enter_home_phone">請輸入家電號</string>
     <string name="enter_email">請輸入E-Mail</string>
+    <!-- CommentListFragment -->
+    <string name="filter_comment">篩選評論</string>
+
+
     <!--  SignOutFragment  -->
 
     <!--    -->

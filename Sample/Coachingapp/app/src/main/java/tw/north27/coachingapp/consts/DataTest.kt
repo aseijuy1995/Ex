@@ -3,7 +3,6 @@ package tw.north27.coachingapp.consts
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.yujie.utilmodule.UserPref
-import com.yujie.utilmodule.util.logD
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.Unit
 import java.text.DecimalFormat
@@ -20,27 +19,17 @@ val avatarPathTest = "http://static.104.com.tw/b_profile/cust_picture/8063/13000
 val nameTest = "北緯科技"
 val emailTest = "north27@north27.tw"
 val commentListTest = listOf(
-    CommentInfo(id = 0, account = "melodyWu001", name = "Melody Wu", score = 4.0, content = "講解題目非常清楚,簡潔易懂,不會的地方也能教到你會為止, 還幫個人做資料夾,用Google Classroom 交作業更簡單方便! 今天謝謝老師的教導!", time = "2021-06-17"),
-    CommentInfo(id = 1, account = "kaiser001", name = "Kaiser", score = 3.0, content = "老師很專業,很棒!", time = "2021-06-17"),
-    CommentInfo(id = 2, account = "melodyWu001", name = "Melody Wu", score = 3.5, content = "今天謝謝老師的教導~ 我會再多複習", time = "2021-06-15"),
-    CommentInfo(id = 3, account = "sssssssccccfgrsd", name = "阿旋", score = 1.5, content = "孩子平常在學校學習數學，常常跟我說聽得懂，不過考試成績出來都不怎麼理想，今天跟老師上課，跟老師說了悄悄話，說其實學校老師講解的時候有點快，他自己也不知道怎麼問，所以就沒有問了，謝謝老師的耐心，孩子目前對於數學也漸漸有了信心，小犬的數學交給你了。", time = "2021-06-08"),
-    CommentInfo(id = 4, account = "icfmmnvfvk72773", name = "蕭可函", score = 4.0, content = "老師都教到會為止 希望可以繼續上老師的課！！", time = "2021-06-08"),
-    CommentInfo(id = 5, account = "ivkklkld002", name = "Ivan", score = 5.0, content = "老師耐心的引導學生思考", time = "2021-06-08"),
-    CommentInfo(id = 6, account = "gsxklcksdcc999", name = "Grace Wang", score = 5.0, content = "上課給學生很多講解題目的機會 讓學生的口說 學習與數學能力都進步很多", time = "2021-06-01"),
-    CommentInfo(id = 7, account = "kaiser001", name = "Kaiser", score = 4.5, content = "老師教得很棒!", time = "2021-06-01"),
-    CommentInfo(id = 8, account = "wdfjdkfjkdjfkd", name = "w悠哉過一生", score = 4.0, content = "從基礎觀念教導，讓學生由淺而深的其中不會有疑惑，使學生打好基底！", time = "2021-05-28"),
-    CommentInfo(id = 9, account = "melodyWu001", name = "Melody Wu", score = 2.0, content = "謝謝老師的教導,今天也學習到很多喔~~", time = "2021-05-24"),
-    CommentInfo(id = 10, account = "hsuanlsdoloe2354", name = "Hsuan", score = 3.0, content = "老師上課非常用心的教導我\uD83E\uDD70教材也都準備得非常充足❤", time = "2021-05-24"),
-    CommentInfo(id = 11, account = "wasdsdsn", name = "Wan Yu Chen", score = 1.0, content = "提供課後小作業", time = "2021-05-21"),
-    CommentInfo(id = 12, account = "lisdfsdfsma", name = "Lima Paula", score = 5.0, content = "孩子很喜歡上歐文老師的數學課 ，老師有耐心 解題淺顯易懂 強力推薦 ！", time = "2021-05-21"),
-    CommentInfo(id = 13, account = "tonydfdrrg", name = "Tony", score = 4.0, content = "老師很細心,上課很認真", time = "2021-05-15"),
-    CommentInfo(id = 14, account = "evelynsdvvvf", name = "Evelyn Lai", score = 4.5, content = "老師很好，主動了解小朋友學習進度，用心安排課程。", time = "2021-05-13"),
-    CommentInfo(id = 15, account = "viviasdsaf", name = "Vivi Lee", score = 5.0, content = "老師非常專業也很有系統；課前詢問學習者的程度及困難處；針對學習者提供完整的上課內容；提供不同的解題思維，讓小朋友更能理解；很優質的老師；很值得推薦。", time = "2021-05-12"),
-    CommentInfo(id = 16, account = "runsdksjkj", name = "雨庭", score = 3.5, content = "覺得老師超級專業，讓我信心大增，感覺非常信任老師，謝謝老師", time = "2021-05-11"),
-    CommentInfo(id = 17, account = "aliciaasdskl", name = "alicia", score = 5.0, content = "老師講觧清楚詳細\uD83D\uDE00\uD83D\uDE00", time = "2021-05-11"),
-    CommentInfo(id = 18, account = "justin00122ds", name = "Justin", score = 0.0, content = "not good", time = "2021-05-08"),
-    CommentInfo(id = 19, account = "aeaeaeaeaeae", name = "A & E", score = 4.0, content = "今天第一次正式課程. 歐文老師上課前就把講義發給家長我, 並在上課後跟我討論孩子的學習進度, 以及之後的教學重點. 雖然超過時間, 但老師仍然不疾不徐地耐心講解課程, 講到一個完整的段落才結束... 真的很謝謝老師這麼用心指導!", time = "2021-05-08"),
-    CommentInfo(id = 20, account = "vivian215", name = "Vivian Meng", score = 2.0, content = "老師很適合要精進數學技能跟競賽的學生。而且再訓練小孩邏輯跟思考。會有很大的幫助。希望在接下來的課程一起努力。親師合作協助小孩。", time = "2021-03-28"),
+    CommentInfo(id = 0, account = "eliseLeeAccount", name = "Elise Lee", score = 5.0, content = "非常友善的老師，教學引導方式也很有趣，孩子非常有意願開始學習。", date = "2021-06-17", educationId = 1, gradeId = 1, subjectId = 1, unitId = 1),
+    CommentInfo(id = 1, account = "cathychuAccount", name = "CATHY CHU", score = 4.0, content = "用心教學。", date = "2021-06-12", educationId = 1, gradeId = 1, subjectId = 1, unitId = 1),
+    CommentInfo(id = 2, account = "harrisAccount", name = "Harris ( Elite and Caring Mentor )", score = 4.0, content = "老師很友善，也有豐富家教經驗~而老師本身也是教育系背景出身~懂得學生需求，國文和英文也都能細心教授~非常推薦喔!", date = "2021-05-31", educationId = 1, gradeId = 1, subjectId = 1, unitId = 3),
+    CommentInfo(id = 3, account = "justinAccount", name = "Justin", score = 3.0, content = "Good", date = "2021-01-23", educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
+    CommentInfo(id = 4, account = "chenWenshanAccount", name = "陳文山", score = 4.5, content = "AT平台上難得的一位優質老師！。", date = "2021-01-22", educationId = 1, gradeId = 1, subjectId = 1, unitId = 5),
+    CommentInfo(id = 5, account = "zachAccount", name = "Zach", score = 4.5, content = "老師的口條與ppt重點整理清晰，非常推薦各位被國文所苦的同學\uD83D\uDC4D\uD83C\uDFFB。", date = "2021-01-16", educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
+    CommentInfo(id = 6, account = "ranniehsieAccount", name = "rannie hsie", score = 5.0, content = "老師很有耐性引導孩子, 有自製教材", date = "2021-01-15", educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
+    CommentInfo(id = 7, account = "wangLiangyinAccount", name = "王亮尹", score = 3.5, content = "great", date = "2021-01-11", educationId = 1, gradeId = 1, subjectId = 1, unitId = 4),
+    CommentInfo(id = 8, account = "zhaiQingfengAccount", name = "翟清峰", score = 4.0, content = "家裡的姐姐很喜歡上妳的課，平常對國文不怎麼有興趣的都活了起來了，哈", date = "2020-12-29", educationId = 1, gradeId = 1, subjectId = 1, unitId = 3),
+    CommentInfo(id = 9, account = "wangZhengAccount", name = "王正", score = 5.0, content = "很棒的老師，課前會認真的訊問我的狀況，體驗課後給予適合的規劃與建議！", date = "2020-12-27", educationId = 1, gradeId = 1, subjectId = 1, unitId = 4),
+    CommentInfo(id = 10, account = "michaelAccount", name = "Michael", score = 4.0, content = "Excellent lesson with interesting material and clear explanations!", date = "2020-12-04", educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
 )
 
 /**
@@ -49,10 +38,7 @@ val commentListTest = listOf(
 fun getEachCommentScoreInfoListTest(): List<ScoreInfo> {
     val commentScoreListTest = commentListTest.groupBy(CommentInfo::score)
     var scoreInfoListTest = mutableListOf<ScoreInfo>()
-    commentScoreListTest.map {
-        scoreInfoListTest.add(ScoreInfo(it.key, it.value.size))
-    }
-    logD("scoreInfoListTest = $scoreInfoListTest")
+    commentScoreListTest.map { scoreInfoListTest.add(ScoreInfo(it.key, it.value.size)) }
     scoreInfoListTest = scoreInfoListTest.sortedBy(ScoreInfo::grade).toMutableList()
     return scoreInfoListTest
 }
@@ -76,7 +62,6 @@ val userInfoTest = UserInfo(
     name = nameTest,
     gender = Gender.MALE,
 //    birthday = LocalDate.of(2020, 7, 27),
-
     birthday = "2020年7月27日",
     cellPhone = "0912-345-678",
     homePhone = "02-3456-7890",
@@ -89,7 +74,6 @@ val userInfoTest = UserInfo(
     teacherInfo = TeacherInfo(
         avgCommentScore = getAvgCommentScore(),
         eachCommentScoreInfoList = getEachCommentScoreInfoListTest(),
-        commentInfoList = commentListTest,
         replyNum = 130,
         noReplyNum = 8,
         replyRate = 94.2,

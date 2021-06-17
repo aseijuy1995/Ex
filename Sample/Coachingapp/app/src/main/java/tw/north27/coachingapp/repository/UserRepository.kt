@@ -25,8 +25,8 @@ class UserRepository(val service: IApiService, val context: Context) : IUserRepo
         return safeApiResults { service.getTeacherList(educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId) }
     }
 
-    override suspend fun getUserInfo(account: String): Results<UserInfo> {
-        return safeApiResults { service.getUserInfo(account = account) }
+    override suspend fun getUser(account: String): Results<UserInfo> {
+        return safeApiResults { service.getUser(account = account) }
     }
 
 }

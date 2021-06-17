@@ -42,7 +42,8 @@ fun ImageView.bindImg(
 }
 
 /**
- *
+ * UI是否顯示
+ * @param isVisible >> 是否顯示
  * */
 @BindingAdapter("bind:isVisible")
 fun View.bindVisible(isVisible: Boolean = true) {

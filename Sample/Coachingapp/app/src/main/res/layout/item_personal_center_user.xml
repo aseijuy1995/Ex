@@ -12,6 +12,8 @@
         <import type="tw.north27.coachingapp.model.Gender" />
 
         <import type="com.yujie.utilmodule.UserPref.Authority" />
+
+        <import type="com.yujie.utilmodule.adapter.BindingAdapterKt" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -102,7 +104,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_avatar"
                 app:layout_constraintTop_toBottomOf="@+id/tv_id"
-                bind:isVisible="@{userInfo.auth == Authority.STUDENT}" />
+                bind:isVisible='@{userInfo.auth == Authority.STUDENT &amp; userInfo.studentInfo.school!=null &amp; userInfo.studentInfo.school!=""}' />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_grade"
@@ -119,7 +121,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_avatar"
                 app:layout_constraintTop_toBottomOf="@+id/tv_school"
-                bind:isVisible="@{userInfo.auth == Authority.STUDENT}" />
+                bind:isVisible='@{userInfo.auth == Authority.STUDENT &amp; userInfo.studentInfo.grade!=null}' />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_auth"

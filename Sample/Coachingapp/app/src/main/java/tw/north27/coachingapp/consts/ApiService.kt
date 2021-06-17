@@ -258,9 +258,46 @@ class ApiService(val cxt: Context) : IApiService {
             teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
     }
 
-    override suspend fun getUserInfo(@Field("account") account: String): UserInfo {
+    override suspend fun getUser(@Field("account") account: String): UserInfo {
         delay(1500)
         return userInfoTest
+    }
+
+    override suspend fun getCommentList(account: String, educationId: Long?, gradeId: Long?, subjectId: Long?, unitId: Long?): List<CommentInfo> {
+        //account判斷取得哪個帳號的評論
+        return if (educationId == null && gradeId == null && subjectId == null && unitId == null)
+            commentListTest
+        else if (educationId == null && gradeId == null && subjectId == null)
+            commentListTest.filter { it.unitId == unitId }
+        else if (educationId == null && gradeId == null && unitId == null)
+            commentListTest.filter { it.subjectId == subjectId }
+        else if (educationId == null && subjectId == null && unitId == null)
+            commentListTest.filter { it.gradeId == gradeId }
+        else if (gradeId == null && subjectId == null && unitId == null)
+            commentListTest.filter { it.educationId == educationId }
+        //
+        else if (educationId == null && gradeId == null)
+            commentListTest.filter { it.subjectId == subjectId && it.id == unitId }
+        else if (educationId == null && subjectId == null)
+            commentListTest.filter { it.gradeId == gradeId && it.id == unitId }
+        else if (educationId == null && unitId == null)
+            commentListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId }
+        else if (gradeId == null && subjectId == null)
+            commentListTest.filter { it.educationId == educationId && it.id == unitId }
+        else if (gradeId == null && unitId == null)
+            commentListTest.filter { it.educationId == educationId && it.subjectId == subjectId }
+        else if (subjectId == null && unitId == null)
+            commentListTest.filter { it.educationId == educationId && it.gradeId == gradeId }
+        else if (educationId == null)
+            commentListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }
+        else if (gradeId == null)
+            commentListTest.filter { it.educationId == educationId && it.subjectId == subjectId && it.id == unitId }
+        else if (subjectId == null)
+            commentListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.id == unitId }
+        else if (unitId == null)
+            commentListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }
+        else
+            commentListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }
     }
 
 

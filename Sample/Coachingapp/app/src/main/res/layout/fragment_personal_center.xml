@@ -83,15 +83,6 @@
                     android:layout_marginBottom="10dp"
                     bind:userInfo="@{userInfo}" />
 
-                <!--                <include-->
-                <!--                    android:id="@+id/item_user_feature"-->
-                <!--                    layout="@layout/item_user_feature"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:layout_marginStart="10dp"-->
-                <!--                    android:layout_marginEnd="10dp"-->
-                <!--                    android:layout_marginBottom="10dp" />-->
-
                 <include
                     android:id="@+id/item_personal_center_info"
                     layout="@layout/item_personal_center_info"
@@ -183,7 +174,6 @@
             layout="@layout/item_error"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <include
@@ -191,7 +181,6 @@
             layout="@layout/item_network"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <include
@@ -199,7 +188,6 @@
             layout="@layout/fragment_personal_center_shimmer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

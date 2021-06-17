@@ -116,12 +116,13 @@ data class StudentInfo(
 
 /**
  * 老師資訊
- * avgCommentScore >> 平均分數(包含未回以結單的)
- * eachCommentScoreList >> 各評分數量(包含未回以結單的)
- * commentList >> 評論列表(包含未回以結單的)
+ * avgCommentScore >> 平均評分(包含未回已結單的)
+ * eachCommentScoreList >> 各評分數量(包含未回已結單的) - 須確定是否空的分數也要撈，目前測試資料依據有值的才撈取顯示
+
+ * replyRate >> 回覆率(包含未回以結單的)
  * replyNum >> 已回覆數
  * noReplyNum >> 未回覆數
- * replyRate >> 回覆率(包含未回以結單的)
+
  *
  * subjectList >> (暫時)科目列表
  * unitList >> 單元列表
@@ -132,10 +133,10 @@ data class StudentInfo(
 data class TeacherInfo(
     val avgCommentScore: Double = 5.0,
     val eachCommentScoreInfoList: List<ScoreInfo> = emptyList(),
-    val commentInfoList: List<CommentInfo> = emptyList(),
+    val replyRate: Double = 100.0,
     val replyNum: Int = 0,
     val noReplyNum: Int = 0,
-    val replyRate: Double = 100.0,
+
     //
     val subjectList: List<Subject>,
     val unitList: List<Unit>,
@@ -165,9 +166,15 @@ data class ScoreInfo(
 /**
  * 評論
  * id >> 評論id
- * account >> 評論者id
+ * account >> 發起評論者帳號
+ * name >> 名稱
  * score >> 評分，1~5分
  * content >> 內容
+ * date >> 日期
+ * educationId >> 教育
+ * gradeId >> 年級
+ * subjectId >> 科目
+ * unitId >> 單元
  * */
 @Parcelize
 data class CommentInfo(
@@ -176,5 +183,9 @@ data class CommentInfo(
     val name: String,
     val score: Double,
     val content: String,
-    val time: String
+    val date: String,
+    val educationId: Long,
+    val gradeId: Long,
+    val subjectId: Long,
+    val unitId: Long
 ) : Parcelable

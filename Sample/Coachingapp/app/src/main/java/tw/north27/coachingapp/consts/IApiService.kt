@@ -142,17 +142,39 @@ interface IApiService {
     ): List<UserInfo>
 
 
-//    PersonalCenter
     /**
-     * 將accessToken放於header - auth作為驗證依據
-     *
+     * PersonalCenter個人中心
+     * */
+    /**
      * 取得用戶資訊
      * @param account >> 帳號
      * */
     @POST
-    suspend fun getUserInfo(
+    suspend fun getUser(
         @Field("account") account: String
     ): UserInfo
+
+    /**
+     * 取得評論列表(未加載) - 依據時間近至遠撈回，未指定則撈回全部，有指定依據指定的education_id、grade_id、subject_id、unit_id取出數據
+     *
+     * 0 >> 預設值(全撈取)
+     *
+     * @param account >> 帳號
+//     * @param score >> 評分
+     * @param education_id >> 帳號
+     * @param grade_id >> 帳號
+     * @param subject_id >> 帳號
+     * @param unit_id >> 帳號
+     * */
+    @POST
+    suspend fun getCommentList(
+        @Field("account") account: String,
+//        @Field("score") score: Double,
+        @Field("education_id") educationId: Long? = null,
+        @Field("grade_id") gradeId: Long? = null,
+        @Field("subject_id") subjectId: Long? = null,
+        @Field("unit_id") unitId: Long? = null
+    ): List<CommentInfo>
 
 //
 //    //

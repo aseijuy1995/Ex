@@ -18,8 +18,8 @@ import com.yujie.utilmodule.UserPref
 import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseFragment
 import com.yujie.utilmodule.ext.clicksObserve
-import com.yujie.utilmodule.ext.isVisible
 import com.yujie.utilmodule.util.ViewState
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.CommentListAdapter
@@ -27,13 +27,12 @@ import tw.north27.coachingapp.databinding.FragmentPersonalCenterBinding
 import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.viewModel.PersonalCenterViewModel
 
-
 class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.layout.fragment_personal_center) {
 
     override val viewBindingFactory: (View) -> FragmentPersonalCenterBinding
         get() = FragmentPersonalCenterBinding::bind
 
-    private val viewModel by viewModel<PersonalCenterViewModel>()
+    private val viewModel by sharedViewModel<PersonalCenterViewModel>()
 
     private val backgroundResList = listOf<Int>(
         R.drawable.ic_personal_center_background1,
@@ -48,11 +47,7 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
     )
 
     private val backgroundRes: Int
-        get() {
-            val index = backgroundResList.indices.random()
-            println("index = $index")
-            return backgroundResList[index]
-        }
+        get() = backgroundResList[backgroundResList.indices.random()]
 
     private val commentAdapter = CommentListAdapter()
 
@@ -72,7 +67,7 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
         }
 
         //
-        viewModel.userInfoState.observe(viewLifecycleOwner) {
+        viewModel.userState.observe(viewLifecycleOwner) {
             binding.itemShimmer.sflView.isVisible = (it is ViewState.Load)
             binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
             binding.nsvView.isVisible = (it is ViewState.Data)
@@ -85,12 +80,25 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
                         this.userInfo = userInfo
                         itemPersonalCenterUser.ivAvatar.bindImg(
                             url = userInfo.avatarPath,
-                            roundingRadius = 10
+                            roundingRadius = 5
                         )
                     }
                     if (userInfo.auth == UserPref.Authority.TEACHER) setTeacherInfo(userInfo)
 
 
+                }
+                //FIXME　整合處理各頁面錯誤
+                is ViewState.Error, is ViewState.Network -> {
+                }
+            }
+        }
+
+        viewModel.commentListState.observe(viewLifecycleOwner) {
+            binding.itemPersonalCenterComment.rvComment.isVisible = (it is ViewState.Data)
+            when (it) {
+                is ViewState.Data -> {
+                    val commentList = it.data
+                    commentAdapter.submitList(commentList)
                 }
                 //FIXME　整合處理各頁面錯誤
                 is ViewState.Error, is ViewState.Network -> {
@@ -155,8 +163,8 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setTeacherInfo(userInfo: UserInfo) {
         setCommentScoreChart(userInfo)
-        binding.itemPersonalCenterComment.rvComment.isVisible = userInfo.teacherInfo!!.commentInfoList.isNotEmpty()
-        commentAdapter.submitList(userInfo.teacherInfo.commentInfoList)
+//        binding.itemPersonalCenterComment.rvComment.isVisible = userInfo.teacherInfo!!.commentInfoList.isNotEmpty()
+//        commentAdapter.submitList(userInfo.teacherInfo.commentInfoList)
         setReplyRateChart(userInfo)
         //
         binding.itemPersonalCenterReply.rvReply.isVisible = false

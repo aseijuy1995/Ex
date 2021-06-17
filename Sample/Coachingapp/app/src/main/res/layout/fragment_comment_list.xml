@@ -7,27 +7,99 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-        <include
-            android:id="@+id/tb_normal"
-            layout="@layout/toolbar_normal"
+        <com.yujie.utilmodule.view.DrawerContent
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            bind:title="@{@string/comment_info}" />
+            android:layout_height="match_parent"
+            android:background="@color/gray_eeeeee"
+            app:layoutDescription="@xml/item_drawer_layout_scene">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_comment"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tb_normal" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <include
+                    android:id="@+id/tb_normal"
+                    layout="@layout/toolbar_normal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    bind:isFilter="@{true}"
+                    bind:title="@{@string/comment_info}" />
+
+                <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                    android:id="@+id/srl_view"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="?attr/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tb_normal">
+
+                    <pl.droidsonroids.gif.GifImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_margin="40dp"
+                        android:scaleType="fitCenter"
+                        android:src="@mipmap/ic_refresh_gif" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/gray_eeeeee">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_comment"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:orientation="vertical"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                        <include
+                            android:id="@+id/item_empty"
+                            layout="@layout/item_empty" />
+
+                        <include
+                            android:id="@+id/item_error"
+                            layout="@layout/item_error" />
+
+                        <include
+                            android:id="@+id/item_network"
+                            layout="@layout/item_network" />
+
+                        <include
+                            android:id="@+id/item_shimmer"
+                            layout="@layout/fragment_main_home_shimmer"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </FrameLayout>
+
+                </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.yujie.utilmodule.view.DrawerContent>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/nv_view"
+            android:layout_width="220dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:fitsSystemWindows="true">
+
+            <include
+                android:id="@+id/item_drawer_layout_main_home"
+                layout="@layout/item_drawer_layout_main_home" />
+
+        </com.google.android.material.navigation.NavigationView>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 </layout>
