@@ -17,6 +17,43 @@ val refreshTokenTest = "refreshTokenTest"
 val avatarPathTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
 val nameTest = "北緯科技"
 val emailTest = "north27@north27.tw"
+val commentListTest = listOf(
+    CommentInfo(id = 0, account = "melodyWu001", name = "Melody Wu", score = 4.0, content = "講解題目非常清楚,簡潔易懂,不會的地方也能教到你會為止, 還幫個人做資料夾,用Google Classroom 交作業更簡單方便! 今天謝謝老師的教導!", time = "2021-06-17"),
+    CommentInfo(id = 1, account = "kaiser001", name = "Kaiser", score = 3.0, content = "老師很專業,很棒!", time = "2021-06-17"),
+    CommentInfo(id = 2, account = "melodyWu001", name = "Melody Wu", score = 3.5, content = "今天謝謝老師的教導~ 我會再多複習", time = "2021-06-15"),
+    CommentInfo(id = 3, account = "sssssssccccfgrsd", name = "阿旋", score = 1.5, content = "孩子平常在學校學習數學，常常跟我說聽得懂，不過考試成績出來都不怎麼理想，今天跟老師上課，跟老師說了悄悄話，說其實學校老師講解的時候有點快，他自己也不知道怎麼問，所以就沒有問了，謝謝老師的耐心，孩子目前對於數學也漸漸有了信心，小犬的數學交給你了。", time = "2021-06-08"),
+    CommentInfo(id = 4, account = "icfmmnvfvk72773", name = "蕭可函", score = 4.0, content = "老師都教到會為止 希望可以繼續上老師的課！！", time = "2021-06-08"),
+    CommentInfo(id = 5, account = "ivkklkld002", name = "Ivan", score = 5.0, content = "老師耐心的引導學生思考", time = "2021-06-08"),
+    CommentInfo(id = 6, account = "gsxklcksdcc999", name = "Grace Wang", score = 5.0, content = "上課給學生很多講解題目的機會 讓學生的口說 學習與數學能力都進步很多", time = "2021-06-01"),
+    CommentInfo(id = 7, account = "kaiser001", name = "Kaiser", score = 4.5, content = "老師教得很棒!", time = "2021-06-01"),
+    CommentInfo(id = 8, account = "wdfjdkfjkdjfkd", name = "w悠哉過一生", score = 4.0, content = "從基礎觀念教導，讓學生由淺而深的其中不會有疑惑，使學生打好基底！", time = "2021-05-28"),
+    CommentInfo(id = 9, account = "melodyWu001", name = "Melody Wu", score = 2.0, content = "謝謝老師的教導,今天也學習到很多喔~~", time = "2021-05-24"),
+    CommentInfo(id = 10, account = "hsuanlsdoloe2354", name = "Hsuan", score = 3.0, content = "老師上課非常用心的教導我\uD83E\uDD70教材也都準備得非常充足❤", time = "2021-05-24"),
+    CommentInfo(id = 11, account = "wasdsdsn", name = "Wan Yu Chen", score = 1.0, content = "提供課後小作業", time = "2021-05-21"),
+    CommentInfo(id = 12, account = "lisdfsdfsma", name = "Lima Paula", score = 5.0, content = "孩子很喜歡上歐文老師的數學課 ，老師有耐心 解題淺顯易懂 強力推薦 ！", time = "2021-05-21"),
+    CommentInfo(id = 13, account = "tonydfdrrg", name = "Tony", score = 4.0, content = "老師很細心,上課很認真", time = "2021-05-15"),
+    CommentInfo(id = 14, account = "evelynsdvvvf", name = "Evelyn Lai", score = 4.5, content = "老師很好，主動了解小朋友學習進度，用心安排課程。", time = "2021-05-13"),
+    CommentInfo(id = 15, account = "viviasdsaf", name = "Vivi Lee", score = 5.0, content = "老師非常專業也很有系統；課前詢問學習者的程度及困難處；針對學習者提供完整的上課內容；提供不同的解題思維，讓小朋友更能理解；很優質的老師；很值得推薦。", time = "2021-05-12"),
+    CommentInfo(id = 16, account = "runsdksjkj", name = "雨庭", score = 3.5, content = "覺得老師超級專業，讓我信心大增，感覺非常信任老師，謝謝老師", time = "2021-05-11"),
+    CommentInfo(id = 17, account = "aliciaasdskl", name = "alicia", score = 5.0, content = "老師講觧清楚詳細\uD83D\uDE00\uD83D\uDE00", time = "2021-05-11"),
+    CommentInfo(id = 18, account = "justin00122ds", name = "Justin", score = 0.0, content = "not good", time = "2021-05-08"),
+    CommentInfo(id = 19, account = "aeaeaeaeaeae", name = "A & E", score = 4.0, content = "今天第一次正式課程. 歐文老師上課前就把講義發給家長我, 並在上課後跟我討論孩子的學習進度, 以及之後的教學重點. 雖然超過時間, 但老師仍然不疾不徐地耐心講解課程, 講到一個完整的段落才結束... 真的很謝謝老師這麼用心指導!", time = "2021-05-08"),
+    CommentInfo(id = 20, account = "vivian215", name = "Vivian Meng", score = 2.0, content = "老師很適合要精進數學技能跟競賽的學生。而且再訓練小孩邏輯跟思考。會有很大的幫助。希望在接下來的課程一起努力。親師合作協助小孩。", time = "2021-03-28"),
+)
+
+fun getEachCommentScoreInfoListTest(): List<ScoreInfo> {
+    val commentScoreListTest = commentListTest.groupBy(CommentInfo::score)
+    val scoreInfoListTest = mutableListOf<ScoreInfo>()
+    val commentScoreCountListTest = commentScoreListTest.map {
+        scoreInfoListTest.add(ScoreInfo(it.key, it.value.size))
+    }
+    return scoreInfoListTest.sortedBy(ScoreInfo::grade)
+}
+
+fun getAvgCommentScore(): Double {
+    val scoreListTest = getEachCommentScoreInfoListTest()
+    return scoreListTest.sumByDouble { it.grade * it.grade } / scoreListTest.size
+}
 
 @RequiresApi(Build.VERSION_CODES.O)
 val userInfoTest = UserInfo(
@@ -38,20 +75,12 @@ val userInfoTest = UserInfo(
         grade = Grade(id = 1, text = "(國小)一年級", educationId = 1)
     ),
     teacherInfo = TeacherInfo(
-        avgCommectScore = 3.7,
-        eachScoreList = listOf(
-            Score(1f, 12),
-            Score(1.5f, 5),
-            Score(2f, 7),
-            Score(2.5f, 15),
-            Score(3f, 20),
-            Score(3.5f, 16),
-            Score(4f, 14),
-            Score(4.5f, 18),
-            Score(5f, 20)
-        ),
-        replyNum = 117,
-        replyRate = 92,
+        avgCommentScore = getAvgCommentScore(),
+        eachCommentScoreInfoList = getEachCommentScoreInfoListTest(),
+        commentInfoList = commentListTest,
+        replyNum = 130,
+        noReplyNum = 8,
+        replyRate = 94.2,
         subjectList = listOf(
             Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))
         ),
@@ -331,9 +360,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\uD83C\uDFC6高效，快速提升您的中文聽說聽力技能水平\n" +
                 "\uD83C\uDFC6夯實您的中文語法水平",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 4.99,
+            avgCommentScore = 4.99,
             replyNum = 117,
-            replyRate = 92,
+            replyRate = 92.0,
             subjectList = listOf(
                 Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))
             ),
@@ -412,9 +441,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "✨ 著重閱讀理解技巧及文法訓練\n" +
                 "✨ 寫作練習",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 165,
-            replyRate = 100,
+            replyRate = 100.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
@@ -489,9 +518,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "➤ 老師在台灣時，就是教兒童美語的老師\n" +
                 "➤一起幫助孩子，能夠開心愉快學習， 長大後才會感謝我們 !",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 4.99,
+            avgCommentScore = 4.99,
             replyNum = 62,
-            replyRate = 100,
+            replyRate = 100.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
@@ -539,9 +568,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\uD83C\uDFAF普通話正音\n" +
                 "\uD83C\uDFAF商務普通話",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 4.91,
+            avgCommentScore = 4.91,
             replyNum = 10,
-            replyRate = 93,
+            replyRate = 93.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
@@ -599,9 +628,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "✌2. 免費分享題庫及講義-課堂上的講義或教材無償提供, 也會分享線上題庫.\n" +
                 "✌3. 免費分享線上app及軟體-讓您離線也能學中文! 線上教太極及氣功, 讓您學中文又能體會中華文化!",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 18,
-            replyRate = 89,
+            replyRate = 89.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
@@ -638,9 +667,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\n" +
                 "我已經迫不及待地想在課堂中見到您，讓我們一起輕鬆快樂地學習中文吧！",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 174,
-            replyRate = 88,
+            replyRate = 88.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
@@ -680,9 +709,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "*课程以互动方式进行！每个学生都有机会在班上练习口语能力！\n" +
                 "*告诉我你的学习目标，课程内容根据你的需求而定制！",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 68,
-            replyRate = 98,
+            replyRate = 98.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
@@ -769,9 +798,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\u200B\u200B1、上課記得準時，老師最多會等你10分鐘哦\n" +
                 "2、\u200B\u200B取消課程記得提前12小時，若無故未出席會視為課程完成哦",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 68,
-            replyRate = 98,
+            replyRate = 98.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
@@ -813,9 +842,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "希望有問題可以在課堂反應，或是預約時讓我先知道你確切的需求\n" +
                 "願你們都能享受高中國文課!",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 5,
-            replyRate = 100,
+            replyRate = 100.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
@@ -895,9 +924,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\uD83D\uDC95 如會遲到請提前通知老師，超過15分鐘後還是未到， 就不能返還課時費了哦\n" +
                 "\uD83D\uDC95 如需要改期或特殊情況，請提前私訊老師哦，謝謝理解~",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 5,
-            replyRate = 100,
+            replyRate = 100.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
             unitList = unitListTest.filter { it.subjectId == 1L }
         )
@@ -1015,9 +1044,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\n" +
                 "『  人們總覺得數學很難，是因為他們不理解生活有多複雜  』",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 72,
-            replyRate = 94,
+            replyRate = 94.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
@@ -1090,9 +1119,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "3. 有複習、常練習才能進步，Tony的唯一要求就是自律複習\n" +
                 "4. 如果可以，在課堂前準備問題在課堂中問我，釐清觀念，是我認為最有效率的數學學習方法！",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 137,
-            replyRate = 96,
+            replyRate = 96.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
@@ -1156,9 +1185,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "Ｗ同學 指導三個月：會考數學由C進步至B++\n" +
                 "Ｌ同學 指導一個月：再興中學數學成績進步20分",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 4.98,
+            avgCommentScore = 4.98,
             replyNum = 41,
-            replyRate = 100,
+            replyRate = 100.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
@@ -1243,9 +1272,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "學習要持續，最快的捷徑就是穩紮穩打，一週至少安排一~二堂課，持續練習才能進步!   \n" +
                 "想探索自己的無限潛力？私訊我，來上課吧！",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 75,
-            replyRate = 95,
+            replyRate = 95.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
@@ -1305,9 +1334,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "⚠️請假最晚需在課堂預定開始時間前一天提出，若無故缺課且無正當理由，則不予補課\n" +
                 "舉例：若上課時間為週三晚間六點，則最晚需於週二提出請假需求。",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 10,
-            replyRate = 94,
+            replyRate = 94.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
@@ -1365,9 +1394,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "✨ 同學應該進行課後溫習，以達到理想學習目標\n" +
                 "✨ 關於數學課程或有什麼疑問，歡迎私訊我，謝謝 \uD83D\uDE0A",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 45,
-            replyRate = 100,
+            replyRate = 100.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
@@ -1410,9 +1439,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "3. 有複習、常練習才能進步\n" +
                 "4. 正式課程10分鐘或體驗課程5分鐘未進教室，視為曠課。該預約課程不退款",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 9,
-            replyRate = 98,
+            replyRate = 98.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
@@ -1447,9 +1476,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\n" +
                 "如果您願意努力，只是缺一個能幫助您實現目標的人，歡迎來找我，很樂意為您服務。",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 2,
-            replyRate = 100,
+            replyRate = 100.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
@@ -1471,9 +1500,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\uD83C\uDF38數學課程：若學生沒有教材，老師會為學生準備教材，並定時進行模擬考試，以及每堂課提供練習鞏固，修改會在課後第二天發送給學生。若學生要求，可在試課前進行一次模擬考。\n" +
                 "教學範圍：小學，初中，A Level數學，GCSE 數學，DSE 數學，大學電子工程數學",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 13,
-            replyRate = 98,
+            replyRate = 98.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )
@@ -1557,9 +1586,9 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "而不是一昧背誦題目做法的填鴨式教法\n" +
                 "㊙️課外有問題也能問我",
         teacherInfo = TeacherInfo(
-            avgCommectScore = 5.0,
+            avgCommentScore = 5.0,
             replyNum = 14,
-            replyRate = 100,
+            replyRate = 100.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
             unitList = unitListTest.filter { it.subjectId == 2L }
         )

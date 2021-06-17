@@ -22,8 +22,8 @@ import com.yujie.utilmodule.ext.isVisible
 import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
+import tw.north27.coachingapp.adapter.CommentListAdapter
 import tw.north27.coachingapp.databinding.FragmentPersonalCenterBinding
-import tw.north27.coachingapp.model.TeacherInfo
 import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.viewModel.PersonalCenterViewModel
 
@@ -47,12 +47,14 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
         R.drawable.ic_personal_center_background9
     )
 
-    val backgroundRes: Int
+    private val backgroundRes: Int
         get() {
             val index = backgroundResList.indices.random()
             println("index = $index")
             return backgroundResList[index]
         }
+
+    private val commentAdapter = CommentListAdapter()
 
     @SuppressLint("NewApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,6 +67,8 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
                 setExpandedTitleTextColor(cxt.getColorStateList(R.color.white))
             }
             itemPersonalCenterStateMsg.tvStateMsg.isSelected = true
+            //
+            binding.itemPersonalCenterComment.rvComment.adapter = commentAdapter
         }
 
         //
@@ -75,13 +79,6 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
             binding.itemError.root.isVisible = (it is ViewState.Error)
             binding.itemNetwork.root.isVisible = (it is ViewState.Network)
             when (it) {
-//                is ViewState.Initial -> {
-//                }
-//                is ViewState.Load -> {
-//                }
-//                is ViewState.Empty -> {
-//                }
-
                 is ViewState.Data -> {
                     val userInfo = it.data
                     binding.apply {
@@ -153,14 +150,20 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setTeacherInfo(userInfo: UserInfo) {
-        val teacherInfo = userInfo.teacherInfo
-        setScoreChart(teacherInfo, userInfo)
+        setCommentScoreChart(userInfo)
+        binding.itemPersonalCenterComment.rvComment.isVisible = userInfo.teacherInfo!!.commentInfoList.isNotEmpty()
+        commentAdapter.submitList(userInfo.teacherInfo.commentInfoList)
+        setReplyRateChart(userInfo)
+        //
+        binding.itemPersonalCenterReply.rvReply.isVisible = false
     }
 
+
     @RequiresApi(Build.VERSION_CODES.M)
-    private fun setScoreChart(teacherInfo: TeacherInfo?, userInfo: UserInfo) {
+    private fun setCommentScoreChart(userInfo: UserInfo) {
+        val teacherInfo = userInfo.teacherInfo
         val pieEntryList = mutableListOf<PieEntry>()
-        teacherInfo?.eachScoreList?.forEach { pieEntryList.add(PieEntry(it.count.toFloat(), "${it.grade} ${getString(R.string.star)} - ${it.count}${getString(R.string.pen)}")) }
+        teacherInfo?.eachCommentScoreInfoList?.forEach { pieEntryList.add(PieEntry(it.count.toFloat(), "${it.grade} ${getString(R.string.star)}：${it.count}${getString(R.string.pen)}")) }
         val colorList = arrayListOf<Int>(
             cxt.getColor(R.color.red_e50014),
             cxt.getColor(R.color.orange_f09401),
@@ -181,11 +184,11 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
         val pieData = PieData(pieDataSet)
         pieData.apply {
             setDrawValues(true)
-            setValueFormatter(PercentFormatter(binding.itemPersonalCenterTeacher.pcAvgCommectScore))
+            setValueFormatter(PercentFormatter(binding.itemPersonalCenterComment.pcCommentScore))
             setValueTextColor(Color.WHITE)
             setValueTextSize(10f)
         }
-        binding.itemPersonalCenterTeacher.pcAvgCommectScore.apply {
+        binding.itemPersonalCenterComment.pcCommentScore.apply {
             setUsePercentValues(true)
             description.isEnabled = false
             rotationAngle = 90f
@@ -193,7 +196,54 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
             animateY(1500, Easing.EaseInQuart)
             setDrawEntryLabels(false)
             holeRadius = 60f
-            centerText = "${cxt.getString(R.string.score)}\n${userInfo.teacherInfo?.avgCommectScore?.toFloat()}%"
+            centerText = "${cxt.getString(R.string.score)}\n${userInfo.teacherInfo?.avgCommentScore}%"
+            setCenterTextSize(14f)
+
+            legend.apply {
+                verticalAlignment = Legend.LegendVerticalAlignment.CENTER
+                horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+                orientation = Legend.LegendOrientation.VERTICAL
+                setDrawInside(false)
+                xOffset = 0f
+                form = Legend.LegendForm.CIRCLE
+            }
+            data = pieData
+        }.invalidate()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun setReplyRateChart(userInfo: UserInfo) {
+        val teacherInfo = userInfo.teacherInfo!!
+        val pieEntryList = listOf<PieEntry>(
+            PieEntry(teacherInfo.replyNum.toFloat(), "${getString(R.string.reply_num)}：${teacherInfo.replyNum}${getString(R.string.pen)}"),
+            PieEntry(teacherInfo.noReplyNum.toFloat(), "${getString(R.string.no_reply_num)}：${teacherInfo.noReplyNum}${getString(R.string.pen)}"),
+        )
+        val colorList = arrayListOf<Int>(
+            cxt.getColor(R.color.green_00ba9b),
+            cxt.getColor(R.color.blue_02abe2)
+        )
+        val pieDataSet = PieDataSet(pieEntryList, "")
+        pieDataSet.apply {
+            sliceSpace = 2f
+            selectionShift = 10f
+            colors = colorList
+        }
+        val pieData = PieData(pieDataSet)
+        pieData.apply {
+            setDrawValues(true)
+            setValueFormatter(PercentFormatter(binding.itemPersonalCenterReply.pcReplyRate))
+            setValueTextColor(Color.WHITE)
+            setValueTextSize(10f)
+        }
+        binding.itemPersonalCenterReply.pcReplyRate.apply {
+            setUsePercentValues(true)
+            description.isEnabled = false
+            rotationAngle = 90f
+            isHighlightPerTapEnabled = true
+            animateY(1500, Easing.EaseInQuart)
+            setDrawEntryLabels(false)
+            holeRadius = 70f
+            centerText = "${cxt.getString(R.string.reply_rate)}\n${userInfo.teacherInfo.replyRate}%"
             setCenterTextSize(14f)
 
             legend.apply {

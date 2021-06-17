@@ -46,7 +46,6 @@
     <!--  TeacherDetailDialogFragment  -->
     <string name="score">評分</string>
     <string name="reply_rate">回覆率</string>
-    <string name="reply_num">回覆數</string>
     <string name="ready_to_ask">準備發問!</string>
     <!-- PersonalCenterFragment -->
     <string name="edit">編輯</string>
@@ -81,7 +80,10 @@
     <string name="sign_out">登出</string>
     <string name="star">Star</string>
     <string name="pen">筆</string>
-    <string name="teacher_info">老師資訊</string>
+    <string name="comment_info">評論資訊</string>
+    <string name="reply_info">回覆資訊</string>
+    <string name="reply_num">已回覆</string>
+    <string name="no_reply_num">未回覆</string>
 
     <!--  PersonalCenterEditFragment  -->
     <string name="name">名稱</string>

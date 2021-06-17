@@ -115,12 +115,14 @@ data class StudentInfo(
 ) : Parcelable
 
 /**
- * avgReviewScore >> 平均分數
- * eachScoreList >> 各評分數量
- * replyRate >> 回覆率
- * replyNum >> 回覆數
-
- * commectList >> 評論列表
+ * 老師資訊
+ * avgCommentScore >> 平均分數(包含未回以結單的)
+ * eachCommentScoreList >> 各評分數量(包含未回以結單的)
+ * commentList >> 評論列表(包含未回以結單的)
+ * replyNum >> 已回覆數
+ * noReplyNum >> 未回覆數
+ * replyRate >> 回覆率(包含未回以結單的)
+ *
  * subjectList >> (暫時)科目列表
  * unitList >> 單元列表
  *
@@ -128,11 +130,13 @@ data class StudentInfo(
  * */
 @Parcelize
 data class TeacherInfo(
-    val avgCommectScore: Double,
-    val eachScoreList: List<Score>? = null,
-    val replyRate: Int,
-    val replyNum: Int,
-//    val commectList: List<Commect>? = null,
+    val avgCommentScore: Double = 5.0,
+    val eachCommentScoreInfoList: List<ScoreInfo> = emptyList(),
+    val commentInfoList: List<CommentInfo> = emptyList(),
+    val replyNum: Int = 0,
+    val noReplyNum: Int = 0,
+    val replyRate: Double = 100.0,
+    //
     val subjectList: List<Subject>,
     val unitList: List<Unit>,
 ) : Parcelable
@@ -153,8 +157,8 @@ data class UserConfig(
  * count >> 數量
  * */
 @Parcelize
-data class Score(
-    val grade: Float,
+data class ScoreInfo(
+    val grade: Double,
     val count: Int
 ) : Parcelable
 
@@ -163,12 +167,14 @@ data class Score(
  * id >> 評論id
  * account >> 評論者id
  * score >> 評分，1~5分
- * msg >> 評論內容
+ * content >> 內容
  * */
 @Parcelize
-data class Commect(
+data class CommentInfo(
     val id: Long,
     val account: String,
-    val score: Int,
-    val msg: String,
+    val name: String,
+    val score: Double,
+    val content: String,
+    val time: String
 ) : Parcelable

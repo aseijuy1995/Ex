@@ -132,7 +132,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:text='@{String.format("%s\n%s", @string/score,String.valueOf(userInfo.teacherInfo.avgCommectScore))}'
+                        android:text='@{String.format("%s\n%s", @string/score,String.valueOf(userInfo.teacherInfo.avgCommentScore))}'
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"

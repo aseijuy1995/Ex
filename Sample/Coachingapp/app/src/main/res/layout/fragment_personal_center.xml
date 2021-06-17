@@ -103,8 +103,18 @@
                     bind:userInfo="@{userInfo}" />
 
                 <include
-                    android:id="@+id/item_personal_center_teacher"
-                    layout="@layout/item_personal_center_teacher"
+                    android:id="@+id/item_personal_center_comment"
+                    layout="@layout/item_personal_center_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    bind:userInfo="@{userInfo}" />
+
+                <include
+                    android:id="@+id/item_personal_center_reply"
+                    layout="@layout/item_personal_center_reply"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
