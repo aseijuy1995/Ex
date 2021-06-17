@@ -264,6 +264,7 @@ class ApiService(val cxt: Context) : IApiService {
     }
 
     override suspend fun getCommentList(account: String, educationId: Long?, gradeId: Long?, subjectId: Long?, unitId: Long?): List<CommentInfo> {
+        delay(1500)
         //account判斷取得哪個帳號的評論
         return if (educationId == null && gradeId == null && subjectId == null && unitId == null)
             commentListTest

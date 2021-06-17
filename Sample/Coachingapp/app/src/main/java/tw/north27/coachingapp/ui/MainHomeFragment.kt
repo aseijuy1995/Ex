@@ -39,7 +39,7 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
 
     private val subjectAdapter = SubjectAdapter()
 
-    private val chapterAdapter = UnitAdapter()
+    private val unitAdapter = UnitAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,10 +53,7 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
         binding.itemDrawerLayoutMainHome.spEducation.adapter = educationAdapter
         binding.itemDrawerLayoutMainHome.spGrade.adapter = gradeAdapter
         binding.itemDrawerLayoutMainHome.spSubject.adapter = subjectAdapter
-        binding.itemDrawerLayoutMainHome.spUnit.adapter = chapterAdapter
-
-//        getDefaultSelection()
-//        binding.srlView.autoRefresh()
+        binding.itemDrawerLayoutMainHome.spUnit.adapter = unitAdapter
 
         viewModel.teacherListState.observe(viewLifecycleOwner) {
             binding.itemShimmer.sflView.isVisible = (it is ViewState.Load)
@@ -74,18 +71,6 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
                 is ViewState.Error, is ViewState.Network -> {
                 }
             }
-        }
-
-        binding.tbMainHome.ivFilter.clicksObserve(owner = viewLifecycleOwner) {
-            binding.drawerLayout.openDrawer(GravityCompat.END)
-        }
-
-        binding.srlView.setOnRefreshListener {
-            getTeacherList()
-        }
-
-        adapter.itemClickRelay.observe(viewLifecycleOwner) {
-            findNavController().navigate(MainHomeFragmentDirections.actionFragmentMainHomeToFragmentTeacherDetailDialog(it.second))
         }
 
         viewModel.educationListState.observe(viewLifecycleOwner) {
@@ -123,14 +108,26 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
         }
         viewModel.unitListState.observe(viewLifecycleOwner) {
             if (it is ViewState.Empty)
-                chapterAdapter.submitData(listOf(viewModel.defaultUnit))
+                unitAdapter.submitData(listOf(viewModel.defaultUnit))
             else if (it is ViewState.Data) {
                 val unitList = it.data.toMutableList()
                 unitList.add(0, viewModel.defaultUnit)
-                chapterAdapter.submitData(unitList)
+                unitAdapter.submitData(unitList)
             }
             if (it is ViewState.Empty || it is ViewState.Data)
                 binding.itemDrawerLayoutMainHome.spUnit.setSelection(0)
+        }
+
+        binding.tbMainHome.ivFilter.clicksObserve(owner = viewLifecycleOwner) {
+            binding.drawerLayout.openDrawer(GravityCompat.END)
+        }
+
+        binding.srlView.setOnRefreshListener {
+            getTeacherList()
+        }
+
+        adapter.itemClickRelay.observe(viewLifecycleOwner) {
+            findNavController().navigate(MainHomeFragmentDirections.actionFragmentMainHomeToFragmentTeacherDetailDialog(it.second))
         }
 
         binding.itemDrawerLayoutMainHome.spEducation.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
@@ -189,13 +186,13 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
         val education = binding.itemDrawerLayoutMainHome.spEducation.selectedItem as Education
         val grade = binding.itemDrawerLayoutMainHome.spGrade.selectedItem as Grade
         val subject = binding.itemDrawerLayoutMainHome.spSubject.selectedItem as Subject
-        val chapter = binding.itemDrawerLayoutMainHome.spUnit.selectedItem as Unit
-        logI("grade.id = ${grade.id}, subject.id = ${subject.id}, chapter.id = ${chapter.id}")
+        val unit = binding.itemDrawerLayoutMainHome.spUnit.selectedItem as Unit
+        logI("grade.id = ${grade.id}, subject.id = ${subject.id}, unit.id = ${unit.id}")
         viewModel.getTeacherList(
             educationId = education.id,
             gradeId = grade.id,
             subjectId = subject.id,
-            unitId = chapter.id
+            unitId = unit.id
         )
     }
 

@@ -18,9 +18,9 @@ import com.yujie.utilmodule.UserPref
 import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseFragment
 import com.yujie.utilmodule.ext.clicksObserve
+import com.yujie.utilmodule.ext.isVisible
 import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.CommentListAdapter
 import tw.north27.coachingapp.databinding.FragmentPersonalCenterBinding
@@ -94,7 +94,7 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
         }
 
         viewModel.commentListState.observe(viewLifecycleOwner) {
-            binding.itemPersonalCenterComment.rvComment.isVisible = (it is ViewState.Data)
+//            binding.itemPersonalCenterComment.rvComment.isVisible = (it is ViewState.Data)
             when (it) {
                 is ViewState.Data -> {
                     val commentList = it.data
@@ -163,8 +163,6 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setTeacherInfo(userInfo: UserInfo) {
         setCommentScoreChart(userInfo)
-//        binding.itemPersonalCenterComment.rvComment.isVisible = userInfo.teacherInfo!!.commentInfoList.isNotEmpty()
-//        commentAdapter.submitList(userInfo.teacherInfo.commentInfoList)
         setReplyRateChart(userInfo)
         //
         binding.itemPersonalCenterReply.rvReply.isVisible = false

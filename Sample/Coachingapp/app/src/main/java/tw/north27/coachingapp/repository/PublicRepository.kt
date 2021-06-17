@@ -50,22 +50,7 @@ class PublicRepository(val service: IApiService) : IPublicRepository {
     }
 
     override suspend fun getCommentList(account: String, educationId: Long?, gradeId: Long?, subjectId: Long?, unitId: Long?): Results<List<CommentInfo>> = safeApiResults {
-        if (educationId == 0L && gradeId == 0L && subjectId == 0L)
-            service.getCommentList(account = account)
-        else if (educationId == 0L && gradeId == 0L)
-            service.getCommentList(account = account, subjectId = subjectId)
-        else if (gradeId == 0L && subjectId == 0L)
-            service.getCommentList(account = account, educationId = educationId)
-        else if (educationId == 0L && subjectId == 0L)
-            service.getCommentList(account = account, gradeId = gradeId)
-        else if (educationId == 0L)
-            service.getCommentList(account = account, gradeId = gradeId, subjectId = subjectId)
-        else if (gradeId == 0L)
-            service.getCommentList(account = account, educationId = educationId, subjectId = subjectId)
-        else if (subjectId == 0L)
-            service.getCommentList(account = account, educationId = educationId, gradeId = gradeId)
-        else
-            service.getCommentList(account = account, educationId = educationId, gradeId = gradeId, subjectId = subjectId)
+        service.getCommentList(account = account, educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId)
     }
 
 }
