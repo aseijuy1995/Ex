@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="isBack"
+            type="Boolean" />
+
+        <variable
+            name="isTitle"
+            type="Boolean" />
+
+        <variable
+            name="title"
+            type="String" />
 
     </data>
 
@@ -20,7 +33,6 @@
             android:theme="?attr/actionBarTheme"
             app:contentInsetLeft="0dp"
             app:contentInsetStart="0dp"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -38,22 +50,22 @@
                     android:src="@drawable/ic_baseline_arrow_back_ios_new_24_white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    bind:isVisible="@{isBack!=null?isBack:true}" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="cursive"
                     android:gravity="center"
-                    android:text='@{String.format("%s%s",@string/edit, @string/personal_info)}'
+                    android:text="@{title}"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:typeface="serif"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    bind:isVisible="@{isTitle!=null?isTitle:true}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

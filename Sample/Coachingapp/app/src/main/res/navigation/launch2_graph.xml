@@ -61,7 +61,21 @@
         <action
             android:id="@+id/action_fragment_personal_center_to_fragment_sign_out_dialog"
             app:destination="@id/fragment_sign_out_dialog" />
+
+        <action
+            android:id="@+id/action_fragment_personal_center_to_fragment_comment_list"
+            app:destination="@id/fragment_comment_list"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+
+    <fragment
+        android:id="@+id/fragment_comment_list"
+        android:name="tw.north27.coachingapp.ui.CommentListFragment"
+        android:label="fragment_comment_list"
+        tools:layout="@layout/fragment_comment_list" />
 
     <dialog
         android:id="@+id/fragment_sign_out_dialog"

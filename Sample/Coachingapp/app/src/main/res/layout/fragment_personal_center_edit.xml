@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
@@ -18,9 +19,10 @@
 
         <include
             android:id="@+id/tb_personal_center_edit"
-            layout="@layout/toolbar_personal_center_edit"
+            layout="@layout/toolbar_normal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            bind:title='@{String.format("%s%s", @string/edit, @string/personal_center)}' />
 
         <FrameLayout
             android:layout_width="match_parent"

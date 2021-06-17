@@ -111,6 +111,10 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
         binding.itemPersonalCenterStudy.itemAnalysis.root.clicksObserve(owner = viewLifecycleOwner) {
 
         }
+        //評論列表
+        binding.itemPersonalCenterComment.ivComment.clicksObserve(owner = viewLifecycleOwner) {
+            findNavController().navigate(PersonalCenterFragmentDirections.actionFragmentPersonalCenterToFragmentCommentList())
+        }
         //回覆提醒
         binding.itemPersonalCenterSetting.itemReplyRemind.root.clicksObserve(owner = viewLifecycleOwner) {
 
@@ -196,7 +200,7 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
             animateY(1500, Easing.EaseInQuart)
             setDrawEntryLabels(false)
             holeRadius = 60f
-            centerText = "${cxt.getString(R.string.score)}\n${userInfo.teacherInfo?.avgCommentScore}%"
+            centerText = "${cxt.getString(R.string.score)}\n${userInfo.teacherInfo?.avgCommentScore}"
             setCenterTextSize(14f)
 
             legend.apply {

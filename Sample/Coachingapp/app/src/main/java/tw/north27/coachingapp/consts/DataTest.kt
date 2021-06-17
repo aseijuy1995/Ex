@@ -3,8 +3,10 @@ package tw.north27.coachingapp.consts
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.yujie.utilmodule.UserPref
+import com.yujie.utilmodule.util.logD
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.Unit
+import java.text.DecimalFormat
 
 val userIdTest = 0L
 val accountTest = "north27"
@@ -41,18 +43,28 @@ val commentListTest = listOf(
     CommentInfo(id = 20, account = "vivian215", name = "Vivian Meng", score = 2.0, content = "老師很適合要精進數學技能跟競賽的學生。而且再訓練小孩邏輯跟思考。會有很大的幫助。希望在接下來的課程一起努力。親師合作協助小孩。", time = "2021-03-28"),
 )
 
+/**
+ * 評論各得分數量
+ * */
 fun getEachCommentScoreInfoListTest(): List<ScoreInfo> {
     val commentScoreListTest = commentListTest.groupBy(CommentInfo::score)
-    val scoreInfoListTest = mutableListOf<ScoreInfo>()
-    val commentScoreCountListTest = commentScoreListTest.map {
+    var scoreInfoListTest = mutableListOf<ScoreInfo>()
+    commentScoreListTest.map {
         scoreInfoListTest.add(ScoreInfo(it.key, it.value.size))
     }
-    return scoreInfoListTest.sortedBy(ScoreInfo::grade)
+    logD("scoreInfoListTest = $scoreInfoListTest")
+    scoreInfoListTest = scoreInfoListTest.sortedBy(ScoreInfo::grade).toMutableList()
+    return scoreInfoListTest
 }
 
+/**
+ * 評論平均評分
+ * */
 fun getAvgCommentScore(): Double {
     val scoreListTest = getEachCommentScoreInfoListTest()
-    return scoreListTest.sumByDouble { it.grade * it.grade } / scoreListTest.size
+    val score = scoreListTest.sumByDouble { it.grade * it.grade }
+    val size = scoreListTest.sumBy(ScoreInfo::count)
+    return DecimalFormat("##0.00").format(score / size).toDouble()
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
