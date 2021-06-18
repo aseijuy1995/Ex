@@ -94,6 +94,15 @@ class PersonalCenterViewModel(
         }
     }
 
+    //
+    //
+    private val _genderList = MutableLiveData<List<Gender>>(listOf(Gender.MALE, Gender.FEMALE))
+
+    val genderList = _genderList.asLiveData()
+
+    //
+    //
+
     val defaultEducation = Education(id = null, text = "預設")
 
     val defaultGradle = Grade(id = null, text = "預設", educationId = null)
@@ -191,7 +200,7 @@ class PersonalCenterViewModel(
         _unitListState.postValue(ViewState.load())
         val results = publicRepo.getUnitList(educationId = educationId, gradeId = gradeId, subjectId = subjectId)
         when (results) {
-            is Results.Successful<List<Unit>> -> {
+            is Results.Successful<List<tw.north27.coachingapp.model.Unit>> -> {
                 if (results.data.isEmpty())
                     _unitListState.postValue(ViewState.empty())
                 else

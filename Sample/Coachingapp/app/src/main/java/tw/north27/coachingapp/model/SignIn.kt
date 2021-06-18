@@ -80,6 +80,7 @@ data class UserInfo(
     val id: Long,
     val account: String,
     val auth: UserPref.Authority,
+    val backgroundPath: String? = null,
     val avatarPath: String? = null,
     val name: String,
     val gender: Gender? = null,

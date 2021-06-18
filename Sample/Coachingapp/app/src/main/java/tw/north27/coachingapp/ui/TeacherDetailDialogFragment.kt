@@ -45,7 +45,7 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
             userInfo = this@TeacherDetailDialogFragment.userInfo
             rvSubject.adapter = adapter
         }
-        binding.ivAvatar.bindImg(url = userInfo.avatarPath, roundingRadius = 10)
+        binding.ivAvatar.bindImg(url = userInfo.avatarPath, roundingRadius = 5)
         setSubjectLabel()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) setResponseRatePieChart()
         //
