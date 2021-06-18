@@ -40,6 +40,10 @@ class CommentListFragment : BaseFragment<FragmentCommentListBinding>(R.layout.fr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.itemToolbarNormal.apply {
+            ivFilter.isVisible = true
+            tvTitle.text = getString(R.string.comment_info)
+        }
         binding.lifecycleOwner = viewLifecycleOwner
         binding.rvComment.adapter = commentAdapter
         binding.itemDrawerLayoutComment.spEducation.adapter = educationAdapter
@@ -111,11 +115,11 @@ class CommentListFragment : BaseFragment<FragmentCommentListBinding>(R.layout.fr
                 binding.itemDrawerLayoutComment.spUnit.setSelection(0)
         }
 
-        binding.tbNormal.ivBack.clicksObserve(owner = viewLifecycleOwner) {
+        binding.itemToolbarNormal.ivBack.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()
         }
 
-        binding.tbNormal.ivFilter.clicksObserve(owner = viewLifecycleOwner) {
+        binding.itemToolbarNormal.ivFilter.clicksObserve(owner = viewLifecycleOwner) {
             binding.drawerLayout.openDrawer(GravityCompat.END)
         }
 

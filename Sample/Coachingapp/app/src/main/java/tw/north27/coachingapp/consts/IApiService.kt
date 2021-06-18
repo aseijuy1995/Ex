@@ -157,8 +157,6 @@ interface IApiService {
     /**
      * 取得評論列表(未加載) - 依據時間近至遠撈回，未指定則撈回全部，有指定依據指定的education_id、grade_id、subject_id、unit_id取出數據
      *
-     * 0 >> 預設值(全撈取)
-     *
      * @param account >> 帳號
     //     * @param score >> 評分
      * @param education_id >> 教育id
@@ -179,6 +177,30 @@ interface IApiService {
         @Field("index") index: Int,
         @Field("num") num: Int
     ): List<CommentInfo>
+
+//    /**
+//     * 取得未回覆列表(未加載) - 依據時間近至遠撈回，未指定則撈回全部
+//     *
+//     * @param account >> 帳號
+//    //     * @param score >> 評分
+//     * @param education_id >> 教育id
+//     * @param grade_id >> 年級id
+//     * @param subject_id >> 科目id
+//     * @param unit_id >> 單元id
+//     * @param index >> 索引
+//     * @param num >> 筆數
+//     * */
+//    @POST
+//    suspend fun getReplyList(
+//        @Field("account") account: String,
+////        @Field("score") score: Double,
+//        @Field("education_id") educationId: Long? = null,
+//        @Field("grade_id") gradeId: Long? = null,
+//        @Field("subject_id") subjectId: Long? = null,
+//        @Field("unit_id") unitId: Long? = null,
+//        @Field("index") index: Int,
+//        @Field("num") num: Int
+//    ): List<CommentInfo>
 
 //
 //    //
