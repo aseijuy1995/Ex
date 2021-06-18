@@ -24,14 +24,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/item_toolbar_normal" />
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <View
         android:layout_width="match_parent"
         android:layout_height="250dp"
+        android:background="@drawable/shape_gradient_angle_270_color_tran_gray"
         android:scaleType="centerCrop"
-        android:src="@drawable/shape_gradient_angle_270_color_tran_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/item_toolbar_normal" />
+        app:layout_constraintBottom_toBottomOf="@id/iv_background"
+        app:layout_constraintEnd_toEndOf="@id/iv_background"
+        app:layout_constraintStart_toStartOf="@id/iv_background"
+        app:layout_constraintTop_toTopOf="@id/iv_background" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_avatar"
@@ -43,10 +44,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/item_toolbar_normal" />
 
+    <View
+        android:layout_width="104dp"
+        android:layout_height="104dp"
+        android:layout_margin="18dp"
+        android:background="@drawable/shape_solid_tran_stroke_width_5_color_white_corners_radius_5"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
+        app:layout_constraintEnd_toEndOf="@id/iv_avatar"
+        app:layout_constraintStart_toStartOf="@id/iv_avatar"
+        app:layout_constraintTop_toTopOf="@id/iv_avatar" />
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_bacground_edit"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_margin="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_twotone_add_photo_alternate_24_white"
@@ -56,8 +68,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_avatar_edit"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_margin="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_baseline_account_box_24_white"

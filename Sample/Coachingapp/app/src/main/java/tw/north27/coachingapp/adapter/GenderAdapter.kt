@@ -10,9 +10,9 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.Gender
 
 class GenderAdapter : BaseAdapter() {
-    private var genderList: List<Gender>? = null
+    private var genderList: List<Pair<Gender, String>>? = null
 
-    fun submitData(genderList: List<Gender>) {
+    fun submitData(genderList: List<Pair<Gender, String>>) {
         this.genderList = genderList
         notifyDataSetChanged()
     }
@@ -21,7 +21,7 @@ class GenderAdapter : BaseAdapter() {
         return genderList?.size ?: 0
     }
 
-    override fun getItem(position: Int): Gender? {
+    override fun getItem(position: Int): Pair<Gender, String>? {
         return genderList?.get(position)
     }
 
@@ -40,7 +40,7 @@ class GenderAdapter : BaseAdapter() {
         } else {
             holder = view.tag as VH
         }
-        holder.tvText.text = getItem(position)?.name
+        holder.tvText.text = getItem(position)?.second
         return view!!
     }
 

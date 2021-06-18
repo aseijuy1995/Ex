@@ -202,7 +202,7 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
                     text = context.getString(strRes)
                 }
                 tvName.text = userInfo.name
-                tvId.text = String.format("%s：%s", getString(R.string.id), userInfo.id.toString())
+                tvId.text = String.format("%s：%d", getString(R.string.id), userInfo.id)
                 tvSchool.apply {
                     isVisible = (userInfo.auth == UserPref.Authority.STUDENT) && (userInfo.studentInfo != null) && userInfo.studentInfo.school.isNotEmpty()
                     text = String.format("%s：%s", getString(R.string.school), userInfo.studentInfo?.school)
@@ -211,8 +211,8 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
                     isVisible = (userInfo.auth == UserPref.Authority.STUDENT) && (userInfo.studentInfo != null)
                     text = String.format("%s：%s", getString(R.string.grade), userInfo.studentInfo?.grade?.text)
                 }
-                tvAuth.text = String.format(
-                    "%s：%s", getString(R.string.authority),
+                tvAuth.text = String.format("%s：%s",
+                    getString(R.string.authority),
                     when (userInfo.auth) {
                         UserPref.Authority.STUDENT -> getString(R.string.student)
                         UserPref.Authority.TEACHER -> getString(R.string.teacher)
@@ -233,22 +233,22 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
                 itemBirthday.apply {
                     root.isVisible = userInfo.birthday != null
                     ivIcon.setImageResource(R.drawable.ic_twotone_today_24_gray)
-                    tvText.text = String.format("%s：%s", getString(R.string.birthday), SimpleDateFormat("yyyy-MM-dd", Locale.TAIWAN).format(userInfo.birthday))
+                    userInfo.birthday?.let { tvText.text = String.format("%s：%s", getString(R.string.birthday), SimpleDateFormat("yyyy-MM-dd", Locale.TAIWAN).format(it)) }
                 }
                 itemHomePlone.apply {
                     root.isVisible = userInfo.homePhone != null
                     ivIcon.setImageResource(R.drawable.ic_twotone_contact_phone_24_gray)
-                    tvText.text = String.format("%s：%s", getString(R.string.home_phone), userInfo.homePhone.toString())
+                    tvText.text = String.format("%s：%s", getString(R.string.home_phone), userInfo.homePhone)
                 }
                 itemCellPlone.apply {
                     root.isVisible = userInfo.cellPhone != null
                     ivIcon.setImageResource(R.drawable.ic_baseline_smartphone_24_gray)
-                    tvText.text = String.format("%s：%s", getString(R.string.cell_phone), userInfo.cellPhone.toString())
+                    tvText.text = String.format("%s：%s", getString(R.string.cell_phone), userInfo.cellPhone)
                 }
                 itemEmail.apply {
                     root.isVisible = userInfo.email != null
                     ivIcon.setImageResource(R.drawable.ic_twotone_email_24_gray)
-                    tvText.text = String.format("%s：%s", getString(R.string.email), userInfo.email.toString())
+                    tvText.text = String.format("%s：%s", getString(R.string.email), userInfo.email)
                 }
             }
             itemPersonalCenterComment.apply {
@@ -333,7 +333,6 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
             holeRadius = 60f
             centerText = "${cxt.getString(R.string.score)}\n${userInfo.teacherInfo?.avgCommentScore}"
             setCenterTextSize(14f)
-
             legend.apply {
                 verticalAlignment = Legend.LegendVerticalAlignment.CENTER
                 horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
@@ -380,7 +379,6 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
             holeRadius = 70f
             centerText = "${cxt.getString(R.string.reply_rate)}\n${userInfo.teacherInfo.replyRate}%"
             setCenterTextSize(14f)
-
             legend.apply {
                 verticalAlignment = Legend.LegendVerticalAlignment.CENTER
                 horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT

@@ -59,14 +59,14 @@ val userInfoTest = UserInfo(
     avatarPath = avatarPathTest,
     name = nameTest,
     gender = Gender.MALE,
-    birthday = SimpleDateFormat("yyyy-MM-dd").parse("2018-04-21"),
+    birthday = SimpleDateFormat("yyyy-MM-dd").parse("2018-12-21"),
     cellPhone = "0912-345-678",
     homePhone = "02-3456-7890",
     email = emailTest,
     desc = "這是簡單的自我介紹！這是簡單的自我介紹2！這是簡單的自我介紹3！這是簡單的自我介紹4！這是簡單的自我介紹5！",
     studentInfo = StudentInfo(
         school = "新北市板橋區板橋國小",
-        grade = Grade(id = 1, text = "(國小)一年級", educationId = 1)
+        grade = Grade(id = 8, text = "(國中)二年級", educationId = 2),
     ),
     teacherInfo = TeacherInfo(
         avgCommentScore = getAvgCommentScore(),

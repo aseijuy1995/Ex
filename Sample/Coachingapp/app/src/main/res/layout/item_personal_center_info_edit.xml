@@ -28,10 +28,12 @@
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_birthday"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
-                android:textSize="14sp" />
+                android:background="@drawable/shape_solid_green_corners_radius_5"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -52,13 +54,14 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/et_home_phone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_7_lt_rt_5"
                 android:hint="@string/enter_home_phone"
                 android:inputType="phone"
-                android:textSize="14sp" />
+                android:textColor="@color/gray_666666"
+                android:textSize="12sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -79,13 +82,14 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/et_cell_phone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_7_lt_rt_5"
                 android:hint="@string/enter_cell_phone"
                 android:inputType="phone"
-                android:textSize="14sp" />
+                android:textColor="@color/gray_666666"
+                android:textSize="12sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -106,13 +110,14 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_7_lt_rt_5"
                 android:hint="@string/enter_email"
                 android:inputType="textEmailAddress"
-                android:textSize="14sp" />
+                android:textColor="@color/gray_666666"
+                android:textSize="12sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -92,12 +92,15 @@
     <string name="edit">編輯</string>
     <string name="name">名稱</string>
     <string name="enter_name">請輸入名稱</string>
-    <string name="enter_school">請輸入學校名稱</string>
     <string name="gender">性別</string>
+    <string name="enter_school">請輸入學校名稱</string>
     <string name="enter_state_msg">請輸入狀態消息</string>
+    <string name="enter_birthday">請選擇生日</string>
     <string name="enter_cell_phone">請輸入手機號</string>
     <string name="enter_home_phone">請輸入家電號</string>
     <string name="enter_email">請輸入E-Mail</string>
+    <string name="not_empty">不可為空</string>
+    <string name="edit_failed">編輯失敗，請重新再來~</string>
     <!-- CommentListFragment -->
     <string name="filter_comment">篩選評論</string>
 

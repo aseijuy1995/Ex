@@ -9,6 +9,7 @@ import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.pref.getAccount
 import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.ViewState
+import com.yujie.utilmodule.util.logD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -94,14 +95,14 @@ class PersonalCenterViewModel(
         }
     }
 
-    //
-    //
-    private val _genderList = MutableLiveData<List<Gender>>(listOf(Gender.MALE, Gender.FEMALE))
+    private val _genderList = MutableLiveData<List<Pair<Gender, String>>>(
+        listOf(
+            Gender.MALE to cxt.getString(R.string.male),
+            Gender.FEMALE to cxt.getString(R.string.female)
+        )
+    )
 
     val genderList = _genderList.asLiveData()
-
-    //
-    //
 
     val defaultEducation = Education(id = null, text = "預設")
 
@@ -119,7 +120,6 @@ class PersonalCenterViewModel(
     val educationListState = _educationListState.asLiveData()
 
     fun getEducationList() = viewModelScope.launch(Dispatchers.IO) {
-        _gradeListState.postValue(ViewState.load())
         val results = publicRepo.getEducationList()
         when (results) {
             is Results.Successful<List<Education>> -> {
@@ -145,10 +145,11 @@ class PersonalCenterViewModel(
     val gradeListState = _gradeListState.asLiveData()
 
     fun getGradeList(educationId: Long? = 0) = viewModelScope.launch(Dispatchers.IO) {
-        _gradeListState.postValue(ViewState.load())
         val results = publicRepo.getGradeList(educationId = educationId)
+        logD("getGradeList() = 1")
         when (results) {
             is Results.Successful<List<Grade>> -> {
+                logD("getGradeList() = 2, ${results.data.isEmpty()}")
                 if (results.data.isEmpty())
                     _gradeListState.postValue(ViewState.empty())
                 else
@@ -171,7 +172,6 @@ class PersonalCenterViewModel(
     val subjectListState = _subjectListState.asLiveData()
 
     fun getSubjectList(educationId: Long? = 0, gradeId: Long? = 0) = viewModelScope.launch(Dispatchers.IO) {
-        _subjectListState.postValue(ViewState.load())
         val results = publicRepo.getSubjectList(educationId = educationId, gradeId = gradeId)
         when (results) {
             is Results.Successful<List<Subject>> -> {
@@ -197,7 +197,6 @@ class PersonalCenterViewModel(
     val unitListState = _unitListState.asLiveData()
 
     fun getUnitList(educationId: Long? = 0, gradeId: Long? = 0, subjectId: Long? = 0) = viewModelScope.launch(Dispatchers.IO) {
-        _unitListState.postValue(ViewState.load())
         val results = publicRepo.getUnitList(educationId = educationId, gradeId = gradeId, subjectId = subjectId)
         when (results) {
             is Results.Successful<List<tw.north27.coachingapp.model.Unit>> -> {

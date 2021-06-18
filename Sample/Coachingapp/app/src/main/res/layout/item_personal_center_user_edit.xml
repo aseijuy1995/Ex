@@ -31,7 +31,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
-                android:textSize="14sp" />
+                android:textColor="@color/gray_666666"
+                android:textSize="12sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -52,13 +53,15 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/et_name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:inputType="textPersonName"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_7_lt_rt_5"
                 android:hint="@string/enter_name"
                 android:maxLines="1"
-                android:textSize="14sp" />
+                android:textColor="@color/gray_666666"
+                android:textSize="12sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -90,6 +93,7 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_school"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginTop="10dp"
@@ -106,16 +110,18 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/et_school"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
                 android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_7_lt_rt_5"
                 android:hint="@string/enter_school"
-                android:textSize="14sp" />
+                android:textColor="@color/gray_666666"
+                android:textSize="12sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/ll_grade"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_marginTop="10dp"
@@ -162,7 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
