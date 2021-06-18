@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent">
+    android:background="@color/white">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_network"
+        android:id="@+id/tv_background_network"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
@@ -21,16 +21,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_img"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:id="@+id/iv_network"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="180dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_networking" />
 
     <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_network"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -39,6 +42,6 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_img" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_network" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

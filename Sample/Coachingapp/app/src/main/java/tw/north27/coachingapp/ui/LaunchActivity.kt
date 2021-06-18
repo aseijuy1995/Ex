@@ -34,8 +34,8 @@ class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaun
         super.onCreate(savedInstanceState)
         binding.ivBackground.bindImg(
             resId = backgroundRes,
-            radius = 10,
-            sampling = 3
+            blurRadius = 10,
+            blurSampling = 3
         )
     }
 

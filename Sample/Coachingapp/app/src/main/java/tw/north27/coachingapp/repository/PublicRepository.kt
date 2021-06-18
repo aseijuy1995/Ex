@@ -49,8 +49,8 @@ class PublicRepository(val service: IApiService) : IPublicRepository {
             service.getUnitList(educationId = educationId, gradeId = gradeId, subjectId = subjectId)
     }
 
-    override suspend fun getCommentList(account: String, educationId: Long?, gradeId: Long?, subjectId: Long?, unitId: Long?): Results<List<CommentInfo>> = safeApiResults {
-        service.getCommentList(account = account, educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId)
+    override suspend fun getCommentList(account: String, educationId: Long?, gradeId: Long?, subjectId: Long?, unitId: Long?, index: Int, num: Int): Results<List<CommentInfo>> = safeApiResults {
+        service.getCommentList(account = account, educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId, index = index, num = num)
     }
 
 }

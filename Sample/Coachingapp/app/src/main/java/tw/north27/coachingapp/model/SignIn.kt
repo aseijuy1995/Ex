@@ -3,6 +3,7 @@ package tw.north27.coachingapp.model
 import android.os.Parcelable
 import com.yujie.utilmodule.UserPref
 import kotlinx.parcelize.Parcelize
+import java.util.*
 
 /**
  * 可用於登入&登出
@@ -83,8 +84,7 @@ data class UserInfo(
     val name: String,
     val gender: Gender? = null,
     val desc: String? = null,
-//    val birthday: LocalDate? = null,
-    val birthday: String? = null,
+    val birthday: Date? = null,
     val cellPhone: String? = null,
     val homePhone: String? = null,
     val email: String? = null,

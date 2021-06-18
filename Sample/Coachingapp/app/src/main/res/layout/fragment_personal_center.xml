@@ -1,194 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_eeeeee">
 
-    <data>
-
-        <variable
-            name="userInfo"
-            type="tw.north27.coachingapp.model.UserInfo" />
-    </data>
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/gray_eeeeee">
+        android:layout_height="200dp">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/abl_layout"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/ctl_layout"
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="match_parent"
+            app:collapsedTitleGravity="start"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleGravity="start|bottom"
+            app:expandedTitleMargin="10dp"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            app:scrimAnimationDuration="500">
 
-            <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/ctl_layout"
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_background"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                app:collapsedTitleGravity="start"
-                app:contentScrim="?attr/colorPrimary"
-                app:expandedTitleGravity="start|bottom"
-                app:expandedTitleMargin="10dp"
-                app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-                app:scrimAnimationDuration="500">
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.3" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iv_background"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fitsSystemWindows="true"
-                    android:scaleType="centerCrop"
-                    app:layout_collapseMode="parallax"
-                    app:layout_collapseParallaxMultiplier="0.3" />
-
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/tb_personal_center"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    app:contentInsetStart="0dp"
-                    app:layout_collapseMode="pin"
-                    app:title="@string/personal_center" />
-
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nsv_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="40dp"
+                app:layout_collapseMode="pin"
+                app:title="@string/personal_center" />
 
-                <include
-                    android:id="@+id/item_personal_center_user"
-                    layout="@layout/item_personal_center_user"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    bind:userInfo="@{userInfo}" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-                <include
-                    android:id="@+id/item_personal_center_state_msg"
-                    layout="@layout/item_personal_center_state_msg"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    bind:userInfo="@{userInfo}" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-                <include
-                    android:id="@+id/item_personal_center_info"
-                    layout="@layout/item_personal_center_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    bind:userInfo="@{userInfo}" />
+    <include
+        android:id="@+id/item_data"
+        layout="@layout/fragment_personal_center_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                <include
-                    android:id="@+id/item_personal_center_comment"
-                    layout="@layout/item_personal_center_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    bind:userInfo="@{userInfo}" />
+    <include
+        android:id="@+id/item_empty"
+        layout="@layout/item_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                <include
-                    android:id="@+id/item_personal_center_reply"
-                    layout="@layout/item_personal_center_reply"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    bind:userInfo="@{userInfo}" />
+    <include
+        android:id="@+id/item_error"
+        layout="@layout/item_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                <include
-                    android:id="@+id/item_personal_center_study"
-                    layout="@layout/item_personal_center_study"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    bind:userInfo="@{userInfo}" />
+    <include
+        android:id="@+id/item_network"
+        layout="@layout/item_network"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                <include
-                    android:id="@+id/item_personal_center_setting"
-                    layout="@layout/item_personal_center_setting"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp"
-                    bind:userInfo="@{userInfo}" />
+    <include
+        android:id="@+id/item_shimmer"
+        layout="@layout/fragment_personal_center_load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-                <include
-                    android:id="@+id/item_personal_center_share"
-                    layout="@layout/item_personal_center_share"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp" />
-
-                <include
-                    android:id="@+id/item_personal_center_about"
-                    layout="@layout/item_personal_center_about"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="10dp" />
-
-                <include
-                    android:id="@+id/item_personal_center_sign_out"
-                    layout="@layout/item_personal_center_sign_out"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp" />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-        </androidx.core.widget.NestedScrollView>
-
-        <include
-            android:id="@+id/item_empty"
-            layout="@layout/item_empty"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-        <include
-            android:id="@+id/item_error"
-            layout="@layout/item_error"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-        <include
-            android:id="@+id/item_network"
-            layout="@layout/item_network"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-        <include
-            android:id="@+id/item_shimmer"
-            layout="@layout/fragment_personal_center_shimmer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-</layout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

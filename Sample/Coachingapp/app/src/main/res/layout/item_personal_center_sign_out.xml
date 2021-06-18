@@ -1,34 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="15dp"
+    app:cardCornerRadius="5dp">
 
-    <data>
-
-    </data>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_view"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="15dp"
-        app:cardCornerRadius="5dp">
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
+        <include
+            android:id="@+id/item_sign_out"
+            layout="@layout/item_personal_center" />
 
-            <include
-                android:id="@+id/item_sign_out"
-                layout="@layout/item_personal_center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                bind:icon="@{@drawable/ic_baseline_exit_to_app_24_red}"
-                bind:isClick="@{true}"
-                bind:title='@{@string/sign_out}' />
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.cardview.widget.CardView>
-</layout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.cardview.widget.CardView>

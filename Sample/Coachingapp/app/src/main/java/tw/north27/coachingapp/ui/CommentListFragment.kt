@@ -193,7 +193,9 @@ class CommentListFragment : BaseFragment<FragmentCommentListBinding>(R.layout.fr
             educationId = education.id,
             gradeId = grade.id,
             subjectId = subject.id,
-            unitId = unit.id
+            unitId = unit.id,
+            index = 0,
+            num = 10
         )
     }
 }

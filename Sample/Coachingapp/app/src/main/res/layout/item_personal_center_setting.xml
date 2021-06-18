@@ -1,54 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="15dp"
+    app:cardCornerRadius="5dp">
 
-    <data>
-
-        <variable
-            name="userInfo"
-            type="tw.north27.coachingapp.model.UserInfo" />
-    </data>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_view"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="15dp"
-        app:cardCornerRadius="5dp">
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
+            android:layout_marginBottom="5dp"
+            android:text="@string/settings"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingBottom="5dp"
-                android:text="@string/settings"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+        <include
+            android:id="@+id/item_reply_remind"
+            layout="@layout/item_personal_center" />
 
-            <include
-                android:id="@+id/item_reply_remind"
-                layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_twotone_quickreply_24_gray}"
-                bind:isSwitch="@{true}"
-                bind:isSwitchOn="@{userInfo.userConfig.replyNotice}"
-                bind:title="@{@string/reply_remind}" />
+        <include
+            android:id="@+id/item_msg_remind"
+            layout="@layout/item_personal_center" />
 
-            <include
-                android:id="@+id/item_msg_remind"
-                layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_twotone_message_24_gray}"
-                bind:isSwitch="@{true}"
-                bind:isSwitchOn="@{userInfo.userConfig.msgNotice}"
-                bind:title="@{@string/msg_remind}" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-    </androidx.cardview.widget.CardView>
-</layout>
+</androidx.cardview.widget.CardView>

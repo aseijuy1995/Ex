@@ -160,11 +160,13 @@ interface IApiService {
      * 0 >> 預設值(全撈取)
      *
      * @param account >> 帳號
-//     * @param score >> 評分
-     * @param education_id >> 帳號
-     * @param grade_id >> 帳號
-     * @param subject_id >> 帳號
-     * @param unit_id >> 帳號
+    //     * @param score >> 評分
+     * @param education_id >> 教育id
+     * @param grade_id >> 年級id
+     * @param subject_id >> 科目id
+     * @param unit_id >> 單元id
+     * @param index >> 索引
+     * @param num >> 筆數
      * */
     @POST
     suspend fun getCommentList(
@@ -173,7 +175,9 @@ interface IApiService {
         @Field("education_id") educationId: Long? = null,
         @Field("grade_id") gradeId: Long? = null,
         @Field("subject_id") subjectId: Long? = null,
-        @Field("unit_id") unitId: Long? = null
+        @Field("unit_id") unitId: Long? = null,
+        @Field("index") index: Int,
+        @Field("num") num: Int
     ): List<CommentInfo>
 
 //

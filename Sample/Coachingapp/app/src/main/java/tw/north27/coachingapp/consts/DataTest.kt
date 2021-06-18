@@ -1,11 +1,10 @@
 package tw.north27.coachingapp.consts
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.yujie.utilmodule.UserPref
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.Unit
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 
 val userIdTest = 0L
 val accountTest = "north27"
@@ -53,7 +52,6 @@ fun getAvgCommentScore(): Double {
     return DecimalFormat("##0.00").format(score / size).toDouble()
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 val userInfoTest = UserInfo(
     id = 83138683,
     account = accountTest,
@@ -61,8 +59,7 @@ val userInfoTest = UserInfo(
     avatarPath = avatarPathTest,
     name = nameTest,
     gender = Gender.MALE,
-//    birthday = LocalDate.of(2020, 7, 27),
-    birthday = "2020年7月27日",
+    birthday = SimpleDateFormat("yyyy-MM-dd").parse("2018-04-21"),
     cellPhone = "0912-345-678",
     homePhone = "02-3456-7890",
     email = emailTest,

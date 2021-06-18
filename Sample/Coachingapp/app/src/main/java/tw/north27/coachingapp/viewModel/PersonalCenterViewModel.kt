@@ -24,38 +24,30 @@ class PersonalCenterViewModel(
     private val publicRepo: IPublicRepository
 ) : BaseAndroidViewModel(application) {
 
-    private val backgroundResList = listOf<Int>(
-        R.drawable.ic_personal_center_background1,
-        R.drawable.ic_personal_center_background2,
-        R.drawable.ic_personal_center_background3,
-        R.drawable.ic_personal_center_background4,
-        R.drawable.ic_personal_center_background5,
-        R.drawable.ic_personal_center_background6,
-        R.drawable.ic_personal_center_background7,
-        R.drawable.ic_personal_center_background8,
-        R.drawable.ic_personal_center_background9
-    )
-
-    private val backgroundRes: Int
-        get() = backgroundResList[backgroundResList.indices.random()]
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-
+    private val _backgroundRes: MutableLiveData<Int> by lazy {
+        val list = listOf<Int>(
+            R.drawable.ic_personal_center_background1,
+            R.drawable.ic_personal_center_background2,
+            R.drawable.ic_personal_center_background3,
+            R.drawable.ic_personal_center_background4,
+            R.drawable.ic_personal_center_background5,
+            R.drawable.ic_personal_center_background6,
+            R.drawable.ic_personal_center_background7,
+            R.drawable.ic_personal_center_background8,
+            R.drawable.ic_personal_center_background9
+        )
+        MutableLiveData(list[list.indices.random()])
+    }
+    val backgroundRes = _backgroundRes.asLiveData()
 
     private val _userState: MutableLiveData<ViewState<UserInfo>> by lazy {
         getUser()
-        MutableLiveData(ViewState.initial())
+        MutableLiveData(ViewState.load())
     }
 
     val userState = _userState.asLiveData()
 
     private fun getUser() = viewModelScope.launch(Dispatchers.IO) {
-        _userState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
         if (account.isEmpty()) {
             _userState.postValue(ViewState.empty())
@@ -77,18 +69,15 @@ class PersonalCenterViewModel(
     }
 
     private val _commentListState: MutableLiveData<ViewState<List<CommentInfo>>> by lazy {
-        viewModelScope.launch(Dispatchers.IO) {
-            getCommentList()
-        }
-        MutableLiveData<ViewState<List<CommentInfo>>>(ViewState.initial())
+        getCommentList(index = 0, num = 3)
+        MutableLiveData<ViewState<List<CommentInfo>>>(ViewState.load())
     }
 
     val commentListState = _commentListState.asLiveData()
 
-    fun getCommentList(educationId: Long? = 0, gradeId: Long? = 0, subjectId: Long? = 0, unitId: Long? = 0) = viewModelScope.launch(Dispatchers.IO) {
-        _commentListState.postValue(ViewState.load())
+    fun getCommentList(educationId: Long? = null, gradeId: Long? = null, subjectId: Long? = null, unitId: Long? = null, index: Int, num: Int) = viewModelScope.launch(Dispatchers.IO) {
         val account = cxt.userPref.getAccount().first()
-        val results = publicRepo.getCommentList(account = account, educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId)
+        val results = publicRepo.getCommentList(account = account, educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId, index = index, num = num)
         when (results) {
             is Results.Successful<List<CommentInfo>> -> {
                 if (results.data.isEmpty())
@@ -115,7 +104,7 @@ class PersonalCenterViewModel(
 
     private val _educationListState: MutableLiveData<ViewState<List<Education>>> by lazy {
         getEducationList()
-        MutableLiveData<ViewState<List<Education>>>(ViewState.initial())
+        MutableLiveData<ViewState<List<Education>>>(ViewState.load())
     }
 
     val educationListState = _educationListState.asLiveData()
@@ -141,7 +130,7 @@ class PersonalCenterViewModel(
 
     private val _gradeListState: MutableLiveData<ViewState<List<Grade>>> by lazy {
         getGradeList()
-        MutableLiveData<ViewState<List<Grade>>>(ViewState.initial())
+        MutableLiveData<ViewState<List<Grade>>>(ViewState.load())
     }
 
     val gradeListState = _gradeListState.asLiveData()
@@ -167,7 +156,7 @@ class PersonalCenterViewModel(
 
     private val _subjectListState: MutableLiveData<ViewState<List<Subject>>> by lazy {
         getSubjectList()
-        MutableLiveData<ViewState<List<Subject>>>(ViewState.initial())
+        MutableLiveData<ViewState<List<Subject>>>(ViewState.load())
     }
 
     val subjectListState = _subjectListState.asLiveData()
@@ -193,7 +182,7 @@ class PersonalCenterViewModel(
 
     private val _unitListState: MutableLiveData<ViewState<List<Unit>>> by lazy {
         getUnitList()
-        MutableLiveData<ViewState<List<Unit>>>(ViewState.initial())
+        MutableLiveData<ViewState<List<Unit>>>(ViewState.load())
     }
 
     val unitListState = _unitListState.asLiveData()

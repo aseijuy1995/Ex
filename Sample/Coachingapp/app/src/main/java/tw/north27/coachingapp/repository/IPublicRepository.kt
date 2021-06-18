@@ -16,5 +16,5 @@ interface IPublicRepository {
 
     suspend fun getUnitList(educationId: Long?, gradeId: Long?, subjectId: Long?): Results<List<Unit>>
 
-    suspend fun getCommentList(account: String, educationId: Long?, gradeId: Long?, subjectId: Long?, unitId: Long?): Results<List<CommentInfo>>
+    suspend fun getCommentList(account: String, educationId: Long?, gradeId: Long?, subjectId: Long?, unitId: Long?, index: Int, num: Int): Results<List<CommentInfo>>
 }

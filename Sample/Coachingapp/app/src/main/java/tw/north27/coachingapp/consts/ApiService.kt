@@ -263,10 +263,18 @@ class ApiService(val cxt: Context) : IApiService {
         return userInfoTest
     }
 
-    override suspend fun getCommentList(account: String, educationId: Long?, gradeId: Long?, subjectId: Long?, unitId: Long?): List<CommentInfo> {
-        delay(1500)
+    override suspend fun getCommentList(
+        @Field(value = "account") account: String,
+        @Field(value = "education_id") educationId: Long?,
+        @Field(value = "grade_id") gradeId: Long?,
+        @Field(value = "subject_id") subjectId: Long?,
+        @Field(value = "unit_id") unitId: Long?,
+        @Field(value = "index") index: Int,
+        @Field(value = "num") num: Int
+    ): List<CommentInfo> {
+        delay(2000)
         //account判斷取得哪個帳號的評論
-        return if (educationId == null && gradeId == null && subjectId == null && unitId == null)
+        var list = if (educationId == null && gradeId == null && subjectId == null && unitId == null)
             commentListTest
         else if (educationId == null && gradeId == null && subjectId == null)
             commentListTest.filter { it.unitId == unitId }
@@ -299,6 +307,10 @@ class ApiService(val cxt: Context) : IApiService {
             commentListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }
         else
             commentListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }
+
+        var last = index + num
+        if (last > list.size) last = list.size
+        return list.subList(index, last)
     }
 
 

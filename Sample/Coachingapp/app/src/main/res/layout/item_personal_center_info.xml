@@ -1,63 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="15dp"
+    app:cardCornerRadius="5dp">
 
-    <data>
-
-        <variable
-            name="userInfo"
-            type="tw.north27.coachingapp.model.UserInfo" />
-    </data>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_view"
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="15dp"
-        app:cardCornerRadius="5dp"
-        bind:isVisible='@{(userInfo.birthday!=null &amp; userInfo.birthday!="")||(userInfo.homePhone!=null &amp; userInfo.homePhone!="")||(userInfo.cellPhone!=null &amp; userInfo.cellPhone!="")|| (userInfo.email!=null &amp; userInfo.email!="")}'>
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
+            android:layout_marginBottom="5dp"
+            android:text="@string/personal_info"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingBottom="5dp"
-                android:text="@string/personal_info"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+        <include
+            android:id="@+id/item_birthday"
+            layout="@layout/item_personal_center" />
 
-            <include
-                layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_twotone_today_24_gray}"
-                bind:isVisible='@{userInfo.birthday!=null &amp; userInfo.birthday!=""}'
-                bind:title='@{String.format("%s：%s", @string/birthday,String.valueOf(userInfo.birthday))}' />
+        <include
+            android:id="@+id/item_home_plone"
+            layout="@layout/item_personal_center" />
 
-            <include
-                layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_twotone_contact_phone_24_gray}"
-                bind:isVisible='@{userInfo.homePhone!=null &amp; userInfo.homePhone!=""}'
-                bind:title='@{String.format("%s：%s",@string/home_phone,userInfo.homePhone)}' />
+        <include
+            android:id="@+id/item_cell_plone"
+            layout="@layout/item_personal_center" />
 
-            <include
-                layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_baseline_smartphone_24_gray}"
-                bind:isVisible='@{userInfo.cellPhone!=null &amp; userInfo.cellPhone!=""}'
-                bind:title='@{String.format("%s：%s",@string/cell_phone,userInfo.cellPhone)}' />
+        <include
+            android:id="@+id/item_email"
+            layout="@layout/item_personal_center" />
 
-            <include
-                layout="@layout/item_personal_center"
-                bind:icon="@{@drawable/ic_twotone_email_24_gray}"
-                bind:isVisible='@{userInfo.email!=null &amp; userInfo.email!=""}'
-                bind:title='@{String.format("%s：%s",@string/email,userInfo.email)}' />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-    </androidx.cardview.widget.CardView>
-</layout>
+</androidx.cardview.widget.CardView>

@@ -1,89 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
-    <data>
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <variable
-            name="icon"
-            type="android.graphics.drawable.Drawable" />
-
-        <variable
-            name="title"
-            type="String" />
-
-        <variable
-            name="isVisible"
-            type="Boolean" />
-
-        <variable
-            name="isClick"
-            type="Boolean" />
-
-        <variable
-            name="isSwitch"
-            type="Boolean" />
-
-        <variable
-            name="isSwitchOn"
-            type="Boolean" />
-
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        bind:isVisible="@{(isVisible!=null)?isVisible:true}">
+        android:layout_marginStart="10dp"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_icon"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_margin="5dp"
-            android:src="@{icon}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_click"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="5dp"
+        android:src="@drawable/ic_baseline_keyboard_arrow_right_24_gray"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="@{title}"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_icon"
-            app:layout_constraintTop_toTopOf="parent" />
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/sc_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:showText="false" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_click"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_margin="5dp"
-            android:src="@drawable/ic_baseline_keyboard_arrow_right_24_gray"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            bind:isVisible="@{(isClick!=null)?isClick:false}" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/sc_switch"
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:checked="@{isSwitchOn}"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:textColor="@color/gray_aaaaaa"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:showText="false"
-            bind:isVisible="@{(isSwitch!=null)?isSwitch:false}" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>
