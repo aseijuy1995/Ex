@@ -23,11 +23,11 @@
 
         <include
             android:id="@+id/item_course"
-            layout="@layout/item_personal_center" />
+            layout="@layout/item_personal" />
 
         <include
             android:id="@+id/item_analysis"
-            layout="@layout/item_personal_center" />
+            layout="@layout/item_personal" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

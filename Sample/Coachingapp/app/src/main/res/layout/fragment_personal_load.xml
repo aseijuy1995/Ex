@@ -26,7 +26,7 @@
 
             <include
                 android:id="@+id/item_personal_intro"
-                layout="@layout/item_personal_state_msg_shimmer"
+                layout="@layout/item_personal_intro_shimmer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"

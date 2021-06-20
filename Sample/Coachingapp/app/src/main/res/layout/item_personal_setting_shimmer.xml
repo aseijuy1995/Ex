@@ -10,17 +10,25 @@
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <View
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:paddingBottom="5dp" />
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/gray_666666"
+            android:text="@string/settings"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-        <include layout="@layout/item_personal_center_shimmer" />
+        <include
+            android:id="@+id/item_reply_remind"
+            layout="@layout/item_personal_shimmer" />
 
-        <include layout="@layout/item_personal_center_shimmer" />
+        <include
+            android:id="@+id/item_msg_remind"
+            layout="@layout/item_personal_shimmer" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

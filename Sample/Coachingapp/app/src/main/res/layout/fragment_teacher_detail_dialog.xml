@@ -96,12 +96,12 @@
                         android:layout_height="match_parent"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:text='@{String.format("%s\n%s", @string/reply_num, String.valueOf(userInfo.teacherInfo.replyNum))}'
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/iv_avatar" />
+                    <!--                    android:text='@{String.format("%s\n%s", @string/reply_num, String.valueOf(userInfo.teacherInfo.replyNum))}'-->
 
                     <View
                         android:layout_width="0.5dp"

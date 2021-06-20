@@ -23,19 +23,19 @@
 
         <include
             android:id="@+id/item_birthday"
-            layout="@layout/item_personal_center" />
+            layout="@layout/item_personal" />
 
         <include
             android:id="@+id/item_home_plone"
-            layout="@layout/item_personal_center" />
+            layout="@layout/item_personal" />
 
         <include
             android:id="@+id/item_cell_plone"
-            layout="@layout/item_personal_center" />
+            layout="@layout/item_personal" />
 
         <include
             android:id="@+id/item_email"
-            layout="@layout/item_personal_center" />
+            layout="@layout/item_personal" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

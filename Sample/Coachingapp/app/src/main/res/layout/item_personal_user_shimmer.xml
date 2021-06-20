@@ -12,26 +12,31 @@
         android:padding="10dp">
 
         <View
-            android:id="@+id/riv_avatar"
+            android:id="@+id/iv_avatar"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_auth"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_baseline_account_box_24_gray"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tv_name" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/tv_gender"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="@id/riv_avatar"
-            app:layout_constraintEnd_toEndOf="@id/riv_avatar" />
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
+            app:layout_constraintEnd_toEndOf="@id/iv_avatar" />
 
         <View
             android:id="@+id/iv_edit"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            android:src="@drawable/ic_twotone_edit_note_24_red"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -40,55 +45,76 @@
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_marginStart="10dp"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toTopOf="@id/tv_id"
+            android:layout_marginEnd="10dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/gray_666666"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/tv_account"
             app:layout_constraintEnd_toStartOf="@id/iv_edit"
-            app:layout_constraintStart_toEndOf="@id/riv_avatar"
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
             app:layout_constraintTop_toTopOf="parent" />
 
         <View
-            android:id="@+id/tv_id"
+            android:id="@+id/tv_account"
             android:layout_width="0dp"
             android:layout_height="20dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="2dp"
-            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/gray_666666"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_auth"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tv_name"
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
             app:layout_constraintTop_toBottomOf="@id/tv_name" />
+
+        <View
+            android:id="@+id/tv_auth"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/gray_666666"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_school"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
+            app:layout_constraintTop_toBottomOf="@+id/tv_account" />
 
         <View
             android:id="@+id/tv_school"
             android:layout_width="0dp"
             android:layout_height="20dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="2dp"
-            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/gray_666666"
+            android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_grade"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tv_id"
-            app:layout_constraintTop_toBottomOf="@+id/tv_id" />
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
+            app:layout_constraintTop_toBottomOf="@+id/tv_auth" />
 
         <View
             android:id="@+id/tv_grade"
             android:layout_width="0dp"
             android:layout_height="20dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="2dp"
-            android:layout_weight="1"
-            app:layout_constraintBottom_toTopOf="@+id/tv_auth"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tv_school"
-            app:layout_constraintTop_toBottomOf="@+id/tv_school" />
-
-        <View
-            android:id="@+id/tv_auth"
-            android:layout_width="0dp"
-            android:layout_height="15dp"
-            android:layout_marginTop="2dp"
-            android:layout_weight="1"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/gray_666666"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tv_grade"
-            app:layout_constraintTop_toBottomOf="@+id/tv_grade" />
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
+            app:layout_constraintTop_toBottomOf="@+id/tv_school" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -97,7 +97,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         }
 
         viewModel.userState.observe(viewLifecycleOwner) {
-            binding.itemShimmer.sflView.isVisible = (it is ViewState.Load)
+            binding.itemPersonalLoad.sflView.isVisible = (it is ViewState.Load)
             binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
             binding.itemData.nsvView.isVisible = (it is ViewState.Data)
             binding.itemError.root.isVisible = (it is ViewState.Error)
@@ -115,19 +115,17 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
             )
         }
 
-//        viewModel.commentListState.observe(viewLifecycleOwner) {
-//            when (it) {
-//                is ViewState.Data -> {
-//                    val commentList = it.data
-//                    binding.itemData.itemPersonalComment.tvLastTitle.isVisible = commentList.isNotEmpty()
-//                    binding.itemData.itemPersonalComment.rvComment.isVisible = commentList.isNotEmpty()
-//                }
-//            }
-//        }
-
         //編輯
         binding.itemData.itemPersonalUser.ivEdit.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentPersonalEdit())
+        }
+        //評論列表
+        binding.itemData.itemPersonalComment.ivComment.clicksObserve(owner = viewLifecycleOwner) {
+            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentCommentList())
+        }
+        //回覆列表
+        binding.itemData.itemPersonalReply.ivComment.clicksObserve(owner = viewLifecycleOwner) {
+
         }
         //歷程
         binding.itemData.itemPersonalStudy.itemCourse.root.clicksObserve(owner = viewLifecycleOwner) {
@@ -136,10 +134,6 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         //分析
         binding.itemData.itemPersonalStudy.itemAnalysis.root.clicksObserve(owner = viewLifecycleOwner) {
 
-        }
-        //評論列表
-        binding.itemData.itemPersonalComment.ivComment.clicksObserve(owner = viewLifecycleOwner) {
-            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentCommentList())
         }
         //回覆提醒
         binding.itemData.itemPersonalSetting.itemReplyRemind.scSwitch.checkedChangesObserve(owner = viewLifecycleOwner) {

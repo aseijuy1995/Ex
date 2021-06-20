@@ -4,15 +4,11 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.yujie.utilmodule.UserPref
-import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseFragment
-import com.yujie.utilmodule.ext.clicksObserve
 import com.yujie.utilmodule.util.ViewState
-import com.yujie.utilmodule.util.logD
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.GenderAdapter
@@ -23,7 +19,7 @@ import tw.north27.coachingapp.viewModel.PersonalViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PersonalCenterEditFragment : BaseFragment<FragmentPersonalCenterEditBinding>(R.layout.fragment_personal_center_edit) {
+class PersonalCenterEditFragment : BaseFragment<FragmentPersonalCenterEditBinding>(R.layout.fragment_personal_edit) {
 
     override val viewBind: (View) -> FragmentPersonalCenterEditBinding
         get() = FragmentPersonalCenterEditBinding::bind

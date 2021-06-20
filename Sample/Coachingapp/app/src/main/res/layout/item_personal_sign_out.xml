@@ -14,7 +14,7 @@
 
         <include
             android:id="@+id/item_sign_out"
-            layout="@layout/item_personal_center" />
+            layout="@layout/item_personal" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.cardview.widget.CardView>

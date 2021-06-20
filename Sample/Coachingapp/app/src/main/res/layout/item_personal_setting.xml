@@ -23,11 +23,11 @@
 
         <include
             android:id="@+id/item_reply_remind"
-            layout="@layout/item_personal_center" />
+            layout="@layout/item_personal" />
 
         <include
             android:id="@+id/item_msg_remind"
-            layout="@layout/item_personal_center" />
+            layout="@layout/item_personal" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

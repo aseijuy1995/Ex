@@ -94,14 +94,14 @@
 
             <include
                 android:id="@+id/item_personal_center_user_edit"
-                layout="@layout/item_personal_center_user_edit"
+                layout="@layout/item_personal_user_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp" />
 
             <include
                 android:id="@+id/item_personal_center_state_msg_edit"
-                layout="@layout/item_personal_center_state_msg_edit"
+                layout="@layout/item_personal_intro_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -109,7 +109,7 @@
 
             <include
                 android:id="@+id/item_personal_center_info_edit"
-                layout="@layout/item_personal_center_info_edit"
+                layout="@layout/item_personal_info_edit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp" />

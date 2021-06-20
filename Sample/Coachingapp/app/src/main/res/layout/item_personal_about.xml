@@ -23,19 +23,19 @@
 
         <include
             android:id="@+id/item_about_coaching"
-            layout="@layout/item_personal_center" />
+            layout="@layout/item_personal" />
 
         <include
             android:id="@+id/item_common_problem"
-            layout="@layout/item_personal_center" />
+            layout="@layout/item_personal" />
 
         <include
             android:id="@+id/item_privacy_policy"
-            layout="@layout/item_personal_center" />
+            layout="@layout/item_personal" />
 
         <include
             android:id="@+id/item_contact_us"
-            layout="@layout/item_personal_center" />
+            layout="@layout/item_personal" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

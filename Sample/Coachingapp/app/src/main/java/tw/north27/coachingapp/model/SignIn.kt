@@ -137,8 +137,8 @@ data class TeacherInfo(
     val commentScoreCountList: List<ScoreCountInfo>? = null,
     val replyRate: Double = 100.0,
     val replyCountList: List<ReplyCountInfo>? = null,
-    val replyNum: Int = 0,
-    val noReplyNum: Int = 0,
+//    val replyNum: Int = 0,
+//    val noReplyNum: Int = 0,
 
     //
     val subjectList: List<Subject>,
