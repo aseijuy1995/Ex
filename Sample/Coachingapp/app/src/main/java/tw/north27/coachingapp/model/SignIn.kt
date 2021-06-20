@@ -64,37 +64,38 @@ data class SignOutInfo(
  * 用戶資訊
  * id >> 用戶id
  * account >> 帳號
- * auth >> 權限，UNKNOWN、STUDENT、TEACHER
+ * auth >> 權限，STUDENT、TEACHER
+ * bgPath >> 背景圖
  * avatarPath >> 頭貼
  * name >> 名稱
  * gender >> 性別
- * desc >> 簡介
+ * intro >> 簡介
  * birthday >> 生日
  * cellPhone >> 手機號
  * homePhone >> 家電號
  * email >> E-Mail
- * replyRemind >> E-Mail
+ * studentInfo >> 學生資訊
+ * teacherInfo >> 老師資訊
+ * teacherInfo >> 老師資訊
+ * userConfig >> 用戶設定
  * */
 @Parcelize
 data class UserInfo(
     val id: Long,
     val account: String,
     val auth: UserPref.Authority,
-    val backgroundPath: String? = null,
+    val bgPath: String? = null,
     val avatarPath: String? = null,
     val name: String,
     val gender: Gender? = null,
-    val desc: String? = null,
+    val intro: String? = null,
     val birthday: Date? = null,
     val cellPhone: String? = null,
     val homePhone: String? = null,
     val email: String? = null,
     val studentInfo: StudentInfo? = null,
     val teacherInfo: TeacherInfo? = null,
-    //
     val userConfig: UserConfig? = null,//訊息通知開關
-    //
-
 ) : Parcelable
 
 /**
@@ -107,18 +108,18 @@ enum class Gender {
 
 /**
  * school >> 學校
- * grade >> 年級
+ * gradeId >> 年級Id
  * */
 @Parcelize
 data class StudentInfo(
-    val school: String,
-    val grade: Grade
+    val school: String? = null,
+    val gradeId: Long? = null
 ) : Parcelable
 
 /**
  * 老師資訊
- * avgCommentScore >> 平均評分(包含未回已結單的)
- * eachCommentScoreList >> 各評分數量(包含未回已結單的) - 須確定是否空的分數也要撈，目前測試資料依據有值的才撈取顯示
+ * commentScoreAvg >> 平均評分(包含未回已結單的)
+ * commentScoreCountList >> 各評分數量(包含未回已結單的) - 須確定是否空的分數也要撈，目前測試資料依據有值的才撈取顯示
 
  * replyRate >> 回覆率(包含未回以結單的)
  * replyNum >> 已回覆數
@@ -132,9 +133,10 @@ data class StudentInfo(
  * */
 @Parcelize
 data class TeacherInfo(
-    val avgCommentScore: Double = 5.0,
-    val eachCommentScoreInfoList: List<ScoreInfo> = emptyList(),
+    val commentScoreAvg: Double = 5.0,
+    val commentScoreCountList: List<ScoreCountInfo>? = null,
     val replyRate: Double = 100.0,
+    val replyCountList: List<ReplyCountInfo>? = null,
     val replyNum: Int = 0,
     val noReplyNum: Int = 0,
 
@@ -155,19 +157,19 @@ data class UserConfig(
 ) : Parcelable
 
 /**
- * grade >> 等級
+ * score >> 評分
  * count >> 數量
  * */
 @Parcelize
-data class ScoreInfo(
-    val grade: Double,
+data class ScoreCountInfo(
+    val score: Double,
     val count: Int
 ) : Parcelable
 
 /**
  * 評論
  * id >> 評論id
- * account >> 發起評論者帳號
+ * account >> 評論者帳號
  * name >> 名稱
  * score >> 評分，1~5分
  * content >> 內容
@@ -189,4 +191,14 @@ data class CommentInfo(
     val gradeId: Long,
     val subjectId: Long,
     val unitId: Long
+) : Parcelable
+
+/**
+ * reply >> 已回覆、未回覆
+ * count >> 數量
+ * */
+@Parcelize
+data class ReplyCountInfo(
+    val reply: String,
+    val count: Int
 ) : Parcelable

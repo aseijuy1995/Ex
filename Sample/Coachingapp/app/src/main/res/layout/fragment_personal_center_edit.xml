@@ -119,7 +119,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_margin="10dp"
-                android:background="@drawable/shape_solid_green_corners_radius_5"
+                android:background="@drawable/shape_solid_green_corners_radius_2"
                 android:text="@string/edit"
                 android:textColor="@color/white"
                 android:textSize="14sp" />

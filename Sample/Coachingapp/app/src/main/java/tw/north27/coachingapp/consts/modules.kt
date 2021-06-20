@@ -54,7 +54,10 @@ val viewModelModules = module {
     viewModel<SignInViewModel> { SignInViewModel(androidApplication(), get()) }
     viewModel<MainHomeViewModel> { MainHomeViewModel(androidApplication(), get(), get()) }
     viewModel<SignOutViewModel> { SignOutViewModel(androidApplication(), get()) }
+    //
+    viewModel<PublicViewModel> { PublicViewModel(androidApplication(), get() as IPublicRepository) }
     viewModel<PersonalViewModel> { PersonalViewModel(androidApplication(), get() as IUserRepository, get() as IPublicRepository) }
+
 //    //
 //    viewModel { NotifyViewModel(get()) }
 //    viewModel { ChatViewModel(get()) }

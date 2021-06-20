@@ -38,7 +38,7 @@ class PersonalCenterEditFragment : BaseFragment<FragmentPersonalCenterEditBindin
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             itemToolbarNormal.tvTitle.text = getString(R.string.edit)
-            ivBackground.bindImg(resId = viewModel.backgroundRes.value)
+            ivBackground.bindImg(resId = viewModel.bgRes.value)
             itemPersonalCenterUserEdit.apply {
                 spGender.adapter = genderAdapter
                 spGrade.adapter = gradeAdapter
@@ -65,14 +65,14 @@ class PersonalCenterEditFragment : BaseFragment<FragmentPersonalCenterEditBindin
             }
         }
 
-        viewModel.gradeListState.observe(viewLifecycleOwner) {
-            logD("it is ViewState.Data = ${it is ViewState.Data}")
-            if (it is ViewState.Data && viewModel.userState.value is ViewState.Data) {
-                val userInfo = (viewModel.userState.value as ViewState.Data).data
-                gradeAdapter.submitData(it.data)
-                binding.itemPersonalCenterUserEdit.spGrade.setSelection(it.data.indexOf(userInfo.studentInfo?.grade))
-            }
-        }
+//        viewModel.gradeListState.observe(viewLifecycleOwner) {
+//            logD("it is ViewState.Data = ${it is ViewState.Data}")
+//            if (it is ViewState.Data && viewModel.userState.value is ViewState.Data) {
+//                val userInfo = (viewModel.userState.value as ViewState.Data).data
+//                gradeAdapter.submitData(it.data)
+//                binding.itemPersonalCenterUserEdit.spGrade.setSelection(it.data.indexOf(userInfo.studentInfo?.gradeId))
+//            }
+//        }
 
         binding.itemToolbarNormal.ivBack.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()
@@ -137,7 +137,7 @@ class PersonalCenterEditFragment : BaseFragment<FragmentPersonalCenterEditBindin
 
     private fun setData(userInfo: UserInfo) {
         binding.apply {
-            userInfo.backgroundPath?.let { ivBackground.bindImg(url = it) }
+            userInfo.bgPath?.let { ivBackground.bindImg(url = it) }
             ivAvatar.bindImg(url = userInfo.avatarPath, roundingRadius = 10)
             itemPersonalCenterUserEdit.apply {
                 tvId.text = userInfo.id.toString()
@@ -151,7 +151,7 @@ class PersonalCenterEditFragment : BaseFragment<FragmentPersonalCenterEditBindin
                     else -> getString(R.string.unknown)
                 }
             }
-            itemPersonalCenterStateMsgEdit.etName.setText(userInfo.desc)
+            itemPersonalCenterStateMsgEdit.etName.setText(userInfo.intro)
             itemPersonalCenterInfoEdit.apply {
                 btnBirthday.text = userInfo.birthday?.let { SimpleDateFormat("yyyy-MM-dd", Locale.TAIWAN).format(userInfo.birthday) } ?: getString(R.string.enter_birthday)
                 etHomePhone.setText(userInfo.homePhone)

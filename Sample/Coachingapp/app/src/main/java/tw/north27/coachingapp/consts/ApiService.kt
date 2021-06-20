@@ -171,6 +171,7 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun getGradeList(@Query("education_id") educationId: Long?): List<Grade> {
         println("educationId = $educationId")
+        delay(2500)
         return if (educationId == null)
             gradeListTest
         else

@@ -12,9 +12,10 @@
         android:padding="10dp">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_state_msg_title"
+            android:id="@+id/tv_intro_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/gray_666666"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -22,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_state_msg"
+            android:id="@+id/tv_intro"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
@@ -31,10 +32,12 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             android:singleLine="true"
+            android:textColor="@color/gray_666666"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/tv_state_msg_title"
+            app:layout_constraintStart_toEndOf="@id/tv_intro_title"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.cardview.widget.CardView>

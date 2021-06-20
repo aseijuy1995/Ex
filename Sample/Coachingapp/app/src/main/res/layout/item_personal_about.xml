@@ -15,6 +15,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/gray_666666"
             android:layout_marginBottom="5dp"
             android:text="@string/about"
             android:textSize="14sp"

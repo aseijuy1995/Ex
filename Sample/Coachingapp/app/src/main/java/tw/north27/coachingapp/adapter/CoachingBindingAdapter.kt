@@ -18,15 +18,15 @@ fun TextView.bindGender(userInfo: UserInfo?) {
     @StringRes val strRes: Int
     when (userInfo?.gender) {
         Gender.MALE -> {
-            imgRes = R.drawable.shape_solid_blue_corners_radius_5
+            imgRes = R.drawable.shape_solid_blue_corners_radius_2
             strRes = R.string.male
         }
         Gender.FEMALE -> {
-            imgRes = R.drawable.shape_solid_red_corners_radius_5
+            imgRes = R.drawable.shape_solid_red_corners_radius_2
             strRes = R.string.female
         }
         else -> {
-            imgRes = R.drawable.shape_solid_green_corners_radius_5
+            imgRes = R.drawable.shape_solid_green_corners_radius_2
             strRes = R.string.not
         }
     }

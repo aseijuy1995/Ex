@@ -18,6 +18,7 @@
             android:layout_marginBottom="5dp"
             android:text="@string/personal_info"
             android:textSize="14sp"
+            android:textColor="@color/gray_666666"
             android:textStyle="bold" />
 
         <include

@@ -34,11 +34,11 @@ val commentListTest = listOf(
 /**
  * 評論各得分數量
  * */
-fun getEachCommentScoreInfoListTest(): List<ScoreInfo> {
+fun getEachCommentScoreInfoListTest(): List<ScoreCountInfo> {
     val commentScoreListTest = commentListTest.groupBy(CommentInfo::score)
-    var scoreInfoListTest = mutableListOf<ScoreInfo>()
-    commentScoreListTest.map { scoreInfoListTest.add(ScoreInfo(it.key, it.value.size)) }
-    scoreInfoListTest = scoreInfoListTest.sortedBy(ScoreInfo::grade).toMutableList()
+    var scoreInfoListTest = mutableListOf<ScoreCountInfo>()
+    commentScoreListTest.map { scoreInfoListTest.add(ScoreCountInfo(it.key, it.value.size)) }
+    scoreInfoListTest = scoreInfoListTest.sortedBy(ScoreCountInfo::score).toMutableList()
     return scoreInfoListTest
 }
 
@@ -47,8 +47,8 @@ fun getEachCommentScoreInfoListTest(): List<ScoreInfo> {
  * */
 fun getAvgCommentScore(): Double {
     val scoreListTest = getEachCommentScoreInfoListTest()
-    val score = scoreListTest.sumByDouble { it.grade * it.count }
-    val size = scoreListTest.sumBy(ScoreInfo::count)
+    val score = scoreListTest.sumByDouble { it.score * it.count }
+    val size = scoreListTest.sumBy(ScoreCountInfo::count)
     return DecimalFormat("##0.00").format(score / size).toDouble()
 }
 
@@ -63,14 +63,14 @@ val userInfoTest = UserInfo(
     cellPhone = "0912-345-678",
     homePhone = "02-3456-7890",
     email = emailTest,
-    desc = "這是簡單的自我介紹！這是簡單的自我介紹2！這是簡單的自我介紹3！這是簡單的自我介紹4！這是簡單的自我介紹5！",
+    intro = "這是簡單的自我介紹！這是簡單的自我介紹2！這是簡單的自我介紹3！這是簡單的自我介紹4！這是簡單的自我介紹5！",
     studentInfo = StudentInfo(
         school = "新北市板橋區板橋國小",
-        grade = Grade(id = 8, text = "(國中)二年級", educationId = 2),
+        gradeId = 8,
     ),
     teacherInfo = TeacherInfo(
-        avgCommentScore = getAvgCommentScore(),
-        eachCommentScoreInfoList = getEachCommentScoreInfoListTest(),
+        commentScoreAvg = getAvgCommentScore(),
+        commentScoreCountList = getEachCommentScoreInfoListTest(),
         replyNum = 130,
         noReplyNum = 8,
         replyRate = 94.2,
@@ -278,7 +278,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/446/248/normal/naumcr.png?1608264749",
         name = "北京郭老師",
         email = "beijingTeacherGuo@gmail.com",
-        desc = "\uD83C\uDF1E\uD83C\uDF1E\uD83C\uDF1E介紹新學生，免費領課程，詳情請諮詢我哦。\n" +
+        intro = "\uD83C\uDF1E\uD83C\uDF1E\uD83C\uDF1E介紹新學生，免費領課程，詳情請諮詢我哦。\n" +
                 "\uD83C\uDF1E\uD83C\uDF1E\uD83C\uDF1E我是一名全職老師，如有未適合您的上課時間，請聯繫我。\n" +
                 "\uD83C\uDF1E\uD83C\uDF1E\uD83C\uDF1E提供25分鐘、50分鐘、80分鐘、110分鐘及定製時間的課程包，購課前可私訊詢問，謝謝。\n" +
                 "\uD83C\uDF1E\uD83C\uDF1E\uD83C\uDF1E我的團隊還有其他非常非常優秀的中文老師，如您需要，請聯繫我。\n" +
@@ -353,7 +353,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\uD83C\uDFC6高效，快速提升您的中文聽說聽力技能水平\n" +
                 "\uD83C\uDFC6夯實您的中文語法水平",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 4.99,
+            commentScoreAvg = 4.99,
             replyNum = 117,
             replyRate = 92.0,
             subjectList = listOf(
@@ -369,7 +369,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/461/549/normal/fdekja.png?1616501949",
         name = "Begonia老師",
         email = "begonia@gmail.com",
-        desc = "【Begonia老師是誰？】\n" +
+        intro = "【Begonia老師是誰？】\n" +
                 "\n" +
                 "\uD83C\uDF38 美國 TCSOL (成人/少兒) 師資認證\n" +
                 "\uD83C\uDF38 英國 TQUK 師資認證\n" +
@@ -434,7 +434,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "✨ 著重閱讀理解技巧及文法訓練\n" +
                 "✨ 寫作練習",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 165,
             replyRate = 100.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
@@ -448,7 +448,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/063/801/normal/dliopk.png?1587162839",
         name = "KIWI",
         email = "kIWI@gmail.com",
-        desc = " \uD83D\uDD35團課滿班滿班滿班~~~熱門團課→\uD83D\uDFE0幼兒4yr ↑ 識字團課+小一翰林+知識中文團課 \uD83D\uDFE1一直開一直開 一直開\uD83D\uDFE2~快來尋問團班時段哦！\uD83D\uDFE1\n" +
+        intro = " \uD83D\uDD35團課滿班滿班滿班~~~熱門團課→\uD83D\uDFE0幼兒4yr ↑ 識字團課+小一翰林+知識中文團課 \uD83D\uDFE1一直開一直開 一直開\uD83D\uDFE2~快來尋問團班時段哦！\uD83D\uDFE1\n" +
                 "\uD83D\uDC8E(為了讓學生能夠達成學習目標，Kiwi花很多的時間備課，所以課表上沒開放太多的時間，若要約課，請傳訊息，Kiwi會幫妳約哦！)\uD83D\uDC8E\n" +
                 "♥️♥️我是Kiwi老師，來自台灣，目前定居加拿大，來看看我的課有什麼特別的♥️♥️\n" +
                 "\n" +
@@ -511,7 +511,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "➤ 老師在台灣時，就是教兒童美語的老師\n" +
                 "➤一起幫助孩子，能夠開心愉快學習， 長大後才會感謝我們 !",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 4.99,
+            commentScoreAvg = 4.99,
             replyNum = 62,
             replyRate = 100.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
@@ -525,7 +525,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/569/220/normal/ajaavn.png?1616236503",
         name = "郭老師",
         email = "mrGuo@gmail.com",
-        desc = "\uD83C\uDF88持有國家普通話證書\n" +
+        intro = "\uD83C\uDF88持有國家普通話證書\n" +
                 "\uD83C\uDF88擅長教兒童普通話口說\n" +
                 "\uD83C\uDF88持有國家教師資格證書並獲得優秀教師稱號\n" +
                 "\uD83C\uDF88了解兒童教育學和心理學\n" +
@@ -561,7 +561,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\uD83C\uDFAF普通話正音\n" +
                 "\uD83C\uDFAF商務普通話",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 4.91,
+            commentScoreAvg = 4.91,
             replyNum = 10,
             replyRate = 93.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
@@ -575,7 +575,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/099/404/normal/iepcgn.png?1596331985",
         name = "Jason",
         email = "jason@gmail.com",
-        desc = "✨曾於美國新常春藤名校任教\n" +
+        intro = "✨曾於美國新常春藤名校任教\n" +
                 "✨曾拿獎學金赴美協助華語教學\n" +
                 "✨協助外籍學生申請通過台灣華語文獎學金 \n" +
                 "✨二十年中文教學資歷 \n" +
@@ -621,7 +621,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "✌2. 免費分享題庫及講義-課堂上的講義或教材無償提供, 也會分享線上題庫.\n" +
                 "✌3. 免費分享線上app及軟體-讓您離線也能學中文! 線上教太極及氣功, 讓您學中文又能體會中華文化!",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 18,
             replyRate = 89.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
@@ -635,7 +635,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/361/494/normal/uzuuno.png?1603293537",
         name = "Rosalie",
         email = "rosalie@gmail.com",
-        desc = "＊ 日本東京早稻田大學國際教養學部畢業，主修語言學\n" +
+        intro = "＊ 日本東京早稻田大學國際教養學部畢業，主修語言學\n" +
                 "＊ 母語中文，熱愛學習外語，有五年旅居美國、日本、德國經驗\n" +
                 "＊ 英、日、德、西 豐富四國外語學習經驗 \n" +
                 "＊ TOEFL 107｜IELTS 7｜JLPT N1\n" +
@@ -660,7 +660,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\n" +
                 "我已經迫不及待地想在課堂中見到您，讓我們一起輕鬆快樂地學習中文吧！",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 174,
             replyRate = 88.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
@@ -674,7 +674,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/567/933/normal/pgnyro.png?1619936582",
         name = "Shen",
         email = "shen@gmail.com",
-        desc = "*语言: 中文，粤语，英语，日语，马来语\n" +
+        intro = "*语言: 中文，粤语，英语，日语，马来语\n" +
                 "*5年日本东京留学经验\n" +
                 "*毕业于日本前三私立大学\n" +
                 "*2年内取得日语能力考试 JLPT N1 \n" +
@@ -702,7 +702,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "*课程以互动方式进行！每个学生都有机会在班上练习口语能力！\n" +
                 "*告诉我你的学习目标，课程内容根据你的需求而定制！",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 68,
             replyRate = 98.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
@@ -716,7 +716,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/251/483/normal/egloms.png?1621571602",
         name = "昱君",
         email = "yujun@gmail.com",
-        desc = "\u200B\u200B\uD83D\uDD05華語文學碩士｜擅長國文科升學考試\n" +
+        intro = "\u200B\u200B\uD83D\uDD05華語文學碩士｜擅長國文科升學考試\n" +
                 "\u200B\u200B\uD83D\uDD05漢拼、注音、簡體、繁體｜各階段國文課程\n" +
                 "\uD83D\uDD05\u200B\u200B6年補教經驗，學生橫跨歐亞\n" +
                 "\uD83D\uDD05\u200B\u200B注重口說，教你最實用的中文，上課笑聲滿滿\n" +
@@ -791,7 +791,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\u200B\u200B1、上課記得準時，老師最多會等你10分鐘哦\n" +
                 "2、\u200B\u200B取消課程記得提前12小時，若無故未出席會視為課程完成哦",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 68,
             replyRate = 98.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
@@ -805,7 +805,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/599/265/normal/notdfj.png?1618969308",
         name = "語語老師",
         email = "languageTeacher@gmail.com",
-        desc = "作文指導學生北區第一名/曾任北部升學私校老師\n" +
+        intro = "作文指導學生北區第一名/曾任北部升學私校老師\n" +
                 "閱讀寫作比賽和小論文指導特優\n" +
                 "曾於北部男校實習\n" +
                 "對於混合題和國寫掌握度高\n" +
@@ -835,7 +835,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "希望有問題可以在課堂反應，或是預約時讓我先知道你確切的需求\n" +
                 "願你們都能享受高中國文課!",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 5,
             replyRate = 100.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
@@ -849,7 +849,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/296/765/normal/cxdnzo.png?1620804540",
         name = "Elaine姐姐",
         email = "elaineSister@gmail.com",
-        desc = "\uD83D\uDE06大家好,我是小朋友最愛的Elaine姐姐\uD83D\uDE09\n" +
+        intro = "\uD83D\uDE06大家好,我是小朋友最愛的Elaine姐姐\uD83D\uDE09\n" +
                 "\n" +
                 "\uD83C\uDF1F 普通話母語,發音標準清晰\n" +
                 "\uD83C\uDF1F 幼兒普通話教學經驗豐富\n" +
@@ -917,7 +917,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\uD83D\uDC95 如會遲到請提前通知老師，超過15分鐘後還是未到， 就不能返還課時費了哦\n" +
                 "\uD83D\uDC95 如需要改期或特殊情況，請提前私訊老師哦，謝謝理解~",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 5,
             replyRate = 100.0,
             subjectList = listOf(Subject(id = 1, text = "國語", educationIdList = listOf(1), gradleIdList = listOf(1, 2, 3, 4, 5, 6))),
@@ -931,7 +931,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/479/379/normal/joicff.png?1619497946",
         name = "小鹿",
         email = "fawn@gmail.com",
-        desc = "▼   為什麼選擇小鹿老師呢   ▼\n" +
+        intro = "▼   為什麼選擇小鹿老師呢   ▼\n" +
                 "\uD83D\uDC8E   超過四年厚實的教學經驗\n" +
                 "\uD83D\uDC8E   能流利地運用英語或中文講課\n" +
                 "\uD83D\uDC8E   擁有面對國小  /   國中  /   高中學生的豐富教學資歷\n" +
@@ -1037,7 +1037,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\n" +
                 "『  人們總覺得數學很難，是因為他們不理解生活有多複雜  』",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 72,
             replyRate = 94.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
@@ -1051,7 +1051,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/609/572/normal/nlhdtn.png?1620446864",
         name = "Tony",
         email = "tony@gmail.com",
-        desc = "\uD83D\uDD25  【感謝為疫情付出的所有夥伴們】\uD83D\uDD25\n" +
+        intro = "\uD83D\uDD25  【感謝為疫情付出的所有夥伴們】\uD83D\uDD25\n" +
                 "自 5/17 日開始，警消、醫護人員\n" +
                 "兩人同行，一人免費！！！\n" +
                 "警消醫護人員以外的各位同學，買十堂課以上⬆️\n" +
@@ -1112,7 +1112,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "3. 有複習、常練習才能進步，Tony的唯一要求就是自律複習\n" +
                 "4. 如果可以，在課堂前準備問題在課堂中問我，釐清觀念，是我認為最有效率的數學學習方法！",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 137,
             replyRate = 96.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
@@ -1126,7 +1126,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/455/173/normal/zotfqi.png?1622626688",
         name = "黃曜",
         email = "huangYao@gmail.com",
-        desc = "會說中文\n" +
+        intro = "會說中文\n" +
                 "\n" +
                 "✨成大碩士，資深補教老師，經驗１３年數學教學專家 \uD83D\uDC69\u200D\uD83C\uDFEB詳見下方全部介紹\n" +
                 "✨公立國中科任、補救教學合格專任老師\n" +
@@ -1178,7 +1178,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "Ｗ同學 指導三個月：會考數學由C進步至B++\n" +
                 "Ｌ同學 指導一個月：再興中學數學成績進步20分",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 4.98,
+            commentScoreAvg = 4.98,
             replyNum = 41,
             replyRate = 100.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
@@ -1192,7 +1192,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/451/824/normal/xnqqha.png?1622043540",
         name = "鈺飯糰",
         email = "yuRiceBall@gmail.com",
-        desc = "\uD83D\uDCA1 關於我：\n" +
+        intro = "\uD83D\uDCA1 關於我：\n" +
                 "\uD83D\uDC4D 中央大學數學系畢業，6年以上教學經驗的數學老師\n" +
                 "\uD83D\uDC4D 擁有合格的中等學校教師證\n" +
                 "\uD83D\uDC4D 教師心算七段、珠算二級\n" +
@@ -1265,7 +1265,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "學習要持續，最快的捷徑就是穩紮穩打，一週至少安排一~二堂課，持續練習才能進步!   \n" +
                 "想探索自己的無限潛力？私訊我，來上課吧！",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 75,
             replyRate = 95.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
@@ -1279,7 +1279,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/063/813/normal/ctuqky.png?1622635992",
         name = "Wendy",
         email = "wendy@gmail.com",
-        desc = "\uD83C\uDF93畢業於國立交通大學資訊科學與工程研究所\n" +
+        intro = "\uD83C\uDF93畢業於國立交通大學資訊科學與工程研究所\n" +
                 "\uD83C\uDF93畢業於國立中興大學應用數學系\n" +
                 "\uD83D\uDC69\u200D\uD83C\uDFEB六年的國高中數學與國中英文教學經驗\n" +
                 "\uD83D\uDC69\u200D\uD83C\uDFEB曾任新竹市東區龍山國小課輔志工老師\n" +
@@ -1327,7 +1327,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "⚠️請假最晚需在課堂預定開始時間前一天提出，若無故缺課且無正當理由，則不予補課\n" +
                 "舉例：若上課時間為週三晚間六點，則最晚需於週二提出請假需求。",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 10,
             replyRate = 94.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
@@ -1341,7 +1341,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/554/816/normal/dvpvff.png?1623083477",
         name = "艾德老師",
         email = "teacherEd@gmail.com",
-        desc = "\uD83D\uDD25台大機械畢業、準成大碩士，理學專精的鎮瑋老師教你如何翻轉數學\uD83D\uDD25\n" +
+        intro = "\uD83D\uDD25台大機械畢業、準成大碩士，理學專精的鎮瑋老師教你如何翻轉數學\uD83D\uDD25\n" +
                 "\uD83C\uDFC5台大畢業\uD83C\uDF93機械專業｜成大數學研究所｜曾任知名公司工程師\n" +
                 "\uD83C\uDFC5七年教學經驗｜學生數破百｜教學經驗豐富、授課品質保證\n" +
                 "\uD83C\uDFC5專精多元化；小學、國中會考、指考、學測、高職統測\n" +
@@ -1387,7 +1387,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "✨ 同學應該進行課後溫習，以達到理想學習目標\n" +
                 "✨ 關於數學課程或有什麼疑問，歡迎私訊我，謝謝 \uD83D\uDE0A",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 45,
             replyRate = 100.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
@@ -1401,7 +1401,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/634/982/normal/zyynym.png?1620654754",
         name = "P老師",
         email = "teacherP@gmail.com",
-        desc = "【跟著P老師學數學是你最好的選擇】\n" +
+        intro = "【跟著P老師學數學是你最好的選擇】\n" +
                 "✏️臺灣師範大學化學所，家教課輔經驗超過3年\n" +
                 "✏️目前為有機化學助教、國中數學科學習扶助老師\n" +
                 "✏️用最口語化的方式來講解數學，讓學習數學的過程不再恐懼，而是知識上的成就感\n" +
@@ -1432,7 +1432,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "3. 有複習、常練習才能進步\n" +
                 "4. 正式課程10分鐘或體驗課程5分鐘未進教室，視為曠課。該預約課程不退款",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 9,
             replyRate = 98.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
@@ -1446,7 +1446,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/441/685/normal/wfmjtk.png?1606956448",
         name = "Rick",
         email = "rick@gmail.com",
-        desc = "15年1對1數學家教經驗，250位以上1對1教學個案\n" +
+        intro = "15年1對1數學家教經驗，250位以上1對1教學個案\n" +
                 "帶過學測，指考，統測，國中會考，學校考試，轉學考，1對1手把手教學，幫助您達成考試目標。\n" +
                 "數學不可怕，沒人問進度堆積才可怕，您只需要經驗豐富的人來幫，歡迎與我聯繫，讓我來幫您解決問題和煩惱~~\n" +
                 "\n" +
@@ -1469,7 +1469,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\n" +
                 "如果您願意努力，只是缺一個能幫助您實現目標的人，歡迎來找我，很樂意為您服務。",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 2,
             replyRate = 100.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
@@ -1483,7 +1483,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/670/122/normal/dqwziv.png?1622181815",
         name = "\uD83C\uDF38Massie",
         email = "massie@gmail.com",
-        desc = "✨留英6年名校畢業，A LEVEL 數學A*，具有3年以上教育經驗，港大電力工程硕士 \uD83D\uDC69\uD83C\uDFFB\u200D\uD83C\uDFED\n" +
+        intro = "✨留英6年名校畢業，A LEVEL 數學A*，具有3年以上教育經驗，港大電力工程硕士 \uD83D\uDC69\uD83C\uDFFB\u200D\uD83C\uDFED\n" +
                 "\uD83D\uDC31 OCR A level/GCSE數學； STEM；學生提供的教材\n" +
                 "\uD83E\uDD17 按照教材內容和學生水平制定私人化課程，著重講解學生想學的部分，結合實際應用講解，讓學生更好地融入課堂，以有趣的方式學習新知識 ^ ^\n" +
                 "\n" +
@@ -1493,7 +1493,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "\uD83C\uDF38數學課程：若學生沒有教材，老師會為學生準備教材，並定時進行模擬考試，以及每堂課提供練習鞏固，修改會在課後第二天發送給學生。若學生要求，可在試課前進行一次模擬考。\n" +
                 "教學範圍：小學，初中，A Level數學，GCSE 數學，DSE 數學，大學電子工程數學",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 13,
             replyRate = 98.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),
@@ -1507,7 +1507,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         avatarPath = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/464/931/normal/xdmhqp.png?1609914398",
         name = "謝寶Ging",
         email = "ging@gmail.com",
-        desc = "✅活化數學教學\uD83D\uDCA1模式\n" +
+        intro = "✅活化數學教學\uD83D\uDCA1模式\n" +
                 "✅17年專業教學\uD83D\uDCAF.教過5000位以上學生資歷\n" +
                 "✅1對7家教不同領域範疇精英教學3年多經驗\uD83E\uDD13\n" +
                 "✅帶領小六學生考取國中資優班\uD83E\uDDE0錄取率百分之八十五以上\n" +
@@ -1579,7 +1579,7 @@ val teacherInfoListTest = listOf<UserInfo>(
                 "而不是一昧背誦題目做法的填鴨式教法\n" +
                 "㊙️課外有問題也能問我",
         teacherInfo = TeacherInfo(
-            avgCommentScore = 5.0,
+            commentScoreAvg = 5.0,
             replyNum = 14,
             replyRate = 100.0,
             subjectList = listOf(Subject(id = 2, text = "數學", educationIdList = listOf(1, 2, 3), gradleIdList = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))),

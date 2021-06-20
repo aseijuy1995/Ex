@@ -31,7 +31,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
-                android:background="@drawable/shape_solid_green_corners_radius_5"
+                android:background="@drawable/shape_solid_green_corners_radius_2"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 

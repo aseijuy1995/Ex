@@ -70,50 +70,50 @@ class CommentListFragment : BaseFragment<FragmentCommentListBinding>(R.layout.fr
             }
         }
 
-        viewModel.educationListState.observe(viewLifecycleOwner) {
-            if (it is ViewState.Empty)
-                educationAdapter.submitData(listOf(viewModel.defaultEducation))
-            else if (it is ViewState.Data) {
-                val educationList = it.data.toMutableList()
-                educationList.add(0, viewModel.defaultEducation)
-                educationAdapter.submitData(educationList)
-            }
-            if (it is ViewState.Empty || it is ViewState.Data)
-                binding.itemDrawerLayoutComment.spEducation.setSelection(0)
-        }
-        viewModel.gradeListState.observe(viewLifecycleOwner) {
-            if (it is ViewState.Empty)
-                gradeAdapter.submitData(listOf(viewModel.defaultGradle))
-            else if (it is ViewState.Data) {
-                val gradleList = it.data.toMutableList()
-                gradleList.add(0, viewModel.defaultGradle)
-                gradeAdapter.submitData(gradleList)
-            }
-            if (it is ViewState.Empty || it is ViewState.Data)
-                binding.itemDrawerLayoutComment.spGrade.setSelection(0)
-        }
-        viewModel.subjectListState.observe(viewLifecycleOwner) {
-            if (it is ViewState.Empty)
-                subjectAdapter.submitData(listOf(viewModel.defaultSubject))
-            else if (it is ViewState.Data) {
-                val subjectList = it.data.toMutableList()
-                subjectList.add(0, viewModel.defaultSubject)
-                subjectAdapter.submitData(subjectList)
-            }
-            if (it is ViewState.Empty || it is ViewState.Data)
-                binding.itemDrawerLayoutComment.spSubject.setSelection(0)
-        }
-        viewModel.unitListState.observe(viewLifecycleOwner) {
-            if (it is ViewState.Empty)
-                unitAdapter.submitData(listOf(viewModel.defaultUnit))
-            else if (it is ViewState.Data) {
-                val unitList = it.data.toMutableList()
-                unitList.add(0, viewModel.defaultUnit)
-                unitAdapter.submitData(unitList)
-            }
-            if (it is ViewState.Empty || it is ViewState.Data)
-                binding.itemDrawerLayoutComment.spUnit.setSelection(0)
-        }
+//        viewModel.educationListState.observe(viewLifecycleOwner) {
+//            if (it is ViewState.Empty)
+//                educationAdapter.submitData(listOf(viewModel.defaultEducation))
+//            else if (it is ViewState.Data) {
+//                val educationList = it.data.toMutableList()
+//                educationList.add(0, viewModel.defaultEducation)
+//                educationAdapter.submitData(educationList)
+//            }
+//            if (it is ViewState.Empty || it is ViewState.Data)
+//                binding.itemDrawerLayoutComment.spEducation.setSelection(0)
+//        }
+//        viewModel.gradeListState.observe(viewLifecycleOwner) {
+//            if (it is ViewState.Empty)
+//                gradeAdapter.submitData(listOf(viewModel.defaultGradle))
+//            else if (it is ViewState.Data) {
+//                val gradleList = it.data.toMutableList()
+//                gradleList.add(0, viewModel.defaultGradle)
+//                gradeAdapter.submitData(gradleList)
+//            }
+//            if (it is ViewState.Empty || it is ViewState.Data)
+//                binding.itemDrawerLayoutComment.spGrade.setSelection(0)
+//        }
+//        viewModel.subjectListState.observe(viewLifecycleOwner) {
+//            if (it is ViewState.Empty)
+//                subjectAdapter.submitData(listOf(viewModel.defaultSubject))
+//            else if (it is ViewState.Data) {
+//                val subjectList = it.data.toMutableList()
+//                subjectList.add(0, viewModel.defaultSubject)
+//                subjectAdapter.submitData(subjectList)
+//            }
+//            if (it is ViewState.Empty || it is ViewState.Data)
+//                binding.itemDrawerLayoutComment.spSubject.setSelection(0)
+//        }
+//        viewModel.unitListState.observe(viewLifecycleOwner) {
+//            if (it is ViewState.Empty)
+//                unitAdapter.submitData(listOf(viewModel.defaultUnit))
+//            else if (it is ViewState.Data) {
+//                val unitList = it.data.toMutableList()
+//                unitList.add(0, viewModel.defaultUnit)
+//                unitAdapter.submitData(unitList)
+//            }
+//            if (it is ViewState.Empty || it is ViewState.Data)
+//                binding.itemDrawerLayoutComment.spUnit.setSelection(0)
+//        }
 
         binding.itemToolbarNormal.ivBack.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()
@@ -127,35 +127,35 @@ class CommentListFragment : BaseFragment<FragmentCommentListBinding>(R.layout.fr
             getCommentList()
         }
 
-        binding.itemDrawerLayoutComment.spEducation.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                viewModel.getGradeList(educationId = id)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
-
-        binding.itemDrawerLayoutComment.spGrade.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val education = binding.itemDrawerLayoutComment.spEducation.selectedItem as Education
-                viewModel.getSubjectList(educationId = education.id, gradeId = id)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
-
-        binding.itemDrawerLayoutComment.spSubject.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val education = binding.itemDrawerLayoutComment.spEducation.selectedItem as Education
-                val grade = binding.itemDrawerLayoutComment.spGrade.selectedItem as Grade
-                viewModel.getUnitList(educationId = education.id, gradeId = grade.id, subjectId = id)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
-        }
+//        binding.itemDrawerLayoutComment.spEducation.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                viewModel.getGradeList(educationId = id)
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//            }
+//        }
+//
+//        binding.itemDrawerLayoutComment.spGrade.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                val education = binding.itemDrawerLayoutComment.spEducation.selectedItem as Education
+//                viewModel.getSubjectList(educationId = education.id, gradeId = id)
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//            }
+//        }
+//
+//        binding.itemDrawerLayoutComment.spSubject.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                val education = binding.itemDrawerLayoutComment.spEducation.selectedItem as Education
+//                val grade = binding.itemDrawerLayoutComment.spGrade.selectedItem as Grade
+//                viewModel.getUnitList(educationId = education.id, gradeId = grade.id, subjectId = id)
+//            }
+//
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//            }
+//        }
 
         binding.itemDrawerLayoutComment.spUnit.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -181,10 +181,10 @@ class CommentListFragment : BaseFragment<FragmentCommentListBinding>(R.layout.fr
     }
 
     private fun getDefaultSelection() {
-        viewModel.getEducationList()
-        viewModel.getGradeList()
-        viewModel.getSubjectList()
-        viewModel.getUnitList()
+//        viewModel.getEducationList()
+//        viewModel.getGradeList()
+//        viewModel.getSubjectList()
+//        viewModel.getUnitList()
     }
 
     private fun getCommentList() {
@@ -193,13 +193,13 @@ class CommentListFragment : BaseFragment<FragmentCommentListBinding>(R.layout.fr
         val subject = binding.itemDrawerLayoutComment.spSubject.selectedItem as Subject
         val unit = binding.itemDrawerLayoutComment.spUnit.selectedItem as Unit
         logI("grade.id = ${grade.id}, subject.id = ${subject.id}, unit.id = ${unit.id}")
-        viewModel.getCommentList(
-            educationId = education.id,
-            gradeId = grade.id,
-            subjectId = subject.id,
-            unitId = unit.id,
-            index = 0,
-            num = 10
-        )
+//        viewModel.getCommentList(
+//            educationId = education.id,
+//            gradeId = grade.id,
+//            subjectId = subject.id,
+//            unitId = unit.id,
+//            index = 0,
+//            num = 10
+//        )
     }
 }

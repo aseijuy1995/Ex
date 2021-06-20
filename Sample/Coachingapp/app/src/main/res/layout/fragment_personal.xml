@@ -21,7 +21,7 @@
             app:scrimAnimationDuration="500">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_background"
+                android:id="@+id/iv_bg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
