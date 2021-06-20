@@ -1,31 +1,19 @@
-//package tw.north27.coachingapp.ui2.fragment.main
-//
-//import android.os.Bundle
-//import android.view.View
-//import com.google.android.material.tabs.TabLayout
-//import com.google.android.material.tabs.TabLayoutMediator
-//import com.jakewharton.rxbinding4.view.clicks
-//import com.yujie.utilmodule.UserPref
-//import com.yujie.utilmodule.base.BaseFragment
-//import com.yujie.utilmodule.ext.observe
-//import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-//import tw.north27.coachingapp.R
-//import tw.north27.coachingapp.adapter.ChatPagerAdapter
-//import tw.north27.coachingapp.adapter.ChatReadIndex
-//import tw.north27.coachingapp.chat.ChatViewModel
-//import tw.north27.coachingapp.databinding.FragmentQuestionAreaBinding
-//import tw.north27.coachingapp.model.UserInfo
-//import tw.north27.coachingapp.model.result.*
-//
-//class QuestionAreaFragment : BaseFragment<FragmentQuestionAreaBinding>(R.layout.fragment_question_area) {
-//
-//    override val viewBindingFactory: (View) -> FragmentQuestionAreaBinding
-//        get() = FragmentQuestionAreaBinding::bind
-//
+package tw.north27.coachingapp.ui.launch2
+
+import android.view.View
+import com.yujie.utilmodule.base.BaseFragment
+import tw.north27.coachingapp.R
+import tw.north27.coachingapp.databinding.FragmentAskBinding
+
+class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
+
+    override val viewBind: (View) -> FragmentAskBinding
+        get() = FragmentAskBinding::bind
+
 //    private val viewModel by sharedViewModel<ChatViewModel>()
-//
+
 //    private lateinit var adapter: ChatPagerAdapter
-//
+
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        super.onViewCreated(view, savedInstanceState)
 ////        doubleClickToExit()
@@ -98,5 +86,5 @@
 //        ChatReadIndex.UN_READ.index -> getString(R.string.un_read)
 //        else -> null
 //    }
-//
-//}
+
+}

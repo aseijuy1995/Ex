@@ -19,7 +19,7 @@ import tw.north27.coachingapp.adapter.GenderAdapter
 import tw.north27.coachingapp.adapter.GradeAdapter
 import tw.north27.coachingapp.databinding.FragmentPersonalCenterEditBinding
 import tw.north27.coachingapp.model.UserInfo
-import tw.north27.coachingapp.viewModel.PersonalCenterViewModel
+import tw.north27.coachingapp.viewModel.PersonalViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,7 +28,7 @@ class PersonalCenterEditFragment : BaseFragment<FragmentPersonalCenterEditBindin
     override val viewBind: (View) -> FragmentPersonalCenterEditBinding
         get() = FragmentPersonalCenterEditBinding::bind
 
-    private val viewModel by sharedViewModel<PersonalCenterViewModel>()
+    private val viewModel by sharedViewModel<PersonalViewModel>()
 
     private val genderAdapter = GenderAdapter()
 

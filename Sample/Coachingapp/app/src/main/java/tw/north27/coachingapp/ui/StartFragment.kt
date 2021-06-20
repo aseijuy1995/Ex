@@ -23,6 +23,7 @@ import tw.north27.coachingapp.databinding.FragmentStartBinding
 import tw.north27.coachingapp.ext.updateApp
 import tw.north27.coachingapp.model.AppState
 import tw.north27.coachingapp.model.SignInState
+import tw.north27.coachingapp.ui.launch2.Launch2Activity
 import tw.north27.coachingapp.viewModel.StartViewModel
 
 

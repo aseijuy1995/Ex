@@ -1,25 +1,18 @@
-//package tw.north27.coachingapp.ui2.fragment.main
-//
-//import android.os.Bundle
-//import android.view.View
-//import androidx.core.content.ContextCompat
-//import androidx.paging.LoadState
-//import androidx.recyclerview.widget.DividerItemDecoration
-//import androidx.recyclerview.widget.LinearLayoutManager
-//import com.google.android.material.snackbar.Snackbar
-//import kotlinx.coroutines.flow.collectLatest
-//import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-//import tw.north27.coachingapp.R
-//import tw.north27.coachingapp.adapter.NotifyListAdapter
-//import tw.north27.coachingapp.databinding.FragmentNoticeCenterBinding
-//import tw.north27.coachingapp.notify.BaseLoadStateAdapter
-//import tw.north27.coachingapp.notify.NotifyViewModel
-//
-////https://github.com/android/architecture-components-samples/issues/281
-////https://gist.github.com/guness/df12d8cc4f595af1395f4a1f5bca5f00
-//
-//class NoticeCenterFragment : BaseDataBindingFragment<FragmentNoticeCenterBinding>(R.layout.fragment_notice_center) {
-//
+package tw.north27.coachingapp.ui.launch2
+
+import android.view.View
+import com.yujie.utilmodule.base.BaseFragment
+import tw.north27.coachingapp.R
+import tw.north27.coachingapp.databinding.FragmentNoticeBinding
+
+//https://github.com/android/architecture-components-samples/issues/281
+//https://gist.github.com/guness/df12d8cc4f595af1395f4a1f5bca5f00
+
+class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_notice) {
+
+    override val viewBind: (View) -> FragmentNoticeBinding
+        get() = FragmentNoticeBinding::bind
+
 //    private val viewModel by sharedViewModel<NotifyViewModel>()
 //
 //    private lateinit var loadAdapter: BaseLoadStateAdapter
@@ -30,7 +23,7 @@
 //        super.onViewCreated(view, savedInstanceState)
 //        binding.apply {
 //            lifecycleOwner = viewLifecycleOwner
-//            viewModel = this@NoticeCenterFragment.viewModel
+//            viewModel = this@NoticeFragment.viewModel
 //        }
 //        doubleClickToExit()
 //        loadAdapter = BaseLoadStateAdapter(viewLifecycleOwner, compositeDisposable)
@@ -39,7 +32,7 @@
 //            addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
 //                setDrawable(ContextCompat.getDrawable(cxt, R.drawable.shape_size_height_5_solid_gray) ?: return)
 //            })
-//            adapter = this@NoticeCenterFragment.adapter.withLoadStateFooter(loadAdapter)
+//            adapter = this@NoticeFragment.adapter.withLoadStateFooter(loadAdapter)
 //        }
 //
 //        viewModel.getNotifyList().observe(viewLifecycleOwner) {
@@ -131,5 +124,5 @@
 //            }
 //        }
 //    }
-//
-//}
+
+}

@@ -13,7 +13,7 @@
             android:id="@+id/ctl_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:collapsedTitleGravity="start"
+            app:collapsedTitleGravity="center"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleGravity="start|bottom"
             app:expandedTitleMargin="10dp"
@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 app:layout_collapseMode="pin"
-                app:title="@string/personal_center" />
+                app:title="@string/personal" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -40,7 +40,7 @@
 
     <include
         android:id="@+id/item_data"
-        layout="@layout/fragment_personal_center_data"
+        layout="@layout/fragment_personal_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
@@ -68,7 +68,7 @@
 
     <include
         android:id="@+id/item_shimmer"
-        layout="@layout/fragment_personal_center_load"
+        layout="@layout/fragment_personal_load"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />

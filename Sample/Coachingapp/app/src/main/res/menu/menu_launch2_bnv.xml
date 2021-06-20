@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/fragment_main_home"
+        android:id="@+id/fragment_coaching"
         android:icon="@drawable/ic_twotone_school_24_white"
-        android:title="@string/main_home"
-        app:showAsAction="always" />
+        android:title="@string/coaching" />
 
     <item
-        android:id="@+id/fragment_question_area"
+        android:id="@+id/fragment_ask"
         android:icon="@drawable/ic_twotone_question_answer_24_white"
-        android:title="@string/question_area"
-        app:showAsAction="always" />
+        android:title="@string/question_area" />
 
     <item
-        android:id="@+id/fragment_study_room"
+        android:id="@+id/fragment_study"
         android:icon="@drawable/ic_twotone_chrome_reader_mode_24_white"
-        android:title="@string/study_room"
-        app:showAsAction="always" />
+        android:title="@string/study_room" />
 
     <item
-        android:id="@+id/fragment_notice_center"
+        android:id="@+id/fragment_notice"
         android:icon="@drawable/ic_twotone_notifications_24_white"
-        android:title="@string/notice_center"
-        app:showAsAction="always" />
+        android:title="@string/notice" />
 
     <item
-        android:id="@+id/fragment_personal_center"
+        android:id="@+id/fragment_personal"
         android:icon="@drawable/ic_twotone_person_24_white"
-        android:title="@string/personal_center"
-        app:showAsAction="always" />
+        android:title="@string/personal" />
 </menu>

@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui//package tw.north27.coachingapp.ui
+package tw.north27.coachingapp.ui.launch2//package tw.north27.coachingapp.ui
 
 import android.os.Bundle
 import android.view.View
@@ -17,17 +17,17 @@ import com.yujie.utilmodule.util.logI
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
-import tw.north27.coachingapp.databinding.FragmentMainHomeBinding
+import tw.north27.coachingapp.databinding.FragmentCoachingBinding
 import tw.north27.coachingapp.model.Education
 import tw.north27.coachingapp.model.Grade
 import tw.north27.coachingapp.model.Subject
 import tw.north27.coachingapp.model.Unit
 import tw.north27.coachingapp.viewModel.MainHomeViewModel
 
-class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment_main_home) {
+class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment_coaching) {
 
-    override val viewBind: (View) -> FragmentMainHomeBinding
-        get() = FragmentMainHomeBinding::bind
+    override val viewBind: (View) -> FragmentCoachingBinding
+        get() = FragmentCoachingBinding::bind
 
     private val adapter = TeacherListAdapter()
 
@@ -127,7 +127,7 @@ class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment
         }
 
         adapter.itemClickRelay.observe(viewLifecycleOwner) {
-            findNavController().navigate(MainHomeFragmentDirections.actionFragmentMainHomeToFragmentTeacherDetailDialog(it.second))
+            findNavController().navigate(CoachingFragmentDirections.actionFragmentCoachingToFragmentTeacherDetailDialog(it.second))
         }
 
         binding.itemDrawerLayoutMainHome.spEducation.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {

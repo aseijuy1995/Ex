@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui
+package tw.north27.coachingapp.ui.launch2
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -28,7 +28,7 @@ import tw.north27.coachingapp.adapter.CommentListAdapter
 import tw.north27.coachingapp.databinding.FragmentPersonalBinding
 import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.UserInfo
-import tw.north27.coachingapp.viewModel.PersonalCenterViewModel
+import tw.north27.coachingapp.viewModel.PersonalViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,7 +37,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
     override val viewBind: (View) -> FragmentPersonalBinding
         get() = FragmentPersonalBinding::bind
 
-    private val viewModel by sharedViewModel<PersonalCenterViewModel>()
+    private val viewModel by sharedViewModel<PersonalViewModel>()
 
     private val commentAdapter = CommentListAdapter()
 
@@ -51,14 +51,14 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                 setExpandedTitleTextColor(cxt.getColorStateList(R.color.white))
             }
             binding.itemData.apply {
-                itemPersonalCenterStateMsg.tvStateMsg.isSelected = true
-                itemPersonalCenterComment.rvComment.adapter = commentAdapter
-                itemPersonalCenterShare.itemLink.apply {
+                itemPersonalStateMsg.tvStateMsg.isSelected = true
+                itemPersonalComment.rvComment.adapter = commentAdapter
+                itemPersonalShare.itemLink.apply {
                     ivIcon.setImageResource(R.drawable.ic_twotone_link_24_gray)
                     tvText.text = getString(R.string.promotion_link)
                     ivClick.isVisible = true
                 }
-                itemPersonalCenterAbout.apply {
+                itemPersonalAbout.apply {
                     itemAboutCoaching.apply {
                         ivIcon.setImageResource(R.drawable.ic_twotone_ballot_24_gray)
                         tvText.text = getString(R.string.about_coaching)
@@ -80,7 +80,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                         ivClick.isVisible = true
                     }
                 }
-                itemPersonalCenterSignOut.itemSignOut.apply {
+                itemPersonalSignOut.itemSignOut.apply {
                     ivIcon.setImageResource(R.drawable.ic_baseline_exit_to_app_24_red)
                     tvText.text = getString(R.string.sign_out)
                     ivClick.isVisible = true
@@ -107,8 +107,8 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         }
 
         viewModel.commentListState.observe(viewLifecycleOwner) {
-            binding.itemData.itemPersonalCenterComment.tvLastTitle.isVisible = (it is ViewState.Data)
-            binding.itemData.itemPersonalCenterComment.rvComment.isVisible = (it is ViewState.Data)
+            binding.itemData.itemPersonalComment.tvLastTitle.isVisible = (it is ViewState.Data)
+            binding.itemData.itemPersonalComment.rvComment.isVisible = (it is ViewState.Data)
             when (it) {
                 is ViewState.Data -> {
                     val commentList = it.data
@@ -122,52 +122,52 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
 
 
         //編輯
-        binding.itemData.itemPersonalCenterUser.ivEdit.clicksObserve(owner = viewLifecycleOwner) {
-            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalCenterToFragmentPersonalCenterEdit())
+        binding.itemData.itemPersonalUser.ivEdit.clicksObserve(owner = viewLifecycleOwner) {
+            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentPersonalEdit())
         }
         //歷程
-        binding.itemData.itemPersonalCenterStudy.itemCourse.root.clicksObserve(owner = viewLifecycleOwner) {
+        binding.itemData.itemPersonalStudy.itemCourse.root.clicksObserve(owner = viewLifecycleOwner) {
 
         }
         //分析
-        binding.itemData.itemPersonalCenterStudy.itemAnalysis.root.clicksObserve(owner = viewLifecycleOwner) {
+        binding.itemData.itemPersonalStudy.itemAnalysis.root.clicksObserve(owner = viewLifecycleOwner) {
 
         }
         //評論列表
-        binding.itemData.itemPersonalCenterComment.ivComment.clicksObserve(owner = viewLifecycleOwner) {
-            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalCenterToFragmentCommentList())
+        binding.itemData.itemPersonalComment.ivComment.clicksObserve(owner = viewLifecycleOwner) {
+            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentCommentList())
         }
         //回覆提醒
-        binding.itemData.itemPersonalCenterSetting.itemReplyRemind.scSwitch.checkedChangesObserve(owner = viewLifecycleOwner) {
+        binding.itemData.itemPersonalSetting.itemReplyRemind.scSwitch.checkedChangesObserve(owner = viewLifecycleOwner) {
 
         }
         //訊息提醒
-        binding.itemData.itemPersonalCenterSetting.itemMsgRemind.scSwitch.checkedChangesObserve(owner = viewLifecycleOwner) {
+        binding.itemData.itemPersonalSetting.itemMsgRemind.scSwitch.checkedChangesObserve(owner = viewLifecycleOwner) {
 
         }
         //推廣連結
-        binding.itemData.itemPersonalCenterShare.itemLink.root.clicksObserve(owner = viewLifecycleOwner) {
+        binding.itemData.itemPersonalShare.itemLink.root.clicksObserve(owner = viewLifecycleOwner) {
 
         }
         //關於Coaching
-        binding.itemData.itemPersonalCenterAbout.itemAboutCoaching.root.clicksObserve(owner = viewLifecycleOwner) {
+        binding.itemData.itemPersonalAbout.itemAboutCoaching.root.clicksObserve(owner = viewLifecycleOwner) {
 
         }
         //常見問題
-        binding.itemData.itemPersonalCenterAbout.itemCommonProblem.root.clicksObserve(owner = viewLifecycleOwner) {
+        binding.itemData.itemPersonalAbout.itemCommonProblem.root.clicksObserve(owner = viewLifecycleOwner) {
 
         }
         //隱私政策
-        binding.itemData.itemPersonalCenterAbout.itemPrivacyPolicy.root.clicksObserve(owner = viewLifecycleOwner) {
+        binding.itemData.itemPersonalAbout.itemPrivacyPolicy.root.clicksObserve(owner = viewLifecycleOwner) {
 
         }
         //聯繫我們
-        binding.itemData.itemPersonalCenterAbout.itemContactUs.root.clicksObserve(owner = viewLifecycleOwner) {
+        binding.itemData.itemPersonalAbout.itemContactUs.root.clicksObserve(owner = viewLifecycleOwner) {
 
         }
         //登出
-        binding.itemData.itemPersonalCenterSignOut.itemSignOut.root.clicksObserve(owner = viewLifecycleOwner) {
-            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalCenterToFragmentSignOutDialog())
+        binding.itemData.itemPersonalSignOut.itemSignOut.root.clicksObserve(owner = viewLifecycleOwner) {
+            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentSignOutDialog())
         }
 //        doubleClickToExit()
     }
@@ -175,7 +175,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
     @RequiresApi(Build.VERSION_CODES.M)
     private fun setData(userInfo: UserInfo) {
         binding.itemData.apply {
-            itemPersonalCenterUser.apply {
+            itemPersonalUser.apply {
                 ivAvatar.bindImg(
                     url = userInfo.avatarPath,
                     roundingRadius = 5
@@ -210,7 +210,8 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                     isVisible = (userInfo.auth == UserPref.Authority.STUDENT) && (userInfo.studentInfo != null)
                     text = String.format("%s：%s", getString(R.string.grade), userInfo.studentInfo?.grade?.text)
                 }
-                tvAuth.text = String.format("%s：%s",
+                tvAuth.text = String.format(
+                    "%s：%s",
                     getString(R.string.authority),
                     when (userInfo.auth) {
                         UserPref.Authority.STUDENT -> getString(R.string.student)
@@ -219,12 +220,12 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                     }
                 )
             }
-            itemPersonalCenterStateMsg.apply {
+            itemPersonalStateMsg.apply {
                 root.isVisible = (userInfo.desc != null) && userInfo.desc.isNotEmpty()
                 tvStateMsgTitle.text = String.format("%s：", getString(R.string.state_msg))
                 tvStateMsg.text = userInfo.desc
             }
-            itemPersonalCenterInfo.apply {
+            itemPersonalInfo.apply {
                 root.isVisible = (userInfo.birthday != null)
                         || (userInfo.homePhone != null && userInfo.homePhone.isNotEmpty())
                         || (userInfo.cellPhone != null && userInfo.cellPhone.isNotEmpty())
@@ -250,15 +251,15 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                     tvText.text = String.format("%s：%s", getString(R.string.email), userInfo.email)
                 }
             }
-            itemPersonalCenterComment.apply {
+            itemPersonalComment.apply {
                 root.isVisible = (userInfo.auth == UserPref.Authority.TEACHER)
                 if (userInfo.auth == UserPref.Authority.TEACHER) setCommentChart(userInfo)
             }
-            itemPersonalCenterReply.apply {
+            itemPersonalReply.apply {
                 root.isVisible = (userInfo.auth == UserPref.Authority.TEACHER)
                 if (userInfo.auth == UserPref.Authority.TEACHER) setReplyRateChart(userInfo)
             }
-            itemPersonalCenterStudy.apply {
+            itemPersonalStudy.apply {
                 root.isVisible = (userInfo.auth == UserPref.Authority.STUDENT)
                 itemCourse.apply {
                     ivIcon.setImageResource(R.drawable.ic_twotone_history_toggle_off_24_gray)
@@ -272,7 +273,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                 }
 
             }
-            itemPersonalCenterSetting.apply {
+            itemPersonalSetting.apply {
                 itemReplyRemind.apply {
                     ivIcon.setImageResource(R.drawable.ic_twotone_quickreply_24_gray)
                     tvText.text = getString(R.string.reply_remind)
@@ -318,11 +319,11 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         val pieData = PieData(pieDataSet)
         pieData.apply {
             setDrawValues(true)
-            setValueFormatter(PercentFormatter(binding.itemData.itemPersonalCenterComment.pcCommentScore))
+            setValueFormatter(PercentFormatter(binding.itemData.itemPersonalComment.pcCommentScore))
             setValueTextColor(Color.WHITE)
             setValueTextSize(10f)
         }
-        binding.itemData.itemPersonalCenterComment.pcCommentScore.apply {
+        binding.itemData.itemPersonalComment.pcCommentScore.apply {
             setUsePercentValues(true)
             description.isEnabled = false
             rotationAngle = 90f
@@ -364,11 +365,11 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         val pieData = PieData(pieDataSet)
         pieData.apply {
             setDrawValues(true)
-            setValueFormatter(PercentFormatter(binding.itemData.itemPersonalCenterReply.pcReplyRate))
+            setValueFormatter(PercentFormatter(binding.itemData.itemPersonalReply.pcReplyRate))
             setValueTextColor(Color.WHITE)
             setValueTextSize(10f)
         }
-        binding.itemData.itemPersonalCenterReply.pcReplyRate.apply {
+        binding.itemData.itemPersonalReply.pcReplyRate.apply {
             setUsePercentValues(true)
             description.isEnabled = false
             rotationAngle = 90f

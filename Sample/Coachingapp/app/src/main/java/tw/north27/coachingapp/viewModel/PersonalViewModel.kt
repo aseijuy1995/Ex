@@ -19,7 +19,7 @@ import tw.north27.coachingapp.model.Unit
 import tw.north27.coachingapp.repository.IPublicRepository
 import tw.north27.coachingapp.repository.IUserRepository
 
-class PersonalCenterViewModel(
+class PersonalViewModel(
     application: Application,
     private val userRepo: IUserRepository,
     private val publicRepo: IPublicRepository

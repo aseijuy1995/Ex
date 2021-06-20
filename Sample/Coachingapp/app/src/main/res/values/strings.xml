@@ -1,4 +1,13 @@
 <resources>
+    <!--  Launch2Activity  -->
+    <string name="coaching">Coaching</string>
+    <string name="question_area">提問</string>
+    <string name="study_room">學習</string>
+    <string name="notice">通知</string>
+    <string name="personal">個人</string>
+    <!--    -->
+    <!--    -->
+    <!--    -->
     <string name="app_name">Coaching</string>
     <string name="default_notification_channel_id">default_notification_channel_id</string>
     <string name="empty">Empty</string>
@@ -27,12 +36,6 @@
     <string name="enter_account">請輸入帳號</string>
     <string name="enter_password">請輸入密碼</string>
     <string name="sign_in">登入</string>
-    <!--  Launch2Activity  -->
-    <string name="main_home">Coaching</string>
-    <string name="question_area">發問區</string>
-    <string name="study_room">學習室</string>
-    <string name="notice_center">通知中心</string>
-    <string name="personal_center">個人中心</string>
     <!--  MainHomeFragment  -->
     <string name="filter">篩選</string>
     <string name="filter_teacher">篩選老師</string>

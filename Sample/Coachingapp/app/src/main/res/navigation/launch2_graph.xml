@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_home"
-    app:startDestination="@id/fragment_main_home">
+    app:startDestination="@id/fragment_coaching">
 
     <fragment
-        android:id="@+id/fragment_main_home"
-        android:name="tw.north27.coachingapp.ui.MainHomeFragment"
-        android:label="fragment_main_home"
-        tools:layout="@layout/fragment_main_home">
+        android:id="@+id/fragment_coaching"
+        android:name="tw.north27.coachingapp.ui.launch2.CoachingFragment"
+        android:label="fragment_coaching"
+        tools:layout="@layout/fragment_coaching">
 
         <action
-            android:id="@+id/action_fragment_main_home_to_fragment_teacher_detail_dialog"
+            android:id="@+id/action_fragment_coaching_to_fragment_teacher_detail_dialog"
             app:destination="@id/fragment_teacher_detail_dialog">
 
             <argument
@@ -22,36 +22,35 @@
 
         </action>
 
-
     </fragment>
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/fragment_question_area"-->
-    <!--        android:name="tw.north27.coachingapp.ui2.fragment.main.QuestionAreaFragment"-->
-    <!--        android:label="fragment_question_area"-->
-    <!--        tools:layout="@layout/fragment_question_area" />-->
+    <fragment
+        android:id="@+id/fragment_ask"
+        android:name="tw.north27.coachingapp.ui.launch2.AskFragment"
+        android:label="fragment_ask"
+        tools:layout="@layout/fragment_ask" />
 
     <fragment
-        android:id="@+id/fragment_study_room"
-        android:name="tw.north27.coachingapp.ui.StudyRoomFragment"
-        android:label="fragment_study_room"
-        tools:layout="@layout/fragment_study_room" />
+        android:id="@+id/fragment_study"
+        android:name="tw.north27.coachingapp.ui.launch2.StudyFragment"
+        android:label="fragment_study"
+        tools:layout="@layout/fragment_study" />
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/fragment_notice_center"-->
-    <!--        android:name="tw.north27.coachingapp.ui2.fragment.main.NoticeCenterFragment"-->
-    <!--        android:label="fragment_notice_center"-->
-    <!--        tools:layout="@layout/fragment_notice_center">-->
+    <fragment
+        android:id="@+id/fragment_notice"
+        android:name="tw.north27.coachingapp.ui.launch2.NoticeFragment"
+        android:label="fragment_notice"
+        tools:layout="@layout/fragment_notice" />
 
 
     <fragment
-        android:id="@+id/fragment_personal_center"
-        android:name="tw.north27.coachingapp.ui.PersonalFragment"
-        android:label="fragment_personal_center"
+        android:id="@+id/fragment_personal"
+        android:name="tw.north27.coachingapp.ui.launch2.PersonalFragment"
+        android:label="fragment_personal"
         tools:layout="@layout/fragment_personal">
 
         <action
-            android:id="@+id/action_fragment_personal_center_to_fragment_personal_center_edit"
+            android:id="@+id/action_fragment_personal_to_fragment_personal_edit"
             app:destination="@id/fragment_personal_center_edit"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
@@ -59,16 +58,17 @@
             app:popExitAnim="@anim/slide_out_right" />
 
         <action
-            android:id="@+id/action_fragment_personal_center_to_fragment_sign_out_dialog"
+            android:id="@+id/action_fragment_personal_to_fragment_sign_out_dialog"
             app:destination="@id/fragment_sign_out_dialog" />
 
         <action
-            android:id="@+id/action_fragment_personal_center_to_fragment_comment_list"
+            android:id="@+id/action_fragment_personal_to_fragment_comment_list"
             app:destination="@id/fragment_comment_list"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
 
     <fragment
