@@ -25,7 +25,7 @@ import java.util.*
 
 class PersonalCenterEditFragment : BaseFragment<FragmentPersonalCenterEditBinding>(R.layout.fragment_personal_center_edit) {
 
-    override val viewBindingFactory: (View) -> FragmentPersonalCenterEditBinding
+    override val viewBind: (View) -> FragmentPersonalCenterEditBinding
         get() = FragmentPersonalCenterEditBinding::bind
 
     private val viewModel by sharedViewModel<PersonalCenterViewModel>()

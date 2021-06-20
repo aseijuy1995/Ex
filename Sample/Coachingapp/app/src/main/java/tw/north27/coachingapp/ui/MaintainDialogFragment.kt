@@ -13,7 +13,7 @@ import tw.north27.coachingapp.viewModel.StartViewModel
 
 class MaintainDialogFragment : BaseDialogFragment<FragmentMaintainDialogBinding>(R.layout.fragment_maintain_dialog) {
 
-    override val viewBindingFactory: (View) -> FragmentMaintainDialogBinding
+    override val viewBind: (View) -> FragmentMaintainDialogBinding
         get() = FragmentMaintainDialogBinding::bind
 
     private val viewModel by sharedViewModel<StartViewModel>()

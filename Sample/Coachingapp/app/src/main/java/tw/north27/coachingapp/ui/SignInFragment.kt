@@ -24,7 +24,7 @@ import tw.north27.coachingapp.viewModel.SignInViewModel
 
 class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sign_in) {
 
-    override val viewBindingFactory: (View) -> FragmentSignInBinding
+    override val viewBind: (View) -> FragmentSignInBinding
         get() = FragmentSignInBinding::bind
 
     private val viewModel by viewModel<SignInViewModel>()

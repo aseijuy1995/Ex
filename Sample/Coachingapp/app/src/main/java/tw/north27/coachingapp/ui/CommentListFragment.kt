@@ -23,7 +23,7 @@ import tw.north27.coachingapp.viewModel.PersonalCenterViewModel
 
 class CommentListFragment : BaseFragment<FragmentCommentListBinding>(R.layout.fragment_comment_list) {
 
-    override val viewBindingFactory: (View) -> FragmentCommentListBinding
+    override val viewBind: (View) -> FragmentCommentListBinding
         get() = FragmentCommentListBinding::bind
 
     private val viewModel by sharedViewModel<PersonalCenterViewModel>()

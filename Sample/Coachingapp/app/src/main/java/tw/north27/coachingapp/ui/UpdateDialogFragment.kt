@@ -19,7 +19,7 @@ import tw.north27.coachingapp.viewModel.StartViewModel
 
 class UpdateDialogFragment : BaseDialogFragment<FragmentUpdateDialogBinding>(R.layout.fragment_update_dialog) {
 
-    override val viewBindingFactory: (View) -> FragmentUpdateDialogBinding
+    override val viewBind: (View) -> FragmentUpdateDialogBinding
         get() = FragmentUpdateDialogBinding::bind
 
     private val viewModel by sharedViewModel<StartViewModel>()

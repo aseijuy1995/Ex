@@ -26,7 +26,7 @@ import tw.north27.coachingapp.viewModel.MainHomeViewModel
 
 class MainHomeFragment : BaseFragment<FragmentMainHomeBinding>(R.layout.fragment_main_home) {
 
-    override val viewBindingFactory: (View) -> FragmentMainHomeBinding
+    override val viewBind: (View) -> FragmentMainHomeBinding
         get() = FragmentMainHomeBinding::bind
 
     private val adapter = TeacherListAdapter()

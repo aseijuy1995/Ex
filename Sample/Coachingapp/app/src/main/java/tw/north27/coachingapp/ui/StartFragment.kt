@@ -28,7 +28,7 @@ import tw.north27.coachingapp.viewModel.StartViewModel
 
 class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start) {
 
-    override val viewBindingFactory: (View) -> FragmentStartBinding
+    override val viewBind: (View) -> FragmentStartBinding
         get() = FragmentStartBinding::bind
 
     private val viewModel by sharedViewModel<StartViewModel>()

@@ -8,7 +8,7 @@ import tw.north27.coachingapp.databinding.FragmentStudyRoomBinding
 
 class StudyRoomFragment : BaseFragment<FragmentStudyRoomBinding>(R.layout.fragment_study_room) {
 
-    override val viewBindingFactory: (View) -> FragmentStudyRoomBinding
+    override val viewBind: (View) -> FragmentStudyRoomBinding
         get() = FragmentStudyRoomBinding::bind
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

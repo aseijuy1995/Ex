@@ -22,7 +22,7 @@ import tw.north27.coachingapp.model.UserInfo
 
 class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDialogBinding>(R.layout.fragment_teacher_detail_dialog) {
 
-    override val viewBindingFactory: (View) -> FragmentTeacherDetailDialogBinding
+    override val viewBind: (View) -> FragmentTeacherDetailDialogBinding
         get() = FragmentTeacherDetailDialogBinding::bind
 
     private val args by navArgs<TeacherDetailDialogFragmentArgs>()

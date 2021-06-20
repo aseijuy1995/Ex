@@ -9,7 +9,7 @@ import tw.north27.coachingapp.databinding.FragmentLoadingDialogBinding
 
 class LoadingDialogFragment : BaseDialogFragment<FragmentLoadingDialogBinding>(R.layout.fragment_loading_dialog) {
 
-    override val viewBindingFactory: (View) -> FragmentLoadingDialogBinding
+    override val viewBind: (View) -> FragmentLoadingDialogBinding
         get() = FragmentLoadingDialogBinding::bind
 
     companion object {

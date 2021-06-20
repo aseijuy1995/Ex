@@ -21,22 +21,21 @@ import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseFragment
 import com.yujie.utilmodule.ext.checkedChangesObserve
 import com.yujie.utilmodule.ext.clicksObserve
-import com.yujie.utilmodule.ext.isVisible
 import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.CommentListAdapter
-import tw.north27.coachingapp.databinding.FragmentPersonalCenterBinding
+import tw.north27.coachingapp.databinding.FragmentPersonalBinding
 import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.viewModel.PersonalCenterViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
-class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.layout.fragment_personal_center) {
+class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment_personal) {
 
-    override val viewBindingFactory: (View) -> FragmentPersonalCenterBinding
-        get() = FragmentPersonalCenterBinding::bind
+    override val viewBind: (View) -> FragmentPersonalBinding
+        get() = FragmentPersonalBinding::bind
 
     private val viewModel by sharedViewModel<PersonalCenterViewModel>()
 
@@ -124,7 +123,7 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
 
         //編輯
         binding.itemData.itemPersonalCenterUser.ivEdit.clicksObserve(owner = viewLifecycleOwner) {
-            findNavController().navigate(PersonalCenterFragmentDirections.actionFragmentPersonalCenterToFragmentPersonalCenterEdit())
+            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalCenterToFragmentPersonalCenterEdit())
         }
         //歷程
         binding.itemData.itemPersonalCenterStudy.itemCourse.root.clicksObserve(owner = viewLifecycleOwner) {
@@ -136,7 +135,7 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
         }
         //評論列表
         binding.itemData.itemPersonalCenterComment.ivComment.clicksObserve(owner = viewLifecycleOwner) {
-            findNavController().navigate(PersonalCenterFragmentDirections.actionFragmentPersonalCenterToFragmentCommentList())
+            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalCenterToFragmentCommentList())
         }
         //回覆提醒
         binding.itemData.itemPersonalCenterSetting.itemReplyRemind.scSwitch.checkedChangesObserve(owner = viewLifecycleOwner) {
@@ -168,7 +167,7 @@ class PersonalCenterFragment : BaseFragment<FragmentPersonalCenterBinding>(R.lay
         }
         //登出
         binding.itemData.itemPersonalCenterSignOut.itemSignOut.root.clicksObserve(owner = viewLifecycleOwner) {
-            findNavController().navigate(PersonalCenterFragmentDirections.actionFragmentPersonalCenterToFragmentSignOutDialog())
+            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalCenterToFragmentSignOutDialog())
         }
 //        doubleClickToExit()
     }

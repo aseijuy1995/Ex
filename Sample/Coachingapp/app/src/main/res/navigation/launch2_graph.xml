@@ -46,9 +46,9 @@
 
     <fragment
         android:id="@+id/fragment_personal_center"
-        android:name="tw.north27.coachingapp.ui.PersonalCenterFragment"
+        android:name="tw.north27.coachingapp.ui.PersonalFragment"
         android:label="fragment_personal_center"
-        tools:layout="@layout/fragment_personal_center">
+        tools:layout="@layout/fragment_personal">
 
         <action
             android:id="@+id/action_fragment_personal_center_to_fragment_personal_center_edit"
