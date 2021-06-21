@@ -1,36 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <data>
-
-        <variable
-            name="commentInfo"
-            type="tw.north27.coachingapp.model.CommentInfo" />
-
-        <variable
-            name="education"
-            type="tw.north27.coachingapp.model.Education" />
-
-        <variable
-            name="grade"
-            type="tw.north27.coachingapp.model.Grade" />
-
-        <variable
-            name="subject"
-            type="tw.north27.coachingapp.model.Subject" />
-
-        <variable
-            name="unit"
-            type="tw.north27.coachingapp.model.Unit" />
-    </data>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:elevation="15dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -38,12 +20,11 @@
             android:background="@color/white"
             android:padding="10dp">
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <View
                 android:id="@+id/tv_score"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="5dp"
+                android:layout_height="20dp"
                 android:layout_marginStart="5dp"
-                android:text="@{String.valueOf(commentInfo.score)}"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -60,35 +41,32 @@
                 app:layout_constraintStart_toEndOf="@id/tv_score"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <View
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 android:layout_marginStart="10dp"
                 android:ellipsize="end"
-                android:text="@{commentInfo.sendName}"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@id/view"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <View
                 android:id="@+id/tv_account"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 android:layout_marginEnd="5dp"
-                android:text='@{String.format("(%s)" ,commentInfo.sendAccount)}'
                 android:textColor="@color/gray_666666"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_name"
                 app:layout_constraintEnd_toStartOf="@id/tv_time"
                 app:layout_constraintStart_toEndOf="@id/tv_name" />
 
-            <androidx.appcompat.widget.AppCompatTextView
+            <View
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{commentInfo.date}"
+                android:layout_height="20dp"
                 android:textColor="@color/gray_666666"
                 android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -116,21 +94,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <View
                         android:id="@+id/tv_education"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="20dp"
                         android:layout_weight="1"
-                        android:text='@{String.format("%s：%s",@string/education, education.text)}'
                         android:textColor="@color/gray_666666"
                         android:textSize="10sp" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <View
                         android:id="@+id/tv_grade"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="20dp"
                         android:layout_weight="1"
-                        android:text='@{String.format("%s：%s",@string/grade, grade.text)}'
                         android:textColor="@color/gray_666666"
                         android:textSize="10sp" />
 
@@ -141,21 +117,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <View
                         android:id="@+id/tv_subject"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="20dp"
                         android:layout_weight="1"
-                        android:text='@{String.format("%s：%s", @string/subject,subject.text)}'
                         android:textColor="@color/gray_666666"
                         android:textSize="10sp" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
+                    <View
                         android:id="@+id/tv_unit"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="20dp"
                         android:layout_weight="1"
-                        android:text='@{String.format("%s：%s", @string/unit,unit.text)}'
                         android:textColor="@color/gray_666666"
                         android:textSize="10sp" />
 
@@ -168,12 +142,11 @@
                     android:layout_marginBottom="5dp"
                     android:background="@color/gray_eeeeee" />
 
-                <androidx.appcompat.widget.AppCompatTextView
+                <View
                     android:id="@+id/tv_content"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:layout_marginTop="5dp"
-                    android:text="@{commentInfo.content}"
                     android:textSize="12sp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -182,4 +155,4 @@
 
     </androidx.cardview.widget.CardView>
 
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

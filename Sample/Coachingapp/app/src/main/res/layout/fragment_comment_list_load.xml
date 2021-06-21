@@ -11,42 +11,42 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/item_comment_shinner"
+            layout="@layout/item_comment_shimmer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <include
-            layout="@layout/item_comment_shinner"
+            layout="@layout/item_comment_shimmer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <include
-            layout="@layout/item_comment_shinner"
+            layout="@layout/item_comment_shimmer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <include
-            layout="@layout/item_comment_shinner"
+            layout="@layout/item_comment_shimmer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <include
-            layout="@layout/item_comment_shinner"
+            layout="@layout/item_comment_shimmer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <include
-            layout="@layout/item_comment_shinner"
+            layout="@layout/item_comment_shimmer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <include
-            layout="@layout/item_comment_shinner"
+            layout="@layout/item_comment_shimmer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <include
-            layout="@layout/item_comment_shinner"
+            layout="@layout/item_comment_shimmer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
