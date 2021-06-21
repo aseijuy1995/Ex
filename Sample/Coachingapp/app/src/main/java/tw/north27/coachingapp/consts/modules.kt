@@ -57,6 +57,7 @@ val viewModelModules = module {
     //
     viewModel<PublicViewModel> { PublicViewModel(androidApplication(), get() as IPublicRepository) }
     viewModel<PersonalViewModel> { PersonalViewModel(androidApplication(), get() as IUserRepository, get() as IPublicRepository) }
+    viewModel<PersonalEditViewModel> { PersonalEditViewModel(androidApplication(), get()) }
 
 //    //
 //    viewModel { NotifyViewModel(get()) }

@@ -8,6 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 import tw.north27.coachingapp.model.*
+import java.util.*
 
 interface IApiService {
 
@@ -76,18 +77,13 @@ interface IApiService {
 //
 
     /**
-     * 取得教育
-     *
-     * & 年級 & 科目 & 單元可一起撈取，但為雙平台邏輯相同故在server端處理
+     * 取得教育列表
      * */
     @GET
     suspend fun getEducationList(): List<Education>
 
     /**
-     * 取得年級
-     *
-     * 0 >> 預設值(全撈取)
-     *
+     * 取得年級列表
      * @param educationId >> 教育id
      * */
     @GET
@@ -96,10 +92,7 @@ interface IApiService {
     ): List<Grade>
 
     /**
-     * 取得科目
-     *
-     * 0 >> 預設值(全撈取)
-     *
+     * 取得科目列表
      * @param educationId >> 教育id
      * @param gradeId >> 年級id
      * */
@@ -110,15 +103,11 @@ interface IApiService {
     ): List<Subject>
 
     /**
-     * 取得單元
-     *
-     * 0 >> 預設值(全撈取)
-     *
+     * 取得單元列表
      * @param educationId >> 教育id
      * @param gradeId >> 年級id
      * @param subjectId >> 科目id
      * */
-
     @GET
     suspend fun getUnitList(
         @Query("education_id") educationId: Long? = null,
@@ -141,10 +130,6 @@ interface IApiService {
         @Query("unit_id") unitId: Long? = null
     ): List<UserInfo>
 
-
-    /**
-     * PersonalCenter個人中心
-     * */
     /**
      * 取得用戶資訊
      * @param account >> 帳號
@@ -153,6 +138,37 @@ interface IApiService {
     suspend fun getUser(
         @Field("account") account: String
     ): UserInfo
+
+    /**
+     * 更新用戶資訊
+     * @param account >> 帳號
+     * @param bgPath >> 背景
+     * @param avatarPath >> 頭貼
+     * @param name >> 名稱
+     * @param gender >> 性別
+     * @param intro >> 簡介
+     * @param birthday >> 生日
+     * @param cellPhone >> 電話
+     * @param homePhone >> 家電
+     * @param email >> Email
+     * @param school >> 學校
+     * @param gradeId >> 年級Id
+     * */
+    @POST
+    suspend fun updateUser(
+        @Field("account") account: String,
+        @Field("bg_path") bgPath: String,
+        @Field("avatar_path") avatarPath: String,
+        @Field("name") name: String,
+        @Field("gender") gender: Gender,
+        @Field("intro") intro: String,
+        @Field("birthday") birthday: Date? = null,
+        @Field("cell_phone") cellPhone: String,
+        @Field("home_phone") homePhone: String,
+        @Field("email") email: String,
+        @Field("school") school: String? = null,
+        @Field("grade_id") gradeId: Long? = null
+    ): Boolean
 
     /**
      * 取得評論列表(未加載) - 依據時間近至遠撈回，未指定則撈回全部，有指定依據指定的education_id、grade_id、subject_id、unit_id取出數據

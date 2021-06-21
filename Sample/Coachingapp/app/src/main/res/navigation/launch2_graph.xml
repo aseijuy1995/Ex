@@ -127,7 +127,7 @@
 
     <fragment
         android:id="@+id/fragment_personal_center_edit"
-        android:name="tw.north27.coachingapp.ui.PersonalCenterEditFragment"
+        android:name="tw.north27.coachingapp.ui.PersonalEditFragment"
         android:label="fragment_personal_center_edit"
         tools:layout="@layout/fragment_personal_edit" />
 

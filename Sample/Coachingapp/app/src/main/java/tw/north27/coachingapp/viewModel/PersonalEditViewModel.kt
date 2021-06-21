@@ -14,17 +14,15 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.CommentInfo
 import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.repository.IPublicRepository
 import tw.north27.coachingapp.repository.IUserRepository
 import java.util.*
 
-class PersonalViewModel(
+class PersonalEditViewModel(
     application: Application,
-    private val userRepo: IUserRepository,
-    private val publicRepo: IPublicRepository
+    private val userRepo: IUserRepository
 ) : BaseAndroidViewModel(application) {
 
     private val _bgRes: MutableLiveData<Int> by lazy {
@@ -72,32 +70,54 @@ class PersonalViewModel(
         }
     }
 
-    private val _commentListState = MutableLiveData<ViewState<List<CommentInfo>>>(ViewState.initial())
+    private val _updateUserState = MutableLiveData<ViewState<Boolean>>(ViewState.initial())
 
-    val commentListState = _commentListState.asLiveData()
+    val updateUserState = _updateUserState.asLiveData()
 
-    suspend fun getCommentList(educationId: Long? = null, gradeId: Long? = null, subjectId: Long? = null, unitId: Long? = null, index: Int, num: Int) = withContext(Dispatchers.IO) {
-        _commentListState.postValue(ViewState.load())
+    fun updateUser(
+        bgPath: String,
+        avatarPath: String,
+        name: String,
+        gender: Gender,
+        intro: String,
+        birthday: Date? = null,
+        cellPhone: String,
+        homePhone: String,
+        email: String,
+        school: String? = null,
+        gradeId: Long? = null,
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        _updateUserState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
-        val results = publicRepo.getCommentList(account = account, educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId, index = index, num = num)
+        val results = userRepo.updateUser(
+            account = account,
+            bgPath = bgPath,
+            avatarPath = avatarPath,
+            name = name,
+            gender = gender,
+            intro = intro,
+            birthday = birthday,
+            cellPhone = cellPhone,
+            homePhone = homePhone,
+            email = email,
+            school = school,
+            gradeId = gradeId
+        )
         when (results) {
-            is Results.Successful<List<CommentInfo>> -> {
-                if (results.data.isEmpty()) {
-                    _commentListState.postValue(ViewState.empty())
-                    ViewState.empty()
-                } else {
-                    _commentListState.postValue(ViewState.data(results.data))
-                    ViewState.data(results.data)
-                }
+            is Results.Successful<Boolean> -> {
+                _updateUserState.postValue(ViewState.data(results.data))
+                ViewState.data(results.data)
             }
             is Results.ClientErrors -> {
-                _commentListState.postValue(ViewState.error(results.e))
+                _updateUserState.postValue(ViewState.error(results.e))
                 ViewState.error(results.e)
             }
             is Results.NetWorkError -> {
-                _commentListState.postValue(ViewState.network(results.e))
+                _updateUserState.postValue(ViewState.network(results.e))
                 ViewState.network(results.e)
             }
         }
     }
+
+
 }

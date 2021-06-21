@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.yujie.utilmodule.util.logD
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.Gender
 
 class GenderAdapter : BaseAdapter() {
-    private var genderList: List<Pair<Gender, String>>? = null
+    private var genderList: List<Gender>? = null
 
-    fun submitData(genderList: List<Pair<Gender, String>>) {
+    fun submitData(genderList: List<Gender>?) {
         this.genderList = genderList
         notifyDataSetChanged()
     }
@@ -21,7 +22,7 @@ class GenderAdapter : BaseAdapter() {
         return genderList?.size ?: 0
     }
 
-    override fun getItem(position: Int): Pair<Gender, String>? {
+    override fun getItem(position: Int): Gender? {
         return genderList?.get(position)
     }
 
@@ -40,7 +41,20 @@ class GenderAdapter : BaseAdapter() {
         } else {
             holder = view.tag as VH
         }
-        holder.tvText.text = getItem(position)?.second
+        holder.tvText.text = when (getItem(position)) {
+            Gender.MALE -> {
+                logD("GenderAdapter - Gender.MALE")
+                view?.context?.getString(R.string.male)
+            }
+            Gender.FEMALE -> {
+                logD("GenderAdapter - Gender.FEMALE")
+                view?.context?.getString(R.string.female)
+            }
+            else -> {
+                logD("GenderAdapter - Gender")
+                ""
+            }
+        }
         return view!!
     }
 

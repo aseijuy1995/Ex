@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.first
 import retrofit2.http.Field
 import retrofit2.http.Query
 import tw.north27.coachingapp.model.*
+import java.util.*
 
 class ApiService(val cxt: Context) : IApiService {
 
@@ -166,12 +167,12 @@ class ApiService(val cxt: Context) : IApiService {
     }
 
     override suspend fun getEducationList(): List<Education> {
+        delay(1500)
         return educationListTest
     }
 
     override suspend fun getGradeList(@Query("education_id") educationId: Long?): List<Grade> {
-        println("educationId = $educationId")
-        delay(2500)
+        delay(1500)
         return if (educationId == null)
             gradeListTest
         else
@@ -182,7 +183,7 @@ class ApiService(val cxt: Context) : IApiService {
         @Query("education_id") educationId: Long?,
         @Query("grade_id") gradeId: Long?
     ): List<Subject> {
-        println("educationId = $educationId, gradeId = $gradeId")
+        delay(1500)
         return if (educationId == null && gradeId == null)
             subjectListTest
         else if (educationId == null)
@@ -198,7 +199,7 @@ class ApiService(val cxt: Context) : IApiService {
         @Query("grade_id") gradeId: Long?,
         @Query("subject_id") subjectId: Long?
     ): List<tw.north27.coachingapp.model.Unit> {
-        println("educationId = $educationId, gradeId = $gradeId, subjectId = $subjectId")
+        delay(1500)
         return if (educationId == null && gradeId == null && subjectId == null)
             unitListTest
         else if (educationId == null && gradeId == null)
@@ -264,6 +265,38 @@ class ApiService(val cxt: Context) : IApiService {
         return userInfoTest
     }
 
+    override suspend fun updateUser(
+        @Field("account") account: String,
+        @Field("bg_path") bgPath: String,
+        @Field("avatar_path") avatarPath: String,
+        @Field("name") name: String,
+        @Field("gender") gender: Gender,
+        @Field("intro") intro: String,
+        @Field("birthday") birthday: Date?,
+        @Field("cell_phone") cellPhone: String,
+        @Field("home_phone") homePhone: String,
+        @Field("email") email: String,
+        @Field("school") school: String?,
+        @Field("grade_id") gradeId: Long?
+    ): Boolean {
+        delay(1500)
+        if (account == accountTest) {
+            bgPathTest = bgPath
+            avatarPathTest = avatarPath
+            nameTest = name
+            genderTest = gender
+            introTest = intro
+            birthday?.let { birthdayTest = it }
+            cellPhone?.let { cellPhoneTest = it }
+            homePhone?.let { homePhoneTest = it }
+            email?.let { emailTest = it }
+            school?.let { schoolTest = it }
+            gradeId?.let { gradeIdTest = it }
+            return true
+        }
+        return false
+    }
+
     override suspend fun getCommentList(
         @Field(value = "account") account: String,
         @Field(value = "education_id") educationId: Long?,
@@ -273,7 +306,7 @@ class ApiService(val cxt: Context) : IApiService {
         @Field(value = "index") index: Int,
         @Field(value = "num") num: Int
     ): List<CommentInfo> {
-        delay(2000)
+        delay(1500)
         //account判斷取得哪個帳號的評論
         var list = if (educationId == null && gradeId == null && subjectId == null && unitId == null)
             commentListTest

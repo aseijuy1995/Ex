@@ -14,11 +14,11 @@ val passwordTest = "north27"
 
 //val authorityTest = UserPref.Authority.STUDENT
 val authorityTest = UserPref.Authority.TEACHER
-var bgPathTest = ""
+var bgPathTest = "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
 var avatarPathTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
 var nameTest = "北緯科技"
 
-//var genderTest = Gender.MALE
+var genderTest = Gender.MALE
 var introTest = "這是簡單的自我介紹！這是簡單的自我介紹2！這是簡單的自我介紹3！這是簡單的自我介紹4！這是簡單的自我介紹5！"
 var birthdayTest = SimpleDateFormat("yyyy-MM-dd").parse("2018-12-21")
 var cellPhoneTest = "0912-345-678"
@@ -88,7 +88,7 @@ val userInfoTest = UserInfo(
     bgPath = bgPathTest,
     avatarPath = avatarPathTest,
     name = nameTest,
-    gender = Gender.MALE,
+    gender = genderTest,
     birthday = birthdayTest,
     cellPhone = cellPhoneTest,
     homePhone = homePhoneTest,

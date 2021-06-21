@@ -1,8 +1,10 @@
 package tw.north27.coachingapp.repository
 
 import com.yujie.utilmodule.http.Results
+import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.SignIn
 import tw.north27.coachingapp.model.UserInfo
+import java.util.*
 
 interface IUserRepository {
 
@@ -15,4 +17,19 @@ interface IUserRepository {
     suspend fun getTeacherList(educationId: Long? = null, gradeId: Long? = null, subjectId: Long? = null, unitId: Long? = null): Results<List<UserInfo>>
 
     suspend fun getUser(account: String): Results<UserInfo>
+
+    suspend fun updateUser(
+        account: String,
+        bgPath: String,
+        avatarPath: String,
+        name: String,
+        gender: Gender,
+        intro: String,
+        birthday: Date? = null,
+        cellPhone: String,
+        homePhone: String,
+        email: String,
+        school: String? = null,
+        gradeId: Long? = null
+    ): Results<Boolean>
 }
