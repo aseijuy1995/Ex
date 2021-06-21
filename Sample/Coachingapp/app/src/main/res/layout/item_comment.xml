@@ -7,6 +7,22 @@
         <variable
             name="commentInfo"
             type="tw.north27.coachingapp.model.CommentInfo" />
+
+        <variable
+            name="education"
+            type="tw.north27.coachingapp.model.Education" />
+
+        <variable
+            name="grade"
+            type="tw.north27.coachingapp.model.Grade" />
+
+        <variable
+            name="subject"
+            type="tw.north27.coachingapp.model.Subject" />
+
+        <variable
+            name="unit"
+            type="tw.north27.coachingapp.model.Unit" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -19,17 +35,17 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:padding="5dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="2dp"
                 android:text="@{String.valueOf(commentInfo.score)}"
+                android:textColor="@color/black"
                 android:textSize="14sp"
-                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -39,8 +55,6 @@
                 android:layout_width="1dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 android:background="@color/gray_eeeeee"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/tv_score"
@@ -51,55 +65,108 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="10dp"
                 android:ellipsize="end"
-
-                android:text="@{commentInfo.name}"
+                android:text="@{commentInfo.sendName}"
+                android:textColor="@color/black"
                 android:textSize="14sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/view"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.1" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_account"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:layout_marginEnd="10dp"
-                android:text='@{String.format("(%s)" ,commentInfo.account)}'
+                android:layout_marginEnd="5dp"
+                android:text='@{String.format("(%s)" ,commentInfo.sendAccount)}'
+                android:textColor="@color/gray_666666"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_name"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_time"
                 app:layout_constraintStart_toEndOf="@id/tv_name" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="2dp"
                 android:text="@{commentInfo.date}"
-                android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@id/view"
-                app:layout_constraintTop_toBottomOf="@id/tv_name" />
+                android:textColor="@color/gray_666666"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_content"
+            <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:text="@{commentInfo.content}"
-                android:textSize="12sp"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/view"
-                app:layout_constraintTop_toBottomOf="@id/tv_time" />
+                app:layout_constraintTop_toBottomOf="@id/tv_name">
 
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_education"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text='@{String.format("%s：%s",@string/education, education.text)}'
+                        android:textColor="@color/gray_666666"
+                        android:textSize="10sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_grade"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text='@{String.format("%s：%s",@string/grade, grade.text)}'
+                        android:textColor="@color/gray_666666"
+                        android:textSize="10sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_subject"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text='@{String.format("%s：%s", @string/subject,subject.text)}'
+                        android:textColor="@color/gray_666666"
+                        android:textSize="10sp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_unit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text='@{String.format("%s：%s", @string/unit,unit.text)}'
+                        android:textColor="@color/gray_666666"
+                        android:textSize="10sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@{commentInfo.content}"
+                    android:textSize="12sp" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
+
 </layout>

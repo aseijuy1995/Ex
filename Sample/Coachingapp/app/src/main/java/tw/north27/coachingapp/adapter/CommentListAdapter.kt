@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.databinding.ItemCommentBinding
-import tw.north27.coachingapp.model.CommentInfo
+import tw.north27.coachingapp.model.*
+import tw.north27.coachingapp.model.Unit
 
 class CommentListAdapter : ListAdapter<CommentInfo, CommentListAdapter.VH>(object : DiffUtil.ItemCallback<CommentInfo>() {
     override fun areItemsTheSame(oldItem: CommentInfo, newItem: CommentInfo): Boolean {
@@ -19,9 +20,21 @@ class CommentListAdapter : ListAdapter<CommentInfo, CommentListAdapter.VH>(objec
 }
 ) {
 
+    var educationList: List<Education>? = null
+
+    var gradeList: List<Grade>? = null
+
+    var subjectList: List<Subject>? = null
+
+    var unitList: List<Unit>? = null
+
     inner class VH(val binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(commentInfo: CommentInfo) = binding.apply {
             this.commentInfo = commentInfo
+            this.education = educationList?.find { it.id == commentInfo.educationId }
+            this.grade = gradeList?.find { it.id == commentInfo.gradeId }
+            this.subject = subjectList?.find { it.id == commentInfo.subjectId }
+            this.unit = unitList?.find { it.id == commentInfo.unitId }
             executePendingBindings()
         }
     }

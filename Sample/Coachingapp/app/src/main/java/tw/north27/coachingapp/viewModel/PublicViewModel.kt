@@ -118,7 +118,7 @@ class PublicViewModel(
         _unitListState.postValue(ViewState.load())
         val results = publicRepo.getUnitList(educationId = educationId, gradeId = gradeId, subjectId = subjectId)
         when (results) {
-            is Results.Successful<List<tw.north27.coachingapp.model.Unit>> -> {
+            is Results.Successful<List<Unit>> -> {
                 if (results.data.isEmpty()) {
                     _unitListState.postValue(ViewState.empty())
                     ViewState.empty()
@@ -141,4 +141,10 @@ class PublicViewModel(
     private val _genderList = MutableLiveData<List<Gender>>(listOf(Gender.MALE, Gender.FEMALE))
 
     val genderList = _genderList.asLiveData()
+
+    val defaultScore = -1.0
+
+    private val _scoreList = MutableLiveData<List<Double>>(listOf(0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0))
+
+    val scoreList = _scoreList.asLiveData()
 }

@@ -30,10 +30,8 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.CommentListAdapter
 import tw.north27.coachingapp.databinding.FragmentPersonalBinding
-import tw.north27.coachingapp.model.CommentInfo
-import tw.north27.coachingapp.model.Gender
-import tw.north27.coachingapp.model.Grade
-import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.model.*
+import tw.north27.coachingapp.model.Unit
 import tw.north27.coachingapp.viewModel.PersonalViewModel
 import tw.north27.coachingapp.viewModel.PublicViewModel
 import java.text.SimpleDateFormat
@@ -44,9 +42,9 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
     override val viewBind: (View) -> FragmentPersonalBinding
         get() = FragmentPersonalBinding::bind
 
-    private val viewModel by sharedViewModel<PersonalViewModel>()
-
     private val publicVM by sharedViewModel<PublicViewModel>()
+
+    private val viewModel by sharedViewModel<PersonalViewModel>()
 
     private val commentAdapter = CommentListAdapter()
 
@@ -106,11 +104,17 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
 
         lifecycleScope.launch(Dispatchers.Main) {
             val userDef = async { viewModel.getUser() }
+            val educationListDef = async { publicVM.getEducationList() }
             val gradeListDef = async { publicVM.getGradeList() }
+            val subjectListDef = async { publicVM.getSubjectList() }
+            val unitListDef = async { publicVM.getUnitList() }
             val commentListDef = async { viewModel.getCommentList(index = 0, num = 3) }
             setUiData(
                 (userDef.await() as ViewState.Data).data,
+                (educationListDef.await() as ViewState.Data).data,
                 (gradeListDef.await() as ViewState.Data).data,
+                (subjectListDef.await() as ViewState.Data).data,
+                (unitListDef.await() as ViewState.Data).data,
                 (commentListDef.await() as ViewState.Data).data,
             )
         }
@@ -170,7 +174,14 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
 //        doubleClickToExit()
     }
 
-    private fun setUiData(userInfo: UserInfo, gradeList: List<Grade>, commentList: List<CommentInfo>) {
+    private fun setUiData(
+        userInfo: UserInfo,
+        educationList: List<Education>,
+        gradeList: List<Grade>,
+        subjectList: List<Subject>,
+        unitList: List<Unit>,
+        commentList: List<CommentInfo>
+    ) {
         if (userInfo.bgPath != null && userInfo.bgPath.isNotEmpty())
             binding.ivBg.bindImg(url = userInfo.bgPath)
         binding.itemData.apply {
@@ -255,7 +266,14 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
             }
             itemPersonalComment.apply {
                 root.isVisible = (userInfo.auth == UserPref.Authority.TEACHER)
-                if (userInfo.auth == UserPref.Authority.TEACHER) setUiComment(userInfo, commentList)
+                if (userInfo.auth == UserPref.Authority.TEACHER) setUiComment(
+                    userInfo = userInfo,
+                    educationList = educationList,
+                    gradeList = gradeList,
+                    subjectList = subjectList,
+                    unitList = unitList,
+                    commentList = commentList
+                )
             }
             itemPersonalReply.apply {
                 root.isVisible = (userInfo.auth == UserPref.Authority.TEACHER)
@@ -293,7 +311,14 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         }
     }
 
-    private fun setUiComment(userInfo: UserInfo, commentList: List<CommentInfo>) {
+    private fun setUiComment(
+        userInfo: UserInfo,
+        educationList: List<Education>,
+        gradeList: List<Grade>,
+        subjectList: List<Subject>,
+        unitList: List<Unit>,
+        commentList: List<CommentInfo>
+    ) {
         binding.itemData.itemPersonalComment.root.isVisible = (userInfo.teacherInfo?.commentScoreCountList != null) && userInfo.teacherInfo.commentScoreCountList.isNotEmpty()
         val pieEntryList = mutableListOf<PieEntry>()
         userInfo.teacherInfo?.commentScoreCountList?.forEach {
@@ -344,7 +369,12 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
             }
             data = pieData
         }.invalidate()
-        commentAdapter.submitList(commentList)
+        commentAdapter.apply {
+            this.educationList = educationList
+            this.gradeList = gradeList
+            this.subjectList = subjectList
+            this.unitList = unitList
+        }.submitList(commentList)
     }
 
 

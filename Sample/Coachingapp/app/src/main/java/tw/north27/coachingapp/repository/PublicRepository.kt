@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.repository//package tw.north27.coachingapp.repository
+package tw.north27.coachingapp.repository
 
 import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.http.safeApiResults

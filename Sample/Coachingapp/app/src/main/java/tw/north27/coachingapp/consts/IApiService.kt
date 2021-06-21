@@ -77,14 +77,14 @@ interface IApiService {
 //
 
     /**
-     * 取得教育列表
+     * 取得教育列表（回傳全部）
      * */
     @GET
     suspend fun getEducationList(): List<Education>
 
     /**
-     * 取得年級列表
-     * @param educationId >> 教育id
+     * 取得年級列表 - 預設無參數（回傳全部）
+     * @param educationId? >> 教育id
      * */
     @GET
     suspend fun getGradeList(
@@ -92,9 +92,9 @@ interface IApiService {
     ): List<Grade>
 
     /**
-     * 取得科目列表
-     * @param educationId >> 教育id
-     * @param gradeId >> 年級id
+     * 取得科目列表 - 預設無參數（回傳全部）
+     * @param educationId? >> 教育id
+     * @param gradeId? >> 年級id
      * */
     @GET
     suspend fun getSubjectList(
@@ -103,10 +103,10 @@ interface IApiService {
     ): List<Subject>
 
     /**
-     * 取得單元列表
-     * @param educationId >> 教育id
-     * @param gradeId >> 年級id
-     * @param subjectId >> 科目id
+     * 取得單元列表 - 預設無參數（回傳全部）
+     * @param educationId? >> 教育id
+     * @param gradeId? >> 年級id
+     * @param subjectId? >> 科目id
      * */
     @GET
     suspend fun getUnitList(
@@ -142,17 +142,17 @@ interface IApiService {
     /**
      * 更新用戶資訊
      * @param account >> 帳號
-     * @param bgPath >> 背景
-     * @param avatarPath >> 頭貼
+     * @param bgPath? >> 背景
+     * @param avatarPath? >> 頭貼
      * @param name >> 名稱
      * @param gender >> 性別
      * @param intro >> 簡介
-     * @param birthday >> 生日
+     * @param birthday? >> 生日
      * @param cellPhone >> 電話
      * @param homePhone >> 家電
      * @param email >> Email
-     * @param school >> 學校
-     * @param gradeId >> 年級Id
+     * @param school? >> 學校
+     * @param gradeId? >> 年級Id
      * */
     @POST
     suspend fun updateUser(
@@ -171,21 +171,20 @@ interface IApiService {
     ): Boolean
 
     /**
-     * 取得評論列表(未加載) - 依據時間近至遠撈回，未指定則撈回全部，有指定依據指定的education_id、grade_id、subject_id、unit_id取出數據
-     *
+     * 取得評論列表 - 預設無參數，依據index、num回傳數據
      * @param account >> 帳號
-    //     * @param score >> 評分
-     * @param education_id >> 教育id
-     * @param grade_id >> 年級id
-     * @param subject_id >> 科目id
-     * @param unit_id >> 單元id
+     * @param score >> 評分
+     * @param educationId >> 教育id
+     * @param gradeId >> 年級id
+     * @param subjectId >> 科目id
+     * @param unitId >> 單元id
      * @param index >> 索引
      * @param num >> 筆數
      * */
     @POST
     suspend fun getCommentList(
         @Field("account") account: String,
-//        @Field("score") score: Double,
+        @Field("score") score: Double? = null,
         @Field("education_id") educationId: Long? = null,
         @Field("grade_id") gradeId: Long? = null,
         @Field("subject_id") subjectId: Long? = null,

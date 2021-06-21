@@ -7,7 +7,7 @@
     <string name="error_content">網路連線異常</string>
     <string name="network">Network</string>
     <string name="network_content">網路連線失敗</string>
-    <!--  StartFragment  -->
+    <!-- StartFragment -->
     <string name="c">C</string>
     <string name="o">O</string>
     <string name="a">A</string>
@@ -15,7 +15,7 @@
     <string name="i">I</string>
     <string name="n">N</string>
     <string name="g">G</string>
-    <!--  Launch2Activity  -->
+    <!-- Launch2Activity -->
     <string name="coaching">Coaching</string>
     <string name="question_area">提問</string>
     <string name="study_room">學習</string>
@@ -75,7 +75,15 @@
     <string name="not_empty">不可為空</string>
     <string name="edit_success">編輯成功！</string>
     <string name="edit_failed">編輯失敗，請重新再來~</string>
-    <!--    -->
+    <!-- PersonalCommentFragment -->
+    <string name="filter">篩選</string>
+    <string name="filter_teacher">篩選老師</string>
+    <string name="clear">清空</string>
+    <string name="cancel">取消</string>
+    <string name="education">教育</string>
+    <string name="subject">科目</string>
+    <string name="unit">單元</string>
+    <string name="north27">© 北緯二十七度科技有限公司</string>
     <!--    -->
     <!--    -->
 
@@ -96,14 +104,6 @@
     <string name="enter_password">請輸入密碼</string>
     <string name="sign_in">登入</string>
     <!--  MainHomeFragment  -->
-    <string name="filter">篩選</string>
-    <string name="filter_teacher">篩選老師</string>
-    <string name="clear">清空</string>
-    <string name="cancel">取消</string>
-    <string name="education">教育</string>
-    <string name="subject">科目</string>
-    <string name="unit">單元</string>
-    <string name="north27">© 北緯二十七度科技有限公司</string>
     <!--  TeacherDetailDialogFragment  -->
     <string name="score">評分</string>
     <string name="reply_rate">回覆率</string>

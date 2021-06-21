@@ -31,17 +31,17 @@ var replyNoticeTest = false
 var msgNoticeTest = true
 
 val commentListTest = listOf(
-    CommentInfo(id = 0, account = "eliseLeeAccount", name = "Elise Lee", score = 5.0, content = "非常友善的老師，教學引導方式也很有趣，孩子非常有意願開始學習。", date = "2021-06-17", educationId = 1, gradeId = 1, subjectId = 1, unitId = 1),
-    CommentInfo(id = 1, account = "cathychuAccount", name = "CATHY CHU", score = 4.0, content = "用心教學。", date = "2021-06-12", educationId = 1, gradeId = 1, subjectId = 1, unitId = 1),
-    CommentInfo(id = 2, account = "harrisAccount", name = "Harris", score = 4.0, content = "老師很友善，也有豐富家教經驗~而老師本身也是教育系背景出身~懂得學生需求，國文和英文也都能細心教授~非常推薦喔!", date = "2021-05-31", educationId = 1, gradeId = 1, subjectId = 1, unitId = 3),
-    CommentInfo(id = 3, account = "justinAccount", name = "Justin", score = 3.0, content = "Good", date = "2021-01-23", educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
-    CommentInfo(id = 4, account = "chenWenshanAccount", name = "陳文山", score = 4.5, content = "AT平台上難得的一位優質老師！。", date = "2021-01-22", educationId = 1, gradeId = 1, subjectId = 1, unitId = 5),
-    CommentInfo(id = 5, account = "zachAccount", name = "Zach", score = 4.5, content = "老師的口條與ppt重點整理清晰，非常推薦各位被國文所苦的同學\uD83D\uDC4D\uD83C\uDFFB。", date = "2021-01-16", educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
-    CommentInfo(id = 6, account = "ranniehsieAccount", name = "rannie hsie", score = 5.0, content = "老師很有耐性引導孩子, 有自製教材", date = "2021-01-15", educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
-    CommentInfo(id = 7, account = "wangLiangyinAccount", name = "王亮尹", score = 3.5, content = "great", date = "2021-01-11", educationId = 1, gradeId = 1, subjectId = 1, unitId = 4),
-    CommentInfo(id = 8, account = "zhaiQingfengAccount", name = "翟清峰", score = 4.0, content = "家裡的姐姐很喜歡上妳的課，平常對國文不怎麼有興趣的都活了起來了，哈", date = "2020-12-29", educationId = 1, gradeId = 1, subjectId = 1, unitId = 3),
-    CommentInfo(id = 9, account = "wangZhengAccount", name = "王正", score = 5.0, content = "很棒的老師，課前會認真的訊問我的狀況，體驗課後給予適合的規劃與建議！", date = "2020-12-27", educationId = 1, gradeId = 1, subjectId = 1, unitId = 4),
-    CommentInfo(id = 10, account = "michaelAccount", name = "Michael", score = 4.0, content = "Excellent lesson with interesting material and clear explanations!", date = "2020-12-04", educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
+    CommentInfo(id = 0, sendAccount = "eliseLeeAccount", sendName = "Elise Lee", receiveAccount = accountTest, receiveName = nameTest, score = 5.0, content = "非常友善的老師，教學引導方式也很有趣，孩子非常有意願開始學習。", date = "2021-06-17", educationId = 1, gradeId = 1, subjectId = 1, unitId = 1),
+    CommentInfo(id = 1, sendAccount = "cathychuAccount", sendName = "CATHY CHU", receiveAccount = accountTest, receiveName = nameTest, score = 4.0, content = "用心教學。", date = "2021-06-12", educationId = 1, gradeId = 1, subjectId = 1, unitId = 1),
+    CommentInfo(id = 2, sendAccount = "harrisAccount", sendName = "Harris", receiveAccount = accountTest, receiveName = nameTest, score = 4.0, content = "老師很友善，也有豐富家教經驗~而老師本身也是教育系背景出身~懂得學生需求，國文和英文也都能細心教授~非常推薦喔!", date = "2021-05-31", educationId = 1, gradeId = 1, subjectId = 1, unitId = 3),
+    CommentInfo(id = 3, sendAccount = "justinAccount", sendName = "Justin", receiveAccount = accountTest, receiveName = nameTest, score = 3.0, content = "Good", date = "2021-01-23", educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
+    CommentInfo(id = 4, sendAccount = "chenWenshanAccount", sendName = "陳文山", receiveAccount = accountTest, receiveName = nameTest, score = 4.5, content = "AT平台上難得的一位優質老師！。", date = "2021-01-22", educationId = 1, gradeId = 1, subjectId = 1, unitId = 5),
+    CommentInfo(id = 5, sendAccount = "zachAccount", sendName = "Zach", receiveAccount = accountTest, receiveName = nameTest, score = 4.5, content = "老師的口條與ppt重點整理清晰，非常推薦各位被國文所苦的同學\uD83D\uDC4D\uD83C\uDFFB。", date = "2021-01-16", educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
+    CommentInfo(id = 6, sendAccount = "ranniehsieAccount", sendName = "rannie hsie", receiveAccount = accountTest, receiveName = nameTest, score = 5.0, content = "老師很有耐性引導孩子, 有自製教材", date = "2021-01-15", educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
+    CommentInfo(id = 7, sendAccount = "wangLiangyinAccount", sendName = "王亮尹", receiveAccount = accountTest, receiveName = nameTest, score = 3.5, content = "great", date = "2021-01-11", educationId = 1, gradeId = 1, subjectId = 1, unitId = 4),
+    CommentInfo(id = 8, sendAccount = "zhaiQingfengAccount", sendName = "翟清峰", receiveAccount = accountTest, receiveName = nameTest, score = 4.0, content = "家裡的姐姐很喜歡上妳的課，平常對國文不怎麼有興趣的都活了起來了，哈", date = "2020-12-29", educationId = 1, gradeId = 1, subjectId = 1, unitId = 3),
+    CommentInfo(id = 9, sendAccount = "wangZhengAccount", sendName = "王正", receiveAccount = accountTest, receiveName = nameTest, score = 5.0, content = "很棒的老師，課前會認真的訊問我的狀況，體驗課後給予適合的規劃與建議！", date = "2020-12-27", educationId = 1, gradeId = 1, subjectId = 1, unitId = 4),
+    CommentInfo(id = 10, sendAccount = "michaelAccount", sendName = "Michael", receiveAccount = accountTest, receiveName = nameTest, score = 4.0, content = "Excellent lesson with interesting material and clear explanations!", date = "2020-12-04", educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
 )
 
 /**

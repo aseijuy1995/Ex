@@ -65,10 +65,8 @@
                         layout="@layout/item_network" />
 
                     <include
-                        android:id="@+id/item_shimmer"
-                        layout="@layout/fragment_comment_list_shimmer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:id="@+id/item_comment_list_load"
+                        layout="@layout/fragment_comment_list_load" />
 
                 </FrameLayout>
 

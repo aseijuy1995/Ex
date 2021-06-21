@@ -73,9 +73,9 @@
 
     <fragment
         android:id="@+id/fragment_comment_list"
-        android:name="tw.north27.coachingapp.ui.CommentListFragment"
+        android:name="tw.north27.coachingapp.ui.PersonalCommentFragment"
         android:label="fragment_comment_list"
-        tools:layout="@layout/fragment_comment_list" />
+        tools:layout="@layout/fragment_personal_comment" />
 
     <dialog
         android:id="@+id/fragment_sign_out_dialog"

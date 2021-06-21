@@ -62,22 +62,21 @@ data class SignOutInfo(
 
 /**
  * 用戶資訊
- * id >> 用戶id
- * account >> 帳號
- * auth >> 權限，STUDENT、TEACHER
- * bgPath >> 背景圖
- * avatarPath >> 頭貼
- * name >> 名稱
- * gender >> 性別
- * intro >> 簡介
- * birthday >> 生日
- * cellPhone >> 手機號
- * homePhone >> 家電號
- * email >> E-Mail
- * studentInfo >> 學生資訊
- * teacherInfo >> 老師資訊
- * teacherInfo >> 老師資訊
- * userConfig >> 用戶設定
+ * @param id >> 用戶id
+ * @param account >> 帳號
+ * @param auth >> 權限，STUDENT、TEACHER
+ * @param bgPath >> 背景圖
+ * @param avatarPath >> 頭貼
+ * @param name >> 名稱
+ * @param gender >> 性別
+ * @param intro >> 簡介
+ * @param birthday >> 生日
+ * @param cellPhone >> 手機號
+ * @param homePhone >> 家電號
+ * @param email >> E-Mail
+ * @param studentInfo >> 學生資訊
+ * @param teacherInfo >> 老師資訊
+ * @param userConfig >> 用戶設定
  * */
 @Parcelize
 data class UserInfo(
@@ -99,16 +98,18 @@ data class UserInfo(
 ) : Parcelable
 
 /**
- * MALE >> 男
- * FEMALE >> 女
+ * 性別
+ * @param MALE >> 男
+ * @param FEMALE >> 女
  * */
 enum class Gender {
     MALE, FEMALE
 }
 
 /**
- * school >> 學校
- * gradeId >> 年級Id
+ * 學生資訊
+ * @param school >> 學校
+ * @param gradeId >> 年級Id
  * */
 @Parcelize
 data class StudentInfo(
@@ -118,18 +119,11 @@ data class StudentInfo(
 
 /**
  * 老師資訊
- * commentScoreAvg >> 平均評分(包含未回已結單的)
- * commentScoreCountList >> 各評分數量(包含未回已結單的) - 須確定是否空的分數也要撈，目前測試資料依據有值的才撈取顯示
-
- * replyRate >> 回覆率(包含未回以結單的)
- * replyNum >> 已回覆數
- * noReplyNum >> 未回覆數
-
- *
- * subjectList >> (暫時)科目列表
- * unitList >> 單元列表
- *
- *
+ * @param commentScoreAvg >> 評論均分
+ * @param commentScoreCountList >> 1~5評分數量列表
+ * @param replyRate >> 回覆率
+ * @param replyCountList >> 已回覆、未回覆數量列表
+ * @param unitList >> 單元列表
  * */
 @Parcelize
 data class TeacherInfo(
@@ -137,18 +131,14 @@ data class TeacherInfo(
     val commentScoreCountList: List<ScoreCountInfo>? = null,
     val replyRate: Double = 100.0,
     val replyCountList: List<ReplyCountInfo>? = null,
-//    val replyNum: Int = 0,
-//    val noReplyNum: Int = 0,
-
-    //
     val subjectList: List<Subject>,
     val unitList: List<Unit>,
 ) : Parcelable
 
 /**
  * 用戶設定
- * replyRemind >> 回覆提醒開關
- * msgRemind >> 訊息提醒開關
+ * @param replyRemind >> 回覆提醒
+ * @param msgRemind >> 訊息提醒
  * */
 @Parcelize
 data class UserConfig(
@@ -157,8 +147,9 @@ data class UserConfig(
 ) : Parcelable
 
 /**
- * score >> 評分
- * count >> 數量
+ * 評分數量列表
+ * @param score >> 評分
+ * @param count >> 數量
  * */
 @Parcelize
 data class ScoreCountInfo(
@@ -167,23 +158,27 @@ data class ScoreCountInfo(
 ) : Parcelable
 
 /**
- * 評論
- * id >> 評論id
- * account >> 評論者帳號
- * name >> 名稱
- * score >> 評分，1~5分
- * content >> 內容
- * date >> 日期
- * educationId >> 教育
- * gradeId >> 年級
- * subjectId >> 科目
- * unitId >> 單元
+ * 評論資訊
+ * @param id >> 評論id
+ * @param sendAccount >> 發送者帳號
+ * @param sendName >> 發送者名稱
+ * @param receiveAccount >> 接收者帳號
+ * @param receiveName >> 接收者名稱
+ * @param score >> 評分，1~5分
+ * @param content >> 內容
+ * @param date >> 日期
+ * @param educationId >> 教育
+ * @param gradeId >> 年級
+ * @param subjectId >> 科目
+ * @param unitId >> 單元
  * */
 @Parcelize
 data class CommentInfo(
     val id: Long,
-    val account: String,
-    val name: String,
+    val sendAccount: String,
+    val sendName: String,
+    val receiveAccount: String,
+    val receiveName: String,
     val score: Double,
     val content: String,
     val date: String,
@@ -194,8 +189,9 @@ data class CommentInfo(
 ) : Parcelable
 
 /**
- * reply >> 已回覆、未回覆
- * count >> 數量
+ * 回覆數量列表
+ * @param reply >> 已回覆、未回覆
+ * @param count >> 數量
  * */
 @Parcelize
 data class ReplyCountInfo(
