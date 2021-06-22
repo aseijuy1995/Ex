@@ -1,46 +1,52 @@
 package tw.north27.coachingapp.model
 
+import com.google.gson.annotations.SerializedName
+import java.util.*
+
 /**
- * appState >> App狀態
- * maintainInfo >> 維護資訊
- * runInfo >> 運行資訊
+ * App基礎設定
+ * @param appCode >> 狀態碼 運行中(1000)、維護中(1001)
+ * @param runInfo >> 運行資訊
+ * @param maintainInfo >> 維護資訊
  * */
 data class AppConfig(
-    val appState: AppState,
-    val maintainInfo: MaintainInfo? = null,
-    val runInfo: RunInfo? = null
+    @SerializedName("app_code") val appCode: Int,//AppCode
+    @SerializedName("run_info") val runInfo: RunInfo? = null,
+    @SerializedName("maintain_info") val maintainInfo: MaintainInfo? = null,
 )
 
 /**
- * MAINTAIN >> 維護中
- * RUN >> 運行中
+ * App狀態碼
+ * @param RUN >> 運行中(1000)
+ * @param MAINTAIN >> 維護中(1001)
  * */
-enum class AppState {
-    MAINTAIN, RUN;
+enum class AppCode(val code: Int) {
+    RUN(1000),
+    MAINTAIN(1001);
 }
 
 /**
- * title >> 標題
- * text >> 內文
- * time >> 預計完成時間
+ * 運行資訊
+ * @param versionName >> 版本名
+ * @param url >> 下載連結
+ * @param content >> 更新內容
+ * @param size >> app大小
+ * @param isCompulsory >> 是否強制更新
  * */
-data class MaintainInfo(
-    val title: String,
-    val text: String,
-    val time: String
+data class RunInfo(
+    @SerializedName("version_name") val versionName: String,
+    @SerializedName("google_play_url") val url: String,
+    @SerializedName("content") val content: String? = null,
+    @SerializedName("app_size") val size: String? = null,
+    @SerializedName("compulsory") val isCompulsory: Boolean = true
 )
 
 /**
- * versionName >> 版本名
- * url >> google play url
- * text >> 內文
- * size >> apk size
- * isMandatory >> 是否強制更新
+ * 維護資訊
+ * @param content >> 維護內容
+ * @param time >> 預計完成時間
  * */
-data class RunInfo(
-    val versionName: String,
-    val url: String,
-    val text: String,
-    val size: String,
-    val isMandatory: Boolean
+data class MaintainInfo(
+    @SerializedName("content") val content: String? = null,
+    @SerializedName("time") val time: Date? = null
 )

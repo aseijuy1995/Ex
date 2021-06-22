@@ -7,40 +7,38 @@ import android.view.WindowInsets
 import android.view.WindowInsetsController
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
-import androidx.navigation.findNavController
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseAppCompatActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ActivityLaunchBinding
+import tw.north27.coachingapp.viewModel.PublicViewModel
 
 class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaunchBinding::inflate) {
 
-    private val backgroundResList = listOf<Int>(
-        R.drawable.ic_launch_background1,
-        R.drawable.ic_launch_background2,
-        R.drawable.ic_launch_background3,
-        R.drawable.ic_launch_background4,
-        R.drawable.ic_launch_background5,
-        R.drawable.ic_launch_background6,
-        R.drawable.ic_launch_background7,
-        R.drawable.ic_launch_background8,
-        R.drawable.ic_launch_background9,
-    )
+    val navFragment: NavHostFragment
+        get() = (supportFragmentManager.findFragmentById(R.id.fcv_launch) as NavHostFragment)
 
-    val backgroundRes: Int
-        get() = backgroundResList[backgroundResList.indices.random()]
+    val navController: NavController
+        get() = navFragment.navController
+
+    private val publicVM by viewModel<PublicViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.ivBackground.bindImg(
-            resId = backgroundRes,
-            blurRadius = 10,
-            blurSampling = 3
-        )
+        publicVM.launchBgRes.observe(this) {
+            binding.ivBackground.bindImg(
+                resId = it,
+                blurRadius = 10,
+                blurSampling = 3
+            )
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        return super.onSupportNavigateUp() || findNavController(R.id.fcv_launch).navigateUp()
+        return super.onSupportNavigateUp() || navController.navigateUp()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {

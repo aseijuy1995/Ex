@@ -10,11 +10,14 @@ import com.yujie.utilmodule.UserPref
 import com.yujie.utilmodule.base.BaseAppCompatActivity
 import com.yujie.utilmodule.pref.getAuth
 import com.yujie.utilmodule.pref.userPref
+import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ActivityLaunch2Binding
+import tw.north27.coachingapp.viewModel.PublicViewModel
 
 class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLaunch2Binding::inflate) {
 
@@ -23,6 +26,8 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
 
     val navController: NavController
         get() = navFragment.navController
+
+    val publicVM by viewModel<PublicViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +42,7 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
                 R.id.fragment_sign_out_dialog,
                     //
                 R.id.fragment_teacher_detail_dialog,
-                 -> true
+                -> true
                 else -> false
             }
         }
@@ -64,6 +69,18 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
                     itemStudy.isVisible = false
                     itemNotice.isVisible = true
                     itemPersonal.isVisible = true
+                }
+            }
+        }
+
+        publicVM.educationDataState.observe(this) {
+            when (it) {
+                is ViewState.Data -> {
+                    val educationData = it.data
+                    publicVM.setEducationList(educationData.educationList)
+                    publicVM.setGradeList(educationData.gradeList)
+                    publicVM.setSubjectList(educationData.subjectList)
+                    publicVM.setUnitList(educationData.unitList)
                 }
             }
         }

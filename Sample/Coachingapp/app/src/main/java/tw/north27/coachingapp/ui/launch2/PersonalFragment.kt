@@ -21,7 +21,7 @@ import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseFragment
 import com.yujie.utilmodule.ext.checkedChangesObserve
 import com.yujie.utilmodule.ext.clicksObserve
-import com.yujie.utilmodule.ext.isVisible
+import com.yujie.utilmodule.ext.visible
 import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -31,9 +31,7 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.CommentListAdapter
 import tw.north27.coachingapp.databinding.FragmentPersonalBinding
 import tw.north27.coachingapp.model.*
-import tw.north27.coachingapp.model.Unit
 import tw.north27.coachingapp.viewModel.PersonalViewModel
-import tw.north27.coachingapp.viewModel.PublicViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -42,7 +40,8 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
     override val viewBind: (View) -> FragmentPersonalBinding
         get() = FragmentPersonalBinding::bind
 
-    private val publicVM by sharedViewModel<PublicViewModel>()
+    private val launch2Act: Launch2Activity
+        get() = act as Launch2Activity
 
     private val viewModel by sharedViewModel<PersonalViewModel>()
 
@@ -51,7 +50,6 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            ivBg.bindImg(resId = viewModel.bgRes.value)
             ctlLayout.apply {
                 setCollapsedTitleTextColor(AppCompatResources.getColorStateList(cxt, R.color.white))
                 setExpandedTitleTextColor(AppCompatResources.getColorStateList(cxt, R.color.white))
@@ -95,7 +93,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         }
 
         viewModel.userState.observe(viewLifecycleOwner) {
-            binding.itemPersonalLoad.sflView.isVisible = (it is ViewState.Load)
+            binding.itemPersonalLoad.sflView.visible = (it is ViewState.Load)
             binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
             binding.itemData.nsvView.isVisible = (it is ViewState.Data)
             binding.itemError.root.isVisible = (it is ViewState.Error)
@@ -104,19 +102,11 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
 
         lifecycleScope.launch(Dispatchers.Main) {
             val userDef = async { viewModel.getUser() }
-            val educationListDef = async { publicVM.getEducationList() }
-            val gradeListDef = async { publicVM.getGradeList() }
-            val subjectListDef = async { publicVM.getSubjectList() }
-            val unitListDef = async { publicVM.getUnitList() }
             val commentListDef = async { viewModel.getCommentList(index = 0, num = 3) }
-            setUiData(
-                (userDef.await() as ViewState.Data).data,
-                (educationListDef.await() as ViewState.Data).data,
-                (gradeListDef.await() as ViewState.Data).data,
-                (subjectListDef.await() as ViewState.Data).data,
-                (unitListDef.await() as ViewState.Data).data,
-                (commentListDef.await() as ViewState.Data).data,
-            )
+//            setUiData(
+//                (userDef.await() as ViewState.Data).data,
+//                (commentListDef.await() as ViewState.Data).data,
+//            )
         }
 
         //編輯
@@ -179,15 +169,17 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         educationList: List<Education>,
         gradeList: List<Grade>,
         subjectList: List<Subject>,
-        unitList: List<Unit>,
+        unitsList: List<Units>,
         commentList: List<CommentInfo>
     ) {
-        if (userInfo.bgPath != null && userInfo.bgPath.isNotEmpty())
-            binding.ivBg.bindImg(url = userInfo.bgPath)
+        if (userInfo.bgUrl != null && userInfo.bgUrl.isNotEmpty())
+            binding.ivBg.bindImg(url = userInfo.bgUrl)
+        else
+            binding.ivBg.bindImg(resId = viewModel.bgRes.value)
         binding.itemData.apply {
             itemPersonalUser.apply {
                 ivAvatar.bindImg(
-                    url = userInfo.avatarPath,
+                    url = userInfo.avatarUrl,
                     placeRes = R.drawable.ic_baseline_account_box_24_gray,
                     roundingRadius = 5
                 )
@@ -228,7 +220,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                 }
                 tvGrade.apply {
                     isVisible = (userInfo.auth == UserPref.Authority.STUDENT) && (userInfo.studentInfo != null) && (userInfo.studentInfo.gradeId != null)
-                    text = String.format("%s：%s", getString(R.string.grade), gradeList.find { it.id == userInfo.studentInfo?.gradeId }?.text)
+                    text = String.format("%s：%s", getString(R.string.grade), gradeList.find { it.id == userInfo.studentInfo?.gradeId }?.name)
                 }
             }
             itemPersonalIntro.apply {
@@ -271,7 +263,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                     educationList = educationList,
                     gradeList = gradeList,
                     subjectList = subjectList,
-                    unitList = unitList,
+                    unitsList = unitsList,
                     commentList = commentList
                 )
             }
@@ -316,7 +308,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         educationList: List<Education>,
         gradeList: List<Grade>,
         subjectList: List<Subject>,
-        unitList: List<Unit>,
+        unitsList: List<Units>,
         commentList: List<CommentInfo>
     ) {
         binding.itemData.itemPersonalComment.root.isVisible = (userInfo.teacherInfo?.commentScoreCountList != null) && userInfo.teacherInfo.commentScoreCountList.isNotEmpty()
@@ -373,7 +365,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
             this.educationList = educationList
             this.gradeList = gradeList
             this.subjectList = subjectList
-            this.unitList = unitList
+            this.unitsList = unitsList
         }.submitList(commentList)
     }
 

@@ -21,8 +21,8 @@ import tw.north27.coachingapp.NavGraphDirections
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentStartBinding
 import tw.north27.coachingapp.ext.updateApp
-import tw.north27.coachingapp.model.AppState
-import tw.north27.coachingapp.model.SignInState
+import tw.north27.coachingapp.model.AppCode
+import tw.north27.coachingapp.model.SignInCode
 import tw.north27.coachingapp.ui.launch2.Launch2Activity
 import tw.north27.coachingapp.viewModel.StartViewModel
 
@@ -36,42 +36,26 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(act)
-            .addOnSuccessListener {
-                FirebaseMsg.getInstance(complete = { viewModel.getAppConfig() })
-            }.addOnFailureListener {
-                act.alertGoogleService()
-            }
-
         viewModel.appConfigState.observe(viewLifecycleOwner) {
             binding.svkView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
             when (it) {
                 is ViewState.Data -> {
                     val appConfig = it.data
-                    when (appConfig.appState) {
-                        AppState.MAINTAIN -> {
+                    when (appConfig.appCode) {
+                        AppCode.MAINTAIN.code -> {
                             findNavController().navigate(StartFragmentDirections.actionFragmentStartToFragmentMaintainDialog())
                         }
-                        AppState.RUN -> {
+                        AppCode.RUN.code -> {
                             val updateInfo = appConfig.runInfo!!
                             act.updateApp(updateInfo.versionName).builder {
                                 versionNameMode = UpdateApp.VersionNameMode.DEFAULT
                             }.execute(
                                 newVersion = { _, _ -> findNavController().navigate(StartFragmentDirections.actionFragmentStartToFragmentUpdateDialog()) },
-                                noNewVersion = { viewModel.checkSignIn() }
+                                noNewVersion = { checkFcmAndSignIn() }
                             )
                         }
                     }
                 }
-                //FIXME　整合處理各頁面錯誤
-                is ViewState.Error, is ViewState.Network -> {
-                }
-            }
-        }
-
-        setFragmentResultListener(UpdateDialogFragment.REQUEST_KEY_UPDATE_CLOSE) { _, bundle ->
-            bundle.getBoolean(UpdateDialogFragment.KEY_UPDATE_CLOSE).takeIf { it }?.let {
-                viewModel.checkSignIn()
             }
         }
 
@@ -83,8 +67,8 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                 }
                 is ViewState.Data -> {
                     val signIn = it.data
-                    when (signIn.signInState) {
-                        SignInState.SIGN_IN -> {
+                    when (signIn.signInCode) {
+                        SignInCode.SIGN_IN_SUCCESS -> {
                             lifecycleScope.launch {
                                 Toast.makeText(cxt, signIn.signInInfo?.msg, Toast.LENGTH_SHORT).show()
                                 delay(200)
@@ -92,7 +76,7 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                                 act.finish()
                             }
                         }
-                        SignInState.SIGN_OUT -> {
+                        SignInCode.SIGN_OUT -> {
                             lifecycleScope.launch {
                                 Toast.makeText(cxt, signIn.signOutInfo?.msg, Toast.LENGTH_SHORT).show()
                                 delay(200)
@@ -101,11 +85,28 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                         }
                     }
                 }
-                //FIXME　整合處理各頁面錯誤
-                is ViewState.Error, is ViewState.Network -> {
-                }
             }
         }
+
+        viewModel.getAppConfig()
+
+        setFragmentResultListener(UpdateDialogFragment.REQUEST_KEY_UPDATE_CLOSE) { _, bundle ->
+            bundle.getBoolean(UpdateDialogFragment.KEY_UPDATE_CLOSE).takeIf { it }?.let {
+                checkFcmAndSignIn()
+            }
+        }
+
+    }
+
+    fun checkFcmAndSignIn() {
+        GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(act)
+            .addOnSuccessListener {
+                FirebaseMsg.getInstance(complete = {
+                    viewModel.checkSignIn()
+                })
+            }.addOnFailureListener {
+                act.alertGoogleService()
+            }
     }
 
 }

@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.SignIn
-import tw.north27.coachingapp.model.SignInState
+import tw.north27.coachingapp.model.SignInCode
 import tw.north27.coachingapp.repository.IUserRepository
 
 class SignInViewModel(
@@ -49,8 +49,8 @@ class SignInViewModel(
                     val refreshTokenNew: String
                     val pushTokenNew: String
                     val isFirstNew: Boolean
-                    when (signIn.signInState) {
-                        SignInState.SIGN_IN -> {
+                    when (signIn.signInCode) {
+                        SignInCode.SIGN_IN_SUCCESS -> {
                             val signInInfo = signIn.signInInfo!!
                             val userInfo = signInInfo.userInfo!!
                             accountNew = userInfo.account
@@ -60,7 +60,7 @@ class SignInViewModel(
                             pushTokenNew = signInInfo.pushToken!!
                             isFirstNew = signInInfo.isFirst!!
                         }
-                        SignInState.SIGN_OUT -> {
+                        SignInCode.SIGN_OUT -> {
                             accountNew = ""
                             authNew = UserPref.Authority.UNKNOWN
                             accessTokenNew = ""

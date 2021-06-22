@@ -5,18 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.yujie.utilmodule.UserPref
 import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseFragment
 import com.yujie.utilmodule.ext.clicksObserve
-import com.yujie.utilmodule.ext.isVisible
+import com.yujie.utilmodule.ext.visible
 import com.yujie.utilmodule.util.ViewState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
@@ -58,23 +54,23 @@ class PersonalEditFragment : BaseFragment<FragmentPersonalEditBinding>(R.layout.
         }
 
         viewModel.userState.observe(viewLifecycleOwner) {
-            binding.itemPersonalEditLoad.sflView.isVisible = (it is ViewState.Load)
+            binding.itemPersonalEditLoad.sflView.visible = (it is ViewState.Load)
             binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
             binding.itemData.root.isVisible = (it is ViewState.Data)
             binding.itemError.root.isVisible = (it is ViewState.Error)
             binding.itemNetwork.root.isVisible = (it is ViewState.Network)
         }
 
-        lifecycleScope.launch(Dispatchers.Main) {
-            val userDef = async { viewModel.getUser() }
-            val gradeListDef = async { publicVM.getGradeList() }
-            val genderListDef = async { publicVM.genderList.value }
-            setUiData(
-                (userDef.await() as ViewState.Data).data,
-                (gradeListDef.await() as ViewState.Data).data,
-                genderListDef.await()
-            )
-        }
+//        lifecycleScope.launch(Dispatchers.Main) {
+//            val userDef = async { viewModel.getUser() }
+//            val gradeListDef = async { publicVM.getGradeList() }
+//            val genderListDef = async { publicVM.genderList.value }
+//            setUiData(
+//                (userDef.await() as ViewState.Data).data,
+//                (gradeListDef.await() as ViewState.Data).data,
+//                genderListDef.await()
+//            )
+//        }
 
         viewModel.updateUserState.observe(viewLifecycleOwner) {
             if (it is ViewState.Load) LoadingDialogFragment.show(parentFragmentManager)
@@ -187,9 +183,9 @@ class PersonalEditFragment : BaseFragment<FragmentPersonalEditBinding>(R.layout.
 
     private fun setUiData(userInfo: UserInfo, gradeList: List<Grade>, genderList: List<Gender>?) {
         binding.itemData.apply {
-            if (userInfo.bgPath != null && userInfo.bgPath.isNotEmpty())
-                ivBg.bindImg(url = userInfo.bgPath)
-            ivAvatar.bindImg(url = userInfo.avatarPath, roundingRadius = 5)
+            if (userInfo.bgUrl != null && userInfo.bgUrl.isNotEmpty())
+                ivBg.bindImg(url = userInfo.bgUrl)
+            ivAvatar.bindImg(url = userInfo.avatarUrl, roundingRadius = 5)
             itemPersonalUserEdit.apply {
                 etName.setText(userInfo.name)
                 tvAccount.text = userInfo.account

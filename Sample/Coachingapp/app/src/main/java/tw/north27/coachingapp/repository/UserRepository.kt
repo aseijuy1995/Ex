@@ -11,8 +11,8 @@ import java.util.*
 
 class UserRepository(val service: IApiService, val context: Context) : IUserRepository {
 
-    override suspend fun checkSignIn(uuid: String, account: String, pushToken: String): Results<SignIn> {
-        return safeApiResults { service.checkSignIn(uuid = uuid, account = account, pushToken = pushToken) }
+    override suspend fun checkSignIn(account: String, pushToken: String): Results<SignIn> {
+        return safeApiResults { service.checkSignIn(account = account, pushToken = pushToken) }
     }
 
     override suspend fun signIn(uuid: String, account: String, password: String, pushToken: String): Results<SignIn> {

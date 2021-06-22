@@ -3,23 +3,21 @@ package tw.north27.coachingapp.viewModel
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.yujie.pushmodule.fcm.FirebaseMsg
 import com.yujie.utilmodule.UserPref
 import com.yujie.utilmodule.base.BaseAndroidViewModel
 import com.yujie.utilmodule.ext.asLiveData
 import com.yujie.utilmodule.http.Results
-import com.yujie.utilmodule.pref.*
+import com.yujie.utilmodule.pref.setUserPref
+import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.ViewState
-import com.yujie.utilmodule.util.logI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.model.AppConfig
 import tw.north27.coachingapp.model.SignIn
-import tw.north27.coachingapp.model.SignInState
+import tw.north27.coachingapp.model.SignInCode
 import tw.north27.coachingapp.repository.IPublicRepository
 import tw.north27.coachingapp.repository.IUserRepository
-import java.util.*
 
 class StartViewModel(
     application: Application,
@@ -33,14 +31,7 @@ class StartViewModel(
 
     fun getAppConfig() = viewModelScope.launch(Dispatchers.IO) {
         _appConfigState.postValue(ViewState.load())
-        cxt.userPref.setPushToken(FirebaseMsg.fcmToken!!)
-        var uuid = cxt.userPref.getUuid().first()
-        if (uuid.isEmpty()) {
-            uuid = UUID.randomUUID().toString()
-            cxt.userPref.setUuid(uuid)
-            logI("uuid = $uuid")
-        }
-        val results = publicRepo.getAppConfig(uuid, FirebaseMsg.fcmToken!!)
+        val results = publicRepo.getAppConfig()
         when (results) {
             is Results.Successful<AppConfig> -> {
                 _appConfigState.postValue(ViewState.data(results.data))
@@ -61,15 +52,13 @@ class StartViewModel(
     fun checkSignIn() = viewModelScope.launch(Dispatchers.IO) {
         _signInState.postValue(ViewState.load())
         val userPref = cxt.userPref.data.first()
-        val uuid = userPref.uuid
         val account = userPref.account
         val accessToken = userPref.accessToken
         val pushToken = userPref.pushToken
-
-        if (account.isEmpty() || accessToken.isEmpty()) {
+        if (account.isEmpty() || accessToken.isEmpty() || pushToken.isEmpty()) {
             _signInState.postValue(ViewState.empty())
         } else {
-            val results = userRepo.checkSignIn(uuid, account, pushToken)
+            val results = userRepo.checkSignIn(account, pushToken)
             when (results) {
                 is Results.Successful<SignIn> -> {
                     val signIn = results.data
@@ -80,8 +69,8 @@ class StartViewModel(
                     val pushTokenNew: String
                     val isFirstNew: Boolean
                     //
-                    when (signIn.signInState) {
-                        SignInState.SIGN_IN -> {
+                    when (signIn.signInCode) {
+                        SignInCode.SIGN_IN_SUCCESS -> {
                             val signInInfo = signIn.signInInfo!!
                             val userInfo = signInInfo.userInfo!!
                             accountNew = userInfo.account
@@ -91,7 +80,8 @@ class StartViewModel(
                             pushTokenNew = signInInfo.pushToken!!
                             isFirstNew = signInInfo.isFirst!!
                         }
-                        SignInState.SIGN_OUT -> {
+//                        SignInCode.SIGN_IN_FAILED -> {
+                        else -> {
                             accountNew = ""
                             authNew = UserPref.Authority.UNKNOWN
                             accessTokenNew = ""

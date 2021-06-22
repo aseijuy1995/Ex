@@ -1,27 +1,11 @@
 package tw.north27.coachingapp.ui.launch2//package tw.north27.coachingapp.ui
 
-import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import androidx.core.view.GravityCompat
-import androidx.core.view.isVisible
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import com.yujie.utilmodule.base.BaseFragment
-import com.yujie.utilmodule.ext.clicksObserve
-import com.yujie.utilmodule.ext.isVisible
-import com.yujie.utilmodule.ext.observe
-import com.yujie.utilmodule.util.ViewState
-import com.yujie.utilmodule.util.logI
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.databinding.FragmentCoachingBinding
-import tw.north27.coachingapp.model.Education
-import tw.north27.coachingapp.model.Grade
-import tw.north27.coachingapp.model.Subject
-import tw.north27.coachingapp.model.Unit
 import tw.north27.coachingapp.viewModel.MainHomeViewModel
 
 class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment_coaching) {

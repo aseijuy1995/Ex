@@ -22,7 +22,7 @@
 
         <variable
             name="unit"
-            type="tw.north27.coachingapp.model.Unit" />
+            type="tw.north27.coachingapp.model.Units" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -121,7 +121,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text='@{String.format("%s：%s",@string/education, education.text)}'
+                        android:text='@{String.format("%s：%s",@string/education, education.name)}'
                         android:textColor="@color/gray_666666"
                         android:textSize="10sp" />
 
@@ -130,7 +130,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text='@{String.format("%s：%s",@string/grade, grade.text)}'
+                        android:text='@{String.format("%s：%s",@string/grade, grade.name)}'
                         android:textColor="@color/gray_666666"
                         android:textSize="10sp" />
 
@@ -146,7 +146,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text='@{String.format("%s：%s", @string/subject,subject.text)}'
+                        android:text='@{String.format("%s：%s", @string/subject,subject.name)}'
                         android:textColor="@color/gray_666666"
                         android:textSize="10sp" />
 
@@ -155,7 +155,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text='@{String.format("%s：%s", @string/unit,unit.text)}'
+                        android:text='@{String.format("%s：%s", @string/unit,unit.name)}'
                         android:textColor="@color/gray_666666"
                         android:textSize="10sp" />
 

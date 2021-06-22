@@ -39,25 +39,25 @@
 
         <activity android:name=".ui.launch2.Launch2Activity" />
 
-        <!--        <service-->
-        <!--            android:name=".push.FcmService"-->
-        <!--            android:exported="false">-->
-        <!--            <intent-filter>-->
-        <!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
-        <!--            </intent-filter>-->
-        <!--        </service>-->
+        <service
+            android:name=".push.FcmService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
-        <!--        <meta-data-->
-        <!--            android:name="com.google.firebase.messaging.default_notification_icon"-->
-        <!--            android:resource="@mipmap/ic_pencil_logo" />-->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_pencil_logo" />
 
-        <!--        &lt;!&ndash; 正式版需刪除 &ndash;&gt;-->
-        <!--        <meta-data-->
-        <!--            android:name="firebase_messaging_auto_init_enabled"-->
-        <!--            android:value="false" />-->
-        <!--        <meta-data-->
-        <!--            android:name="firebase_analytics_collection_enabled"-->
-        <!--            android:value="false" />-->
+        <!-- 正式版需刪除 -->
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="false" />
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
 
         <!--        &lt;!&ndash;        <provider&ndash;&gt;-->
         <!--        &lt;!&ndash;            android:name="androidx.startup.InitializationProvider"&ndash;&gt;-->

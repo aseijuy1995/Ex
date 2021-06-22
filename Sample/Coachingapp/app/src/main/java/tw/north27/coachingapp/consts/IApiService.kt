@@ -13,31 +13,69 @@ import java.util.*
 interface IApiService {
 
     /**
-     * 取得更新資訊
-     * @param uuid >> 唯一id（下載量 & 登入數量）
-     * @param pushToken >> firebase cloud messaging（未登入可收推播）
+     * 取得教育數據
      * */
     @GET
-    suspend fun getAppConfig(
-        @Query("uuid") uuid: String,
-        @Query("push_token") pushToken: String
-    ): AppConfig
+    suspend fun getEducationData(): EducationData
+
+    /**
+     * 取得App設定資訊
+    //     * @param uuid >> 唯一id（下載量）
+     * */
+    @GET
+    suspend fun getAppConfig(): AppConfig
 
     /**
      * 檢查登入
-     *
-     * 將accessToken放於header - auth作為驗證依據
-     *
-     * @param uuid >> 唯一id（下載量 & 登入數量）
-     * @param account >> 帳號（驗證成功綁定pushToken用）
-     * @param pushToken >> firebase cloud messaging token（驗證成功需刷新）
+     * @header accessToken
      * */
     @POST
-    suspend fun checkSignIn(
-        @Field("uuid") uuid: String,
-        @Field("account") account: String,
-        @Field("push_token") pushToken: String,
-    ): SignIn
+    suspend fun checkSignIn(): SignIn
+    //
+    //
+    //
+    //
+    //
+    //
+//    /**
+//     * 取得教育列表（回傳全部）
+//     * */
+//    @GET
+//    suspend fun getEducationList(): List<Education>
+//
+//    /**
+//     * 取得年級列表 - 預設無參數（回傳全部）
+//     * @param educationId? >> 教育id
+//     * */
+//    @GET
+//    suspend fun getGradeList(
+//        @Query("education_id") educationId: Long? = null
+//    ): List<Grade>
+//
+//    /**
+//     * 取得科目列表 - 預設無參數（回傳全部）
+//     * @param educationId? >> 教育id
+//     * @param gradeId? >> 年級id
+//     * */
+//    @GET
+//    suspend fun getSubjectList(
+//        @Query("education_id") educationId: Long? = null,
+//        @Query("grade_id") gradeId: Long? = null
+//    ): List<Subject>
+//
+//    /**
+//     * 取得單元列表 - 預設無參數（回傳全部）
+//     * @param educationId? >> 教育id
+//     * @param gradeId? >> 年級id
+//     * @param subjectId? >> 科目id
+//     * */
+//    @GET
+//    suspend fun getUnitList(
+//        @Query("education_id") educationId: Long? = null,
+//        @Query("grade_id") gradeId: Long? = null,
+//        @Query("subject_id") subjectId: Long? = null
+//    ): List<tw.north27.coachingapp.model.Units>
+
 
     /**
      * 登入
@@ -74,46 +112,6 @@ interface IApiService {
 ////        @Query("access_token") accessToken: String,
 //        @Query("refresh_token") refreshToken: String
 //    ): TokenInfo
-//
-
-    /**
-     * 取得教育列表（回傳全部）
-     * */
-    @GET
-    suspend fun getEducationList(): List<Education>
-
-    /**
-     * 取得年級列表 - 預設無參數（回傳全部）
-     * @param educationId? >> 教育id
-     * */
-    @GET
-    suspend fun getGradeList(
-        @Query("education_id") educationId: Long? = null
-    ): List<Grade>
-
-    /**
-     * 取得科目列表 - 預設無參數（回傳全部）
-     * @param educationId? >> 教育id
-     * @param gradeId? >> 年級id
-     * */
-    @GET
-    suspend fun getSubjectList(
-        @Query("education_id") educationId: Long? = null,
-        @Query("grade_id") gradeId: Long? = null
-    ): List<Subject>
-
-    /**
-     * 取得單元列表 - 預設無參數（回傳全部）
-     * @param educationId? >> 教育id
-     * @param gradeId? >> 年級id
-     * @param subjectId? >> 科目id
-     * */
-    @GET
-    suspend fun getUnitList(
-        @Query("education_id") educationId: Long? = null,
-        @Query("grade_id") gradeId: Long? = null,
-        @Query("subject_id") subjectId: Long? = null
-    ): List<tw.north27.coachingapp.model.Unit>
 
     /**
      * 取得老師列表

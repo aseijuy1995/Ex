@@ -29,10 +29,10 @@ class TeacherListAdapter : ListAdapter<UserInfo, TeacherListAdapter.VH>(object :
     inner class VH(val binding: ItemTeacherBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(userInfo: UserInfo) = binding.apply {
             this.userInfo = userInfo
-            binding.ivAvatar.bindImg(url = userInfo.avatarPath)
+            binding.ivAvatar.bindImg(url = userInfo.avatarUrl)
             val adapter = SubjectLabelListAdapter()
             rvSubject.adapter = adapter
-            val subjectList = userInfo.teacherInfo!!.subjectList.map(Subject::text).toSet().toList()
+            val subjectList = userInfo.teacherInfo!!.subjectList.map(Subject::name).toSet().toList()
             adapter.submitData(subjectList)
             itemView.setOnClickListener { itemClickRelay.accept(it to userInfo) }
             executePendingBindings()

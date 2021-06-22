@@ -13,8 +13,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentSignOutDialogBinding
-import tw.north27.coachingapp.model.SignInState
-import tw.north27.coachingapp.ui.LoadingDialogFragment
+import tw.north27.coachingapp.model.SignInCode
 import tw.north27.coachingapp.viewModel.SignOutViewModel
 
 class SignOutDialogFragment : BaseDialogFragment<FragmentSignOutDialogBinding>(R.layout.fragment_sign_out_dialog) {
@@ -33,15 +32,15 @@ class SignOutDialogFragment : BaseDialogFragment<FragmentSignOutDialogBinding>(R
             when (it) {
                 is ViewState.Data -> {
                     val signIn = it.data
-                    when (signIn.signInState) {
-                        SignInState.SIGN_OUT -> {
+                    when (signIn.signInCode) {
+                        SignInCode.SIGN_OUT -> {
                             lifecycleScope.launch {
                                 Toast.makeText(cxt, signIn.signOutInfo?.msg, Toast.LENGTH_SHORT).show()
                                 delay(200)
                                 act.finishAffinity()
                             }
                         }
-                        SignInState.SIGN_IN -> {
+                        SignInCode.SIGN_IN_SUCCESS -> {
                             Toast.makeText(cxt, signIn.signInInfo?.msg, Toast.LENGTH_SHORT).show()
                         }
                     }

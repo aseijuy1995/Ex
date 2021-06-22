@@ -8,7 +8,11 @@ import java.util.*
 
 interface IUserRepository {
 
-    suspend fun checkSignIn(uuid: String, account: String, pushToken: String): Results<SignIn>
+    suspend fun checkSignIn(account: String, pushToken: String): Results<SignIn>
+    //
+    //
+    //
+    //
 
     suspend fun signIn(uuid: String, account: String, password: String, pushToken: String): Results<SignIn>
 

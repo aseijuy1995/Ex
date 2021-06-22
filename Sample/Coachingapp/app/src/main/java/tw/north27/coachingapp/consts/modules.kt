@@ -24,8 +24,8 @@ import tw.north27.coachingapp.viewModel.*
 //}
 
 val modelModules = module {
-//    single<IApiService> { (get() as RetrofitManager).create<IApiService>() }
     single<IApiService> { ApiService(androidContext()) }
+//    single<IApiService> { (get() as RetrofitManager).create<IApiService>() }
 }
 
 val repoModules = module {
@@ -48,12 +48,13 @@ val repoModules = module {
 }
 
 val viewModelModules = module {
+    viewModel<PublicViewModel> { PublicViewModel(androidApplication(), get()) }
+    //
     viewModel<StartViewModel> { StartViewModel(androidApplication(), get() as IPublicRepository, get() as IUserRepository) }
     viewModel<SignInViewModel> { SignInViewModel(androidApplication(), get()) }
     viewModel<MainHomeViewModel> { MainHomeViewModel(androidApplication(), get(), get()) }
     viewModel<SignOutViewModel> { SignOutViewModel(androidApplication(), get()) }
     //
-    viewModel<PublicViewModel> { PublicViewModel(androidApplication(), get() as IPublicRepository) }
     viewModel<PersonalViewModel> { PersonalViewModel(androidApplication(), get() as IUserRepository, get() as IPublicRepository) }
     viewModel<PersonalEditViewModel> { PersonalEditViewModel(androidApplication(), get()) }
     viewModel<PersonalCommentViewModel> { PersonalCommentViewModel(androidApplication(), get() as IPersonalRepository) }

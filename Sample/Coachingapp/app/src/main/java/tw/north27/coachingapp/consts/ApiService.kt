@@ -1,16 +1,81 @@
 package tw.north27.coachingapp.consts
 
 import android.content.Context
-import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.logD
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
 import retrofit2.http.Field
 import retrofit2.http.Query
 import tw.north27.coachingapp.model.*
 import java.util.*
 
 class ApiService(val cxt: Context) : IApiService {
+
+    override suspend fun getEducationData(): EducationData {
+        delay(500)
+        return EducationData(
+            educationList = educationListTest,
+            gradeList = gradeListTest,
+            subjectList = subjectListTest,
+            unitList = unitListTest
+        )
+    }
+
+    override suspend fun getAppConfig(): AppConfig {
+        delay(1500)
+        return AppConfig(
+            appCode = AppCode.RUN.code,
+            runInfo = RunInfo(
+                versionName = "1.0.0",
+                url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
+                content = "1. 資料顯示錯誤\n" +
+                        "2. 通知推送不即時\n" +
+                        "3. 部分機型閃退\n" +
+                        "4. 最多只能5行\n" +
+                        "5. 超過5行轉為'...'應該夠吧？\n",
+                size = "5.7M",
+                isCompulsory = false
+            )
+        )
+//        return AppConfig(
+//            appCode = AppCode.MAINTAIN.code,
+//            maintainInfo = MaintainInfo(
+//                content = "1. 伺服器遭受攻擊。\n" +
+//                        "2. 增加監控、效能分析、執行網路維護。\n" +
+//                        "3. 描述統一規範化。\n" +
+//                        "4. 最多只能5行\n" +
+//                        "5. 超過5行轉為'...'應該夠吧？\n",
+//                time = SimpleDateFormat("yyyy-MM-dd HH:mm").parse("2018-12-21 13:00"),
+//            )
+//        )
+    }
+
+    override suspend fun checkSignIn(): SignIn {
+        delay(1500)
+        return if (accessTokenTest == accessTokenTest) {
+            SignIn(
+                signInCode = SignInCode.SIGN_IN_SUCCESS.code,
+                signInInfo = SignInInfo(
+                    userInfo = userInfoTest,
+                    isFirst = isFirstTest,
+                    accessToken = accessTokenTest,
+                    refreshToken = refreshTokenTest,
+                    pushToken = pushTokenTest,
+                    msg = "即將登入..."
+                )
+            )
+        } else {
+            /**
+             * 被封鎖
+             * 其他端登入
+             * */
+            SignIn(
+                signInCode = SignInCode.SIGN_IN_FAILED.code,
+                signInInfo = SignInInfo(
+                    msg = "密碼已被修改，請重新登入!"
+                )
+            )
+        }
+    }
 
 
     //
@@ -49,72 +114,6 @@ class ApiService(val cxt: Context) : IApiService {
 //    var isReadAllNotify: Boolean? = null
 //
 
-
-    override suspend fun getAppConfig(
-        @Query(value = "uuid") uuid: String,
-        @Query(value = "push_token") pushToken: String
-    ): AppConfig {
-        delay(1500)
-//        return AppConfig(
-//            appState = AppState.MAINTAIN,
-//            maintainInfo = MaintainInfo(
-//                title = "維護通知",
-//                text = "維護內容：\n" +
-//                        "\t1. 不可視因素遭受攻擊。\n" +
-//                        "\t2. 增加監控、效能分析、執行網路維護。\n" +
-//                        "\t3. 描述統一規範化。\n" +
-//                        "",
-//                time = "2021/03/01 16:00",
-//            )
-//        )
-        return AppConfig(
-            appState = AppState.RUN,
-            runInfo = RunInfo(
-                versionName = "1.0.0",
-                url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
-                text = "修正內容：\n\n" +
-                        "\t1. 今天要加班(現在幾點了?)。\n" +
-                        "\t2. 噴灑殺蟲劑，殺死些Dug蟲蟲。" +
-                        "\n\t3. 泡茶休息下~~~。",
-                size = "5M",
-                isMandatory = false
-            )
-        )
-    }
-
-    override suspend fun checkSignIn(
-        @Query(value = "uuid") uuid: String,
-        @Query(value = "account") account: String,
-        @Query(value = "push_token") pushToken: String
-    ): SignIn {
-        delay(1500)
-        val userPref = cxt.userPref.data.first()
-        val uuidTest = userPref.uuid
-        val pushTokenTest = userPref.pushToken
-        logD("uuid == uuidTest : ${uuid == uuidTest}")
-        logD("pushToken == pushTokenTest : ${pushToken == pushTokenTest}")
-        //accessToken驗證，當前依傳入的account驗證
-        return if (account == accountTest)
-            SignIn(
-                signInState = SignInState.SIGN_IN,
-                signInInfo = SignInInfo(
-                    userInfo = userInfoTest,
-                    isFirst = true,
-                    accessToken = accessTokenTest,
-                    refreshToken = refreshTokenTest,
-                    pushToken = pushToken,
-                    msg = "即將登入..."
-                )
-            )
-        else
-            SignIn(
-                signInState = SignInState.SIGN_OUT,
-                signOutInfo = SignOutInfo(
-                    msg = "密碼已被修改，請重新登入!"
-                )
-            )
-    }
-
     override suspend fun signIn(
         @Field("uuid") uuid: String,
         @Field("account") account: String,
@@ -126,7 +125,7 @@ class ApiService(val cxt: Context) : IApiService {
         logD("password == passwordTest : ${password == passwordTest}")
         return if (account == accountTest && password == passwordTest)
             SignIn(
-                signInState = SignInState.SIGN_IN,
+                signInCode = SignInCode.SIGN_IN_SUCCESS,
                 signInInfo = SignInInfo(
                     userInfo = userInfoTest,
                     isFirst = true,
@@ -138,7 +137,7 @@ class ApiService(val cxt: Context) : IApiService {
             )
         else
             SignIn(
-                signInState = SignInState.SIGN_OUT,
+                signInCode = SignInCode.SIGN_OUT,
                 signOutInfo = SignOutInfo(
                     msg = "帳號、密碼錯誤，請再試一次!"
                 )
@@ -152,70 +151,18 @@ class ApiService(val cxt: Context) : IApiService {
         delay(1500)
         if (account == accountTest)
             return SignIn(
-                signInState = SignInState.SIGN_OUT,
+                signInCode = SignInCode.SIGN_OUT,
                 signOutInfo = SignOutInfo(
                     msg = "成功登出!"
                 )
             )
         else
             return SignIn(
-                signInState = SignInState.SIGN_IN,
+                signInCode = SignInCode.SIGN_IN_SUCCESS,
                 signInInfo = SignInInfo(
                     msg = "登出失敗，請刪除APP並重新下載!"
                 )
             )
-    }
-
-    override suspend fun getEducationList(): List<Education> {
-        delay(1500)
-        return educationListTest
-    }
-
-    override suspend fun getGradeList(@Query("education_id") educationId: Long?): List<Grade> {
-        delay(1500)
-        return if (educationId == null)
-            gradeListTest
-        else
-            gradeListTest.filter { it.educationId == educationId }
-    }
-
-    override suspend fun getSubjectList(
-        @Query("education_id") educationId: Long?,
-        @Query("grade_id") gradeId: Long?
-    ): List<Subject> {
-        delay(1500)
-        return if (educationId == null && gradeId == null)
-            subjectListTest
-        else if (educationId == null)
-            subjectListTest.filter { it.gradleIdList.contains(gradeId) }
-        else if (gradeId == null)
-            subjectListTest.filter { it.educationIdList.contains(educationId) }
-        else
-            subjectListTest
-    }
-
-    override suspend fun getUnitList(
-        @Query("education_id") educationId: Long?,
-        @Query("grade_id") gradeId: Long?,
-        @Query("subject_id") subjectId: Long?
-    ): List<tw.north27.coachingapp.model.Unit> {
-        delay(1500)
-        return if (educationId == null && gradeId == null && subjectId == null)
-            unitListTest
-        else if (educationId == null && gradeId == null)
-            unitListTest.filter { it.subjectId == subjectId }
-        else if (educationId == null && subjectId == null)
-            unitListTest.filter { it.gradeId == gradeId }
-        else if (gradeId == null && subjectId == null)
-            unitListTest.filter { it.educationId == educationId }
-        else if (educationId == null)
-            unitListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId }
-        else if (gradeId == null)
-            unitListTest.filter { it.educationId == educationId && it.subjectId == subjectId }
-        else if (subjectId == null)
-            unitListTest.filter { it.educationId == educationId && it.gradeId == gradeId }
-        else
-            unitListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }
     }
 
     override suspend fun getTeacherList(
@@ -228,36 +175,37 @@ class ApiService(val cxt: Context) : IApiService {
         return if (educationId == null && gradeId == null && subjectId == null && unitId == null)
             teacherInfoListTest
         else if (educationId == null && gradeId == null && subjectId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.id == unitId }?.size ?: 0 > 0 }
+            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.id == unitId }?.size ?: 0 > 0 }
         else if (educationId == null && gradeId == null && unitId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.subjectId == subjectId }?.size ?: 0 > 0 }
-        else if (educationId == null && subjectId == null && unitId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.gradeId == gradeId }?.size ?: 0 > 0 }
-        else if (gradeId == null && subjectId == null && unitId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId }?.size ?: 0 > 0 }
-        //
-        else if (educationId == null && gradeId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
-        else if (educationId == null && subjectId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.gradeId == gradeId && it.id == unitId }?.size ?: 0 > 0 }
-        else if (educationId == null && unitId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.gradeId == gradeId && it.subjectId == subjectId }?.size ?: 0 > 0 }
-        else if (gradeId == null && subjectId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.id == unitId }?.size ?: 0 > 0 }
-        else if (gradeId == null && unitId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.subjectId == subjectId }?.size ?: 0 > 0 }
-        else if (subjectId == null && unitId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.gradeId == gradeId }?.size ?: 0 > 0 }
-        else if (educationId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
-        else if (gradeId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
-        else if (subjectId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.gradeId == gradeId && it.id == unitId }?.size ?: 0 > 0 }
-        else if (unitId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }?.size ?: 0 > 0 }
+            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.subjectId == subjectId }?.size ?: 0 > 0 }
+//        else if (educationId == null && subjectId == null && unitId == null)
+//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.gradeId == gradeId }?.size ?: 0 > 0 }
+//        else if (gradeId == null && subjectId == null && unitId == null)
+//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId }?.size ?: 0 > 0 }
+//        //
+//        else if (educationId == null && gradeId == null)
+//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
+//        else if (educationId == null && subjectId == null)
+//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.gradeId == gradeId && it.id == unitId }?.size ?: 0 > 0 }
+//        else if (educationId == null && unitId == null)
+//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.gradeId == gradeId && it.subjectId == subjectId }?.size ?: 0 > 0 }
+//        else if (gradeId == null && subjectId == null)
+//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId && it.id == unitId }?.size ?: 0 > 0 }
+//        else if (gradeId == null && unitId == null)
+//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId && it.subjectId == subjectId }?.size ?: 0 > 0 }
+//        else if (subjectId == null && unitId == null)
+//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId && it.gradeId == gradeId }?.size ?: 0 > 0 }
+//        else if (educationId == null)
+//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
+//        else if (gradeId == null)
+//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId && it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
+//        else if (subjectId == null)
+//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId && it.gradeId == gradeId && it.id == unitId }?.size ?: 0 > 0 }
+//        else if (unitId == null)
+//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }?.size ?: 0 > 0 }
         else
-            teacherInfoListTest.filter { it.teacherInfo?.unitList?.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
+//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
+            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
     }
 
     override suspend fun getUser(@Field("account") account: String): UserInfo {
@@ -281,8 +229,8 @@ class ApiService(val cxt: Context) : IApiService {
     ): Boolean {
         delay(1500)
         if (account == accountTest) {
-            bgPathTest = bgPath
-            avatarPathTest = avatarPath
+            bgUrlTest = bgPath
+            avatarUrlTest = avatarPath
             nameTest = name
             genderTest = gender
             introTest = intro

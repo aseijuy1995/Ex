@@ -1,20 +1,19 @@
 package tw.north27.coachingapp.repository
 
 import com.yujie.utilmodule.http.Results
-import tw.north27.coachingapp.model.*
-import tw.north27.coachingapp.model.Unit
+import tw.north27.coachingapp.model.AppConfig
+import tw.north27.coachingapp.model.CommentInfo
+import tw.north27.coachingapp.model.EducationData
 
 interface IPublicRepository {
 
-    suspend fun getAppConfig(uuid: String, pushToken: String): Results<AppConfig>
+    suspend fun getEducationData(): Results<EducationData>
 
-    suspend fun getEducationList(): Results<List<Education>>
+    suspend fun getAppConfig(): Results<AppConfig>
 
-    suspend fun getGradeList(educationId: Long?): Results<List<Grade>>
-
-    suspend fun getSubjectList(educationId: Long?, gradeId: Long?): Results<List<Subject>>
-
-    suspend fun getUnitList(educationId: Long?, gradeId: Long?, subjectId: Long?): Results<List<Unit>>
-
+    //
+    //
+    //
+    //
     suspend fun getCommentList(account: String, educationId: Long?, gradeId: Long?, subjectId: Long?, unitId: Long?, index: Int, num: Int): Results<List<CommentInfo>>
 }

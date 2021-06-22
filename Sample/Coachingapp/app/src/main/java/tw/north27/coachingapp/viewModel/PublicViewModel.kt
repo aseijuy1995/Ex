@@ -2,15 +2,15 @@ package tw.north27.coachingapp.viewModel
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.yujie.utilmodule.base.BaseAndroidViewModel
 import com.yujie.utilmodule.ext.asLiveData
 import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.launch
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.*
-import tw.north27.coachingapp.model.Unit
 import tw.north27.coachingapp.repository.IPublicRepository
 
 class PublicViewModel(
@@ -18,125 +18,105 @@ class PublicViewModel(
     private val publicRepo: IPublicRepository
 ) : BaseAndroidViewModel(application) {
 
-    val defaultEducation = Education(id = null, text = cxt.getString(R.string.df))
+    private val _launchBgRes: MutableLiveData<Int> by lazy {
+        val list = listOf<Int>(
+            R.drawable.ic_launch_bg1,
+            R.drawable.ic_launch_bg2,
+            R.drawable.ic_launch_bg3,
+            R.drawable.ic_launch_bg4,
+            R.drawable.ic_launch_bg5,
+            R.drawable.ic_launch_bg6,
+            R.drawable.ic_launch_bg7,
+            R.drawable.ic_launch_bg8,
+            R.drawable.ic_launch_bg9,
+        )
+        MutableLiveData<Int>(list[list.indices.random()])
+    }
 
-    val defaultGradle = Grade(id = null, text = cxt.getString(R.string.df), educationId = null)
+    val launchBgRes = _launchBgRes.asLiveData()
 
-    val defaultSubject = Subject(id = null, text = cxt.getString(R.string.df), educationIdList = listOf(), gradleIdList = listOf())
+    private val _educationDataState: MutableLiveData<ViewState<EducationData>> by lazy {
+        getEducationData()
+        MutableLiveData<ViewState<EducationData>>(ViewState.load())
+    }
 
-    val defaultUnit = Unit(id = null, text = cxt.getString(R.string.df), educationId = null, gradeId = null, subjectId = null)
+    val educationDataState = _educationDataState.asLiveData()
 
-    private val _educationListState = MutableLiveData<ViewState<List<Education>>>(ViewState.initial())
-
-    val educationListState = _educationListState.asLiveData()
-
-    suspend fun getEducationList(): ViewState<List<Education>> = withContext(Dispatchers.IO) {
-        _educationListState.postValue(ViewState.load())
-        val results = publicRepo.getEducationList()
+    private fun getEducationData() = viewModelScope.launch(Dispatchers.IO) {
+        val results = publicRepo.getEducationData()
         when (results) {
-            is Results.Successful<List<Education>> -> {
-                if (results.data.isEmpty()) {
-                    _educationListState.postValue(ViewState.empty())
-                    ViewState.empty()
-                } else {
-                    _educationListState.postValue(ViewState.data(results.data))
-                    ViewState.data(results.data)
-                }
+            is Results.Successful<EducationData> -> {
+                val educationData = results.data
+                if (educationData.educationList.isNotEmpty()
+                    || educationData.gradeList.isNotEmpty()
+                    || educationData.subjectList.isNotEmpty()
+                    || educationData.unitList.isNotEmpty()
+                ) {
+                    _educationDataState.postValue(ViewState.empty())
+                } else
+                    _educationDataState.postValue(ViewState.data(results.data))
             }
             is Results.ClientErrors -> {
-                _educationListState.postValue(ViewState.error(results.e))
-                ViewState.error(results.e)
+                _educationDataState.postValue(ViewState.error(results.e))
             }
             is Results.NetWorkError -> {
-                _educationListState.postValue(ViewState.network(results.e))
-                ViewState.network(results.e)
+                _educationDataState.postValue(ViewState.network(results.e))
             }
         }
     }
 
-    private val _gradeListState = MutableLiveData<ViewState<List<Grade>>>(ViewState.initial())
+    private val _educationList = MutableLiveData<List<Education>>()
 
-    val gradeListState = _gradeListState.asLiveData()
+    val educationList = _educationList.asLiveData()
 
-    suspend fun getGradeList(educationId: Long? = 0): ViewState<List<Grade>> = withContext(Dispatchers.IO) {
-        _gradeListState.postValue(ViewState.load())
-        val results = publicRepo.getGradeList(educationId = educationId)
-        when (results) {
-            is Results.Successful<List<Grade>> -> {
-                if (results.data.isEmpty()) {
-                    _gradeListState.postValue(ViewState.empty())
-                    ViewState.empty()
-                } else {
-                    _gradeListState.postValue(ViewState.data(results.data))
-                    ViewState.data(results.data)
-                }
-            }
-            is Results.ClientErrors -> {
-                _gradeListState.postValue(ViewState.error(results.e))
-                ViewState.error(results.e)
-            }
-            is Results.NetWorkError -> {
-                _gradeListState.postValue(ViewState.network(results.e))
-                ViewState.network(results.e)
-            }
-        }
-    }
+    fun setEducationList(educationList: List<Education>) = _educationList.postValue(educationList)
 
-    private val _subjectListState = MutableLiveData<ViewState<List<Subject>>>(ViewState.initial())
+    private val _gradeList = MutableLiveData<List<Grade>>()
 
-    val subjectListState = _subjectListState.asLiveData()
+    val gradeList = _gradeList.asLiveData()
 
-    suspend fun getSubjectList(educationId: Long? = 0, gradeId: Long? = 0): ViewState<List<Subject>> = withContext(Dispatchers.IO) {
-        _subjectListState.postValue(ViewState.load())
-        val results = publicRepo.getSubjectList(educationId = educationId, gradeId = gradeId)
-        when (results) {
-            is Results.Successful<List<Subject>> -> {
-                if (results.data.isEmpty()) {
-                    _subjectListState.postValue(ViewState.empty())
-                    ViewState.empty()
-                } else {
-                    _subjectListState.postValue(ViewState.data(results.data))
-                    ViewState.data(results.data)
-                }
-            }
-            is Results.ClientErrors -> {
-                _subjectListState.postValue(ViewState.error(results.e))
-                ViewState.error(results.e)
-            }
-            is Results.NetWorkError -> {
-                _subjectListState.postValue(ViewState.network(results.e))
-                ViewState.network(results.e)
-            }
-        }
-    }
+    fun setGradeList(gradeList: List<Grade>) = _gradeList.postValue(gradeList)
 
-    private val _unitListState = MutableLiveData<ViewState<List<Unit>>>(ViewState.initial())
+    private val _subjectList = MutableLiveData<List<Subject>>()
 
-    val unitListState = _unitListState.asLiveData()
+    val subjectList = _subjectList.asLiveData()
 
-    suspend fun getUnitList(educationId: Long? = 0, gradeId: Long? = 0, subjectId: Long? = 0) = withContext(Dispatchers.IO) {
-        _unitListState.postValue(ViewState.load())
-        val results = publicRepo.getUnitList(educationId = educationId, gradeId = gradeId, subjectId = subjectId)
-        when (results) {
-            is Results.Successful<List<Unit>> -> {
-                if (results.data.isEmpty()) {
-                    _unitListState.postValue(ViewState.empty())
-                    ViewState.empty()
-                } else {
-                    _unitListState.postValue(ViewState.data(results.data))
-                    ViewState.data(results.data)
-                }
-            }
-            is Results.ClientErrors -> {
-                _unitListState.postValue(ViewState.error(results.e))
-                ViewState.error(results.e)
-            }
-            is Results.NetWorkError -> {
-                _unitListState.postValue(ViewState.network(results.e))
-                ViewState.network(results.e)
-            }
-        }
-    }
+    fun setSubjectList(subjectList: List<Subject>) = _subjectList.postValue(subjectList)
+
+    private val _unitList = MutableLiveData<List<Units>>()
+
+    val unitList = _unitList.asLiveData()
+
+    fun setUnitList(unitList: List<Units>) = _unitList.postValue(unitList)
+
+    val defaultEducation = Education(id = -1, name = cxt.getString(R.string.df))
+
+    val defaultGradle = Grade(id = -1, name = cxt.getString(R.string.df), educationId = -1)
+
+    val defaultSubject = Subject(id = -1, name = cxt.getString(R.string.df))
+
+    val defaultUnit = Units(id = -1, name = cxt.getString(R.string.df), subjectId = -1)
+
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+
 
     private val _genderList = MutableLiveData<List<Gender>>(listOf(Gender.MALE, Gender.FEMALE))
 

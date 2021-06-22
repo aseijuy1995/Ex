@@ -40,7 +40,7 @@ class GradeAdapter : BaseAdapter() {
         } else {
             holder = view.tag as VH
         }
-        holder.tvText.text = getItem(position)?.text
+        holder.tvText.text = getItem(position)?.name
         return view!!
     }
 
