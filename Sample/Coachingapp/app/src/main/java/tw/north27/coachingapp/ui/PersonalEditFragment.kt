@@ -13,7 +13,6 @@ import com.yujie.utilmodule.base.BaseFragment
 import com.yujie.utilmodule.ext.clicksObserve
 import com.yujie.utilmodule.ext.visible
 import com.yujie.utilmodule.util.ViewState
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.GenderAdapter
@@ -23,7 +22,6 @@ import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.Grade
 import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.viewModel.PersonalEditViewModel
-import tw.north27.coachingapp.viewModel.PublicViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -60,17 +58,6 @@ class PersonalEditFragment : BaseFragment<FragmentPersonalEditBinding>(R.layout.
             binding.itemError.root.isVisible = (it is ViewState.Error)
             binding.itemNetwork.root.isVisible = (it is ViewState.Network)
         }
-
-//        lifecycleScope.launch(Dispatchers.Main) {
-//            val userDef = async { viewModel.getUser() }
-//            val gradeListDef = async { publicVM.getGradeList() }
-//            val genderListDef = async { publicVM.genderList.value }
-//            setUiData(
-//                (userDef.await() as ViewState.Data).data,
-//                (gradeListDef.await() as ViewState.Data).data,
-//                genderListDef.await()
-//            )
-//        }
 
         viewModel.updateUserState.observe(viewLifecycleOwner) {
             if (it is ViewState.Load) LoadingDialogFragment.show(parentFragmentManager)

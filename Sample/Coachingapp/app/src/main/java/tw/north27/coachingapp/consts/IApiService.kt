@@ -36,6 +36,14 @@ interface IApiService {
     suspend fun signIn(@Body signInBody: SignInBody): SignIn
 
     /**
+     * 登出
+     * @param uuid >> 唯一id（解除綁定）
+     * @param account >> 帳號（指定登出號）
+     * */
+    @POST
+    suspend fun signOut(@Body signOutBody: SignOutBody): SignIn
+
+    /**
      * 取得用戶資訊
      * @param json >> account >> 帳號
      * */
@@ -48,7 +56,6 @@ interface IApiService {
      * */
     @POST
     suspend fun getCommentList(@Body commentBody: CommentBody): List<CommentInfo>
-
 
 
     //
@@ -95,18 +102,6 @@ interface IApiService {
 //        @Query("grade_id") gradeId: Long? = null,
 //        @Query("subject_id") subjectId: Long? = null
 //    ): List<tw.north27.coachingapp.model.Units>
-
-
-    /**
-     * 登出
-     * @param uuid >> 唯一id（解除綁定）
-     * @param account >> 帳號（指定登出號）
-     * */
-    @POST
-    suspend fun signOut(
-        @Field("uuid") uuid: String,
-        @Field("account") account: String,
-    ): SignIn
 
 //    /**
 //     * 刷新token

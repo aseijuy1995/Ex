@@ -206,6 +206,7 @@ data class ReplyCountInfo(
 
 /**
  * 登入請求Body
+ * @param uuid >> 設備Id
  * @param account >> 帳號（驗證用）
  * @param password >> 密碼（驗證用）
  * @param pushToken >> firebase cloud messaging token（驗證成功需綁定帳號）
@@ -216,6 +217,17 @@ data class SignInBody(
     @SerializedName("password") val password: String,
     @SerializedName("push_token") val pushToken: String,
 )
+
+/**
+ * 登出請求Body
+ * @param uuid >> 設備Id
+ * @param account >> 帳號（驗證用）
+ * */
+data class SignOutBody(
+    @SerializedName("uuid") val uuid: String,
+    @SerializedName("account") val account: String
+)
+
 
 /**
  * 評論列表請求Body

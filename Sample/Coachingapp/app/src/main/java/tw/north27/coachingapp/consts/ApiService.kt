@@ -122,6 +122,26 @@ class ApiService(val cxt: Context) : IApiService {
         }
     }
 
+    override suspend fun signOut(@Body signOutBody: SignOutBody): SignIn {
+        delay(1500)
+        if (uuidTest == signOutBody.uuid) uuidTest = ""
+        return if (signOutBody.account == accountTest)
+            SignIn(
+                signInCode = SignInCode.SIGN_OUT_SUCCESS.code,
+                signOutInfo = SignOutInfo(
+                    msg = "成功登出!"
+                )
+            )
+        else
+            SignIn(
+                signInCode = SignInCode.SIGN_OUT_FAILED.code,
+                signOutInfo = SignOutInfo(
+                    msg = "登出失敗，請刪除APP並重新下載!"
+                )
+            )
+    }
+
+
     override suspend fun getUser(@Body json: String): UserInfo {
         delay(1500)
         val map = Gson().fromJson<HashMap<String, String>>(json, object : TypeToken<HashMap<String, String>>() {}.type)
@@ -170,27 +190,6 @@ class ApiService(val cxt: Context) : IApiService {
 //    var deleteNotify: NotifyInfo? = null
 //    var isReadAllNotify: Boolean? = null
 //
-
-    override suspend fun signOut(
-        @Field("uuid") uuid: String,
-        @Field("account") account: String,
-    ): SignIn {
-        delay(1500)
-        if (account == accountTest)
-            return SignIn(
-                signInCode = SignInCode.SIGN_OUT_SUCCESS.code,
-                signOutInfo = SignOutInfo(
-                    msg = "成功登出!"
-                )
-            )
-        else
-            return SignIn(
-                signInCode = SignInCode.SIGN_OUT_FAILED.code,
-                signInInfo = SignInInfo(
-                    msg = "登出失敗，請刪除APP並重新下載!"
-                )
-            )
-    }
 
     override suspend fun getTeacherList(
         @Query("education_id") educationId: Long?,

@@ -25,7 +25,6 @@ class SignOutDialogFragment : BaseDialogFragment<FragmentSignOutDialogBinding>(R
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.signOutState.observe(viewLifecycleOwner) {
             if (it is ViewState.Load) LoadingDialogFragment.show(parentFragmentManager)
             if (it !is ViewState.Initial && it !is ViewState.Load) LoadingDialogFragment.dismiss()
