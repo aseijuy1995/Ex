@@ -17,8 +17,8 @@
             android:layout_height="20dp"
             android:layout_gravity="center_vertical"
             android:text="@string/intro"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
         <View
             android:id="@+id/et_name"

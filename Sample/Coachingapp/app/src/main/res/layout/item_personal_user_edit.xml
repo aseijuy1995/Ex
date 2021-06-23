@@ -27,10 +27,11 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/et_name"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:layout_weight="1"
                 android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_7_lt_rt_5"
                 android:hint="@string/enter_name"
                 android:inputType="textPersonName"
@@ -56,10 +57,11 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_account"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:layout_weight="1"
                 android:textColor="@color/gray_666666"
                 android:textSize="12sp" />
 
@@ -81,10 +83,12 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_auth"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:textColor="@color/gray_666666"
                 android:textSize="12sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -105,10 +109,11 @@
 
             <Spinner
                 android:id="@+id/sp_gender"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:layout_weight="1"
                 android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
                 android:dropDownVerticalOffset="0dp"
                 android:overlapAnchor="false"
@@ -133,10 +138,11 @@
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/et_school"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:layout_weight="1"
                 android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_7_lt_rt_5"
                 android:hint="@string/enter_school"
                 android:textColor="@color/gray_666666"
@@ -161,10 +167,11 @@
 
             <Spinner
                 android:id="@+id/sp_grade"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:layout_weight="1"
                 android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
                 android:dropDownVerticalOffset="0dp"
                 android:overlapAnchor="false"

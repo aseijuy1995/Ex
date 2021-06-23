@@ -37,8 +37,8 @@ interface IApiService {
 
     /**
      * 登出
-     * @param uuid >> 唯一id（解除綁定）
-     * @param account >> 帳號（指定登出號）
+     * @header accessToken
+     * @param signOutBody >> SignOutBody::class.java
      * */
     @POST
     suspend fun signOut(@Body signOutBody: SignOutBody): SignIn
@@ -49,6 +49,38 @@ interface IApiService {
      * */
     @POST
     suspend fun getUser(@Body json: String): UserInfo
+
+    /**
+     * 更新用戶資訊
+     *(修改位置6/24)
+     * @param account >> 帳號
+     * @param bgPath? >> 背景
+     * @param avatarPath? >> 頭貼
+     * @param name >> 名稱
+     * @param gender >> 性別
+     * @param intro >> 簡介
+     * @param birthday? >> 生日
+     * @param cellPhone >> 電話
+     * @param homePhone >> 家電
+     * @param email >> Email
+     * @param school? >> 學校
+     * @param gradeId? >> 年級Id
+     * */
+    @POST
+    suspend fun updateUser(
+        @Field("account") account: String,
+        @Field("bg_path") bgPath: String,
+        @Field("avatar_path") avatarPath: String,
+        @Field("name") name: String,
+        @Field("gender") gender: Gender,
+        @Field("intro") intro: String,
+        @Field("birthday") birthday: Date? = null,
+        @Field("cell_phone") cellPhone: String,
+        @Field("home_phone") homePhone: String,
+        @Field("email") email: String,
+        @Field("school") school: String? = null,
+        @Field("grade_id") gradeId: Long? = null
+    ): Boolean
 
     /**
      * 取得評論列表 - 預設無參數，依據index、num回傳數據
@@ -128,36 +160,6 @@ interface IApiService {
         @Query("unit_id") unitId: Long? = null
     ): List<UserInfo>
 
-    /**
-     * 更新用戶資訊
-     * @param account >> 帳號
-     * @param bgPath? >> 背景
-     * @param avatarPath? >> 頭貼
-     * @param name >> 名稱
-     * @param gender >> 性別
-     * @param intro >> 簡介
-     * @param birthday? >> 生日
-     * @param cellPhone >> 電話
-     * @param homePhone >> 家電
-     * @param email >> Email
-     * @param school? >> 學校
-     * @param gradeId? >> 年級Id
-     * */
-    @POST
-    suspend fun updateUser(
-        @Field("account") account: String,
-        @Field("bg_path") bgPath: String,
-        @Field("avatar_path") avatarPath: String,
-        @Field("name") name: String,
-        @Field("gender") gender: Gender,
-        @Field("intro") intro: String,
-        @Field("birthday") birthday: Date? = null,
-        @Field("cell_phone") cellPhone: String,
-        @Field("home_phone") homePhone: String,
-        @Field("email") email: String,
-        @Field("school") school: String? = null,
-        @Field("grade_id") gradeId: Long? = null
-    ): Boolean
 
 //    /**
 //     * 取得未回覆列表(未加載) - 依據時間近至遠撈回，未指定則撈回全部

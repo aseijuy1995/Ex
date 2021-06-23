@@ -22,13 +22,11 @@ class UserRepository(val service: IApiService, val context: Context) : IUserRepo
     }
 
     override suspend fun getCommentList(commentBody: CommentBody): Results<List<CommentInfo>> {
-        return safeApiResults {
-            service.getCommentList(commentBody = commentBody)
-        }
+        return safeApiResults { service.getCommentList(commentBody = commentBody) }
     }
 
-    override suspend fun signOut(uuid: String, account: String): Results<SignIn> {
-        return safeApiResults { service.signOut(uuid = uuid, account = account) }
+    override suspend fun signOut(signOutBody: SignOutBody): Results<SignIn> {
+        return safeApiResults { service.signOut(signOutBody = signOutBody) }
     }
     //
     //

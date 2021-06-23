@@ -22,16 +22,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/name"
-                android:textColor="@color/gray_666666"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
             <View
                 android:id="@+id/et_name"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:layout_weight="1"
                 android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_7_lt_rt_5"
                 android:hint="@string/enter_name"
                 android:inputType="textPersonName"
@@ -52,16 +52,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/account"
-                android:textColor="@color/gray_666666"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
             <View
                 android:id="@+id/tv_account"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:layout_weight="1"
                 android:textColor="@color/gray_666666"
                 android:textSize="12sp" />
 
@@ -78,16 +78,17 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/authority"
-                android:textColor="@color/gray_666666"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
             <View
                 android:id="@+id/tv_auth"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:textColor="@color/gray_666666"
                 android:textSize="12sp" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
@@ -103,16 +104,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/gender"
-                android:textColor="@color/gray_666666"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
             <View
                 android:id="@+id/sp_gender"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:layout_weight="1"
                 android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
                 android:dropDownVerticalOffset="0dp"
                 android:overlapAnchor="false"
@@ -132,16 +133,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="@string/school"
-                android:textColor="@color/gray_666666"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
             <View
                 android:id="@+id/et_school"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:layout_weight="1"
                 android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_7_lt_rt_5"
                 android:hint="@string/enter_school"
                 android:textColor="@color/gray_666666"
@@ -161,16 +162,16 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/grade"
-                android:textColor="@color/gray_666666"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
             <View
                 android:id="@+id/sp_grade"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="10dp"
+                android:layout_weight="1"
                 android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
                 android:dropDownVerticalOffset="0dp"
                 android:overlapAnchor="false"

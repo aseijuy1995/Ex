@@ -228,7 +228,6 @@ data class SignOutBody(
     @SerializedName("account") val account: String
 )
 
-
 /**
  * 評論列表請求Body
  * @param account >> 帳號

@@ -14,7 +14,7 @@ interface IUserRepository {
 
     suspend fun getCommentList(commentBody: CommentBody): Results<List<CommentInfo>>
 
-    suspend fun signOut(uuid: String, account: String): Results<SignIn>
+    suspend fun signOut(signOutBody: SignOutBody): Results<SignIn>
     //
     //
     //

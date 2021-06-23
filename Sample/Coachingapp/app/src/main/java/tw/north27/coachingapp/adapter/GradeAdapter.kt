@@ -12,7 +12,7 @@ import tw.north27.coachingapp.model.Grade
 class GradeAdapter : BaseAdapter() {
     private var gradeList: List<Grade>? = null
 
-    fun submitData(gradeList: List<Grade>) {
+    fun submitData(gradeList: List<Grade>?) {
         this.gradeList = gradeList
         notifyDataSetChanged()
     }

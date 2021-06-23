@@ -15,7 +15,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.model.CommentBody
 import tw.north27.coachingapp.model.CommentInfo
+import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.repository.IUserRepository
+import java.util.*
 
 class PersonalViewModel(
     application: Application,
@@ -53,6 +55,56 @@ class PersonalViewModel(
             }
             is Results.NetWorkError -> {
                 _commentListState.postValue(ViewState.network(results.e))
+            }
+        }
+    }
+
+    //
+    private val _updateUserState = MutableLiveData<ViewState<Boolean>>(ViewState.initial())
+
+    val updateUserState = _updateUserState.asLiveData()
+
+    fun updateUser(
+        bgPath: String,
+        avatarPath: String,
+        name: String,
+        gender: Gender,
+        intro: String,
+        birthday: Date? = null,
+        cellPhone: String,
+        homePhone: String,
+        email: String,
+        school: String? = null,
+        gradeId: Long? = null,
+    ) = viewModelScope.launch(Dispatchers.IO) {
+        _updateUserState.postValue(ViewState.load())
+        val account = cxt.userPref.getAccount().first()
+        val results = userRepo.updateUser(
+            account = account,
+            bgPath = bgPath,
+            avatarPath = avatarPath,
+            name = name,
+            gender = gender,
+            intro = intro,
+            birthday = birthday,
+            cellPhone = cellPhone,
+            homePhone = homePhone,
+            email = email,
+            school = school,
+            gradeId = gradeId
+        )
+        when (results) {
+            is Results.Successful<Boolean> -> {
+                _updateUserState.postValue(ViewState.data(results.data))
+                ViewState.data(results.data)
+            }
+            is Results.ClientErrors -> {
+                _updateUserState.postValue(ViewState.error(results.e))
+                ViewState.error(results.e)
+            }
+            is Results.NetWorkError -> {
+                _updateUserState.postValue(ViewState.network(results.e))
+                ViewState.network(results.e)
             }
         }
     }

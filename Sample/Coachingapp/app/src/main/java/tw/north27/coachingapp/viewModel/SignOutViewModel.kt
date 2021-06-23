@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.model.SignIn
 import tw.north27.coachingapp.model.SignInCode
+import tw.north27.coachingapp.model.SignOutBody
 import tw.north27.coachingapp.repository.IUserRepository
 
 class SignOutViewModel(application: Application, val userRepo: IUserRepository) : BaseAndroidViewModel(application) {
@@ -28,7 +29,7 @@ class SignOutViewModel(application: Application, val userRepo: IUserRepository) 
         val userPref = cxt.userPref.data.first()
         val uuid = userPref.uuid
         val account = userPref.account
-        val results = userRepo.signOut(account, uuid)
+        val results = userRepo.signOut(SignOutBody(uuid = uuid, account = account))
         when (results) {
             is Results.Successful -> {
                 val signIn = results.data
@@ -36,14 +37,14 @@ class SignOutViewModel(application: Application, val userRepo: IUserRepository) 
                     SignInCode.SIGN_OUT_SUCCESS.code -> {
                         cxt.userPref.setUserPref(
                             account = "",
-                            auth = UserPref.Authority.UNKNOWN,
+                            expireTime = 0L,
                             accessToken = "",
                             refreshToken = "",
-                            isFirst = false
+                            isFirst = false,
+                            auth = UserPref.Authority.UNKNOWN,
                         )
                     }
-                    else -> {
-//                    SignInCode.SIGN_OUT_FAILED.code -> {
+                    SignInCode.SIGN_OUT_FAILED.code -> {
 
                     }
                 }
