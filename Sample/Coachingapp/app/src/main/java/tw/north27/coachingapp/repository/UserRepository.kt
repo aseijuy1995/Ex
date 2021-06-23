@@ -26,15 +26,15 @@ class UserRepository(val service: IApiService, val context: Context) : IUserRepo
             service.getCommentList(commentBody = commentBody)
         }
     }
-    //
-    //
-    //
-    //
-    //
 
     override suspend fun signOut(uuid: String, account: String): Results<SignIn> {
         return safeApiResults { service.signOut(uuid = uuid, account = account) }
     }
+    //
+    //
+    //
+    //
+    //
 
     override suspend fun getTeacherList(educationId: Long?, gradeId: Long?, subjectId: Long?, unitId: Long?): Results<List<UserInfo>> {
         return safeApiResults { service.getTeacherList(educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId) }

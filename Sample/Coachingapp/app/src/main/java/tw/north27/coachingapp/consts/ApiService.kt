@@ -141,7 +141,6 @@ class ApiService(val cxt: Context) : IApiService {
             )
     }
 
-
     override suspend fun getUser(@Body json: String): UserInfo {
         delay(1500)
         val map = Gson().fromJson<HashMap<String, String>>(json, object : TypeToken<HashMap<String, String>>() {}.type)

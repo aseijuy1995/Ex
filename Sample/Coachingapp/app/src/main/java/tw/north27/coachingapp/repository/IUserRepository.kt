@@ -13,13 +13,12 @@ interface IUserRepository {
     suspend fun getUser(json: String): Results<UserInfo>
 
     suspend fun getCommentList(commentBody: CommentBody): Results<List<CommentInfo>>
-    //
-    //
-    //
-    //
-
 
     suspend fun signOut(uuid: String, account: String): Results<SignIn>
+    //
+    //
+    //
+    //
 
     suspend fun getTeacherList(educationId: Long? = null, gradeId: Long? = null, subjectId: Long? = null, unitId: Long? = null): Results<List<UserInfo>>
 
