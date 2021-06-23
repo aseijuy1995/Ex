@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui//package tw.north27.coachingapp.ui
+package tw.north27.coachingapp.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -44,33 +44,26 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
 
         viewModel.signInState.observe(viewLifecycleOwner) {
             binding.svkView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
+            if (it is ViewState.Load) LoadingDialogFragment.show(parentFragmentManager)
+            if (it !is ViewState.Initial && it !is ViewState.Load) LoadingDialogFragment.dismiss()
             when (it) {
-                is ViewState.Load -> {
-                    LoadingDialogFragment.show(parentFragmentManager)
-                }
                 is ViewState.Empty -> {
-                    LoadingDialogFragment.dismiss()
                     Snackbar.make(binding.root, it.str!!, Snackbar.LENGTH_SHORT).show()
                 }
                 is ViewState.Data -> {
-                    LoadingDialogFragment.dismiss()
                     val signIn = it.data
+                    Toast.makeText(cxt, signIn.signInInfo?.msg, Toast.LENGTH_SHORT).show()
                     when (signIn.signInCode) {
-                        SignInCode.SIGN_IN_SUCCESS -> {
+                        SignInCode.SIGN_IN_SUC.code -> {
                             lifecycleScope.launch {
-                                Toast.makeText(cxt, signIn.signInInfo?.msg, Toast.LENGTH_SHORT).show()
                                 delay(200)
                                 startActivity(Intent(act, Launch2Activity::class.java))
                                 act.finish()
                             }
                         }
-                        SignInCode.SIGN_OUT -> {
-                            Toast.makeText(cxt, signIn.signOutInfo?.msg, Toast.LENGTH_SHORT).show()
+                        SignInCode.SIGN_IN_FAIL.code -> {
                         }
                     }
-                }
-                is ViewState.Error, is ViewState.Network -> {
-                    LoadingDialogFragment.dismiss()
                 }
             }
         }

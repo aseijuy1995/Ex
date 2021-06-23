@@ -33,14 +33,14 @@ class SignOutDialogFragment : BaseDialogFragment<FragmentSignOutDialogBinding>(R
                 is ViewState.Data -> {
                     val signIn = it.data
                     when (signIn.signInCode) {
-                        SignInCode.SIGN_OUT -> {
+                        SignInCode.SIGN_OUT_SUCCESS.code -> {
                             lifecycleScope.launch {
                                 Toast.makeText(cxt, signIn.signOutInfo?.msg, Toast.LENGTH_SHORT).show()
                                 delay(200)
                                 act.finishAffinity()
                             }
                         }
-                        SignInCode.SIGN_IN_SUCCESS -> {
+                        SignInCode.SIGN_OUT_FAILED.code -> {
                             Toast.makeText(cxt, signIn.signInInfo?.msg, Toast.LENGTH_SHORT).show()
                         }
                     }

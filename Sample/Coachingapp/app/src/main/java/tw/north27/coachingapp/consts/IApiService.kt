@@ -3,10 +3,7 @@ package tw.north27.coachingapp.consts
 //https://www.jianshu.com/p/62ab11ddacc8
 //https://www.huaweicloud.com/articles/138c673c96294a6661b16960ff4db613.html
 
-import retrofit2.http.Field
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 import tw.north27.coachingapp.model.*
 import java.util.*
 
@@ -20,7 +17,6 @@ interface IApiService {
 
     /**
      * 取得App設定資訊
-    //     * @param uuid >> 唯一id（下載量）
      * */
     @GET
     suspend fun getAppConfig(): AppConfig
@@ -31,6 +27,14 @@ interface IApiService {
      * */
     @POST
     suspend fun checkSignIn(): SignIn
+
+    /**
+     * 登入
+     * @param json >> SignInBody::class.java
+     * */
+    @POST
+    suspend fun signIn(@Body json: String): SignIn
+
     //
     //
     //
@@ -76,21 +80,6 @@ interface IApiService {
 //        @Query("subject_id") subjectId: Long? = null
 //    ): List<tw.north27.coachingapp.model.Units>
 
-
-    /**
-     * 登入
-     * @param uuid >> 唯一id（下載量 & 登入數量）
-     * @param account >> 帳號（驗證用）
-     * @param password >> 密碼（驗證用）
-     * @param pushToken >> firebase cloud messaging token（驗證成功需綁定帳號）
-     * */
-    @POST
-    suspend fun signIn(
-        @Field("uuid") uuid: String,
-        @Field("account") account: String,
-        @Field("password") password: String,
-        @Field("push_token") pushToken: String
-    ): SignIn
 
     /**
      * 登出

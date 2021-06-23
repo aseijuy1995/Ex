@@ -33,7 +33,7 @@ class SignOutViewModel(application: Application, val userRepo: IUserRepository) 
             is Results.Successful -> {
                 val signIn = results.data
                 when (signIn.signInCode) {
-                    SignInCode.SIGN_OUT -> {
+                    SignInCode.SIGN_OUT_SUCCESS.code -> {
                         cxt.userPref.setUserPref(
                             account = "",
                             auth = UserPref.Authority.UNKNOWN,
@@ -42,7 +42,8 @@ class SignOutViewModel(application: Application, val userRepo: IUserRepository) 
                             isFirst = false
                         )
                     }
-                    SignInCode.SIGN_IN_SUCCESS -> {
+                    else -> {
+//                    SignInCode.SIGN_OUT_FAILED.code -> {
 
                     }
                 }

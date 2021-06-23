@@ -248,12 +248,13 @@ val unitListTest = listOf<tw.north27.coachingapp.model.Units>(
     Units(id = 179, name = "民主政治與憲政主義", subjectId = 19),
 )
 
-val userIdTest = 83138683L
+var uuidTest = ""
 val accountTest = "north27"
 val passwordTest = "north27"
-var isFirstTest = true
+val expireTimeTest = 1624377600L
 var accessTokenTest = "accessTokenTest"
 var refreshTokenTest = "refreshTokenTest"
+var isFirstTest = true
 var pushTokenTest = "pushTokenTest"
 
 //val authorityTest = UserPref.Authority.STUDENT
@@ -324,8 +325,11 @@ val replyCountListTest = listOf<ReplyCountInfo>(
     ReplyCountInfo("未回覆", 2)
 )
 
+/**
+ * 用戶資訊
+ * */
 val userInfoTest = UserInfo(
-    id = userIdTest,
+    id = uuidTest,
     account = accountTest,
     auth = authorityTest,
     bgUrl = bgUrlTest,
@@ -364,7 +368,7 @@ val userInfoTest = UserInfo(
 //
 val teacherInfoListTest = listOf<UserInfo>(
     UserInfo(
-        id = 1,
+        id = "123",
         account = "beijingTeacherGuo",
         auth = UserPref.Authority.TEACHER,
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/446/248/normal/naumcr.png?1608264749",
@@ -447,9 +451,9 @@ val teacherInfoListTest = listOf<UserInfo>(
         teacherInfo = TeacherInfo(
             commentScoreAvg = 4.99,
             replyRate = 92.0,
-            subjectList = listOf(
-                Subject(id = 1, name = "國語")
-            ),
+//            subjectList = listOf(
+//                Subject(id = 1, name = "國語")
+//            ),
             unitsList = unitListTest.filter { it.subjectId == 1L }
         )
     ),

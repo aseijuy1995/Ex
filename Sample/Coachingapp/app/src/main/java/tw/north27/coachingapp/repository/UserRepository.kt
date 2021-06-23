@@ -11,12 +11,12 @@ import java.util.*
 
 class UserRepository(val service: IApiService, val context: Context) : IUserRepository {
 
-    override suspend fun checkSignIn(account: String, pushToken: String): Results<SignIn> {
-        return safeApiResults { service.checkSignIn(account = account, pushToken = pushToken) }
+    override suspend fun checkSignIn(): Results<SignIn> {
+        return safeApiResults { service.checkSignIn() }
     }
 
-    override suspend fun signIn(uuid: String, account: String, password: String, pushToken: String): Results<SignIn> {
-        return safeApiResults { service.signIn(uuid = uuid, account = account, password = password, pushToken = pushToken) }
+    override suspend fun signIn(json: String): Results<SignIn> {
+        return safeApiResults { service.signIn(json = json) }
     }
 
     override suspend fun signOut(uuid: String, account: String): Results<SignIn> {

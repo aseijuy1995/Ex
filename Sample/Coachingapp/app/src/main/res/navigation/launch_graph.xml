@@ -5,6 +5,12 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/fragment_start">
 
+    <action
+        android:id="@+id/action_to_fragment_sign_in"
+        app:destination="@id/fragment_sign_in"
+        app:popUpTo="@id/fragment_start"
+        app:popUpToInclusive="true" />
+
     <fragment
         android:id="@+id/fragment_start"
         android:name="tw.north27.coachingapp.ui.StartFragment"
@@ -62,11 +68,6 @@
     <!--        tools:layout="@layout/fragment_loading_dialog" />-->
 
     <!--  Global Action  -->
-    <action
-        android:id="@+id/action_to_fragment_sign_in"
-        app:destination="@id/fragment_sign_in"
-        app:popUpTo="@id/fragment_start"
-        app:popUpToInclusive="true" />
 
     <fragment
         android:id="@+id/fragment_sign_in"

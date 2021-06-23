@@ -6,10 +6,10 @@ import kotlinx.parcelize.Parcelize
 
 /**
  * 教育數據
- * educationList >> 教育列表
- * gradeList >> 年級列表
- * subjectList >> 科目列表
- * unitList >> 單元列表
+ * @param educationList >> 教育列表
+ * @param gradeList >> 年級列表
+ * @param subjectList >> 科目列表
+ * @param unitList >> 單元列表
  * */
 @Parcelize
 data class EducationData(
@@ -22,8 +22,8 @@ data class EducationData(
 /**
  * 教育
  * 預設(id == -1)
- * id >> 教育id
- * name >> 教育名稱
+ * @param id >> 教育id
+ * @param name >> 教育名稱
  * */
 @Parcelize
 data class Education(
@@ -34,9 +34,9 @@ data class Education(
 /**
  * 年級
  * 預設(id == -1)
- * id >> 年級id
- * name >> 年級名稱
- * educationId >> 教育id
+ * @param id >> 年級id
+ * @param name >> 年級名稱
+ * @param educationId >> 教育id
  * */
 @Parcelize
 data class Grade(
@@ -48,8 +48,8 @@ data class Grade(
 /**
  * 科目
  * 預設(id == -1)
- * id >> 科目id
- * name >> 科目名稱
+ * @param id >> 科目id
+ * @param name >> 科目名稱
  * */
 @Parcelize
 data class Subject(
@@ -60,9 +60,9 @@ data class Subject(
 
 /**
  * 單元
- * id >> 單元id
- * name >> 單元名稱
- * subjectId >> 科目id
+ * @param id >> 單元id
+ * @param name >> 單元名稱
+ * @param subjectId >> 科目id
  * */
 @Parcelize
 data class Units(

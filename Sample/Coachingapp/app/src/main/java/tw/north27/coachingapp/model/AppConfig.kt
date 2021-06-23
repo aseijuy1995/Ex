@@ -37,8 +37,8 @@ data class RunInfo(
     @SerializedName("version_name") val versionName: String,
     @SerializedName("google_play_url") val url: String,
     @SerializedName("content") val content: String? = null,
-    @SerializedName("app_size") val size: String? = null,
-    @SerializedName("compulsory") val isCompulsory: Boolean = true
+    @SerializedName("size") val size: String? = null,
+    @SerializedName("is_compulsory") val isCompulsory: Boolean = true
 )
 
 /**

@@ -28,8 +28,8 @@ class MaintainDialogFragment : BaseDialogFragment<FragmentMaintainDialogBinding>
                 when (appConfig.appCode) {
                     AppCode.MAINTAIN.code -> {
                         val maintainInfo = appConfig.maintainInfo!!
-                        binding.tvContent.isVisible = (maintainInfo.content != null) && maintainInfo.content.isNotEmpty()
                         binding.tvTime.isVisible = (maintainInfo.time != null)
+                        binding.tvContent.isVisible = (maintainInfo.content != null) && maintainInfo.content.isNotEmpty()
                         binding.apply {
                             tvTime.text = String.format(
                                 "%s\n%s", getString(R.string.expected_complete_time), try {

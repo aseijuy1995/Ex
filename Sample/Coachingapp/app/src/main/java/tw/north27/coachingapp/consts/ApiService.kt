@@ -1,8 +1,11 @@
 package tw.north27.coachingapp.consts
 
 import android.content.Context
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.yujie.utilmodule.util.logD
 import kotlinx.coroutines.delay
+import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.Query
 import tw.north27.coachingapp.model.*
@@ -30,8 +33,9 @@ class ApiService(val cxt: Context) : IApiService {
                 content = "1. 資料顯示錯誤\n" +
                         "2. 通知推送不即時\n" +
                         "3. 部分機型閃退\n" +
-                        "4. 最多只能5行\n" +
-                        "5. 超過5行轉為'...'應該夠吧？\n",
+                        "4. 更新通知描述1\n" +
+                        "5. 更新通知描述2\n" +
+                        "5. 更新通知描述3",
                 size = "5.7M",
                 isCompulsory = false
             )
@@ -42,8 +46,9 @@ class ApiService(val cxt: Context) : IApiService {
 //                content = "1. 伺服器遭受攻擊。\n" +
 //                        "2. 增加監控、效能分析、執行網路維護。\n" +
 //                        "3. 描述統一規範化。\n" +
-//                        "4. 最多只能5行\n" +
-//                        "5. 超過5行轉為'...'應該夠吧？\n",
+//                        "4. 維護通知描述1\n" +
+//                        "5. 維護通知描述2\n" +
+//                        "6. 維護通知描述3",
 //                time = SimpleDateFormat("yyyy-MM-dd HH:mm").parse("2018-12-21 13:00"),
 //            )
 //        )
@@ -53,12 +58,13 @@ class ApiService(val cxt: Context) : IApiService {
         delay(1500)
         return if (accessTokenTest == accessTokenTest) {
             SignIn(
-                signInCode = SignInCode.SIGN_IN_SUCCESS.code,
+                signInCode = SignInCode.SIGN_IN_SUC.code,
                 signInInfo = SignInInfo(
                     userInfo = userInfoTest,
-                    isFirst = isFirstTest,
+                    expireTime = expireTimeTest,
                     accessToken = accessTokenTest,
                     refreshToken = refreshTokenTest,
+                    isFirst = isFirstTest,
                     pushToken = pushTokenTest,
                     msg = "即將登入..."
                 )
@@ -69,9 +75,49 @@ class ApiService(val cxt: Context) : IApiService {
              * 其他端登入
              * */
             SignIn(
-                signInCode = SignInCode.SIGN_IN_FAILED.code,
+                signInCode = SignInCode.SIGN_IN_FAIL.code,
                 signInInfo = SignInInfo(
                     msg = "密碼已被修改，請重新登入!"
+                )
+            )
+        }
+    }
+
+    override suspend fun signIn(@Body json: String): SignIn {
+        val signInBody = Gson().fromJson<SignInBody>(json, object : TypeToken<SignInBody>() {}.type)
+        delay(1500)
+        val uuid = signInBody.uuid
+        val account = signInBody.account
+        val password = signInBody.password
+        val pushToken = signInBody.pushToken
+        logD(
+            "uuid = $uuid\n" +
+                    "account = $account\n" +
+                    "password = $password\n" +
+                    "pushToken = $pushToken"
+        )
+        if (account == accountTest && password == passwordTest) {
+            uuidTest = uuid
+            pushTokenTest = pushToken
+            return SignIn(
+                signInCode = SignInCode.SIGN_IN_SUC.code,
+                signInInfo = SignInInfo(
+                    userInfo = userInfoTest,
+                    expireTime = expireTimeTest,
+                    accessToken = accessTokenTest,
+                    refreshToken = refreshTokenTest,
+                    isFirst = isFirstTest,
+                    pushToken = pushTokenTest,
+                    msg = "即將登入..."
+                )
+            ).also {
+                isFirstTest = false
+            }
+        } else {
+            return SignIn(
+                signInCode = SignInCode.SIGN_OUT_FAILED.code,
+                signInInfo = SignInInfo(
+                    msg = "帳號、密碼錯誤，請再試一次!"
                 )
             )
         }
@@ -114,36 +160,6 @@ class ApiService(val cxt: Context) : IApiService {
 //    var isReadAllNotify: Boolean? = null
 //
 
-    override suspend fun signIn(
-        @Field("uuid") uuid: String,
-        @Field("account") account: String,
-        @Field("password") password: String,
-        @Field("push_token") pushToken: String
-    ): SignIn {
-        delay(1500)
-        logD("account == accountTest : ${account == accountTest}")
-        logD("password == passwordTest : ${password == passwordTest}")
-        return if (account == accountTest && password == passwordTest)
-            SignIn(
-                signInCode = SignInCode.SIGN_IN_SUCCESS,
-                signInInfo = SignInInfo(
-                    userInfo = userInfoTest,
-                    isFirst = true,
-                    accessToken = accessTokenTest,
-                    refreshToken = refreshTokenTest,
-                    pushToken = pushToken,
-                    msg = "即將登入..."
-                )
-            )
-        else
-            SignIn(
-                signInCode = SignInCode.SIGN_OUT,
-                signOutInfo = SignOutInfo(
-                    msg = "帳號、密碼錯誤，請再試一次!"
-                )
-            )
-    }
-
     override suspend fun signOut(
         @Field("uuid") uuid: String,
         @Field("account") account: String,
@@ -151,14 +167,14 @@ class ApiService(val cxt: Context) : IApiService {
         delay(1500)
         if (account == accountTest)
             return SignIn(
-                signInCode = SignInCode.SIGN_OUT,
+                signInCode = SignInCode.SIGN_OUT_SUCCESS.code,
                 signOutInfo = SignOutInfo(
                     msg = "成功登出!"
                 )
             )
         else
             return SignIn(
-                signInCode = SignInCode.SIGN_IN_SUCCESS,
+                signInCode = SignInCode.SIGN_OUT_FAILED.code,
                 signInInfo = SignInInfo(
                     msg = "登出失敗，請刪除APP並重新下載!"
                 )

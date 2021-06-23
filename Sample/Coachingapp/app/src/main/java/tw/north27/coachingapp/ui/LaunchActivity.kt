@@ -29,7 +29,7 @@ class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaun
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         publicVM.launchBgRes.observe(this) {
-            binding.ivBackground.bindImg(
+            binding.ivBg.bindImg(
                 resId = it,
                 blurRadius = 10,
                 blurSampling = 3
@@ -64,5 +64,4 @@ class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaun
 
         }
     }
-
 }

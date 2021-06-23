@@ -1,6 +1,7 @@
 package tw.north27.coachingapp.model
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import com.yujie.utilmodule.UserPref
 import kotlinx.parcelize.Parcelize
 import java.util.*
@@ -18,9 +19,9 @@ import java.util.*
  * @param signOutInfo >> 登出資訊
  * */
 data class SignIn(
-    val signInCode: Int,
-    val signInInfo: SignInInfo? = null,
-    val signOutInfo: SignOutInfo? = null,
+    @SerializedName("sign_in_code") val signInCode: Int,
+    @SerializedName("sign_in_info") val signInInfo: SignInInfo? = null,
+    @SerializedName("sign_out_info") val signOutInfo: SignOutInfo? = null,
 )
 
 /**
@@ -31,8 +32,8 @@ data class SignIn(
  * @param SIGN_OUT_FAILED >> 登出失敗(1003)
  * */
 enum class SignInCode(val code: Int) {
-    SIGN_IN_SUCCESS(1000),
-    SIGN_IN_FAILED(1001),
+    SIGN_IN_SUC(1000),
+    SIGN_IN_FAIL(1001),
     SIGN_OUT_SUCCESS(1002),
     SIGN_OUT_FAILED(1003),
 }
@@ -40,19 +41,21 @@ enum class SignInCode(val code: Int) {
 /**
  * 登入資訊
  * @param userInfo >> 用戶資訊
- * @param isFirst >> 是否第一次登入
+ * @param expireTime >> accessToken過期時間
  * @param accessToken >> 訪問用token
  * @param refreshToken >> 刷新用token
+ * @param isFirst >> 是否第一次登入
  * @param pushToken >> 推撥token
  * @param msg >> 登入成功or失敗訊息
  * */
 data class SignInInfo(
-    val userInfo: UserInfo? = null,
-    val isFirst: Boolean? = null,
-    val accessToken: String? = null,
-    val refreshToken: String? = null,
-    val pushToken: String? = null,
-    val msg: String? = null,
+    @SerializedName("user_info") val userInfo: UserInfo? = null,
+    @SerializedName("expire_time") val expireTime: Long? = null,
+    @SerializedName("access_token") val accessToken: String? = null,
+    @SerializedName("refresh_token") val refreshToken: String? = null,
+    @SerializedName("is_first") val isFirst: Boolean? = null,
+    @SerializedName("push_token") val pushToken: String? = null,
+    @SerializedName("msg") val msg: String? = null,
 )
 
 /**
@@ -60,7 +63,7 @@ data class SignInInfo(
  * @param msg >> 登出成功or失敗訊息
  * */
 data class SignOutInfo(
-    val msg: String? = null,
+    @SerializedName("msg") val msg: String? = null,
 )
 
 /**
@@ -83,21 +86,21 @@ data class SignOutInfo(
  * */
 @Parcelize
 data class UserInfo(
-    val id: Long,
-    val account: String,
-    val auth: UserPref.Authority,
-    val bgUrl: String? = null,
-    val avatarUrl: String? = null,
-    val name: String,
-    val gender: Gender? = null,
-    val intro: String? = null,
-    val birthday: Date? = null,
-    val cellPhone: String? = null,
-    val homePhone: String? = null,
-    val email: String? = null,
-    val studentInfo: StudentInfo? = null,
-    val teacherInfo: TeacherInfo? = null,
-    val userConfig: UserConfig? = null,//用戶設定
+    @SerializedName("id") val id: String,
+    @SerializedName("account") val account: String,
+    @SerializedName("auth") val auth: UserPref.Authority,
+    @SerializedName("bg_url") val bgUrl: String? = null,
+    @SerializedName("avatar_url") val avatarUrl: String? = null,
+    @SerializedName("name") val name: String,
+    @SerializedName("gender") val gender: Gender? = null,
+    @SerializedName("intro") val intro: String? = null,
+    @SerializedName("birthday") val birthday: Date? = null,
+    @SerializedName("cell_phone") val cellPhone: String? = null,
+    @SerializedName("home_phone") val homePhone: String? = null,
+    @SerializedName("email") val email: String? = null,
+    @SerializedName("student_info") val studentInfo: StudentInfo? = null,
+    @SerializedName("teacher_info") val teacherInfo: TeacherInfo? = null,
+    @SerializedName("user_config") val userConfig: UserConfig? = null,//用戶設定
 ) : Parcelable
 
 /**
@@ -116,8 +119,8 @@ enum class Gender {
  * */
 @Parcelize
 data class StudentInfo(
-    val school: String? = null,
-    val gradeId: Long? = null
+    @SerializedName("school") val school: String? = null,
+    @SerializedName("grade_id") val gradeId: Long? = null
 ) : Parcelable
 
 /**
@@ -130,11 +133,11 @@ data class StudentInfo(
  * */
 @Parcelize
 data class TeacherInfo(
-    val commentScoreAvg: Double = 5.0,
-    val commentScoreCountList: List<ScoreCountInfo>? = null,
-    val replyRate: Double = 100.0,
-    val replyCountList: List<ReplyCountInfo>? = null,
-    val unitsList: List<Units>? = null,
+    @SerializedName("comment_score_avg") val commentScoreAvg: Double = 5.0,
+    @SerializedName("comment_score_count_list") val commentScoreCountList: List<ScoreCountInfo>? = null,
+    @SerializedName("reply_rate") val replyRate: Double = 100.0,
+    @SerializedName("reply_count_list") val replyCountList: List<ReplyCountInfo>? = null,
+    @SerializedName("units_list") val unitsList: List<Units>? = null,
 ) : Parcelable
 
 /**
@@ -144,8 +147,8 @@ data class TeacherInfo(
  * */
 @Parcelize
 data class UserConfig(
-    val replyNotice: Boolean? = null,
-    val msgNotice: Boolean? = null,
+    @SerializedName("reply_notice") val replyNotice: Boolean? = null,
+    @SerializedName("msg_notice") val msgNotice: Boolean? = null,
 ) : Parcelable
 
 /**
@@ -155,8 +158,8 @@ data class UserConfig(
  * */
 @Parcelize
 data class ScoreCountInfo(
-    val score: Double,
-    val count: Int
+    @SerializedName("score") val score: Double,
+    @SerializedName("count") val count: Int
 ) : Parcelable
 
 /**
@@ -176,18 +179,18 @@ data class ScoreCountInfo(
  * */
 @Parcelize
 data class CommentInfo(
-    val id: Long,
-    val sendAccount: String,
-    val sendName: String,
-    val receiveAccount: String,
-    val receiveName: String,
-    val score: Double,
-    val content: String,
-    val date: String,
-    val educationId: Long,
-    val gradeId: Long,
-    val subjectId: Long,
-    val unitId: Long
+    @SerializedName("id") val id: Long,
+    @SerializedName("send_account") val sendAccount: String,
+    @SerializedName("send_name") val sendName: String,
+    @SerializedName("receive_account") val receiveAccount: String,
+    @SerializedName("receive_name") val receiveName: String,
+    @SerializedName("score") val score: Double,
+    @SerializedName("content") val content: String,
+    @SerializedName("date") val date: String,
+    @SerializedName("education_id") val educationId: Long,
+    @SerializedName("grade_id") val gradeId: Long,
+    @SerializedName("subject_id") val subjectId: Long,
+    @SerializedName("unit_id") val unitId: Long
 ) : Parcelable
 
 /**
@@ -197,6 +200,19 @@ data class CommentInfo(
  * */
 @Parcelize
 data class ReplyCountInfo(
-    val reply: String,
-    val count: Int
+    @SerializedName("reply") val reply: String,
+    @SerializedName("count") val count: Int
 ) : Parcelable
+
+/**
+ * 登入請求Body
+ * @param account >> 帳號（驗證用）
+ * @param password >> 密碼（驗證用）
+ * @param pushToken >> firebase cloud messaging token（驗證成功需綁定帳號）
+ * */
+data class SignInBody(
+    @SerializedName("uuid") val uuid: String,
+    @SerializedName("account") val account: String,
+    @SerializedName("password") val password: String,
+    @SerializedName("push_token") val pushToken: String,
+)

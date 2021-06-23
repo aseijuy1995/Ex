@@ -26,7 +26,6 @@ import tw.north27.coachingapp.model.SignInCode
 import tw.north27.coachingapp.ui.launch2.Launch2Activity
 import tw.north27.coachingapp.viewModel.StartViewModel
 
-
 class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start) {
 
     override val viewBind: (View) -> FragmentStartBinding
@@ -51,7 +50,7 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                                 versionNameMode = UpdateApp.VersionNameMode.DEFAULT
                             }.execute(
                                 newVersion = { _, _ -> findNavController().navigate(StartFragmentDirections.actionFragmentStartToFragmentUpdateDialog()) },
-                                noNewVersion = { checkFcmAndSignIn() }
+                                noNewVersion = { checkGoogleServiceAndSignIn() }
                             )
                         }
                     }
@@ -67,38 +66,34 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                 }
                 is ViewState.Data -> {
                     val signIn = it.data
-                    when (signIn.signInCode) {
-                        SignInCode.SIGN_IN_SUCCESS -> {
-                            lifecycleScope.launch {
-                                Toast.makeText(cxt, signIn.signInInfo?.msg, Toast.LENGTH_SHORT).show()
-                                delay(200)
+                    Toast.makeText(cxt, signIn.signInInfo?.msg, Toast.LENGTH_SHORT).show()
+                    lifecycleScope.launch {
+                        delay(200)
+                        when (signIn.signInCode) {
+                            SignInCode.SIGN_IN_SUC.code -> {
                                 startActivity(Intent(act, Launch2Activity::class.java))
                                 act.finish()
                             }
-                        }
-                        SignInCode.SIGN_OUT -> {
-                            lifecycleScope.launch {
-                                Toast.makeText(cxt, signIn.signOutInfo?.msg, Toast.LENGTH_SHORT).show()
-                                delay(200)
+                            SignInCode.SIGN_IN_FAIL.code -> {
                                 findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())
                             }
                         }
+
                     }
                 }
             }
         }
 
-        viewModel.getAppConfig()
-
         setFragmentResultListener(UpdateDialogFragment.REQUEST_KEY_UPDATE_CLOSE) { _, bundle ->
             bundle.getBoolean(UpdateDialogFragment.KEY_UPDATE_CLOSE).takeIf { it }?.let {
-                checkFcmAndSignIn()
+                checkGoogleServiceAndSignIn()
             }
         }
 
+        viewModel.getAppConfig()
     }
 
-    fun checkFcmAndSignIn() {
+    private fun checkGoogleServiceAndSignIn() {
         GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(act)
             .addOnSuccessListener {
                 FirebaseMsg.getInstance(complete = {
@@ -108,5 +103,4 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                 act.alertGoogleService()
             }
     }
-
 }
