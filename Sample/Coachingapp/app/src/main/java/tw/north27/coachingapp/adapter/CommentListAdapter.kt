@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.databinding.ItemCommentBinding
 import tw.north27.coachingapp.model.*
-import tw.north27.coachingapp.model.Units
 
 class CommentListAdapter : ListAdapter<CommentInfo, CommentListAdapter.VH>(object : DiffUtil.ItemCallback<CommentInfo>() {
     override fun areItemsTheSame(oldItem: CommentInfo, newItem: CommentInfo): Boolean {

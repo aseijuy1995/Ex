@@ -173,9 +173,9 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         binding.itemData.itemPersonalSignOut.itemSignOut.root.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentSignOutDialog())
         }
-//        doubleClickToExit()
         launch2Act.publicVM.getUser()
         viewModel.getCommentList(index = 0, num = 3)
+        //        doubleClickToExit()
     }
 
     private fun setUiData(userInfo: UserInfo) {

@@ -54,13 +54,13 @@ class PublicViewModel(
             is Results.Successful<EducationData> -> {
                 val educationData = results.data
                 if (educationData.educationList.isNotEmpty()
-                    || educationData.gradeList.isNotEmpty()
-                    || educationData.subjectList.isNotEmpty()
-                    || educationData.unitList.isNotEmpty()
-                ) {
-                    _educationDataState.postValue(ViewState.empty())
-                } else
+                    && educationData.gradeList.isNotEmpty()
+                    && educationData.subjectList.isNotEmpty()
+                    && educationData.unitList.isNotEmpty()
+                )
                     _educationDataState.postValue(ViewState.data(results.data))
+                else
+                    _educationDataState.postValue(ViewState.empty())
             }
             is Results.ClientErrors -> {
                 _educationDataState.postValue(ViewState.error(results.e))
@@ -148,6 +148,12 @@ class PublicViewModel(
         }
     }
 
+    val defaultScore = -1.0
+
+    private val _scoreList = MutableLiveData<List<Double>>(listOf(0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0))
+
+    val scoreList = _scoreList.asLiveData()
+
     //
     //
     //
@@ -173,9 +179,5 @@ class PublicViewModel(
 
     val genderList = _genderList.asLiveData()
 
-    val defaultScore = -1.0
 
-    private val _scoreList = MutableLiveData<List<Double>>(listOf(0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0))
-
-    val scoreList = _scoreList.asLiveData()
 }

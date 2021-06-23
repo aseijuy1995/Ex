@@ -9,6 +9,7 @@ import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.pref.getAccount
 import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.ViewState
+import com.yujie.utilmodule.util.logD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch

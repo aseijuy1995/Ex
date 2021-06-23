@@ -278,6 +278,13 @@ class ApiService(val cxt: Context) : IApiService {
         val index = commentBody.index
         val num = commentBody.num
         //account判斷取得哪個帳號的評論
+        logD(
+            "score = $score\n" +
+                    "educationId = $educationId\n" +
+                    "gradeId = $gradeId\n" +
+                    "subjectId = $subjectId\n" +
+                    "unitId = $unitId"
+        )
         var list = if (score == null && educationId == null && gradeId == null && subjectId == null && unitId == null)
             commentListTest
         else if (score == null && educationId == null && gradeId == null && subjectId == null)

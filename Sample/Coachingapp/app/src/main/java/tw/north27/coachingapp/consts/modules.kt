@@ -59,7 +59,6 @@ val viewModelModules = module {
     viewModel<SignOutViewModel> { SignOutViewModel(androidApplication(), get()) }
     //
     viewModel<PersonalEditViewModel> { PersonalEditViewModel(androidApplication(), get()) }
-    viewModel<PersonalCommentViewModel> { PersonalCommentViewModel(androidApplication()) }
 
 //    //
 //    viewModel { NotifyViewModel(get()) }
