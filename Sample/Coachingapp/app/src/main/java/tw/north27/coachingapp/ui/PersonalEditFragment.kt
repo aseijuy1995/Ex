@@ -32,7 +32,7 @@ class PersonalEditFragment : BaseFragment<FragmentPersonalEditBinding>(R.layout.
     override val viewBind: (View) -> FragmentPersonalEditBinding
         get() = FragmentPersonalEditBinding::bind
 
-    private val publicVM by sharedViewModel<PublicViewModel>()
+//    private val publicVM by sharedViewModel<PublicViewModel>()
 
     private val viewModel by viewModel<PersonalEditViewModel>()
 

@@ -8,7 +8,6 @@ import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.components.Legend
@@ -23,14 +22,12 @@ import com.yujie.utilmodule.ext.checkedChangesObserve
 import com.yujie.utilmodule.ext.clicksObserve
 import com.yujie.utilmodule.ext.visible
 import com.yujie.utilmodule.util.ViewState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.CommentListAdapter
 import tw.north27.coachingapp.databinding.FragmentPersonalBinding
-import tw.north27.coachingapp.model.*
+import tw.north27.coachingapp.model.Gender
+import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.viewModel.PersonalViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -58,7 +55,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                 itemPersonalIntro.tvIntro.isSelected = true
                 itemPersonalComment.rvComment.adapter = commentAdapter
                 itemPersonalShare.itemLink.apply {
-                    ivIcon.setImageResource(R.drawable.ic_twotone_link_24_gray)
+                    ivIcon.bindImg(resId = R.drawable.ic_twotone_link_24_gray)
                     tvText.text = getString(R.string.promotion_link)
                     ivClick.isVisible = true
                 }
@@ -92,21 +89,36 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
             }
         }
 
-        viewModel.userState.observe(viewLifecycleOwner) {
+        launch2Act.publicVM.userState.observe(viewLifecycleOwner) {
             binding.itemPersonalLoad.sflView.visible = (it is ViewState.Load)
             binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
-            binding.itemData.nsvView.isVisible = (it is ViewState.Data)
+            binding.itemData.root.isVisible = (it is ViewState.Data) && (viewModel.commentListState.value is ViewState.Data)
             binding.itemError.root.isVisible = (it is ViewState.Error)
             binding.itemNetwork.root.isVisible = (it is ViewState.Network)
+            when (it) {
+                is ViewState.Data -> {
+                    val userInfo = it.data
+                    setUiData(userInfo)
+                }
+            }
         }
 
-        lifecycleScope.launch(Dispatchers.Main) {
-            val userDef = async { viewModel.getUser() }
-            val commentListDef = async { viewModel.getCommentList(index = 0, num = 3) }
-//            setUiData(
-//                (userDef.await() as ViewState.Data).data,
-//                (commentListDef.await() as ViewState.Data).data,
-//            )
+        viewModel.commentListState.observe(viewLifecycleOwner) {
+            binding.itemData.root.isVisible = (it is ViewState.Data) && (launch2Act.publicVM.userState.value is ViewState.Data)
+            when (it) {
+                is ViewState.Data -> {
+                    binding.itemData.itemPersonalComment.apply {
+                        val commentList = it.data
+                        rvComment.isVisible = commentList.isNotEmpty()
+                        commentAdapter.apply {
+                            educationList = launch2Act.publicVM.educationList.value
+                            gradeList = launch2Act.publicVM.gradeList.value
+                            subjectList = launch2Act.publicVM.subjectList.value
+                            unitsList = launch2Act.publicVM.unitList.value
+                        }.submitList(commentList)
+                    }
+                }
+            }
         }
 
         //編輯
@@ -162,20 +174,15 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
             findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentSignOutDialog())
         }
 //        doubleClickToExit()
+        launch2Act.publicVM.getUser()
+        viewModel.getCommentList(index = 0, num = 3)
     }
 
-    private fun setUiData(
-        userInfo: UserInfo,
-        educationList: List<Education>,
-        gradeList: List<Grade>,
-        subjectList: List<Subject>,
-        unitsList: List<Units>,
-        commentList: List<CommentInfo>
-    ) {
+    private fun setUiData(userInfo: UserInfo) {
         if (userInfo.bgUrl != null && userInfo.bgUrl.isNotEmpty())
             binding.ivBg.bindImg(url = userInfo.bgUrl)
         else
-            binding.ivBg.bindImg(resId = viewModel.bgRes.value)
+            binding.ivBg.bindImg(resId = launch2Act.publicVM.personalBgRes.value)
         binding.itemData.apply {
             itemPersonalUser.apply {
                 ivAvatar.bindImg(
@@ -220,7 +227,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                 }
                 tvGrade.apply {
                     isVisible = (userInfo.auth == UserPref.Authority.STUDENT) && (userInfo.studentInfo != null) && (userInfo.studentInfo.gradeId != null)
-                    text = String.format("%s：%s", getString(R.string.grade), gradeList.find { it.id == userInfo.studentInfo?.gradeId }?.name)
+                    text = String.format("%s：%s", getString(R.string.grade), launch2Act.publicVM.gradeList.value?.find { it.id == userInfo.studentInfo?.gradeId }?.name)
                 }
             }
             itemPersonalIntro.apply {
@@ -258,59 +265,46 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
             }
             itemPersonalComment.apply {
                 root.isVisible = (userInfo.auth == UserPref.Authority.TEACHER)
-                if (userInfo.auth == UserPref.Authority.TEACHER) setUiComment(
-                    userInfo = userInfo,
-                    educationList = educationList,
-                    gradeList = gradeList,
-                    subjectList = subjectList,
-                    unitsList = unitsList,
-                    commentList = commentList
-                )
-            }
-            itemPersonalReply.apply {
-                root.isVisible = (userInfo.auth == UserPref.Authority.TEACHER)
-                if (userInfo.auth == UserPref.Authority.TEACHER) setUiReply(userInfo)
-            }
-            itemPersonalStudy.apply {
-                root.isVisible = (userInfo.auth == UserPref.Authority.STUDENT)
-                itemCourse.apply {
-                    ivIcon.bindImg(resId = R.drawable.ic_twotone_history_toggle_off_24_gray)
-                    tvText.text = getString(R.string.course)
-                    ivClick.isVisible = true
+                if (userInfo.auth == UserPref.Authority.TEACHER) setUiComment(userInfo = userInfo)
+
+                itemPersonalReply.apply {
+                    root.isVisible = (userInfo.auth == UserPref.Authority.TEACHER)
+                    if (userInfo.auth == UserPref.Authority.TEACHER) setUiReply(userInfo)
                 }
-                itemAnalysis.apply {
-                    ivIcon.bindImg(resId = R.drawable.ic_twotone_area_chart_24_gray)
-                    tvText.text = getString(R.string.analysis)
-                    ivClick.isVisible = true
+                itemPersonalStudy.apply {
+                    root.isVisible = (userInfo.auth == UserPref.Authority.STUDENT)
+                    itemCourse.apply {
+                        ivIcon.bindImg(resId = R.drawable.ic_twotone_history_toggle_off_24_gray)
+                        tvText.text = getString(R.string.course)
+                        ivClick.isVisible = true
+                    }
+                    itemAnalysis.apply {
+                        ivIcon.bindImg(resId = R.drawable.ic_twotone_area_chart_24_gray)
+                        tvText.text = getString(R.string.analysis)
+                        ivClick.isVisible = true
+                    }
                 }
-            }
-            itemPersonalSetting.apply {
-                itemReplyRemind.apply {
-                    root.isVisible = (userInfo.userConfig != null) && (userInfo.userConfig.replyNotice != null)
-                    ivIcon.bindImg(resId = R.drawable.ic_twotone_quickreply_24_gray)
-                    tvText.text = getString(R.string.reply_remind)
-                    scSwitch.isVisible = true
-                    scSwitch.isChecked = userInfo.userConfig?.replyNotice ?: true
-                }
-                itemMsgRemind.apply {
-                    root.isVisible = (userInfo.userConfig != null) && (userInfo.userConfig.msgNotice != null)
-                    ivIcon.bindImg(resId = R.drawable.ic_twotone_message_24_gray)
-                    tvText.text = getString(R.string.msg_remind)
-                    scSwitch.isVisible = true
-                    scSwitch.isChecked = userInfo.userConfig?.msgNotice ?: true
+                itemPersonalSetting.apply {
+                    itemReplyRemind.apply {
+                        root.isVisible = (userInfo.userConfig != null) && (userInfo.userConfig.replyNotice != null)
+                        ivIcon.bindImg(resId = R.drawable.ic_twotone_quickreply_24_gray)
+                        tvText.text = getString(R.string.reply_remind)
+                        scSwitch.isVisible = true
+                        scSwitch.isChecked = userInfo.userConfig?.replyNotice ?: true
+                    }
+                    itemMsgRemind.apply {
+                        root.isVisible = (userInfo.userConfig != null) && (userInfo.userConfig.msgNotice != null)
+                        ivIcon.bindImg(resId = R.drawable.ic_twotone_message_24_gray)
+                        tvText.text = getString(R.string.msg_remind)
+                        scSwitch.isVisible = true
+                        scSwitch.isChecked = userInfo.userConfig?.msgNotice ?: true
+                    }
                 }
             }
         }
     }
 
-    private fun setUiComment(
-        userInfo: UserInfo,
-        educationList: List<Education>,
-        gradeList: List<Grade>,
-        subjectList: List<Subject>,
-        unitsList: List<Units>,
-        commentList: List<CommentInfo>
-    ) {
+    private fun setUiComment(userInfo: UserInfo) {
         binding.itemData.itemPersonalComment.root.isVisible = (userInfo.teacherInfo?.commentScoreCountList != null) && userInfo.teacherInfo.commentScoreCountList.isNotEmpty()
         val pieEntryList = mutableListOf<PieEntry>()
         userInfo.teacherInfo?.commentScoreCountList?.forEach {
@@ -361,14 +355,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
             }
             data = pieData
         }.invalidate()
-        commentAdapter.apply {
-            this.educationList = educationList
-            this.gradeList = gradeList
-            this.subjectList = subjectList
-            this.unitsList = unitsList
-        }.submitList(commentList)
     }
-
 
     private fun setUiReply(userInfo: UserInfo) {
         binding.itemData.itemPersonalReply.root.isVisible = (userInfo.teacherInfo?.replyCountList != null) && userInfo.teacherInfo.replyCountList.isNotEmpty()

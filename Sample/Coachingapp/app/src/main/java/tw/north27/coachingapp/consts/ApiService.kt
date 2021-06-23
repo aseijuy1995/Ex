@@ -83,8 +83,7 @@ class ApiService(val cxt: Context) : IApiService {
         }
     }
 
-    override suspend fun signIn(@Body json: String): SignIn {
-        val signInBody = Gson().fromJson<SignInBody>(json, object : TypeToken<SignInBody>() {}.type)
+    override suspend fun signIn(@Body signInBody: SignInBody): SignIn {
         delay(1500)
         val uuid = signInBody.uuid
         val account = signInBody.account
@@ -120,6 +119,18 @@ class ApiService(val cxt: Context) : IApiService {
                     msg = "帳號、密碼錯誤，請再試一次!"
                 )
             )
+        }
+    }
+
+    override suspend fun getUser(@Body json: String): UserInfo {
+        delay(1500)
+        val map = Gson().fromJson<HashMap<String, String>>(json, object : TypeToken<HashMap<String, String>>() {}.type)
+        val account = map["account"]
+        return if (account == accountTest)
+            userInfoTest
+        else {
+            logD("Not find user")
+            userInfoTest
         }
     }
 
@@ -224,11 +235,6 @@ class ApiService(val cxt: Context) : IApiService {
             teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
     }
 
-    override suspend fun getUser(@Field("account") account: String): UserInfo {
-        delay(1500)
-        return userInfoTest
-    }
-
     override suspend fun updateUser(
         @Field("account") account: String,
         @Field("bg_path") bgPath: String,
@@ -261,87 +267,82 @@ class ApiService(val cxt: Context) : IApiService {
         return false
     }
 
-    override suspend fun getCommentList(
-        @Field(value = "account") account: String,
-        @Field(value = "score") score: Double?,
-        @Field(value = "education_id") educationId: Long?,
-        @Field(value = "grade_id") gradeId: Long?,
-        @Field(value = "subject_id") subjectId: Long?,
-        @Field(value = "unit_id") unitId: Long?,
-        @Field(value = "index") index: Int,
-        @Field(value = "num") num: Int
-    ): List<CommentInfo> {
+    override suspend fun getCommentList(@Body commentBody: CommentBody): List<CommentInfo> {
         delay(1500)
+        val commentListTest = commentListTest.filter { it.receiveAccount == accountTest }
+        val score = commentBody.score
+        val educationId = commentBody.educationId
+        val gradeId = commentBody.gradeId
+        val subjectId = commentBody.subjectId
+        val unitId = commentBody.unitId
+        val index = commentBody.index
+        val num = commentBody.num
         //account判斷取得哪個帳號的評論
-        if (account == accountTest) {
-            var list = if (score == null && educationId == null && gradeId == null && subjectId == null && unitId == null)
-                commentListTest
-            else if (score == null && educationId == null && gradeId == null && subjectId == null)
-                commentListTest.filter { it.unitId == unitId }
-            else if (score == null && educationId == null && gradeId == null && unitId == null)
-                commentListTest.filter { it.subjectId == subjectId }
-            else if (score == null && educationId == null && subjectId == null && unitId == null)
-                commentListTest.filter { it.gradeId == gradeId }
-            else if (score == null && gradeId == null && subjectId == null && unitId == null)
-                commentListTest.filter { it.educationId == educationId }
-            else if (educationId == null && gradeId == null && subjectId == null && unitId == null)
-                commentListTest.filter { it.score == score }
-            else if (score == null && educationId == null && gradeId == null)
-                commentListTest.filter { it.subjectId == subjectId && it.id == unitId }
-            else if (score == null && educationId == null && subjectId == null)
-                commentListTest.filter { it.gradeId == gradeId && it.id == unitId }
-            else if (score == null && educationId == null && unitId == null)
-                commentListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId }
-            else if (score == null && gradeId == null && subjectId == null)
-                commentListTest.filter { it.educationId == subjectId && it.id == unitId }
-            else if (score == null && gradeId == null && unitId == null)
-                commentListTest.filter { it.educationId == gradeId && it.subjectId == subjectId }
-            else if (score == null && subjectId == null && unitId == null)
-                commentListTest.filter { it.educationId == gradeId && it.gradeId == gradeId }
-            else if (educationId == null && gradeId == null && subjectId == null)
-                commentListTest.filter { it.score == score && it.id == unitId }
-            else if (educationId == null && gradeId == null && unitId == null)
-                commentListTest.filter { it.score == score && it.subjectId == subjectId }
-            else if (educationId == null && subjectId == null && unitId == null)
-                commentListTest.filter { it.score == score && it.gradeId == gradeId }
-            else if (score == null && educationId == null)
-                commentListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId && it.unitId == unitId }
-            else if (score == null && gradeId == null)
-                commentListTest.filter { it.educationId == educationId && it.subjectId == subjectId && it.unitId == unitId }
-            else if (score == null && subjectId == null)
-                commentListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.unitId == unitId }
-            else if (score == null && unitId == null)
-                commentListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }
-            else if (educationId == null && gradeId == null)
-                commentListTest.filter { it.score == score && it.subjectId == subjectId && it.unitId == unitId }
-            else if (educationId == null && subjectId == null)
-                commentListTest.filter { it.score == score && it.gradeId == gradeId && it.unitId == unitId }
-            else if (educationId == null && unitId == null)
-                commentListTest.filter { it.score == score && it.gradeId == gradeId && it.subjectId == subjectId }
-            else if (gradeId == null && subjectId == null)
-                commentListTest.filter { it.score == score && it.educationId == educationId && it.unitId == unitId }
-            else if (gradeId == null && unitId == null)
-                commentListTest.filter { it.score == score && it.educationId == educationId && it.subjectId == subjectId }
-            else if (subjectId == null && unitId == null)
-                commentListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId }
-            else if (score == null)
-                commentListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }
-            else if (educationId == null)
-                commentListTest.filter { it.score == score && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }
-            else if (gradeId == null)
-                commentListTest.filter { it.score == score && it.educationId == educationId && it.subjectId == subjectId && it.id == unitId }
-            else if (subjectId == null)
-                commentListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId && it.id == unitId }
-            else if (unitId == null)
-                commentListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }
-            else
-                commentListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }
-            var last = index + num
-            if (last > list.size) last = list.size
-            return list.subList(index, last)
-        } else {
-            return emptyList()
-        }
+        var list = if (score == null && educationId == null && gradeId == null && subjectId == null && unitId == null)
+            commentListTest
+        else if (score == null && educationId == null && gradeId == null && subjectId == null)
+            commentListTest.filter { it.unitId == unitId }
+        else if (score == null && educationId == null && gradeId == null && unitId == null)
+            commentListTest.filter { it.subjectId == subjectId }
+        else if (score == null && educationId == null && subjectId == null && unitId == null)
+            commentListTest.filter { it.gradeId == gradeId }
+        else if (score == null && gradeId == null && subjectId == null && unitId == null)
+            commentListTest.filter { it.educationId == educationId }
+        else if (educationId == null && gradeId == null && subjectId == null && unitId == null)
+            commentListTest.filter { it.score == score }
+        else if (score == null && educationId == null && gradeId == null)
+            commentListTest.filter { it.subjectId == subjectId && it.id == unitId }
+        else if (score == null && educationId == null && subjectId == null)
+            commentListTest.filter { it.gradeId == gradeId && it.id == unitId }
+        else if (score == null && educationId == null && unitId == null)
+            commentListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId }
+        else if (score == null && gradeId == null && subjectId == null)
+            commentListTest.filter { it.educationId == subjectId && it.id == unitId }
+        else if (score == null && gradeId == null && unitId == null)
+            commentListTest.filter { it.educationId == gradeId && it.subjectId == subjectId }
+        else if (score == null && subjectId == null && unitId == null)
+            commentListTest.filter { it.educationId == gradeId && it.gradeId == gradeId }
+        else if (educationId == null && gradeId == null && subjectId == null)
+            commentListTest.filter { it.score == score && it.id == unitId }
+        else if (educationId == null && gradeId == null && unitId == null)
+            commentListTest.filter { it.score == score && it.subjectId == subjectId }
+        else if (educationId == null && subjectId == null && unitId == null)
+            commentListTest.filter { it.score == score && it.gradeId == gradeId }
+        else if (score == null && educationId == null)
+            commentListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId && it.unitId == unitId }
+        else if (score == null && gradeId == null)
+            commentListTest.filter { it.educationId == educationId && it.subjectId == subjectId && it.unitId == unitId }
+        else if (score == null && subjectId == null)
+            commentListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.unitId == unitId }
+        else if (score == null && unitId == null)
+            commentListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }
+        else if (educationId == null && gradeId == null)
+            commentListTest.filter { it.score == score && it.subjectId == subjectId && it.unitId == unitId }
+        else if (educationId == null && subjectId == null)
+            commentListTest.filter { it.score == score && it.gradeId == gradeId && it.unitId == unitId }
+        else if (educationId == null && unitId == null)
+            commentListTest.filter { it.score == score && it.gradeId == gradeId && it.subjectId == subjectId }
+        else if (gradeId == null && subjectId == null)
+            commentListTest.filter { it.score == score && it.educationId == educationId && it.unitId == unitId }
+        else if (gradeId == null && unitId == null)
+            commentListTest.filter { it.score == score && it.educationId == educationId && it.subjectId == subjectId }
+        else if (subjectId == null && unitId == null)
+            commentListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId }
+        else if (score == null)
+            commentListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }
+        else if (educationId == null)
+            commentListTest.filter { it.score == score && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }
+        else if (gradeId == null)
+            commentListTest.filter { it.score == score && it.educationId == educationId && it.subjectId == subjectId && it.id == unitId }
+        else if (subjectId == null)
+            commentListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId && it.id == unitId }
+        else if (unitId == null)
+            commentListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }
+        else
+            commentListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }
+        var last = index + num
+        if (last > list.size) last = list.size
+        return list.subList(index, last)
     }
 
 

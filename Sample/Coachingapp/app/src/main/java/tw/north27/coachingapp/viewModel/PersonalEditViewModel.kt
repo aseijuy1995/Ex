@@ -3,6 +3,7 @@ package tw.north27.coachingapp.viewModel
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.gson.Gson
 import com.yujie.utilmodule.base.BaseAndroidViewModel
 import com.yujie.utilmodule.ext.asLiveData
 import com.yujie.utilmodule.http.Results
@@ -16,7 +17,6 @@ import kotlinx.coroutines.withContext
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.UserInfo
-import tw.north27.coachingapp.repository.IPublicRepository
 import tw.north27.coachingapp.repository.IUserRepository
 import java.util.*
 
@@ -51,7 +51,9 @@ class PersonalEditViewModel(
         if (account.isEmpty()) {
             ViewState.empty()
         } else {
-            val results = userRepo.getUser(account)
+            val results = userRepo.getUser(
+                json = Gson().toJson(hashMapOf("account" to account))
+            )
             when (results) {
                 is Results.Successful<UserInfo> -> {
                     val userInfo = results.data

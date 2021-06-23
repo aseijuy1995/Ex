@@ -1,16 +1,18 @@
 package tw.north27.coachingapp.repository
 
 import com.yujie.utilmodule.http.Results
-import tw.north27.coachingapp.model.Gender
-import tw.north27.coachingapp.model.SignIn
-import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.model.*
 import java.util.*
 
 interface IUserRepository {
 
     suspend fun checkSignIn(): Results<SignIn>
 
-    suspend fun signIn(json: String): Results<SignIn>
+    suspend fun signIn(signInBody: SignInBody): Results<SignIn>
+
+    suspend fun getUser(json: String): Results<UserInfo>
+
+    suspend fun getCommentList(commentBody: CommentBody): Results<List<CommentInfo>>
     //
     //
     //
@@ -20,8 +22,6 @@ interface IUserRepository {
     suspend fun signOut(uuid: String, account: String): Results<SignIn>
 
     suspend fun getTeacherList(educationId: Long? = null, gradeId: Long? = null, subjectId: Long? = null, unitId: Long? = null): Results<List<UserInfo>>
-
-    suspend fun getUser(account: String): Results<UserInfo>
 
     suspend fun updateUser(
         account: String,

@@ -4,9 +4,7 @@ import android.content.Context
 import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.http.safeApiResults
 import tw.north27.coachingapp.consts.IApiService
-import tw.north27.coachingapp.model.Gender
-import tw.north27.coachingapp.model.SignIn
-import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.model.*
 import java.util.*
 
 class UserRepository(val service: IApiService, val context: Context) : IUserRepository {
@@ -15,9 +13,24 @@ class UserRepository(val service: IApiService, val context: Context) : IUserRepo
         return safeApiResults { service.checkSignIn() }
     }
 
-    override suspend fun signIn(json: String): Results<SignIn> {
-        return safeApiResults { service.signIn(json = json) }
+    override suspend fun signIn(signInBody: SignInBody): Results<SignIn> {
+        return safeApiResults { service.signIn(signInBody = signInBody) }
     }
+
+    override suspend fun getUser(json: String): Results<UserInfo> {
+        return safeApiResults { service.getUser(json = json) }
+    }
+
+    override suspend fun getCommentList(commentBody: CommentBody): Results<List<CommentInfo>> {
+        return safeApiResults {
+            service.getCommentList(commentBody = commentBody)
+        }
+    }
+    //
+    //
+    //
+    //
+    //
 
     override suspend fun signOut(uuid: String, account: String): Results<SignIn> {
         return safeApiResults { service.signOut(uuid = uuid, account = account) }
@@ -25,10 +38,6 @@ class UserRepository(val service: IApiService, val context: Context) : IUserRepo
 
     override suspend fun getTeacherList(educationId: Long?, gradeId: Long?, subjectId: Long?, unitId: Long?): Results<List<UserInfo>> {
         return safeApiResults { service.getTeacherList(educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId) }
-    }
-
-    override suspend fun getUser(account: String): Results<UserInfo> {
-        return safeApiResults { service.getUser(account = account) }
     }
 
     override suspend fun updateUser(

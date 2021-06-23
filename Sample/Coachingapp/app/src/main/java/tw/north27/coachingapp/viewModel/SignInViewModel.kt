@@ -3,7 +3,6 @@ package tw.north27.coachingapp.viewModel
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
 import com.yujie.pushmodule.fcm.FirebaseMsg
 import com.yujie.utilmodule.UserPref
 import com.yujie.utilmodule.base.BaseAndroidViewModel
@@ -48,13 +47,11 @@ class SignInViewModel(
                 cxt.userPref.setUuid(uuid = uuid)
             }
             val results = userRepo.signIn(
-                json = Gson().toJson(
-                    SignInBody(
-                        uuid = uuid,
-                        account = account,
-                        password = password,
-                        pushToken = FirebaseMsg.fcmToken!!
-                    )
+                signInBody = SignInBody(
+                    uuid = uuid,
+                    account = account,
+                    password = password,
+                    pushToken = FirebaseMsg.fcmToken!!
                 )
             )
             when (results) {

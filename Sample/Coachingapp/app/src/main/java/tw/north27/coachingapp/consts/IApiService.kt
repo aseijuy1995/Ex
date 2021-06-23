@@ -30,10 +30,26 @@ interface IApiService {
 
     /**
      * 登入
-     * @param json >> SignInBody::class.java
+     * @param signInBody >> SignInBody::class.java
      * */
     @POST
-    suspend fun signIn(@Body json: String): SignIn
+    suspend fun signIn(@Body signInBody: SignInBody): SignIn
+
+    /**
+     * 取得用戶資訊
+     * @param json >> account >> 帳號
+     * */
+    @POST
+    suspend fun getUser(@Body json: String): UserInfo
+
+    /**
+     * 取得評論列表 - 預設無參數，依據index、num回傳數據
+     * @param commentBody >> CommentBody::class.java
+     * */
+    @POST
+    suspend fun getCommentList(@Body commentBody: CommentBody): List<CommentInfo>
+
+
 
     //
     //
@@ -118,15 +134,6 @@ interface IApiService {
     ): List<UserInfo>
 
     /**
-     * 取得用戶資訊
-     * @param account >> 帳號
-     * */
-    @POST
-    suspend fun getUser(
-        @Field("account") account: String
-    ): UserInfo
-
-    /**
      * 更新用戶資訊
      * @param account >> 帳號
      * @param bgPath? >> 背景
@@ -156,29 +163,6 @@ interface IApiService {
         @Field("school") school: String? = null,
         @Field("grade_id") gradeId: Long? = null
     ): Boolean
-
-    /**
-     * 取得評論列表 - 預設無參數，依據index、num回傳數據
-     * @param account >> 帳號
-     * @param score >> 評分
-     * @param educationId >> 教育id
-     * @param gradeId >> 年級id
-     * @param subjectId >> 科目id
-     * @param unitId >> 單元id
-     * @param index >> 索引
-     * @param num >> 筆數
-     * */
-    @POST
-    suspend fun getCommentList(
-        @Field("account") account: String,
-        @Field("score") score: Double? = null,
-        @Field("education_id") educationId: Long? = null,
-        @Field("grade_id") gradeId: Long? = null,
-        @Field("subject_id") subjectId: Long? = null,
-        @Field("unit_id") unitId: Long? = null,
-        @Field("index") index: Int,
-        @Field("num") num: Int
-    ): List<CommentInfo>
 
 //    /**
 //     * 取得未回覆列表(未加載) - 依據時間近至遠撈回，未指定則撈回全部

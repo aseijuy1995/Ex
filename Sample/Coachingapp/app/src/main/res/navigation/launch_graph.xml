@@ -5,6 +5,16 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/fragment_start">
 
+    <!--    <action-->
+    <!--        android:id="@+id/action_to_fragment_loading_dialog"-->
+    <!--        app:destination="@id/fragment_loading_dialog" />-->
+    <!--    -->
+    <!--    <dialog-->
+    <!--        android:id="@+id/fragment_loading_dialog"-->
+    <!--        android:name="tw.north27.coachingapp.ui.LoadingDialogFragment"-->
+    <!--        android:label="fragment_loading_dialog"-->
+    <!--        tools:layout="@layout/fragment_loading_dialog" />-->
+
     <action
         android:id="@+id/action_to_fragment_sign_in"
         app:destination="@id/fragment_sign_in"
@@ -39,6 +49,12 @@
         android:label="fragment_update_dialog"
         tools:layout="@layout/fragment_update_dialog" />
 
+    <fragment
+        android:id="@+id/fragment_sign_in"
+        android:name="tw.north27.coachingapp.ui.SignInFragment"
+        android:label="fragment_sign_in"
+        tools:layout="@layout/fragment_sign_in" />
+
     <!--    <action-->
     <!--        android:id="@+id/action_to_fragment_chat_room"-->
     <!--        app:destination="@id/fragment_chat_room"-->
@@ -53,36 +69,6 @@
     <!--            app:nullable="false" />-->
 
     <!--    </action>-->
-
-    <!--    &lt;!&ndash;  Page  &ndash;&gt;-->
-    <!--    &lt;!&ndash;    &ndash;&gt;-->
-    <!--    <action-->
-    <!--        android:id="@+id/action_to_fragment_loading_dialog"-->
-    <!--        app:destination="@id/fragment_loading_dialog" />-->
-    <!--    &lt;!&ndash;    &ndash;&gt;-->
-    <!--    &lt;!&ndash;    &ndash;&gt;-->
-    <!--    <dialog-->
-    <!--        android:id="@+id/fragment_loading_dialog"-->
-    <!--        android:name="tw.north27.coachingapp.ui.LoadingDialogFragment"-->
-    <!--        android:label="fragment_loading_dialog"-->
-    <!--        tools:layout="@layout/fragment_loading_dialog" />-->
-
-    <!--  Global Action  -->
-
-    <fragment
-        android:id="@+id/fragment_sign_in"
-        android:name="tw.north27.coachingapp.ui.SignInFragment"
-        android:label="fragment_sign_in"
-        tools:layout="@layout/fragment_sign_in" />
-
-    <!--    &lt;!&ndash;    &ndash;&gt;-->
-    <!--    &lt;!&ndash;    &ndash;&gt;-->
-    <!--    &lt;!&ndash;    &ndash;&gt;-->
-    <!--    &lt;!&ndash;    &ndash;&gt;-->
-    <!--    &lt;!&ndash;    &ndash;&gt;-->
-
-    <!--    &lt;!&ndash;&ndash;&gt;-->
-    <!--    &lt;!&ndash;    &ndash;&gt;-->
 
 
     <!--    <fragment-->

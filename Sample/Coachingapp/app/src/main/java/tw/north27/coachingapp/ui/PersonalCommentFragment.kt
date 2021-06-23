@@ -14,8 +14,6 @@ class PersonalCommentFragment : BaseFragment<FragmentPersonalCommentBinding>(R.l
     override val viewBind: (View) -> FragmentPersonalCommentBinding
         get() = FragmentPersonalCommentBinding::bind
 
-    private val publicVM by viewModel<PublicViewModel>()
-
     private val viewModel by viewModel<PersonalCommentViewModel>()
 
     private val commentAdapter = CommentListAdapter()

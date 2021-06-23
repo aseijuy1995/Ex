@@ -17,4 +17,5 @@
             layout="@layout/item_personal" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
 </androidx.cardview.widget.CardView>

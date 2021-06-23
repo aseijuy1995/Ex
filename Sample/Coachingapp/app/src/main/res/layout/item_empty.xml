@@ -6,7 +6,7 @@
     android:background="@color/white">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_background_empty"
+        android:id="@+id/tv_bg_empty"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
@@ -25,7 +25,6 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintDimensionRatio="H,1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -37,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:text="@string/empty_content"
-        android:textColor="@color/gray_aaaaaa"
+        android:textColor="@color/gray_666666"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

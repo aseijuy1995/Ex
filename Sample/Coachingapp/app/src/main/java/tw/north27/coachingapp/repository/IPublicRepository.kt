@@ -10,10 +10,4 @@ interface IPublicRepository {
     suspend fun getEducationData(): Results<EducationData>
 
     suspend fun getAppConfig(): Results<AppConfig>
-
-    //
-    //
-    //
-    //
-    suspend fun getCommentList(account: String, educationId: Long?, gradeId: Long?, subjectId: Long?, unitId: Long?, index: Int, num: Int): Results<List<CommentInfo>>
 }
