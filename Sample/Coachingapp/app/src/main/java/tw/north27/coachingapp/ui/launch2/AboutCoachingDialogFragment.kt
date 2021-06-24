@@ -1,0 +1,24 @@
+package tw.north27.coachingapp.ui.launch2
+
+import android.os.Bundle
+import android.view.View
+import androidx.navigation.fragment.findNavController
+import com.yujie.utilmodule.base.BaseDialogFragment
+import com.yujie.utilmodule.ext.clicksObserve
+import tw.north27.coachingapp.R
+import tw.north27.coachingapp.databinding.FragmentAboutCoachingDialogBinding
+
+class AboutCoachingDialogFragment : BaseDialogFragment<FragmentAboutCoachingDialogBinding>(R.layout.fragment_about_coaching_dialog) {
+
+    override val viewBind: (View) -> FragmentAboutCoachingDialogBinding
+        get() = FragmentAboutCoachingDialogBinding::bind
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.btnClose.clicksObserve(owner = viewLifecycleOwner) {
+            findNavController().navigateUp()
+        }
+    }
+}

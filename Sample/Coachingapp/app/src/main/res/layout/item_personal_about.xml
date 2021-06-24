@@ -37,6 +37,10 @@
             android:id="@+id/item_contact_us"
             layout="@layout/item_personal" />
 
+        <include
+            android:id="@+id/item_reflecting_issues"
+            layout="@layout/item_personal" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.cardview.widget.CardView>

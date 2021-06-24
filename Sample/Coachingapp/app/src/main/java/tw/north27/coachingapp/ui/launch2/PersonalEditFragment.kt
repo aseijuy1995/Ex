@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui
+package tw.north27.coachingapp.ui.launch2
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -21,7 +21,7 @@ import tw.north27.coachingapp.databinding.FragmentPersonalEditBinding
 import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.Grade
 import tw.north27.coachingapp.model.UserInfo
-import tw.north27.coachingapp.ui.launch2.Launch2Activity
+import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.PersonalViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -136,8 +136,8 @@ class PersonalEditFragment : BaseFragment<FragmentPersonalEditBinding>(R.layout.
                     when (userInfo.auth) {
                         UserPref.Authority.STUDENT -> {
                             viewModel.updateUser(
-                                bgPath = "",
-                                avatarPath = "",
+                                bgUrl = "",
+                                avatarUrl = "",
                                 name = binding.itemData.itemPersonalUserEdit.etName.text.toString(),
                                 gender = binding.itemData.itemPersonalUserEdit.spGender.selectedItem as Gender,
                                 intro = binding.itemData.itemPersonalIntroEdit.etName.text.toString(),
@@ -156,8 +156,8 @@ class PersonalEditFragment : BaseFragment<FragmentPersonalEditBinding>(R.layout.
                         }
                         UserPref.Authority.TEACHER -> {
                             viewModel.updateUser(
-                                bgPath = "",
-                                avatarPath = "",
+                                bgUrl = "",
+                                avatarUrl = "",
                                 name = binding.itemData.itemPersonalUserEdit.etName.text.toString(),
                                 gender = binding.itemData.itemPersonalUserEdit.spGender.selectedItem as Gender,
                                 intro = binding.itemData.itemPersonalIntroEdit.etName.text.toString(),
@@ -175,7 +175,6 @@ class PersonalEditFragment : BaseFragment<FragmentPersonalEditBinding>(R.layout.
                 }
             }
         }
-
     }
 
     private fun setUiData(userInfo: UserInfo) {

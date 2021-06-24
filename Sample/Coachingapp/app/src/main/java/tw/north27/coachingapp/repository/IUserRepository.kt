@@ -1,20 +1,27 @@
 package tw.north27.coachingapp.repository
 
 import com.yujie.utilmodule.http.Results
-import tw.north27.coachingapp.model.*
-import java.util.*
+import tw.north27.coachingapp.model.CommentInfo
+import tw.north27.coachingapp.model.SignIn
+import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.model.request.CommentRequest
+import tw.north27.coachingapp.model.request.SignInRequest
+import tw.north27.coachingapp.model.request.SignOutRequest
+import tw.north27.coachingapp.model.request.UpdateUserRequest
 
 interface IUserRepository {
 
     suspend fun checkSignIn(): Results<SignIn>
 
-    suspend fun signIn(signInBody: SignInBody): Results<SignIn>
+    suspend fun signIn(signInRequest: SignInRequest): Results<SignIn>
 
     suspend fun getUser(json: String): Results<UserInfo>
 
-    suspend fun getCommentList(commentBody: CommentBody): Results<List<CommentInfo>>
+    suspend fun updateUser(updateUserRequest: UpdateUserRequest): Results<Boolean>
 
-    suspend fun signOut(signOutBody: SignOutBody): Results<SignIn>
+    suspend fun getCommentList(commentRequest: CommentRequest): Results<List<CommentInfo>>
+
+    suspend fun signOut(signOutRequest: SignOutRequest): Results<SignIn>
     //
     //
     //
@@ -22,18 +29,5 @@ interface IUserRepository {
 
     suspend fun getTeacherList(educationId: Long? = null, gradeId: Long? = null, subjectId: Long? = null, unitId: Long? = null): Results<List<UserInfo>>
 
-    suspend fun updateUser(
-        account: String,
-        bgPath: String,
-        avatarPath: String,
-        name: String,
-        gender: Gender,
-        intro: String,
-        birthday: Date? = null,
-        cellPhone: String,
-        homePhone: String,
-        email: String,
-        school: String? = null,
-        gradeId: Long? = null
-    ): Results<Boolean>
+
 }

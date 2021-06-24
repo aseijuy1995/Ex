@@ -6,9 +6,12 @@ import com.google.gson.reflect.TypeToken
 import com.yujie.utilmodule.util.logD
 import kotlinx.coroutines.delay
 import retrofit2.http.Body
-import retrofit2.http.Field
 import retrofit2.http.Query
 import tw.north27.coachingapp.model.*
+import tw.north27.coachingapp.model.request.CommentRequest
+import tw.north27.coachingapp.model.request.SignInRequest
+import tw.north27.coachingapp.model.request.SignOutRequest
+import tw.north27.coachingapp.model.request.UpdateUserRequest
 import java.util.*
 
 class ApiService(val cxt: Context) : IApiService {
@@ -83,12 +86,12 @@ class ApiService(val cxt: Context) : IApiService {
         }
     }
 
-    override suspend fun signIn(@Body signInBody: SignInBody): SignIn {
+    override suspend fun signIn(@Body signInRequest: SignInRequest): SignIn {
         delay(1500)
-        val uuid = signInBody.uuid
-        val account = signInBody.account
-        val password = signInBody.password
-        val pushToken = signInBody.pushToken
+        val uuid = signInRequest.uuid
+        val account = signInRequest.account
+        val password = signInRequest.password
+        val pushToken = signInRequest.pushToken
         logD(
             "uuid = $uuid\n" +
                     "account = $account\n" +
@@ -122,10 +125,10 @@ class ApiService(val cxt: Context) : IApiService {
         }
     }
 
-    override suspend fun signOut(@Body signOutBody: SignOutBody): SignIn {
+    override suspend fun signOut(@Body signOutRequest: SignOutRequest): SignIn {
         delay(1500)
-        if (uuidTest == signOutBody.uuid) uuidTest = ""
-        return if (signOutBody.account == accountTest)
+        if (uuidTest == signOutRequest.uuid) uuidTest = ""
+        return if (signOutRequest.account == accountTest)
             SignIn(
                 signInCode = SignInCode.SIGN_OUT_SUCCESS.code,
                 signOutInfo = SignOutInfo(
@@ -233,31 +236,30 @@ class ApiService(val cxt: Context) : IApiService {
             teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
     }
 
-    override suspend fun updateUser(
-        @Field("account") account: String,
-        @Field("bg_path") bgPath: String,
-        @Field("avatar_path") avatarPath: String,
-        @Field("name") name: String,
-        @Field("gender") gender: Gender,
-        @Field("intro") intro: String,
-        @Field("birthday") birthday: Date?,
-        @Field("cell_phone") cellPhone: String,
-        @Field("home_phone") homePhone: String,
-        @Field("email") email: String,
-        @Field("school") school: String?,
-        @Field("grade_id") gradeId: Long?
-    ): Boolean {
+    override suspend fun updateUser(@Body updateUserRequest: UpdateUserRequest): Boolean {
         delay(1500)
+        val account = updateUserRequest.account
+        val bgUrl = updateUserRequest.bgUrl
+        val avatarUrl = updateUserRequest.avatarUrl
+        val name = updateUserRequest.name
+        val gender = updateUserRequest.gender
+        val intro = updateUserRequest.intro
+        val birthday = updateUserRequest.birthday
+        val cellPhone = updateUserRequest.cellPhone
+        val homePhone = updateUserRequest.homePhone
+        val email = updateUserRequest.email
+        val school = updateUserRequest.school
+        val gradeId = updateUserRequest.gradeId
         if (account == accountTest) {
-            bgUrlTest = bgPath
-            avatarUrlTest = avatarPath
+            bgUrl?.let { bgUrlTest = it }
+            avatarUrl?.let { avatarUrlTest = it }
             nameTest = name
             genderTest = gender
             introTest = intro
             birthday?.let { birthdayTest = it }
-            cellPhone?.let { cellPhoneTest = it }
-            homePhone?.let { homePhoneTest = it }
-            email?.let { emailTest = it }
+            cellPhoneTest = cellPhone
+            homePhoneTest = homePhone
+            emailTest = email
             school?.let { schoolTest = it }
             gradeId?.let { gradeIdTest = it }
             return true
@@ -265,16 +267,16 @@ class ApiService(val cxt: Context) : IApiService {
         return false
     }
 
-    override suspend fun getCommentList(@Body commentBody: CommentBody): List<CommentInfo> {
+    override suspend fun getCommentList(@Body commentRequest: CommentRequest): List<CommentInfo> {
         delay(1500)
         val commentListTest = commentListTest.filter { it.receiveAccount == accountTest }
-        val score = commentBody.score
-        val educationId = commentBody.educationId
-        val gradeId = commentBody.gradeId
-        val subjectId = commentBody.subjectId
-        val unitId = commentBody.unitId
-        val index = commentBody.index
-        val num = commentBody.num
+        val score = commentRequest.score
+        val educationId = commentRequest.educationId
+        val gradeId = commentRequest.gradeId
+        val subjectId = commentRequest.subjectId
+        val unitId = commentRequest.unitId
+        val index = commentRequest.index
+        val num = commentRequest.num
         //account判斷取得哪個帳號的評論
         logD(
             "score = $score\n" +

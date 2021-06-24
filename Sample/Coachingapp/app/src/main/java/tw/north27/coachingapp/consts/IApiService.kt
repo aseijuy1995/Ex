@@ -3,9 +3,15 @@ package tw.north27.coachingapp.consts
 //https://www.jianshu.com/p/62ab11ddacc8
 //https://www.huaweicloud.com/articles/138c673c96294a6661b16960ff4db613.html
 
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Query
 import tw.north27.coachingapp.model.*
-import java.util.*
+import tw.north27.coachingapp.model.request.CommentRequest
+import tw.north27.coachingapp.model.request.SignInRequest
+import tw.north27.coachingapp.model.request.SignOutRequest
+import tw.north27.coachingapp.model.request.UpdateUserRequest
 
 interface IApiService {
 
@@ -30,21 +36,22 @@ interface IApiService {
 
     /**
      * 登入
-     * @param signInBody >> SignInBody::class.java
+     * @param signInRequest >> SignInRequest::class.java
      * */
     @POST
-    suspend fun signIn(@Body signInBody: SignInBody): SignIn
+    suspend fun signIn(@Body signInRequest: SignInRequest): SignIn
 
     /**
      * 登出
      * @header accessToken
-     * @param signOutBody >> SignOutBody::class.java
+     * @param signOutRequest >> SignOutRequest::class.java
      * */
     @POST
-    suspend fun signOut(@Body signOutBody: SignOutBody): SignIn
+    suspend fun signOut(@Body signOutRequest: SignOutRequest): SignIn
 
     /**
      * 取得用戶資訊
+     * @header accessToken
      * @param json >> account >> 帳號
      * */
     @POST
@@ -52,42 +59,19 @@ interface IApiService {
 
     /**
      * 更新用戶資訊
-     *(修改位置6/24)
-     * @param account >> 帳號
-     * @param bgPath? >> 背景
-     * @param avatarPath? >> 頭貼
-     * @param name >> 名稱
-     * @param gender >> 性別
-     * @param intro >> 簡介
-     * @param birthday? >> 生日
-     * @param cellPhone >> 電話
-     * @param homePhone >> 家電
-     * @param email >> Email
-     * @param school? >> 學校
-     * @param gradeId? >> 年級Id
+     * @header accessToken
+     * @param updateUserRequest >> UpdateUserRequest::class.java
      * */
     @POST
-    suspend fun updateUser(
-        @Field("account") account: String,
-        @Field("bg_path") bgPath: String,
-        @Field("avatar_path") avatarPath: String,
-        @Field("name") name: String,
-        @Field("gender") gender: Gender,
-        @Field("intro") intro: String,
-        @Field("birthday") birthday: Date? = null,
-        @Field("cell_phone") cellPhone: String,
-        @Field("home_phone") homePhone: String,
-        @Field("email") email: String,
-        @Field("school") school: String? = null,
-        @Field("grade_id") gradeId: Long? = null
-    ): Boolean
+    suspend fun updateUser(@Body updateUserRequest: UpdateUserRequest): Boolean
 
     /**
      * 取得評論列表 - 預設無參數，依據index、num回傳數據
-     * @param commentBody >> CommentBody::class.java
+     * @header accessToken
+     * @param commentRequest >> CommentBody::class.java
      * */
     @POST
-    suspend fun getCommentList(@Body commentBody: CommentBody): List<CommentInfo>
+    suspend fun getCommentList(@Body commentRequest: CommentRequest): List<CommentInfo>
 
 
     //

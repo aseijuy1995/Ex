@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="300dp"
+        android:layout_height="350dp"
+        android:background="@color/white"
+        android:elevation="15dp"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ScrollView
+                android:id="@+id/sv_view"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:background="@color/green_00ba9b"
+                android:padding="10dp"
+                android:scrollbars="none"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="『解惑通』-線上解惑平台APP\n\n升學唯一專家-『學習王-萬試通數位學習系統』的線上解惑APP上線囉！\n\n在大家引頸期盼下，萬試通推出『解惑通』線上解題平台的APP。是否曾經想過竟然會有補教名師可以親自為你的學習問題做解答？\n\n『解惑通』為你做到了，『解惑通』聯合線上一流補教名師及各名校醫科生組成的輔導老師將親自為你的問題一一解答，學習上出現問題不需要再等待，只要登入『解惑通』可以讓你的學習問題快速得到解答。\n\n『解惑通』官網：\n\thttp://www.question123.com.tw\n\n『學習王-萬試通數位學習系統』集合全台灣一流頂尖師資及高科技技術人員，製作出首屈一指的影音教學產品。本產品是以升學類內容為主，其中無論是在師資或產品的顯現方式，均勝過國內其他同類型之產品，深受學生及家長的支持與肯定。此文教產品課程內容符合十二年國教課綱，而其中包含四大功能－名師講堂、解惑平台、我的題庫、學習精靈，影音教學內拍攝的老師皆為坊間的補教名師，功能及硬體設施更擁有多項的專利。且無論是課程、影片、題目都會不定期的線上更新，讓學生在家就能擁有在補習班一樣的師資授課。\n\n\n詳細請見『學習王-萬試通數位學習系統』官網：http://www.study123.com.tw"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </ScrollView>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_icon"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_twotone_ballot_24_green"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sv_view" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:text="@string/about_coaching"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_icon"
+                app:layout_constraintStart_toEndOf="@id/iv_icon"
+                app:layout_constraintTop_toTopOf="@id/iv_icon" />
+o
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/shape_solid_green_corners_radius_30"
+                android:minHeight="26dp"
+                android:text="@string/close"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sv_view" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

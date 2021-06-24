@@ -4,8 +4,13 @@ import android.content.Context
 import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.http.safeApiResults
 import tw.north27.coachingapp.consts.IApiService
-import tw.north27.coachingapp.model.*
-import java.util.*
+import tw.north27.coachingapp.model.CommentInfo
+import tw.north27.coachingapp.model.SignIn
+import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.model.request.CommentRequest
+import tw.north27.coachingapp.model.request.SignInRequest
+import tw.north27.coachingapp.model.request.SignOutRequest
+import tw.north27.coachingapp.model.request.UpdateUserRequest
 
 class UserRepository(val service: IApiService, val context: Context) : IUserRepository {
 
@@ -13,20 +18,24 @@ class UserRepository(val service: IApiService, val context: Context) : IUserRepo
         return safeApiResults { service.checkSignIn() }
     }
 
-    override suspend fun signIn(signInBody: SignInBody): Results<SignIn> {
-        return safeApiResults { service.signIn(signInBody = signInBody) }
+    override suspend fun signIn(signInRequest: SignInRequest): Results<SignIn> {
+        return safeApiResults { service.signIn(signInRequest = signInRequest) }
     }
 
     override suspend fun getUser(json: String): Results<UserInfo> {
         return safeApiResults { service.getUser(json = json) }
     }
 
-    override suspend fun getCommentList(commentBody: CommentBody): Results<List<CommentInfo>> {
-        return safeApiResults { service.getCommentList(commentBody = commentBody) }
+    override suspend fun updateUser(updateUserRequest: UpdateUserRequest): Results<Boolean> {
+        return safeApiResults { service.updateUser(updateUserRequest = updateUserRequest) }
     }
 
-    override suspend fun signOut(signOutBody: SignOutBody): Results<SignIn> {
-        return safeApiResults { service.signOut(signOutBody = signOutBody) }
+    override suspend fun getCommentList(commentRequest: CommentRequest): Results<List<CommentInfo>> {
+        return safeApiResults { service.getCommentList(commentRequest = commentRequest) }
+    }
+
+    override suspend fun signOut(signOutRequest: SignOutRequest): Results<SignIn> {
+        return safeApiResults { service.signOut(signOutRequest = signOutRequest) }
     }
     //
     //
@@ -36,23 +45,6 @@ class UserRepository(val service: IApiService, val context: Context) : IUserRepo
 
     override suspend fun getTeacherList(educationId: Long?, gradeId: Long?, subjectId: Long?, unitId: Long?): Results<List<UserInfo>> {
         return safeApiResults { service.getTeacherList(educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId) }
-    }
-
-    override suspend fun updateUser(
-        account: String,
-        bgPath: String,
-        avatarPath: String,
-        name: String,
-        gender: Gender,
-        intro: String,
-        birthday: Date?,
-        cellPhone: String,
-        homePhone: String,
-        email: String,
-        school: String?,
-        gradeId: Long?
-    ): Results<Boolean> {
-        return safeApiResults { service.updateUser(account = account, bgPath = bgPath, avatarPath = avatarPath, name = name, gender = gender, intro = intro, birthday = birthday, cellPhone = cellPhone, homePhone = homePhone, email = email, school = school, gradeId = gradeId) }
     }
 
 }

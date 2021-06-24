@@ -69,23 +69,63 @@
             android:id="@+id/action_fragment_personal_to_fragment_sign_out_dialog"
             app:destination="@id/fragment_sign_out_dialog" />
 
+        <action
+            android:id="@+id/action_fragment_personal_to_fragment_about_coaching_dialog"
+            app:destination="@id/fragment_about_coaching_dialog" />
+
+        <action
+            android:id="@+id/action_fragment_personal_to_fragment_privacy_policy_dialog"
+            app:destination="@id/fragment_privacy_policy_dialog" />
+
+        <action
+            android:id="@+id/action_fragment_personal_to_fragment_contact_us_dialog"
+            app:destination="@id/fragment_contact_us_dialog" />
+
+        <action
+            android:id="@+id/action_fragment_personal_to_fragment_reflect_dialog"
+            app:destination="@id/fragment_reflect_dialog" />
+
     </fragment>
 
     <fragment
         android:id="@+id/fragment_personal_center_edit"
-        android:name="tw.north27.coachingapp.ui.PersonalEditFragment"
+        android:name="tw.north27.coachingapp.ui.launch2.PersonalEditFragment"
         android:label="fragment_personal_center_edit"
         tools:layout="@layout/fragment_personal_edit" />
 
     <fragment
         android:id="@+id/fragment_comment_list"
-        android:name="tw.north27.coachingapp.ui.PersonalCommentFragment"
+        android:name="tw.north27.coachingapp.ui.launch2.PersonalCommentFragment"
         android:label="fragment_comment_list"
         tools:layout="@layout/fragment_personal_comment" />
 
     <dialog
+        android:id="@+id/fragment_about_coaching_dialog"
+        android:name="tw.north27.coachingapp.ui.launch2.AboutCoachingDialogFragment"
+        android:label="fragment_about_coaching_dialog"
+        tools:layout="@layout/fragment_about_coaching_dialog" />
+
+    <dialog
+        android:id="@+id/fragment_privacy_policy_dialog"
+        android:name="tw.north27.coachingapp.ui.launch2.PrivacyPolicyDialogFragment"
+        android:label="fragment_privacy_policy_dialog"
+        tools:layout="@layout/fragment_privacy_policy_dialog" />
+
+    <dialog
+        android:id="@+id/fragment_contact_us_dialog"
+        android:name="tw.north27.coachingapp.ui.launch2.ContactUsDialogFragment"
+        android:label="fragment_contact_us_dialog"
+        tools:layout="@layout/fragment_contact_us_dialog" />
+
+    <dialog
+        android:id="@+id/fragment_reflect_dialog"
+        android:name="tw.north27.coachingapp.ui.launch2.ReflectDialogFragment"
+        android:label="fragment_reflect_dialog"
+        tools:layout="@layout/fragment_reflect_dialog" />
+
+    <dialog
         android:id="@+id/fragment_sign_out_dialog"
-        android:name="tw.north27.coachingapp.ui.SignOutDialogFragment"
+        android:name="tw.north27.coachingapp.ui.launch2.SignOutDialogFragment"
         android:label="fragment_sign_out_dialog"
         tools:layout="@layout/fragment_sign_out_dialog" />
 

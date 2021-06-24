@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui
+package tw.north27.coachingapp.ui.launch
 
 import android.os.Build
 import android.os.Bundle

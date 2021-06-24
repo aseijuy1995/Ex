@@ -1,5 +1,6 @@
 package tw.north27.coachingapp.ui.launch2
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
@@ -61,7 +62,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                 }
                 itemPersonalAbout.apply {
                     itemAboutCoaching.apply {
-                        ivIcon.bindImg(resId = R.drawable.ic_twotone_ballot_24_gray)
+                        ivIcon.bindImg(resId = R.drawable.ic_twotone_ballot_24_green)
                         tvText.text = getString(R.string.about_coaching)
                         ivClick.isVisible = true
                     }
@@ -71,13 +72,18 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                         ivClick.isVisible = true
                     }
                     itemPrivacyPolicy.apply {
-                        ivIcon.bindImg(resId = R.drawable.ic_twotone_privacy_tip_24_gray)
+                        ivIcon.bindImg(resId = R.drawable.ic_baseline_policy_24_red)
                         tvText.text = getString(R.string.privacy_policy)
                         ivClick.isVisible = true
                     }
                     itemContactUs.apply {
-                        ivIcon.bindImg(resId = R.drawable.ic_twotone_connect_without_contact_24_gray)
+                        ivIcon.bindImg(resId = R.drawable.ic_twotone_connect_without_contact_24_blue)
                         tvText.text = getString(R.string.contact_us)
+                        ivClick.isVisible = true
+                    }
+                    itemReflectingIssues.apply {
+                        ivIcon.bindImg(resId = R.drawable.ic_twotone_receipt_long_24_yellow)
+                        tvText.text = getString(R.string.reflecting_issues)
                         ivClick.isVisible = true
                     }
                 }
@@ -151,23 +157,35 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         }
         //推廣連結
         binding.itemData.itemPersonalShare.itemLink.root.clicksObserve(owner = viewLifecycleOwner) {
-
+            startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(
+                    Intent.EXTRA_TEXT, "『解惑通』聯合線上一流補教名師及各名校醫科生組成的輔導老師將親自為你的問題一一解答\n" +
+                            "學習上出現問題不需要再等待\n" +
+                            "只要登入『解惑通』可以讓你的學習問題快速得到解答\n\n" +
+                            "下載連結：https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW"
+                )
+            }, getString(R.string.coaching)))
         }
         //關於Coaching
         binding.itemData.itemPersonalAbout.itemAboutCoaching.root.clicksObserve(owner = viewLifecycleOwner) {
-
+            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentAboutCoachingDialog())
         }
         //常見問題
         binding.itemData.itemPersonalAbout.itemCommonProblem.root.clicksObserve(owner = viewLifecycleOwner) {
-
+            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentAboutCoachingDialog())
         }
         //隱私政策
         binding.itemData.itemPersonalAbout.itemPrivacyPolicy.root.clicksObserve(owner = viewLifecycleOwner) {
-
+            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentPrivacyPolicyDialog())
         }
         //聯繫我們
         binding.itemData.itemPersonalAbout.itemContactUs.root.clicksObserve(owner = viewLifecycleOwner) {
-
+            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentContactUsDialog())
+        }
+        //反映問題
+        binding.itemData.itemPersonalAbout.itemReflectingIssues.root.clicksObserve(owner = viewLifecycleOwner) {
+            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentReflectDialog())
         }
         //登出
         binding.itemData.itemPersonalSignOut.itemSignOut.root.clicksObserve(owner = viewLifecycleOwner) {
@@ -176,6 +194,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         launch2Act.publicVM.getUser()
         viewModel.getCommentList(index = 0, num = 3)
         //        doubleClickToExit()
+//        exit()
     }
 
     private fun setUiData(userInfo: UserInfo) {

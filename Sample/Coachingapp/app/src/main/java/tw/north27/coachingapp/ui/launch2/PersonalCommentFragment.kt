@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui
+package tw.north27.coachingapp.ui.launch2
 
 import android.os.Bundle
 import android.view.View
@@ -18,7 +18,6 @@ import tw.north27.coachingapp.model.Education
 import tw.north27.coachingapp.model.Grade
 import tw.north27.coachingapp.model.Subject
 import tw.north27.coachingapp.model.Units
-import tw.north27.coachingapp.ui.launch2.Launch2Activity
 import tw.north27.coachingapp.viewModel.PersonalViewModel
 
 class PersonalCommentFragment : BaseFragment<FragmentPersonalCommentBinding>(R.layout.fragment_personal_comment) {

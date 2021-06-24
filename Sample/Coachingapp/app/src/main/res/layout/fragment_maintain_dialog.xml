@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/blue_02abe2"
                 android:gravity="center"
-                android:minHeight="40dp"
+                android:minHeight="26dp"
                 android:text="@string/close"
                 android:textColor="@color/white"
                 android:textSize="14sp"

@@ -18,8 +18,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.SignIn
-import tw.north27.coachingapp.model.SignInBody
 import tw.north27.coachingapp.model.SignInCode
+import tw.north27.coachingapp.model.request.SignInRequest
 import tw.north27.coachingapp.repository.IUserRepository
 import java.util.*
 
@@ -47,7 +47,7 @@ class SignInViewModel(
                 cxt.userPref.setUuid(uuid = uuid)
             }
             val results = userRepo.signIn(
-                signInBody = SignInBody(
+                signInRequest = SignInRequest(
                     uuid = uuid,
                     account = account,
                     password = password,

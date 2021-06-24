@@ -116,9 +116,11 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btn_edit"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:background="@drawable/shape_solid_green_corners_radius_2"
+                    android:background="@drawable/shape_solid_green_corners_radius_5"
+                    android:gravity="center"
+                    android:minHeight="26dp"
                     android:text="@string/edit"
                     android:textColor="@color/white"
                     android:textSize="14sp" />

@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui
+package tw.north27.coachingapp.ui.launch2
 
 import android.os.Bundle
 import android.view.View
@@ -14,6 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentSignOutDialogBinding
 import tw.north27.coachingapp.model.SignInCode
+import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.SignOutViewModel
 
 class SignOutDialogFragment : BaseDialogFragment<FragmentSignOutDialogBinding>(R.layout.fragment_sign_out_dialog) {

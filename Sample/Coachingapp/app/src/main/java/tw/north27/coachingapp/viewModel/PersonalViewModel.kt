@@ -9,13 +9,13 @@ import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.pref.getAccount
 import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.ViewState
-import com.yujie.utilmodule.util.logD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import tw.north27.coachingapp.model.CommentBody
 import tw.north27.coachingapp.model.CommentInfo
 import tw.north27.coachingapp.model.Gender
+import tw.north27.coachingapp.model.request.CommentRequest
+import tw.north27.coachingapp.model.request.UpdateUserRequest
 import tw.north27.coachingapp.repository.IUserRepository
 import java.util.*
 
@@ -40,7 +40,7 @@ class PersonalViewModel(
         _commentListState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
         val results = userRepo.getCommentList(
-            CommentBody(account = account, score = score, educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId, index = index, num = num)
+            CommentRequest(account = account, score = score, educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId, index = index, num = num)
         )
         when (results) {
             is Results.Successful<List<CommentInfo>> -> {
@@ -65,8 +65,8 @@ class PersonalViewModel(
     val updateUserState = _updateUserState.asLiveData()
 
     fun updateUser(
-        bgPath: String,
-        avatarPath: String,
+        bgUrl: String,
+        avatarUrl: String,
         name: String,
         gender: Gender,
         intro: String,
@@ -80,18 +80,20 @@ class PersonalViewModel(
         _updateUserState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
         val results = userRepo.updateUser(
-            account = account,
-            bgPath = bgPath,
-            avatarPath = avatarPath,
-            name = name,
-            gender = gender,
-            intro = intro,
-            birthday = birthday,
-            cellPhone = cellPhone,
-            homePhone = homePhone,
-            email = email,
-            school = school,
-            gradeId = gradeId
+            UpdateUserRequest(
+                account = account,
+                bgUrl = bgUrl,
+                avatarUrl = avatarUrl,
+                name = name,
+                gender = gender,
+                intro = intro,
+                birthday = birthday,
+                cellPhone = cellPhone,
+                homePhone = homePhone,
+                email = email,
+                school = school,
+                gradeId = gradeId
+            )
         )
         when (results) {
             is Results.Successful<Boolean> -> {

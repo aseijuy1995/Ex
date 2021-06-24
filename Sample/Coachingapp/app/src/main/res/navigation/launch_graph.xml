@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/fragment_start"
-        android:name="tw.north27.coachingapp.ui.StartFragment"
+        android:name="tw.north27.coachingapp.ui.launch.StartFragment"
         android:label="fragment_start"
         tools:layout="@layout/fragment_start">
 
@@ -39,19 +39,19 @@
 
     <dialog
         android:id="@+id/fragment_maintain_dialog"
-        android:name="tw.north27.coachingapp.ui.MaintainDialogFragment"
+        android:name="tw.north27.coachingapp.ui.launch.MaintainDialogFragment"
         android:label="fragment_maintain_dialog"
         tools:layout="@layout/fragment_maintain_dialog" />
 
     <dialog
         android:id="@+id/fragment_update_dialog"
-        android:name="tw.north27.coachingapp.ui.UpdateDialogFragment"
+        android:name="tw.north27.coachingapp.ui.launch.UpdateDialogFragment"
         android:label="fragment_update_dialog"
         tools:layout="@layout/fragment_update_dialog" />
 
     <fragment
         android:id="@+id/fragment_sign_in"
-        android:name="tw.north27.coachingapp.ui.SignInFragment"
+        android:name="tw.north27.coachingapp.ui.launch.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" />
 

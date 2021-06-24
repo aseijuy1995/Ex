@@ -48,8 +48,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_avatar_edit"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_margin="5dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_twotone_add_photo_alternate_24_white"
@@ -58,8 +58,8 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_bg_edit"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_margin="10dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_twotone_add_photo_alternate_24_white"
@@ -112,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_margin="10dp"
-                android:background="@drawable/shape_solid_green_corners_radius_2"
+                android:background="@drawable/shape_solid_green_corners_radius_5"
                 android:text="@string/edit"
                 android:textColor="@color/white"
                 android:textSize="14sp" />

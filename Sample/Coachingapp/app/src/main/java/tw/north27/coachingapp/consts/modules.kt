@@ -52,13 +52,12 @@ val repoModules = module {
 val viewModelModules = module {
     viewModel<PublicViewModel> { PublicViewModel(androidApplication(), get(), get()) }
     viewModel<PersonalViewModel> { PersonalViewModel(androidApplication(), get()) }
-    //
     viewModel<StartViewModel> { StartViewModel(androidApplication(), get() as IPublicRepository, get() as IUserRepository) }
     viewModel<SignInViewModel> { SignInViewModel(androidApplication(), get()) }
-    viewModel<MainHomeViewModel> { MainHomeViewModel(androidApplication(), get(), get()) }
     viewModel<SignOutViewModel> { SignOutViewModel(androidApplication(), get()) }
     //
-    viewModel<PersonalEditViewModel> { PersonalEditViewModel(androidApplication(), get()) }
+    viewModel<MainHomeViewModel> { MainHomeViewModel(androidApplication(), get(), get()) }
+    //
 
 //    //
 //    viewModel { NotifyViewModel(get()) }
