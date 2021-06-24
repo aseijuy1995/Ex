@@ -40,7 +40,6 @@
                         android:id="@+id/tv_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="本政策的適用範圍\n\n本《隱私權政策》適用於所有由 Google LLC 及其關係企業 (包括 YouTube、Android) 提供的服務，以及在第三方網站提供的服務 (例如廣告服務)。然而，本《隱私權政策》不適用於另行訂定隱私權政策且未納入本《隱私權政策》的服務。\n\n本《隱私權政策》不適用於下列項目：\n\n為 Goolge 服務製作廣告的公司和機構組織所採用的資訊處理機制\n\n顯示於您的搜尋結果中或連自 Google 服務、由其他公司或個人提供的服務，包括可能包含 Google 服務的產品或網站\n\n\n本政策的變更\n\n我們會不時修訂本《隱私權政策》。我們不會在未取得您明確同意的情況下，逕自縮減本《隱私權政策》賦予您的權利。我們一定會標明最後修訂日期，並保存政策的封存版本供您查閱。如果本《隱私權政策》有重大異動，我們會提供更明顯的通知 (例如某些服務會以電子郵件通知政策異動)。"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
@@ -53,7 +52,7 @@
                 android:layout_width="26dp"
                 android:layout_height="26dp"
                 android:layout_marginStart="10dp"
-                android:src="@drawable/ic_baseline_policy_24_red"
+                android:src="@drawable/ic_twotone_policy_24_red"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sv_view" />

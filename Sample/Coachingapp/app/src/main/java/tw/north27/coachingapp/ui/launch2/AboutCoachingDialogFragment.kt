@@ -13,9 +13,12 @@ class AboutCoachingDialogFragment : BaseDialogFragment<FragmentAboutCoachingDial
     override val viewBind: (View) -> FragmentAboutCoachingDialogBinding
         get() = FragmentAboutCoachingDialogBinding::bind
 
+    private val launch2Act: Launch2Activity
+        get() = act as Launch2Activity
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.tvContent.text = launch2Act.publicVM.aboutCoachingContent.value
 
         binding.btnClose.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()

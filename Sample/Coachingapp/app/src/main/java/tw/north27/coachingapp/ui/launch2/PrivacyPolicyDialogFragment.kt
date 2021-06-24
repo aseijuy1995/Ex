@@ -13,9 +13,12 @@ class PrivacyPolicyDialogFragment : BaseDialogFragment<FragmentPrivacyPolicyDial
     override val viewBind: (View) -> FragmentPrivacyPolicyDialogBinding
         get() = FragmentPrivacyPolicyDialogBinding::bind
 
+    private val launch2Act: Launch2Activity
+        get() = act as Launch2Activity
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.tvContent.text = launch2Act.publicVM.privacyPolicyContent.value
 
         binding.btnClose.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()

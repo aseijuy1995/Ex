@@ -11,6 +11,7 @@ import com.yujie.utilmodule.base.BaseAppCompatActivity
 import com.yujie.utilmodule.pref.getAuth
 import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.ViewState
+import com.yujie.utilmodule.util.logD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -78,14 +79,28 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
             }
         }
 
-        publicVM.educationDataState.observe(this) {
-            when (it) {
-                is ViewState.Data -> {
-                    val educationData = it.data
-                    publicVM.setEducationList(educationData.educationList)
-                    publicVM.setGradeList(educationData.gradeList)
-                    publicVM.setSubjectList(educationData.subjectList)
-                    publicVM.setUnitList(educationData.unitList)
+        publicVM.apply {
+            educationDataState.observe(this@Launch2Activity) {
+                when (it) {
+                    is ViewState.Data -> {
+                        val educationData = it.data
+                        publicVM.setEducationList(educationData.educationList)
+                        publicVM.setGradeList(educationData.gradeList)
+                        publicVM.setSubjectList(educationData.subjectList)
+                        publicVM.setUnitList(educationData.unitList)
+                    }
+                }
+            }
+            aboutDataState.observe(this@Launch2Activity) {
+                when (it) {
+                    is ViewState.Data -> {
+                        val aboutData = it.data
+                        publicVM.setShareLink(aboutData.shareLinkContent)
+                        publicVM.setAboutCoaching(aboutData.aboutCoachingContent)
+                        publicVM.setCommonProblemList(aboutData.commonProblemList)
+                        publicVM.setPrivacyPolicy(aboutData.privacyPolicyContent)
+                        publicVM.setContactUs(aboutData.contactUsContent)
+                    }
                 }
             }
         }

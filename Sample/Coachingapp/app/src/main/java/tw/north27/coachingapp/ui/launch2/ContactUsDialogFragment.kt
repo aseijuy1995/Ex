@@ -13,9 +13,12 @@ class ContactUsDialogFragment : BaseDialogFragment<FragmentContactUsDialogBindin
     override val viewBind: (View) -> FragmentContactUsDialogBinding
         get() = FragmentContactUsDialogBinding::bind
 
+    private val launch2Act: Launch2Activity
+        get() = act as Launch2Activity
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.tvContent.text = launch2Act.publicVM.contactUsContent.value
 
         binding.btnClose.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()

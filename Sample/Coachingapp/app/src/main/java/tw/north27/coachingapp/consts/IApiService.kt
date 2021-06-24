@@ -73,6 +73,11 @@ interface IApiService {
     @POST
     suspend fun getCommentList(@Body commentRequest: CommentRequest): List<CommentInfo>
 
+    /**
+     * 取得關於我們的相關數據
+     * */
+    @POST
+    suspend fun getAboutData(): AboutData
 
     //
     //

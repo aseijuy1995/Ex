@@ -101,7 +101,7 @@ class PersonalCommentFragment : BaseFragment<FragmentPersonalCommentBinding>(R.l
                 subjectId = if (subjectId != -1L) subjectId else null,
                 unitId = if (unitId != -1L) unitId else null,
                 index = 0,
-                num = 10
+                num = 20
             )
         }
 

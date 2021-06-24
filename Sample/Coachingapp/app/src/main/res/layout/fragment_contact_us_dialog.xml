@@ -41,7 +41,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="學習王科技股份有限公司版權所有\n\n連絡電話：\n\t\t\t0912-345-678\n\n\t\t\t(02)345-6789\n\nEmail：\n\t\t\tstudy123.tw@gmail.com\n\nCopyright © Study123 Technology\n Co.Ltd. All Rights Reserved.\n\n官網：www.study123.com.tw\n\n\n學習王科技股份有限公司版權所有\n\n連絡電話：\n\t\t\t0912-345-678\n\n\t\t\t(02)345-6789\n\nEmail：\n\t\t\tstudy123.tw@gmail.com\n\nCopyright © Study123 Technology\n Co.Ltd. All Rights Reserved.\n\n官網：www.study123.com.tw"
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 

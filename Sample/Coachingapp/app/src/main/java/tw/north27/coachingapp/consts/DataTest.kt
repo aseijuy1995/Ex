@@ -285,8 +285,17 @@ val commentListTest = listOf(
     CommentInfo(id = 8, sendAccount = "zhaiQingfengAccount", sendName = "翟清峰", receiveAccount = accountTest, receiveName = nameTest, score = 4.0, content = "家裡的姐姐很喜歡上妳的課，平常對國文不怎麼有興趣的都活了起來了，哈", date = "2020-12-29", educationId = 1, gradeId = 1, subjectId = 1, unitId = 3),
     CommentInfo(id = 9, sendAccount = "wangZhengAccount", sendName = "王正", receiveAccount = accountTest, receiveName = nameTest, score = 5.0, content = "很棒的老師，課前會認真的訊問我的狀況，體驗課後給予適合的規劃與建議！", date = "2020-12-27", educationId = 1, gradeId = 1, subjectId = 1, unitId = 4),
     CommentInfo(id = 10, sendAccount = "michaelAccount", sendName = "Michael", receiveAccount = accountTest, receiveName = nameTest, score = 4.0, content = "Excellent lesson with interesting material and clear explanations!", date = "2020-12-04", educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
-)
 
+    CommentInfo(id = 11, sendAccount = "xieWantingAct", sendName = "謝宛庭", receiveAccount = accountTest, receiveName = nameTest, score = 0.5, content = "(數學)問題已經問一天了，你們的是不是覺得太難故意不答啊，服務品質真是好啊。明天就要段考了都不答是怎樣，我買你們產品有什麼用，需要的時候都是最沒用的，像裝飾品一樣，啊，不對，裝飾品比你們好用多了，至少它還能讓我心情變好，貴公司真的超優秀。你們最好給我在段考前回答。你們是不是要等到富○義○更新了才要回答我，我知道獵人很好看啦，但也不用這麼在乎它啦，只是它的更新速度和貴公司的回答問題速度一樣快，真的讓人很滿意，能有這麼棒的速度，一定有很多人想買吧，畢竟有優質的老師幫助我們學習，令人很高興呢!!", date = "2020-12-02", educationId = 1, gradeId = 1, subjectId = 2, unitId = 13),
+    CommentInfo(id = 12, sendAccount = "lowtideBearAct", sendName = "低潮熊LowtideBear", receiveAccount = accountTest, receiveName = nameTest, score = 2.0, content = "(數學)真心建議買這軟體不如去上補習班，業務嘴說的跟行動上不一樣，真的愛理不理的，客訴也不怕！現在花這爛軟體15萬還是要去補習！爛透了，早知道先看評論，負評滿滿！！！怒氣都快變超級賽亞人了！", date = "2020-12-02", educationId = 1, gradeId = 2, subjectId = 2, unitId = 16),
+    CommentInfo(id = 13, sendAccount = "zhaoZixingAct", sendName = "趙子興", receiveAccount = accountTest, receiveName = nameTest, score = 0.5, content = "(生活)只有爛可以形容..推銷一個網路教學我兒子國中是翰林版本的送來講義是108綱的,錢又不能退,送我平版的電腦又爛,書本根本放在那養蚊子,錢我打算不會繳也跟業務黃先生聯繫也都不太理,決定打去消基會問問。", date = "2020-12-01", educationId = 1, gradeId = 1, subjectId = 3, unitId = 37),
+    CommentInfo(id = 14, sendAccount = "suZongshunAct", sendName = "蘇宗瞬", receiveAccount = accountTest, receiveName = nameTest, score = 1.0, content = "(數學)真的爛 希望有負分系統 說真的看到這篇 請記住不要買他們的任何產品 老師教的差 解題老師根本是照著答案掰答案 學習顧問也是賺到了錢就已讀學生 自身有經驗 我相信那些說他們產品好的都是低學歷的人 要是有點知識 就會發現他們老師和解題老師教的都是錯的 ps他們產品是萬試通 真的是地雷", date = "2020-11-27", educationId = 1, gradeId = 4, subjectId = 2, unitId = 20),
+    CommentInfo(id = 15, sendAccount = "daiFengting", sendName = "戴峰庭", receiveAccount = accountTest, receiveName = nameTest, score = 1.5, content = "(自然)非常好用，問什麼問題，老師都會很快回答", date = "2020-11-25", educationId = 1, gradeId = 3, subjectId = 4, unitId = 42),
+    CommentInfo(id = 16, sendAccount = "kwakWoo-nyeongAct", sendName = "곽우녕", receiveAccount = accountTest, receiveName = nameTest, score = 0.5, content = "(數學)相同題目晚上6.傳一次，到了9.發現沒有被解答，然後又傳了一次，結果到了晚上11.也還是沒有被回………………", date = "2020-11-25", educationId = 1, gradeId = 4, subjectId = 2, unitId = 19),
+    CommentInfo(id = 17, sendAccount = "ruanKimHo", sendName = "阮金和", receiveAccount = accountTest, receiveName = nameTest, score = 1.0, content = "(生活)好用是沒錯，但為什麼有些傳了過不知道幾天才說，為什麼我有疑問奇怪了很急著要看結果結果沒回其他就有這個沒有很不爽可不可以改啊？", date = "2020-11-23", educationId = 1, gradeId = 2, subjectId = 3, unitId = 39),
+    CommentInfo(id = 18, sendAccount = "jACKFFAct", sendName = "JACK_ FF", receiveAccount = accountTest + "1", receiveName = nameTest, score = 0.5, content = "(自然)放了40分鐘沒人回", date = "2020-11-21", educationId = 1, gradeId = 6, subjectId = 4, unitId = 47),
+    CommentInfo(id = 19, sendAccount = "caiWanyu", sendName = "蔡宛育", receiveAccount = accountTest, receiveName = nameTest, score = 2.5, content = "(生活)手機壞掉，換手機，重新下載，用原本的帳密，但始終登不進去，打客服，很複雜難懂。", date = "2020-11-05", educationId = 1, gradeId = 1, subjectId = 3, unitId = 38),
+)
 
 /**
  * 評論平均評分
@@ -363,6 +372,100 @@ val userInfoTest = UserInfo(
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+val shareLinkContentTest = "『解惑通』聯合線上一流補教名師及各名校醫科生組成的輔導老師將親自為你的問題一一解答\n\n學習上出現問題不需要再等待\n\n只要登入『解惑通』可以讓你的學習問題快速得到解答\n\n下載連結：https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW"
+val aboutCoachingContentTest =
+    "『解惑通』-線上解惑平台APP\\n\\n升學唯一專家-『學習王-萬試通數位學習系統』的線上解惑APP上線囉！\\n\\n在大家引頸期盼下，萬試通推出『解惑通』線上解題平台的APP。是否曾經想過竟然會有補教名師可以親自為你的學習問題做解答？\\n\\n『解惑通』為你做到了，『解惑通』聯合線上一流補教名師及各名校醫科生組成的輔導老師將親自為你的問題一一解答，學習上出現問題不需要再等待，只要登入『解惑通』可以讓你的學習問題快速得到解答。\\n\\n『解惑通』官網：\\n\\thttp://www.question123.com.tw\\n\\n『學習王-萬試通數位學習系統』集合全台灣一流頂尖師資及高科技技術人員，製作出首屈一指的影音教學產品。本產品是以升學類內容為主，其中無論是在師資或產品的顯現方式，均勝過國內其他同類型之產品，深受學生及家長的支持與肯定。此文教產品課程內容符合十二年國教課綱，而其中包含四大功能－名師講堂、解惑平台、我的題庫、學習精靈，影音教學內拍攝的老師皆為坊間的補教名師，功能及硬體設施更擁有多項的專利。且無論是課程、影片、題目都會不定期的線上更新，讓學生在家就能擁有在補習班一樣的師資授課。\\n\\n\\n詳細請見『學習王-萬試通數位學習系統』官網：http://www.study123.com.tw"
+val commonProblemListTest = listOf(
+    CommonProblem(
+        id = 1,
+        title = "(一) 我還是搞不懂什麼是自主學習？",
+        content = "所謂自主學習就是「學習」如何學習，在未來的三年中，你將要為自己規劃學習目標、學習方式，並運用學習資源逐步落實所訂定的計畫。在執行過程中如果有任何問題，你的導師、任課教師、課程諮詢教師都可以成為很好的諮詢對象！"
+    ),
+    CommonProblem(
+        id = 2,
+        title = "(二) 我為什麼一定要自主學習？",
+        content = "108 新課綱的重要精神：「自主、互動、共好」，相當重視自主學習的實踐，並且在總綱中明文規定，高中學生三年中必須至少完成 18 節自主學習時數，且列為畢業條件。"
+    ),
+    CommonProblem(
+        id = 3,
+        title = "(三) 我在什麼時候要進行自主學習？",
+        content = "108 學年度入學的新生即將就要開始自主學習！我們是在每週開設1節課，這段時間就是高中同學共同實踐自主學習的時段。"
+    ),
+    CommonProblem(
+        id = 4,
+        title = "(四) 我可以在哪裡進行自主學習？",
+        content = "108 學年度入學的新生，本校規畫主要的自主學習場域在班級教室與圖書館，另外也可依照自主學習計畫擬定的內容，選擇專科教室作為場地，不過，場地的使用必須遵守兩個原則，第一：必須遵守學校借用場地的相關規定；第二：在相關場地必須有指導老師在場協助。"
+    ),
+    CommonProblem(
+        id = 5,
+        title = "(五) 我要如何開始自主學習？",
+        content = "我們將於寒暑假或學期末時，說明自主學習的申請方式與流程，並發放資料提供你參考。在附件的部分也會附上自主學習申請的相關表件，並於開學前或開學後 4 週，由各班導師引導各位進行自主學習計畫的撰寫，當計畫完成經過審查後，就可以開始自主學習！"
+    ),
+    CommonProblem(
+        id = 6,
+        title = "(六) 如果我有自主學習的相關問題，該向誰諮詢呢？",
+        content = "本校自主學習的相關業務，是由教務處負責，因此如果你有任何疑問，歡迎隨時於上班時間(週一至週五 8：00-17：00)來教務處諮詢，我們都很樂意為各位服務喔！"
+    ),
+    CommonProblem(
+        id = 7,
+        title = "(七) 自主學習與一般課程有什麼不同？",
+        content = "自主學習與一般課程最大的不同之處，在於學習的目標、進度與方式都是操之在你的手中，因此你可以依照個人或小組的實際狀況，訂定確實可行的計畫。此外，根據總綱的規定，自主學習並不列入學分計算，也沒有成績的評定。"
+    ),
+    CommonProblem(
+        id = 8,
+        title = "(八) 自主學習有哪些學習資源可以利用呢？",
+        content = "圖書館目前有館藏書籍與多媒體資料，另外尚有自主學習資料庫、線上學習平臺等可以運用，另外，你也可以使用大專院校免費的線上學習平臺，我們會在自主學習計畫撰寫的課程中將相關資源逐一介紹。"
+    ),
+    CommonProblem(
+        id = 9,
+        title = "(九) 我可以跟同學一起自主學習嗎？",
+        content = "可以！本校規畫的自主學習方式，主要有個人或小組的方式，你可以自行評估學習狀況進行選擇，另外，小組的組成人數最高上限是 4 人(同班為原則)，所以在籌組共學小組時，請特別留意喔！"
+    ),
+    CommonProblem(
+        id = 10,
+        title = "(十) 我需要準備什麼設備來進行自主學習呢？",
+        content = "本校鼓勵同學於自主學習時可以攜帶個人的行動載具(如手機、平板電腦、筆記型電腦等)，如果家中尚無相關設備，也可向本校圖書館或教務處設備組進行借用。"
+    ),
+    CommonProblem(
+        id = 11,
+        title = "(十一) 如果計畫執行到一半，我可以修改計畫嗎？",
+        content = "可以！俗話說：「計畫趕不上變化。」，自主學習計畫是依個別或小組的學習狀態所訂定，如果中途發現窒礙難行，或是遇到困難，可以先向導師或是教務處提出諮詢，若須變更計畫內容，請務必提出新的計畫，經過審核後，就可以繼續實踐囉！"
+    ),
+    CommonProblem(
+        id = 12,
+        title = "(十二) 我跟我的組員不合，我可以換組嗎？",
+        content = "可以！自主學習期待每位同學都能在計畫執行期間都能最有效率的實踐，如果發生組員之間對於自主學習認知的嚴重落差，以致無法合作，可以先向導師反映，若還是無法改善，則依照計畫變更方式進行變更，提出新的計畫，經審核後，就可以繼續實踐囉！不過在此也要提醒同學，每個人都是獨立的個體，本來就會有不同的意見，學習彼此尊重與團隊合作也是很重要的，千萬不要因為一時的意見不合就阻斷了彼此的關係喔！"
+    ),
+    CommonProblem(
+        id = 13,
+        title = "(十三) 我在自主學習的時候可以做些什麼呢？",
+        content = "本校規畫了四種模式可提供同學們參考，包含學科精進、實作實驗、閱讀心得、小論文報告、專題實作/研究、其它等\n" +
+                "\n" +
+                "1.學科精進:針對學術科目再精進研讀。\n" +
+                "\n" +
+                "2.實作實驗:進行自然科學領域之實作實驗、科技或其他領之實作，培養核心素養。\n" +
+                "\n" +
+                "3.閱讀心得、小論文報告:閱讀書籍期刋，節錄相關摘要，做成一篇心得報告或以小論文格式呈現。\n" +
+                "\n" +
+                "4.專題製作/研究:擬定專題，進行研究，培育學生研究之能力。\n" +
+                "\n" +
+                "5.其他學習活動:未列於上述之範圍，學生自主提出，經學校審查通過者。"
+    ),
+    CommonProblem(
+        id = 14,
+        title = "(十四) 如果我在這個時間必須要去參加科展、語文競賽的選手培訓，該怎麼辦呢？",
+        content = "不用擔心，由於這個時間屬於彈性學習時間，其中包括選手培訓、增廣補強課程與自主學習，因此，如果有部分同學將代表學校參與重要賽事而須集訓，只要由培訓教師提供相關名單與時程，就可以在培訓時間內專心接受老師指導，在培訓結束後，再回歸進行自主學習。不過要特別提醒的是，要記得自我檢核自主學習的時數是否足夠，以免影響後續畢業的資格。"
+    ),
+    CommonProblem(
+        id = 15,
+        title = "(十五) 自主學習需要繳交成果或是作業嗎？",
+        content = "這部分要依照個人或小組擬定的自主學習計畫而定，不過，在未來的學生學習歷程檔案系統，必須上傳自主學習計畫，另外，在多元表現的部份，也可將自主學習的成果進行上傳。因此，本校在每學期末會請同學提交學習成果報告，並由導師協助提報執行計畫表現優異的同學，並給予獎勵喔！"
+    ),
+)
+val privacyPolicyContentTest = "本政策的適用範圍\n\n本《隱私權政策》適用於所有由 Google LLC 及其關係企業 (包括 YouTube、Android) 提供的服務，以及在第三方網站提供的服務 (例如廣告服務)。然而，本《隱私權政策》不適用於另行訂定隱私權政策且未納入本《隱私權政策》的服務。\n\n本《隱私權政策》不適用於下列項目：\n\n為 Goolge 服務製作廣告的公司和機構組織所採用的資訊處理機制\n\n顯示於您的搜尋結果中或連自 Google 服務、由其他公司或個人提供的服務，包括可能包含 Google 服務的產品或網站\n\n\n本政策的變更\n\n我們會不時修訂本《隱私權政策》。我們不會在未取得您明確同意的情況下，逕自縮減本《隱私權政策》賦予您的權利。我們一定會標明最後修訂日期，並保存政策的封存版本供您查閱。如果本《隱私權政策》有重大異動，我們會提供更明顯的通知 (例如某些服務會以電子郵件通知政策異動)。"
+val contactUsContentTest = "學習王科技股份有限公司版權所有\n\n連絡電話：\n\t\t\t0912-345-678\n\n\t\t\t(02)345-6789\n\nEmail：\n\t\t\tstudy123.tw@gmail.com\n\nCopyright © Study123 Technology\n Co.Ltd. All Rights Reserved.\n\n官網：www.study123.com.tw\n\n\n學習王科技股份有限公司版權所有\n\n連絡電話：\n\t\t\t0912-345-678\n\n\t\t\t(02)345-6789\n\nEmail：\n\t\t\tstudy123.tw@gmail.com\n\nCopyright © Study123 Technology\n Co.Ltd. All Rights Reserved.\n\n官網：www.study123.com.tw"
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //

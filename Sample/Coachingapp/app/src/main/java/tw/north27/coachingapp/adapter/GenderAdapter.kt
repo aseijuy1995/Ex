@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.yujie.utilmodule.util.logD
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.Gender
 
@@ -43,16 +42,13 @@ class GenderAdapter : BaseAdapter() {
         }
         holder.tvText.text = when (getItem(position)) {
             Gender.MALE -> {
-                logD("GenderAdapter - Gender.MALE")
                 view?.context?.getString(R.string.male)
             }
             Gender.FEMALE -> {
-                logD("GenderAdapter - Gender.FEMALE")
                 view?.context?.getString(R.string.female)
             }
             else -> {
-                logD("GenderAdapter - Gender")
-                ""
+                view?.context?.getString(R.string.not)
             }
         }
         return view!!

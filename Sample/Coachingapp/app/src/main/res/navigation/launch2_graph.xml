@@ -66,12 +66,16 @@
             app:popExitAnim="@anim/slide_out_right" />
 
         <action
-            android:id="@+id/action_fragment_personal_to_fragment_sign_out_dialog"
-            app:destination="@id/fragment_sign_out_dialog" />
-
-        <action
             android:id="@+id/action_fragment_personal_to_fragment_about_coaching_dialog"
             app:destination="@id/fragment_about_coaching_dialog" />
+
+        <action
+            android:id="@+id/action_fragment_personal_to_fragment_common_problem"
+            app:destination="@id/fragment_common_problem"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
 
         <action
             android:id="@+id/action_fragment_personal_to_fragment_privacy_policy_dialog"
@@ -84,6 +88,10 @@
         <action
             android:id="@+id/action_fragment_personal_to_fragment_reflect_dialog"
             app:destination="@id/fragment_reflect_dialog" />
+
+        <action
+            android:id="@+id/action_fragment_personal_to_fragment_sign_out_dialog"
+            app:destination="@id/fragment_sign_out_dialog" />
 
     </fragment>
 
@@ -104,6 +112,12 @@
         android:name="tw.north27.coachingapp.ui.launch2.AboutCoachingDialogFragment"
         android:label="fragment_about_coaching_dialog"
         tools:layout="@layout/fragment_about_coaching_dialog" />
+
+    <fragment
+        android:id="@+id/fragment_common_problem"
+        android:name="tw.north27.coachingapp.ui.launch2.CommonProblemFragment"
+        android:label="fragment_common_problem"
+        tools:layout="@layout/fragment_common_problem" />
 
     <dialog
         android:id="@+id/fragment_privacy_policy_dialog"

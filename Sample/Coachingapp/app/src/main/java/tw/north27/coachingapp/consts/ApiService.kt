@@ -352,6 +352,17 @@ class ApiService(val cxt: Context) : IApiService {
         return list.subList(index, last)
     }
 
+    override suspend fun getAboutData(): AboutData {
+        delay(1500)
+        return AboutData(
+            shareLinkContent = shareLinkContentTest,
+            aboutCoachingContent = aboutCoachingContentTest,
+            commonProblemList = commonProblemListTest,
+            privacyPolicyContent = privacyPolicyContentTest,
+            contactUsContent = contactUsContentTest
+        )
+    }
+
 
     //    override suspend fun refreshToken(@Query(value = "refresh_token") refreshToken: String): TokenInfo {
 //        delay(500)

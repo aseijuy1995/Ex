@@ -55,28 +55,35 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
             itemData.apply {
                 itemPersonalIntro.tvIntro.isSelected = true
                 itemPersonalComment.rvComment.adapter = commentAdapter
-                itemPersonalShare.itemLink.apply {
-                    ivIcon.bindImg(resId = R.drawable.ic_twotone_link_24_gray)
-                    tvText.text = getString(R.string.promotion_link)
-                    ivClick.isVisible = true
+                itemPersonalShare.apply {
+                    root.isVisible = launch2Act.publicVM.shareLinkContent.value?.isNotEmpty() ?: false
+                    itemLink.apply {
+                        ivIcon.bindImg(resId = R.drawable.ic_twotone_link_24_gray)
+                        tvText.text = getString(R.string.promotion_link)
+                        ivClick.isVisible = true
+                    }
                 }
                 itemPersonalAbout.apply {
                     itemAboutCoaching.apply {
+                        root.isVisible = launch2Act.publicVM.aboutCoachingContent.value?.isNotEmpty() ?: false
                         ivIcon.bindImg(resId = R.drawable.ic_twotone_ballot_24_green)
                         tvText.text = getString(R.string.about_coaching)
                         ivClick.isVisible = true
                     }
                     itemCommonProblem.apply {
+                        root.isVisible = launch2Act.publicVM.commonProblemList.value?.isNotEmpty() ?: false
                         ivIcon.bindImg(resId = R.drawable.ic_twotone_contact_support_24_gray)
                         tvText.text = getString(R.string.common_problem)
                         ivClick.isVisible = true
                     }
                     itemPrivacyPolicy.apply {
-                        ivIcon.bindImg(resId = R.drawable.ic_baseline_policy_24_red)
+                        root.isVisible = launch2Act.publicVM.privacyPolicyContent.value?.isNotEmpty() ?: false
+                        ivIcon.bindImg(resId = R.drawable.ic_twotone_policy_24_red)
                         tvText.text = getString(R.string.privacy_policy)
                         ivClick.isVisible = true
                     }
                     itemContactUs.apply {
+                        root.isVisible = launch2Act.publicVM.contactUsContent.value?.isNotEmpty() ?: false
                         ivIcon.bindImg(resId = R.drawable.ic_twotone_connect_without_contact_24_blue)
                         tvText.text = getString(R.string.contact_us)
                         ivClick.isVisible = true
@@ -160,10 +167,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
             startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
                 putExtra(
-                    Intent.EXTRA_TEXT, "『解惑通』聯合線上一流補教名師及各名校醫科生組成的輔導老師將親自為你的問題一一解答\n" +
-                            "學習上出現問題不需要再等待\n" +
-                            "只要登入『解惑通』可以讓你的學習問題快速得到解答\n\n" +
-                            "下載連結：https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW"
+                    Intent.EXTRA_TEXT, launch2Act.publicVM.shareLinkContent.value
                 )
             }, getString(R.string.coaching)))
         }
@@ -173,7 +177,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         }
         //常見問題
         binding.itemData.itemPersonalAbout.itemCommonProblem.root.clicksObserve(owner = viewLifecycleOwner) {
-            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentAboutCoachingDialog())
+            findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentCommonProblem())
         }
         //隱私政策
         binding.itemData.itemPersonalAbout.itemPrivacyPolicy.root.clicksObserve(owner = viewLifecycleOwner) {

@@ -150,34 +150,73 @@ class PublicViewModel(
 
     val defaultScore = -1.0
 
-    private val _scoreList = MutableLiveData<List<Double>>(listOf(0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0))
-
-    val scoreList = _scoreList.asLiveData()
-
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-
-
     private val _genderList = MutableLiveData<List<Gender>>(listOf(Gender.MALE, Gender.FEMALE))
 
     val genderList = _genderList.asLiveData()
 
+    private val _scoreList = MutableLiveData<List<Double>>(listOf(0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0))
+
+    val scoreList = _scoreList.asLiveData()
+
+    private val _aboutDataState: MutableLiveData<ViewState<AboutData>> by lazy {
+        getAboutData()
+        MutableLiveData<ViewState<AboutData>>(ViewState.load())
+    }
+
+    val aboutDataState = _aboutDataState.asLiveData()
+
+    private fun getAboutData() = viewModelScope.launch(Dispatchers.IO) {
+        val results = publicRepo.getAboutData()
+        when (results) {
+            is Results.Successful<AboutData> -> {
+                val aboutData = results.data
+                if (((aboutData.shareLinkContent.isEmpty()
+                            && aboutData.aboutCoachingContent.isEmpty()
+                            && aboutData.commonProblemList.isEmpty())
+                            && aboutData.privacyPolicyContent.isEmpty())
+                    && aboutData.contactUsContent.isNotEmpty()
+                )
+                    _aboutDataState.postValue(ViewState.empty())
+                else
+                    _aboutDataState.postValue(ViewState.data(aboutData))
+            }
+            is Results.ClientErrors -> {
+                _aboutDataState.postValue(ViewState.error(results.e))
+            }
+            is Results.NetWorkError -> {
+                _aboutDataState.postValue(ViewState.network(results.e))
+            }
+        }
+    }
+
+    private val _shareLinkContent = MutableLiveData<String>()
+
+    val shareLinkContent = _shareLinkContent.asLiveData()
+
+    fun setShareLink(shareLink: String) = _shareLinkContent.postValue(shareLink)
+
+    private val _aboutCoachingContent = MutableLiveData<String>()
+
+    val aboutCoachingContent = _aboutCoachingContent.asLiveData()
+
+    fun setAboutCoaching(aboutCoaching: String) = _aboutCoachingContent.postValue(aboutCoaching)
+
+    private val _commonProblemList = MutableLiveData<List<CommonProblem>>()
+
+    val commonProblemList = _commonProblemList.asLiveData()
+
+    fun setCommonProblemList(commonProblemList: List<CommonProblem>) = _commonProblemList.postValue(commonProblemList)
+
+    private val _privacyPolicyContent = MutableLiveData<String>()
+
+    val privacyPolicyContent = _privacyPolicyContent.asLiveData()
+
+    fun setPrivacyPolicy(privacyPolicy: String) = _privacyPolicyContent.postValue(privacyPolicy)
+
+    private val _contactUsContent = MutableLiveData<String>()
+
+    val contactUsContent = _contactUsContent.asLiveData()
+
+    fun setContactUs(contactUs: String) = _contactUsContent.postValue(contactUs)
 
 }

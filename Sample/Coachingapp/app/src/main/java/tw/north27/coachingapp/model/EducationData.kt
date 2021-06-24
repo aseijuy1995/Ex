@@ -13,10 +13,10 @@ import kotlinx.parcelize.Parcelize
  * */
 @Parcelize
 data class EducationData(
-    @SerializedName("education_list") val educationList: List<Education>,
-    @SerializedName("grade_list") val gradeList: List<Grade>,
-    @SerializedName("subject_list") val subjectList: List<Subject>,
-    @SerializedName("unit_list") val unitList: List<Units>
+    @SerializedName("education_list") val educationList: List<Education> = emptyList(),
+    @SerializedName("grade_list") val gradeList: List<Grade> = emptyList(),
+    @SerializedName("subject_list") val subjectList: List<Subject> = emptyList(),
+    @SerializedName("unit_list") val unitList: List<Units> = emptyList()
 ) : Parcelable
 
 /**
