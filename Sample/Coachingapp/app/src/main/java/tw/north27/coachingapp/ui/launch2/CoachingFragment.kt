@@ -42,11 +42,6 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         launch2Act.doubleClickToExit()
-//        val navController = (act as Launch2Activity).navController
-//        val appBarConfiguration = AppBarConfiguration(navController.graph, binding.drawerLayout)
-//        binding.itemToolbarNormal.tbView.setupWithNavController(navController)
-//        binding.nvView.setupWithNavController(navController)
-//        //
         binding.apply {
             itemToolbarNormal.ivFilter.isVisible = true
             rvCoaching.adapter = adapter
@@ -73,6 +68,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
             }
         }
 
+        //確認初始數據
         launch2Act.publicVM.educationList.observe(viewLifecycleOwner) {
             educationAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultEducation).apply { addAll(it) })
             binding.itemDrawerLayoutCoaching.spEducation.setSelection(0)
@@ -182,6 +178,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
         binding.srlView.autoRefresh()
     }
 
+    //確認初始數據
     private fun setDfSelection() {
         educationAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultEducation).apply { launch2Act.publicVM.educationList.value?.let { addAll(it) } })
         gradeAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultGradle).apply { launch2Act.publicVM.gradeList.value?.let { addAll(it) } })
