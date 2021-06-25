@@ -18,7 +18,7 @@ class PrivacyPolicyDialogFragment : BaseDialogFragment<FragmentPrivacyPolicyDial
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tvContent.text = launch2Act.publicVM.privacyPolicyContent.value
+        binding.tvContent.text = launch2Act.publicVM.privacyPolicy.value
 
         binding.btnClose.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()

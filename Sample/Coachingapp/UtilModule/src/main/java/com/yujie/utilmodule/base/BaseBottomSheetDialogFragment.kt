@@ -6,10 +6,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 open class BaseBottomSheetDialogFragment : BottomSheetDialogFragment() {
 
-    protected val cxt: Context
-        get() = requireContext()
+		protected val cxt: Context
+				get() = requireContext()
 
-    protected val act: FragmentActivity
-        get() = requireActivity()
+		protected val act: FragmentActivity
+				get() = requireActivity()
 
 }

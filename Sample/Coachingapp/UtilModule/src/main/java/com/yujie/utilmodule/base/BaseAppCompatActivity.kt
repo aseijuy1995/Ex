@@ -6,9 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import com.yujie.utilmodule.base.ext.viewBinding
 
-open class BaseAppCompatActivity<T : ViewBinding>(viewInflate: (LayoutInflater) -> T) : AppCompatActivity() {
+open class BaseAppCompatActivity<T : ViewBinding>(viewBindingFactory: (LayoutInflater) -> T) : AppCompatActivity() {
 
-    protected val binding by viewBinding(viewInflate)
+    protected val binding by viewBinding(viewBindingFactory)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

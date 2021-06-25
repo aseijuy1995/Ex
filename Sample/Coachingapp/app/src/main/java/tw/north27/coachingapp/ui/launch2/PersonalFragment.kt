@@ -23,7 +23,7 @@ import com.yujie.utilmodule.ext.checkedChangesObserve
 import com.yujie.utilmodule.ext.clicksObserve
 import com.yujie.utilmodule.ext.visible
 import com.yujie.utilmodule.util.ViewState
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.CommentListAdapter
 import tw.north27.coachingapp.databinding.FragmentPersonalBinding
@@ -41,7 +41,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
     private val launch2Act: Launch2Activity
         get() = act as Launch2Activity
 
-    private val viewModel by sharedViewModel<PersonalViewModel>()
+    private val viewModel by viewModel<PersonalViewModel>()
 
     private val commentAdapter = CommentListAdapter()
 
@@ -55,39 +55,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
             itemData.apply {
                 itemPersonalIntro.tvIntro.isSelected = true
                 itemPersonalComment.rvComment.adapter = commentAdapter
-                itemPersonalShare.apply {
-                    root.isVisible = launch2Act.publicVM.shareLinkContent.value?.isNotEmpty() ?: false
-                    itemLink.apply {
-                        ivIcon.bindImg(resId = R.drawable.ic_twotone_link_24_gray)
-                        tvText.text = getString(R.string.promotion_link)
-                        ivClick.isVisible = true
-                    }
-                }
                 itemPersonalAbout.apply {
-                    itemAboutCoaching.apply {
-                        root.isVisible = launch2Act.publicVM.aboutCoachingContent.value?.isNotEmpty() ?: false
-                        ivIcon.bindImg(resId = R.drawable.ic_twotone_ballot_24_green)
-                        tvText.text = getString(R.string.about_coaching)
-                        ivClick.isVisible = true
-                    }
-                    itemCommonProblem.apply {
-                        root.isVisible = launch2Act.publicVM.commonProblemList.value?.isNotEmpty() ?: false
-                        ivIcon.bindImg(resId = R.drawable.ic_twotone_contact_support_24_gray)
-                        tvText.text = getString(R.string.common_problem)
-                        ivClick.isVisible = true
-                    }
-                    itemPrivacyPolicy.apply {
-                        root.isVisible = launch2Act.publicVM.privacyPolicyContent.value?.isNotEmpty() ?: false
-                        ivIcon.bindImg(resId = R.drawable.ic_twotone_policy_24_red)
-                        tvText.text = getString(R.string.privacy_policy)
-                        ivClick.isVisible = true
-                    }
-                    itemContactUs.apply {
-                        root.isVisible = launch2Act.publicVM.contactUsContent.value?.isNotEmpty() ?: false
-                        ivIcon.bindImg(resId = R.drawable.ic_twotone_connect_without_contact_24_blue)
-                        tvText.text = getString(R.string.contact_us)
-                        ivClick.isVisible = true
-                    }
                     itemReflectingIssues.apply {
                         ivIcon.bindImg(resId = R.drawable.ic_twotone_receipt_long_24_yellow)
                         tvText.text = getString(R.string.reflecting_issues)
@@ -99,6 +67,48 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                     tvText.text = getString(R.string.sign_out)
                     ivClick.isVisible = true
                 }
+            }
+        }
+        launch2Act.publicVM.shareLink.observe(viewLifecycleOwner) {
+            binding.itemData.itemPersonalShare.apply {
+                root.isVisible = it?.isNotEmpty() ?: false
+                itemLink.apply {
+                    ivIcon.bindImg(resId = R.drawable.ic_twotone_link_24_gray)
+                    tvText.text = getString(R.string.promotion_link)
+                    ivClick.isVisible = true
+                }
+            }
+        }
+        launch2Act.publicVM.aboutCoaching.observe(viewLifecycleOwner) {
+            binding.itemData.itemPersonalAbout.itemAboutCoaching.apply {
+                root.isVisible = it.isNotEmpty()
+                ivIcon.bindImg(resId = R.drawable.ic_twotone_ballot_24_green)
+                tvText.text = getString(R.string.about_coaching)
+                ivClick.isVisible = true
+            }
+        }
+        launch2Act.publicVM.commonProblemList.observe(viewLifecycleOwner) {
+            binding.itemData.itemPersonalAbout.itemCommonProblem.apply {
+                root.isVisible = it?.isNotEmpty() ?: false
+                ivIcon.bindImg(resId = R.drawable.ic_twotone_contact_support_24_orange)
+                tvText.text = getString(R.string.common_problem)
+                ivClick.isVisible = true
+            }
+        }
+        launch2Act.publicVM.privacyPolicy.observe(viewLifecycleOwner) {
+            binding.itemData.itemPersonalAbout.itemPrivacyPolicy.apply {
+                root.isVisible = it?.isNotEmpty() ?: false
+                ivIcon.bindImg(resId = R.drawable.ic_twotone_policy_24_red)
+                tvText.text = getString(R.string.privacy_policy)
+                ivClick.isVisible = true
+            }
+        }
+        launch2Act.publicVM.contactUs.observe(viewLifecycleOwner) {
+            binding.itemData.itemPersonalAbout.itemContactUs.apply {
+                root.isVisible = it?.isNotEmpty() ?: false
+                ivIcon.bindImg(resId = R.drawable.ic_twotone_connect_without_contact_24_blue)
+                tvText.text = getString(R.string.contact_us)
+                ivClick.isVisible = true
             }
         }
 
@@ -167,7 +177,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
             startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
                 putExtra(
-                    Intent.EXTRA_TEXT, launch2Act.publicVM.shareLinkContent.value
+                    Intent.EXTRA_TEXT, launch2Act.publicVM.shareLink.value
                 )
             }, getString(R.string.coaching)))
         }
@@ -195,8 +205,8 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         binding.itemData.itemPersonalSignOut.itemSignOut.root.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigate(PersonalFragmentDirections.actionFragmentPersonalToFragmentSignOutDialog())
         }
-        launch2Act.publicVM.getUser()
-        viewModel.getCommentList(index = 0, num = 3)
+        launch2Act.publicVM.fetchUser()
+        viewModel.fetchCommentList(index = 0, num = 3)
         //        doubleClickToExit()
 //        exit()
     }

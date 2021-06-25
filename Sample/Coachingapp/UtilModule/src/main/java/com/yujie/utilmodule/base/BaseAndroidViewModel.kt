@@ -6,16 +6,15 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 open class BaseAndroidViewModel(application: Application) : AndroidViewModel(application) {
 
-    protected val app
-        get() = getApplication<Application>()
+		protected val app = getApplication<Application>()
 
-    protected val cxt
-        get() = app.applicationContext
+		protected val cxt
+				get() = app.applicationContext
 
-    protected val disposable = CompositeDisposable()
+		protected val disposable = CompositeDisposable()
 
-    override fun onCleared() {
-        disposable.clear()
-        super.onCleared()
-    }
+		override fun onCleared() {
+				disposable.clear()
+				super.onCleared()
+		}
 }

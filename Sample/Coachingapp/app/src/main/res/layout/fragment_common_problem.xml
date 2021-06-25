@@ -10,11 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="40dp" />
 
-    <ExpandableListView
+    <com.yujie.utilmodule.view.AnimatedExpandableListView
         android:id="@+id/elv_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:divider="@null"
+        android:background="@color/gray_eeeeee"
         android:groupIndicator="@null"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"

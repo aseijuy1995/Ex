@@ -22,16 +22,16 @@ class UserRepository(val service: IApiService, val context: Context) : IUserRepo
         return safeApiResults { service.signIn(signInRequest = signInRequest) }
     }
 
-    override suspend fun getUser(json: String): Results<UserInfo> {
-        return safeApiResults { service.getUser(json = json) }
+    override suspend fun fetchUser(json: String): Results<UserInfo> {
+        return safeApiResults { service.fetchUser(json = json) }
     }
 
     override suspend fun updateUser(updateUserRequest: UpdateUserRequest): Results<Boolean> {
         return safeApiResults { service.updateUser(updateUserRequest = updateUserRequest) }
     }
 
-    override suspend fun getCommentList(commentRequest: CommentRequest): Results<List<CommentInfo>> {
-        return safeApiResults { service.getCommentList(commentRequest = commentRequest) }
+    override suspend fun fetchCommentList(commentRequest: CommentRequest): Results<List<CommentInfo>> {
+        return safeApiResults { service.fetchCommentList(commentRequest = commentRequest) }
     }
 
     override suspend fun signOut(signOutRequest: SignOutRequest): Results<SignIn> {

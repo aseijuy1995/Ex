@@ -47,9 +47,9 @@ fun DataStore<UserPref>.getPassword(): Flow<String> = getDelegate(UserPref::getP
 
 suspend fun DataStore<UserPref>.setPassword(password: String): UserPref = setUserPref(password = password)
 
-fun DataStore<UserPref>.getAuth(): Flow<UserPref.Authority> = getDelegate(UserPref::getAuth)
+fun DataStore<UserPref>.getExpireTime(): Flow<Long> = getDelegate(UserPref::getExpireTime)
 
-suspend fun DataStore<UserPref>.setAuth(auth: UserPref.Authority): UserPref = setUserPref(auth = auth)
+suspend fun DataStore<UserPref>.setExpireTime(expireTime: Long): UserPref = setUserPref(expireTime = expireTime)
 
 fun DataStore<UserPref>.getAccessToken(): Flow<String> = getDelegate(UserPref::getAccessToken)
 
@@ -59,34 +59,40 @@ fun DataStore<UserPref>.getRefreshToken(): Flow<String> = getDelegate(UserPref::
 
 suspend fun DataStore<UserPref>.setRefreshToken(refreshToken: String): UserPref = setUserPref(refreshToken = refreshToken)
 
+fun DataStore<UserPref>.getIsFirst(): Flow<Boolean> = getDelegate(UserPref::getIsFirst)
+
+suspend fun DataStore<UserPref>.setIsFirst(isFirst: Boolean): UserPref = setUserPref(isFirst = isFirst)
+
 fun DataStore<UserPref>.getPushToken(): Flow<String> = getDelegate(UserPref::getPushToken)
 
 suspend fun DataStore<UserPref>.setPushToken(fcmToken: String): UserPref = setUserPref(pushToken = fcmToken)
 
-fun DataStore<UserPref>.getIsFirst(): Flow<Boolean> = getDelegate(UserPref::getIsFirst)
+fun DataStore<UserPref>.getAuth(): Flow<UserPref.Authority> = getDelegate(UserPref::getAuth)
 
-suspend fun DataStore<UserPref>.setIsFirst(isFirst: Boolean): UserPref = setUserPref(isFirst = isFirst)
+suspend fun DataStore<UserPref>.setAuth(auth: UserPref.Authority): UserPref = setUserPref(auth = auth)
 
 suspend fun DataStore<UserPref>.setUserPref(
 		uuid: String? = null,
 		account: String? = null,
 		password: String? = null,
-		auth: UserPref.Authority? = null,
+		expireTime: Long? = null,
 		accessToken: String? = null,
 		refreshToken: String? = null,
+		isFirst: Boolean? = null,
 		pushToken: String? = null,
-		isFirst: Boolean? = null
+		auth: UserPref.Authority? = null,
 ): UserPref {
 		return updateData {
 				it.toBuilder().apply {
 						uuid?.let { setUuid(it) }
 						account?.let { setAccount(it) }
 						password?.let { setPassword(it) }
-						auth?.let { setAuth(it) }
+						expireTime?.let { setExpireTime(it) }
 						accessToken?.let { setAccessToken(it) }
 						refreshToken?.let { setRefreshToken(it) }
-						pushToken?.let { setPushToken(it) }
 						isFirst?.let { setIsFirst(it) }
+						pushToken?.let { setPushToken(it) }
+						auth?.let { setAuth(it) }
 				}.build()
 		}
 }

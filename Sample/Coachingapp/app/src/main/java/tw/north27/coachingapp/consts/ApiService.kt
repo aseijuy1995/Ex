@@ -8,15 +8,14 @@ import kotlinx.coroutines.delay
 import retrofit2.http.Body
 import retrofit2.http.Query
 import tw.north27.coachingapp.model.*
-import tw.north27.coachingapp.model.request.CommentRequest
-import tw.north27.coachingapp.model.request.SignInRequest
-import tw.north27.coachingapp.model.request.SignOutRequest
-import tw.north27.coachingapp.model.request.UpdateUserRequest
+import tw.north27.coachingapp.model.request.*
+import tw.north27.coachingapp.model.response.PublicDataResponse
+import tw.north27.coachingapp.model.response.ReflectResponse
 import java.util.*
 
 class ApiService(val cxt: Context) : IApiService {
 
-    override suspend fun getEducationData(): EducationData {
+    override suspend fun fetchEducationData(): EducationData {
         delay(500)
         return EducationData(
             educationList = educationListTest,
@@ -26,7 +25,7 @@ class ApiService(val cxt: Context) : IApiService {
         )
     }
 
-    override suspend fun getAppConfig(): AppConfig {
+    override suspend fun fetchAppConfig(): AppConfig {
         delay(1500)
         return AppConfig(
             appCode = AppCode.RUN.code,
@@ -144,7 +143,7 @@ class ApiService(val cxt: Context) : IApiService {
             )
     }
 
-    override suspend fun getUser(@Body json: String): UserInfo {
+    override suspend fun fetchUser(@Body json: String): UserInfo {
         delay(1500)
         val map = Gson().fromJson<HashMap<String, String>>(json, object : TypeToken<HashMap<String, String>>() {}.type)
         val account = map["account"]
@@ -267,7 +266,7 @@ class ApiService(val cxt: Context) : IApiService {
         return false
     }
 
-    override suspend fun getCommentList(@Body commentRequest: CommentRequest): List<CommentInfo> {
+    override suspend fun fetchCommentList(@Body commentRequest: CommentRequest): List<CommentInfo> {
         delay(1500)
         val commentListTest = commentListTest.filter { it.receiveAccount == accountTest }
         val score = commentRequest.score
@@ -352,15 +351,28 @@ class ApiService(val cxt: Context) : IApiService {
         return list.subList(index, last)
     }
 
-    override suspend fun getAboutData(): AboutData {
+    override suspend fun fetchPublicData(): PublicDataResponse {
         delay(1500)
-        return AboutData(
-            shareLinkContent = shareLinkContentTest,
-            aboutCoachingContent = aboutCoachingContentTest,
+        return PublicDataResponse(
+            shareLink = shareLinkTest,
+            aboutCoaching = aboutCoachingTest,
             commonProblemList = commonProblemListTest,
-            privacyPolicyContent = privacyPolicyContentTest,
-            contactUsContent = contactUsContentTest
+            privacyPolicy = privacyPolicyTest,
+            contactUs = contactUsTest,
+            reflectList = reflectListTest
         )
+    }
+
+    override suspend fun insertReflect(reflectRequest: ReflectRequest): ReflectResponse {
+        delay(1500)
+        return ReflectResponse(
+            isState = true,
+            msg = "感謝您的來信，您的建議是我們前進的動力！"
+        )
+//        return ReflectResponse(
+//            isState = false,
+//            msg = "發送反映事項失敗！"
+//        )
     }
 
 

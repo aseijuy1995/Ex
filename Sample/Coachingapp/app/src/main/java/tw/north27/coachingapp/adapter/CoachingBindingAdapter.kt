@@ -7,6 +7,8 @@ import androidx.databinding.BindingAdapter
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.UserInfo
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * UI是否顯示
@@ -32,4 +34,13 @@ fun TextView.bindGender(userInfo: UserInfo?) {
     }
     setBackgroundResource(imgRes)
     text = context.getString(strRes)
+}
+
+/**
+ * 日期轉換
+ * @param date >> 日期
+ * */
+@BindingAdapter("bind:dateFormat")
+fun TextView.bindDate(date: Date?) {
+    text = SimpleDateFormat("yyyy-MM-dd", Locale.TAIWAN).format(date)
 }

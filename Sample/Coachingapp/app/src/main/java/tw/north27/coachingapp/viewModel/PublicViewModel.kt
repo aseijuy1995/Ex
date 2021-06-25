@@ -15,6 +15,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.*
+import tw.north27.coachingapp.model.response.CommonProblem
+import tw.north27.coachingapp.model.response.PublicDataResponse
+import tw.north27.coachingapp.model.response.Reflect
 import tw.north27.coachingapp.repository.IPublicRepository
 import tw.north27.coachingapp.repository.IUserRepository
 
@@ -42,14 +45,14 @@ class PublicViewModel(
     val launchBgRes = _launchBgRes.asLiveData()
 
     private val _educationDataState: MutableLiveData<ViewState<EducationData>> by lazy {
-        getEducationData()
+        fetchEducationData()
         MutableLiveData<ViewState<EducationData>>(ViewState.load())
     }
 
     val educationDataState = _educationDataState.asLiveData()
 
-    private fun getEducationData() = viewModelScope.launch(Dispatchers.IO) {
-        val results = publicRepo.getEducationData()
+    private fun fetchEducationData() = viewModelScope.launch(Dispatchers.IO) {
+        val results = publicRepo.fetchEducationData()
         when (results) {
             is Results.Successful<EducationData> -> {
                 val educationData = results.data
@@ -124,13 +127,13 @@ class PublicViewModel(
 
     val userState = _userState.asLiveData()
 
-    fun getUser() = viewModelScope.launch(Dispatchers.IO) {
+    fun fetchUser() = viewModelScope.launch(Dispatchers.IO) {
         _userState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
         if (account.isEmpty()) {
             _userState.postValue(ViewState.empty())
         } else {
-            val results = userRepo.getUser(
+            val results = userRepo.fetchUser(
                 json = Gson().toJson(hashMapOf("account" to account))
             )
             when (results) {
@@ -158,48 +161,48 @@ class PublicViewModel(
 
     val scoreList = _scoreList.asLiveData()
 
-    private val _aboutDataState: MutableLiveData<ViewState<AboutData>> by lazy {
-        getAboutData()
-        MutableLiveData<ViewState<AboutData>>(ViewState.load())
+    private val _publicDataResponseState: MutableLiveData<ViewState<PublicDataResponse>> by lazy {
+        fetchPublicData()
+        MutableLiveData<ViewState<PublicDataResponse>>(ViewState.load())
     }
 
-    val aboutDataState = _aboutDataState.asLiveData()
+    val aboutDataState = _publicDataResponseState.asLiveData()
 
-    private fun getAboutData() = viewModelScope.launch(Dispatchers.IO) {
-        val results = publicRepo.getAboutData()
+    private fun fetchPublicData() = viewModelScope.launch(Dispatchers.IO) {
+        val results = publicRepo.fetchPublicData()
         when (results) {
-            is Results.Successful<AboutData> -> {
+            is Results.Successful<PublicDataResponse> -> {
                 val aboutData = results.data
-                if (((aboutData.shareLinkContent.isEmpty()
-                            && aboutData.aboutCoachingContent.isEmpty()
+                if (((aboutData.shareLink.isEmpty()
+                            && aboutData.aboutCoaching.isEmpty()
                             && aboutData.commonProblemList.isEmpty())
-                            && aboutData.privacyPolicyContent.isEmpty())
-                    && aboutData.contactUsContent.isNotEmpty()
+                            && aboutData.privacyPolicy.isEmpty())
+                    && aboutData.contactUs.isNotEmpty()
                 )
-                    _aboutDataState.postValue(ViewState.empty())
+                    _publicDataResponseState.postValue(ViewState.empty())
                 else
-                    _aboutDataState.postValue(ViewState.data(aboutData))
+                    _publicDataResponseState.postValue(ViewState.data(aboutData))
             }
             is Results.ClientErrors -> {
-                _aboutDataState.postValue(ViewState.error(results.e))
+                _publicDataResponseState.postValue(ViewState.error(results.e))
             }
             is Results.NetWorkError -> {
-                _aboutDataState.postValue(ViewState.network(results.e))
+                _publicDataResponseState.postValue(ViewState.network(results.e))
             }
         }
     }
 
-    private val _shareLinkContent = MutableLiveData<String>()
+    private val _shareLink = MutableLiveData<String>()
 
-    val shareLinkContent = _shareLinkContent.asLiveData()
+    val shareLink = _shareLink.asLiveData()
 
-    fun setShareLink(shareLink: String) = _shareLinkContent.postValue(shareLink)
+    fun setShareLink(shareLink: String) = _shareLink.postValue(shareLink)
 
-    private val _aboutCoachingContent = MutableLiveData<String>()
+    private val _aboutCoaching = MutableLiveData<String>()
 
-    val aboutCoachingContent = _aboutCoachingContent.asLiveData()
+    val aboutCoaching = _aboutCoaching.asLiveData()
 
-    fun setAboutCoaching(aboutCoaching: String) = _aboutCoachingContent.postValue(aboutCoaching)
+    fun setAboutCoaching(aboutCoaching: String) = _aboutCoaching.postValue(aboutCoaching)
 
     private val _commonProblemList = MutableLiveData<List<CommonProblem>>()
 
@@ -207,16 +210,23 @@ class PublicViewModel(
 
     fun setCommonProblemList(commonProblemList: List<CommonProblem>) = _commonProblemList.postValue(commonProblemList)
 
-    private val _privacyPolicyContent = MutableLiveData<String>()
+    private val _privacyPolicy = MutableLiveData<String>()
 
-    val privacyPolicyContent = _privacyPolicyContent.asLiveData()
+    val privacyPolicy = _privacyPolicy.asLiveData()
 
-    fun setPrivacyPolicy(privacyPolicy: String) = _privacyPolicyContent.postValue(privacyPolicy)
+    fun setPrivacyPolicy(privacyPolicy: String) = _privacyPolicy.postValue(privacyPolicy)
 
-    private val _contactUsContent = MutableLiveData<String>()
+    private val _contactUs = MutableLiveData<String>()
 
-    val contactUsContent = _contactUsContent.asLiveData()
+    val contactUs = _contactUs.asLiveData()
 
-    fun setContactUs(contactUs: String) = _contactUsContent.postValue(contactUs)
+    fun setContactUs(contactUs: String) = _contactUs.postValue(contactUs)
+
+    private val _reflectList = MutableLiveData<List<Reflect>>()
+
+    val reflectList = _reflectList.asLiveData()
+
+    fun setReflect(reflectList: List<Reflect>) = _reflectList.postValue(reflectList)
+
 
 }

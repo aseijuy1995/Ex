@@ -11,7 +11,6 @@ import com.yujie.utilmodule.base.BaseAppCompatActivity
 import com.yujie.utilmodule.pref.getAuth
 import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.ViewState
-import com.yujie.utilmodule.util.logD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -95,11 +94,12 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
                 when (it) {
                     is ViewState.Data -> {
                         val aboutData = it.data
-                        publicVM.setShareLink(aboutData.shareLinkContent)
-                        publicVM.setAboutCoaching(aboutData.aboutCoachingContent)
+                        publicVM.setShareLink(aboutData.shareLink)
+                        publicVM.setAboutCoaching(aboutData.aboutCoaching)
                         publicVM.setCommonProblemList(aboutData.commonProblemList)
-                        publicVM.setPrivacyPolicy(aboutData.privacyPolicyContent)
-                        publicVM.setContactUs(aboutData.contactUsContent)
+                        publicVM.setPrivacyPolicy(aboutData.privacyPolicy)
+                        publicVM.setContactUs(aboutData.contactUs)
+                        publicVM.setReflect(aboutData.reflectList)
                     }
                 }
             }

@@ -68,7 +68,6 @@
                 app:layout_constraintBottom_toBottomOf="@id/iv_icon"
                 app:layout_constraintStart_toEndOf="@id/iv_icon"
                 app:layout_constraintTop_toTopOf="@id/iv_icon" />
-            o
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_close"

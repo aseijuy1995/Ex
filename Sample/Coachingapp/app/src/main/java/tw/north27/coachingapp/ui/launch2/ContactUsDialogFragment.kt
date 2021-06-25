@@ -18,7 +18,7 @@ class ContactUsDialogFragment : BaseDialogFragment<FragmentContactUsDialogBindin
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tvContent.text = launch2Act.publicVM.contactUsContent.value
+        binding.tvContent.text = launch2Act.publicVM.contactUs.value
 
         binding.btnClose.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()

@@ -11,13 +11,15 @@ import com.yujie.utilmodule.base.ext.viewBinding
 
 abstract class BaseDialogFragment<T : ViewBinding>(layoutId: Int) : DialogFragment(layoutId) {
 
-    abstract val viewBindingFactory: (View) -> T
+    abstract val viewBind: (View) -> T
 
-    protected val binding by viewBinding(viewBindingFactory)
+    protected val binding by viewBinding(viewBind)
 
-    protected lateinit var act: FragmentActivity
+    protected val cxt: Context
+        get() = requireContext()
 
-    protected lateinit var cxt: Context
+    protected val act: FragmentActivity
+        get() = requireActivity()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,9 +27,4 @@ abstract class BaseDialogFragment<T : ViewBinding>(layoutId: Int) : DialogFragme
         isCancelable = false
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        act = requireActivity()
-        cxt = requireContext()
-    }
 }

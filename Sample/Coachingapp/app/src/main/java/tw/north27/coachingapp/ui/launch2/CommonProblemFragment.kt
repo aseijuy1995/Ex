@@ -23,7 +23,16 @@ class CommonProblemFragment : BaseFragment<FragmentCommonProblemBinding>(R.layou
         super.onViewCreated(view, savedInstanceState)
         binding.itemToolbarNormal.tvTitle.text = getString(R.string.common_problem)
         adapter = CommonProblemListAdapter(launch2Act.publicVM.commonProblemList.value ?: emptyList())
-        binding.elvView.setAdapter(adapter)
+        binding.elvView.apply {
+            setAdapter(this@CommonProblemFragment.adapter)
+            setOnGroupClickListener { parent, v, groupPosition, id ->
+                if (binding.elvView.isGroupExpanded(groupPosition))
+                    binding.elvView.collapseGroupWithAnimation(groupPosition)
+                else
+                    binding.elvView.expandGroupWithAnimation(groupPosition)
+                true
+            }
+        }
 
         binding.itemToolbarNormal.ivBack.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()

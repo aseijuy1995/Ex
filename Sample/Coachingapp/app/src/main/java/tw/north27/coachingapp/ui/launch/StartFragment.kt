@@ -90,7 +90,7 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
             }
         }
 
-        viewModel.getAppConfig()
+        viewModel.fetchAppConfig()
     }
 
     private fun checkGoogleServiceAndSignIn() {

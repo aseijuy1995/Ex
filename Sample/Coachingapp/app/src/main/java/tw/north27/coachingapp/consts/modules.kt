@@ -4,10 +4,7 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import tw.north27.coachingapp.repository.IPublicRepository
-import tw.north27.coachingapp.repository.IUserRepository
-import tw.north27.coachingapp.repository.PublicRepository
-import tw.north27.coachingapp.repository.UserRepository
+import tw.north27.coachingapp.repository.*
 import tw.north27.coachingapp.viewModel.*
 
 //val utilModules = module {
@@ -34,6 +31,7 @@ val modelModules = module {
 val repoModules = module {
     single<IPublicRepository> { PublicRepository(get()) }
     single<IUserRepository> { UserRepository(get(), androidContext()) }
+    single<IActionRepository> { ActionRepository(get()) }
 
 //    single<INotifyRepository> { NotifyRepository(get()) }
 //    single<IChatRepository> { ChatRepository(get(), get()) }
@@ -51,7 +49,7 @@ val repoModules = module {
 
 val viewModelModules = module {
     viewModel<PublicViewModel> { PublicViewModel(androidApplication(), get(), get()) }
-    viewModel<PersonalViewModel> { PersonalViewModel(androidApplication(), get()) }
+    viewModel<PersonalViewModel> { PersonalViewModel(androidApplication(), get(), get()) }
     viewModel<StartViewModel> { StartViewModel(androidApplication(), get() as IPublicRepository, get() as IUserRepository) }
     viewModel<SignInViewModel> { SignInViewModel(androidApplication(), get()) }
     viewModel<SignOutViewModel> { SignOutViewModel(androidApplication(), get()) }

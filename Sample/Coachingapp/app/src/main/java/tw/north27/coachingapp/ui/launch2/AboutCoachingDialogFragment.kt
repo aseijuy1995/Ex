@@ -18,7 +18,7 @@ class AboutCoachingDialogFragment : BaseDialogFragment<FragmentAboutCoachingDial
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.tvContent.text = launch2Act.publicVM.aboutCoachingContent.value
+        binding.tvContent.text = launch2Act.publicVM.aboutCoaching.value
 
         binding.btnClose.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()

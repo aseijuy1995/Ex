@@ -6,9 +6,9 @@ import startAppState
 
 open class BaseApplication : Application() {
 
-    override fun onCreate() {
-        super.onCreate()
-        startAppState()
-        startLog()
-    }
+		override fun onCreate() {
+				super.onCreate()
+				startAppState()
+				startLog()
+		}
 }

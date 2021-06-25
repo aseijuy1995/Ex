@@ -8,10 +8,9 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
 import tw.north27.coachingapp.model.*
-import tw.north27.coachingapp.model.request.CommentRequest
-import tw.north27.coachingapp.model.request.SignInRequest
-import tw.north27.coachingapp.model.request.SignOutRequest
-import tw.north27.coachingapp.model.request.UpdateUserRequest
+import tw.north27.coachingapp.model.request.*
+import tw.north27.coachingapp.model.response.PublicDataResponse
+import tw.north27.coachingapp.model.response.ReflectResponse
 
 interface IApiService {
 
@@ -19,13 +18,13 @@ interface IApiService {
      * 取得教育數據
      * */
     @GET
-    suspend fun getEducationData(): EducationData
+    suspend fun fetchEducationData(): EducationData
 
     /**
      * 取得App設定資訊
      * */
     @GET
-    suspend fun getAppConfig(): AppConfig
+    suspend fun fetchAppConfig(): AppConfig
 
     /**
      * 檢查登入
@@ -55,7 +54,7 @@ interface IApiService {
      * @param json >> account >> 帳號
      * */
     @POST
-    suspend fun getUser(@Body json: String): UserInfo
+    suspend fun fetchUser(@Body json: String): UserInfo
 
     /**
      * 更新用戶資訊
@@ -71,13 +70,21 @@ interface IApiService {
      * @param commentRequest >> CommentBody::class.java
      * */
     @POST
-    suspend fun getCommentList(@Body commentRequest: CommentRequest): List<CommentInfo>
+    suspend fun fetchCommentList(@Body commentRequest: CommentRequest): List<CommentInfo>
 
     /**
-     * 取得關於我們的相關數據
+     * 取得公有數據
+     * */
+    @GET
+    suspend fun fetchPublicData(): PublicDataResponse
+
+    /**
+     * 發送反映
+     * @header accessToken
+     * @param reflectRequest >> ReflectRequest::class.java
      * */
     @POST
-    suspend fun getAboutData(): AboutData
+    suspend fun insertReflect(@Body reflectRequest: ReflectRequest): ReflectResponse
 
     //
     //

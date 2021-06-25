@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
@@ -23,6 +24,12 @@
         <variable
             name="unit"
             type="tw.north27.coachingapp.model.Units" />
+
+        <import
+            alias="dateFormat"
+            type="java.text.SimpleDateFormat" />
+
+        <import type="java.util.Locale" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -92,11 +99,11 @@
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{commentInfo.date}"
                 android:textColor="@color/gray_666666"
                 android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                bind:dateFormat="@{commentInfo.date}" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"

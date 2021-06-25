@@ -40,13 +40,4 @@
         <item name="android:background">@drawable/shape_solid_white_corners_radius_top_lt_rt_15</item>
     </style>
 
-    <style name="TopAngleCardCorners" parent="@style/CardView.Light">
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceTopCorners_5</item>
-    </style>
-
-    <style name="ShapeAppearanceTopCorners_5" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSizeTopLeft">5dp</item>
-        <item name="cornerSizeTopRight">5dp</item>
-    </style>
 </resources>

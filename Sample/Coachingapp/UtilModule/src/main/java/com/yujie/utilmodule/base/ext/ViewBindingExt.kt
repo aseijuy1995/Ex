@@ -17,9 +17,9 @@ import kotlin.reflect.KProperty
  * @param viewInflate >> ViewBinding::inflate
  * */
 inline fun <T : ViewBinding> AppCompatActivity.viewBinding(crossinline viewInflate: (LayoutInflater) -> T): Lazy<T> {
-    return lazy(LazyThreadSafetyMode.NONE) {
-        viewInflate.invoke(layoutInflater)
-    }
+		return lazy(LazyThreadSafetyMode.NONE) {
+				viewInflate.invoke(layoutInflater)
+		}
 }
 
 /**
@@ -27,47 +27,47 @@ inline fun <T : ViewBinding> AppCompatActivity.viewBinding(crossinline viewInfla
  * @param viewBind >> ViewBinding::bind
  * */
 fun <T : ViewBinding> Fragment.viewBinding(viewBind: (View) -> T): FragmentViewBindingProperty<T> {
-    return FragmentViewBindingProperty(this, viewBind)
+		return FragmentViewBindingProperty(this, viewBind)
 }
 
 class FragmentViewBindingProperty<T>(
-    private val fragment: Fragment,
-    private val viewBind: (View) -> T
+		private val fragment: Fragment,
+		private val viewBind: (View) -> T
 ) : ReadOnlyProperty<Fragment, T> {
 
-    private var _binding: T? = null
+		private var _binding: T? = null
 
-    init {
-        fragment.lifecycle.addObserver(object : DefaultLifecycleObserver {
-            val viewLifeOwnerLiveDataObs = Observer<LifecycleOwner?> {
-                val viewLifeOwner = it ?: return@Observer
-                viewLifeOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
-                    override fun onDestroy(owner: LifecycleOwner) {
-                        _binding = null
-                    }
-                })
-            }
+		init {
+				fragment.lifecycle.addObserver(object : DefaultLifecycleObserver {
+						val viewLifeOwnerLiveDataObs = Observer<LifecycleOwner?> {
+								val viewLifeOwner = it ?: return@Observer
+								viewLifeOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {
+										override fun onDestroy(owner: LifecycleOwner) {
+												_binding = null
+										}
+								})
+						}
 
-            override fun onCreate(owner: LifecycleOwner) {
-                super.onCreate(owner)
-                fragment.viewLifecycleOwnerLiveData.observeForever(viewLifeOwnerLiveDataObs)
-            }
+						override fun onCreate(owner: LifecycleOwner) {
+								super.onCreate(owner)
+								fragment.viewLifecycleOwnerLiveData.observeForever(viewLifeOwnerLiveDataObs)
+						}
 
-            override fun onDestroy(owner: LifecycleOwner) {
-                super.onDestroy(owner)
-                fragment.viewLifecycleOwnerLiveData.removeObserver(viewLifeOwnerLiveDataObs)
-            }
-        })
-    }
+						override fun onDestroy(owner: LifecycleOwner) {
+								super.onDestroy(owner)
+								fragment.viewLifecycleOwnerLiveData.removeObserver(viewLifeOwnerLiveDataObs)
+						}
+				})
+		}
 
-    override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
-        _binding?.let { return it }
+		override fun getValue(thisRef: Fragment, property: KProperty<*>): T {
+				_binding?.let { return it }
 
-        if (!fragment.viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED))
-            throw IllegalStateException("Should not attempt to get bindings when Fragment views are destroyed.")
+				if (!fragment.viewLifecycleOwner.lifecycle.currentState.isAtLeast(Lifecycle.State.INITIALIZED))
+						throw IllegalStateException("Should not attempt to get bindings when Fragment views are destroyed.")
 
-        return _binding ?: viewBind(thisRef.requireView()).apply {
-            _binding = this
-        }
-    }
+				return _binding ?: viewBind(thisRef.requireView()).apply {
+						_binding = this
+				}
+		}
 }

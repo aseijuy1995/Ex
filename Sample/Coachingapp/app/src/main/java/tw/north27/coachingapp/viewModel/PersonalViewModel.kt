@@ -15,20 +15,24 @@ import kotlinx.coroutines.launch
 import tw.north27.coachingapp.model.CommentInfo
 import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.request.CommentRequest
+import tw.north27.coachingapp.model.request.ReflectRequest
 import tw.north27.coachingapp.model.request.UpdateUserRequest
+import tw.north27.coachingapp.model.response.ReflectResponse
+import tw.north27.coachingapp.repository.IActionRepository
 import tw.north27.coachingapp.repository.IUserRepository
 import java.util.*
 
 class PersonalViewModel(
     application: Application,
-    private val userRepo: IUserRepository
+    private val userRepo: IUserRepository,
+    private val actionRepo: IActionRepository,
 ) : BaseAndroidViewModel(application) {
 
     private val _commentListState = MutableLiveData<ViewState<List<CommentInfo>>>(ViewState.initial())
 
     val commentListState = _commentListState.asLiveData()
 
-    fun getCommentList(
+    fun fetchCommentList(
         score: Double? = null,
         educationId: Long? = null,
         gradeId: Long? = null,
@@ -39,7 +43,7 @@ class PersonalViewModel(
     ) = viewModelScope.launch(Dispatchers.IO) {
         _commentListState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
-        val results = userRepo.getCommentList(
+        val results = userRepo.fetchCommentList(
             CommentRequest(account = account, score = score, educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId, index = index, num = num)
         )
         when (results) {
@@ -110,5 +114,33 @@ class PersonalViewModel(
             }
         }
     }
+
+    private val _isReflectState = MutableLiveData<ViewState<ReflectResponse>>()
+
+    val isReflectState = _isReflectState.asLiveData()
+
+    fun insertReflect(id: Long, content: String) = viewModelScope.launch(Dispatchers.IO) {
+        _isReflectState.postValue(ViewState.load())
+        val account = cxt.userPref.getAccount().first()
+        val results = actionRepo.insertReflect(
+            reflectRequest = ReflectRequest(
+                account = account,
+                id = id,
+                content = content
+            )
+        )
+        when (results) {
+            is Results.Successful<ReflectResponse> -> {
+                _isReflectState.postValue(ViewState.data(results.data))
+            }
+            is Results.ClientErrors -> {
+                _isReflectState.postValue(ViewState.error(results.e))
+            }
+            is Results.NetWorkError -> {
+                _isReflectState.postValue(ViewState.network(results.e))
+            }
+        }
+    }
+
 
 }

@@ -5,7 +5,7 @@ import androidx.core.view.isVisible
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerFrameLayout
 
-var ShimmerFrameLayout.isVisible: Boolean
+var ShimmerFrameLayout.visible: Boolean
 		set(value) {
 				if (value)
 						start()

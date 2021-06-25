@@ -30,9 +30,9 @@ class StartViewModel(
 
     val appConfigState = _appConfigState.asLiveData()
 
-    fun getAppConfig() = viewModelScope.launch(Dispatchers.IO) {
+    fun fetchAppConfig() = viewModelScope.launch(Dispatchers.IO) {
         _appConfigState.postValue(ViewState.load())
-        val results = publicRepo.getAppConfig()
+        val results = publicRepo.fetchAppConfig()
         when (results) {
             is Results.Successful<AppConfig> -> {
                 _appConfigState.postValue(ViewState.data(results.data))

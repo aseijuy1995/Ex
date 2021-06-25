@@ -186,7 +186,7 @@ data class CommentInfo(
     @SerializedName("receive_name") val receiveName: String,
     @SerializedName("score") val score: Double,
     @SerializedName("content") val content: String,
-    @SerializedName("date") val date: String,
+    @SerializedName("date") val date: Date,
     @SerializedName("education_id") val educationId: Long,
     @SerializedName("grade_id") val gradeId: Long,
     @SerializedName("subject_id") val subjectId: Long,
