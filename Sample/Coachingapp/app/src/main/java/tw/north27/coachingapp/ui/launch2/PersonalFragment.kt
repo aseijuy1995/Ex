@@ -47,6 +47,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        launch2Act.doubleClickToExit()
         binding.apply {
             ctlLayout.apply {
                 setCollapsedTitleTextColor(AppCompatResources.getColorStateList(cxt, R.color.white))
@@ -207,8 +208,6 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         }
         launch2Act.publicVM.fetchUser()
         viewModel.fetchCommentList(index = 0, num = 3)
-        //        doubleClickToExit()
-//        exit()
     }
 
     private fun setUiData(userInfo: UserInfo) {

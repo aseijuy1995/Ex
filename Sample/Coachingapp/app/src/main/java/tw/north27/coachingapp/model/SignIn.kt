@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.yujie.utilmodule.UserPref
 import kotlinx.parcelize.Parcelize
+import tw.north27.coachingapp.model.response.Units
 import java.util.*
 
 /**

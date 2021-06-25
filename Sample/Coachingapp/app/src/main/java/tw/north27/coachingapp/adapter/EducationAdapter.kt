@@ -7,7 +7,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.Education
+import tw.north27.coachingapp.model.response.Education
 
 class EducationAdapter : BaseAdapter() {
     private var educationList: List<Education>? = null

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/drawer_layout"
@@ -19,11 +18,10 @@
             android:layout_height="match_parent">
 
             <include
-                android:id="@+id/tb_main_home"
-                layout="@layout/toolbar_main_home"
+                android:id="@+id/item_toolbar_normal"
+                layout="@layout/toolbar_normal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
+                android:layout_height="40dp" />
 
             <com.scwang.smart.refresh.layout.SmartRefreshLayout
                 android:id="@+id/srl_view"
@@ -33,7 +31,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tb_main_home">
+                app:layout_constraintTop_toBottomOf="@id/item_toolbar_normal">
 
                 <pl.droidsonroids.gif.GifImageView
                     android:layout_width="match_parent"
@@ -48,7 +46,7 @@
                     android:background="@color/gray_eeeeee">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_view"
+                        android:id="@+id/rv_coaching"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"
@@ -68,8 +66,8 @@
                         layout="@layout/item_network" />
 
                     <include
-                        android:id="@+id/item_shimmer"
-                        layout="@layout/fragment_main_home_shimmer"
+                        android:id="@+id/item_coaching_load"
+                        layout="@layout/fragment_coaching_load"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
 
@@ -89,8 +87,8 @@
         android:fitsSystemWindows="true">
 
         <include
-            android:id="@+id/item_drawer_layout_main_home"
-            layout="@layout/item_drawer_layout_main_home" />
+            android:id="@+id/item_drawer_layout_coaching"
+            layout="@layout/item_drawer_layout_coaching" />
 
     </com.google.android.material.navigation.NavigationView>
 

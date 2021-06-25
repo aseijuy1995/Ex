@@ -6,9 +6,12 @@ package tw.north27.coachingapp.consts
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Query
-import tw.north27.coachingapp.model.*
+import tw.north27.coachingapp.model.AppConfig
+import tw.north27.coachingapp.model.CommentInfo
+import tw.north27.coachingapp.model.SignIn
+import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.model.request.*
+import tw.north27.coachingapp.model.response.EducationResponse
 import tw.north27.coachingapp.model.response.PublicDataResponse
 import tw.north27.coachingapp.model.response.ReflectResponse
 
@@ -18,7 +21,7 @@ interface IApiService {
      * 取得教育數據
      * */
     @GET
-    suspend fun fetchEducationData(): EducationData
+    suspend fun fetchEducationData(): EducationResponse
 
     /**
      * 取得App設定資訊
@@ -86,6 +89,14 @@ interface IApiService {
     @POST
     suspend fun insertReflect(@Body reflectRequest: ReflectRequest): ReflectResponse
 
+
+    /**
+     * 取得老師列表
+     * @param teacherRequest >> TeacherRequest::class.java
+     * */
+    @POST
+    suspend fun fetchTeacherList(@Body teacherRequest: TeacherRequest): List<UserInfo>
+
     //
     //
     //
@@ -129,7 +140,7 @@ interface IApiService {
 //        @Query("education_id") educationId: Long? = null,
 //        @Query("grade_id") gradeId: Long? = null,
 //        @Query("subject_id") subjectId: Long? = null
-//    ): List<tw.north27.coachingapp.model.Units>
+//    ): List<tw.north27.coachingapp.model.response.Units>
 
 //    /**
 //     * 刷新token
@@ -140,21 +151,6 @@ interface IApiService {
 ////        @Query("access_token") accessToken: String,
 //        @Query("refresh_token") refreshToken: String
 //    ): TokenInfo
-
-    /**
-     * 取得老師列表
-     * @param educationId >> 教育id
-     * @param gradeId >> 年級id
-     * @param subjectId >> 科目id
-     * @param unitId >> 單元id
-     * */
-    @POST
-    suspend fun getTeacherList(
-        @Query("education_id") educationId: Long? = null,
-        @Query("grade_id") gradeId: Long? = null,
-        @Query("subject_id") subjectId: Long? = null,
-        @Query("unit_id") unitId: Long? = null
-    ): List<UserInfo>
 
 
 //    /**

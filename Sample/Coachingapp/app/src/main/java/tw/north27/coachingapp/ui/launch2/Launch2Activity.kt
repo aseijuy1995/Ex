@@ -110,4 +110,5 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
         return super.onSupportNavigateUp() || navController.navigateUp()
     }
 
+
 }

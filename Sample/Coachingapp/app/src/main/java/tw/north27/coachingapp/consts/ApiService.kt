@@ -6,18 +6,18 @@ import com.google.gson.reflect.TypeToken
 import com.yujie.utilmodule.util.logD
 import kotlinx.coroutines.delay
 import retrofit2.http.Body
-import retrofit2.http.Query
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.request.*
+import tw.north27.coachingapp.model.response.EducationResponse
 import tw.north27.coachingapp.model.response.PublicDataResponse
 import tw.north27.coachingapp.model.response.ReflectResponse
 import java.util.*
 
 class ApiService(val cxt: Context) : IApiService {
 
-    override suspend fun fetchEducationData(): EducationData {
+    override suspend fun fetchEducationData(): EducationResponse {
         delay(500)
-        return EducationData(
+        return EducationResponse(
             educationList = educationListTest,
             gradeList = gradeListTest,
             subjectList = subjectListTest,
@@ -153,86 +153,6 @@ class ApiService(val cxt: Context) : IApiService {
             logD("Not find user")
             userInfoTest
         }
-    }
-
-
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-//    override suspend fun refreshToken(@Query(value = "account") account: String, @Query(value = "access_token") accessToken: String, @Query(value = "refresh_token") refreshToken: String): TokenInfo {
-//        delay(500)
-//        return TokenInfo(
-//            accessToken = "accessToken002",
-//            refreshToken = "refreshToken002"
-//        )
-//    }
-    //
-    //
-    //
-    //
-    //
-    //
-
-    //////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////
-
-//
-//
-//        )
-
-//
-//
-//    var deleteNotify: NotifyInfo? = null
-//    var isReadAllNotify: Boolean? = null
-//
-
-    override suspend fun getTeacherList(
-        @Query("education_id") educationId: Long?,
-        @Query("grade_id") gradeId: Long?,
-        @Query("subject_id") subjectId: Long?,
-        @Query("unit_id") unitId: Long?
-    ): List<UserInfo> {
-        delay(1500)
-        return if (educationId == null && gradeId == null && subjectId == null && unitId == null)
-            teacherInfoListTest
-        else if (educationId == null && gradeId == null && subjectId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.id == unitId }?.size ?: 0 > 0 }
-        else if (educationId == null && gradeId == null && unitId == null)
-            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.subjectId == subjectId }?.size ?: 0 > 0 }
-//        else if (educationId == null && subjectId == null && unitId == null)
-//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.gradeId == gradeId }?.size ?: 0 > 0 }
-//        else if (gradeId == null && subjectId == null && unitId == null)
-//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId }?.size ?: 0 > 0 }
-//        //
-//        else if (educationId == null && gradeId == null)
-//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
-//        else if (educationId == null && subjectId == null)
-//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.gradeId == gradeId && it.id == unitId }?.size ?: 0 > 0 }
-//        else if (educationId == null && unitId == null)
-//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.gradeId == gradeId && it.subjectId == subjectId }?.size ?: 0 > 0 }
-//        else if (gradeId == null && subjectId == null)
-//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId && it.id == unitId }?.size ?: 0 > 0 }
-//        else if (gradeId == null && unitId == null)
-//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId && it.subjectId == subjectId }?.size ?: 0 > 0 }
-//        else if (subjectId == null && unitId == null)
-//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId && it.gradeId == gradeId }?.size ?: 0 > 0 }
-//        else if (educationId == null)
-//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
-//        else if (gradeId == null)
-//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId && it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
-//        else if (subjectId == null)
-//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId && it.gradeId == gradeId && it.id == unitId }?.size ?: 0 > 0 }
-//        else if (unitId == null)
-//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }?.size ?: 0 > 0 }
-        else
-//            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
-            teacherInfoListTest.filter { it.teacherInfo?.unitsList?.filter { it.subjectId == subjectId && it.id == unitId }?.size ?: 0 > 0 }
     }
 
     override suspend fun updateUser(@Body updateUserRequest: UpdateUserRequest): Boolean {
@@ -374,6 +294,125 @@ class ApiService(val cxt: Context) : IApiService {
 //            msg = "發送反映事項失敗！"
 //        )
     }
+
+    override suspend fun fetchTeacherList(@Body teacherRequest: TeacherRequest): List<UserInfo> {
+        delay(1500)
+        val educationId = teacherRequest.educationId
+        val gradeId = teacherRequest.gradeId
+        val subjectId = teacherRequest.subjectId
+        val unitId = teacherRequest.unitId
+
+        //account判斷取得哪個帳號的評論
+        logD(
+            "educationId = $educationId\n" +
+                    "gradeId = $gradeId\n" +
+                    "subjectId = $subjectId\n" +
+                    "unitId = $unitId"
+        )
+//        var list = if (score == null && educationId == null && gradeId == null && subjectId == null && unitId == null)
+//            teacherInfoListTest
+//        else if (score == null && educationId == null && gradeId == null && subjectId == null)
+//            teacherInfoListTest.filter { it.unitId == unitId }
+//        else if (score == null && educationId == null && gradeId == null && unitId == null)
+//            teacherInfoListTest.filter { it.subjectId == subjectId }
+//        else if (score == null && educationId == null && subjectId == null && unitId == null)
+//            teacherInfoListTest.filter { it.gradeId == gradeId }
+//        else if (score == null && gradeId == null && subjectId == null && unitId == null)
+//            teacherInfoListTest.filter { it.educationId == educationId }
+//        else if (educationId == null && gradeId == null && subjectId == null && unitId == null)
+//            teacherInfoListTest.filter { it.score == score }
+//        else if (score == null && educationId == null && gradeId == null)
+//            teacherInfoListTest.filter { it.subjectId == subjectId && it.id == unitId }
+//        else if (score == null && educationId == null && subjectId == null)
+//            teacherInfoListTest.filter { it.gradeId == gradeId && it.id == unitId }
+//        else if (score == null && educationId == null && unitId == null)
+//            teacherInfoListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId }
+//        else if (score == null && gradeId == null && subjectId == null)
+//            teacherInfoListTest.filter { it.educationId == subjectId && it.id == unitId }
+//        else if (score == null && gradeId == null && unitId == null)
+//            teacherInfoListTest.filter { it.educationId == gradeId && it.subjectId == subjectId }
+//        else if (score == null && subjectId == null && unitId == null)
+//            teacherInfoListTest.filter { it.educationId == gradeId && it.gradeId == gradeId }
+//        else if (educationId == null && gradeId == null && subjectId == null)
+//            teacherInfoListTest.filter { it.score == score && it.id == unitId }
+//        else if (educationId == null && gradeId == null && unitId == null)
+//            teacherInfoListTest.filter { it.score == score && it.subjectId == subjectId }
+//        else if (educationId == null && subjectId == null && unitId == null)
+//            teacherInfoListTest.filter { it.score == score && it.gradeId == gradeId }
+//        else if (score == null && educationId == null)
+//            teacherInfoListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId && it.unitId == unitId }
+//        else if (score == null && gradeId == null)
+//            teacherInfoListTest.filter { it.educationId == educationId && it.subjectId == subjectId && it.unitId == unitId }
+//        else if (score == null && subjectId == null)
+//            teacherInfoListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.unitId == unitId }
+//        else if (score == null && unitId == null)
+//            teacherInfoListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }
+//        else if (educationId == null && gradeId == null)
+//            teacherInfoListTest.filter { it.score == score && it.subjectId == subjectId && it.unitId == unitId }
+//        else if (educationId == null && subjectId == null)
+//            teacherInfoListTest.filter { it.score == score && it.gradeId == gradeId && it.unitId == unitId }
+//        else if (educationId == null && unitId == null)
+//            teacherInfoListTest.filter { it.score == score && it.gradeId == gradeId && it.subjectId == subjectId }
+//        else if (gradeId == null && subjectId == null)
+//            teacherInfoListTest.filter { it.score == score && it.educationId == educationId && it.unitId == unitId }
+//        else if (gradeId == null && unitId == null)
+//            teacherInfoListTest.filter { it.score == score && it.educationId == educationId && it.subjectId == subjectId }
+//        else if (subjectId == null && unitId == null)
+//            teacherInfoListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId }
+//        else if (score == null)
+//            teacherInfoListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }
+//        else if (educationId == null)
+//            teacherInfoListTest.filter { it.score == score && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }
+//        else if (gradeId == null)
+//            teacherInfoListTest.filter { it.score == score && it.educationId == educationId && it.subjectId == subjectId && it.id == unitId }
+//        else if (subjectId == null)
+//            teacherInfoListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId && it.id == unitId }
+//        else if (unitId == null)
+//            teacherInfoListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }
+//        else
+//            teacherInfoListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }
+//        var last = index + num
+//        if (last > list.size) last = list.size
+//        return list.subList(index, last)
+        return listOf()
+    }
+
+
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+    //
+//    override suspend fun refreshToken(@Query(value = "account") account: String, @Query(value = "access_token") accessToken: String, @Query(value = "refresh_token") refreshToken: String): TokenInfo {
+//        delay(500)
+//        return TokenInfo(
+//            accessToken = "accessToken002",
+//            refreshToken = "refreshToken002"
+//        )
+//    }
+    //
+    //
+    //
+    //
+    //
+    //
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////
+
+//
+//
+//        )
+
+//
+//
+//    var deleteNotify: NotifyInfo? = null
+//    var isReadAllNotify: Boolean? = null
+//
 
 
     //    override suspend fun refreshToken(@Query(value = "refresh_token") refreshToken: String): TokenInfo {

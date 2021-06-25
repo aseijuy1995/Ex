@@ -11,19 +11,19 @@
 
         <variable
             name="education"
-            type="tw.north27.coachingapp.model.Education" />
+            type="tw.north27.coachingapp.model.response.Education" />
 
         <variable
             name="grade"
-            type="tw.north27.coachingapp.model.Grade" />
+            type="tw.north27.coachingapp.model.response.Grade" />
 
         <variable
             name="subject"
-            type="tw.north27.coachingapp.model.Subject" />
+            type="tw.north27.coachingapp.model.response.Subject" />
 
         <variable
             name="unit"
-            type="tw.north27.coachingapp.model.Units" />
+            type="tw.north27.coachingapp.model.response.Units" />
 
         <import
             alias="dateFormat"

@@ -3,9 +3,8 @@ package tw.north27.coachingapp.model.request
 import com.google.gson.annotations.SerializedName
 
 /**
- * 請求 - 評論列表請求
+ * 請求 - 老師列表
  * @param account >> 帳號
- * @param score >> 評分
  * @param educationId >> 教育id
  * @param gradeId >> 年級id
  * @param subjectId >> 科目id
@@ -13,9 +12,8 @@ import com.google.gson.annotations.SerializedName
  * @param index >> 索引
  * @param num >> 筆數
  * */
-data class CommentRequest(
+data class TeacherRequest(
     @SerializedName("account") val account: String,
-    @SerializedName("score") val score: Double? = null,
     @SerializedName("education_id") val educationId: Long? = null,
     @SerializedName("grade_id") val gradeId: Long? = null,
     @SerializedName("subject_id") val subjectId: Long? = null,

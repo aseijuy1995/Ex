@@ -1,5 +1,6 @@
 package tw.north27.coachingapp.ui.launch2
 
+import android.os.Bundle
 import android.view.View
 import com.yujie.utilmodule.base.BaseFragment
 import tw.north27.coachingapp.R
@@ -10,13 +11,16 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
     override val viewBind: (View) -> FragmentAskBinding
         get() = FragmentAskBinding::bind
 
+    private val launch2Act: Launch2Activity
+        get() = act as Launch2Activity
+
 //    private val viewModel by sharedViewModel<ChatViewModel>()
 
 //    private lateinit var adapter: ChatPagerAdapter
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-////        doubleClickToExit()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        launch2Act.doubleClickToExit()
 //        adapter = ChatPagerAdapter(this)
 //        binding.viewPager2Chat.apply {
 //            adapter = this@QuestionAreaFragment.adapter
@@ -85,6 +89,5 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
 //        ChatReadIndex.HAVE_READ.index -> getString(R.string.have_read)
 //        ChatReadIndex.UN_READ.index -> getString(R.string.un_read)
 //        else -> null
-//    }
-
+    }
 }

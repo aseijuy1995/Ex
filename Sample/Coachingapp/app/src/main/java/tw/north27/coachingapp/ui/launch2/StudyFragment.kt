@@ -11,9 +11,12 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
     override val viewBind: (View) -> FragmentStudyBinding
         get() = FragmentStudyBinding::bind
 
+    private val launch2Act: Launch2Activity
+        get() = act as Launch2Activity
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        doubleClickToExit()
+        launch2Act.doubleClickToExit()
     }
 
 

@@ -11,18 +11,11 @@ import com.yujie.utilmodule.view.AnimatedExpandableListView
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.response.CommonProblem
 
-class CommonProblemListAdapter(
-    private val commonProblemList: List<CommonProblem>
-//) : BaseExpandableListAdapter() {
-) : AnimatedExpandableListView.AnimatedExpandableListAdapter() {
+class CommonProblemListAdapter(private val commonProblemList: List<CommonProblem>) : AnimatedExpandableListView.AnimatedExpandableListAdapter() {
 
     override fun getGroupCount(): Int {
         return commonProblemList.size
     }
-
-//    override fun getChildrenCount(groupPosition: Int): Int {
-//        return 1
-//    }
 
     override fun getGroup(groupPosition: Int): Any {
         return commonProblemList[groupPosition]
@@ -49,7 +42,7 @@ class CommonProblemListAdapter(
         var view: View? = convertView
         if (view == null) {
             val inflater = LayoutInflater.from(parent?.context)
-            view = inflater.inflate(R.layout.item_common_title, parent, false)
+            view = inflater.inflate(R.layout.item_common_problem_title, parent, false)
             holder = TitleVH(view)
             view?.tag = holder
         } else {
@@ -66,22 +59,6 @@ class CommonProblemListAdapter(
         return view!!
     }
 
-//    override fun getChildView(groupPosition: Int, childPosition: Int, isLastChild: Boolean, convertView: View?, parent: ViewGroup?): View {
-//        val holder: ContentVH
-//        var view: View? = convertView
-//        if (view == null) {
-//            val inflater = LayoutInflater.from(parent?.context)
-//            view = inflater.inflate(R.layout.item_common_content, parent, false)
-//            holder = ContentVH(view)
-//            view?.tag = holder
-//        } else {
-//            holder = view.tag as ContentVH
-//        }
-//        holder.tvContent.text = commonProblemList[groupPosition].content
-//        return view!!
-//    }
-
-
     override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean {
         return true
     }
@@ -91,7 +68,7 @@ class CommonProblemListAdapter(
         var view: View? = convertView
         if (view == null) {
             val inflater = LayoutInflater.from(parent?.context)
-            view = inflater.inflate(R.layout.item_common_content, parent, false)
+            view = inflater.inflate(R.layout.item_common_problem_content, parent, false)
             holder = ContentVH(view)
             view?.tag = holder
         } else {

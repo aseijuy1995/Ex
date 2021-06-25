@@ -1,5 +1,6 @@
 package tw.north27.coachingapp.ui.launch2
 
+import android.os.Bundle
 import android.view.View
 import com.yujie.utilmodule.base.BaseFragment
 import tw.north27.coachingapp.R
@@ -13,14 +14,18 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
     override val viewBind: (View) -> FragmentNoticeBinding
         get() = FragmentNoticeBinding::bind
 
-//    private val viewModel by sharedViewModel<NotifyViewModel>()
+    private val launch2Act: Launch2Activity
+        get() = act as Launch2Activity
+
+    //    private val viewModel by sharedViewModel<NotifyViewModel>()
 //
 //    private lateinit var loadAdapter: BaseLoadStateAdapter
 //
 //    private val adapter = NotifyListAdapter()
 //
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        launch2Act.doubleClickToExit()
 //        binding.apply {
 //            lifecycleOwner = viewLifecycleOwner
 //            viewModel = this@NoticeFragment.viewModel
@@ -123,6 +128,5 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
 //                Snackbar.make(binding.root, pair.second, Snackbar.LENGTH_SHORT).show()
 //            }
 //        }
-//    }
-
+    }
 }

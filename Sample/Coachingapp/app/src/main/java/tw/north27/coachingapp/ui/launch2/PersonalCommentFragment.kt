@@ -14,10 +14,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.databinding.FragmentPersonalCommentBinding
-import tw.north27.coachingapp.model.Education
-import tw.north27.coachingapp.model.Grade
-import tw.north27.coachingapp.model.Subject
-import tw.north27.coachingapp.model.Units
+import tw.north27.coachingapp.model.response.Education
+import tw.north27.coachingapp.model.response.Grade
+import tw.north27.coachingapp.model.response.Subject
+import tw.north27.coachingapp.model.response.Units
 import tw.north27.coachingapp.viewModel.PersonalViewModel
 
 class PersonalCommentFragment : BaseFragment<FragmentPersonalCommentBinding>(R.layout.fragment_personal_comment) {

@@ -1,18 +1,18 @@
-package tw.north27.coachingapp.model
+package tw.north27.coachingapp.model.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 /**
- * 教育數據
+ * 響應 - 教育數據
  * @param educationList >> 教育列表
  * @param gradeList >> 年級列表
  * @param subjectList >> 科目列表
  * @param unitList >> 單元列表
  * */
 @Parcelize
-data class EducationData(
+data class EducationResponse(
     @SerializedName("education_list") val educationList: List<Education> = emptyList(),
     @SerializedName("grade_list") val gradeList: List<Grade> = emptyList(),
     @SerializedName("subject_list") val subjectList: List<Subject> = emptyList(),

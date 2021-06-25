@@ -7,7 +7,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.Subject
+import tw.north27.coachingapp.model.response.Subject
 
 class SubjectAdapter : BaseAdapter() {
     private var subjectList: List<Subject>? = null

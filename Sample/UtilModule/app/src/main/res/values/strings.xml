@@ -10,4 +10,6 @@
     <string name="play_service_title">Google Play Service警報！</string>
     <string name="play_service_text">請前往Play Store下載Google Play 服務</string>
 
+    <string name="double_click_exit">再點選一次以退出!</string>
+
 </resources>

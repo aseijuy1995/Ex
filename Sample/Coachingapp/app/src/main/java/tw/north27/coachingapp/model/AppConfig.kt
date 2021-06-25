@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.util.*
 
 /**
- * App基礎設定
+ * 響應 - App基礎設定
  * @param appCode >> 狀態碼 運行中(1000)、維護中(1001)
  * @param runInfo >> 運行資訊
  * @param maintainInfo >> 維護資訊

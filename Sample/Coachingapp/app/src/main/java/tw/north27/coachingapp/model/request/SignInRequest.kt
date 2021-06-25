@@ -3,7 +3,7 @@ package tw.north27.coachingapp.model.request
 import com.google.gson.annotations.SerializedName
 
 /**
- * 登入請求Body
+ * 請求 - 登入請求
  * @param uuid >> 設備Id
  * @param account >> 帳號（驗證用）
  * @param password >> 密碼（驗證用）

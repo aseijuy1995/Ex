@@ -7,7 +7,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.Grade
+import tw.north27.coachingapp.model.response.Grade
 
 class GradeAdapter : BaseAdapter() {
     private var gradeList: List<Grade>? = null

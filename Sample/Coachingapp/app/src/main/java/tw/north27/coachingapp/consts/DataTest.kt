@@ -2,8 +2,7 @@ package tw.north27.coachingapp.consts
 
 import com.yujie.utilmodule.UserPref
 import tw.north27.coachingapp.model.*
-import tw.north27.coachingapp.model.response.CommonProblem
-import tw.north27.coachingapp.model.response.Reflect
+import tw.north27.coachingapp.model.response.*
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -50,7 +49,7 @@ val subjectListTest = listOf<Subject>(
     Subject(id = 18, name = "歷史"),
     Subject(id = 19, name = "公民")
 )
-val unitListTest = listOf<tw.north27.coachingapp.model.Units>(
+val unitListTest = listOf<Units>(
     //國語
     Units(id = 1, name = "手拉手", subjectId = 1),
     Units(id = 2, name = "排一排", subjectId = 1),

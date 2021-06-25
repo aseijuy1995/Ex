@@ -7,7 +7,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.Units
+import tw.north27.coachingapp.model.response.Units
 
 class UnitAdapter : BaseAdapter() {
     private var unitsList: List<Units>? = null

@@ -5,7 +5,7 @@ import tw.north27.coachingapp.model.Gender
 import java.util.*
 
 /**
- * 更新用戶資訊
+ * 請求 - 更新用戶資訊
  * @param account >> 帳號
  * @param bgUrl? >> 背景
  * @param avatarUrl? >> 頭貼

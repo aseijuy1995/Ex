@@ -234,7 +234,6 @@ dependencies {
     //
     implementation project(":UtilModule")
     implementation project(":PushModule")
-
 }
 
 //proto

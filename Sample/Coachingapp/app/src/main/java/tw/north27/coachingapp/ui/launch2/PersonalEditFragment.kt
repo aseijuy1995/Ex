@@ -19,7 +19,7 @@ import tw.north27.coachingapp.adapter.GenderAdapter
 import tw.north27.coachingapp.adapter.GradeAdapter
 import tw.north27.coachingapp.databinding.FragmentPersonalEditBinding
 import tw.north27.coachingapp.model.Gender
-import tw.north27.coachingapp.model.Grade
+import tw.north27.coachingapp.model.response.Grade
 import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.PersonalViewModel

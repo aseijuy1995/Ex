@@ -15,9 +15,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.*
-import tw.north27.coachingapp.model.response.CommonProblem
-import tw.north27.coachingapp.model.response.PublicDataResponse
-import tw.north27.coachingapp.model.response.Reflect
+import tw.north27.coachingapp.model.response.*
 import tw.north27.coachingapp.repository.IPublicRepository
 import tw.north27.coachingapp.repository.IUserRepository
 
@@ -44,32 +42,32 @@ class PublicViewModel(
 
     val launchBgRes = _launchBgRes.asLiveData()
 
-    private val _educationDataState: MutableLiveData<ViewState<EducationData>> by lazy {
+    private val _educationResponseState: MutableLiveData<ViewState<EducationResponse>> by lazy {
         fetchEducationData()
-        MutableLiveData<ViewState<EducationData>>(ViewState.load())
+        MutableLiveData<ViewState<EducationResponse>>(ViewState.load())
     }
 
-    val educationDataState = _educationDataState.asLiveData()
+    val educationDataState = _educationResponseState.asLiveData()
 
     private fun fetchEducationData() = viewModelScope.launch(Dispatchers.IO) {
         val results = publicRepo.fetchEducationData()
         when (results) {
-            is Results.Successful<EducationData> -> {
+            is Results.Successful<EducationResponse> -> {
                 val educationData = results.data
                 if (educationData.educationList.isNotEmpty()
                     && educationData.gradeList.isNotEmpty()
                     && educationData.subjectList.isNotEmpty()
                     && educationData.unitList.isNotEmpty()
                 )
-                    _educationDataState.postValue(ViewState.data(results.data))
+                    _educationResponseState.postValue(ViewState.data(results.data))
                 else
-                    _educationDataState.postValue(ViewState.empty())
+                    _educationResponseState.postValue(ViewState.empty())
             }
             is Results.ClientErrors -> {
-                _educationDataState.postValue(ViewState.error(results.e))
+                _educationResponseState.postValue(ViewState.error(results.e))
             }
             is Results.NetWorkError -> {
-                _educationDataState.postValue(ViewState.network(results.e))
+                _educationResponseState.postValue(ViewState.network(results.e))
             }
         }
     }

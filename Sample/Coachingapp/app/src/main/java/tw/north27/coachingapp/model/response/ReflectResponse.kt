@@ -3,7 +3,7 @@ package tw.north27.coachingapp.model.response
 import com.google.gson.annotations.SerializedName
 
 /**
- * 響應 - 反映
+ * 響應 - 反映結果
  * @param isState >> insert成功與否
  * @param msg >> 訊息
  * */

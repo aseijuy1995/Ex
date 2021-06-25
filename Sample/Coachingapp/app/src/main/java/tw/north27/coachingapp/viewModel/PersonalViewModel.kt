@@ -43,7 +43,7 @@ class PersonalViewModel(
     ) = viewModelScope.launch(Dispatchers.IO) {
         _commentListState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
-        val results = userRepo.fetchCommentList(
+        val results = actionRepo.fetchCommentList(
             CommentRequest(account = account, score = score, educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId, index = index, num = num)
         )
         when (results) {
