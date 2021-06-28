@@ -80,6 +80,26 @@ class PersonalCommentFragment : BaseFragment<FragmentPersonalCommentBinding>(R.l
             }
         }
 
+        launch2Act.publicVM.educationList.observe(viewLifecycleOwner) {
+            educationAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultEducation).apply { addAll(it) })
+            binding.itemDrawerLayoutComment.spEducation.setSelection(0)
+        }
+
+        launch2Act.publicVM.gradeList.observe(viewLifecycleOwner) {
+            gradeAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultGradle).apply { addAll(it) })
+            binding.itemDrawerLayoutComment.spGrade.setSelection(0)
+        }
+
+        launch2Act.publicVM.subjectList.observe(viewLifecycleOwner) {
+            subjectAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultSubject).apply { addAll(it) })
+            binding.itemDrawerLayoutComment.spSubject.setSelection(0)
+        }
+
+        launch2Act.publicVM.unitList.observe(viewLifecycleOwner) {
+            unitAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultUnit).apply { addAll(it) })
+            binding.itemDrawerLayoutComment.spUnit.setSelection(0)
+        }
+
         binding.itemToolbarNormal.ivBack.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()
         }

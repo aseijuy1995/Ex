@@ -1,21 +1,11 @@
 package tw.north27.coachingapp.ui.launch2
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
-import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.components.Legend
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.formatter.PercentFormatter
 import com.yujie.utilmodule.UserPref
 import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseFragment
@@ -26,8 +16,10 @@ import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.CommentListAdapter
+import tw.north27.coachingapp.adapter.bindChartComment
+import tw.north27.coachingapp.adapter.bindChartReply
+import tw.north27.coachingapp.adapter.bindGender
 import tw.north27.coachingapp.databinding.FragmentPersonalBinding
-import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.viewModel.PersonalViewModel
 import java.text.SimpleDateFormat
@@ -222,26 +214,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                     placeRes = R.drawable.ic_baseline_account_box_24_gray,
                     roundingRadius = 5
                 )
-                tvGender.apply {
-                    @DrawableRes val imgRes: Int
-                    @StringRes val strRes: Int
-                    when (userInfo.gender) {
-                        Gender.MALE -> {
-                            imgRes = R.drawable.shape_solid_blue_corners_radius_2
-                            strRes = R.string.male
-                        }
-                        Gender.FEMALE -> {
-                            imgRes = R.drawable.shape_solid_red_corners_radius_2
-                            strRes = R.string.female
-                        }
-                        else -> {
-                            imgRes = R.drawable.shape_solid_green_corners_radius_2
-                            strRes = R.string.not
-                        }
-                    }
-                    setBackgroundResource(imgRes)
-                    text = context.getString(strRes)
-                }
+                tvGender.bindGender(userInfo)
                 tvName.text = userInfo.name
                 tvAccount.text = String.format("%s：%s", getString(R.string.account), userInfo.account)
                 tvAuth.text = String.format(
@@ -297,11 +270,11 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
             }
             itemPersonalComment.apply {
                 root.isVisible = (userInfo.auth == UserPref.Authority.TEACHER)
-                if (userInfo.auth == UserPref.Authority.TEACHER) setUiComment(userInfo = userInfo)
+                if (userInfo.auth == UserPref.Authority.TEACHER) binding.itemData.itemPersonalComment.pcCommentScore.bindChartComment(userInfo)
 
                 itemPersonalReply.apply {
                     root.isVisible = (userInfo.auth == UserPref.Authority.TEACHER)
-                    if (userInfo.auth == UserPref.Authority.TEACHER) setUiReply(userInfo)
+                    if (userInfo.auth == UserPref.Authority.TEACHER) binding.itemData.itemPersonalReply.pcReplyRate.bindChartReply(userInfo)
                 }
                 itemPersonalStudy.apply {
                     root.isVisible = (userInfo.auth == UserPref.Authority.STUDENT)
@@ -334,102 +307,5 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                 }
             }
         }
-    }
-
-    private fun setUiComment(userInfo: UserInfo) {
-        binding.itemData.itemPersonalComment.root.isVisible = (userInfo.teacherInfo?.commentScoreCountList != null) && userInfo.teacherInfo.commentScoreCountList.isNotEmpty()
-        val pieEntryList = mutableListOf<PieEntry>()
-        userInfo.teacherInfo?.commentScoreCountList?.forEach {
-            pieEntryList.add(PieEntry(it.count.toFloat(), "${it.score} ${getString(R.string.star)}：${it.count}${getString(R.string.pen)}"))
-        }
-        val pieDataSet = PieDataSet(pieEntryList, null)
-        pieDataSet.apply {
-            sliceSpace = 2f
-            selectionShift = 10f
-            colors = arrayListOf<Int>(
-                ContextCompat.getColor(cxt, R.color.red_e50014),
-                ContextCompat.getColor(cxt, R.color.orange_f09401),
-                ContextCompat.getColor(cxt, R.color.yellow_f7cd3b),
-                ContextCompat.getColor(cxt, R.color.green_00ba9b),
-                ContextCompat.getColor(cxt, R.color.blue_02abe2),
-                ContextCompat.getColor(cxt, R.color.blue_082e81),
-                ContextCompat.getColor(cxt, R.color.purple_c792ea),
-                ContextCompat.getColor(cxt, R.color.red_ff5370),
-                ContextCompat.getColor(cxt, R.color.yellow_d29700),
-                ContextCompat.getColor(cxt, R.color.green_00b900),
-                ContextCompat.getColor(cxt, R.color.blue_6ca0cd),
-            )
-        }
-        val pieData = PieData(pieDataSet)
-        pieData.apply {
-            setDrawValues(true)
-            setValueFormatter(PercentFormatter(binding.itemData.itemPersonalComment.pcCommentScore))
-            setValueTextColor(Color.WHITE)
-            setValueTextSize(10f)
-        }
-        binding.itemData.itemPersonalComment.pcCommentScore.apply {
-            setUsePercentValues(true)
-            description.isEnabled = false
-            rotationAngle = 90f
-            isHighlightPerTapEnabled = true
-            animateY(1500, Easing.EaseInQuart)
-            setDrawEntryLabels(false)
-            holeRadius = 60f
-            centerText = "${cxt.getString(R.string.score)}\n${userInfo.teacherInfo?.commentScoreAvg}"
-            setCenterTextSize(14f)
-            legend.apply {
-                verticalAlignment = Legend.LegendVerticalAlignment.CENTER
-                horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
-                orientation = Legend.LegendOrientation.VERTICAL
-                setDrawInside(false)
-                xOffset = 0f
-                form = Legend.LegendForm.CIRCLE
-            }
-            data = pieData
-        }.invalidate()
-    }
-
-    private fun setUiReply(userInfo: UserInfo) {
-        binding.itemData.itemPersonalReply.root.isVisible = (userInfo.teacherInfo?.replyCountList != null) && userInfo.teacherInfo.replyCountList.isNotEmpty()
-        val pieEntryList = mutableListOf<PieEntry>()
-        userInfo.teacherInfo?.replyCountList?.forEach {
-            pieEntryList.add(PieEntry(it.count.toFloat(), "${it.reply}：${it.count}${getString(R.string.pen)}"))
-        }
-        val pieDataSet = PieDataSet(pieEntryList, null)
-        pieDataSet.apply {
-            sliceSpace = 2f
-            selectionShift = 10f
-            colors = arrayListOf<Int>(
-                ContextCompat.getColor(cxt, R.color.green_00ba9b),
-                ContextCompat.getColor(cxt, R.color.blue_02abe2)
-            )
-        }
-        val pieData = PieData(pieDataSet)
-        pieData.apply {
-            setDrawValues(true)
-            setValueFormatter(PercentFormatter(binding.itemData.itemPersonalReply.pcReplyRate))
-            setValueTextColor(Color.WHITE)
-            setValueTextSize(10f)
-        }
-        binding.itemData.itemPersonalReply.pcReplyRate.apply {
-            setUsePercentValues(true)
-            description.isEnabled = false
-            rotationAngle = 90f
-            isHighlightPerTapEnabled = true
-            animateY(1500, Easing.EaseInQuart)
-            setDrawEntryLabels(false)
-            holeRadius = 60f
-            centerText = "${cxt.getString(R.string.reply_rate)}\n${userInfo.teacherInfo?.replyRate}%"
-            setCenterTextSize(14f)
-            legend.apply {
-                verticalAlignment = Legend.LegendVerticalAlignment.CENTER
-                horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
-                orientation = Legend.LegendOrientation.VERTICAL
-                setDrawInside(false)
-                xOffset = 0f
-                form = Legend.LegendForm.CIRCLE
-            }
-            data = pieData
-        }.invalidate()
     }
 }

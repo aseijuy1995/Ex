@@ -109,6 +109,11 @@
     <!-- SignOutDialogFragment -->
     <string name="sign_out_title">即將登出</string>
     <string name="sign_out_text">你確定要登出嗎？</string>
+    <!--  TeacherDialogFragment  -->
+    <string name="field">領域</string>
+    <string name="score">評分</string>
+    <string name="reply_rate">回覆率</string>
+    <string name="ready_to_ask">準備發問!</string>
     <!--    -->
     <!--    -->
 
@@ -118,10 +123,7 @@
 
 
     <!--  MainHomeFragment  -->
-    <!--  TeacherDetailDialogFragment  -->
-    <string name="score">評分</string>
-    <string name="reply_rate">回覆率</string>
-    <string name="ready_to_ask">準備發問!</string>
+
 
 
     <!--    -->

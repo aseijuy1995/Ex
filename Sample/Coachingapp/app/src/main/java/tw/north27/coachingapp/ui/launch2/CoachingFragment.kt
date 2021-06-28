@@ -5,8 +5,10 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import com.yujie.utilmodule.base.BaseFragment
 import com.yujie.utilmodule.ext.clicksObserve
+import com.yujie.utilmodule.ext.observe
 import com.yujie.utilmodule.ext.visible
 import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,7 +29,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
     private val launch2Act: Launch2Activity
         get() = act as Launch2Activity
 
-    private val adapter = TeacherListAdapter()
+    private lateinit var adapter :TeacherListAdapter
 
     private val viewModel by viewModel<CoachingViewModel>()
 
@@ -42,8 +44,10 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         launch2Act.doubleClickToExit()
+        adapter = TeacherListAdapter(launch2Act)
         binding.apply {
             itemToolbarNormal.ivFilter.isVisible = true
+            itemToolbarNormal.tvTitle.text = getString(R.string.coaching)
             rvCoaching.adapter = adapter
             itemDrawerLayoutCoaching.apply {
                 spEducation.adapter = educationAdapter
@@ -68,19 +72,21 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
             }
         }
 
-        //確認初始數據
         launch2Act.publicVM.educationList.observe(viewLifecycleOwner) {
             educationAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultEducation).apply { addAll(it) })
             binding.itemDrawerLayoutCoaching.spEducation.setSelection(0)
         }
+
         launch2Act.publicVM.gradeList.observe(viewLifecycleOwner) {
             gradeAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultGradle).apply { addAll(it) })
             binding.itemDrawerLayoutCoaching.spGrade.setSelection(0)
         }
+
         launch2Act.publicVM.subjectList.observe(viewLifecycleOwner) {
             subjectAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultSubject).apply { addAll(it) })
             binding.itemDrawerLayoutCoaching.spSubject.setSelection(0)
         }
+
         launch2Act.publicVM.unitList.observe(viewLifecycleOwner) {
             unitAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultUnit).apply { addAll(it) })
             binding.itemDrawerLayoutCoaching.spUnit.setSelection(0)
@@ -105,10 +111,10 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
             )
         }
 
-//        adapter.itemClickRelay.observe(viewLifecycleOwner) {
-//            findNavController().navigate(CoachingFragmentDirections.actionFragmentCoachingToFragmentTeacherDetailDialog(it.second))
-//        }
-//
+        adapter.itemClickRelay.observe(viewLifecycleOwner) {
+            findNavController().navigate(CoachingFragmentDirections.actionFragmentCoachingToFragmentTeacherDialog(it.second))
+        }
+
         binding.itemDrawerLayoutCoaching.spEducation.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 gradeAdapter.submitData(

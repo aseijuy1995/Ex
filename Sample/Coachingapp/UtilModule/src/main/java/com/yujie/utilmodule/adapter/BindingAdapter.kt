@@ -21,35 +21,35 @@ import jp.wasabeef.glide.transformations.BlurTransformation
  * @param roundingRadius >> 圓角
  * */
 @BindingAdapter(
-		value = [
-				"bind:imgRes",
-				"bind:imgUrl",
-				"bind:imgPlaceRes",
-				"bind:imgBlurRadius",
-				"bind:imgBlurSampling",
-				"bind:imgRoundingRadius",
-		]
+    value = [
+        "bind:imgRes",
+        "bind:imgUrl",
+        "bind:imgPlaceRes",
+        "bind:imgBlurRadius",
+        "bind:imgBlurSampling",
+        "bind:imgRoundingRadius",
+    ]
 )
 fun ImageView.bindImg(
-		@DrawableRes resId: Int? = null,
-		url: String? = null,
-		@DrawableRes placeRes: Int = R.drawable.ic_baseline_photo_24_gray,
-		blurRadius: Int? = null,
-		blurSampling: Int? = null,
-		roundingRadius: Int? = null
+    @DrawableRes resId: Int? = null,
+    url: String? = null,
+    @DrawableRes placeRes: Int = R.drawable.ic_baseline_photo_24_gray,
+    blurRadius: Int? = null,
+    blurSampling: Int? = null,
+    roundingRadius: Int? = null
 ) {
-		Glide.with(this)
-				.load(
-						resId
-								?: url
-								?: ""
-				)
-				.placeholder(placeRes)
-				.apply {
-						if (blurRadius != null && blurSampling != null) RequestOptions.bitmapTransform(BlurTransformation(blurRadius, blurSampling))
-						if (roundingRadius != null) RequestOptions.bitmapTransform(RoundedCorners(roundingRadius))
-				}
-				.into(this)
+    Glide.with(this)
+        .load(
+            resId
+                ?: url
+                ?: ""
+        )
+        .placeholder(placeRes)
+        .apply {
+            if (blurRadius != null && blurSampling != null) apply(RequestOptions.bitmapTransform(BlurTransformation(blurRadius, blurSampling)))
+            if (roundingRadius != null) apply(RequestOptions.bitmapTransform(RoundedCorners(roundingRadius)))
+        }
+        .into(this)
 }
 
 /**
@@ -58,5 +58,5 @@ fun ImageView.bindImg(
  * */
 @BindingAdapter("bind:isVisible")
 fun View.bindVisible(isVisible: Boolean = true) {
-		this.isVisible = isVisible
+    this.isVisible = isVisible
 }

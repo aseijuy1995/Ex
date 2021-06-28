@@ -9,7 +9,7 @@
         android:layout_height="250dp"
         android:background="@color/white"
         android:elevation="15dp"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

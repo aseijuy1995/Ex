@@ -301,7 +301,8 @@ class ApiService(val cxt: Context) : IApiService {
         val gradeId = teacherRequest.gradeId
         val subjectId = teacherRequest.subjectId
         val unitId = teacherRequest.unitId
-
+        val index = teacherRequest.index
+        val num = teacherRequest.num
         //account判斷取得哪個帳號的評論
         logD(
             "educationId = $educationId\n" +
@@ -309,72 +310,46 @@ class ApiService(val cxt: Context) : IApiService {
                     "subjectId = $subjectId\n" +
                     "unitId = $unitId"
         )
-//        var list = if (score == null && educationId == null && gradeId == null && subjectId == null && unitId == null)
-//            teacherInfoListTest
-//        else if (score == null && educationId == null && gradeId == null && subjectId == null)
-//            teacherInfoListTest.filter { it.unitId == unitId }
-//        else if (score == null && educationId == null && gradeId == null && unitId == null)
-//            teacherInfoListTest.filter { it.subjectId == subjectId }
-//        else if (score == null && educationId == null && subjectId == null && unitId == null)
-//            teacherInfoListTest.filter { it.gradeId == gradeId }
-//        else if (score == null && gradeId == null && subjectId == null && unitId == null)
-//            teacherInfoListTest.filter { it.educationId == educationId }
-//        else if (educationId == null && gradeId == null && subjectId == null && unitId == null)
-//            teacherInfoListTest.filter { it.score == score }
-//        else if (score == null && educationId == null && gradeId == null)
-//            teacherInfoListTest.filter { it.subjectId == subjectId && it.id == unitId }
-//        else if (score == null && educationId == null && subjectId == null)
-//            teacherInfoListTest.filter { it.gradeId == gradeId && it.id == unitId }
-//        else if (score == null && educationId == null && unitId == null)
-//            teacherInfoListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId }
-//        else if (score == null && gradeId == null && subjectId == null)
-//            teacherInfoListTest.filter { it.educationId == subjectId && it.id == unitId }
-//        else if (score == null && gradeId == null && unitId == null)
-//            teacherInfoListTest.filter { it.educationId == gradeId && it.subjectId == subjectId }
-//        else if (score == null && subjectId == null && unitId == null)
-//            teacherInfoListTest.filter { it.educationId == gradeId && it.gradeId == gradeId }
-//        else if (educationId == null && gradeId == null && subjectId == null)
-//            teacherInfoListTest.filter { it.score == score && it.id == unitId }
-//        else if (educationId == null && gradeId == null && unitId == null)
-//            teacherInfoListTest.filter { it.score == score && it.subjectId == subjectId }
-//        else if (educationId == null && subjectId == null && unitId == null)
-//            teacherInfoListTest.filter { it.score == score && it.gradeId == gradeId }
-//        else if (score == null && educationId == null)
-//            teacherInfoListTest.filter { it.gradeId == gradeId && it.subjectId == subjectId && it.unitId == unitId }
-//        else if (score == null && gradeId == null)
-//            teacherInfoListTest.filter { it.educationId == educationId && it.subjectId == subjectId && it.unitId == unitId }
-//        else if (score == null && subjectId == null)
-//            teacherInfoListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.unitId == unitId }
-//        else if (score == null && unitId == null)
-//            teacherInfoListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }
-//        else if (educationId == null && gradeId == null)
-//            teacherInfoListTest.filter { it.score == score && it.subjectId == subjectId && it.unitId == unitId }
-//        else if (educationId == null && subjectId == null)
-//            teacherInfoListTest.filter { it.score == score && it.gradeId == gradeId && it.unitId == unitId }
-//        else if (educationId == null && unitId == null)
-//            teacherInfoListTest.filter { it.score == score && it.gradeId == gradeId && it.subjectId == subjectId }
-//        else if (gradeId == null && subjectId == null)
-//            teacherInfoListTest.filter { it.score == score && it.educationId == educationId && it.unitId == unitId }
-//        else if (gradeId == null && unitId == null)
-//            teacherInfoListTest.filter { it.score == score && it.educationId == educationId && it.subjectId == subjectId }
-//        else if (subjectId == null && unitId == null)
-//            teacherInfoListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId }
-//        else if (score == null)
-//            teacherInfoListTest.filter { it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }
-//        else if (educationId == null)
-//            teacherInfoListTest.filter { it.score == score && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }
-//        else if (gradeId == null)
-//            teacherInfoListTest.filter { it.score == score && it.educationId == educationId && it.subjectId == subjectId && it.id == unitId }
-//        else if (subjectId == null)
-//            teacherInfoListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId && it.id == unitId }
-//        else if (unitId == null)
-//            teacherInfoListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId }
-//        else
-//            teacherInfoListTest.filter { it.score == score && it.educationId == educationId && it.gradeId == gradeId && it.subjectId == subjectId && it.id == unitId }
-//        var last = index + num
-//        if (last > list.size) last = list.size
-//        return list.subList(index, last)
-        return listOf()
+        var list =
+            if (educationId == null && gradeId == null && subjectId == null && unitId == null)
+                teacherInfoListTest
+            else if (educationId == null && gradeId == null && subjectId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.id == unitId } ?: false }
+            else if (educationId == null && gradeId == null && unitId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.subjectId == subjectId } ?: false }
+//            else if (educationId == null && subjectId == null && unitId == null)
+//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId } ?: false }
+//            else if (gradeId == null && subjectId == null && unitId == null)
+//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationId == educationId } ?: false }
+//            else if (educationId == null && gradeId == null)
+            else if (educationId == null && gradeId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.subjectId == subjectId || it.id == unitId } ?: false }
+//            else if (educationId == null && subjectId == null)
+//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId || it.id == unitId } ?: false }
+//            else if (educationId == null && unitId == null)
+//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId || it.subjectId == subjectId } ?: false }
+//            else if (gradeId == null && subjectId == null)
+//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationId == educationId || it.id == unitId } ?: false }
+//            else if (gradeId == null && unitId == null)
+//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationId == educationId || it.subjectId == subjectId } ?: false }
+//            else if (subjectId == null && unitId == null)
+//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationId == educationId || it.gradeId == gradeId } ?: false }
+//            else if (educationId == null)
+//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId || it.subjectId == subjectId || it.id == unitId } ?: false }
+//            else if (gradeId == null)
+//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationId == educationId || it.subjectId == subjectId || it.id == unitId } ?: false }
+//            else if (subjectId == null)
+//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationId == educationId ||  it.gradeId == gradeId || it.id == unitId } ?: false }
+//            else if (unitId == null)
+//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationId == educationId ||  it.gradeId == gradeId  || it.subjectId == subjectId } ?: false }
+//            else
+//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any {  it.educationId == educationId || it.gradeId == gradeId || it.subjectId == subjectId || it.id == unitId } ?: false }
+            //
+            else
+                teacherInfoListTest
+        var last = index + num
+        if (last > list.size) last = list.size
+        return list.subList(index, last)
     }
 
 

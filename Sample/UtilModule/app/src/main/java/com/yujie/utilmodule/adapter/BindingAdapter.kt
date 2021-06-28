@@ -46,8 +46,8 @@ fun ImageView.bindImg(
 				)
 				.placeholder(placeRes)
 				.apply {
-						if (blurRadius != null && blurSampling != null) RequestOptions.bitmapTransform(BlurTransformation(blurRadius, blurSampling))
-						if (roundingRadius != null) RequestOptions.bitmapTransform(RoundedCorners(roundingRadius))
+						if (blurRadius != null && blurSampling != null) apply(RequestOptions.bitmapTransform(BlurTransformation(blurRadius, blurSampling)))
+						if (roundingRadius != null) apply(RequestOptions.bitmapTransform(RoundedCorners(roundingRadius)))
 				}
 				.into(this)
 }
