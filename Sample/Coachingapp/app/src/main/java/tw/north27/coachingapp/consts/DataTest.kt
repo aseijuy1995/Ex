@@ -260,6 +260,7 @@ var isFirstTest = true
 var pushTokenTest = "pushTokenTest"
 
 val authorityTest = UserPref.Authority.STUDENT
+
 //val authorityTest = UserPref.Authority.TEACHER
 var bgUrlTest = "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
 var avatarUrlTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
@@ -1046,6 +1047,28 @@ val teacherInfoListTest = listOf<UserInfo>(
             unitsList = unitListTest.filter { it.subjectId == 13L }
         )
     )
+)
 
+val askListTest = listOf(
+    AskInfo(
+        id = 0,
+        sender = teacherInfoListTest[0],
+        receiver = userInfoTest,
+        askType = AskType.TEXT,
+        text = "老師請問數學這題怎麼寫？",
+        isRead = false,
+        sendTime = setDate("2021-06-30"),
+        displayMsg = "老師請問國文這題怎麼寫？"
+    ),
+    AskInfo(
+        id = 1,
+        sender = teacherInfoListTest[1],
+        receiver = userInfoTest,
+        askType = AskType.TEXT,
+        text = "老師請問國文這題怎麼寫？",
+        isRead = false,
+        sendTime = setDate("2021-06-24"),
+        displayMsg = "老師請問數學這題怎麼寫？"
+    )
 
 )

@@ -352,6 +352,11 @@ class ApiService(val cxt: Context) : IApiService {
         return list.subList(index, last)
     }
 
+    override suspend fun fetchAskList(): List<AskInfo> {
+        delay(1500)
+        return askListTest
+    }
+
 
     //
     //

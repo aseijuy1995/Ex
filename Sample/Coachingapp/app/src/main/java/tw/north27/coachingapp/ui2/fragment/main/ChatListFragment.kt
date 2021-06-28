@@ -19,7 +19,7 @@
 //import tw.north27.coachingapp.adapter.*
 //import tw.north27.coachingapp.chat.ChatViewModel
 //import tw.north27.coachingapp.databinding.FragmentChatListBinding
-//import tw.north27.coachingapp.model.result.ChatRead
+//import tw.north27.coachingapp.model.ChatRead
 //
 //class ChatListFragment : BaseFragment<FragmentChatListBinding>(R.layout.fragment_chat_list) {
 //

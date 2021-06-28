@@ -1,6 +1,7 @@
 package tw.north27.coachingapp.repository
 
 import com.yujie.utilmodule.http.Results
+import tw.north27.coachingapp.model.AskInfo
 import tw.north27.coachingapp.model.CommentInfo
 import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.model.request.CommentRequest
@@ -15,5 +16,7 @@ interface IActionRepository {
     suspend fun fetchCommentList(commentRequest: CommentRequest): Results<List<CommentInfo>>
 
     suspend fun insertReflect(reflectRequest: ReflectRequest): Results<ReflectResponse>
+
+    suspend fun fetchAskList(): Results<List<AskInfo>>
 
 }

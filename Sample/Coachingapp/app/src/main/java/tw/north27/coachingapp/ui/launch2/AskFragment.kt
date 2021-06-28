@@ -2,9 +2,18 @@ package tw.north27.coachingapp.ui.launch2
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.yujie.utilmodule.base.BaseFragment
+import com.yujie.utilmodule.ext.visible
+import com.yujie.utilmodule.util.ViewState
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
+import tw.north27.coachingapp.adapter.AskListAdapter
 import tw.north27.coachingapp.databinding.FragmentAskBinding
+import tw.north27.coachingapp.viewModel.AskViewModel
 
 class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
 
@@ -14,80 +23,134 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
     private val launch2Act: Launch2Activity
         get() = act as Launch2Activity
 
-//    private val viewModel by sharedViewModel<ChatViewModel>()
+    private val viewModel by viewModel<AskViewModel>()
 
-//    private lateinit var adapter: ChatPagerAdapter
+    private val adapter = AskListAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        launch2Act.doubleClickToExit()
-//        adapter = ChatPagerAdapter(this)
-//        binding.viewPager2Chat.apply {
-//            adapter = this@QuestionAreaFragment.adapter
-//            offscreenPageLimit = 2
-//        }
-//        TabLayoutMediator(binding.tabLayoutChat, binding.viewPager2Chat) { tab: TabLayout.Tab, position: Int ->
-//            tab.setIcon(getTabIcon(position))
-////            tab.text = getTabText(position)
-//        }.attach()
+        binding.apply {
+            itemToolbarNormal.apply {
+                ivBack.isVisible = false
+                tvTitle.text = getString(R.string.ask_title)
+            }
+            rvAsk.apply {
+                addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
+                    setDrawable(ContextCompat.getDrawable(cxt, R.drawable.shape_size_height_1_solid_gray) ?: return)
+                })
+                adapter = this@AskFragment.adapter
+            }
+        }
+
+        viewModel.askInfoListState.observe(viewLifecycleOwner) {
+            binding.itemCoachingLoad.sflView.visible = (it is ViewState.Load)
+            binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
+            binding.rvAsk.isVisible = (it is ViewState.Data)
+            binding.itemError.root.isVisible = (it is ViewState.Error)
+            binding.itemNetwork.root.isVisible = (it is ViewState.Network)
+            if (it !is ViewState.Initial && it !is ViewState.Load)
+                binding.srlView.finishRefresh()
+            when (it) {
+                is ViewState.Data -> {
+                    adapter.submitList(it.data)
+                }
+            }
+        }
+
+
+        binding.srlView.setOnRefreshListener {
+            viewModel.fetchAskList(
+//                index = 0,
+//                num = 20
+            )
+        }
 //
-//        viewModel.loadChat()
-//        viewModel.message.observe(viewLifecycleOwner) {
-//            viewModel.receiveChatMessage(it)
+//        val adapterDataObserver = object : RecyclerView.AdapterDataObserver() {
+//            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+//                super.onItemRangeInserted(positionStart, itemCount)
+//                viewModel.listScrollToTop(true)
+//            }
+//
+//            override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+//                super.onItemRangeRemoved(positionStart, itemCount)
+//                binding.rvChat.smoothScrollToPosition(itemCount)
+//            }
 //        }
 //
-//        /**
-//         * 測試推播數據
-//         * */
-//        binding.ivNotify.clicks().observe(viewLifecycleOwner) {
-//            viewModel.send(
-//                ChatInfo(
-//                    id = 5,
-//                    sender = UserInfo(
-//                        id = -1,
-//                        account = "north27",
-//                        auth = UserPref.Authority.UNKNOWN,
-//                        avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                        name = "阿吉"
-//                    ),
-//                    recipient = UserInfo(
-//                        id = 5,
-//                        account = "lbj7871",
-//                        auth = UserPref.Authority.UNKNOWN,
-//                        avatarPath = "https://cf.shopee.tw/file/66f6a55ddd243f22b78c99847406b516",
-//                        name = "lbj7871"
-//                    ),
-//                    sendTime = "03:52",
-//                    chatType = ChatType.TEXT,
-//                    text = "測試推播 - 測試推播 - 測試推播 - 測試推播 - 測試推播",
-//                    read = ChatRead.UN_READ,
-//                    unReadCount = 1,
-//                    isSound = true
-//                )
-//            )
-//        }
-//
-//        binding.floatingActionButtonChat.clicks().observe(viewLifecycleOwner) {
-//            viewModel.listScrollToTop(true)
-//        }
+//        //接收通知滑動置頂
+//        binding.rvChat.adapter?.registerAdapterDataObserver(adapterDataObserver)
 //
 //        viewModel.listScrollToTop.observe(viewLifecycleOwner) {
-//            binding.appBarLayoutChat.setExpanded(true)
+//            binding.rvChat.scrollToPosition(0)
+//            binding.rvChat.postDelayed({
+//                binding.rvChat.smoothScrollToPosition(0)
+//            }, 500)
 //        }
 //
-//    }
+//        adapter.soundClickRelay.observe(viewLifecycleOwner) {
+//            viewModel.switchChatSound(type, it.second)
+//        }
 //
-//    private fun getTabIcon(position: Int) = when (position) {
-//        ChatReadIndex.ALL.index -> R.drawable.ic_baseline_email_24_white
-//        ChatReadIndex.HAVE_READ.index -> R.drawable.ic_baseline_mark_email_read_24_white
-//        ChatReadIndex.UN_READ.index -> R.drawable.ic_baseline_mark_email_unread_24_white
-//        else -> throw IndexOutOfBoundsException()
-//    }
+//        viewModel.chatSoundState.observe(viewLifecycleOwner) {
+//            when (it) {
+//                is ViewState.Initial -> {
+//                }
+//                is ViewState.Load -> {
+////                    showLoadingDialog()
+//                }
+//                is ViewState.Empty -> {
+////                    dismissLoadingDialog()
+//                }
+//                is ViewState.Data -> {
+////                    dismissLoadingDialog()
+//                    Snackbar.make(binding.rvChat, if (it.data.isSound) getString(R.string.open_sound_notify) else getString(R.string.close_sound_notify), Snackbar.LENGTH_SHORT).show()
+//                }
+//                is ViewState.Error -> {
+////                    dismissLoadingDialog()
+//                    act.showErrorAlert()
+//                }
+//                is ViewState.Network -> {
+////                    dismissLoadingDialog()
+//                    act.showNetworkAlert()
+//                }
+//            }
+//        }
 //
-//    private fun getTabText(position: Int) = when (position) {
-//        ChatReadIndex.ALL.index -> getString(R.string.all)
-//        ChatReadIndex.HAVE_READ.index -> getString(R.string.have_read)
-//        ChatReadIndex.UN_READ.index -> getString(R.string.un_read)
-//        else -> null
+//        adapter.deleteClickRelay.observe(viewLifecycleOwner) {
+////            showLoadingDialog()
+//            viewModel.deleteChatRoom(type, it.second)
+//        }
+//
+//        viewModel.chatDeleteState.observe(viewLifecycleOwner) {
+//            when (it) {
+//                is ViewState.Initial -> {
+//                }
+//                is ViewState.Load -> {
+////                    showLoadingDialog()
+//                }
+//                is ViewState.Empty -> {
+////                    dismissLoadingDialog()
+//                }
+//                is ViewState.Data -> {
+////                    dismissLoadingDialog()
+//                    Snackbar.make(binding.rvChat, getString(R.string.deleted), Snackbar.LENGTH_SHORT).show()
+//                }
+//                is ViewState.Error -> {
+////                    dismissLoadingDialog()
+//                    act.showErrorAlert()
+//                }
+//                is ViewState.Network -> {
+////                    dismissLoadingDialog()
+//                    act.showNetworkAlert()
+//                }
+//            }
+//        }
+//
+//        adapter.itemClickRelay.observe(viewLifecycleOwner) {
+////            findNavController().navigate(NavGraphDirections.actionToFragmentChatRoom(it.second))
+//        }
+
+
+        binding.srlView.autoRefresh()
     }
 }

@@ -46,9 +46,11 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
         launch2Act.doubleClickToExit()
         adapter = TeacherListAdapter(launch2Act)
         binding.apply {
-            itemToolbarNormal.ivBack.isVisible = false
-            itemToolbarNormal.ivFilter.isVisible = true
-            itemToolbarNormal.tvTitle.text = getString(R.string.coaching)
+            itemToolbarNormal.apply {
+                ivBack.isVisible = false
+                ivFilter.isVisible = true
+                tvTitle.text = getString(R.string.coaching)
+            }
             rvCoaching.adapter = adapter
             itemDrawerLayoutCoaching.apply {
                 spEducation.adapter = educationAdapter

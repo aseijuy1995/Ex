@@ -1,19 +1,48 @@
-//package tw.north27.coachingapp.chat
-//
-//import androidx.lifecycle.MutableLiveData
-//import androidx.lifecycle.viewModelScope
-//import com.yujie.utilmodule.base.BaseViewModel
-//import com.yujie.utilmodule.http.Results
-//import com.yujie.utilmodule.util.ViewState
-//import kotlinx.coroutines.Dispatchers
-//import kotlinx.coroutines.launch
-//import org.koin.core.component.KoinComponent
-//import tw.north27.coachingapp.adapter.ChatReadIndex
-//import com.yujie.basemodule.ext2.asLiveData
-//import tw.north27.coachingapp.model.result.ChatInfo
-//
-//class ChatViewModel(private val chatRepo: IChatRepository) : BaseViewModel(), KoinComponent {
-//
+package tw.north27.coachingapp.viewModel
+
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.yujie.utilmodule.base.BaseViewModel
+import com.yujie.utilmodule.ext.asLiveData
+import com.yujie.utilmodule.http.Results
+import com.yujie.utilmodule.util.ViewState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import tw.north27.coachingapp.model.AskInfo
+import tw.north27.coachingapp.repository.IActionRepository
+
+class AskViewModel(
+    private val actionRepo: IActionRepository
+) : BaseViewModel() {
+
+    private val _askInfoListState = MutableLiveData<ViewState<List<AskInfo>>>(ViewState.Initial)
+
+    val askInfoListState = _askInfoListState.asLiveData()
+
+    fun fetchAskList() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _askInfoListState.postValue(ViewState.load())
+            val results = actionRepo.fetchAskList()
+            when (results) {
+                is Results.Successful<List<AskInfo>> -> {
+                    val list = results.data
+                    if (list.isNullOrEmpty())
+                        _askInfoListState.postValue(ViewState.empty())
+                    else {
+                        _askInfoListState.postValue(ViewState.data(list))
+                    }
+                }
+                is Results.ClientErrors -> {
+                    _askInfoListState.postValue(ViewState.error(results.e))
+                }
+                is Results.NetWorkError -> {
+                    _askInfoListState.postValue(ViewState.network(results.e))
+                }
+            }
+        }
+    }
+
+
 //    private val _toast = MutableLiveData<Pair<ToastType, String>>()
 //
 //    val toast = _toast.asLiveData()
@@ -26,43 +55,8 @@
 //    enum class ToastType {
 //        SWITCH_CHAT_SOUND, DELETE_CHAT_ROOM
 //    }
-//
-//    //
-//    /**
-//     * 加載聊天列表
-//     * */
-//    private val chatList = mutableListOf<ChatInfo>()
-//
-//    private val _chatState = MutableLiveData<ViewState<List<ChatInfo>>>(ViewState.Initial)
-//
-//    val chatState = _chatState.asLiveData()
-//
-//    fun loadChat() {
-//        chatList.clear()
-//        viewModelScope.launch(Dispatchers.IO) {
-//            _chatState.postValue(ViewState.load())
-//            val results = chatRepo.loadChat()
-//            when (results) {
-//                is Results.Successful<List<ChatInfo>> -> {
-//                    val list = results.data.toMutableList()
-//                    if (list.isNullOrEmpty())
-//                        _chatState.postValue(ViewState.empty())
-//                    else {
-//                        chatList.addAll(list)
-//                        _chatState.postValue(ViewState.data(chatList))
-//                    }
-//                }
-//                is Results.ClientErrors -> {
-//                    _chatState.postValue(ViewState.error(results.e))
-//                }
-//                is Results.NetWorkError -> {
-//                    _chatState.postValue(ViewState.network(results.e))
-//                }
-//            }
-//        }
-//
-//    }
-//
+
+    //
 //    val message = chatRepo.message
 //
 //    /**
@@ -107,7 +101,7 @@
 //    fun switchChatSound(type: ChatReadIndex, chat: ChatInfo) {
 //        viewModelScope.launch(Dispatchers.IO) {
 //            _chatSoundState.postValue(ViewState.load())
-//            this@ChatViewModel.type = type
+//            this@AskViewModel.type = type
 //            chat.isSound = !chat.isSound
 //            val results = chatRepo.switchChatSound(chat)
 //            when (results) {
@@ -147,7 +141,7 @@
 //    fun deleteChatRoom(type: ChatReadIndex, chat: ChatInfo) {
 //        viewModelScope.launch(Dispatchers.IO) {
 //            _chatDeleteState.postValue(ViewState.load())
-//            this@ChatViewModel.type = type
+//            this@AskViewModel.type = type
 //            val results = chatRepo.deleteChatRoom(chat)
 //            when (results) {
 //                is Results.Successful<List<ChatInfo>> -> {
@@ -181,6 +175,6 @@
 //        }
 //
 //    }
-//
-//
-//}
+
+
+}

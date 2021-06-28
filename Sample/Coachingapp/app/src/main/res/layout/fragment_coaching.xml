@@ -68,8 +68,6 @@
                     <include
                         android:id="@+id/item_coaching_load"
                         layout="@layout/fragment_coaching_load" />
-                    <!--                    android:layout_width="match_parent"-->
-                    <!--                    android:layout_height="match_parent"-->
 
                 </FrameLayout>
 

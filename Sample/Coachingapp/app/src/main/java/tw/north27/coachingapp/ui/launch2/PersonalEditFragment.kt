@@ -183,7 +183,7 @@ class PersonalEditFragment : BaseFragment<FragmentPersonalEditBinding>(R.layout.
                 ivBg.bindImg(url = userInfo.bgUrl)
             else
                 ivBg.bindImg(resId = launch2Act.publicVM.personalBgRes.value)
-            ivAvatar.bindImg(url = userInfo.avatarUrl, roundingRadius = 5)
+            ivAvatar.bindImg(url = userInfo.avatarUrl, roundingRadius = 10)
             itemPersonalUserEdit.apply {
                 etName.setText(userInfo.name)
                 tvAccount.text = userInfo.account

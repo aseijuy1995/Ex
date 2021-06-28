@@ -4,6 +4,7 @@ import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import tw.north27.coachingapp.viewModel.AskViewModel
 import tw.north27.coachingapp.repository.*
 import tw.north27.coachingapp.viewModel.*
 
@@ -54,6 +55,8 @@ val viewModelModules = module {
     viewModel<SignOutViewModel> { SignOutViewModel(androidApplication(), get()) }
     viewModel<CoachingViewModel> { CoachingViewModel(androidApplication(), get()) }
     viewModel<PersonalViewModel> { PersonalViewModel(androidApplication(), get(), get()) }
+    //
+    viewModel<AskViewModel> { AskViewModel(get()) }
     //
     //
 

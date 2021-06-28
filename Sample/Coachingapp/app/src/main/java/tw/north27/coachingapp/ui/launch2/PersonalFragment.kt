@@ -212,7 +212,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                 ivAvatar.bindImg(
                     url = userInfo.avatarUrl,
                     placeRes = R.drawable.ic_baseline_account_box_24_gray,
-                    roundingRadius = 5
+                    roundingRadius = 10
                 )
                 tvGender.bindGender(userInfo)
                 tvName.text = userInfo.name

@@ -6,10 +6,7 @@ package tw.north27.coachingapp.consts
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
-import tw.north27.coachingapp.model.AppConfig
-import tw.north27.coachingapp.model.CommentInfo
-import tw.north27.coachingapp.model.SignIn
-import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.request.*
 import tw.north27.coachingapp.model.response.EducationResponse
 import tw.north27.coachingapp.model.response.PublicDataResponse
@@ -97,50 +94,20 @@ interface IApiService {
     @POST
     suspend fun fetchTeacherList(@Body teacherRequest: TeacherRequest): List<UserInfo>
 
+    //AskFragment
+    /**
+     * 獲取聊天列表
+     * @header accessToken
+     * @param
+     * */
+    @POST
+    suspend fun fetchAskList(): List<AskInfo>
+
     //
     //
     //
     //
     //
-    //
-//    /**
-//     * 取得教育列表（回傳全部）
-//     * */
-//    @GET
-//    suspend fun getEducationList(): List<Education>
-//
-//    /**
-//     * 取得年級列表 - 預設無參數（回傳全部）
-//     * @param educationId? >> 教育id
-//     * */
-//    @GET
-//    suspend fun getGradeList(
-//        @Query("education_id") educationId: Long? = null
-//    ): List<Grade>
-//
-//    /**
-//     * 取得科目列表 - 預設無參數（回傳全部）
-//     * @param educationId? >> 教育id
-//     * @param gradeId? >> 年級id
-//     * */
-//    @GET
-//    suspend fun getSubjectList(
-//        @Query("education_id") educationId: Long? = null,
-//        @Query("grade_id") gradeId: Long? = null
-//    ): List<Subject>
-//
-//    /**
-//     * 取得單元列表 - 預設無參數（回傳全部）
-//     * @param educationId? >> 教育id
-//     * @param gradeId? >> 年級id
-//     * @param subjectId? >> 科目id
-//     * */
-//    @GET
-//    suspend fun getUnitList(
-//        @Query("education_id") educationId: Long? = null,
-//        @Query("grade_id") gradeId: Long? = null,
-//        @Query("subject_id") subjectId: Long? = null
-//    ): List<tw.north27.coachingapp.model.response.Units>
 
 //    /**
 //     * 刷新token
@@ -178,39 +145,6 @@ interface IApiService {
 //    ): List<CommentInfo>
 
 //
-//    //
-//    //
-//    //
-//    //
-//    //
-//    //
-//    //
-//    //
-//
-//
-//    //////////////////////////////////////////////////////////////////////////////////////////////
-//    //////////////////////////////////////////////////////////////////////////////////////////////
-//    //////////////////////////////////////////////////////////////////////////////////////////////
-//
-//
-////    /**
-////     * 檢查登入 & 登入
-////     * */
-////    @FormUrlEncoded
-////    @POST("ct/api.php")
-////    suspend fun getVersion(
-////        @Field("cmd") cmd: String = "get_version_android",
-////    ): Response<AppResult>
-//
-//
-//    //Chat
-//    /**
-//     * 獲取聊天列表
-//     * @param
-//     * account
-//     * */
-//    @GET
-//    suspend fun getLoadChat(): List<ChatInfo>
 //
 //    /**
 //     * 聊天聲音開關

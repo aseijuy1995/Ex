@@ -3,6 +3,7 @@ package tw.north27.coachingapp.repository
 import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.http.safeApiResults
 import tw.north27.coachingapp.consts.IApiService
+import tw.north27.coachingapp.model.AskInfo
 import tw.north27.coachingapp.model.CommentInfo
 import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.model.request.CommentRequest
@@ -22,5 +23,9 @@ class ActionRepository(private val service: IApiService) : IActionRepository {
 
     override suspend fun insertReflect(reflectRequest: ReflectRequest): Results<ReflectResponse> {
         return safeApiResults { service.insertReflect(reflectRequest = reflectRequest) }
+    }
+
+    override suspend fun fetchAskList(): Results<List<AskInfo>> {
+        return safeApiResults { service.fetchAskList() }
     }
 }

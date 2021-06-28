@@ -114,26 +114,18 @@
     <string name="score">評分</string>
     <string name="reply_rate">回覆率</string>
     <string name="ready_to_ask">準備發問!</string>
-    <!--    -->
-    <!--    -->
+    <!-- AskFragment -->
+    <string name="ask_title">Q &amp; A</string>
 
 
     <!--    -->
-    <!--    -->
-
-
-    <!--  MainHomeFragment  -->
-
-
-
     <!--    -->
     <!--    -->
     <!--    -->
     <!--    -->
     <!-- Main -->
 
-    <!-- Chat -->
-    <string name="chat_list">聊天列表</string>
+
     <string name="search">搜尋</string>
     <string name="top">Top</string>
     <string name="all">全部</string>
