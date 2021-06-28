@@ -29,7 +29,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
     private val launch2Act: Launch2Activity
         get() = act as Launch2Activity
 
-    private lateinit var adapter :TeacherListAdapter
+    private lateinit var adapter: TeacherListAdapter
 
     private val viewModel by viewModel<CoachingViewModel>()
 
@@ -46,6 +46,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
         launch2Act.doubleClickToExit()
         adapter = TeacherListAdapter(launch2Act)
         binding.apply {
+            itemToolbarNormal.ivBack.isVisible = false
             itemToolbarNormal.ivFilter.isVisible = true
             itemToolbarNormal.tvTitle.text = getString(R.string.coaching)
             rvCoaching.adapter = adapter

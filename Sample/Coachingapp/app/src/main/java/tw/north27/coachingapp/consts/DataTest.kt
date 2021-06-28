@@ -259,8 +259,8 @@ var refreshTokenTest = "refreshTokenTest"
 var isFirstTest = true
 var pushTokenTest = "pushTokenTest"
 
-//val authorityTest = UserPref.Authority.STUDENT
-val authorityTest = UserPref.Authority.TEACHER
+val authorityTest = UserPref.Authority.STUDENT
+//val authorityTest = UserPref.Authority.TEACHER
 var bgUrlTest = "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
 var avatarUrlTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
 var nameTest = "北緯科技"

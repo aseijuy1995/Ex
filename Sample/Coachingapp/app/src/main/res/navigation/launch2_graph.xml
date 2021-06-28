@@ -5,6 +5,7 @@
     android:id="@+id/nav_graph_home"
     app:startDestination="@id/fragment_coaching">
 
+
     <fragment
         android:id="@+id/fragment_coaching"
         android:name="tw.north27.coachingapp.ui.launch2.CoachingFragment"
