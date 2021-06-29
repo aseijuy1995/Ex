@@ -4,25 +4,25 @@ import com.google.gson.annotations.SerializedName
 import java.util.*
 
 /**
- * 響應 - App基礎設定
- * @param appCode >> 狀態碼 運行中(1000)、維護中(1001)
- * @param runInfo >> 運行資訊
- * @param maintainInfo >> 維護資訊
+ * App基礎設定
+ * @param appCode >> App狀態碼 運行(2000)、阻擋(2001)
+ * @param motionInfo >> 運行資訊
+ * @param defendInfo >> 阻擋資訊
  * */
 data class AppConfig(
-    @SerializedName("app_code") val appCode: Int,//AppCode
-    @SerializedName("run_info") val runInfo: RunInfo? = null,
-    @SerializedName("maintain_info") val maintainInfo: MaintainInfo? = null,
+    @SerializedName("code") val appCode: Int,
+    @SerializedName("motion_info") val motionInfo: MotionInfo? = null,
+    @SerializedName("defend_info") val defendInfo: DefendInfo? = null,
 )
 
 /**
  * App狀態碼
- * @param RUN >> 運行中(1000)
- * @param MAINTAIN >> 維護中(1001)
+ * @param MOTION >> 運行(2000)
+ * @param DEFEND >> 阻擋(2001)
  * */
 enum class AppCode(val code: Int) {
-    RUN(1000),
-    MAINTAIN(1001);
+    MOTION(2000),
+    DEFEND(2001);
 }
 
 /**
@@ -33,7 +33,7 @@ enum class AppCode(val code: Int) {
  * @param size >> app大小
  * @param isCompulsory >> 是否強制更新
  * */
-data class RunInfo(
+data class MotionInfo(
     @SerializedName("version_name") val versionName: String,
     @SerializedName("google_play_url") val url: String,
     @SerializedName("content") val content: String? = null,
@@ -42,11 +42,13 @@ data class RunInfo(
 )
 
 /**
- * 維護資訊
- * @param content >> 維護內容
+ * 阻擋資訊
+ * @param title >> 阻擋標題
+ * @param content >> 阻擋內容
  * @param time >> 預計完成時間
  * */
-data class MaintainInfo(
+data class DefendInfo(
+    @SerializedName("title") val title: String? = null,
     @SerializedName("content") val content: String? = null,
     @SerializedName("time") val time: Date? = null
 )

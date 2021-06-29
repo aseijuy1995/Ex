@@ -14,7 +14,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.*
+import tw.north27.coachingapp.model.Gender
+import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.model.response.*
 import tw.north27.coachingapp.repository.IPublicRepository
 import tw.north27.coachingapp.repository.IUserRepository
@@ -36,6 +37,7 @@ class PublicViewModel(
             R.drawable.ic_launch_bg7,
             R.drawable.ic_launch_bg8,
             R.drawable.ic_launch_bg9,
+            R.drawable.ic_launch_bg10,
         )
         MutableLiveData<Int>(list[list.indices.random()])
     }

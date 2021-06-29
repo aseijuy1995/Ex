@@ -6,11 +6,13 @@ import com.google.gson.reflect.TypeToken
 import com.yujie.utilmodule.util.logD
 import kotlinx.coroutines.delay
 import retrofit2.http.Body
+import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.request.*
 import tw.north27.coachingapp.model.response.EducationResponse
 import tw.north27.coachingapp.model.response.PublicDataResponse
 import tw.north27.coachingapp.model.response.ReflectResponse
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ApiService(val cxt: Context) : IApiService {
@@ -27,33 +29,34 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun fetchAppConfig(): AppConfig {
         delay(1500)
-        return AppConfig(
-            appCode = AppCode.RUN.code,
-            runInfo = RunInfo(
-                versionName = "1.0.0",
-                url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
-                content = "1. 資料顯示錯誤\n" +
-                        "2. 通知推送不即時\n" +
-                        "3. 部分機型閃退\n" +
-                        "4. 更新通知描述1\n" +
-                        "5. 更新通知描述2\n" +
-                        "5. 更新通知描述3",
-                size = "5.7M",
-                isCompulsory = false
-            )
-        )
 //        return AppConfig(
-//            appCode = AppCode.MAINTAIN.code,
-//            maintainInfo = MaintainInfo(
-//                content = "1. 伺服器遭受攻擊。\n" +
-//                        "2. 增加監控、效能分析、執行網路維護。\n" +
-//                        "3. 描述統一規範化。\n" +
-//                        "4. 維護通知描述1\n" +
-//                        "5. 維護通知描述2\n" +
-//                        "6. 維護通知描述3",
-//                time = SimpleDateFormat("yyyy-MM-dd HH:mm").parse("2018-12-21 13:00"),
+//            appCode = AppCode.MOTION.code,
+//            motionInfo = MotionInfo(
+//                versionName = "1.0.0",
+//                url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
+//                content = "1. 資料顯示錯誤\n" +
+//                        "2. 通知推送不即時\n" +
+//                        "3. 部分機型閃退\n" +
+//                        "4. 更新通知描述1\n" +
+//                        "5. 更新通知描述2\n" +
+//                        "5. 更新通知描述3",
+//                size = "5.7M",
+//                isCompulsory = false
 //            )
 //        )
+        return AppConfig(
+            appCode = AppCode.DEFEND.code,
+            defendInfo = DefendInfo(
+                title = cxt.getString(R.string.defend_title),
+                content = "1. 伺服器遭受攻擊。\n" +
+                        "2. 增加監控、效能分析、執行網路維護。\n" +
+                        "3. 描述統一規範化。\n" +
+                        "4. 維護通知描述1\n" +
+                        "5. 維護通知描述2\n" +
+                        "6. 維護通知描述3",
+                time = SimpleDateFormat("yyyy/MM/dd HH:mm").parse("2018/12/21 13:00"),
+            )
+        )
     }
 
     override suspend fun checkSignIn(): SignIn {

@@ -31,6 +31,7 @@ class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaun
         publicVM.launchBgRes.observe(this) {
             binding.ivBg.bindImg(
                 resId = it,
+                placeRes = it,
                 blurRadius = 10,
                 blurSampling = 3
             )

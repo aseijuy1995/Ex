@@ -37,8 +37,8 @@ class UpdateDialogFragment : BaseDialogFragment<FragmentUpdateDialogBinding>(R.l
                 is ViewState.Data -> {
                     val appConfig = it.data
                     when (appConfig.appCode) {
-                        AppCode.RUN.code -> {
-                            val updateInfo = appConfig.runInfo!!
+                        AppCode.MOTION.code -> {
+                            val updateInfo = appConfig.motionInfo!!
                             binding.tvSize.isVisible = (updateInfo.size != null) && updateInfo.size.isNotEmpty()
                             binding.tvContent.isVisible = (updateInfo.content != null) && updateInfo.content.isNotEmpty()
                             binding.llcClose.isVisible = !updateInfo.isCompulsory

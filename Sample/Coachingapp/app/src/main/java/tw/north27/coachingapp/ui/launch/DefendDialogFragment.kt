@@ -2,21 +2,19 @@ package tw.north27.coachingapp.ui.launch
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import com.yujie.utilmodule.base.BaseDialogFragment
-import com.yujie.utilmodule.ext.clicksObserve
 import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.databinding.FragmentMaintainDialogBinding
+import tw.north27.coachingapp.databinding.FragmentDefendDialogBinding
 import tw.north27.coachingapp.model.AppCode
 import tw.north27.coachingapp.viewModel.StartViewModel
 import java.text.SimpleDateFormat
 
-class MaintainDialogFragment : BaseDialogFragment<FragmentMaintainDialogBinding>(R.layout.fragment_maintain_dialog) {
+class DefendDialogFragment : BaseDialogFragment<FragmentDefendDialogBinding>(R.layout.fragment_defend_dialog) {
 
-    override val viewBind: (View) -> FragmentMaintainDialogBinding
-        get() = FragmentMaintainDialogBinding::bind
+    override val viewBind: (View) -> FragmentDefendDialogBinding
+        get() = FragmentDefendDialogBinding::bind
 
     private val viewModel by sharedViewModel<StartViewModel>()
 
@@ -26,19 +24,22 @@ class MaintainDialogFragment : BaseDialogFragment<FragmentMaintainDialogBinding>
             if (it is ViewState.Data) {
                 val appConfig = it.data
                 when (appConfig.appCode) {
-                    AppCode.MAINTAIN.code -> {
-                        val maintainInfo = appConfig.maintainInfo!!
-                        binding.tvTime.isVisible = (maintainInfo.time != null)
-                        binding.tvContent.isVisible = (maintainInfo.content != null) && maintainInfo.content.isNotEmpty()
+                    AppCode.DEFEND.code -> {
+                        val defendInfo = appConfig.defendInfo!!
+                        if (defendInfo.title != null && defendInfo.title.isNotEmpty() && defendInfo.title.isNotBlank())
+                            binding.title.text = defendInfo.title
+
+                        binding.tvTime.isVisible = (defendInfo.time != null)
+                        binding.tvContent.isVisible = (defendInfo.content != null) && defendInfo.content.isNotEmpty()
                         binding.apply {
                             tvTime.text = String.format(
                                 "%s\n%s", getString(R.string.expected_complete_time), try {
-                                    SimpleDateFormat("yyyy-MM-dd HH:mm").format(maintainInfo.time)
+                                    SimpleDateFormat("yyyy-MM-dd HH:mm").format(defendInfo.time)
                                 } catch (e: Exception) {
                                     ""
                                 }
                             )
-                            tvContent.text = maintainInfo.content
+                            tvContent.text = defendInfo.content
                         }
                     }
                 }

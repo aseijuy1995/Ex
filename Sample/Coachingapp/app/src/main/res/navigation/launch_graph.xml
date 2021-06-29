@@ -39,9 +39,9 @@
 
     <dialog
         android:id="@+id/fragment_maintain_dialog"
-        android:name="tw.north27.coachingapp.ui.launch.MaintainDialogFragment"
+        android:name="tw.north27.coachingapp.ui.launch.DefendDialogFragment"
         android:label="fragment_maintain_dialog"
-        tools:layout="@layout/fragment_maintain_dialog" />
+        tools:layout="@layout/fragment_defend_dialog" />
 
     <dialog
         android:id="@+id/fragment_update_dialog"

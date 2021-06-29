@@ -16,7 +16,8 @@
     <string name="n">N</string>
     <string name="g">G</string>
     <!--  MaintainFragment  -->
-    <string name="maintain_title">維護通知</string>
+    <string name="defend_title">維護提醒</string>
+
     <string name="expected_complete_time">預計完成時間</string>
     <string name="close">關閉</string>
     <!--  UpdateDialogFragment  -->

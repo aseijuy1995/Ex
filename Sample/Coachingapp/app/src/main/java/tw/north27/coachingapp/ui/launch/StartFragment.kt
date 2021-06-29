@@ -41,15 +41,17 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                 is ViewState.Data -> {
                     val appConfig = it.data
                     when (appConfig.appCode) {
-                        AppCode.MAINTAIN.code -> {
+                        AppCode.DEFEND.code -> {
                             findNavController().navigate(StartFragmentDirections.actionFragmentStartToFragmentMaintainDialog())
                         }
-                        AppCode.RUN.code -> {
-                            val updateInfo = appConfig.runInfo!!
+                        AppCode.MOTION.code -> {
+                            val updateInfo = appConfig.motionInfo!!
                             act.updateApp(updateInfo.versionName).builder {
                                 versionNameMode = UpdateApp.VersionNameMode.DEFAULT
                             }.execute(
-                                newVersion = { _, _ -> findNavController().navigate(StartFragmentDirections.actionFragmentStartToFragmentUpdateDialog()) },
+                                newVersion = { _, _ ->
+                                    findNavController().navigate(StartFragmentDirections.actionFragmentStartToFragmentUpdateDialog())
+                                },
                                 noNewVersion = { checkGoogleServiceAndSignIn() }
                             )
                         }
