@@ -1,5 +1,6 @@
 package tw.north27.coachingapp.ui.launch
 
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -15,6 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ActivityLaunchBinding
 import tw.north27.coachingapp.viewModel.PublicViewModel
+
 
 class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaunchBinding::inflate) {
 
@@ -54,15 +56,38 @@ class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaun
             controller?.isAppearanceLightStatusBars = false
             controller?.isAppearanceLightNavigationBars = false
         } else {
-            window.decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_IMMERSIVE or
-                        View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or
-                        View.SYSTEM_UI_FLAG_FULLSCREEN or
-                        View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or
-                        View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION or
-                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-                        View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+//            window.apply {
+//                addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+//                addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+////                clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+//                statusBarColor = Color.TRANSPARENT
+////                setStatusBarColor()
+//                navigationBarColor = Color.TRANSPARENT
+//            }
 
+            window.apply {
+                decorView.systemUiVisibility =
+//                    View.SYSTEM_UI_FLAG_FULLSCREEN or //隱藏狀態欄
+                    View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or  //隱藏導航欄
+                            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or //粘性沉浸模式
+
+//                    View.SYSTEM_UI_FLAG_LOW_PROFILE or
+                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or //內容顯示在狀態欄後面
+                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION //內容顯示在導航欄後面
+
+
+                statusBarColor = Color.TRANSPARENT
+                navigationBarColor = Color.TRANSPARENT
+                //
+                //                addFlags(WindowCompat.FEATURE_ACTION_BAR_OVERLAY)
+//                addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+//                clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+//                clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+//                clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+
+
+            }
         }
     }
 }

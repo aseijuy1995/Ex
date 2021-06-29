@@ -2,7 +2,9 @@ package tw.north27.coachingapp.ui.launch
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import com.yujie.utilmodule.base.BaseDialogFragment
+import com.yujie.utilmodule.ext.clicksObserve
 import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
@@ -27,7 +29,7 @@ class DefendDialogFragment : BaseDialogFragment<FragmentDefendDialogBinding>(R.l
                     AppCode.DEFEND.code -> {
                         val defendInfo = appConfig.defendInfo!!
                         if (defendInfo.title != null && defendInfo.title.isNotEmpty() && defendInfo.title.isNotBlank())
-                            binding.title.text = defendInfo.title
+                            binding.tvTitle.text = defendInfo.title
 
                         binding.tvTime.isVisible = (defendInfo.time != null)
                         binding.tvContent.isVisible = (defendInfo.content != null) && defendInfo.content.isNotEmpty()

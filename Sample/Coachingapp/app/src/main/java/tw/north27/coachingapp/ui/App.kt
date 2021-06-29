@@ -55,4 +55,12 @@ class App : BaseApplication() {
 //            .enqueue()
 //    }
 
+    override fun onTrimMemory(level: Int) {
+        super.onTrimMemory(level)
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+    }
+
 }
