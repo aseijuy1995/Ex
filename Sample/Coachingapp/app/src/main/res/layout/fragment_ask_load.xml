@@ -4,23 +4,31 @@
     android:layout_height="match_parent"
     android:backgroundTint="@color/white">
 
-    <ScrollView
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+        <include layout="@layout/item_ask_shimmer" />
 
-            <include
-                layout="@layout/item_coaching_shimmer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+        <include layout="@layout/item_ask_shimmer" />
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        <include layout="@layout/item_ask_shimmer" />
 
-    </ScrollView>
+        <include layout="@layout/item_ask_shimmer" />
+
+        <include layout="@layout/item_ask_shimmer" />
+
+        <include layout="@layout/item_ask_shimmer" />
+
+        <include layout="@layout/item_ask_shimmer" />
+
+        <include layout="@layout/item_ask_shimmer" />
+
+        <include layout="@layout/item_ask_shimmer" />
+
+        <include layout="@layout/item_ask_shimmer" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </com.facebook.shimmer.ShimmerFrameLayout>

@@ -17,7 +17,7 @@ import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import tw.north27.coachingapp.NavGraphDirections
+import tw.north27.coachingapp.NavGraphLaunchDirections
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentStartBinding
 import tw.north27.coachingapp.ext.updateApp
@@ -62,7 +62,7 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
             binding.svkView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
             when (it) {
                 is ViewState.Empty -> {
-                    findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())
+                    findNavController().navigate(NavGraphLaunchDirections.actionToFragmentSignIn())
                 }
                 is ViewState.Data -> {
                     val signIn = it.data
@@ -75,7 +75,7 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                                 act.finish()
                             }
                             SignInCode.SIGN_IN_FAIL.code -> {
-                                findNavController().navigate(NavGraphDirections.actionToFragmentSignIn())
+                                findNavController().navigate(NavGraphLaunchDirections.actionToFragmentSignIn())
                             }
                         }
 

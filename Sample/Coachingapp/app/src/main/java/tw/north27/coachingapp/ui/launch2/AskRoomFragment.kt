@@ -1,54 +1,32 @@
-//package tw.north27.coachingapp.ui2.fragment.main
-//
-//import android.os.Bundle
-//import android.text.TextUtils
-//import android.view.View
-//import androidx.fragment.app.setFragmentResultListener
-//import androidx.recyclerview.widget.RecyclerView
-//import com.bumptech.glide.Glide
-//import com.hw.videoprocessor.VideoProcessor
-//import com.hw.videoprocessor.util.VideoProgressListener
-//import com.yujie.basemodule.viewBinding
-//import com.yujie.prefmodule.protobuf.UserPref
-//import com.yujie.utilmodule.ViewState
-//import com.yujie.utilmodule.ext.observe
-//import kotlinx.coroutines.Dispatchers
-//import kotlinx.coroutines.delay
-//import org.koin.androidx.viewmodel.ext.android.viewModel
-//import timber.log.Timber
-//import tw.north27.coachingapp.R
-//import tw.north27.coachingapp.chat.*
-//import tw.north27.coachingapp.databinding.FragmentChatRoomBinding
-//import tw.north27.coachingapp.ext2.getDateTime
-//import tw.north27.coachingapp.media.mediaStore.Media
-//import tw.north27.coachingapp.media.mediaStore.MimeType
-//import tw.north27.coachingapp.model.UserInfo
-//import tw.north27.coachingapp.model.result.*
-//import tw.north27.coachingapp.util2.SnackbarUtil
-//import java.io.File
-//import java.util.*
-//
-//class ChatRoomFragment : BaseFragment(R.layout.fragment_chat_room) {
-//
-//    private val binding by viewBinding<FragmentChatRoomBinding>(FragmentChatRoomBinding::bind)
-//
+package tw.north27.coachingapp.ui2.fragment.main
+
+import android.view.View
+import com.yujie.utilmodule.base.BaseFragment
+import tw.north27.coachingapp.R
+import tw.north27.coachingapp.databinding.FragmentAskRoomBinding
+
+class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_ask_room) {
+
+    override val viewBind: (View) -> FragmentAskRoomBinding
+        get() = FragmentAskRoomBinding::bind
+
 //    private val viewModel by viewModel<ChatRoomViewModel>()
 //
 //    private lateinit var adapter: ChatRoomListAdapter
 //
 //    private val chat: ChatInfo
 //        get() = arguments?.getParcelable<ChatInfo>("chat")!!
-//
+
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        super.onViewCreated(view, savedInstanceState)
 //        binding.apply {
 //            lifecycleOwner = viewLifecycleOwner
-//            viewModel = this@ChatRoomFragment.viewModel
+//            viewModel = this@AskRoomFragment.viewModel
 //        }
 //        viewModel.setChatRoomChat(chat)
 //        adapter = ChatRoomListAdapter(cxt, viewLifecycleOwner)
 //        binding.rvChat.apply {
-//            adapter = this@ChatRoomFragment.adapter
+//            adapter = this@AskRoomFragment.adapter
 //            scrollStateChanges().observe(viewLifecycleOwner) {
 //                when (it) {
 //                    RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this).resumeRequests()
@@ -321,5 +299,5 @@
 //
 //        }
 //    }
-//
-//}
+
+}

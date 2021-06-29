@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="ask"
+            name="askInfo"
             type="tw.north27.coachingapp.model.AskInfo" />
     </data>
 
@@ -18,39 +19,27 @@
 
         <include
             android:id="@+id/item_ask_swipe"
-            layout="@layout/item_ask_swipe" />
+            layout="@layout/item_ask_swipe"
+            bind:askInfo="@{askInfo}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="wrap_content"
             android:background="@color/white">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_avatar"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_margin="10dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:scaleType="centerCrop"
+                android:src="@drawable/ic_baseline_account_box_24_gray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="H,1:1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_alert"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:background="@drawable/ic_baseline_chat_bubble_24_green"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/iv_avatar"
-                app:layout_constraintEnd_toEndOf="@id/iv_avatar"
-                app:layout_constraintStart_toEndOf="@id/iv_avatar"
-                app:layout_constraintTop_toTopOf="@id/iv_avatar" />
-            <!--            android:visibility="gone"-->
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_name"
@@ -59,6 +48,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/black"
@@ -73,16 +63,18 @@
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 app:layout_constraintBottom_toBottomOf="@id/tv_name"
-                app:layout_constraintEnd_toEndOf="@id/tv_time"
+                app:layout_constraintEnd_toStartOf="@id/tv_time"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@id/tv_name"
-                app:layout_constraintTop_toTopOf="@+id/tv_name" />
+                app:layout_constraintTop_toTopOf="@id/tv_name" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="10dp"
                 android:maxLines="1"
                 android:textColor="@color/gray_aaaaaa"
                 android:textSize="10sp"
@@ -102,10 +94,25 @@
                 android:textColor="@color/gray_666666"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tv_badge"
                 app:layout_constraintStart_toEndOf="@id/iv_avatar"
                 app:layout_constraintTop_toBottomOf="@id/tv_name"
                 app:layout_constraintVertical_chainStyle="packed" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_badge"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_baseline_circle_24_green"
+                android:gravity="center"
+                android:maxLength="3"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

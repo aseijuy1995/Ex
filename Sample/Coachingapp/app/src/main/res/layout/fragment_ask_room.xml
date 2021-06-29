@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_chat_room"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/yellow_fef5e0">
+
+    <include
+        android:id="@+id/item_toolbar_normal"
+        layout="@layout/toolbar_normal" />
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/item_ask_room_enter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_toolbar_normal">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_ask"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <include
+            android:id="@+id/item_empty"
+            layout="@layout/item_empty" />
+
+        <include
+            android:id="@+id/item_error"
+            layout="@layout/item_error" />
+
+        <include
+            android:id="@+id/item_network"
+            layout="@layout/item_network" />
+
+    </FrameLayout>
+
+    <include
+        android:id="@+id/item_ask_room_enter"
+        layout="@layout/item_ask_room_enter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

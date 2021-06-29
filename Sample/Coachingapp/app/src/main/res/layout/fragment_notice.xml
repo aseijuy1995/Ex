@@ -34,7 +34,7 @@
             android:background="@color/gray_eeeeee">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_ask"
+                android:id="@+id/rv_notice"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"

@@ -52,8 +52,8 @@
                 layout="@layout/item_network" />
 
             <include
-                android:id="@+id/item_coaching_load"
-                layout="@layout/fragment_coaching_load" />
+                android:id="@+id/item_ask_load"
+                layout="@layout/fragment_ask_load" />
 
         </FrameLayout>
 

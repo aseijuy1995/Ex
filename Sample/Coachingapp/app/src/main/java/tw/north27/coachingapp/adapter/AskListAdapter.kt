@@ -3,10 +3,15 @@ package tw.north27.coachingapp.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.daimajia.swipe.SwipeLayout
 import com.jakewharton.rxrelay3.PublishRelay
+import com.yujie.utilmodule.adapter.bindImg
+import tw.north27.coachingapp.R
+import tw.north27.coachingapp.consts.dateToString
 import tw.north27.coachingapp.databinding.ItemAskBinding
 import tw.north27.coachingapp.model.AskInfo
 
@@ -24,20 +29,31 @@ class AskListAdapter : ListAdapter<AskInfo, AskListAdapter.VH>(object : DiffUtil
 
     val soundClickRelay = PublishRelay.create<Pair<View, AskInfo>>()
 
-    val deleteClickRelay = PublishRelay.create<Pair<View, AskInfo>>()
+    val delClickRelay = PublishRelay.create<Pair<View, AskInfo>>()
 
     val itemClickRelay = PublishRelay.create<Pair<View, AskInfo>>()
 
     inner class VH(val binding: ItemAskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(askInfo: AskInfo) = binding.apply {
-//            this.chat = askInfo
-//            itemChatListSwipe.flSound.setOnClickListener { soundClickRelay.accept(it to askInfo) }
-//            itemChatListSwipe.flDelete.setOnClickListener { deleteClickRelay.accept(it to askInfo) }
-//            itemView.setOnClickListener {
-//                if (swipeLayout.openStatus == SwipeLayout.Status.Open) swipeLayout.close()
-//                else if (swipeLayout.openStatus == SwipeLayout.Status.Middle)
-//                else itemClickRelay.accept(it to askInfo)
-//            }
+            this.askInfo = askInfo
+            ivAvatar.bindImg(url = askInfo.userInfo.avatarUrl, roundingRadius = 30)
+            tvName.text = askInfo.userInfo.name
+            ivNotice.bindImg(resId = if (askInfo.isSound) R.drawable.ic_baseline_volume_up_24_blue else R.drawable.ic_baseline_volume_off_24_red)
+            tvTime.text = dateToString(askInfo.sendTime)
+            tvMsg.text = askInfo.msg
+            tvBadge.apply {
+                isVisible = !askInfo.isRead
+                text = if (askInfo.unReadCount < 100) askInfo.unReadCount.toString() else "99+"
+            }
+            itemAskSwipe.apply {
+                ivSound.setOnClickListener { soundClickRelay.accept(it to askInfo) }
+                ivDel.setOnClickListener { delClickRelay.accept(it to askInfo) }
+            }
+            itemView.setOnClickListener {
+                if (slLayout.openStatus == SwipeLayout.Status.Open) slLayout.close()
+                else if (slLayout.openStatus == SwipeLayout.Status.Middle) null
+                else itemClickRelay.accept(it to askInfo)
+            }
             executePendingBindings()
         }
     }

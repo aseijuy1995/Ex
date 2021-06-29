@@ -98,7 +98,6 @@ interface IApiService {
     /**
      * 獲取聊天列表
      * @header accessToken
-     * @param
      * */
     @POST
     suspend fun fetchAskList(): List<AskInfo>

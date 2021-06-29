@@ -1,54 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
-            name="ask"
+            name="askInfo"
             type="tw.north27.coachingapp.model.AskInfo" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="80dp"
         android:orientation="horizontal">
 
-        <FrameLayout
-            android:id="@+id/fl_sound"
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:background="@color/blue_293c4f"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:background="@color/blue_082e81"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="5dp">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center" />
-            <!--            bind:chatListSoundImage="@{!chat.isSound}"-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/blue_082e81"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-        </FrameLayout>
+                <include
+                    android:id="@+id/item_education_label"
+                    layout="@layout/item_label"
+                    bind:text='@{"國小"}' />
 
-        <FrameLayout
-            android:id="@+id/fl_delete"
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:background="@color/red_e94339"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+                <include
+                    android:id="@+id/item_grade_label"
+                    layout="@layout/item_label"
+                    bind:text='@{"一年級"}' />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_baseline_delete_24_white" />
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/blue_082e81"
+                android:gravity="center"
+                android:orientation="horizontal">
 
-        </FrameLayout>
+                <include
+                    android:id="@+id/item_subject_label"
+                    layout="@layout/item_label"
+                    bind:text='@{"國文"}' />
+
+                <include
+                    android:id="@+id/item_unit_label"
+                    layout="@layout/item_label"
+                    bind:text='@{"手牽手"}' />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_sound"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:background="@color/blue_02abe2"
+            android:padding="26dp"
+            android:src="@drawable/ic_baseline_delete_24_white" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_del"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:background="@color/red_e50014"
+            android:padding="26dp"
+            android:src="@drawable/ic_baseline_delete_24_white" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
+
 </layout>
