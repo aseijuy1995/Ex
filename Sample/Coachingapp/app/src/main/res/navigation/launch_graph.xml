@@ -27,28 +27,33 @@
         android:label="fragment_start"
         tools:layout="@layout/fragment_start">
 
-        <action
-            android:id="@+id/action_fragment_start_to_fragment_maintain_dialog"
-            app:destination="@id/fragment_maintain_dialog" />
-
-        <action
-            android:id="@+id/action_fragment_start_to_fragment_update_dialog"
-            app:destination="@id/fragment_update_dialog" />
 
     </fragment>
 
+
+    <!--  DefendDialogFragment  -->
     <dialog
-        android:id="@+id/fragment_maintain_dialog"
+        android:id="@+id/fragment_defend_dialog"
         android:name="tw.north27.coachingapp.ui.launch.DefendDialogFragment"
-        android:label="fragment_maintain_dialog"
+        android:label="fragment_defend_dialog"
         tools:layout="@layout/fragment_defend_dialog" />
 
+    <action
+        android:id="@+id/action_to_fragment_defend_dialog"
+        app:destination="@id/fragment_defend_dialog" />
+
+    <!--  UpdateDialogFragment  -->
     <dialog
         android:id="@+id/fragment_update_dialog"
         android:name="tw.north27.coachingapp.ui.launch.UpdateDialogFragment"
         android:label="fragment_update_dialog"
         tools:layout="@layout/fragment_update_dialog" />
 
+    <action
+        android:id="@+id/action_to_fragment_update_dialog"
+        app:destination="@id/fragment_update_dialog" />
+
+    <!--  SignInFragment  -->
     <fragment
         android:id="@+id/fragment_sign_in"
         android:name="tw.north27.coachingapp.ui.launch.SignInFragment"

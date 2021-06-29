@@ -43,12 +43,14 @@ data class MotionInfo(
 
 /**
  * 阻擋資訊
+ * @param bgUrl >> 背景圖
  * @param title >> 阻擋標題
  * @param content >> 阻擋內容
  * @param time >> 預計完成時間
  * */
 data class DefendInfo(
-    @SerializedName("title") val title: String? = null,
-    @SerializedName("content") val content: String? = null,
+    @SerializedName("bg_url") val bgUrl: String = "",
+    @SerializedName("title") val title: String = "",
+    @SerializedName("content") val content: String = "",
     @SerializedName("time") val time: Date? = null
 )

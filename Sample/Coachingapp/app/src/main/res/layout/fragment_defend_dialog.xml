@@ -28,13 +28,21 @@
                 android:id="@+id/iv_bg"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@drawable/ic_defend_bg"
                 android:scaleType="centerCrop"
-                android:src="@drawable/shape_gradient_angle_270_color_tran_gray"
+                android:src="@drawable/ic_defend_bg"
                 app:layout_constraintDimensionRatio="H,16:9"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:src="@drawable/shape_gradient_angle_270_color_tran_gray"
+                app:layout_constraintBottom_toBottomOf="@id/iv_bg"
+                app:layout_constraintEnd_toEndOf="@id/iv_bg"
+                app:layout_constraintStart_toStartOf="@id/iv_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_bg" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"

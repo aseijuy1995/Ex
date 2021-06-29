@@ -3,6 +3,7 @@ package tw.north27.coachingapp.ui.launch
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseDialogFragment
 import com.yujie.utilmodule.ext.clicksObserve
 import com.yujie.utilmodule.util.ViewState
@@ -28,20 +29,20 @@ class DefendDialogFragment : BaseDialogFragment<FragmentDefendDialogBinding>(R.l
                 when (appConfig.appCode) {
                     AppCode.DEFEND.code -> {
                         val defendInfo = appConfig.defendInfo!!
-                        if (defendInfo.title != null && defendInfo.title.isNotEmpty() && defendInfo.title.isNotBlank())
-                            binding.tvTitle.text = defendInfo.title
-
-                        binding.tvTime.isVisible = (defendInfo.time != null)
-                        binding.tvContent.isVisible = (defendInfo.content != null) && defendInfo.content.isNotEmpty()
+                        if (defendInfo.bgUrl.isNotEmpty()) binding.ivBg.bindImg(url = defendInfo.bgUrl)
+                        if (defendInfo.title.isNotEmpty()) binding.tvTitle.text = defendInfo.title
                         binding.apply {
-                            tvTime.text = String.format(
-                                "%s\n%s", getString(R.string.expected_complete_time), try {
-                                    SimpleDateFormat("yyyy-MM-dd HH:mm").format(defendInfo.time)
-                                } catch (e: Exception) {
-                                    ""
+                            tvTime.apply {
+                                isVisible = (defendInfo.time != null)
+                                defendInfo.time?.let {
+                                    //FIXME 時間格式統一修改
+                                    text = SimpleDateFormat("yyyy/MM/dd HH:mm").format(defendInfo.time)
                                 }
-                            )
-                            tvContent.text = defendInfo.content
+                            }
+                            tvContent.apply {
+                                isVisible = defendInfo.content.isNotEmpty()
+                                text = defendInfo.content
+                            }
                         }
                     }
                 }
