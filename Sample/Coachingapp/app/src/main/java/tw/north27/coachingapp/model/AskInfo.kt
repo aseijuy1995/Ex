@@ -22,26 +22,22 @@ import java.util.*
  * */
 @Parcelize
 data class AskInfo(
-    @SerializedName("id") val id: Long,
-    //
+    @SerializedName("id") var id: Long,
 //    @SerializedName("is_self_send") var isSelfSend: Boolean,
 //    @SerializedName("sender") var sender: UserInfo,
 //    @SerializedName("receiver") var receiver: UserInfo,
     @SerializedName("user_info") var userInfo: UserInfo,
-    //
     @SerializedName("ask_type") var askType: AskType,
-    @SerializedName("text") val text: String? = null,
-    @SerializedName("img_list") val imgList: List<AskImage> = emptyList(),
-    @SerializedName("audio_list") val audioList: List<AskAudio> = emptyList(),
-    @SerializedName("video_list") val videoList: List<AskVideo> = emptyList(),
-    //
+    @SerializedName("text") var text: String? = null,
+    @SerializedName("img_list") var imgList: List<AskImage> = emptyList(),
+    @SerializedName("audio_list") var audioList: List<AskAudio> = emptyList(),
+    @SerializedName("video_list") var videoList: List<AskVideo> = emptyList(),
     @SerializedName("is_sound") var isSound: Boolean,
     @SerializedName("is_read") var isRead: Boolean,
     @SerializedName("un_read_count") var unReadCount: Int,
-    @SerializedName("send_time") val sendTime: Date,
+    @SerializedName("send_time") var sendTime: Date,
     @SerializedName("unit_id") var unitId: Long,
-
-    @SerializedName("msg") val msg: String,
+    @SerializedName("msg") var msg: String,
 ) : Parcelable {
 //    //處理後的時間格是
 //    val sendDateTimeFormat: String

@@ -1054,7 +1054,7 @@ val teacherInfoListTest = listOf<UserInfo>(
     )
 )
 
-val askListTest = listOf(
+val askListTest = mutableListOf(
     AskInfo(
         id = 0,
         userInfo = teacherInfoListTest[0],
@@ -1062,10 +1062,10 @@ val askListTest = listOf(
         text = "下列「」內的字，讀音前後相同的是：\n" +
                 "(A)「賚」賞諸徒/「齎」志以歿(B)「阡」陌交通/惹禍招「愆」\n" +
                 "(C)「餔」糟歠釃/「仆」地哭號(D)「矜」寡孤獨/罪無可「逭」",
-        unitId = 123,
         isSound = true,
         isRead = false,
         unReadCount = 2,
+        unitId = 123,
         sendTime = stringToDateTime("2021/06/30 17:30:21"),
         msg = "下列「」內的字，讀音前後相同的是：" +
                 "(A)「賚」賞諸徒/「齎」志以歿(B)「阡」陌交通/惹禍招「愆」\n" +
@@ -1080,11 +1080,11 @@ val askListTest = listOf(
                 "(B)這齣動畫電影劇情緊湊，妙趣恆生，締造本年度最高的票房紀錄\n" +
                 "(C)李老師為學校架設的圖書網站正式起用，校方特頒獎狀以致謝忱\n" +
                 "(D)大家對聚餐地點莫衷一是，經投票後，決定到牛排餐廳大塊朵頤\n",
-        unitId = 116,
         isSound = true,
         isRead = true,
         unReadCount = 0,
         sendTime = stringToDateTime("2021/06/29 20:18:31"),
+        unitId = 116,
         msg = "下列文句，完全沒有錯別字的是：" +
                 "(A)集中營裡的迫害手段聳人聽聞，諸多相關照片更是令人不忍卒睹" +
                 "(B)這齣動畫電影劇情緊湊，妙趣恆生，締造本年度最高的票房紀錄" +

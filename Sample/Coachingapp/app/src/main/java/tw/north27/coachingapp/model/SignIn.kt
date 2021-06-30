@@ -10,33 +10,33 @@ import java.util.*
 /**
  * 可用於登入&登出
  * 登入:
- *  成功回傳signCode = 1000, signInInfo
- *  失敗回傳signCode = 1001, signInInfo
+ *  成功回傳signCode = 2000, signInInfo
+ *  失敗回傳signCode = 2001, signInInfo
  * 登出:
- *  成功回傳signState = 1002, signOutInfo
- *  失敗回傳signState = 1003, signOutInfo
+ *  成功回傳signState = 2002, signOutInfo
+ *  失敗回傳signState = 2003, signOutInfo
  * @param signInCode >> 登入狀態碼
  * @param signInInfo >> 登入資訊
  * @param signOutInfo >> 登出資訊
  * */
 data class SignIn(
-    @SerializedName("sign_in_code") val signInCode: Int,
+    @SerializedName("code") val signInCode: Int,
     @SerializedName("sign_in_info") val signInInfo: SignInInfo? = null,
     @SerializedName("sign_out_info") val signOutInfo: SignOutInfo? = null,
 )
 
 /**
- * 登出入狀態碼
- * @param SIGN_IN_SUCCESS >> 登入成功(1000)
- * @param SIGN_IN_FAILED >> 登入失敗(1001)
- * @param SIGN_OUT_SUCCESS >> 登出成功(1002)
- * @param SIGN_OUT_FAILED >> 登出失敗(1003)
+ * 登入、登出狀態碼
+ * @param SIGN_IN_SUCCESS >> 登入成功(2000)
+ * @param SIGN_IN_FAILED >> 登入失敗(2001)
+ * @param SIGN_OUT_SUCCESS >> 登出成功(2002)
+ * @param SIGN_OUT_FAILED >> 登出失敗(2003)
  * */
 enum class SignInCode(val code: Int) {
-    SIGN_IN_SUC(1000),
-    SIGN_IN_FAIL(1001),
-    SIGN_OUT_SUCCESS(1002),
-    SIGN_OUT_FAILED(1003),
+    SIGN_IN_SUC(2000),
+    SIGN_IN_FAIL(2001),
+    SIGN_OUT_SUCCESS(2002),
+    SIGN_OUT_FAILED(2003),
 }
 
 /**
@@ -47,24 +47,24 @@ enum class SignInCode(val code: Int) {
  * @param refreshToken >> 刷新用token
  * @param isFirst >> 是否第一次登入
  * @param pushToken >> 推撥token
- * @param msg >> 登入成功or失敗訊息
+ * @param msg >> 登入成功 / 失敗訊息
  * */
 data class SignInInfo(
     @SerializedName("user_info") val userInfo: UserInfo? = null,
-    @SerializedName("expire_time") val expireTime: Long? = null,
-    @SerializedName("access_token") val accessToken: String? = null,
-    @SerializedName("refresh_token") val refreshToken: String? = null,
-    @SerializedName("is_first") val isFirst: Boolean? = null,
-    @SerializedName("push_token") val pushToken: String? = null,
-    @SerializedName("msg") val msg: String? = null,
+    @SerializedName("expire_time") val expireTime: Long = 0L,
+    @SerializedName("access_token") val accessToken: String = "",
+    @SerializedName("refresh_token") val refreshToken: String = "",
+    @SerializedName("is_first") val isFirst: Boolean = false,
+    @SerializedName("push_token") val pushToken: String = "",
+    @SerializedName("msg") val msg: String = "",
 )
 
 /**
  * 登出資訊
- * @param msg >> 登出成功or失敗訊息
+ * @param msg >> 登出成功 / 失敗訊息
  * */
 data class SignOutInfo(
-    @SerializedName("msg") val msg: String? = null,
+    @SerializedName("msg") val msg: String = "",
 )
 
 /**

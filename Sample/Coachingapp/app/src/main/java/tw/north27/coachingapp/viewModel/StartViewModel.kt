@@ -7,7 +7,6 @@ import com.yujie.utilmodule.UserPref
 import com.yujie.utilmodule.base.BaseAndroidViewModel
 import com.yujie.utilmodule.ext.asLiveData
 import com.yujie.utilmodule.http.Results
-import com.yujie.utilmodule.pref.getAccount
 import com.yujie.utilmodule.pref.setUserPref
 import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.ViewState
@@ -52,8 +51,10 @@ class StartViewModel(
 
     fun checkSignIn() = viewModelScope.launch(Dispatchers.IO) {
         _signInState.postValue(ViewState.load())
-        val account = cxt.userPref.getAccount().first()
-        if (account.isEmpty()) {
+        val userPref = cxt.userPref.data.first()
+        val account = userPref.account
+        val accessToken = userPref.accessToken
+        if (account.isEmpty() || accessToken.isEmpty()) {
             _signInState.postValue(ViewState.empty())
         } else {
             val results = userRepo.checkSignIn()

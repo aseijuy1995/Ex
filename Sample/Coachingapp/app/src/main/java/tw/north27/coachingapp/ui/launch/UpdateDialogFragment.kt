@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
+import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseDialogFragment
 import com.yujie.utilmodule.ext.clicksObserve
 import com.yujie.utilmodule.util.ViewState
@@ -39,26 +40,34 @@ class UpdateDialogFragment : BaseDialogFragment<FragmentUpdateDialogBinding>(R.l
                     when (appConfig.appCode) {
                         AppCode.MOTION.code -> {
                             val updateInfo = appConfig.motionInfo!!
-                            binding.tvSize.isVisible = (updateInfo.size != null) && updateInfo.size.isNotEmpty()
-                            binding.tvContent.isVisible = (updateInfo.content != null) && updateInfo.content.isNotEmpty()
-                            binding.llcClose.isVisible = !updateInfo.isCompulsory
+                            if (updateInfo.bgUrl.isNotEmpty()) binding.ivBg.bindImg(url = updateInfo.bgUrl)
+                            if (updateInfo.title.isNotEmpty()) binding.tvTitle.text = updateInfo.title
                             binding.apply {
-                                tvTitle.text = String.format("%s(%s)", getString(R.string.update_title), updateInfo.versionName)
-                                tvSize.text = String.format("%s: %s", getString(R.string.update_size), updateInfo.size)
-                                tvContent.text = updateInfo.content
-                            }
-                            binding.btnUpdate.clicksObserve(owner = viewLifecycleOwner) {
-                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(updateInfo.url)).apply {
-                                    flags = Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+                                tvTitle.append("\t(${updateInfo.versionName})")
+                                tvSize.apply {
+                                    isVisible = updateInfo.size.isNotEmpty()
+                                    text = String.format("%s: %s", getString(R.string.update_size), updateInfo.size)
                                 }
-                                cxt.startActivity(intent)
-                            }
-                            binding.llcClose.clicksObserve(owner = viewLifecycleOwner) {
-                                setFragmentResult(
-                                    REQUEST_KEY_UPDATE_CLOSE,
-                                    bundleOf(KEY_UPDATE_CLOSE to true)
-                                )
-                                findNavController().navigateUp()
+                                tvContent.apply {
+                                    isVisible = updateInfo.content.isNotEmpty()
+                                    text = updateInfo.content
+                                }
+                                llcClose.isVisible = !updateInfo.isCompulsory
+
+                                btnUpdate.clicksObserve(owner = viewLifecycleOwner) {
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(updateInfo.url)).apply {
+                                        flags = Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+                                    }
+                                    cxt.startActivity(intent)
+                                }
+
+                                llcClose.clicksObserve(owner = viewLifecycleOwner) {
+                                    setFragmentResult(
+                                        REQUEST_KEY_UPDATE_CLOSE,
+                                        bundleOf(KEY_UPDATE_CLOSE to true)
+                                    )
+                                    findNavController().navigateUp()
+                                }
                             }
                         }
                     }

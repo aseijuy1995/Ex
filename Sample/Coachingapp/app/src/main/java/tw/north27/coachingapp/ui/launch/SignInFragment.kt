@@ -33,16 +33,6 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.root.touches { it.action == MotionEvent.ACTION_UP }.observe(viewLifecycleOwner) {
-            act.hideKeyBoard()
-        }
-
-        binding.btnSignIn.clicksObserve(owner = viewLifecycleOwner) {
-            val account = binding.etAccount.text.toString().trim()
-            val password = binding.etPassword.text.toString().trim()
-            viewModel.signIn(account, password)
-        }
-
         viewModel.signInState.observe(viewLifecycleOwner) {
             binding.svkView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
             if (it is ViewState.Load) LoadingDialogFragment.show(parentFragmentManager)
@@ -68,6 +58,16 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                 }
             }
         }
-    }
 
+        binding.root.touches { it.action == MotionEvent.ACTION_UP }.observe(viewLifecycleOwner) {
+            act.hideKeyBoard()
+        }
+
+        binding.btnSignIn.clicksObserve(owner = viewLifecycleOwner) {
+            val account = binding.etAccount.text.toString().trim()
+            val password = binding.etPassword.text.toString().trim()
+            viewModel.signIn(account, password)
+        }
+
+    }
 }

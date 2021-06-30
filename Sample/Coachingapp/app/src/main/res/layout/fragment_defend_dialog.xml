@@ -35,10 +35,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:src="@drawable/shape_gradient_angle_270_color_tran_gray"
+                android:background="@drawable/shape_gradient_angle_270_color_tran_gray"
                 app:layout_constraintBottom_toBottomOf="@id/iv_bg"
                 app:layout_constraintEnd_toEndOf="@id/iv_bg"
                 app:layout_constraintStart_toStartOf="@id/iv_bg"
@@ -80,7 +80,7 @@
                     android:id="@+id/tv_content"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
+                    android:layout_margin="10dp"
                     android:textColor="@color/gray_666666"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toTopOf="@id/btn_close"

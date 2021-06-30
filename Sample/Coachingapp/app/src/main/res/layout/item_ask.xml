@@ -48,7 +48,6 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/black"
@@ -93,11 +92,45 @@
                 android:maxLines="1"
                 android:textColor="@color/gray_666666"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
+                app:layout_constraintBottom_toTopOf="@id/ll_label"
                 app:layout_constraintEnd_toStartOf="@id/tv_badge"
                 app:layout_constraintStart_toEndOf="@id/iv_avatar"
                 app:layout_constraintTop_toBottomOf="@id/tv_name"
-                app:layout_constraintVertical_chainStyle="packed" />
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_goneMarginBottom="10dp" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
+                app:layout_constraintEnd_toStartOf="@id/tv_badge"
+                app:layout_constraintStart_toEndOf="@id/iv_avatar"
+                app:layout_constraintTop_toBottomOf="@id/tv_msg"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:layout_goneMarginBottom="10dp">
+
+                <include
+                    android:id="@+id/item_label_education"
+                    layout="@layout/item_label_education" />
+
+                <include
+                    android:id="@+id/item_label_grade"
+                    layout="@layout/item_label_grade" />
+
+                <include
+                    android:id="@+id/item_label_subject"
+                    layout="@layout/item_label_subject" />
+
+                <include
+                    android:id="@+id/item_label_unit"
+                    layout="@layout/item_label_unit" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tv_badge"

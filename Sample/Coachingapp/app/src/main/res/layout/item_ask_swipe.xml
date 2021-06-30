@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:bind="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
@@ -13,53 +12,6 @@
         android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:orientation="horizontal">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="80dp"
-            android:background="@color/blue_082e81"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:padding="5dp">
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/blue_082e81"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <include
-                    android:id="@+id/item_education_label"
-                    layout="@layout/item_label"
-                    bind:text='@{"國小"}' />
-
-                <include
-                    android:id="@+id/item_grade_label"
-                    layout="@layout/item_label"
-                    bind:text='@{"一年級"}' />
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/blue_082e81"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <include
-                    android:id="@+id/item_subject_label"
-                    layout="@layout/item_label"
-                    bind:text='@{"國文"}' />
-
-                <include
-                    android:id="@+id/item_unit_label"
-                    layout="@layout/item_label"
-                    bind:text='@{"手牽手"}' />
-
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_sound"

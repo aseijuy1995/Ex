@@ -25,7 +25,7 @@ class ActionRepository(private val service: IApiService) : IActionRepository {
         return safeApiResults { service.insertReflect(reflectRequest = reflectRequest) }
     }
 
-    override suspend fun fetchAskList(): Results<List<AskInfo>> {
-        return safeApiResults { service.fetchAskList() }
+    override suspend fun fetchAskList(askId: Long?): Results<List<AskInfo>> {
+        return safeApiResults { service.fetchAskList(askId = askId) }
     }
 }

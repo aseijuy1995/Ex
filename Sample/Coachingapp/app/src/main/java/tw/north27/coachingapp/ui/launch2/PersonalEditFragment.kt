@@ -53,7 +53,7 @@ class PersonalEditFragment : BaseFragment<FragmentPersonalEditBinding>(R.layout.
         }
 
         launch2Act.publicVM.userState.observe(viewLifecycleOwner) {
-            binding.itemPersonalEditLoad.sflView.visible = (it is ViewState.Load)
+            binding.itemPersonalEditLoad.root.visible = (it is ViewState.Load)
             binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
             binding.itemData.root.isVisible = (it is ViewState.Data)
             binding.itemError.root.isVisible = (it is ViewState.Error)

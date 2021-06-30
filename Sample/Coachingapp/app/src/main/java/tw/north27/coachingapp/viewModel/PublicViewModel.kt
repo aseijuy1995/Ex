@@ -44,14 +44,11 @@ class PublicViewModel(
 
     val launchBgRes = _launchBgRes.asLiveData()
 
-    private val _educationResponseState: MutableLiveData<ViewState<EducationResponse>> by lazy {
-        fetchEducationData()
-        MutableLiveData<ViewState<EducationResponse>>(ViewState.load())
-    }
+    private val _educationResponseState = MutableLiveData<ViewState<EducationResponse>>(ViewState.initial())
 
     val educationDataState = _educationResponseState.asLiveData()
 
-    private fun fetchEducationData() = viewModelScope.launch(Dispatchers.IO) {
+    fun fetchEducationData() = viewModelScope.launch(Dispatchers.IO) {
         val results = publicRepo.fetchEducationData()
         when (results) {
             is Results.Successful<EducationResponse> -> {
@@ -161,14 +158,11 @@ class PublicViewModel(
 
     val scoreList = _scoreList.asLiveData()
 
-    private val _publicDataResponseState: MutableLiveData<ViewState<PublicDataResponse>> by lazy {
-        fetchPublicData()
-        MutableLiveData<ViewState<PublicDataResponse>>(ViewState.load())
-    }
+    private val _publicDataResponseState = MutableLiveData<ViewState<PublicDataResponse>>(ViewState.initial())
 
     val aboutDataState = _publicDataResponseState.asLiveData()
 
-    private fun fetchPublicData() = viewModelScope.launch(Dispatchers.IO) {
+    fun fetchPublicData() = viewModelScope.launch(Dispatchers.IO) {
         val results = publicRepo.fetchPublicData()
         when (results) {
             is Results.Successful<PublicDataResponse> -> {
@@ -227,6 +221,5 @@ class PublicViewModel(
     val reflectList = _reflectList.asLiveData()
 
     fun setReflect(reflectList: List<Reflect>) = _reflectList.postValue(reflectList)
-
 
 }

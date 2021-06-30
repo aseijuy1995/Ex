@@ -19,10 +19,10 @@ class AskViewModel(
 
     val askInfoListState = _askInfoListState.asLiveData()
 
-    fun fetchAskList() {
+    fun fetchAskList(askId: Long? = null) {
         viewModelScope.launch(Dispatchers.IO) {
             _askInfoListState.postValue(ViewState.load())
-            val results = actionRepo.fetchAskList()
+            val results = actionRepo.fetchAskList(askId = askId)
             when (results) {
                 is Results.Successful<List<AskInfo>> -> {
                     val list = results.data

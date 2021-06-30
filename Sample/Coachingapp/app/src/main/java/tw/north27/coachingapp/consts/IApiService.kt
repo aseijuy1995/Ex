@@ -3,9 +3,7 @@ package tw.north27.coachingapp.consts
 //https://www.jianshu.com/p/62ab11ddacc8
 //https://www.huaweicloud.com/articles/138c673c96294a6661b16960ff4db613.html
 
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
+import retrofit2.http.*
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.request.*
 import tw.north27.coachingapp.model.response.EducationResponse
@@ -96,11 +94,13 @@ interface IApiService {
 
     //AskFragment
     /**
-     * 獲取聊天列表
+     * 獲取提問列表
      * @header accessToken
+     * @param askId >> 最新一筆的提問id
      * */
     @POST
-    suspend fun fetchAskList(): List<AskInfo>
+    @FormUrlEncoded
+    suspend fun fetchAskList(@Field("id") askId: Long? = null): List<AskInfo>
 
     //
     //

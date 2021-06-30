@@ -17,6 +17,7 @@ import tw.north27.coachingapp.model.AskInfo
 
 
 class AskListAdapter : ListAdapter<AskInfo, AskListAdapter.VH>(object : DiffUtil.ItemCallback<AskInfo>() {
+
     override fun areItemsTheSame(oldItem: AskInfo, newItem: AskInfo): Boolean {
         return oldItem.id == newItem.id
     }
@@ -64,12 +65,7 @@ class AskListAdapter : ListAdapter<AskInfo, AskListAdapter.VH>(object : DiffUtil
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        val chat = getItem(position)
-        holder.bind(chat)
-    }
-
-    override fun submitList(list: List<AskInfo>?) {
-        super.submitList(if (list != null) ArrayList(list) else null)
+        holder.bind(getItem(position))
     }
 
 }

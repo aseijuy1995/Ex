@@ -40,7 +40,6 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
                 R.id.fragment_notice,
                 R.id.fragment_personal,
                 R.id.fragment_sign_out_dialog,
-                    //
                 R.id.fragment_teacher_dialog,
                     //
                 R.id.fragment_about_coaching_dialog,
@@ -53,7 +52,6 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
         }
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val graph = navController.navInflater.inflate(R.navigation.launch2_graph)
             val auth = userPref.getAuth().first()
             val itemCoaching = binding.bnvLaunch2.menu.findItem(R.id.fragment_coaching)
             val itemAsk = binding.bnvLaunch2.menu.findItem(R.id.fragment_ask)
@@ -62,7 +60,6 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
             val itemPersonal = binding.bnvLaunch2.menu.findItem(R.id.fragment_personal)
             when (auth) {
                 UserPref.Authority.STUDENT -> {
-//                    graph.startDestination = R.id.fragment_coaching
                     itemCoaching.isVisible = true
                     itemAsk.isVisible = true
                     itemStudy.isVisible = true
@@ -71,7 +68,6 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
 
                 }
                 UserPref.Authority.TEACHER -> {
-//                    graph.startDestination = R.id.fragment_ask
                     itemCoaching.isVisible = false
                     itemAsk.isVisible = true
                     itemStudy.isVisible = false
@@ -79,7 +75,6 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
                     itemPersonal.isVisible = true
                 }
             }
-//            navFragment.navController.graph = graph
         }
 
         publicVM.apply {
@@ -108,6 +103,9 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
                 }
             }
         }
+
+        publicVM.fetchEducationData()
+        publicVM.fetchPublicData()
     }
 
     override fun onSupportNavigateUp(): Boolean {

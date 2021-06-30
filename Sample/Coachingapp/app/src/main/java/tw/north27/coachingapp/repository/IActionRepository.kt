@@ -17,6 +17,6 @@ interface IActionRepository {
 
     suspend fun insertReflect(reflectRequest: ReflectRequest): Results<ReflectResponse>
 
-    suspend fun fetchAskList(): Results<List<AskInfo>>
+    suspend fun fetchAskList(askId: Long?): Results<List<AskInfo>>
 
 }

@@ -60,7 +60,7 @@ class PersonalCommentFragment : BaseFragment<FragmentPersonalCommentBinding>(R.l
         }
 
         viewModel.commentListState.observe(viewLifecycleOwner) {
-            binding.itemCommentListLoad.sflView.visible = (it is ViewState.Load)
+            binding.itemCommentListLoad.root.visible = (it is ViewState.Load)
             binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
             binding.rvComment.isVisible = (it is ViewState.Data)
             binding.itemError.root.isVisible = (it is ViewState.Error)

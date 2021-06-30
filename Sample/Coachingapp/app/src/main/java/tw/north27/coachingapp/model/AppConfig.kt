@@ -27,6 +27,8 @@ enum class AppCode(val code: Int) {
 
 /**
  * 運行資訊
+ * @param bgUrl >> 背景圖
+ * @param title >> 運行標題
  * @param versionName >> 版本名
  * @param url >> 下載連結
  * @param content >> 更新內容
@@ -34,10 +36,12 @@ enum class AppCode(val code: Int) {
  * @param isCompulsory >> 是否強制更新
  * */
 data class MotionInfo(
-    @SerializedName("version_name") val versionName: String,
-    @SerializedName("google_play_url") val url: String,
-    @SerializedName("content") val content: String? = null,
-    @SerializedName("size") val size: String? = null,
+    @SerializedName("bg_url") val bgUrl: String = "",
+    @SerializedName("title") val title: String = "",
+    @SerializedName("version_name") val versionName: String = "",
+    @SerializedName("google_play_url") val url: String = "",
+    @SerializedName("content") val content: String = "",
+    @SerializedName("size") val size: String = "",
     @SerializedName("is_compulsory") val isCompulsory: Boolean = true
 )
 

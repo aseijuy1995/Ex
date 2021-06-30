@@ -61,7 +61,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
         }
 
         viewModel.teacherListState.observe(viewLifecycleOwner) {
-            binding.itemCoachingLoad.sflView.visible = (it is ViewState.Load)
+            binding.itemCoachingLoad.root.visible = (it is ViewState.Load)
             binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
             binding.rvCoaching.isVisible = (it is ViewState.Data)
             binding.itemError.root.isVisible = (it is ViewState.Error)

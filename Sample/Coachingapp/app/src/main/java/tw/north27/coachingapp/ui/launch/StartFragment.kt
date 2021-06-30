@@ -43,10 +43,8 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                     when (appConfig.appCode) {
                         AppCode.DEFEND.code -> findNavController().navigate(NavGraphLaunchDirections.actionToFragmentDefendDialog())
                         AppCode.MOTION.code -> {
-                            val updateInfo = appConfig.motionInfo!!
-                            act.updateApp(updateInfo.versionName).builder {
-                                versionNameMode = UpdateApp.VersionNameMode.DEFAULT
-                            }.execute(
+                            val motionInfo = appConfig.motionInfo!!
+                            act.updateApp(motionInfo.versionName).builder { versionNameMode = UpdateApp.VersionNameMode.DEFAULT }.execute(
                                 newVersion = { _, _ ->
                                     findNavController().navigate(NavGraphLaunchDirections.actionToFragmentUpdateDialog())
                                 },

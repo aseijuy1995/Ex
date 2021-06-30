@@ -106,7 +106,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         }
 
         launch2Act.publicVM.userState.observe(viewLifecycleOwner) {
-            binding.itemPersonalLoad.sflView.visible = (it is ViewState.Load)
+            binding.itemPersonalLoad.root.visible = (it is ViewState.Load)
             binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
             binding.itemData.root.isVisible = (it is ViewState.Data) && (viewModel.commentListState.value is ViewState.Data)
             binding.itemError.root.isVisible = (it is ViewState.Error)

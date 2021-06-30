@@ -5,31 +5,12 @@
     android:id="@+id/nav_graph_launch"
     app:startDestination="@id/fragment_start">
 
-    <!--    <action-->
-    <!--        android:id="@+id/action_to_fragment_loading_dialog"-->
-    <!--        app:destination="@id/fragment_loading_dialog" />-->
-    <!--    -->
-    <!--    <dialog-->
-    <!--        android:id="@+id/fragment_loading_dialog"-->
-    <!--        android:name="tw.north27.coachingapp.ui.LoadingDialogFragment"-->
-    <!--        android:label="fragment_loading_dialog"-->
-    <!--        tools:layout="@layout/fragment_loading_dialog" />-->
-
-    <action
-        android:id="@+id/action_to_fragment_sign_in"
-        app:destination="@id/fragment_sign_in"
-        app:popUpTo="@id/fragment_start"
-        app:popUpToInclusive="true" />
-
+    <!--  StartFragment  -->
     <fragment
         android:id="@+id/fragment_start"
         android:name="tw.north27.coachingapp.ui.launch.StartFragment"
         android:label="fragment_start"
-        tools:layout="@layout/fragment_start">
-
-
-    </fragment>
-
+        tools:layout="@layout/fragment_start" />
 
     <!--  DefendDialogFragment  -->
     <dialog
@@ -59,6 +40,13 @@
         android:name="tw.north27.coachingapp.ui.launch.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" />
+
+    <action
+        android:id="@+id/action_to_fragment_sign_in"
+        app:destination="@id/fragment_sign_in"
+        app:popUpTo="@id/fragment_start"
+        app:popUpToInclusive="true" />
+
 
     <!--        <argument-->
     <!--            android:name="chat"-->
