@@ -30,9 +30,6 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
     override val viewBind: (View) -> FragmentAskBinding
         get() = FragmentAskBinding::bind
 
-    private val launch2Act: Launch2Activity
-        get() = act as Launch2Activity
-
     private val publicVM by sharedViewModel<PublicViewModel>()
 
     private val viewModel by viewModel<AskViewModel>()
@@ -64,7 +61,12 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             if (it !is ViewState.Initial && it !is ViewState.Load) binding.srlView.finishRefresh()
             when (it) {
                 is ViewState.Data -> {
-                    adapter.submitList(it.data.toList())
+                    adapter.apply {
+                        this.educationList = publicVM.educationList.value
+                        this.gradeList = publicVM.gradeList.value
+                        this.subjectList = publicVM.subjectList.value
+                        this.unitsList = publicVM.unitList.value
+                    }.submitList(it.data.toList())
                 }
             }
         }
@@ -80,8 +82,7 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
                 id = askListTest.maxOf(AskInfo::id) + 1
                 askType = AskType.TEXT
                 text = "測試${askListTest.maxOf(AskInfo::id) + 1}"
-                isRead = false
-                unReadCount = unReadCount + 1
+                unReadNum = unReadNum + 1
                 sendTime = Date()
                 unitId = unitId
                 msg = "測試$id"
@@ -95,7 +96,6 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
 
         adapter.itemClickRelay.observe(viewLifecycleOwner) {
             findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentAskRoom())
-            //            it.second
         }
 
         binding.srlView.autoRefresh()

@@ -69,11 +69,11 @@ fun PieChart.bindChartComment(
         sliceSpace = 2f
         selectionShift = 5f
         colors = arrayListOf<Int>(
-            ContextCompat.getColor(context, R.color.red_e50014),
-            ContextCompat.getColor(context, R.color.orange_f09401),
-            ContextCompat.getColor(context, R.color.yellow_f7cd3b),
+            ContextCompat.getColor(context, R.color.red_eb4537),
+            ContextCompat.getColor(context, R.color.orange_f09801),
+            ContextCompat.getColor(context, R.color.yellow_fac230),
             ContextCompat.getColor(context, R.color.green_00ba9b),
-            ContextCompat.getColor(context, R.color.blue_02abe2)
+            ContextCompat.getColor(context, R.color.blue_4286f3)
         )
     }
     val pieData = PieData(pieDataSet)

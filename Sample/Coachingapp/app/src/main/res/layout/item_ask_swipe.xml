@@ -18,7 +18,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
-            android:background="@color/blue_02abe2"
+            android:background="@color/blue_4286f3"
             android:padding="26dp"
             android:src="@drawable/ic_baseline_delete_24_white" />
 
@@ -27,7 +27,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
-            android:background="@color/red_e50014"
+            android:background="@color/red_eb4537"
             android:padding="26dp"
             android:src="@drawable/ic_baseline_delete_24_white" />
 

@@ -1,6 +1,7 @@
 package tw.north27.coachingapp.ui.launch2
 
 import android.os.Bundle
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -31,23 +32,35 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.bnvLaunch2.setupWithNavController(navController)
+        binding.bnvLaunch2.apply {
+            itemIconTintList = null
+            setupWithNavController(navController)
+        }
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            binding.bnvLaunch2.isVisible = when (destination.id) {
-                R.id.fragment_coaching,
-                R.id.fragment_ask,
-                R.id.fragment_study,
-                R.id.fragment_notice,
-                R.id.fragment_personal,
-                R.id.fragment_sign_out_dialog,
-                R.id.fragment_teacher_dialog,
-                    //
-                R.id.fragment_about_coaching_dialog,
-                R.id.fragment_privacy_policy_dialog,
-                R.id.fragment_contact_us_dialog,
-                R.id.fragment_reflect_dialog,
-                -> true
-                else -> false
+            binding.bnvLaunch2.apply {
+                itemTextColor = when (destination.id) {
+                    R.id.fragment_coaching -> AppCompatResources.getColorStateList(context, R.color.red_eb4537)
+                    R.id.fragment_ask -> AppCompatResources.getColorStateList(context, R.color.orange_f09801)
+                    R.id.fragment_study -> AppCompatResources.getColorStateList(context, R.color.yellow_d29700)
+                    R.id.fragment_notice -> AppCompatResources.getColorStateList(context, R.color.green_00ba9b)
+                    R.id.fragment_personal -> AppCompatResources.getColorStateList(context, R.color.blue_4286f3)
+                    else -> AppCompatResources.getColorStateList(context, R.color.gray_666666)
+                }
+                isVisible = when (destination.id) {
+                    R.id.fragment_coaching,
+                    R.id.fragment_ask,
+                    R.id.fragment_study,
+                    R.id.fragment_notice,
+                    R.id.fragment_personal,
+                    R.id.fragment_sign_out_dialog,
+                    R.id.fragment_teacher_dialog,
+                    R.id.fragment_about_coaching_dialog,
+                    R.id.fragment_privacy_policy_dialog,
+                    R.id.fragment_contact_us_dialog,
+                    R.id.fragment_reflect_dialog,
+                    -> true
+                    else -> false
+                }
             }
         }
 
@@ -65,7 +78,6 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
                     itemStudy.isVisible = true
                     itemNotice.isVisible = true
                     itemPersonal.isVisible = true
-
                 }
                 UserPref.Authority.TEACHER -> {
                     itemCoaching.isVisible = false
@@ -111,6 +123,5 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
     override fun onSupportNavigateUp(): Boolean {
         return super.onSupportNavigateUp() || navController.navigateUp()
     }
-
 
 }

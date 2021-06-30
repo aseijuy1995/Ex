@@ -67,7 +67,7 @@
                 android:id="@+id/btn_sign_out"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/red_e50014"
+                android:backgroundTint="@color/red_eb4537"
                 android:gravity="center"
                 android:minHeight="26dp"
                 android:text="@string/sign_out"

@@ -8,24 +8,24 @@ import java.util.*
 /**
  * 提問資訊
  * @param id >> 提問id
- * @param sender >> 提問者資訊
- * @param receiver >> 接收者資訊
+ * @param userInfo >> 對方資訊
  * @param askType >> 提問類型
  * @param text >> 文字
  * @param imgList >> 圖片
  * @param audioList >> 音訊
  * @param videoList >> 影片
- * @param isRead >> 讀取狀態 - true:已讀 / false:未讀
- * @param unReadCount >> 未讀數量
+ * @param isSound >> 聲音開關
+ * @param unReadNum >> 未讀數量
  * @param sendTime >> 發送時間
  * @param msg >> 列表顯示訊息
+ * @param educationId >> 教育Id
+ * @param gradeId >> 年級Id
+ * @param subjectId >> 科目Id
+ * @param unitId >> 單元Id
  * */
 @Parcelize
 data class AskInfo(
     @SerializedName("id") var id: Long,
-//    @SerializedName("is_self_send") var isSelfSend: Boolean,
-//    @SerializedName("sender") var sender: UserInfo,
-//    @SerializedName("receiver") var receiver: UserInfo,
     @SerializedName("user_info") var userInfo: UserInfo,
     @SerializedName("ask_type") var askType: AskType,
     @SerializedName("text") var text: String? = null,
@@ -33,26 +33,14 @@ data class AskInfo(
     @SerializedName("audio_list") var audioList: List<AskAudio> = emptyList(),
     @SerializedName("video_list") var videoList: List<AskVideo> = emptyList(),
     @SerializedName("is_sound") var isSound: Boolean,
-    @SerializedName("is_read") var isRead: Boolean,
-    @SerializedName("un_read_count") var unReadCount: Int,
+    @SerializedName("un_read_num") var unReadNum: Int,
     @SerializedName("send_time") var sendTime: Date,
-    @SerializedName("unit_id") var unitId: Long,
     @SerializedName("msg") var msg: String,
-) : Parcelable {
-//    //處理後的時間格是
-//    val sendDateTimeFormat: String
-//        get() {
-////            val calendar = Calendar.getInstance()
-////            val year = calendar[Calendar.YEAR]
-////            val month = calendar[Calendar.MONTH] + 1
-////            val day = calendar[Calendar.DAY_OF_MONTH]
-////            calendar.time = sendTime
-////            val year = calendar[Calendar.YEAR]
-////            val month = calendar[Calendar.MONTH] + 1
-////            val day = calendar[Calendar.DAY_OF_MONTH]
-//            ""
-//        }
-}
+    @SerializedName("education_id") var educationId: Long,
+    @SerializedName("grade_id") var gradeId: Long,
+    @SerializedName("subject_id") var subjectId: Long,
+    @SerializedName("unit_id") var unitId: Long,
+) : Parcelable
 
 /**
  * 提問類型

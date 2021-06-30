@@ -23,7 +23,7 @@
                 android:id="@+id/sv_view"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:background="@color/blue_02abe2"
+                android:background="@color/blue_4286f3"
                 android:padding="10dp"
                 android:scrollbars="none"
                 app:layout_constraintDimensionRatio="H,1:1"

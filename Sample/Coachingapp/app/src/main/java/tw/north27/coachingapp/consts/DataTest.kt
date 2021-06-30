@@ -1063,13 +1063,15 @@ val askListTest = mutableListOf(
                 "(A)「賚」賞諸徒/「齎」志以歿(B)「阡」陌交通/惹禍招「愆」\n" +
                 "(C)「餔」糟歠釃/「仆」地哭號(D)「矜」寡孤獨/罪無可「逭」",
         isSound = true,
-        isRead = false,
-        unReadCount = 2,
-        unitId = 123,
+        unReadNum = 2,
         sendTime = stringToDateTime("2021/06/30 17:30:21"),
         msg = "下列「」內的字，讀音前後相同的是：" +
                 "(A)「賚」賞諸徒/「齎」志以歿(B)「阡」陌交通/惹禍招「愆」\n" +
                 "(C)「餔」糟歠釃/「仆」地哭號(D)「矜」寡孤獨/罪無可「逭」",
+        educationId = 1,
+        gradeId = 6,
+        subjectId = 1,
+        unitId = 12,
     ),
     AskInfo(
         id = 1,
@@ -1081,15 +1083,17 @@ val askListTest = mutableListOf(
                 "(C)李老師為學校架設的圖書網站正式起用，校方特頒獎狀以致謝忱\n" +
                 "(D)大家對聚餐地點莫衷一是，經投票後，決定到牛排餐廳大塊朵頤\n",
         isSound = true,
-        isRead = true,
-        unReadCount = 0,
+        unReadNum = 0,
         sendTime = stringToDateTime("2021/06/29 20:18:31"),
-        unitId = 116,
         msg = "下列文句，完全沒有錯別字的是：" +
                 "(A)集中營裡的迫害手段聳人聽聞，諸多相關照片更是令人不忍卒睹" +
                 "(B)這齣動畫電影劇情緊湊，妙趣恆生，締造本年度最高的票房紀錄" +
                 "(C)李老師為學校架設的圖書網站正式起用，校方特頒獎狀以致謝忱" +
-                "(D)大家對聚餐地點莫衷一是，經投票後，決定到牛排餐廳大塊朵頤"
+                "(D)大家對聚餐地點莫衷一是，經投票後，決定到牛排餐廳大塊朵頤",
+        educationId = 1,
+        gradeId = 4,
+        subjectId = 1,
+        unitId = 7,
     ),
     AskInfo(
         id = 2,
@@ -1098,12 +1102,14 @@ val askListTest = mutableListOf(
         imgList = listOf(
             AskImage(url = "https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2021/02/10/1/11605446.jpg&s=Y&x=0&y=154&sw=960&sh=566&sl=W&fw=800&exp=3600&w=930&nt=1")
         ),
-        unitId = 16,
         isSound = true,
-        isRead = false,
-        unReadCount = 18,
+        unReadNum = 18,
         sendTime = stringToDateTime("2021/06/29 16:55:48"),
-        msg = String.format("%s傳送了圖片", teacherInfoListTest[2].name)
+        msg = String.format("%s傳送了圖片", teacherInfoListTest[2].name),
+        educationId = 1,
+        gradeId = 5,
+        subjectId = 1,
+        unitId = 8,
     ),
     AskInfo(
         id = 3,
@@ -1112,12 +1118,14 @@ val askListTest = mutableListOf(
         imgList = listOf(
             AskImage(url = "https://attach.setn.com/newsimages/2019/04/11/1872276-PH.jpg")
         ),
-        unitId = 15,
         isSound = false,
-        isRead = true,
-        unReadCount = 0,
+        unReadNum = 0,
         sendTime = stringToDateTime("2021/06/26 10:32:58"),
-        msg = String.format("%s傳送了圖片", teacherInfoListTest[3].name)
+        msg = String.format("%s傳送了圖片", teacherInfoListTest[3].name),
+        educationId = 1,
+        gradeId = 5,
+        subjectId = 2,
+        unitId = 30,
     ),
     AskInfo(
         id = 4,
@@ -1129,12 +1137,14 @@ val askListTest = mutableListOf(
                 time = 1000
             )
         ),
-        unitId = 15,
         isSound = false,
-        isRead = true,
-        unReadCount = 0,
+        unReadNum = 0,
         sendTime = stringToDateTime("2021/06/26 10:32:58"),
-        msg = String.format("%s傳送了音訊", teacherInfoListTest[3].name)
+        msg = String.format("%s傳送了音訊", teacherInfoListTest[3].name),
+        educationId = 1,
+        gradeId = 6,
+        subjectId = 2,
+        unitId = 22,
     ),
     AskInfo(
         id = 5,
@@ -1146,12 +1156,14 @@ val askListTest = mutableListOf(
                 time = 1000
             )
         ),
-        unitId = 15,
         isSound = false,
-        isRead = true,
-        unReadCount = 0,
+        unReadNum = 0,
         sendTime = stringToDateTime("2021/06/23 23:28:31"),
-        msg = String.format("%s傳送了影片", teacherInfoListTest[3].name)
+        msg = String.format("%s傳送了影片", teacherInfoListTest[3].name),
+        educationId = 1,
+        gradeId = 4,
+        subjectId = 2,
+        unitId = 18,
     )
 //SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Date())
 
