@@ -1057,7 +1057,7 @@ val teacherInfoListTest = listOf<UserInfo>(
 val askListTest = mutableListOf(
     AskInfo(
         id = 0,
-        userInfo = teacherInfoListTest[0],
+        senderUser = teacherInfoListTest[0],
         askType = AskType.TEXT,
         text = "下列「」內的字，讀音前後相同的是：\n" +
                 "(A)「賚」賞諸徒/「齎」志以歿(B)「阡」陌交通/惹禍招「愆」\n" +
@@ -1075,7 +1075,7 @@ val askListTest = mutableListOf(
     ),
     AskInfo(
         id = 1,
-        userInfo = teacherInfoListTest[1],
+        senderUser = teacherInfoListTest[1],
         askType = AskType.TEXT,
         text = "下列文句，完全沒有錯別字的是：\n" +
                 "(A)集中營裡的迫害手段聳人聽聞，諸多相關照片更是令人不忍卒睹\n" +
@@ -1097,7 +1097,7 @@ val askListTest = mutableListOf(
     ),
     AskInfo(
         id = 2,
-        userInfo = teacherInfoListTest[2],
+        senderUser = teacherInfoListTest[2],
         askType = AskType.IMAGE,
         imgList = listOf(
             AskImage(url = "https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2021/02/10/1/11605446.jpg&s=Y&x=0&y=154&sw=960&sh=566&sl=W&fw=800&exp=3600&w=930&nt=1")
@@ -1113,7 +1113,7 @@ val askListTest = mutableListOf(
     ),
     AskInfo(
         id = 3,
-        userInfo = teacherInfoListTest[3],
+        senderUser = teacherInfoListTest[3],
         askType = AskType.IMAGE,
         imgList = listOf(
             AskImage(url = "https://attach.setn.com/newsimages/2019/04/11/1872276-PH.jpg")
@@ -1129,7 +1129,7 @@ val askListTest = mutableListOf(
     ),
     AskInfo(
         id = 4,
-        userInfo = teacherInfoListTest[4],
+        senderUser = teacherInfoListTest[4],
         askType = AskType.AUDIO,
         audioList = listOf(
             AskAudio(
@@ -1148,7 +1148,7 @@ val askListTest = mutableListOf(
     ),
     AskInfo(
         id = 5,
-        userInfo = teacherInfoListTest[5],
+        senderUser = teacherInfoListTest[5],
         askType = AskType.VIDEO,
         videoList = listOf(
             AskVideo(

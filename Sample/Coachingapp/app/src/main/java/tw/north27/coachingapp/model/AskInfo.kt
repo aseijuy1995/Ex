@@ -8,7 +8,9 @@ import java.util.*
 /**
  * 提問資訊
  * @param id >> 提問id
- * @param userInfo >> 對方資訊
+ * @param senderUser >> 發送者資訊
+ * @param receiverUser >> 接收者資訊
+ *
  * @param askType >> 提問類型
  * @param text >> 文字
  * @param imgList >> 圖片
@@ -26,7 +28,8 @@ import java.util.*
 @Parcelize
 data class AskInfo(
     @SerializedName("id") var id: Long,
-    @SerializedName("user_info") var userInfo: UserInfo,
+    @SerializedName("sender__user_info") var senderUser: UserInfo,
+    @SerializedName("receiver_user_info") var receiverUser: UserInfo,
     @SerializedName("ask_type") var askType: AskType,
     @SerializedName("text") var text: String? = null,
     @SerializedName("img_list") var imgList: List<AskImage> = emptyList(),
@@ -36,6 +39,7 @@ data class AskInfo(
     @SerializedName("un_read_num") var unReadNum: Int,
     @SerializedName("send_time") var sendTime: Date,
     @SerializedName("msg") var msg: String,
+    //
     @SerializedName("education_id") var educationId: Long,
     @SerializedName("grade_id") var gradeId: Long,
     @SerializedName("subject_id") var subjectId: Long,

@@ -3,27 +3,27 @@
 
     <item
         android:id="@+id/fragment_coaching"
-        android:icon="@drawable/selector_state_checked_drawable_school"
+        android:icon="@drawable/ic_twotone_school_24_red"
         android:title="@string/coaching" />
 
     <item
         android:id="@+id/fragment_ask"
-        android:icon="@drawable/selector_state_checked_drawable_question_answer"
+        android:icon="@drawable/ic_twotone_question_answer_24_orange"
         android:title="@string/question_answer" />
 
     <item
         android:id="@+id/fragment_study"
-        android:icon="@drawable/selector_state_checked_drawable_chrome_reader_mode"
+        android:icon="@drawable/ic_twotone_chrome_reader_mode_24_yellow"
         android:title="@string/chrome_reader_mode" />
 
     <item
         android:id="@+id/fragment_notice"
-        android:icon="@drawable/selector_state_checked_drawable_notifications"
+        android:icon="@drawable/ic_twotone_notifications_24_green"
         android:title="@string/notifications" />
 
     <item
         android:id="@+id/fragment_personal"
-        android:icon="@drawable/selector_state_checked_drawable_person"
+        android:icon="@drawable/ic_twotone_person_24_blue"
         android:title="@string/person" />
 
 </menu>

@@ -55,7 +55,7 @@
 
     <fragment
         android:id="@+id/fragment_ask_room"
-        android:name="tw.north27.coachingapp.ui2.fragment.main.AskRoomFragment"
+        android:name="tw.north27.coachingapp.ui.launch2.AskRoomFragment"
         android:label="fragment_ask_room"
         tools:layout="@layout/fragment_ask_room" />
 

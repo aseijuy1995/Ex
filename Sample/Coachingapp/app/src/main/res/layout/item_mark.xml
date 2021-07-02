@@ -126,35 +126,35 @@
             android:layout_height="16sp"
             android:layout_weight="1"
             android:gravity="center"
-            android:src="@drawable/ic_twotone_emoji_objects_24_red" />
+            android:src="@drawable/ic_twotone_school_24_red" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
             android:layout_height="16sp"
             android:layout_weight="1"
             android:gravity="center"
-            android:src="@drawable/ic_twotone_sms_24_orange" />
+            android:src="@drawable/ic_twotone_question_answer_24_orange" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
             android:layout_height="16sp"
             android:layout_weight="1"
             android:gravity="center"
-            android:src="@drawable/ic_twotone_help_center_24_yellow" />
+            android:src="@drawable/ic_twotone_chrome_reader_mode_24_yellow" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
             android:layout_height="16sp"
             android:layout_weight="1"
             android:gravity="center"
-            android:src="@drawable/ic_twotone_watch_later_24_green" />
+            android:src="@drawable/ic_twotone_notifications_24_green" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
             android:layout_height="16sp"
             android:layout_weight="1"
             android:gravity="center"
-            android:src="@drawable/ic_twotone_insert_chart_outlined_24_blue" />
+            android:src="@drawable/ic_twotone_person_24_blue" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

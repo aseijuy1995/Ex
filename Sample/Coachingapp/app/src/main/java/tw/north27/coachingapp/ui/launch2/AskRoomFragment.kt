@@ -1,7 +1,10 @@
-package tw.north27.coachingapp.ui2.fragment.main
+package tw.north27.coachingapp.ui.launch2
 
+import android.os.Bundle
 import android.view.View
+import androidx.navigation.fragment.findNavController
 import com.yujie.utilmodule.base.BaseFragment
+import com.yujie.utilmodule.ext.clicksObserve
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentAskRoomBinding
 
@@ -10,19 +13,25 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
     override val viewBind: (View) -> FragmentAskRoomBinding
         get() = FragmentAskRoomBinding::bind
 
-//    private val viewModel by viewModel<ChatRoomViewModel>()
+    //    private val viewModel by viewModel<ChatRoomViewModel>()
 //
-//    private lateinit var adapter: ChatRoomListAdapter
+    private val adapter = AskRoomListAdapter()
 //
 //    private val chat: ChatInfo
 //        get() = arguments?.getParcelable<ChatInfo>("chat")!!
 
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        binding.apply {
-//            lifecycleOwner = viewLifecycleOwner
-//            viewModel = this@AskRoomFragment.viewModel
-//        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.apply {
+
+
+//            rvAsk.adapter =
+        }
+
+        binding.itemToolbarNormal.ivBack.clicksObserve(owner = viewLifecycleOwner) {
+            findNavController().navigateUp()
+        }
+
 //        viewModel.setChatRoomChat(chat)
 //        adapter = ChatRoomListAdapter(cxt, viewLifecycleOwner)
 //        binding.rvChat.apply {
@@ -298,6 +307,6 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 //        adapter.videoClickRelay?.observe(viewLifecycleOwner) {
 //
 //        }
-//    }
+    }
 
 }

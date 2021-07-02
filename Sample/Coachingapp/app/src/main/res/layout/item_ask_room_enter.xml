@@ -9,19 +9,21 @@
         android:id="@+id/iv_add"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_margin="7dp"
+        android:paddingStart="5dp"
+        android:paddingLeft="5dp"
         android:src="@drawable/ic_twotone_add_box_24_green"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/et_text"
+        app:layout_constraintEnd_toStartOf="@id/et_text"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/et_text"
         app:layout_constraintVertical_bias="1.0" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/et_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="7dp"
-        android:background="@drawable/shape_gray_corners_radius_15_padding_top_btn_5_lt_rt_10"
+        android:layout_margin="5dp"
+        android:background="@drawable/shape_gray_corners_radius_5_padding_top_btn_5_lt_rt_10"
         android:ems="10"
         android:hint="@string/aa"
         android:importantForAutofill="no"
@@ -35,13 +37,15 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_send"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_margin="7dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:paddingEnd="5dp"
+        android:paddingRight="5dp"
         android:src="@drawable/ic_twotone_play_arrow_24_gray"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/et_text"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/et_text"
+        app:layout_constraintTop_toTopOf="@id/et_text"
         app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

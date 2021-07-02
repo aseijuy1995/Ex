@@ -49,8 +49,8 @@ class AskListAdapter : ListAdapter<AskInfo, AskListAdapter.VH>(object : DiffUtil
     inner class VH(val binding: ItemAskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(askInfo: AskInfo) = binding.apply {
             this.askInfo = askInfo
-            ivAvatar.bindImg(url = askInfo.userInfo.avatarUrl, roundingRadius = 30)
-            tvName.text = askInfo.userInfo.name
+            ivAvatar.bindImg(url = askInfo.senderUser.avatarUrl, roundingRadius = 30)
+            tvName.text = askInfo.senderUser.name
             ivNotice.bindImg(resId = if (askInfo.isSound) R.drawable.ic_baseline_volume_up_24_blue else R.drawable.ic_baseline_volume_off_24_red)
             tvTime.text = dateToString(askInfo.sendTime)
             tvMsg.text = askInfo.msg
