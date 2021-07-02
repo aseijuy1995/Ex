@@ -1,26 +1,24 @@
 package tw.north27.coachingapp.consts
 
 import android.content.Context
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.yujie.utilmodule.util.logD
 import kotlinx.coroutines.delay
 import retrofit2.http.Body
 import retrofit2.http.Field
 import tw.north27.coachingapp.R
+import tw.north27.coachingapp.consts.simulation.*
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.request.*
-import tw.north27.coachingapp.model.response.EducationResponse
+import tw.north27.coachingapp.model.response.Education
 import tw.north27.coachingapp.model.response.PublicDataResponse
 import tw.north27.coachingapp.model.response.ReflectResponse
-import java.util.*
 
 class ApiService(val cxt: Context) : IApiService {
 
-    override suspend fun fetchEducationData(): EducationResponse {
+    override suspend fun fetchEducationData(): Education {
         delay(500)
-        return EducationResponse(
-            educationList = educationListTest,
+        return Education(
+            educationLevelList = educationListTest,
             gradeList = gradeListTest,
             subjectList = subjectListTest,
             unitList = unitListTest
@@ -150,16 +148,12 @@ class ApiService(val cxt: Context) : IApiService {
             )
     }
 
-    override suspend fun fetchUser(@Body json: String): UserInfo {
+    override suspend fun fetchUser(@Field("account") account: String): UserInfo {
         delay(1500)
-        val map = Gson().fromJson<HashMap<String, String>>(json, object : TypeToken<HashMap<String, String>>() {}.type)
-        val account = map["account"]
-        return if (account == accountTest)
-            userInfoTest
-        else {
-            logD("Not find user")
-            userInfoTest
+        val userList = teacherInfoListTest.toMutableList().apply {
+            add(userInfoTest)
         }
+        return userList.find { it.account == account }!!
     }
 
     override suspend fun updateUser(@Body updateUserRequest: UpdateUserRequest): Boolean {
@@ -361,7 +355,21 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun fetchAskList(@Field("id") askId: Long?): List<AskInfo> {
         delay(1500)
-        return askListTest
+        return getAskListTest()
+    }
+
+    override suspend fun fetchAskRoomList(id: Long): AskRoom {
+        delay(3000L)
+        return AskRoom(
+            id = id,
+            selfAct = accountTest,
+            otherAct = teacherInfoListTest.find { it.account == account }?.account!!,
+            educationId = 1,
+            gradeId = 1,
+            subjectId = 1,
+            unitId = 1,
+            askRoomInfoList = listOf()
+        )
     }
 
 

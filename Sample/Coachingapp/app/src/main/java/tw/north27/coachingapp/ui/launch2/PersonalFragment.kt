@@ -127,7 +127,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                         val commentList = it.data
                         rvComment.isVisible = commentList.isNotEmpty()
                         commentAdapter.apply {
-                            educationList = launch2Act.publicVM.educationList.value
+                            educationLevelList = launch2Act.publicVM.educationList.value
                             gradeList = launch2Act.publicVM.gradeList.value
                             subjectList = launch2Act.publicVM.subjectList.value
                             unitsList = launch2Act.publicVM.unitList.value

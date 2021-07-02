@@ -13,7 +13,7 @@ interface IUserRepository {
 
     suspend fun signIn(signInRequest: SignInRequest): Results<SignIn>
 
-    suspend fun fetchUser(json: String): Results<UserInfo>
+    suspend fun fetchUser(account: String): Results<UserInfo>
 
     suspend fun updateUser(updateUserRequest: UpdateUserRequest): Results<Boolean>
 

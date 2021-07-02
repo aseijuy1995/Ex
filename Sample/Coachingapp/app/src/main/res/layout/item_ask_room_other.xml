@@ -1,43 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="askInfo"
             type="tw.north27.coachingapp.model.AskInfo" />
-
-        <import type="tw.north27.coachingapp.model.AskType" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_read"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:text="已讀"
-            android:textColor="@color/gray_aaaaaa"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toTopOf="@id/tv_time"
-            app:layout_constraintEnd_toStartOf="@id/cl_layout" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:text="22:11"
-            android:textColor="@color/gray_aaaaaa"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="@id/cl_layout"
-            app:layout_constraintEnd_toStartOf="@id/cl_layout" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_layout"
@@ -46,7 +20,7 @@
             android:layout_margin="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -54,7 +28,7 @@
                 android:id="@+id/tv_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_solid_green_corners_radius_5"
+                android:background="@drawable/shape_solid_blue_corners_radius_5"
                 android:maxWidth="250dp"
                 android:padding="5dp"
                 android:text="文字文字文字文字文字文字文字文字"
@@ -63,14 +37,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                bind:isVisible="@{askInfo.askType == AskType.TEXT}" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!--            <androidx.recyclerview.widget.RecyclerView-->
             <!--                android:id="@+id/rv_img"-->
             <!--                android:layout_width="wrap_content"-->
             <!--                android:layout_height="wrap_content"-->
             <!--                android:maxWidth="250dp"-->
+            <!--                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
             <!--                app:layout_constraintBottom_toBottomOf="parent"-->
             <!--                app:layout_constraintEnd_toEndOf="parent"-->
             <!--                app:layout_constraintStart_toStartOf="parent"-->
@@ -102,9 +76,71 @@
             <!--                app:layout_constraintEnd_toEndOf="parent"-->
             <!--                app:layout_constraintStart_toStartOf="parent"-->
             <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                bind:isVisibility="@{chat.chatType == ChatType.AUDIO}" />-->
+            <!--        bind:isVisibility="@{chat.chatType == ChatType.AUDIO}" />-->
+
+
+            <!--                        <androidx.constraintlayout.widget.ConstraintLayout-->
+            <!--                android:id="@+id/view_recorder"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:background="@drawable/shape_solid_gray_555555_padding_top_btn_5_lt_rt_10"-->
+            <!--                android:maxWidth="200dp"-->
+            <!--                android:orientation="horizontal"-->
+            <!--                android:textColor="@color/white"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent"-->
+            <!--                bind:isVisible="@{chatItem.audioMsg!=null}">-->
+
+            <!--                <androidx.appcompat.widget.AppCompatImageView-->
+            <!--                    android:id="@+id/iv_recorder"-->
+            <!--                    android:layout_width="20dp"-->
+            <!--                    android:layout_height="20dp"-->
+            <!--                    android:src="@drawable/ic_baseline_play_circle_24_gray"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                    app:layout_constraintStart_toStartOf="parent"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+            <!--                <androidx.appcompat.widget.AppCompatTextView-->
+            <!--                    android:layout_width="wrap_content"-->
+            <!--                    android:layout_height="wrap_content"-->
+            <!--                    android:layout_marginStart="5dp"-->
+            <!--                    android:layout_marginEnd="5dp"-->
+            <!--                    android:text="00:00"-->
+            <!--                    android:textColor="@color/white"-->
+            <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                    app:layout_constraintStart_toEndOf="@id/iv_recorder"-->
+            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
+
+
+            <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+            <!--            android:text="@{chatBean.msg}"-->
+            <!--            app:isVisible="@{chatBean.msg!=null}"-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_read"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="已讀"
+            android:textColor="@color/gray_aaaaaa"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_time"
+            app:layout_constraintStart_toEndOf="@id/cl_layout" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="11:23"
+            android:textColor="@color/gray_aaaaaa"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/cl_layout"
+            app:layout_constraintStart_toEndOf="@id/cl_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

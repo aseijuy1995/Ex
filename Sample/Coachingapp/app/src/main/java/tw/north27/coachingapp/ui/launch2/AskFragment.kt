@@ -17,7 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphLaunch2Directions
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.AskListAdapter
-import tw.north27.coachingapp.consts.askListTest
+import tw.north27.coachingapp.consts.getAskListTest
 import tw.north27.coachingapp.databinding.FragmentAskBinding
 import tw.north27.coachingapp.model.AskInfo
 import tw.north27.coachingapp.model.AskType
@@ -62,7 +62,7 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             when (it) {
                 is ViewState.Data -> {
                     adapter.apply {
-                        this.educationList = publicVM.educationList.value
+                        this.educationLevelList = publicVM.educationList.value
                         this.gradeList = publicVM.gradeList.value
                         this.subjectList = publicVM.subjectList.value
                         this.unitsList = publicVM.unitList.value
@@ -78,16 +78,16 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
 
         binding.itemToolbarNormal.ivSend.clicksObserve(owner = viewLifecycleOwner) {
             val askId = adapter.getItemId(0)
-            val ask = askListTest[2].apply {
-                id = askListTest.maxOf(AskInfo::id) + 1
+            val ask = getAskListTest()[2].apply {
+                id = getAskListTest().maxOf(AskInfo::id) + 1
                 askType = AskType.TEXT
-                text = "測試${askListTest.maxOf(AskInfo::id) + 1}"
+                text = "測試${getAskListTest().maxOf(AskInfo::id) + 1}"
                 unReadNum = unReadNum + 1
                 sendTime = Date()
                 unitId = unitId
                 msg = "測試$id"
             }
-            askListTest.apply {
+            getAskListTest().apply {
                 removeAt(2)
                 add(0, ask)
             }
@@ -95,7 +95,8 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
         }
 
         adapter.itemClickRelay.observe(viewLifecycleOwner) {
-            findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentAskRoom())
+            val userInfo = it.second
+            findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentAskRoom(userInfo.senderUser.account, userInfo.id))
         }
 
         binding.srlView.autoRefresh()

@@ -3,7 +3,6 @@ package tw.north27.coachingapp.viewModel
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.google.gson.Gson
 import com.yujie.utilmodule.base.BaseAndroidViewModel
 import com.yujie.utilmodule.ext.asLiveData
 import com.yujie.utilmodule.http.Results
@@ -44,16 +43,16 @@ class PublicViewModel(
 
     val launchBgRes = _launchBgRes.asLiveData()
 
-    private val _educationResponseState = MutableLiveData<ViewState<EducationResponse>>(ViewState.initial())
+    private val _educationResponseState = MutableLiveData<ViewState<Education>>(ViewState.initial())
 
     val educationDataState = _educationResponseState.asLiveData()
 
     fun fetchEducationData() = viewModelScope.launch(Dispatchers.IO) {
         val results = publicRepo.fetchEducationData()
         when (results) {
-            is Results.Successful<EducationResponse> -> {
+            is Results.Successful<Education> -> {
                 val educationData = results.data
-                if (educationData.educationList.isNotEmpty()
+                if (educationData.educationLevelList.isNotEmpty()
                     && educationData.gradeList.isNotEmpty()
                     && educationData.subjectList.isNotEmpty()
                     && educationData.unitList.isNotEmpty()
@@ -71,11 +70,11 @@ class PublicViewModel(
         }
     }
 
-    private val _educationList = MutableLiveData<List<Education>>()
+    private val _educationList = MutableLiveData<List<EducationLevel>>()
 
     val educationList = _educationList.asLiveData()
 
-    fun setEducationList(educationList: List<Education>) = _educationList.postValue(educationList)
+    fun setEducationList(educationLevelList: List<EducationLevel>) = _educationList.postValue(educationLevelList)
 
     private val _gradeList = MutableLiveData<List<Grade>>()
 
@@ -95,13 +94,13 @@ class PublicViewModel(
 
     fun setUnitList(unitList: List<Units>) = _unitList.postValue(unitList)
 
-    val defaultEducation = Education(id = -1, name = cxt.getString(R.string.df))
+    val defaultEducation = EducationLevel(id = -1, name = cxt.getString(R.string.df))
 
-    val defaultGradle = Grade(id = -1, name = cxt.getString(R.string.df), educationId = -1)
+    val defaultGradle = Grade(id = -1, name = cxt.getString(R.string.df), educationLevelId = -1, subjectIdList = listOf())
 
     val defaultSubject = Subject(id = -1, name = cxt.getString(R.string.df))
 
-    val defaultUnit = Units(id = -1, name = cxt.getString(R.string.df), subjectId = -1)
+    val defaultUnit = Units(id = -1, name = cxt.getString(R.string.df), educationLevelId = -1, gradeId = -1, subjectId = -1)
 
     private val _personalBgRes: MutableLiveData<Int> by lazy {
         val list = listOf<Int>(
@@ -130,9 +129,7 @@ class PublicViewModel(
         if (account.isEmpty()) {
             _userState.postValue(ViewState.empty())
         } else {
-            val results = userRepo.fetchUser(
-                json = Gson().toJson(hashMapOf("account" to account))
-            )
+            val results = userRepo.fetchUser(account = account)
             when (results) {
                 is Results.Successful<UserInfo> -> {
                     val userInfo = results.data

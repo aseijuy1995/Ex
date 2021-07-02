@@ -3,10 +3,10 @@ package tw.north27.coachingapp.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
-import com.bumptech.glide.Glide
 import com.yujie.utilmodule.pref.getAccount
 import com.yujie.utilmodule.pref.userPref
 import kotlinx.coroutines.CoroutineScope
@@ -14,8 +14,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import tw.north27.coachingapp.R
+import tw.north27.coachingapp.consts.dateTimeToString
+import tw.north27.coachingapp.databinding.ItemAskRoomOtherBinding
 import tw.north27.coachingapp.databinding.ItemAskRoomSelfBinding
 import tw.north27.coachingapp.model.AskInfo
+import tw.north27.coachingapp.model.AskType
 import kotlin.coroutines.CoroutineContext
 
 class AskRoomListAdapter(
@@ -60,12 +63,12 @@ class AskRoomListAdapter(
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
             Type.SELF.code -> {
-                val binding = DataBindingUtil.inflate<ItemChatRoomOwnerBinding>(inflater, R.layout.item_ask_room_self, parent, false)
-                SelfVH(binding, parent.context)
+                val binding = DataBindingUtil.inflate<ItemAskRoomSelfBinding>(inflater, R.layout.item_ask_room_self, parent, false)
+                SelfVH(binding)
             }
             else -> {
-                val binding = DataBindingUtil.inflate<ItemChatRoomOtherBinding>(inflater, R.layout.item_chat_room_other, parent, false)
-                OtherVH(binding, parent.context)
+                val binding = DataBindingUtil.inflate<ItemAskRoomOtherBinding>(inflater, R.layout.item_ask_room_other, parent, false)
+                OtherVH(binding)
             }
         }
     }
@@ -84,49 +87,65 @@ class AskRoomListAdapter(
 
     inner class SelfVH(private val binding: ItemAskRoomSelfBinding) : VH(binding) {
         override fun bind(askInfo: AskInfo) = binding.apply {
-            this.chat = chat
-
-            if (chat.chatType == ChatType.IMAGE) {
-                chat.image?.let {
-                    val adapter = ChatImageListAdapter()
-                    val layoutManager = object : GridLayoutManager(cxt, 2, LinearLayoutManager.VERTICAL, false) {
-                        override fun isLayoutRTL(): Boolean = true
-                    }.apply {
-                        spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                            override fun getSpanSize(position: Int): Int = imageArrangementFormat(it, position)
-                        }
-                    }
-                    rvImg.apply {
-                        this.layoutManager = layoutManager
-                        this.adapter = adapter
-                        addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                                super.onScrollStateChanged(recyclerView, newState)
-                                when (newState) {
-                                    RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this@apply).resumeRequests()
-                                    RecyclerView.SCROLL_STATE_DRAGGING -> Glide.with(this@apply).pauseRequests()
-                                }
-
-                            }
-                        })
-                    }
-                    adapter.submitList(it)
-                    adapter.itemClickRelay.subscribeBy { imageClickRelay?.accept(it) }
+            this.askInfo = askInfo
+            when (askInfo.askType) {
+                AskType.TEXT -> {
+                    tvText.text = askInfo.text
                 }
-            } else if (chat.chatType == ChatType.VIDEO) {
-                //video
-                chat.videos?.let {
-                    val adapter = ChatVideoListAdapter(cxt, owner).apply { submitList(it) }
-                    rvVideo.adapter = adapter
-                    adapter.itemClickRelay.subscribeBy { videoClickRelay?.accept(it) }
+                AskType.IMAGE -> {
                 }
-            } else if (chat.chatType == ChatType.AUDIO) {
-                //audio
-                chat.audios?.let {
-                    val adapter = ChatAudioListAdapter(cxt, owner).apply { submitList(it) }
-                    rvAudio.adapter = adapter
+                AskType.AUDIO -> {
+                }
+                AskType.VIDEO -> {
                 }
             }
+            tvRead.apply {
+                isVisible = (askInfo.unReadNum > 0)
+                text = if (askInfo.unReadNum > 0) context.getString(R.string.un_read) else context.getString(R.string.have_read)
+            }
+            tvTime.text = dateTimeToString(askInfo.sendTime)
+
+//            if (chat.chatType == ChatType.IMAGE) {
+//                chat.image?.let {
+//                    val adapter = ChatImageListAdapter()
+//                    val layoutManager = object : GridLayoutManager(cxt, 2, LinearLayoutManager.VERTICAL, false) {
+//                        override fun isLayoutRTL(): Boolean = true
+//                    }.apply {
+//                        spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+//                            override fun getSpanSize(position: Int): Int = imageArrangementFormat(it, position)
+//                        }
+//                    }
+//                    rvImg.apply {
+//                        this.layoutManager = layoutManager
+//                        this.adapter = adapter
+//                        addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//                            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+//                                super.onScrollStateChanged(recyclerView, newState)
+//                                when (newState) {
+//                                    RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this@apply).resumeRequests()
+//                                    RecyclerView.SCROLL_STATE_DRAGGING -> Glide.with(this@apply).pauseRequests()
+//                                }
+//
+//                            }
+//                        })
+//                    }
+//                    adapter.submitList(it)
+//                    adapter.itemClickRelay.subscribeBy { imageClickRelay?.accept(it) }
+//                }
+//            } else if (chat.chatType == ChatType.VIDEO) {
+//                //video
+//                chat.videos?.let {
+//                    val adapter = ChatVideoListAdapter(cxt, owner).apply { submitList(it) }
+//                    rvVideo.adapter = adapter
+//                    adapter.itemClickRelay.subscribeBy { videoClickRelay?.accept(it) }
+//                }
+//            } else if (chat.chatType == ChatType.AUDIO) {
+//                //audio
+//                chat.audios?.let {
+//                    val adapter = ChatAudioListAdapter(cxt, owner).apply { submitList(it) }
+//                    rvAudio.adapter = adapter
+//                }
+//            }
 //            recording check
 //            viewRecorder.chkRecorder.setOnCheckedChangeListener { _, isChecked ->
 //                itemRecordingClickRelay.accept(Pair(isChecked, chatInfo))
@@ -154,10 +173,27 @@ class AskRoomListAdapter(
 //        }
     }
 
-//    inner class OtherVH(val binding: ItemChatRoomOtherBinding, val context: Context) : VH(binding) {
-//        override fun bind(chat: ChatInfo) = binding.apply {
-//            this.chat = chat
-//            //image
+    inner class OtherVH(val binding: ItemAskRoomOtherBinding) : VH(binding) {
+        override fun bind(askInfo: AskInfo) = binding.apply {
+            this.askInfo = askInfo
+            when (askInfo.askType) {
+                AskType.TEXT -> {
+                    tvText.text = askInfo.text
+                }
+                AskType.IMAGE -> {
+                }
+                AskType.AUDIO -> {
+                }
+                AskType.VIDEO -> {
+                }
+            }
+            tvRead.apply {
+                isVisible = (askInfo.unReadNum > 0)
+                text = if (askInfo.unReadNum > 0) context.getString(R.string.un_read) else context.getString(R.string.have_read)
+            }
+            tvTime.text = dateTimeToString(askInfo.sendTime)
+
+
 //            if (chat.chatType == ChatType.IMAGE) {
 //                chat.image?.let {
 //                    val adapter = ChatImageListAdapter()
@@ -198,26 +234,26 @@ class AskRoomListAdapter(
 //                    rvAudio.adapter = adapter
 //                }
 //            }
-//
-////            ivRecorder.clicks().subscribe {
-//////                if (viewModel.mediaPlayerState.value!!) {
-////////                        chatBean.recorderBytes?.let { viewModel.startPlayer(it) }
-//////                    viewModel.mMediaPlayerState.postValue(false)
-//////                    binding.ivRecorder.setImageResource(R.drawable.ic_baseline_play_circle_24_white)
-//////                } else {
-////////                        viewModel.stopPlayer()
-//////                    viewModel.mMediaPlayerState.postValue(true)
-//////                    binding.ivRecorder.setImageResource(R.drawable.ic_baseline_stop_circle_24_white)
-//////
-//////                }
-////            }
-////            viewModel.mediaPlayerState.observe(){
+
+//            ivRecorder.clicks().subscribe {
+////                if (viewModel.mediaPlayerState.value!!) {
+//////                        chatBean.recorderBytes?.let { viewModel.startPlayer(it) }
+////                    viewModel.mMediaPlayerState.postValue(false)
+////                    binding.ivRecorder.setImageResource(R.drawable.ic_baseline_play_circle_24_white)
+////                } else {
+//////                        viewModel.stopPlayer()
+////                    viewModel.mMediaPlayerState.postValue(true)
+////                    binding.ivRecorder.setImageResource(R.drawable.ic_baseline_stop_circle_24_white)
 ////
-////            }
-//            executePendingBindings()
-//        }
+////                }
+//            }
+//            viewModel.mediaPlayerState.observe(){
 //
-//    }
+//            }
+            executePendingBindings()
+        }
+
+    }
 
 //    private fun imageArrangementFormat(it: List<ChatImage>, position: Int) = when {
 //        it.size % 2 == 0 -> 1

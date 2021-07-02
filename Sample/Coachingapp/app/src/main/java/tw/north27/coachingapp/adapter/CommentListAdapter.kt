@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.databinding.ItemCommentBinding
 import tw.north27.coachingapp.model.*
-import tw.north27.coachingapp.model.response.Education
+import tw.north27.coachingapp.model.response.EducationLevel
 import tw.north27.coachingapp.model.response.Grade
 import tw.north27.coachingapp.model.response.Subject
 import tw.north27.coachingapp.model.response.Units
@@ -23,7 +23,7 @@ class CommentListAdapter : ListAdapter<CommentInfo, CommentListAdapter.VH>(objec
 }
 ) {
 
-    var educationList: List<Education>? = null
+    var educationLevelList: List<EducationLevel>? = null
 
     var gradeList: List<Grade>? = null
 
@@ -34,7 +34,7 @@ class CommentListAdapter : ListAdapter<CommentInfo, CommentListAdapter.VH>(objec
     inner class VH(val binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(commentInfo: CommentInfo) = binding.apply {
             this.commentInfo = commentInfo
-            this.education = educationList?.find { it.id == commentInfo.educationId }
+            this.education = educationLevelList?.find { it.id == commentInfo.educationId }
             this.grade = gradeList?.find { it.id == commentInfo.gradeId }
             this.subject = subjectList?.find { it.id == commentInfo.subjectId }
             this.unit = unitsList?.find { it.id == commentInfo.unitId }

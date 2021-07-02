@@ -2,6 +2,7 @@ package tw.north27.coachingapp.repository
 
 import com.yujie.utilmodule.http.Results
 import tw.north27.coachingapp.model.AskInfo
+import tw.north27.coachingapp.model.AskRoom
 import tw.north27.coachingapp.model.CommentInfo
 import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.model.request.CommentRequest
@@ -18,5 +19,7 @@ interface IActionRepository {
     suspend fun insertReflect(reflectRequest: ReflectRequest): Results<ReflectResponse>
 
     suspend fun fetchAskList(askId: Long?): Results<List<AskInfo>>
+
+    suspend fun fetchAskRoomList(account: String, id: Long): Results<AskRoom>
 
 }

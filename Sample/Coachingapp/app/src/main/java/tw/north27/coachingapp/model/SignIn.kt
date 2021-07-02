@@ -90,18 +90,18 @@ data class UserInfo(
     @SerializedName("id") val id: String,
     @SerializedName("account") val account: String,
     @SerializedName("auth") val auth: UserPref.Authority,
-    @SerializedName("bg_url") val bgUrl: String? = null,
-    @SerializedName("avatar_url") val avatarUrl: String? = null,
-    @SerializedName("name") val name: String,
+    @SerializedName("bg_url") val bgUrl: String = "",
+    @SerializedName("avatar_url") val avatarUrl: String = "",
+    @SerializedName("name") val name: String = "",
     @SerializedName("gender") val gender: Gender? = null,
-    @SerializedName("intro") val intro: String? = null,
+    @SerializedName("intro") val intro: String = "",
     @SerializedName("birthday") val birthday: Date? = null,
-    @SerializedName("cell_phone") val cellPhone: String? = null,
-    @SerializedName("home_phone") val homePhone: String? = null,
-    @SerializedName("email") val email: String? = null,
+    @SerializedName("cell_phone") val cellPhone: String = "",
+    @SerializedName("home_phone") val homePhone: String = "",
+    @SerializedName("email") val email: String = "",
     @SerializedName("student_info") val studentInfo: StudentInfo? = null,
     @SerializedName("teacher_info") val teacherInfo: TeacherInfo? = null,
-    @SerializedName("user_config") val userConfig: UserConfig? = null,//用戶設定
+    @SerializedName("user_config") val userConfig: UserConfig? = null,
 ) : Parcelable
 
 /**

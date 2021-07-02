@@ -6,7 +6,7 @@ package tw.north27.coachingapp.consts
 import retrofit2.http.*
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.request.*
-import tw.north27.coachingapp.model.response.EducationResponse
+import tw.north27.coachingapp.model.response.Education
 import tw.north27.coachingapp.model.response.PublicDataResponse
 import tw.north27.coachingapp.model.response.ReflectResponse
 
@@ -16,7 +16,7 @@ interface IApiService {
      * 取得教育數據
      * */
     @GET
-    suspend fun fetchEducationData(): EducationResponse
+    suspend fun fetchEducationData(): Education
 
     /**
      * 取得App設定資訊
@@ -49,10 +49,10 @@ interface IApiService {
     /**
      * 取得用戶資訊
      * @header accessToken
-     * @param json >> account >> 帳號
+     * @param account >> 帳號
      * */
     @POST
-    suspend fun fetchUser(@Body json: String): UserInfo
+    suspend fun fetchUser(@Field("account") account: String): UserInfo
 
     /**
      * 更新用戶資訊
@@ -101,6 +101,15 @@ interface IApiService {
     @POST
     @FormUrlEncoded
     suspend fun fetchAskList(@Field("id") askId: Long? = null): List<AskInfo>
+
+    /**
+     * 獲取指定提問室列表
+     * @header accessToken
+     * @param id >> 房間id
+     * */
+    @POST
+    @FormUrlEncoded
+    suspend fun fetchAskRoomList(@Field("id") id: Long): AskRoom
 
     //
     //

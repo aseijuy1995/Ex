@@ -94,7 +94,7 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
                 when (it) {
                     is ViewState.Data -> {
                         val educationData = it.data
-                        publicVM.setEducationList(educationData.educationList)
+                        publicVM.setEducationList(educationData.educationLevelList)
                         publicVM.setGradeList(educationData.gradeList)
                         publicVM.setSubjectList(educationData.subjectList)
                         publicVM.setUnitList(educationData.unitList)

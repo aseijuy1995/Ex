@@ -11,7 +11,7 @@
 
         <variable
             name="education"
-            type="tw.north27.coachingapp.model.response.Education" />
+            type="tw.north27.coachingapp.model.response.EducationLevel" />
 
         <variable
             name="grade"

@@ -2,38 +2,76 @@ package tw.north27.coachingapp.ui.launch2
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
+import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseFragment
 import com.yujie.utilmodule.ext.clicksObserve
+import com.yujie.utilmodule.ext.visible
+import com.yujie.utilmodule.util.ViewState
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
+import tw.north27.coachingapp.adapter.AskRoomListAdapter
 import tw.north27.coachingapp.databinding.FragmentAskRoomBinding
+import tw.north27.coachingapp.viewModel.AskRoomViewModel
 
 class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_ask_room) {
 
     override val viewBind: (View) -> FragmentAskRoomBinding
         get() = FragmentAskRoomBinding::bind
 
-    //    private val viewModel by viewModel<ChatRoomViewModel>()
-//
-    private val adapter = AskRoomListAdapter()
-//
-//    private val chat: ChatInfo
-//        get() = arguments?.getParcelable<ChatInfo>("chat")!!
+    private val viewModel by viewModel<AskRoomViewModel>()
+
+    private val adapter: AskRoomListAdapter
+        get() = AskRoomListAdapter(cxt)
+
+    private val account: String
+        get() = arguments?.getString("account")!!
+
+    private val roomId: Long
+        get() = arguments?.getLong("roomId")!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.apply {
+        binding.rvAsk.adapter = adapter
 
-
-//            rvAsk.adapter =
+        viewModel.userInfoState.observe(viewLifecycleOwner) {
+            when (it) {
+                is ViewState.Empty -> {
+                    Toast.makeText(cxt, getString(R.string.not_find_this_user), Toast.LENGTH_SHORT).show()
+                    findNavController().navigateUp()
+                }
+                is ViewState.Data -> {
+                    val userInfo = it.data
+                    binding.itemToolbarAskRoom.apply {
+                        ivAvatar.apply {
+                            isVisible = userInfo.avatarUrl.isNotEmpty()
+                            bindImg(url = userInfo.avatarUrl, roundingRadius = 15)
+                        }
+                        tvName.text = userInfo.name
+                    }
+                }
+            }
         }
 
-        binding.itemToolbarNormal.ivBack.clicksObserve(owner = viewLifecycleOwner) {
+        viewModel.askRoomState.observe(viewLifecycleOwner) {
+            binding.itemAskRoomLoad.root.visible = (it is ViewState.Load)
+            binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
+            binding.rvAsk.isVisible = (it is ViewState.Data)
+            binding.itemError.root.isVisible = (it is ViewState.Error)
+            binding.itemNetwork.root.isVisible = (it is ViewState.Network)
+            when (it) {
+                is ViewState.Data -> {
+                }
+            }
+        }
+
+        binding.itemToolbarAskRoom.ivBack.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()
         }
 
-//        viewModel.setChatRoomChat(chat)
-//        adapter = ChatRoomListAdapter(cxt, viewLifecycleOwner)
+
 //        binding.rvChat.apply {
 //            adapter = this@AskRoomFragment.adapter
 //            scrollStateChanges().observe(viewLifecycleOwner) {
@@ -307,6 +345,9 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 //        adapter.videoClickRelay?.observe(viewLifecycleOwner) {
 //
 //        }
+
+        viewModel.fetchUser(account)
+        viewModel.fetchAskRoomList(account, roomId)
     }
 
 }

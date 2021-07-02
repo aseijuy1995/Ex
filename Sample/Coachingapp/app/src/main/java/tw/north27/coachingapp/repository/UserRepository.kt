@@ -20,8 +20,8 @@ class UserRepository(val service: IApiService, val context: Context) : IUserRepo
         return safeApiResults { service.signIn(signInRequest = signInRequest) }
     }
 
-    override suspend fun fetchUser(json: String): Results<UserInfo> {
-        return safeApiResults { service.fetchUser(json = json) }
+    override suspend fun fetchUser(account: String): Results<UserInfo> {
+        return safeApiResults { service.fetchUser(account = account) }
     }
 
     override suspend fun updateUser(updateUserRequest: UpdateUserRequest): Results<Boolean> {

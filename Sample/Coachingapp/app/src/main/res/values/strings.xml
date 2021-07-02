@@ -124,14 +124,16 @@
     <!--    -->
     <!--    -->
     <!--    -->
-    <!-- Main -->
+    <!-- AskRoomFragment -->
+    <string name="not_find_this_user">找不到此用戶</string>
+    <!--    -->
+    <string name="have_read">已讀</string>
+    <string name="un_read">未讀</string>
 
 
     <string name="search">搜尋</string>
     <string name="top">Top</string>
     <string name="all">全部</string>
-    <string name="have_read">已讀</string>
-    <string name="un_read">未讀</string>
     <string name="open_sound_notify">開啟聲音通知</string>
     <string name="close_sound_notify">關閉聲音通知</string>
     <string name="deleted">已刪除</string>

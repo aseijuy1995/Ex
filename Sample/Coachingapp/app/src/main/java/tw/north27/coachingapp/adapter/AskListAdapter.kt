@@ -14,7 +14,7 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.consts.dateToString
 import tw.north27.coachingapp.databinding.ItemAskBinding
 import tw.north27.coachingapp.model.AskInfo
-import tw.north27.coachingapp.model.response.Education
+import tw.north27.coachingapp.model.response.EducationLevel
 import tw.north27.coachingapp.model.response.Grade
 import tw.north27.coachingapp.model.response.Subject
 import tw.north27.coachingapp.model.response.Units
@@ -38,7 +38,7 @@ class AskListAdapter : ListAdapter<AskInfo, AskListAdapter.VH>(object : DiffUtil
 
     val itemClickRelay = PublishRelay.create<Pair<View, AskInfo>>()
 
-    var educationList: List<Education>? = null
+    var educationLevelList: List<EducationLevel>? = null
 
     var gradeList: List<Grade>? = null
 
@@ -54,7 +54,7 @@ class AskListAdapter : ListAdapter<AskInfo, AskListAdapter.VH>(object : DiffUtil
             ivNotice.bindImg(resId = if (askInfo.isSound) R.drawable.ic_baseline_volume_up_24_blue else R.drawable.ic_baseline_volume_off_24_red)
             tvTime.text = dateToString(askInfo.sendTime)
             tvMsg.text = askInfo.msg
-            itemLabelEducation.tvLabel.text = educationList?.find { it.id == askInfo.educationId }?.name
+            itemLabelEducation.tvLabel.text = educationLevelList?.find { it.id == askInfo.educationId }?.name
             itemLabelGrade.tvLabel.text = gradeList?.find { it.id == askInfo.gradeId }?.name
             itemLabelSubject.tvLabel.text = subjectList?.find { it.id == askInfo.subjectId }?.name
             itemLabelUnit.tvLabel.text = unitsList?.find { it.id == askInfo.unitId }?.name

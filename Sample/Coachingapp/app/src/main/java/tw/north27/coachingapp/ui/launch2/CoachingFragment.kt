@@ -15,7 +15,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.databinding.FragmentCoachingBinding
-import tw.north27.coachingapp.model.response.Education
+import tw.north27.coachingapp.model.response.EducationLevel
 import tw.north27.coachingapp.model.response.Grade
 import tw.north27.coachingapp.model.response.Subject
 import tw.north27.coachingapp.model.response.Units
@@ -100,7 +100,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
         }
 
         binding.srlView.setOnRefreshListener {
-            val educationId = (binding.itemDrawerLayoutCoaching.spEducation.selectedItem as Education).id
+            val educationId = (binding.itemDrawerLayoutCoaching.spEducation.selectedItem as EducationLevel).id
             val gradeId = (binding.itemDrawerLayoutCoaching.spGrade.selectedItem as Grade).id
             val subjectId = (binding.itemDrawerLayoutCoaching.spSubject.selectedItem as Subject).id
             val unitId = (binding.itemDrawerLayoutCoaching.spUnit.selectedItem as Units).id
@@ -126,7 +126,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
                             if (id == -1L)
                                 launch2Act.publicVM.gradeList.value ?: emptyList()
                             else
-                                launch2Act.publicVM.gradeList.value?.filter { it.educationId == id } ?: emptyList()
+                                launch2Act.publicVM.gradeList.value?.filter { it.educationLevelId == id } ?: emptyList()
                         )
                     }
                 )

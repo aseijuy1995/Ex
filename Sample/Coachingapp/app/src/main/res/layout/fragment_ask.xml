@@ -53,7 +53,7 @@
 
             <include
                 android:id="@+id/item_ask_load"
-                layout="@layout/fragment_ask_load" />
+                layout="@layout/fragment_ask_room_load" />
 
         </FrameLayout>
 

@@ -7,26 +7,26 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.response.Education
+import tw.north27.coachingapp.model.response.EducationLevel
 
 class EducationAdapter : BaseAdapter() {
-    private var educationList: List<Education>? = null
+    private var educationLevelList: List<EducationLevel>? = null
 
-    fun submitData(educationList: List<Education>) {
-        this.educationList = educationList
+    fun submitData(educationLevelList: List<EducationLevel>) {
+        this.educationLevelList = educationLevelList
         notifyDataSetChanged()
     }
 
     override fun getCount(): Int {
-        return educationList?.size ?: 0
+        return educationLevelList?.size ?: 0
     }
 
-    override fun getItem(position: Int): Education? {
-        return educationList?.get(position)
+    override fun getItem(position: Int): EducationLevel? {
+        return educationLevelList?.get(position)
     }
 
     override fun getItemId(position: Int): Long {
-        return educationList?.get(position)?.id ?: 0
+        return educationLevelList?.get(position)?.id ?: 0
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {

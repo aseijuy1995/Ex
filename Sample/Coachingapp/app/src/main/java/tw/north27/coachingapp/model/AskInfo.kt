@@ -30,6 +30,7 @@ data class AskInfo(
     @SerializedName("id") var id: Long,
     @SerializedName("sender__user_info") var senderUser: UserInfo,
     @SerializedName("receiver_user_info") var receiverUser: UserInfo,
+
     @SerializedName("ask_type") var askType: AskType,
     @SerializedName("text") var text: String? = null,
     @SerializedName("img_list") var imgList: List<AskImage> = emptyList(),

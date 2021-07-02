@@ -1,58 +1,69 @@
-//package tw.north27.coachingapp.chat
-//
-//import android.app.Application
-//import android.graphics.Bitmap
-//import androidx.lifecycle.MutableLiveData
-//import androidx.lifecycle.map
-//import com.yujie.utilmodule.ViewState
-//import kotlinx.coroutines.Dispatchers
-//import kotlinx.coroutines.flow.MutableStateFlow
-//import org.koin.core.KoinComponent
-//import tw.north27.coachingapp.R
-//import tw.north27.coachingapp.ext2.*
-//import tw.north27.coachingapp.media.RecorderSetting
-//import tw.north27.coachingapp.media.mediaStore.Media
-//import tw.north27.coachingapp.model.result.ChatInfo
-//import java.io.File
-//
-//class ChatRoomViewModel(
-//    application: Application,
-//    val chatRepo: IChatRepository,
-//    val mediaRepo: IMediaRepository
-//) : BaseAndroidViewModel(application), KoinComponent {
-//
-//    private val _chat = MutableLiveData<ChatInfo>()
-//
-//    val chat = _chat.asLiveData()
-//
-//    fun setChatRoomChat(chat: ChatInfo) {
-//        _chat.value = chat
-//    }
-//
-//    private val _chatListState = MutableStateFlow<ViewState<List<ChatInfo>>>(ViewState.Initial)
-//
-//    val chatListState = _chatListState.asStateFlow()
-//
-//    fun loadChatList(chat: ChatInfo) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            _chatListState.value = ViewState.load()
-//            val results = chatRepo.loadChatList(chat)
-//            when (results) {
-//                is Results.Successful -> {
-//                    val list = results.data
-//                    _chatListState.value =
-//                        if (list.isNullOrEmpty()) ViewState.empty()
-//                        else ViewState.data(list)
-//                }
-//                is Results.ClientErrors -> {
-//                    _chatListState.value = ViewState.error(results.e)
-//                }
-//                is Results.NetWorkError -> {
-//                    _chatListState.value = ViewState.network(results.e)
-//                }
-//            }
-//        }
-//    }
+package tw.north27.coachingapp.viewModel
+
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.yujie.utilmodule.base.BaseViewModel
+import com.yujie.utilmodule.ext.asLiveData
+import com.yujie.utilmodule.http.Results
+import com.yujie.utilmodule.util.ViewState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import tw.north27.coachingapp.model.AskRoom
+import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.repository.IActionRepository
+import tw.north27.coachingapp.repository.IUserRepository
+
+class AskRoomViewModel(
+    val actionRepo: IActionRepository,
+    val userRepo: IUserRepository
+) : BaseViewModel() {
+
+    private val _userInfoState = MutableLiveData<ViewState<UserInfo>>(ViewState.Initial)
+
+    val userInfoState = _userInfoState.asLiveData()
+
+    fun fetchUser(account: String) = viewModelScope.launch(Dispatchers.IO) {
+        _userInfoState.postValue(ViewState.load())
+        val results = userRepo.fetchUser(account = account)
+        when (results) {
+            is Results.Successful -> {
+                val userInfo = results.data
+                _userInfoState.postValue(ViewState.data(userInfo))
+            }
+            is Results.ClientErrors -> {
+                _userInfoState.postValue(ViewState.error(results.e))
+            }
+            is Results.NetWorkError -> {
+                _userInfoState.postValue(ViewState.network(results.e))
+            }
+        }
+    }
+
+    private val _askRoomState = MutableLiveData<ViewState<AskRoom>>(ViewState.Initial)
+
+    val askRoomState = _askRoomState.asLiveData()
+
+    fun fetchAskRoomList(account: String, id: Long) = viewModelScope.launch(Dispatchers.IO) {
+        _askRoomState.postValue(ViewState.load())
+        val results = actionRepo.fetchAskRoomList(account, id)
+        when (results) {
+            is Results.Successful -> {
+                val askRoom = results.data
+                if (askRoom.askRoomInfoList.isNullOrEmpty())
+                    _askRoomState.postValue(ViewState.empty())
+                else
+                    _askRoomState.postValue(ViewState.data(askRoom))
+            }
+            is Results.ClientErrors -> {
+                _askRoomState.postValue(ViewState.error(results.e))
+            }
+            is Results.NetWorkError -> {
+                _askRoomState.postValue(ViewState.network(results.e))
+            }
+        }
+    }
+
+
 //
 //    val message = chatRepo.message
 //
@@ -165,4 +176,4 @@
 ////    fun addChatMessage(chat: ChatInfo) {
 ////        _chatMessageList
 ////    }
-//}
+}
