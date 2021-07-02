@@ -364,7 +364,7 @@ class ApiService(val cxt: Context) : IApiService {
             id = id,
             selfAct = accountTest,
             otherAct = teacherInfoListTest.find { it.account == account }?.account!!,
-            educationId = 1,
+            educationLevelId = 1,
             gradeId = 1,
             subjectId = 1,
             unitId = 1,
