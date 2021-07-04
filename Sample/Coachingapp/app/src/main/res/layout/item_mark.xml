@@ -1,114 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="20sp"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
-            android:scaleY="0.8"
             android:text="@string/c"
-            android:textColor="@color/blue_082e81"
+            android:textColor="@color/red_eb4537"
             android:textSize="14sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
-            android:scaleY="0.8"
             android:text="@string/o"
-            android:textColor="@color/blue_082e81"
+            android:textColor="@color/orange_f09801"
             android:textSize="14sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
-            android:scaleY="0.8"
             android:text="@string/a"
-            android:textColor="@color/blue_082e81"
+            android:textColor="@color/yellow_fac230"
             android:textSize="14sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
-            android:scaleY="0.8"
             android:text="@string/c"
-            android:textColor="@color/blue_082e81"
+            android:textColor="@color/green_55af7b"
             android:textSize="14sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
-            android:scaleY="0.8"
             android:text="@string/h"
-            android:textColor="@color/blue_082e81"
+            android:textColor="@color/blue_4286f3"
             android:textSize="14sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
-            android:scaleY="0.8"
             android:text="@string/i"
-            android:textColor="@color/blue_082e81"
+            android:textColor="@color/red_eb4537"
             android:textSize="14sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
-            android:scaleY="0.8"
             android:text="@string/n"
-            android:textColor="@color/blue_082e81"
+            android:textColor="@color/orange_f09801"
             android:textSize="14sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
-            android:scaleY="0.8"
             android:text="@string/g"
-            android:textColor="@color/blue_082e81"
+            android:textColor="@color/yellow_fac230"
             android:textSize="14sp"
             android:textStyle="bold"
             android:typeface="serif" />
@@ -117,43 +109,37 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        android:layout_height="16sp"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
-            android:layout_height="16sp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
             android:src="@drawable/ic_twotone_school_24_red" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
-            android:layout_height="16sp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
             android:src="@drawable/ic_twotone_question_answer_24_orange" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
-            android:layout_height="16sp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
             android:src="@drawable/ic_twotone_chrome_reader_mode_24_yellow" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
-            android:layout_height="16sp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
             android:src="@drawable/ic_twotone_notifications_24_green" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
-            android:layout_height="16sp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
             android:src="@drawable/ic_twotone_person_24_blue" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

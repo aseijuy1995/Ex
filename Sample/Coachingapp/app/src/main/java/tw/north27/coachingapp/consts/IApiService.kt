@@ -13,23 +13,24 @@ import tw.north27.coachingapp.model.response.ReflectResponse
 interface IApiService {
 
     /**
+     * 獲取App初始設定
+     *  @param deviceType >> 設備類型(android)
+     * */
+    @GET
+    suspend fun fetchAppConfig(@Field("device_type") deviceType: String): AppConfig
+
+    /**
+     * 審核accessToken
+     * @header accessToken
+     * */
+    @GET
+    suspend fun auditAccessToken(): SignIn
+
+    /**
      * 取得教育數據
      * */
     @GET
     suspend fun fetchEducationData(): Education
-
-    /**
-     * 取得App設定資訊
-     * */
-    @GET
-    suspend fun fetchAppConfig(): AppConfig
-
-    /**
-     * 檢查登入
-     * @header accessToken
-     * */
-    @POST
-    suspend fun checkSignIn(): SignIn
 
     /**
      * 登入

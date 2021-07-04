@@ -3,6 +3,7 @@ package tw.north27.coachingapp.ui.launch
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
+import com.yujie.utilmodule.adapter.SetType
 import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseDialogFragment
 import com.yujie.utilmodule.ext.clicksObserve
@@ -11,7 +12,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentDefendDialogBinding
 import tw.north27.coachingapp.model.AppCode
-import tw.north27.coachingapp.viewModel.StartViewModel
+import tw.north27.coachingapp.viewModel.PublicViewModel
 import java.text.SimpleDateFormat
 
 class DefendDialogFragment : BaseDialogFragment<FragmentDefendDialogBinding>(R.layout.fragment_defend_dialog) {
@@ -19,29 +20,26 @@ class DefendDialogFragment : BaseDialogFragment<FragmentDefendDialogBinding>(R.l
     override val viewBind: (View) -> FragmentDefendDialogBinding
         get() = FragmentDefendDialogBinding::bind
 
-    private val viewModel by sharedViewModel<StartViewModel>()
+    private val publicVM by sharedViewModel<PublicViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.appConfigState.observe(viewLifecycleOwner) {
-            if (it is ViewState.Data) {
-                val appConfig = it.data
-                when (appConfig.appCode) {
-                    AppCode.DEFEND.code -> {
+        publicVM.appConfigState.observe(viewLifecycleOwner) {
+            when (it) {
+                is ViewState.Data -> {
+                    val appConfig = it.data
+                    if (appConfig.appCode == AppCode.DEFEND.code) {
                         val defendInfo = appConfig.defendInfo!!
-                        if (defendInfo.bgUrl.isNotEmpty()) binding.ivBg.bindImg(url = defendInfo.bgUrl)
+                        if (defendInfo.bgUrl.isNotEmpty()) binding.ivBg.bindImg(url = defendInfo.bgUrl, setType = SetType.BACKGROUND)
                         if (defendInfo.title.isNotEmpty()) binding.tvTitle.text = defendInfo.title
+                        if (defendInfo.content.isNotEmpty()) binding.tvContent.text = defendInfo.content
+
                         binding.apply {
                             tvTime.apply {
                                 isVisible = (defendInfo.time != null)
                                 defendInfo.time?.let {
-                                    //FIXME 時間格式統一修改
                                     text = SimpleDateFormat("yyyy/MM/dd HH:mm").format(defendInfo.time)
                                 }
-                            }
-                            tvContent.apply {
-                                isVisible = defendInfo.content.isNotEmpty()
-                                text = defendInfo.content
                             }
                         }
                     }

@@ -12,8 +12,8 @@ import tw.north27.coachingapp.model.request.UpdateUserRequest
 
 class UserRepository(val service: IApiService, val context: Context) : IUserRepository {
 
-    override suspend fun checkSignIn(): Results<SignIn> {
-        return safeApiResults { service.checkSignIn() }
+    override suspend fun auditAccessToken(): Results<SignIn> {
+        return safeApiResults { service.auditAccessToken() }
     }
 
     override suspend fun signIn(signInRequest: SignInRequest): Results<SignIn> {

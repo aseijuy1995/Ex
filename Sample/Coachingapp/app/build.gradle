@@ -27,6 +27,7 @@ android {
         Properties properties = new Properties()
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
         //
+        buildConfigField "String", "DEVICE_TYPE", properties.getProperty("device_type")
         buildConfigField "String", "BASE_URL", properties.getProperty("base_url")
     }
 

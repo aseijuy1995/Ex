@@ -81,6 +81,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:text="@string/defend_content"
                     android:textColor="@color/gray_666666"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toTopOf="@id/btn_close"

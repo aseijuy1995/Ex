@@ -1,7 +1,10 @@
 package tw.north27.coachingapp.consts
 
 import android.content.Context
+import com.google.gson.Gson
+import com.yujie.utilmodule.util.UpdateApp
 import com.yujie.utilmodule.util.logD
+import com.yujie.utilmodule.util.logI
 import kotlinx.coroutines.delay
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -15,23 +18,15 @@ import tw.north27.coachingapp.model.response.ReflectResponse
 
 class ApiService(val cxt: Context) : IApiService {
 
-    override suspend fun fetchEducationData(): Education {
-        delay(500)
-        return Education(
-            educationLevelList = educationListTest,
-            gradeList = gradeListTest,
-            subjectList = subjectListTest,
-            unitList = unitListTest
-        )
-    }
-
-    override suspend fun fetchAppConfig(): AppConfig {
+    override suspend fun fetchAppConfig(@Field(value = "device_type") deviceType: String): AppConfig {
         delay(1500)
-        return AppConfig(
+        val appConfig: AppConfig
+        appConfig = AppConfig(
             appCode = AppCode.MOTION.code,
             motionInfo = MotionInfo(
-                bgUrl = "",
+                bgUrl = "https://image.flaticon.com/icons/png/512/178/178158.png",
                 title = cxt.getString(R.string.update_title),
+                versionNameMode = UpdateApp.VersionNameMode.DEFAULT,
                 versionName = "1.0.0",
                 url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
                 content = "1. 資料顯示錯誤\n" +
@@ -44,10 +39,10 @@ class ApiService(val cxt: Context) : IApiService {
                 isCompulsory = false
             )
         )
-//        return AppConfig(
+//        appConfig = AppConfig(
 //            appCode = AppCode.DEFEND.code,
 //            defendInfo = DefendInfo(
-//                bgUrl = "",
+//                bgUrl = "https://image.flaticon.com/icons/png/512/178/178158.png",
 //                title = cxt.getString(R.string.defend_title),
 //                content = "1. 伺服器遭受攻擊。\n" +
 //                        "2. 增加監控、效能分析、執行網路維護。\n" +
@@ -55,40 +50,43 @@ class ApiService(val cxt: Context) : IApiService {
 //                        "4. 維護通知描述1\n" +
 //                        "5. 維護通知描述2\n" +
 //                        "6. 維護通知描述3",
-//                time = SimpleDateFormat("yyyy/MM/dd HH:mm").parse("2018/12/21 13:00"),
+//                time = Date()
 //            )
 //        )
+        logI("fetchAppConfig = ${Gson().toJson(appConfig)}")
+        return appConfig
     }
 
-    override suspend fun checkSignIn(): SignIn {
+    override suspend fun auditAccessToken(): SignIn {
         delay(1500)
-        return if (accountTest == accountTest &&
-            accessTokenTest == accessTokenTest
-        ) {
-            SignIn(
-                signInCode = SignInCode.SIGN_IN_SUC.code,
-                signInInfo = SignInInfo(
-                    userInfo = userInfoTest,
-                    expireTime = expireTimeTest,
-                    accessToken = accessTokenTest,
-                    refreshToken = refreshTokenTest,
-                    isFirst = isFirstTest,
-                    pushToken = pushTokenTest,
-                    msg = "即將登入..."
-                )
+        val signIn: SignIn
+        signIn = SignIn(
+            signInCode = SignInCode.SIGN_IN_SUC.code,
+            signInInfo = SignInInfo(
+                userInfo = userInfoTest,
+                expireTime = expireTimeTest,
+                accessToken = accessTokenTest,
+                refreshToken = refreshTokenTest,
+                isFirst = isFirstTest,
+                pushToken = pushTokenTest,
+                msg = "即將登入..."
             )
-        } else {
-            /**
-             * 被封鎖 / 其他端登入
-             * */
-            SignIn(
-                signInCode = SignInCode.SIGN_IN_FAIL.code,
-                signInInfo = SignInInfo(
-                    msg = "密碼已被修改，請重新登入!"
-                )
-            )
-        }
+        )
+        logI("checkSignIn = ${Gson().toJson(signIn)}")
+        return signIn
     }
+
+
+    override suspend fun fetchEducationData(): Education {
+        delay(500)
+        return Education(
+            educationLevelList = educationListTest,
+            gradeList = gradeListTest,
+            subjectList = subjectListTest,
+            unitList = unitListTest
+        )
+    }
+
 
     override suspend fun signIn(@Body signInRequest: SignInRequest): SignIn {
         delay(1500)

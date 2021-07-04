@@ -12,7 +12,9 @@ import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.R
+import tw.north27.coachingapp.model.AppConfig
 import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.model.response.*
@@ -25,7 +27,7 @@ class PublicViewModel(
     private val userRepo: IUserRepository,
 ) : BaseAndroidViewModel(application) {
 
-    private val _launchBgRes: MutableLiveData<Int> by lazy {
+    private val _bgRes: MutableLiveData<Int> by lazy {
         val list = listOf<Int>(
             R.drawable.ic_launch_bg1,
             R.drawable.ic_launch_bg2,
@@ -41,7 +43,28 @@ class PublicViewModel(
         MutableLiveData<Int>(list[list.indices.random()])
     }
 
-    val launchBgRes = _launchBgRes.asLiveData()
+    val bgRes = _bgRes.asLiveData()
+
+    private val _appConfigState = MutableLiveData<ViewState<AppConfig>>(ViewState.initial())
+
+    val appConfigState = _appConfigState.asLiveData()
+
+    fun fetchAppConfig() = viewModelScope.launch(Dispatchers.IO) {
+        _appConfigState.postValue(ViewState.load())
+        val results = publicRepo.fetchAppConfig(BuildConfig.DEVICE_TYPE)
+        when (results) {
+            is Results.Successful<AppConfig> -> {
+                _appConfigState.postValue(ViewState.data(results.data))
+            }
+            is Results.ClientErrors -> {
+                _appConfigState.postValue(ViewState.error(results.e))
+            }
+            is Results.NetWorkError -> {
+                _appConfigState.postValue(ViewState.network(results.e))
+            }
+        }
+    }
+    //
 
     private val _educationResponseState = MutableLiveData<ViewState<Education>>(ViewState.initial())
 

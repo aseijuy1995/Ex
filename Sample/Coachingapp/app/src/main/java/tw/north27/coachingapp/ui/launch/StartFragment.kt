@@ -12,11 +12,11 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.yujie.pushmodule.fcm.FirebaseMsg
 import com.yujie.utilmodule.base.BaseFragment
 import com.yujie.utilmodule.ext.alertGoogleService
-import com.yujie.utilmodule.util.UpdateApp
 import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphLaunchDirections
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentStartBinding
@@ -24,6 +24,7 @@ import tw.north27.coachingapp.ext.updateApp
 import tw.north27.coachingapp.model.AppCode
 import tw.north27.coachingapp.model.SignInCode
 import tw.north27.coachingapp.ui.launch2.Launch2Activity
+import tw.north27.coachingapp.viewModel.PublicViewModel
 import tw.north27.coachingapp.viewModel.StartViewModel
 
 class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start) {
@@ -31,33 +32,36 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
     override val viewBind: (View) -> FragmentStartBinding
         get() = FragmentStartBinding::bind
 
-    private val viewModel by sharedViewModel<StartViewModel>()
+    private val publicVM by sharedViewModel<PublicViewModel>()
+
+    private val viewModel by viewModel<StartViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.appConfigState.observe(viewLifecycleOwner) {
-            binding.svkView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
+
+        publicVM.appConfigState.observe(viewLifecycleOwner) {
+            binding.itemIcon.svkView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
             when (it) {
                 is ViewState.Data -> {
                     val appConfig = it.data
                     when (appConfig.appCode) {
-                        AppCode.DEFEND.code -> findNavController().navigate(NavGraphLaunchDirections.actionToFragmentDefendDialog())
                         AppCode.MOTION.code -> {
                             val motionInfo = appConfig.motionInfo!!
-                            act.updateApp(motionInfo.versionName).builder { versionNameMode = UpdateApp.VersionNameMode.DEFAULT }.execute(
+                            act.updateApp(motionInfo.versionName).builder { versionNameMode = motionInfo.versionNameMode }.execute(
                                 newVersion = { _, _ ->
                                     findNavController().navigate(NavGraphLaunchDirections.actionToFragmentUpdateDialog())
                                 },
                                 noNewVersion = { checkGoogleServiceAndSignIn() }
                             )
                         }
+                        AppCode.DEFEND.code -> findNavController().navigate(NavGraphLaunchDirections.actionToFragmentDefendDialog())
                     }
                 }
             }
         }
 
         viewModel.signInState.observe(viewLifecycleOwner) {
-            binding.svkView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
+            binding.itemIcon.svkView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
             when (it) {
                 is ViewState.Empty -> {
                     findNavController().navigate(NavGraphLaunchDirections.actionToFragmentSignIn())
@@ -88,7 +92,7 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
             }
         }
 
-        viewModel.fetchAppConfig()
+        publicVM.fetchAppConfig()
     }
 
     private fun checkGoogleServiceAndSignIn() {

@@ -49,7 +49,9 @@ val repoModules = module {
 
 val viewModelModules = module {
     viewModel<PublicViewModel> { PublicViewModel(androidApplication(), get(), get()) }
-    viewModel<StartViewModel> { StartViewModel(androidApplication(), get(), get()) }
+    viewModel<StartViewModel> { StartViewModel(androidApplication(), get()) }
+    //
+
     viewModel<SignInViewModel> { SignInViewModel(androidApplication(), get()) }
     viewModel<SignOutViewModel> { SignOutViewModel(androidApplication(), get()) }
     viewModel<CoachingViewModel> { CoachingViewModel(androidApplication(), get()) }

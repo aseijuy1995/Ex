@@ -12,6 +12,7 @@ import java.util.*
  * 登入:
  *  成功回傳signCode = 2000, signInInfo
  *  失敗回傳signCode = 2001, signInInfo
+ *
  * 登出:
  *  成功回傳signState = 2002, signOutInfo
  *  失敗回傳signState = 2003, signOutInfo

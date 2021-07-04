@@ -7,6 +7,9 @@
     <string name="error_content">網路連線異常</string>
     <string name="network">Network</string>
     <string name="network_content">網路連線失敗</string>
+    <!--    -->
+    <string name="close">關閉</string>
+    <string name="update">更新</string>
     <!-- StartFragment -->
     <string name="c">C</string>
     <string name="o">O</string>
@@ -15,15 +18,14 @@
     <string name="i">I</string>
     <string name="n">N</string>
     <string name="g">G</string>
-    <!--  MaintainFragment  -->
+    <!--  DefendDialogFragment  -->
     <string name="defend_title">維護提醒</string>
-
-    <string name="expected_complete_time">預計完成時間</string>
-    <string name="close">關閉</string>
+    <string name="defend_content">維護中，請稍後．．．</string>
     <!--  UpdateDialogFragment  -->
-    <string name="update_title">更新通知</string>
+    <string name="update_title">更新提醒</string>
     <string name="update_size">新版本大小</string>
-    <string name="update">更新</string>
+    <string name="update_content">準備更新．．．</string>
+
     <!--  SignInFragment  -->
     <string name="enter_account_password">請輸入帳號、密碼</string>
     <string name="enter_account">請輸入帳號</string>
