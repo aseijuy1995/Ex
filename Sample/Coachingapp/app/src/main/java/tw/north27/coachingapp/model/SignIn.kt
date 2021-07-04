@@ -9,13 +9,6 @@ import java.util.*
 
 /**
  * 可用於登入&登出
- * 登入:
- *  成功回傳signCode = 2000, signInInfo
- *  失敗回傳signCode = 2001, signInInfo
- *
- * 登出:
- *  成功回傳signState = 2002, signOutInfo
- *  失敗回傳signState = 2003, signOutInfo
  * @param signInCode >> 登入狀態碼
  * @param signInInfo >> 登入資訊
  * @param signOutInfo >> 登出資訊
@@ -43,36 +36,28 @@ enum class SignInCode(val code: Int) {
 /**
  * 登入資訊
  * @param userInfo >> 用戶資訊
- * @param expireTime >> accessToken過期時間
+ * @param expireTime >> token過期時間
  * @param accessToken >> 訪問用token
  * @param refreshToken >> 刷新用token
  * @param isFirst >> 是否第一次登入
- * @param pushToken >> 推撥token
- * @param msg >> 登入成功 / 失敗訊息
+ * @param pushToken >> 推播token
+ * @param msg >> 訊息
  * */
 data class SignInInfo(
     @SerializedName("user_info") val userInfo: UserInfo? = null,
     @SerializedName("expire_time") val expireTime: Long = 0L,
     @SerializedName("access_token") val accessToken: String = "",
     @SerializedName("refresh_token") val refreshToken: String = "",
-    @SerializedName("is_first") val isFirst: Boolean = false,
+    @SerializedName("is_first") val isFirst: Boolean = true,
     @SerializedName("push_token") val pushToken: String = "",
-    @SerializedName("msg") val msg: String = "",
-)
-
-/**
- * 登出資訊
- * @param msg >> 登出成功 / 失敗訊息
- * */
-data class SignOutInfo(
-    @SerializedName("msg") val msg: String = "",
+    @SerializedName("msg") val msg: String,
 )
 
 /**
  * 用戶資訊
- * @param id >> 用戶id
  * @param account >> 帳號
  * @param auth >> 權限，STUDENT、TEACHER
+ * //
  * @param bgUrl >> 背景圖
  * @param avatarUrl >> 頭貼
  * @param name >> 名稱
@@ -88,9 +73,9 @@ data class SignOutInfo(
  * */
 @Parcelize
 data class UserInfo(
-    @SerializedName("id") val id: String,
     @SerializedName("account") val account: String,
-    @SerializedName("auth") val auth: UserPref.Authority,
+    @SerializedName("auth") val auth: UserPref.Authority = UserPref.Authority.UNKNOWN,
+    //
     @SerializedName("bg_url") val bgUrl: String = "",
     @SerializedName("avatar_url") val avatarUrl: String = "",
     @SerializedName("name") val name: String = "",
@@ -104,6 +89,14 @@ data class UserInfo(
     @SerializedName("teacher_info") val teacherInfo: TeacherInfo? = null,
     @SerializedName("user_config") val userConfig: UserConfig? = null,
 ) : Parcelable
+
+/**
+ * 登出資訊
+ * @param msg >> 登出成功 / 失敗訊息
+ * */
+data class SignOutInfo(
+    @SerializedName("msg") val msg: String = "",
+)
 
 /**
  * 性別

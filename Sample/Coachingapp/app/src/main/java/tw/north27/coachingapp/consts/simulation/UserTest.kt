@@ -4,14 +4,27 @@ import com.yujie.utilmodule.UserPref
 import tw.north27.coachingapp.consts.*
 import tw.north27.coachingapp.model.*
 
-var uuidTest = ""
-val accountTest = "north27"
-val passwordTest = "north27"
-val expireTimeTest = 1624377600L
+//@SerializedName("user_info") val userInfo: UserInfo? = null,
+//@SerializedName("expire_time") val expireTime: Long,
+//@SerializedName("access_token") val accessToken: String,
+//@SerializedName("refresh_token") val refreshToken: String,
+//@SerializedName("is_first") val isFirst: Boolean = true,
+//@SerializedName("push_token") val pushToken: String = "",
+
+fun expireTimeTest(): Long {
+    return (System.currentTimeMillis() / 1000) + (60 * 15)
+}
+
 var accessTokenTest = "accessTokenTest"
 var refreshTokenTest = "refreshTokenTest"
 var isFirstTest = true
 var pushTokenTest = "pushTokenTest"
+
+
+//
+var uuidTest = ""
+val accountTest = "north27"
+val passwordTest = "north27"
 val authorityStudentTest = UserPref.Authority.STUDENT
 val authorityTeacherTest = UserPref.Authority.TEACHER
 var bgUrlTest = "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
@@ -28,10 +41,42 @@ var gradeIdTest = 8L
 var replyNoticeTest = false
 var msgNoticeTest = true
 
-val userStudentInfoTest = UserInfo(
-    id = uuidTest,
+//
+val signInSucTest = SignIn(
+    signInCode = SignInCode.SIGN_IN_SUC.code,
+    signInInfo = signInInfoSucTest
+)
+
+val signInFailTest = SignIn(
+    signInCode = SignInCode.SIGN_IN_FAIL.code,
+    signInInfo = signInInfoFailTest
+)
+
+val signInInfoSucTest: SignInInfo
+    get() = SignInInfo(
+        userInfo = UserInfo(account = accountTest),
+        expireTime = expireTimeTest(),
+        accessToken = accessTokenTest,
+        refreshToken = refreshTokenTest,
+        isFirst = isFirstTest,
+        pushToken = pushTokenTest,
+        msg = "即將登入．．．"
+    )
+
+val signInInfoFailTest: SignInInfo
+    get() = SignInInfo(
+        msg = "帳號已被封鎖 or 帳密錯誤"
+    )
+//
+/**
+ * 用戶資訊
+ * */
+val userInfoTest = UserInfo(
     account = accountTest,
+    //
     auth = authorityStudentTest,
+//    auth = authorityTeacherTest,
+    //
     bgUrl = bgUrlTest,
     avatarUrl = avatarUrlTest,
     name = nameTest,
@@ -51,41 +96,8 @@ val userStudentInfoTest = UserInfo(
     ),
 )
 
-val userTeacherInfoTest = UserInfo(
-    id = uuidTest,
-    account = accountTest,
-    auth = authorityTeacherTest,
-    bgUrl = bgUrlTest,
-    avatarUrl = avatarUrlTest,
-    name = nameTest,
-    gender = genderTest,
-    intro = introTest,
-    birthday = birthdayTest,
-    cellPhone = cellPhoneTest,
-    homePhone = homePhoneTest,
-    email = emailTest,
-    teacherInfo = TeacherInfo(
-        commentScoreAvg = getCommentScoreAvg(),
-        commentScoreCountList = getCommentScoreCountList(),
-        replyRate = getReplyRate(),
-        replyCountList = replyCountListTest,
-        unitsList = listOf()
-    ),
-    userConfig = UserConfig(
-        replyNotice = replyNoticeTest,
-        msgNotice = msgNoticeTest,
-    ),
-)
-
-/**
- * 用戶資訊
- * */
-val userInfoTest = userStudentInfoTest
-//val userInfoTest = userTeacherInfoTest
-
 val teacherInfoListTest = listOf<UserInfo>(
     UserInfo(
-        id = "rebecca",
         account = "rebeccaAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1622495807835-858ac1da986d?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
@@ -138,7 +150,6 @@ val teacherInfoListTest = listOf<UserInfo>(
         )
     ),
     UserInfo(
-        id = "mimi",
         account = "mimiAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1624799993735-41a4ee092f7b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
@@ -217,7 +228,6 @@ val teacherInfoListTest = listOf<UserInfo>(
         )
     ),
     UserInfo(
-        id = "yujun",
         account = "yujunAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1584920956891-2fccb1c144ad?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
@@ -280,7 +290,6 @@ val teacherInfoListTest = listOf<UserInfo>(
         )
     ),
     UserInfo(
-        id = "peiYu",
         account = "peiYuAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1621570070821-2e2b1358fae3?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
@@ -352,7 +361,6 @@ val teacherInfoListTest = listOf<UserInfo>(
         )
     ),
     UserInfo(
-        id = "ging",
         account = "gingAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1593642532454-e138e28a63f4?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
@@ -443,7 +451,6 @@ val teacherInfoListTest = listOf<UserInfo>(
         )
     ),
     UserInfo(
-        id = "akuan",
         account = "akuanAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1624804269473-828dcc30a210?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=701&q=80",
@@ -493,7 +500,6 @@ val teacherInfoListTest = listOf<UserInfo>(
         )
     ),
     UserInfo(
-        id = "allen",
         account = "allenAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1622495546876-3fccb94d3e2c?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
@@ -550,7 +556,6 @@ val teacherInfoListTest = listOf<UserInfo>(
         )
     ),
     UserInfo(
-        id = "catfish",
         account = "catfishAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1621569898825-ef12e7592f94?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
@@ -594,7 +599,6 @@ val teacherInfoListTest = listOf<UserInfo>(
         )
     ),
     UserInfo(
-        id = "encore",
         account = "encoreAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1624602150320-041eb7374810?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",

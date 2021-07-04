@@ -69,13 +69,12 @@ class SignInViewModel(
                         SignInCode.SIGN_IN_SUC.code -> {
                             val signInInfo = signIn.signInInfo!!
                             val userInfo = signInInfo.userInfo!!
-                            uuidNew = userInfo.id
                             accountNew = userInfo.account
-                            expireTimeNew = signInInfo.expireTime!!
-                            accessTokenNew = signInInfo.accessToken!!
-                            refreshTokenNew = signInInfo.refreshToken!!
-                            isFirstNew = signInInfo.isFirst!!
-                            pushTokenNew = signInInfo.pushToken!!
+                            expireTimeNew = signInInfo.expireTime
+                            accessTokenNew = signInInfo.accessToken
+                            refreshTokenNew = signInInfo.refreshToken
+                            isFirstNew = signInInfo.isFirst
+                            pushTokenNew = signInInfo.pushToken
                             authNew = userInfo.auth
                             cxt.userPref.setUserPref(
                                 account = accountNew,

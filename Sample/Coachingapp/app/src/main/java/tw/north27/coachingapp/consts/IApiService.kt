@@ -20,17 +20,11 @@ interface IApiService {
     suspend fun fetchAppConfig(@Field("device_type") deviceType: String): AppConfig
 
     /**
-     * 審核accessToken
-     * @header accessToken
+     * 檢查登入
+     * @header Bearer accessToken
      * */
-    @GET
-    suspend fun auditAccessToken(): SignIn
-
-    /**
-     * 取得教育數據
-     * */
-    @GET
-    suspend fun fetchEducationData(): Education
+    @POST
+    suspend fun checkSignIn(@Field("account") account: String): SignIn
 
     /**
      * 登入
@@ -40,20 +34,27 @@ interface IApiService {
     suspend fun signIn(@Body signInRequest: SignInRequest): SignIn
 
     /**
+     * 獲取教育參數
+     * @header Bearer accessToken
+     * */
+    @GET
+    suspend fun fetchEducation(): Education
+    //
+    /**
+     * 獲取用戶資訊
+     * @header Bearer accessToken
+     * @param account >> 帳號
+     * */
+    @POST
+    suspend fun fetchUser(@Field("account") account: String): UserInfo
+
+    /**
      * 登出
      * @header accessToken
      * @param signOutRequest >> SignOutRequest::class.java
      * */
     @POST
     suspend fun signOut(@Body signOutRequest: SignOutRequest): SignIn
-
-    /**
-     * 取得用戶資訊
-     * @header accessToken
-     * @param account >> 帳號
-     * */
-    @POST
-    suspend fun fetchUser(@Field("account") account: String): UserInfo
 
     /**
      * 更新用戶資訊

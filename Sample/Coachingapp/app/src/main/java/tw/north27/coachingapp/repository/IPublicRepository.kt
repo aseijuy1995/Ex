@@ -9,7 +9,7 @@ interface IPublicRepository {
 
     suspend fun fetchAppConfig(deviceType: String): Results<AppConfig>
 
-    suspend fun fetchEducationData(): Results<Education>
+    suspend fun fetchEducation(): Results<Education>
 
     suspend fun fetchPublicData(): Results<PublicDataResponse>
 }

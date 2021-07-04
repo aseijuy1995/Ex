@@ -62,7 +62,7 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             when (it) {
                 is ViewState.Data -> {
                     adapter.apply {
-                        this.educationLevelList = publicVM.educationList.value
+                        this.educationLevelList = publicVM.educationLevelList.value
                         this.gradeList = publicVM.gradeList.value
                         this.subjectList = publicVM.subjectList.value
                         this.unitsList = publicVM.unitList.value

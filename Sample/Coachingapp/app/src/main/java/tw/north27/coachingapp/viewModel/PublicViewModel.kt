@@ -64,14 +64,13 @@ class PublicViewModel(
             }
         }
     }
-    //
 
-    private val _educationResponseState = MutableLiveData<ViewState<Education>>(ViewState.initial())
+    private val _educationState = MutableLiveData<ViewState<Education>>(ViewState.initial())
 
-    val educationDataState = _educationResponseState.asLiveData()
+    val educationState = _educationState.asLiveData()
 
-    fun fetchEducationData() = viewModelScope.launch(Dispatchers.IO) {
-        val results = publicRepo.fetchEducationData()
+    fun fetchEducation() = viewModelScope.launch(Dispatchers.IO) {
+        val results = publicRepo.fetchEducation()
         when (results) {
             is Results.Successful<Education> -> {
                 val educationData = results.data
@@ -80,24 +79,24 @@ class PublicViewModel(
                     && educationData.subjectList.isNotEmpty()
                     && educationData.unitList.isNotEmpty()
                 )
-                    _educationResponseState.postValue(ViewState.data(results.data))
+                    _educationState.postValue(ViewState.data(results.data))
                 else
-                    _educationResponseState.postValue(ViewState.empty())
+                    _educationState.postValue(ViewState.empty())
             }
             is Results.ClientErrors -> {
-                _educationResponseState.postValue(ViewState.error(results.e))
+                _educationState.postValue(ViewState.error(results.e))
             }
             is Results.NetWorkError -> {
-                _educationResponseState.postValue(ViewState.network(results.e))
+                _educationState.postValue(ViewState.network(results.e))
             }
         }
     }
 
-    private val _educationList = MutableLiveData<List<EducationLevel>>()
+    private val _educationLevelList = MutableLiveData<List<EducationLevel>>()
 
-    val educationList = _educationList.asLiveData()
+    val educationLevelList = _educationLevelList.asLiveData()
 
-    fun setEducationList(educationLevelList: List<EducationLevel>) = _educationList.postValue(educationLevelList)
+    fun setEducationLevelList(educationLevelList: List<EducationLevel>) = _educationLevelList.postValue(educationLevelList)
 
     private val _gradeList = MutableLiveData<List<Grade>>()
 
@@ -124,7 +123,7 @@ class PublicViewModel(
     val defaultSubject = Subject(id = -1, name = cxt.getString(R.string.df))
 
     val defaultUnit = Units(id = -1, name = cxt.getString(R.string.df), educationLevelId = -1, gradeId = -1, subjectId = -1)
-
+    //
     private val _personalBgRes: MutableLiveData<Int> by lazy {
         val list = listOf<Int>(
             R.drawable.ic_personal_bg1,

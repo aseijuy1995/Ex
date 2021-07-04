@@ -9,11 +9,12 @@ import tw.north27.coachingapp.model.request.UpdateUserRequest
 
 interface IUserRepository {
 
-    suspend fun auditAccessToken(): Results<SignIn>
+    suspend fun checkSignIn(account: String): Results<SignIn>
+
+    //
+    suspend fun fetchUser(account: String): Results<UserInfo>
 
     suspend fun signIn(signInRequest: SignInRequest): Results<SignIn>
-
-    suspend fun fetchUser(account: String): Results<UserInfo>
 
     suspend fun updateUser(updateUserRequest: UpdateUserRequest): Results<Boolean>
 

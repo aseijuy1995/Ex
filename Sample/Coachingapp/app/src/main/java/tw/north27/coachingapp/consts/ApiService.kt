@@ -39,54 +39,34 @@ class ApiService(val cxt: Context) : IApiService {
                 isCompulsory = false
             )
         )
-//        appConfig = AppConfig(
-//            appCode = AppCode.DEFEND.code,
-//            defendInfo = DefendInfo(
-//                bgUrl = "https://image.flaticon.com/icons/png/512/178/178158.png",
-//                title = cxt.getString(R.string.defend_title),
-//                content = "1. 伺服器遭受攻擊。\n" +
-//                        "2. 增加監控、效能分析、執行網路維護。\n" +
-//                        "3. 描述統一規範化。\n" +
-//                        "4. 維護通知描述1\n" +
-//                        "5. 維護通知描述2\n" +
-//                        "6. 維護通知描述3",
-//                time = Date()
-//            )
+//    appConfig = AppConfig(
+//        appCode = AppCode.DEFEND.code,
+//        defendInfo = DefendInfo(
+//            bgUrl = "https://image.flaticon.com/icons/png/512/178/178158.png",
+//            title = cxt.getString(R.string.defend_title),
+//            content = "1. 伺服器遭受攻擊。\n" +
+//                    "2. 增加監控、效能分析、執行網路維護。\n" +
+//                    "3. 描述統一規範化。\n" +
+//                    "4. 維護通知描述1\n" +
+//                    "5. 維護通知描述2\n" +
+//                    "6. 維護通知描述3",
+//            time = Date()
 //        )
+//    )
         logI("fetchAppConfig = ${Gson().toJson(appConfig)}")
         return appConfig
     }
 
-    override suspend fun auditAccessToken(): SignIn {
+    override suspend fun checkSignIn(@Field(value = "account") account: String): SignIn {
         delay(1500)
-        val signIn: SignIn
-        signIn = SignIn(
-            signInCode = SignInCode.SIGN_IN_SUC.code,
-            signInInfo = SignInInfo(
-                userInfo = userInfoTest,
-                expireTime = expireTimeTest,
-                accessToken = accessTokenTest,
-                refreshToken = refreshTokenTest,
-                isFirst = isFirstTest,
-                pushToken = pushTokenTest,
-                msg = "即將登入..."
-            )
-        )
+        val signIn: SignIn = if (account == accountTest) {
+            signInSucTest
+        } else {
+            signInFailTest
+        }
         logI("checkSignIn = ${Gson().toJson(signIn)}")
         return signIn
     }
-
-
-    override suspend fun fetchEducationData(): Education {
-        delay(500)
-        return Education(
-            educationLevelList = educationListTest,
-            gradeList = gradeListTest,
-            subjectList = subjectListTest,
-            unitList = unitListTest
-        )
-    }
-
 
     override suspend fun signIn(@Body signInRequest: SignInRequest): SignIn {
         delay(1500)
@@ -94,37 +74,27 @@ class ApiService(val cxt: Context) : IApiService {
         val account = signInRequest.account
         val password = signInRequest.password
         val pushToken = signInRequest.pushToken
-        logD(
-            "uuid = $uuid\n" +
-                    "account = $account\n" +
-                    "password = $password\n" +
-                    "pushToken = $pushToken"
-        )
-        if (account == accountTest && password == passwordTest) {
+        val signIn = if (account == accountTest && password == passwordTest) {
             uuidTest = uuid
             pushTokenTest = pushToken
-            return SignIn(
-                signInCode = SignInCode.SIGN_IN_SUC.code,
-                signInInfo = SignInInfo(
-                    userInfo = userInfoTest,
-                    expireTime = expireTimeTest,
-                    accessToken = accessTokenTest,
-                    refreshToken = refreshTokenTest,
-                    isFirst = isFirstTest,
-                    pushToken = pushTokenTest,
-                    msg = "即將登入..."
-                )
-            ).also {
-                isFirstTest = false
-            }
+            signInSucTest
         } else {
-            return SignIn(
-                signInCode = SignInCode.SIGN_OUT_FAILED.code,
-                signInInfo = SignInInfo(
-                    msg = "帳號、密碼錯誤，請再試一次!"
-                )
-            )
+            signInFailTest
         }
+        logI("signIn = ${Gson().toJson(signIn)}")
+        return signIn
+    }
+
+    override suspend fun fetchEducation(): Education {
+        delay(1500)
+        val education = Education(
+            educationLevelList = educationListTest,
+            gradeList = gradeListTest,
+            subjectList = subjectListTest,
+            unitList = unitListTest
+        )
+        logI("fetchEducation = ${Gson().toJson(education)}")
+        return education
     }
 
     override suspend fun signOut(@Body signOutRequest: SignOutRequest): SignIn {

@@ -1,9 +1,12 @@
 package tw.north27.coachingapp.consts
 
-import com.yujie.utilmodule.UserPref
-import tw.north27.coachingapp.consts.simulation.*
+import tw.north27.coachingapp.consts.simulation.accountTest
+import tw.north27.coachingapp.consts.simulation.nameTest
+import tw.north27.coachingapp.consts.simulation.teacherInfoListTest
+import tw.north27.coachingapp.consts.simulation.userInfoTest
 import tw.north27.coachingapp.model.*
-import tw.north27.coachingapp.model.response.*
+import tw.north27.coachingapp.model.response.CommonProblem
+import tw.north27.coachingapp.model.response.Reflect
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -77,7 +80,6 @@ val replyCountListTest = listOf<ReplyCountInfo>(
     ReplyCountInfo("已回覆", 5),
     ReplyCountInfo("未回覆", 2)
 )
-
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

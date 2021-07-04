@@ -30,7 +30,7 @@ val modelModules = module {
 
 val repoModules = module {
     single<IPublicRepository> { PublicRepository(get()) }
-    single<IUserRepository> { UserRepository(get(), androidContext()) }
+    single<IUserRepository> { UserRepository(get()) }
     single<IActionRepository> { ActionRepository(get()) }
 
 //    single<INotifyRepository> { NotifyRepository(get()) }

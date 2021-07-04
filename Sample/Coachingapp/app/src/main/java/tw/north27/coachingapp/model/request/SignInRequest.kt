@@ -3,11 +3,11 @@ package tw.north27.coachingapp.model.request
 import com.google.gson.annotations.SerializedName
 
 /**
- * 請求 - 登入請求
+ * 請求登入
  * @param uuid >> 設備Id
- * @param account >> 帳號（驗證用）
- * @param password >> 密碼（驗證用）
- * @param pushToken >> firebase cloud messaging token（驗證成功需綁定帳號）
+ * @param account >> 帳號
+ * @param password >> 密碼
+ * @param pushToken >> 推播token
  * */
 data class SignInRequest(
     @SerializedName("uuid") val uuid: String,

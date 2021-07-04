@@ -33,8 +33,9 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.signInState.observe(viewLifecycleOwner) {
-            binding.svkView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
+            binding.itemIcon.svkView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
             if (it is ViewState.Load) LoadingDialogFragment.show(parentFragmentManager)
             if (it !is ViewState.Initial && it !is ViewState.Load) LoadingDialogFragment.dismiss()
             when (it) {

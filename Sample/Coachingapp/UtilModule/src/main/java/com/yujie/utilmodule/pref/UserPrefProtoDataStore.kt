@@ -14,25 +14,25 @@ import java.io.OutputStream
 val PREF_USER_DEFAULT_NAME = "userPref.pb"
 
 val Context.userPref: DataStore<UserPref> by dataStore(
-		fileName = PREF_USER_DEFAULT_NAME,
-		serializer = UserPrefSerializer
+    fileName = PREF_USER_DEFAULT_NAME,
+    serializer = UserPrefSerializer
 )
 
 object UserPrefSerializer : Serializer<UserPref> {
-		override val defaultValue: UserPref
-				get() = UserPref.getDefaultInstance()
+    override val defaultValue: UserPref
+        get() = UserPref.getDefaultInstance()
 
-		override suspend fun readFrom(input: InputStream): UserPref {
-				try {
-						return UserPref.parseFrom(input)
-				} catch (e: InvalidProtocolBufferException) {
-						throw CorruptionException("Cannot read com.yujie.utilmodule.proto.", e)
-				}
-		}
+    override suspend fun readFrom(input: InputStream): UserPref {
+        try {
+            return UserPref.parseFrom(input)
+        } catch (e: InvalidProtocolBufferException) {
+            throw CorruptionException("Cannot read com.yujie.utilmodule.proto.", e)
+        }
+    }
 
-		override suspend fun writeTo(t: UserPref, output: OutputStream) {
-				return t.writeTo(output)
-		}
+    override suspend fun writeTo(t: UserPref, output: OutputStream) {
+        return t.writeTo(output)
+    }
 }
 
 fun DataStore<UserPref>.getUuid(): Flow<String> = getDelegate(UserPref::getUuid)
@@ -42,10 +42,6 @@ suspend fun DataStore<UserPref>.setUuid(uuid: String): UserPref = setUserPref(uu
 fun DataStore<UserPref>.getAccount(): Flow<String> = getDelegate(UserPref::getAccount)
 
 suspend fun DataStore<UserPref>.setAccount(account: String): UserPref = setUserPref(account = account)
-
-fun DataStore<UserPref>.getPassword(): Flow<String> = getDelegate(UserPref::getPassword)
-
-suspend fun DataStore<UserPref>.setPassword(password: String): UserPref = setUserPref(password = password)
 
 fun DataStore<UserPref>.getExpireTime(): Flow<Long> = getDelegate(UserPref::getExpireTime)
 
@@ -72,43 +68,40 @@ fun DataStore<UserPref>.getAuth(): Flow<UserPref.Authority> = getDelegate(UserPr
 suspend fun DataStore<UserPref>.setAuth(auth: UserPref.Authority): UserPref = setUserPref(auth = auth)
 
 suspend fun DataStore<UserPref>.setUserPref(
-		uuid: String? = null,
-		account: String? = null,
-		password: String? = null,
-		expireTime: Long? = null,
-		accessToken: String? = null,
-		refreshToken: String? = null,
-		isFirst: Boolean? = null,
-		pushToken: String? = null,
-		auth: UserPref.Authority? = null,
+    uuid: String? = null,
+    account: String? = null,
+    expireTime: Long? = null,
+    accessToken: String? = null,
+    refreshToken: String? = null,
+    isFirst: Boolean? = null,
+    pushToken: String? = null,
+    auth: UserPref.Authority? = null,
 ): UserPref {
-		return updateData {
-				it.toBuilder().apply {
-						uuid?.let { setUuid(it) }
-						account?.let { setAccount(it) }
-						password?.let { setPassword(it) }
-						expireTime?.let { setExpireTime(it) }
-						accessToken?.let { setAccessToken(it) }
-						refreshToken?.let { setRefreshToken(it) }
-						isFirst?.let { setIsFirst(it) }
-						pushToken?.let { setPushToken(it) }
-						auth?.let { setAuth(it) }
-				}.build()
-		}
+    return updateData {
+        it.toBuilder().apply {
+            uuid?.let { setUuid(it) }
+            account?.let { setAccount(it) }
+            expireTime?.let { setExpireTime(it) }
+            accessToken?.let { setAccessToken(it) }
+            refreshToken?.let { setRefreshToken(it) }
+            isFirst?.let { setIsFirst(it) }
+            pushToken?.let { setPushToken(it) }
+            auth?.let { setAuth(it) }
+        }.build()
+    }
 }
 
 suspend fun DataStore<UserPref>.clear(): UserPref {
-		return updateData {
-				it.toBuilder()
-						.setUuid("")
-						.setAccount("")
-						.setPassword("")
-						.setAuth(UserPref.Authority.UNKNOWN)
-						.setAccessToken("")
-						.setRefreshToken("")
-						.setPushToken("")
-						.setIsFirst(false)
-						.build()
-		}
+    return updateData {
+        it.toBuilder()
+            .setUuid("")
+            .setAccount("")
+            .setAuth(UserPref.Authority.UNKNOWN)
+            .setAccessToken("")
+            .setRefreshToken("")
+            .setPushToken("")
+            .setIsFirst(false)
+            .build()
+    }
 }
 

@@ -5,23 +5,13 @@
     <ConstraintSet android:id="@+id/start">
 
         <Constraint
-            android:id="@+id/cv_view"
+            android:id="@+id/item_icon"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:backgroundTint="@color/yellow_fef5e0"
-            android:elevation="15dp"
-            app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <Constraint
-            android:id="@+id/svk_view"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:visibility="visible" />
 
         <Constraint
             android:id="@+id/tv_title"
@@ -31,7 +21,7 @@
             android:alpha="0.0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cv_view" />
+            app:layout_constraintTop_toBottomOf="@id/item_icon" />
 
         <Constraint
             android:id="@+id/et_account"
@@ -74,24 +64,14 @@
     <ConstraintSet android:id="@+id/end">
 
         <Constraint
-            android:id="@+id/cv_view"
+            android:id="@+id/item_icon"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:backgroundTint="@color/yellow_fef5e0"
-            android:elevation="15dp"
-            app:cardCornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.1" />
-
-        <Constraint
-            android:id="@+id/svk_view"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center"
-            android:visibility="gone" />
+            app:layout_constraintVertical_bias="0.15" />
 
         <Constraint
             android:id="@+id/tv_title"
@@ -101,7 +81,7 @@
             android:alpha="1.0"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cv_view" />
+            app:layout_constraintTop_toBottomOf="@id/item_icon" />
 
         <Constraint
             android:id="@+id/et_account"
@@ -151,7 +131,7 @@
 
         <OnSwipe
             app:dragDirection="dragUp"
-            app:touchAnchorId="@id/cv_view"
+            app:touchAnchorId="@id/item_icon"
             app:touchAnchorSide="top" />
     </Transition>
 

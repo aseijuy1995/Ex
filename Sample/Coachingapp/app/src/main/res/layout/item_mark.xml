@@ -17,7 +17,7 @@
             android:gravity="center"
             android:text="@string/c"
             android:textColor="@color/red_eb4537"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
@@ -29,7 +29,7 @@
             android:gravity="center"
             android:text="@string/o"
             android:textColor="@color/orange_f09801"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
@@ -41,7 +41,7 @@
             android:gravity="center"
             android:text="@string/a"
             android:textColor="@color/yellow_fac230"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
@@ -53,7 +53,7 @@
             android:gravity="center"
             android:text="@string/c"
             android:textColor="@color/green_55af7b"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
@@ -65,7 +65,7 @@
             android:gravity="center"
             android:text="@string/h"
             android:textColor="@color/blue_4286f3"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
@@ -77,7 +77,7 @@
             android:gravity="center"
             android:text="@string/i"
             android:textColor="@color/red_eb4537"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
@@ -89,7 +89,7 @@
             android:gravity="center"
             android:text="@string/n"
             android:textColor="@color/orange_f09801"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:typeface="serif" />
 
@@ -101,7 +101,7 @@
             android:gravity="center"
             android:text="@string/g"
             android:textColor="@color/yellow_fac230"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             android:typeface="serif" />
 

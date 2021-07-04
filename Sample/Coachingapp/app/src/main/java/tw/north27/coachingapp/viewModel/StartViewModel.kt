@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.model.SignIn
 import tw.north27.coachingapp.model.SignInCode
+import tw.north27.coachingapp.model.SignInInfo
 import tw.north27.coachingapp.repository.IUserRepository
 
 class StartViewModel(
@@ -34,48 +35,41 @@ class StartViewModel(
         if (account.isEmpty() || accessToken.isEmpty()) {
             _signInState.postValue(ViewState.empty())
         } else {
-            val results = userRepo.auditAccessToken()
+            val results = userRepo.checkSignIn(account = account)
             when (results) {
                 is Results.Successful<SignIn> -> {
                     val signIn = results.data
                     val uuidNew: String
                     val accountNew: String
-                    val passwordNew: String
                     val expireTimeNew: Long
                     val accessTokenNew: String
                     val refreshTokenNew: String
                     val isFirstNew: Boolean
                     val pushTokenNew: String
                     val authNew: UserPref.Authority
-                    val signInInfo = signIn.signInInfo!!
                     when (signIn.signInCode) {
                         SignInCode.SIGN_IN_SUC.code -> {
+                            val signInInfo = signIn.signInInfo!!
                             val userInfo = signInInfo.userInfo!!
-                            uuidNew = ""
                             accountNew = userInfo.account
-                            passwordNew = ""
-                            expireTimeNew = signInInfo.expireTime!!
-                            accessTokenNew = signInInfo.accessToken!!
-                            refreshTokenNew = signInInfo.refreshToken!!
-                            isFirstNew = signInInfo.isFirst!!
-                            pushTokenNew = signInInfo.pushToken!!
+                            expireTimeNew = signInInfo.expireTime
+                            accessTokenNew = signInInfo.accessToken
+                            refreshTokenNew = signInInfo.refreshToken
+                            isFirstNew = signInInfo.isFirst
+                            pushTokenNew = signInInfo.pushToken
                             authNew = userInfo.auth
                             cxt.userPref.setUserPref(
-                                uuid = uuidNew,
                                 account = accountNew,
-                                password = passwordNew,
                                 expireTime = expireTimeNew,
                                 accessToken = accessTokenNew,
                                 refreshToken = refreshTokenNew,
                                 isFirst = isFirstNew,
                                 pushToken = pushTokenNew,
-                                auth = authNew
+                                auth = authNew,
                             )
                         }
                         SignInCode.SIGN_IN_FAIL.code -> {
-                            uuidNew = ""
                             accountNew = ""
-                            passwordNew = ""
                             expireTimeNew = 0L
                             accessTokenNew = ""
                             refreshTokenNew = ""
@@ -83,15 +77,13 @@ class StartViewModel(
                             pushTokenNew = ""
                             authNew = UserPref.Authority.UNKNOWN
                             cxt.userPref.setUserPref(
-                                uuid = uuidNew,
                                 account = accountNew,
-                                password = passwordNew,
                                 expireTime = expireTimeNew,
                                 accessToken = accessTokenNew,
                                 refreshToken = refreshTokenNew,
                                 isFirst = isFirstNew,
                                 pushToken = pushTokenNew,
-                                auth = authNew
+                                auth = authNew,
                             )
                         }
                     }
@@ -106,5 +98,4 @@ class StartViewModel(
             }
         }
     }
-
 }

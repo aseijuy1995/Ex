@@ -4,20 +4,19 @@ option java_package = "com.yujie.utilmodule";
 option java_multiple_files = true;
 
 message UserPref {
-  string uuid = 1;// uuid
-  string account = 2;// 帳號
-  string password = 3;// 密碼
-  fixed64 expireTime = 4;// accessToken過期時間
-  string accessToken = 5;// 訪問token
-  string refreshToken = 6;// 刷新token
-  bool isFirst = 7;// 第一次登入
-  string pushToken = 8;//推播token
-  //權限
-  enum Authority {
-    UNKNOWN = 0;//None(空值)
-    STUDENT = 1;//學生
-    TEACHER = 2;//老師
-  }
-  Authority auth = 9;
+    string uuid = 1;// uuid
+    string account = 2;// 帳號
+    fixed64 expireTime = 3;// accessToken過期時間
+    string accessToken = 4;// 訪問token
+    string refreshToken = 5;// 刷新token
+    bool isFirst = 6;// 第一次登入
+    string pushToken = 7;//推播token
+    //權限
+    enum Authority {
+        UNKNOWN = 0;//None(空值)
+        STUDENT = 1;//學生
+        TEACHER = 2;//老師
+    }
+    Authority auth = 8;
 }
 

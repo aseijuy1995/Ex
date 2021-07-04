@@ -1,6 +1,5 @@
 package tw.north27.coachingapp.repository
 
-import android.content.Context
 import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.http.safeApiResults
 import tw.north27.coachingapp.consts.IApiService
@@ -10,10 +9,10 @@ import tw.north27.coachingapp.model.request.SignInRequest
 import tw.north27.coachingapp.model.request.SignOutRequest
 import tw.north27.coachingapp.model.request.UpdateUserRequest
 
-class UserRepository(val service: IApiService, val context: Context) : IUserRepository {
+class UserRepository(val service: IApiService) : IUserRepository {
 
-    override suspend fun auditAccessToken(): Results<SignIn> {
-        return safeApiResults { service.auditAccessToken() }
+    override suspend fun checkSignIn(account: String): Results<SignIn> {
+        return safeApiResults { service.checkSignIn(account = account) }
     }
 
     override suspend fun signIn(signInRequest: SignInRequest): Results<SignIn> {

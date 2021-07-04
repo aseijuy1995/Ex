@@ -71,7 +71,7 @@ class PersonalCommentFragment : BaseFragment<FragmentPersonalCommentBinding>(R.l
                 is ViewState.Data -> {
                     val commentList = it.data
                     commentAdapter.apply {
-                        this.educationLevelList = launch2Act.publicVM.educationList.value
+                        this.educationLevelList = launch2Act.publicVM.educationLevelList.value
                         this.gradeList = launch2Act.publicVM.gradeList.value
                         this.subjectList = launch2Act.publicVM.subjectList.value
                         this.unitsList = launch2Act.publicVM.unitList.value
@@ -80,7 +80,7 @@ class PersonalCommentFragment : BaseFragment<FragmentPersonalCommentBinding>(R.l
             }
         }
 
-        launch2Act.publicVM.educationList.observe(viewLifecycleOwner) {
+        launch2Act.publicVM.educationLevelList.observe(viewLifecycleOwner) {
             educationAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultEducation).apply { addAll(it) })
             binding.itemDrawerLayoutComment.spEducation.setSelection(0)
         }
@@ -180,7 +180,7 @@ class PersonalCommentFragment : BaseFragment<FragmentPersonalCommentBinding>(R.l
 
     private fun setDfSelection() {
         scoreAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultScore).apply { launch2Act.publicVM.scoreList.value?.let { addAll(it) } })
-        educationAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultEducation).apply { launch2Act.publicVM.educationList.value?.let { addAll(it) } })
+        educationAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultEducation).apply { launch2Act.publicVM.educationLevelList.value?.let { addAll(it) } })
         gradeAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultGradle).apply { launch2Act.publicVM.gradeList.value?.let { addAll(it) } })
         subjectAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultSubject).apply { launch2Act.publicVM.subjectList.value?.let { addAll(it) } })
         unitAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultUnit).apply { launch2Act.publicVM.unitList.value?.let { addAll(it) } })

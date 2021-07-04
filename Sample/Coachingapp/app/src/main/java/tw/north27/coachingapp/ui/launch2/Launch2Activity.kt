@@ -52,6 +52,7 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
                     R.id.fragment_study,
                     R.id.fragment_notice,
                     R.id.fragment_personal,
+                        //
                     R.id.fragment_sign_out_dialog,
                     R.id.fragment_teacher_dialog,
                     R.id.fragment_about_coaching_dialog,
@@ -90,11 +91,11 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
         }
 
         publicVM.apply {
-            educationDataState.observe(this@Launch2Activity) {
+            educationState.observe(this@Launch2Activity) {
                 when (it) {
                     is ViewState.Data -> {
                         val educationData = it.data
-                        publicVM.setEducationList(educationData.educationLevelList)
+                        publicVM.setEducationLevelList(educationData.educationLevelList)
                         publicVM.setGradeList(educationData.gradeList)
                         publicVM.setSubjectList(educationData.subjectList)
                         publicVM.setUnitList(educationData.unitList)
@@ -116,7 +117,7 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
             }
         }
 
-        publicVM.fetchEducationData()
+        publicVM.fetchEducation()
         publicVM.fetchPublicData()
     }
 

@@ -4,6 +4,7 @@
     android:layout_width="100dp"
     android:layout_height="100dp"
     android:layout_gravity="center"
+    android:id="@+id/cv_view"
     android:backgroundTint="@color/yellow_fef5e0"
     android:elevation="15dp"
     app:cardCornerRadius="10dp"

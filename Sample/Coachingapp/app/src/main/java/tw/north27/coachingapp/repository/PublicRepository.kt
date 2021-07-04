@@ -11,7 +11,7 @@ class PublicRepository(val service: IApiService) : IPublicRepository {
 
     override suspend fun fetchAppConfig(deviceType: String): Results<AppConfig> = safeApiResults { service.fetchAppConfig(deviceType = deviceType) }
 
-    override suspend fun fetchEducationData(): Results<Education> = safeApiResults { service.fetchEducationData() }
+    override suspend fun fetchEducation(): Results<Education> = safeApiResults { service.fetchEducation() }
 
     override suspend fun fetchPublicData(): Results<PublicDataResponse> = safeApiResults { service.fetchPublicData() }
 
