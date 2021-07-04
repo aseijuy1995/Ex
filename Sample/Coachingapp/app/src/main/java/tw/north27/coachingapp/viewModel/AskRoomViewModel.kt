@@ -43,9 +43,9 @@ class AskRoomViewModel(
 
     val askRoomState = _askRoomState.asLiveData()
 
-    fun fetchAskRoomList(account: String, id: Long) = viewModelScope.launch(Dispatchers.IO) {
+    fun fetchAskRoomList(id: Long) = viewModelScope.launch(Dispatchers.IO) {
         _askRoomState.postValue(ViewState.load())
-        val results = actionRepo.fetchAskRoomList(account, id)
+        val results = actionRepo.fetchAskRoomList(id)
         when (results) {
             is Results.Successful -> {
                 val askRoom = results.data

@@ -363,7 +363,7 @@ class ApiService(val cxt: Context) : IApiService {
         return AskRoom(
             id = id,
             selfAct = accountTest,
-            otherAct = teacherInfoListTest.find { it.account == account }?.account!!,
+            otherAct = teacherInfoListTest.find { it.account == accountTest }?.account!!,
             educationLevelId = 1,
             gradeId = 1,
             subjectId = 1,

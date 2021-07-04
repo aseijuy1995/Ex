@@ -30,7 +30,7 @@ class ActionRepository(private val service: IApiService) : IActionRepository {
         return safeApiResults { service.fetchAskList(askId = askId) }
     }
 
-    override suspend fun fetchAskRoomList(account: String, id: Long): Results<AskRoom> {
-        return safeApiResults { service.fetchAskRoomList(account = account, id = id) }
+    override suspend fun fetchAskRoomList(id: Long): Results<AskRoom> {
+        return safeApiResults { service.fetchAskRoomList(id = id) }
     }
 }

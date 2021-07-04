@@ -347,7 +347,7 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 //        }
 
         viewModel.fetchUser(account)
-        viewModel.fetchAskRoomList(account, roomId)
+        viewModel.fetchAskRoomList(roomId)
     }
 
 }

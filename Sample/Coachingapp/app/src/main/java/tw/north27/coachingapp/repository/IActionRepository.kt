@@ -20,6 +20,6 @@ interface IActionRepository {
 
     suspend fun fetchAskList(askId: Long?): Results<List<AskInfo>>
 
-    suspend fun fetchAskRoomList(account: String, id: Long): Results<AskRoom>
+    suspend fun fetchAskRoomList(id: Long): Results<AskRoom>
 
 }
