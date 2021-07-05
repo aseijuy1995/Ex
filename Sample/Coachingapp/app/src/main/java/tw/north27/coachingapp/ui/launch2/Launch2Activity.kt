@@ -15,6 +15,7 @@ import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ActivityLaunch2Binding
@@ -32,10 +33,12 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding.bnvLaunch2.apply {
             itemIconTintList = null
             setupWithNavController(navController)
         }
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             binding.bnvLaunch2.apply {
                 itemTextColor = when (destination.id) {
@@ -72,21 +75,28 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
             val itemStudy = binding.bnvLaunch2.menu.findItem(R.id.fragment_study)
             val itemNotice = binding.bnvLaunch2.menu.findItem(R.id.fragment_notice)
             val itemPersonal = binding.bnvLaunch2.menu.findItem(R.id.fragment_personal)
-            when (auth) {
-                UserPref.Authority.STUDENT -> {
-                    itemCoaching.isVisible = true
-                    itemAsk.isVisible = true
-                    itemStudy.isVisible = true
-                    itemNotice.isVisible = true
-                    itemPersonal.isVisible = true
+            withContext(Dispatchers.Main) {
+                val inflater = navController.navInflater
+                val graph = inflater.inflate(R.navigation.launch2_graph)
+                when (auth) {
+                    UserPref.Authority.STUDENT -> {
+                        itemCoaching.isVisible = true
+                        itemAsk.isVisible = true
+                        itemStudy.isVisible = true
+                        itemNotice.isVisible = true
+                        itemPersonal.isVisible = true
+                        graph.startDestination = R.id.fragment_coaching
+                    }
+                    UserPref.Authority.TEACHER -> {
+                        itemCoaching.isVisible = false
+                        itemAsk.isVisible = true
+                        itemStudy.isVisible = false
+                        itemNotice.isVisible = true
+                        itemPersonal.isVisible = true
+                        graph.startDestination = R.id.fragment_ask
+                    }
                 }
-                UserPref.Authority.TEACHER -> {
-                    itemCoaching.isVisible = false
-                    itemAsk.isVisible = true
-                    itemStudy.isVisible = false
-                    itemNotice.isVisible = true
-                    itemPersonal.isVisible = true
-                }
+                navController.graph = graph
             }
         }
 

@@ -54,7 +54,11 @@ val signInFailTest = SignIn(
 
 val signInInfoSucTest: SignInInfo
     get() = SignInInfo(
-        userInfo = UserInfo(account = accountTest),
+        userInfo = UserInfo(
+            account = accountTest,
+            auth = authorityStudentTest,
+//            auth = authorityTeacherTest,
+        ),
         expireTime = expireTimeTest(),
         accessToken = accessTokenTest,
         refreshToken = refreshTokenTest,
@@ -89,6 +93,13 @@ val userInfoTest = UserInfo(
     studentInfo = StudentInfo(
         school = schoolTest,
         gradeId = gradeIdTest,
+    ),
+    teacherInfo = TeacherInfo(
+        commentScoreAvg = getCommentScoreAvg(),
+        commentScoreCountList = getCommentScoreCountList(),
+        replyRate = getReplyRate(),
+        replyCountList = replyCountListTest,
+        unitsList = unitListTest.filter { it.subjectId == 1L }
     ),
     userConfig = UserConfig(
         replyNotice = replyNoticeTest,

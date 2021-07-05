@@ -10,12 +10,12 @@ import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.pref.setUserPref
 import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.ViewState
+import com.yujie.utilmodule.util.logD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.model.SignIn
 import tw.north27.coachingapp.model.SignInCode
-import tw.north27.coachingapp.model.SignInInfo
 import tw.north27.coachingapp.repository.IUserRepository
 
 class StartViewModel(
