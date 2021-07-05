@@ -3,40 +3,38 @@ package tw.north27.coachingapp.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.swipe.SwipeLayout
 import com.jakewharton.rxrelay3.PublishRelay
-import com.yujie.utilmodule.adapter.bindImg
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.consts.dateToString
 import tw.north27.coachingapp.databinding.ItemAskBinding
-import tw.north27.coachingapp.model.AskInfo
+import tw.north27.coachingapp.model.AskRoom
 import tw.north27.coachingapp.model.response.EducationLevel
 import tw.north27.coachingapp.model.response.Grade
 import tw.north27.coachingapp.model.response.Subject
 import tw.north27.coachingapp.model.response.Units
 
 
-class AskListAdapter : ListAdapter<AskInfo, AskListAdapter.VH>(object : DiffUtil.ItemCallback<AskInfo>() {
+class AskListAdapter : ListAdapter<AskRoom, AskListAdapter.VH>(object : DiffUtil.ItemCallback<AskRoom>() {
 
-    override fun areItemsTheSame(oldItem: AskInfo, newItem: AskInfo): Boolean {
+    override fun areItemsTheSame(oldItem: AskRoom, newItem: AskRoom): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: AskInfo, newItem: AskInfo): Boolean {
+    override fun areContentsTheSame(oldItem: AskRoom, newItem: AskRoom): Boolean {
         return oldItem.hashCode() == newItem.hashCode()
     }
 }
 ) {
 
-    val soundClickRelay = PublishRelay.create<Pair<View, AskInfo>>()
+    val soundClickRelay = PublishRelay.create<Pair<View, AskRoom>>()
 
-    val delClickRelay = PublishRelay.create<Pair<View, AskInfo>>()
+    val delClickRelay = PublishRelay.create<Pair<View, AskRoom>>()
 
-    val itemClickRelay = PublishRelay.create<Pair<View, AskInfo>>()
+    val itemClickRelay = PublishRelay.create<Pair<View, AskRoom>>()
 
     var educationLevelList: List<EducationLevel>? = null
 
@@ -47,24 +45,24 @@ class AskListAdapter : ListAdapter<AskInfo, AskListAdapter.VH>(object : DiffUtil
     var unitsList: List<Units>? = null
 
     inner class VH(val binding: ItemAskBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(askInfo: AskInfo) = binding.apply {
-            this.askInfo = askInfo
-            ivAvatar.bindImg(url = askInfo.senderUser.avatarUrl, roundingRadius = 30)
-            tvName.text = askInfo.senderUser.name
-            ivNotice.bindImg(resId = if (askInfo.isSound) R.drawable.ic_baseline_volume_up_24_blue else R.drawable.ic_baseline_volume_off_24_red)
-            tvTime.text = dateToString(askInfo.sendTime)
-            tvMsg.text = askInfo.msg
-            itemLabelEducation.tvLabel.text = educationLevelList?.find { it.id == askInfo.educationId }?.name
-            itemLabelGrade.tvLabel.text = gradeList?.find { it.id == askInfo.gradeId }?.name
-            itemLabelSubject.tvLabel.text = subjectList?.find { it.id == askInfo.subjectId }?.name
-            itemLabelUnit.tvLabel.text = unitsList?.find { it.id == askInfo.unitId }?.name
+        fun bind(askRoom: AskRoom) = binding.apply {
+            this.askInfo = askRoom
+            ivAvatar.bindImg(url = askRoom.senderUserInfo.avatarUrl, roundingRadius = 30)
+            tvName.text = askRoom.senderUserInfo.name
+            ivNotice.bindImg(resId = if (askRoom.isSound) R.drawable.ic_baseline_volume_up_24_blue else R.drawable.ic_baseline_volume_off_24_red)
+            tvTime.text = dateToString(askRoom.sendTime)
+            tvContent.text = askRoom.msg
+            itemEducationLevel.tvLabel.text = educationLevelList?.find { it.id == askRoom.educationLevelId }?.name
+            itemGrade.tvLabel.text = gradeList?.find { it.id == askRoom.gradeId }?.name
+            itemSubject.tvLabel.text = subjectList?.find { it.id == askRoom.subjectId }?.name
+            itemUnit.tvLabel.text = unitsList?.find { it.id == askRoom.unitId }?.name
             tvBadge.apply {
-                isVisible = (askInfo.unReadNum > 0)
-                text = if (askInfo.unReadNum > 100) "99+" else askInfo.unReadNum.toString()
+                isVisible = (askRoom.unreadNum > 0)
+                text = if (askRoom.unreadNum > 100) "99+" else askRoom.unreadNum.toString()
             }
             itemAskSwipe.apply {
-                ivSound.setOnClickListener { soundClickRelay.accept(it to askInfo) }
-                ivDel.setOnClickListener { delClickRelay.accept(it to askInfo) }
+                ivSound.setOnClickListener { soundClickRelay.accept(it to askRoom) }
+                ivDel.setOnClickListener { delClickRelay.accept(it to askRoom) }
             }
             itemView.setOnClickListener {
                 if (slLayout.openStatus == SwipeLayout.Status.Open)
@@ -72,7 +70,7 @@ class AskListAdapter : ListAdapter<AskInfo, AskListAdapter.VH>(object : DiffUtil
                 else if (slLayout.openStatus == SwipeLayout.Status.Middle)
                     null
                 else
-                    itemClickRelay.accept(it to askInfo)
+                    itemClickRelay.accept(it to askRoom)
             }
             executePendingBindings()
         }

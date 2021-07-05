@@ -1,5 +1,6 @@
 package tw.north27.coachingapp.consts
 
+import com.google.gson.annotations.SerializedName
 import tw.north27.coachingapp.consts.simulation.accountTest
 import tw.north27.coachingapp.consts.simulation.nameTest
 import tw.north27.coachingapp.consts.simulation.teacherInfoListTest
@@ -198,122 +199,92 @@ val reflectListTest = listOf<Reflect>(
 //
 
 fun getAskListTest() = mutableListOf(
-    AskInfo(
+    AskRoom(
         id = 0,
-        senderUser = teacherInfoListTest[0],
-        receiverUser = userInfoTest,
-        askType = AskType.TEXT,
-        text = "下列「」內的字，讀音前後相同的是：\n" +
-                "(A)「賚」賞諸徒/「齎」志以歿(B)「阡」陌交通/惹禍招「愆」\n" +
-                "(C)「餔」糟歠釃/「仆」地哭號(D)「矜」寡孤獨/罪無可「逭」",
-        isSound = true,
-        unReadNum = 2,
-        sendTime = stringToDateTime("2021/06/30 17:30:21"),
-        msg = "下列「」內的字，讀音前後相同的是：" +
-                "(A)「賚」賞諸徒/「齎」志以歿(B)「阡」陌交通/惹禍招「愆」\n" +
-                "(C)「餔」糟歠釃/「仆」地哭號(D)「矜」寡孤獨/罪無可「逭」",
-        educationId = 1,
-        gradeId = 6,
+        senderUserInfo = teacherInfoListTest[0],
+        receiverUserInfo = userInfoTest,
+        educationLevelId = 1,
+        gradeId = 1,
         subjectId = 1,
-        unitId = 12,
+        unitId = 2,
+        isSound = true,
+        unreadNum = 0,
+        askInfo = AskInfo(
+            id = 1L,
+            senderAct = teacherInfoListTest[0].account,
+            receiverAct = accountTest,
+            //
+            askType = AskType.TEXT,
+            text = "",
+            @SerializedName("img_list") var imgList: List<AskImage> = emptyList(),
+            @SerializedName("audio_list") var audioList: List<AskAudio> = emptyList(),
+            @SerializedName("video_list") var videoList: List<AskVideo> = emptyList(),
+            //
+            @SerializedName("is_read") var isRead: Boolean,
+            @SerializedName("send_time") var sendTime: Date,
+        )
     ),
-    AskInfo(
+    AskRoom(
         id = 1,
-        senderUser = teacherInfoListTest[1],
-        receiverUser = userInfoTest,
-        askType = AskType.TEXT,
-        text = "下列文句，完全沒有錯別字的是：\n" +
-                "(A)集中營裡的迫害手段聳人聽聞，諸多相關照片更是令人不忍卒睹\n" +
-                "(B)這齣動畫電影劇情緊湊，妙趣恆生，締造本年度最高的票房紀錄\n" +
-                "(C)李老師為學校架設的圖書網站正式起用，校方特頒獎狀以致謝忱\n" +
-                "(D)大家對聚餐地點莫衷一是，經投票後，決定到牛排餐廳大塊朵頤\n",
-        isSound = true,
-        unReadNum = 0,
-        sendTime = stringToDateTime("2021/06/29 20:18:31"),
-        msg = "下列文句，完全沒有錯別字的是：" +
-                "(A)集中營裡的迫害手段聳人聽聞，諸多相關照片更是令人不忍卒睹" +
-                "(B)這齣動畫電影劇情緊湊，妙趣恆生，締造本年度最高的票房紀錄" +
-                "(C)李老師為學校架設的圖書網站正式起用，校方特頒獎狀以致謝忱" +
-                "(D)大家對聚餐地點莫衷一是，經投票後，決定到牛排餐廳大塊朵頤",
-        educationId = 1,
-        gradeId = 4,
-        subjectId = 1,
+        senderUserInfo = teacherInfoListTest[1],
+        receiverUserInfo = userInfoTest,
+        educationLevelId = 1,
+        gradeId = 2,
+        subjectId = 2,
         unitId = 7,
-    ),
-    AskInfo(
-        id = 2,
-        senderUser = teacherInfoListTest[2],
-        receiverUser = userInfoTest,
-        askType = AskType.IMAGE,
-        imgList = listOf(
-            AskImage(url = "https://pgw.udn.com.tw/gw/photo.php?u=https://uc.udn.com.tw/photo/2021/02/10/1/11605446.jpg&s=Y&x=0&y=154&sw=960&sh=566&sl=W&fw=800&exp=3600&w=930&nt=1")
-        ),
-        isSound = true,
-        unReadNum = 18,
-        sendTime = stringToDateTime("2021/06/29 16:55:48"),
-        msg = String.format("%s傳送了圖片", teacherInfoListTest[2].name),
-        educationId = 1,
-        gradeId = 5,
-        subjectId = 1,
-        unitId = 8,
-    ),
-    AskInfo(
-        id = 3,
-        senderUser = teacherInfoListTest[3],
-        receiverUser = userInfoTest,
-        askType = AskType.IMAGE,
-        imgList = listOf(
-            AskImage(url = "https://attach.setn.com/newsimages/2019/04/11/1872276-PH.jpg")
-        ),
         isSound = false,
-        unReadNum = 0,
-        sendTime = stringToDateTime("2021/06/26 10:32:58"),
-        msg = String.format("%s傳送了圖片", teacherInfoListTest[3].name),
-        educationId = 1,
-        gradeId = 5,
-        subjectId = 2,
-        unitId = 30,
+        unreadNum = 2,
+        askInfo = AskInfo(
+            @SerializedName("id") var id: Long,
+            @SerializedName("sender_account") var senderAct: String,
+            @SerializedName("receiver_account") var receiverAct: String,
+            //
+            @SerializedName("ask_type") var askType: AskType,
+            @SerializedName("text") var text: String? = null,
+            @SerializedName("img_list") var imgList: List<AskImage> = emptyList(),
+            @SerializedName("audio_list") var audioList: List<AskAudio> = emptyList(),
+            @SerializedName("video_list") var videoList: List<AskVideo> = emptyList(),
+            //
+            @SerializedName("is_read") var isRead: Boolean,
+            @SerializedName("send_time") var sendTime: Date,
+        )
     ),
-    AskInfo(
-        id = 4,
-        senderUser = teacherInfoListTest[4],
-        receiverUser = userInfoTest,
-        askType = AskType.AUDIO,
-        audioList = listOf(
-            AskAudio(
-                url = "https://attach.setn.com/newsimages/2019/04/11/1872276-PH.jpg",
-                time = 1000
-            )
-        ),
-        isSound = false,
-        unReadNum = 0,
-        sendTime = stringToDateTime("2021/06/26 10:32:58"),
-        msg = String.format("%s傳送了音訊", teacherInfoListTest[3].name),
-        educationId = 1,
-        gradeId = 6,
-        subjectId = 2,
-        unitId = 22,
-    ),
-    AskInfo(
-        id = 5,
-        senderUser = teacherInfoListTest[5],
-        receiverUser = userInfoTest,
-        askType = AskType.VIDEO,
-        videoList = listOf(
-            AskVideo(
-                url = "https://attach.setn.com/newsimages/2019/04/11/1872276-PH.jpg",
-                time = 1000
-            )
-        ),
-        isSound = false,
-        unReadNum = 0,
-        sendTime = stringToDateTime("2021/06/23 23:28:31"),
-        msg = String.format("%s傳送了影片", teacherInfoListTest[3].name),
-        educationId = 1,
-        gradeId = 4,
-        subjectId = 2,
-        unitId = 18,
-    )
+//    AskRoom(
+//        id = 2,
+//        senderUser = teacherInfoListTest[2],
+//        receiverUser = userInfoTest,
+//        educationLevelId = 1,
+//        gradeId = 5,
+//        subjectId = 1,
+//        unitId = 8,
+//    ),
+//    AskRoom(
+//        id = 3,
+//        senderUser = teacherInfoListTest[3],
+//        receiverUser = userInfoTest,
+//        educationLevelId = 1,
+//        gradeId = 5,
+//        subjectId = 2,
+//        unitId = 30,
+//    ),
+//    AskRoom(
+//        id = 4,
+//        senderUser = teacherInfoListTest[4],
+//        receiverUser = userInfoTest,
+//        educationLevelId = 1,
+//        gradeId = 6,
+//        subjectId = 2,
+//        unitId = 22,
+//    ),
+//    AskRoom(
+//        id = 5,
+//        senderUser = teacherInfoListTest[5],
+//        receiverUser = userInfoTest,
+//        educationLevelId = 1,
+//        gradeId = 4,
+//        subjectId = 2,
+//        unitId = 18,
+//    )
 //SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(Date())
 
 )

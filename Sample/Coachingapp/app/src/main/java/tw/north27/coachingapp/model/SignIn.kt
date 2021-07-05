@@ -77,8 +77,10 @@ data class UserInfo(
     @SerializedName("auth") val auth: UserPref.Authority = UserPref.Authority.UNKNOWN,
     //
     @SerializedName("bg_url") val bgUrl: String = "",
+    //
     @SerializedName("avatar_url") val avatarUrl: String = "",
     @SerializedName("name") val name: String = "",
+    //
     @SerializedName("gender") val gender: Gender? = null,
     @SerializedName("intro") val intro: String = "",
     @SerializedName("birthday") val birthday: Date? = null,

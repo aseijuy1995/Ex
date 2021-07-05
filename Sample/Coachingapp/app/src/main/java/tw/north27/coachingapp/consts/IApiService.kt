@@ -17,6 +17,7 @@ interface IApiService {
      *  @param deviceType >> 設備類型(android)
      * */
     @GET
+    @FormUrlEncoded
     suspend fun fetchAppConfig(@Field("device_type") deviceType: String): AppConfig
 
     /**
@@ -24,6 +25,7 @@ interface IApiService {
      * @header Bearer accessToken
      * */
     @POST
+    @FormUrlEncoded
     suspend fun checkSignIn(@Field("account") account: String): SignIn
 
     /**
@@ -39,7 +41,26 @@ interface IApiService {
      * */
     @GET
     suspend fun fetchEducation(): Education
+
+    /**
+     * 獲取提問列表
+     * @header Bearer accessToken
+     * @param askRequest >> AskRequest::class.java
+     * */
+    @POST
+    @FormUrlEncoded
+    suspend fun fetchAskList(@Body askRequest: AskRequest): List<AskRoom>
+
+    /**
+     * 獲取指定提問室列表
+     * @header accessToken
+     * @param id >> 房間id
+     * */
+    @POST
+    @FormUrlEncoded
+    suspend fun fetchAskRoomList(@Field("id") id: Long): AskInfos
     //
+
     /**
      * 獲取用戶資訊
      * @header Bearer accessToken
@@ -93,25 +114,6 @@ interface IApiService {
      * */
     @POST
     suspend fun fetchTeacherList(@Body teacherRequest: TeacherRequest): List<UserInfo>
-
-    //AskFragment
-    /**
-     * 獲取提問列表
-     * @header accessToken
-     * @param askId >> 最新一筆的提問id
-     * */
-    @POST
-    @FormUrlEncoded
-    suspend fun fetchAskList(@Field("id") askId: Long? = null): List<AskInfo>
-
-    /**
-     * 獲取指定提問室列表
-     * @header accessToken
-     * @param id >> 房間id
-     * */
-    @POST
-    @FormUrlEncoded
-    suspend fun fetchAskRoomList(@Field("id") id: Long): AskRoom
 
     //
     //

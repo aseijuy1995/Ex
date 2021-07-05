@@ -17,20 +17,20 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.consts.dateTimeToString
 import tw.north27.coachingapp.databinding.ItemAskRoomOtherBinding
 import tw.north27.coachingapp.databinding.ItemAskRoomSelfBinding
-import tw.north27.coachingapp.model.AskInfo
+import tw.north27.coachingapp.model.AskRoom
 import tw.north27.coachingapp.model.AskType
 import kotlin.coroutines.CoroutineContext
 
 class AskRoomListAdapter(
     private val cxt: Context
-) : ListAdapter<AskInfo, AskRoomListAdapter.VH>(
+) : ListAdapter<AskRoom, AskRoomListAdapter.VH>(
 
-    object : DiffUtil.ItemCallback<AskInfo>() {
-        override fun areItemsTheSame(oldItem: AskInfo, newItem: AskInfo): Boolean {
+    object : DiffUtil.ItemCallback<AskRoom>() {
+        override fun areItemsTheSame(oldItem: AskRoom, newItem: AskRoom): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: AskInfo, newItem: AskInfo): Boolean {
+        override fun areContentsTheSame(oldItem: AskRoom, newItem: AskRoom): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
     }
@@ -44,7 +44,7 @@ class AskRoomListAdapter(
 
     override fun getItemViewType(position: Int): Int {
         val account = runBlocking { cxt.userPref.getAccount().first() }
-        return when (getItem(position).senderUser.account) {
+        return when (getItem(position).senderUserInfo.account) {
             account -> Type.SELF.code
             else -> Type.OTHER.code
         }
@@ -79,18 +79,18 @@ class AskRoomListAdapter(
     }
 
     abstract inner class VH(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
-        abstract fun bind(askInfo: AskInfo): Any
+        abstract fun bind(askRoom: AskRoom): Any
     }
 
     override val coroutineContext: CoroutineContext
         get() = Job()
 
     inner class SelfVH(private val binding: ItemAskRoomSelfBinding) : VH(binding) {
-        override fun bind(askInfo: AskInfo) = binding.apply {
-            this.askInfo = askInfo
-            when (askInfo.askType) {
+        override fun bind(askRoom: AskRoom) = binding.apply {
+            this.askInfo = askRoom
+            when (askRoom.askType) {
                 AskType.TEXT -> {
-                    tvText.text = askInfo.text
+                    tvText.text = askRoom.text
                 }
                 AskType.IMAGE -> {
                 }
@@ -100,10 +100,10 @@ class AskRoomListAdapter(
                 }
             }
             tvRead.apply {
-                isVisible = (askInfo.unReadNum > 0)
-                text = if (askInfo.unReadNum > 0) context.getString(R.string.un_read) else context.getString(R.string.have_read)
+                isVisible = (askRoom.unreadNum > 0)
+                text = if (askRoom.unreadNum > 0) context.getString(R.string.un_read) else context.getString(R.string.have_read)
             }
-            tvTime.text = dateTimeToString(askInfo.sendTime)
+            tvTime.text = dateTimeToString(askRoom.sendTime)
 
 //            if (chat.chatType == ChatType.IMAGE) {
 //                chat.image?.let {
@@ -174,11 +174,11 @@ class AskRoomListAdapter(
     }
 
     inner class OtherVH(val binding: ItemAskRoomOtherBinding) : VH(binding) {
-        override fun bind(askInfo: AskInfo) = binding.apply {
-            this.askInfo = askInfo
-            when (askInfo.askType) {
+        override fun bind(askRoom: AskRoom) = binding.apply {
+            this.askInfo = askRoom
+            when (askRoom.askType) {
                 AskType.TEXT -> {
-                    tvText.text = askInfo.text
+                    tvText.text = askRoom.text
                 }
                 AskType.IMAGE -> {
                 }
@@ -188,10 +188,10 @@ class AskRoomListAdapter(
                 }
             }
             tvRead.apply {
-                isVisible = (askInfo.unReadNum > 0)
-                text = if (askInfo.unReadNum > 0) context.getString(R.string.un_read) else context.getString(R.string.have_read)
+                isVisible = (askRoom.unreadNum > 0)
+                text = if (askRoom.unreadNum > 0) context.getString(R.string.un_read) else context.getString(R.string.have_read)
             }
-            tvTime.text = dateTimeToString(askInfo.sendTime)
+            tvTime.text = dateTimeToString(askRoom.sendTime)
 
 
 //            if (chat.chatType == ChatType.IMAGE) {

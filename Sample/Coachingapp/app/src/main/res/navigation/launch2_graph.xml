@@ -62,13 +62,13 @@
     <!--  AskFragment  -->
     <fragment
         android:id="@+id/fragment_ask"
-        android:name="tw.north27.coachingapp.ui.launch2.AskFragment"
+        android:name="tw.north27.coachingapp.ui.launch2.ask.AskFragment"
         android:label="fragment_ask"
         tools:layout="@layout/fragment_ask" />
 
     <fragment
         android:id="@+id/fragment_ask_room"
-        android:name="tw.north27.coachingapp.ui.launch2.AskRoomFragment"
+        android:name="tw.north27.coachingapp.ui.launch2.ask.AskRoomFragment"
         android:label="fragment_ask_room"
         tools:layout="@layout/fragment_ask_room" />
 

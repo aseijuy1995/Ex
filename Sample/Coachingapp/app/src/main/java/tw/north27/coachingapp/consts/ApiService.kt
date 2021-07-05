@@ -97,6 +97,26 @@ class ApiService(val cxt: Context) : IApiService {
         return education
     }
 
+    override suspend fun fetchAskList(@Body askRequest: AskRequest): List<AskRoom> {
+        delay(1500)
+        askRequest
+        return getAskListTest()
+    }
+
+    override suspend fun fetchAskRoomList(id: Long): AskInfos {
+        delay(3000L)
+        return AskInfos(
+            id = id,
+            selfAct = accountTest,
+            otherAct = teacherInfoListTest.find { it.account == accountTest }?.account!!,
+            educationLevelId = 1,
+            gradeId = 1,
+            subjectId = 1,
+            unitId = 1,
+            askInfoList = listOf()
+        )
+    }
+
     override suspend fun signOut(@Body signOutRequest: SignOutRequest): SignIn {
         delay(1500)
         if (uuidTest == signOutRequest.uuid) uuidTest = ""
@@ -320,26 +340,6 @@ class ApiService(val cxt: Context) : IApiService {
         if (last > list.size) last = list.size
         return list.subList(index, last)
     }
-
-    override suspend fun fetchAskList(@Field("id") askId: Long?): List<AskInfo> {
-        delay(1500)
-        return getAskListTest()
-    }
-
-    override suspend fun fetchAskRoomList(id: Long): AskRoom {
-        delay(3000L)
-        return AskRoom(
-            id = id,
-            selfAct = accountTest,
-            otherAct = teacherInfoListTest.find { it.account == accountTest }?.account!!,
-            educationLevelId = 1,
-            gradeId = 1,
-            subjectId = 1,
-            unitId = 1,
-            askRoomInfoList = listOf()
-        )
-    }
-
 
     //
     //

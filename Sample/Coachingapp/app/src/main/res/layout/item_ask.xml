@@ -7,7 +7,7 @@
 
         <variable
             name="askInfo"
-            type="tw.north27.coachingapp.model.AskInfo" />
+            type="tw.north27.coachingapp.model.AskRoom" />
     </data>
 
     <com.daimajia.swipe.SwipeLayout
@@ -52,7 +52,7 @@
                 android:maxLines="1"
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@id/tv_msg"
+                app:layout_constraintBottom_toTopOf="@id/tv_content"
                 app:layout_constraintStart_toEndOf="@id/iv_avatar"
                 app:layout_constraintTop_toTopOf="@id/iv_avatar"
                 app:layout_constraintVertical_chainStyle="packed" />
@@ -81,13 +81,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_msg"
+                android:id="@+id/tv_content"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textColor="@color/gray_666666"
@@ -97,38 +96,39 @@
                 app:layout_constraintStart_toEndOf="@id/iv_avatar"
                 app:layout_constraintTop_toBottomOf="@id/tv_name"
                 app:layout_constraintVertical_chainStyle="packed"
-                app:layout_goneMarginBottom="10dp" />
+                app:layout_goneMarginEnd="10dp" />
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/ll_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
                 app:layout_constraintEnd_toStartOf="@id/tv_badge"
                 app:layout_constraintStart_toEndOf="@id/iv_avatar"
-                app:layout_constraintTop_toBottomOf="@id/tv_msg"
+                app:layout_constraintTop_toBottomOf="@id/tv_content"
                 app:layout_constraintVertical_chainStyle="packed"
-                app:layout_goneMarginBottom="10dp">
+                app:layout_goneMarginEnd="10dp">
 
                 <include
-                    android:id="@+id/item_label_education"
-                    layout="@layout/item_label_education" />
+                    android:id="@+id/item_education_level"
+                    layout="@layout/item_education_level" />
 
                 <include
-                    android:id="@+id/item_label_grade"
-                    layout="@layout/item_label_grade" />
+                    android:id="@+id/item_grade"
+                    layout="@layout/item_grade" />
 
                 <include
-                    android:id="@+id/item_label_subject"
-                    layout="@layout/item_label_subject" />
+                    android:id="@+id/item_subject"
+                    layout="@layout/item_subject" />
 
                 <include
-                    android:id="@+id/item_label_unit"
-                    layout="@layout/item_label_unit" />
+                    android:id="@+id/item_unit"
+                    layout="@layout/item_unit" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

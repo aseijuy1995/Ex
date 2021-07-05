@@ -1,16 +1,13 @@
-package tw.north27.coachingapp.ui.launch2
+package tw.north27.coachingapp.ui.launch2.ask
 
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yujie.utilmodule.base.BaseFragment
-import com.yujie.utilmodule.ext.clicksObserve
 import com.yujie.utilmodule.ext.observe
-import com.yujie.utilmodule.ext.visible
 import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -19,7 +16,7 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.AskListAdapter
 import tw.north27.coachingapp.consts.getAskListTest
 import tw.north27.coachingapp.databinding.FragmentAskBinding
-import tw.north27.coachingapp.model.AskInfo
+import tw.north27.coachingapp.model.AskRoom
 import tw.north27.coachingapp.model.AskType
 import tw.north27.coachingapp.viewModel.AskViewModel
 import tw.north27.coachingapp.viewModel.PublicViewModel
@@ -40,7 +37,9 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             itemToolbarNormal.apply {
+                //
                 ivSend.isVisible = true
+                //
                 ivBack.isVisible = false
                 tvTitle.text = getString(R.string.ask_title)
             }
@@ -79,10 +78,10 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
         binding.itemToolbarNormal.ivSend.clicksObserve(owner = viewLifecycleOwner) {
             val askId = adapter.getItemId(0)
             val ask = getAskListTest()[2].apply {
-                id = getAskListTest().maxOf(AskInfo::id) + 1
+                id = getAskListTest().maxOf(AskRoom::id) + 1
                 askType = AskType.TEXT
-                text = "測試${getAskListTest().maxOf(AskInfo::id) + 1}"
-                unReadNum = unReadNum + 1
+                text = "測試${getAskListTest().maxOf(AskRoom::id) + 1}"
+                unreadNum = unreadNum + 1
                 sendTime = Date()
                 unitId = unitId
                 msg = "測試$id"
@@ -96,7 +95,7 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
 
         adapter.itemClickRelay.observe(viewLifecycleOwner) {
             val userInfo = it.second
-            findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentAskRoom(userInfo.senderUser.account, userInfo.id))
+            findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentAskRoom(userInfo.senderUserInfo.account, userInfo.id))
         }
 
         binding.srlView.autoRefresh()

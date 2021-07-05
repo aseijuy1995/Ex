@@ -111,11 +111,19 @@ val teacherInfoListTest = listOf<UserInfo>(
     UserInfo(
         account = "rebeccaAct",
         auth = UserPref.Authority.TEACHER,
+        //
         bgUrl = "https://images.unsplash.com/photo-1622495807835-858ac1da986d?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
+        //
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/732/757/normal/nlpknz.png?1623138408",
         name = "Rebecca",
+        //
         gender = Gender.FEMALE,
-        intro = "\uD83D\uDFE1關於Rebecca：\n" +
+        intro = "關於Rebecca\n\n" +
+                "專攻\n\n" +
+                "國小 / 一年級 / 國語" +
+                "單元/類型\n\n" +
+                "\t\t手拉手\n" +
+                "\t\t排一排\n\n" +
                 "\uD83C\uDFC5補教老師，能敏銳掌握學生學習上的盲點，給予最合適的指導。\n" +
                 "\uD83C\uDFC5法律系畢業、中文輔系學程、高中學測國文滿級分、國語文競試-字音字形組第一、作文組第一。\n" +
                 "\uD83C\uDFC5三不政策：不死背、不填鴨、不責備。\n" +
@@ -153,11 +161,96 @@ val teacherInfoListTest = listOf<UserInfo>(
         homePhone = "02-111-2222",
         email = "rebecca@gmail.com",
         teacherInfo = TeacherInfo(
+            unitsList = unitListTest.filter { it.educationLevelId == 1L && it.gradeId == 1L && it.subjectId == 1L },
+            //
             commentScoreAvg = getCommentScoreAvg(),
             commentScoreCountList = getCommentScoreCountList(),
             replyRate = getReplyRate(),
             replyCountList = replyCountListTest,
-            unitsList = unitListTest.filter { it.subjectId == 1L }
+        ),
+    ),
+    UserInfo(
+        account = "peiYuAct",
+        auth = UserPref.Authority.TEACHER,
+        //
+        bgUrl = "https://images.unsplash.com/photo-1621570070821-2e2b1358fae3?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
+        //
+        avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/425/315/normal/acwdjm.png?1605207454",
+        name = "裴育",
+        //
+        gender = Gender.MALE,
+        intro = "關於Pei Yu\n\n" +
+                "專攻\n\n" +
+                "國小 / 一年級 / 二年級 / 數學" +
+                "單元/類型\n\n" +
+                "\t\t加減\n" +
+                "\t\t乘除\n" +
+                "\t\t數與數線\n" +
+                "\t\t公因數&公倍數\n\n" +
+                "自己在百世資優數學任教，曾帶過前三志願、延平、薇閣班等私中小組班，也帶過學測班，熟悉學生對大考需求。\n" +
+                "高中（含）以下補習班經驗邁入第五學年，於2020年開始接觸線上教學授課，也在「閎數學」\n" +
+                "＜https://www.facebook.com/oicmath/＞幫忙錄製影片。\n" +
+                "\n" +
+                "能自編教材(常用軟體為MathType)，\n" +
+                "所用字型、所挑選題目皆無侵權問題，\n" +
+                "能轉化成PDF供Google Meet、Zoom線上教學使用，\n" +
+                "並結合分享ipad螢幕(或鏡射)與apple pencil搭配上筆記相關app，\n" +
+                "若學生端也有觸控螢幕設備也能即時互動，\n" +
+                "結合Google Classroom管理小考成績、作業繳交，\n" +
+                "也能透過截圖、錄影等方式記錄課程，方便學生複習、補課。\n" +
+                "可參考：https://imgur.com/ZspVbhs\n" +
+                "\n" +
+                "傳統黑、白板、電子白板、3C平板、觸控式螢幕皆能授課，\n" +
+                "可參考：https://imgur.com/a/5K0SSiC\n" +
+                "\n" +
+                "\n" +
+                "★課綱內外觀念建立與連結☆\n" +
+                "☆歷屆大考題目的深度剖析★\n" +
+                "★解決數學有關的疑難雜症☆\n" +
+                "☆培養學生獨立思考的能力★\n" +
+                "★現行課綱為主舊課綱為輔☆\n" +
+                "☆搭配聖經本教材因材施教★\n" +
+                "★安排課程進度計畫並追蹤☆\n" +
+                "☆作業練習訂正做好基本功★\n" +
+                "\n" +
+                "【教學風格】\n" +
+                "●培養學生三大能力：「讀的能力、寫的能力與說的能力。」\n" +
+                "●讀的能力：\n" +
+                "　現在的學生與我們求學時那個年代不同，普遍英語能力皆有一定水準，\n" +
+                "　但較少有家長會重視「國語文」，無論是現行的會考、學測還是指考，\n" +
+                "　出題的語言皆是「中文」，連敘述都看不懂了，何來談了解數學？\n" +
+                "　更不用說其背後的邏輯思考。老師會以圖像化、類比、較口語的方式深入淺出，\n" +
+                "　即時接收學生的反應，進而調整上課節奏。\n" +
+                "\n" +
+                "●寫的能力：\n" +
+                "　列式中以第一步驟最為重要，第一步驟的引導就能看出老師的功力，\n" +
+                "　有第一式之後，多數學生皆能寫出之後的過程進而求出答案，\n" +
+                "　國小的計算、算數是相當基礎的，務必熟甚至精。\n" +
+                "　國中才會開始引入較深的代數、指數律、解方程式、函數，\n" +
+                "　高中會較著重定義以及畫圖的能力，有時候圖畫出來，再搭配定義，答案就呼之欲出了。\n" +
+                "　計算正確是老師的基本要求，而計算速度才是其次。\n" +
+                "\n" +
+                "●說的能力：\n" +
+                "　為什麼要說？說什麼？說明學生自己讀題的想法、列式的意義之外，\n" +
+                "　在學生說的同時，會訓練到自己的邏輯。其實這就是「內化」的過程，\n" +
+                "　學生用自己熟悉的話語把想法傳達出來，這才是真正學生自己的知識，\n" +
+                "　而且是帶得走的。老師在課堂上說著上課內容，即便一旁的學生都聽懂了，\n" +
+                "　但那也只是「懂」，離「會」還有一段差距，而這差距因人而異。\n" +
+                "　有的學生在課堂上練習一下就會了；有的學生在課後自己反思過幾次也會了；\n" +
+                "　有的學生要歷經更長的時間去咀嚼才能體會。無論要花多久的時間，\n" +
+                "　這都是學生在學習上必經的過程，而老師都會和學生一起去面對。",
+        birthday = stringToDate("1977/09/02"),
+        cellPhone = "0944-555-666",
+        homePhone = "02-444-5555",
+        email = "peiYu@gmail.com",
+        teacherInfo = TeacherInfo(
+            unitsList = unitListTest.filter { it.educationLevelId == 1L && (it.gradeId == 1L) or (it.gradeId == 2L) && it.subjectId == 2L },
+            //
+            commentScoreAvg = getCommentScoreAvg(),
+            commentScoreCountList = getCommentScoreCountList(),
+            replyRate = getReplyRate(),
+            replyCountList = replyCountListTest
+
         )
     ),
     UserInfo(
@@ -299,78 +392,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             replyCountList = replyCountListTest,
             unitsList = unitListTest.filter { it.subjectId == 1L }
         )
-    ),
-    UserInfo(
-        account = "peiYuAct",
-        auth = UserPref.Authority.TEACHER,
-        bgUrl = "https://images.unsplash.com/photo-1621570070821-2e2b1358fae3?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-        avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/425/315/normal/acwdjm.png?1605207454",
-        name = "裴育",
-        gender = Gender.MALE,
-        intro = "自己在百世資優數學任教，曾帶過前三志願、延平、薇閣班等私中小組班，也帶過學測班，熟悉學生對大考需求。\n" +
-                "高中（含）以下補習班經驗邁入第五學年，於2020年開始接觸線上教學授課，也在「閎數學」\n" +
-                "＜https://www.facebook.com/oicmath/＞幫忙錄製影片。\n" +
-                "\n" +
-                "能自編教材(常用軟體為MathType)，\n" +
-                "所用字型、所挑選題目皆無侵權問題，\n" +
-                "能轉化成PDF供Google Meet、Zoom線上教學使用，\n" +
-                "並結合分享ipad螢幕(或鏡射)與apple pencil搭配上筆記相關app，\n" +
-                "若學生端也有觸控螢幕設備也能即時互動，\n" +
-                "結合Google Classroom管理小考成績、作業繳交，\n" +
-                "也能透過截圖、錄影等方式記錄課程，方便學生複習、補課。\n" +
-                "可參考：https://imgur.com/ZspVbhs\n" +
-                "\n" +
-                "傳統黑、白板、電子白板、3C平板、觸控式螢幕皆能授課，\n" +
-                "可參考：https://imgur.com/a/5K0SSiC\n" +
-                "\n" +
-                "\n" +
-                "★課綱內外觀念建立與連結☆\n" +
-                "☆歷屆大考題目的深度剖析★\n" +
-                "★解決數學有關的疑難雜症☆\n" +
-                "☆培養學生獨立思考的能力★\n" +
-                "★現行課綱為主舊課綱為輔☆\n" +
-                "☆搭配聖經本教材因材施教★\n" +
-                "★安排課程進度計畫並追蹤☆\n" +
-                "☆作業練習訂正做好基本功★\n" +
-                "\n" +
-                "【教學風格】\n" +
-                "●培養學生三大能力：「讀的能力、寫的能力與說的能力。」\n" +
-                "●讀的能力：\n" +
-                "　現在的學生與我們求學時那個年代不同，普遍英語能力皆有一定水準，\n" +
-                "　但較少有家長會重視「國語文」，無論是現行的會考、學測還是指考，\n" +
-                "　出題的語言皆是「中文」，連敘述都看不懂了，何來談了解數學？\n" +
-                "　更不用說其背後的邏輯思考。老師會以圖像化、類比、較口語的方式深入淺出，\n" +
-                "　即時接收學生的反應，進而調整上課節奏。\n" +
-                "\n" +
-                "●寫的能力：\n" +
-                "　列式中以第一步驟最為重要，第一步驟的引導就能看出老師的功力，\n" +
-                "　有第一式之後，多數學生皆能寫出之後的過程進而求出答案，\n" +
-                "　國小的計算、算數是相當基礎的，務必熟甚至精。\n" +
-                "　國中才會開始引入較深的代數、指數律、解方程式、函數，\n" +
-                "　高中會較著重定義以及畫圖的能力，有時候圖畫出來，再搭配定義，答案就呼之欲出了。\n" +
-                "　計算正確是老師的基本要求，而計算速度才是其次。\n" +
-                "\n" +
-                "●說的能力：\n" +
-                "　為什麼要說？說什麼？說明學生自己讀題的想法、列式的意義之外，\n" +
-                "　在學生說的同時，會訓練到自己的邏輯。其實這就是「內化」的過程，\n" +
-                "　學生用自己熟悉的話語把想法傳達出來，這才是真正學生自己的知識，\n" +
-                "　而且是帶得走的。老師在課堂上說著上課內容，即便一旁的學生都聽懂了，\n" +
-                "　但那也只是「懂」，離「會」還有一段差距，而這差距因人而異。\n" +
-                "　有的學生在課堂上練習一下就會了；有的學生在課後自己反思過幾次也會了；\n" +
-                "　有的學生要歷經更長的時間去咀嚼才能體會。無論要花多久的時間，\n" +
-                "　這都是學生在學習上必經的過程，而老師都會和學生一起去面對。",
-        birthday = stringToDate("1977/09/02"),
-        cellPhone = "0944-555-666",
-        homePhone = "02-444-5555",
-        email = "peiYu@gmail.com",
-        teacherInfo = TeacherInfo(
-            commentScoreAvg = getCommentScoreAvg(),
-            commentScoreCountList = getCommentScoreCountList(),
-            replyRate = getReplyRate(),
-            replyCountList = replyCountListTest,
-            unitsList = unitListTest.filter { it.subjectId == 2L }
-        )
-    ),
+    ), ,
     UserInfo(
         account = "gingAct",
         auth = UserPref.Authority.TEACHER,

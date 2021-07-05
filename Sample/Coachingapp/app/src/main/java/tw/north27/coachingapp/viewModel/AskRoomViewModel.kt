@@ -8,7 +8,7 @@ import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import tw.north27.coachingapp.model.AskRoom
+import tw.north27.coachingapp.model.AskInfos
 import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.repository.IActionRepository
 import tw.north27.coachingapp.repository.IUserRepository
@@ -39,7 +39,7 @@ class AskRoomViewModel(
         }
     }
 
-    private val _askRoomState = MutableLiveData<ViewState<AskRoom>>(ViewState.Initial)
+    private val _askRoomState = MutableLiveData<ViewState<AskInfos>>(ViewState.Initial)
 
     val askRoomState = _askRoomState.asLiveData()
 
@@ -49,7 +49,7 @@ class AskRoomViewModel(
         when (results) {
             is Results.Successful -> {
                 val askRoom = results.data
-                if (askRoom.askRoomInfoList.isNullOrEmpty())
+                if (askRoom.askInfoList.isNullOrEmpty())
                     _askRoomState.postValue(ViewState.empty())
                 else
                     _askRoomState.postValue(ViewState.data(askRoom))

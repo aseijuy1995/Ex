@@ -9,31 +9,31 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/item_ask_self_shimmer" />
+        <include layout="@layout/item_ask_shimmer" />
 
         <include layout="@layout/item_ask_other_shimmer" />
 
         <include layout="@layout/item_ask_other_shimmer" />
 
-        <include layout="@layout/item_ask_self_shimmer" />
+        <include layout="@layout/item_ask_shimmer" />
 
         <include layout="@layout/item_ask_other_shimmer" />
 
-        <include layout="@layout/item_ask_self_shimmer" />
+        <include layout="@layout/item_ask_shimmer" />
 
-        <include layout="@layout/item_ask_self_shimmer" />
-
-        <include layout="@layout/item_ask_other_shimmer" />
-
-        <include layout="@layout/item_ask_self_shimmer" />
+        <include layout="@layout/item_ask_shimmer" />
 
         <include layout="@layout/item_ask_other_shimmer" />
 
+        <include layout="@layout/item_ask_shimmer" />
+
         <include layout="@layout/item_ask_other_shimmer" />
 
-        <include layout="@layout/item_ask_self_shimmer" />
+        <include layout="@layout/item_ask_other_shimmer" />
 
-        <include layout="@layout/item_ask_self_shimmer" />
+        <include layout="@layout/item_ask_shimmer" />
+
+        <include layout="@layout/item_ask_shimmer" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -5,7 +5,7 @@
 
         <variable
             name="askInfo"
-            type="tw.north27.coachingapp.model.AskInfo" />
+            type="tw.north27.coachingapp.model.AskRoom" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
