@@ -2,9 +2,9 @@ package tw.north27.coachingapp.model.request
 
 /**
  * @param account >> 帳號
- * @param latestAskId >> 最新提問條
+ * @param topAskId >> 最新提問條
  * */
 data class AskRequest(
-    val account: Long,
-    val latestAskId: Long? = null,
+    val account: String,
+    val topAskId: Long? = null,
 )

@@ -1,10 +1,8 @@
 package tw.north27.coachingapp.consts
 
-import com.google.gson.annotations.SerializedName
 import tw.north27.coachingapp.consts.simulation.accountTest
 import tw.north27.coachingapp.consts.simulation.nameTest
 import tw.north27.coachingapp.consts.simulation.teacherInfoListTest
-import tw.north27.coachingapp.consts.simulation.userInfoTest
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.response.CommonProblem
 import tw.north27.coachingapp.model.response.Reflect
@@ -201,8 +199,7 @@ val reflectListTest = listOf<Reflect>(
 fun getAskListTest() = mutableListOf(
     AskRoom(
         id = 0,
-        senderUserInfo = teacherInfoListTest[0],
-        receiverUserInfo = userInfoTest,
+        otherAct = teacherInfoListTest[0].account,
         educationLevelId = 1,
         gradeId = 1,
         subjectId = 1,
@@ -215,19 +212,14 @@ fun getAskListTest() = mutableListOf(
             receiverAct = accountTest,
             //
             askType = AskType.TEXT,
-            text = "",
-            @SerializedName("img_list") var imgList: List<AskImage> = emptyList(),
-            @SerializedName("audio_list") var audioList: List<AskAudio> = emptyList(),
-            @SerializedName("video_list") var videoList: List<AskVideo> = emptyList(),
-            //
-            @SerializedName("is_read") var isRead: Boolean,
-            @SerializedName("send_time") var sendTime: Date,
+            text = "老師，我想詢問國語排一排的相關問題，請問現在是否方便嗎?",
+            isRead = true,
+            sendTime = Date()
         )
     ),
     AskRoom(
         id = 1,
-        senderUserInfo = teacherInfoListTest[1],
-        receiverUserInfo = userInfoTest,
+        otherAct = teacherInfoListTest[1].account,
         educationLevelId = 1,
         gradeId = 2,
         subjectId = 2,
@@ -235,18 +227,14 @@ fun getAskListTest() = mutableListOf(
         isSound = false,
         unreadNum = 2,
         askInfo = AskInfo(
-            @SerializedName("id") var id: Long,
-            @SerializedName("sender_account") var senderAct: String,
-            @SerializedName("receiver_account") var receiverAct: String,
+            id = 1L,
+            senderAct = teacherInfoListTest[1].account,
+            receiverAct = accountTest,
             //
-            @SerializedName("ask_type") var askType: AskType,
-            @SerializedName("text") var text: String? = null,
-            @SerializedName("img_list") var imgList: List<AskImage> = emptyList(),
-            @SerializedName("audio_list") var audioList: List<AskAudio> = emptyList(),
-            @SerializedName("video_list") var videoList: List<AskVideo> = emptyList(),
-            //
-            @SerializedName("is_read") var isRead: Boolean,
-            @SerializedName("send_time") var sendTime: Date,
+            askType = AskType.TEXT,
+            text = "數學的數線解法這樣你能了解嗎?",
+            isRead = false,
+            sendTime = Date("2021/07/05 12:00")
         )
     ),
 //    AskRoom(

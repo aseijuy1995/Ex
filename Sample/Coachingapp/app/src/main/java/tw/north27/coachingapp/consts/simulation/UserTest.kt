@@ -392,7 +392,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             replyCountList = replyCountListTest,
             unitsList = unitListTest.filter { it.subjectId == 1L }
         )
-    ), ,
+    ),
     UserInfo(
         account = "gingAct",
         auth = UserPref.Authority.TEACHER,

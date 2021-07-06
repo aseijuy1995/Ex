@@ -1,43 +1,53 @@
 package tw.north27.coachingapp.viewModel
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.yujie.utilmodule.base.BaseViewModel
+import com.yujie.utilmodule.base.BaseAndroidViewModel
 import com.yujie.utilmodule.ext.asLiveData
 import com.yujie.utilmodule.http.Results
+import com.yujie.utilmodule.pref.getAccount
+import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.model.AskRoom
+import tw.north27.coachingapp.model.request.AskRequest
 import tw.north27.coachingapp.repository.IActionRepository
 
 class AskViewModel(
+    application: Application,
     private val actionRepo: IActionRepository
-) : BaseViewModel() {
+) : BaseAndroidViewModel(application) {
 
     private val _askInfoListState = MutableLiveData<ViewState<List<AskRoom>>>(ViewState.Initial)
 
     val askInfoListState = _askInfoListState.asLiveData()
 
-    fun fetchAskList(askId: Long? = null) {
-        viewModelScope.launch(Dispatchers.IO) {
-            _askInfoListState.postValue(ViewState.load())
-            val results = actionRepo.fetchAskList(askId = askId)
-            when (results) {
-                is Results.Successful<List<AskRoom>> -> {
-                    val list = results.data
-                    if (list.isNullOrEmpty())
-                        _askInfoListState.postValue(ViewState.empty())
-                    else {
-                        _askInfoListState.postValue(ViewState.data(list))
-                    }
+    fun fetchAskList(askId: Long? = null) = viewModelScope.launch(Dispatchers.IO) {
+        _askInfoListState.postValue(ViewState.load())
+        val account = cxt.userPref.getAccount().first()
+        val results = actionRepo.fetchAskList(
+            AskRequest(
+                account = account,
+                topAskId = askId
+            )
+        )
+        when (results) {
+            is Results.Successful<List<AskRoom>> -> {
+                val list = results.data
+                if (list.isNullOrEmpty())
+                    _askInfoListState.postValue(ViewState.empty())
+                else {
+                    _askInfoListState.postValue(ViewState.data(list))
                 }
-                is Results.ClientErrors -> {
-                    _askInfoListState.postValue(ViewState.error(results.e))
-                }
-                is Results.NetWorkError -> {
-                    _askInfoListState.postValue(ViewState.network(results.e))
-                }
+            }
+            is Results.ClientErrors -> {
+                _askInfoListState.postValue(ViewState.error(results.e))
+            }
+            is Results.NetWorkError -> {
+                _askInfoListState.postValue(ViewState.network(results.e))
             }
         }
     }

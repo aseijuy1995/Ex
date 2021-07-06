@@ -28,8 +28,7 @@ import java.util.*
 @Parcelize
 data class AskRoom(
     @SerializedName("id") var id: Long,
-//    @SerializedName("sender_user_info") var senderUserInfo: UserInfo,
-//    @SerializedName("receiver_user_info") var receiverUserInfo: UserInfo,
+    @SerializedName("other_act") var otherAct: String,
     @SerializedName("education_level_id") var educationLevelId: Long,
     @SerializedName("grade_id") var gradeId: Long,
     @SerializedName("subject_id") var subjectId: Long,
