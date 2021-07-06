@@ -12,7 +12,7 @@ import com.yujie.utilmodule.ext.visible
 import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.adapter.AskRoomListAdapter
+import tw.north27.coachingapp.adapter.AskRoomInfoListAdapter
 import tw.north27.coachingapp.databinding.FragmentAskRoomBinding
 import tw.north27.coachingapp.viewModel.AskRoomViewModel
 
@@ -23,8 +23,8 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 
     private val viewModel by viewModel<AskRoomViewModel>()
 
-    private val adapter: AskRoomListAdapter
-        get() = AskRoomListAdapter(cxt)
+    private val adapterInfo: AskRoomInfoListAdapter
+        get() = AskRoomInfoListAdapter(cxt)
 
     private val account: String
         get() = arguments?.getString("account")!!
@@ -34,7 +34,7 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvAsk.adapter = adapter
+        binding.rvAsk.adapter = adapterInfo
 
         viewModel.userInfoState.observe(viewLifecycleOwner) {
             when (it) {

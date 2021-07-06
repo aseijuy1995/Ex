@@ -25,13 +25,13 @@ class AskViewModel(
 
     val askInfoListState = _askInfoListState.asLiveData()
 
-    fun fetchAskList(askId: Long? = null) = viewModelScope.launch(Dispatchers.IO) {
+    fun fetchAskRoomList(id: Long? = null) = viewModelScope.launch(Dispatchers.IO) {
         _askInfoListState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
-        val results = actionRepo.fetchAskList(
+        val results = actionRepo.fetchAskRoomList(
             AskRequest(
                 account = account,
-                topAskId = askId
+                topAskId = id
             )
         )
         when (results) {

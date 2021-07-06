@@ -43,13 +43,13 @@ interface IApiService {
     suspend fun fetchEducation(): Education
 
     /**
-     * 獲取提問列表
+     * 獲取提問室列表
      * @header Bearer accessToken
      * @param askRequest >> AskRequest::class.java
      * */
     @POST
     @FormUrlEncoded
-    suspend fun fetchAskList(@Body askRequest: AskRequest): List<AskRoom>
+    suspend fun fetchAskRoomList(@Body askRequest: AskRequest): List<AskRoom>
 
     /**
      * 獲取指定提問室列表
@@ -58,7 +58,7 @@ interface IApiService {
      * */
     @POST
     @FormUrlEncoded
-    suspend fun fetchAskRoomList(@Field("id") id: Long): AskInfos
+    suspend fun fetchAskList(@Field("id") id: Long): AskInfos
     //
 
     /**

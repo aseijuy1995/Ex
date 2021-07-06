@@ -13,9 +13,9 @@ import tw.north27.coachingapp.model.response.ReflectResponse
 
 interface IActionRepository {
 
-    suspend fun fetchAskList(askRequest: AskRequest): Results<List<AskRoom>>
+    suspend fun fetchAskRoomList(askRequest: AskRequest): Results<List<AskRoom>>
 
-    suspend fun fetchAskRoomList(id: Long): Results<AskInfos>
+    suspend fun fetchAskList(id: Long): Results<AskInfos>
 
     suspend fun fetchTeacherList(teacherRequest: TeacherRequest): Results<List<UserInfo>>
 

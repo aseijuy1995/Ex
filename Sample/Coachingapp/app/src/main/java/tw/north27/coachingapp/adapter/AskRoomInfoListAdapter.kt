@@ -3,7 +3,6 @@ package tw.north27.coachingapp.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
@@ -14,16 +13,14 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.consts.dateTimeToString
 import tw.north27.coachingapp.databinding.ItemAskRoomOtherBinding
 import tw.north27.coachingapp.databinding.ItemAskRoomSelfBinding
 import tw.north27.coachingapp.model.AskRoom
-import tw.north27.coachingapp.model.AskType
 import kotlin.coroutines.CoroutineContext
 
-class AskRoomListAdapter(
+class AskRoomInfoListAdapter(
     private val cxt: Context
-) : ListAdapter<AskRoom, AskRoomListAdapter.VH>(
+) : ListAdapter<AskRoom, AskRoomInfoListAdapter.VH>(
 
     object : DiffUtil.ItemCallback<AskRoom>() {
         override fun areItemsTheSame(oldItem: AskRoom, newItem: AskRoom): Boolean {
@@ -44,7 +41,7 @@ class AskRoomListAdapter(
 
     override fun getItemViewType(position: Int): Int {
         val account = runBlocking { cxt.userPref.getAccount().first() }
-        return when (getItem(position).senderUserInfo.account) {
+        return when (getItem(position).otherUserInfo) {
             account -> Type.SELF.code
             else -> Type.OTHER.code
         }
@@ -87,23 +84,23 @@ class AskRoomListAdapter(
 
     inner class SelfVH(private val binding: ItemAskRoomSelfBinding) : VH(binding) {
         override fun bind(askRoom: AskRoom) = binding.apply {
-            this.askInfo = askRoom
-            when (askRoom.askType) {
-                AskType.TEXT -> {
-                    tvText.text = askRoom.text
-                }
-                AskType.IMAGE -> {
-                }
-                AskType.AUDIO -> {
-                }
-                AskType.VIDEO -> {
-                }
-            }
-            tvRead.apply {
-                isVisible = (askRoom.unreadNum > 0)
-                text = if (askRoom.unreadNum > 0) context.getString(R.string.un_read) else context.getString(R.string.have_read)
-            }
-            tvTime.text = dateTimeToString(askRoom.sendTime)
+//            this.askInfo = askRoom
+//            when (askRoom.askType) {
+//                AskType.TEXT -> {
+//                    tvText.text = askRoom.text
+//                }
+//                AskType.IMAGE -> {
+//                }
+//                AskType.AUDIO -> {
+//                }
+//                AskType.VIDEO -> {
+//                }
+//            }
+//            tvRead.apply {
+//                isVisible = (askRoom.unreadNum > 0)
+//                text = if (askRoom.unreadNum > 0) context.getString(R.string.un_read) else context.getString(R.string.have_read)
+//            }
+//            tvTime.text = dateTimeToString(askRoom.sendTime)
 
 //            if (chat.chatType == ChatType.IMAGE) {
 //                chat.image?.let {
@@ -176,22 +173,22 @@ class AskRoomListAdapter(
     inner class OtherVH(val binding: ItemAskRoomOtherBinding) : VH(binding) {
         override fun bind(askRoom: AskRoom) = binding.apply {
             this.askInfo = askRoom
-            when (askRoom.askType) {
-                AskType.TEXT -> {
-                    tvText.text = askRoom.text
-                }
-                AskType.IMAGE -> {
-                }
-                AskType.AUDIO -> {
-                }
-                AskType.VIDEO -> {
-                }
-            }
-            tvRead.apply {
-                isVisible = (askRoom.unreadNum > 0)
-                text = if (askRoom.unreadNum > 0) context.getString(R.string.un_read) else context.getString(R.string.have_read)
-            }
-            tvTime.text = dateTimeToString(askRoom.sendTime)
+//            when (askRoom.askType) {
+//                AskType.TEXT -> {
+//                    tvText.text = askRoom.text
+//                }
+//                AskType.IMAGE -> {
+//                }
+//                AskType.AUDIO -> {
+//                }
+//                AskType.VIDEO -> {
+//                }
+//            }
+//            tvRead.apply {
+//                isVisible = (askRoom.unreadNum > 0)
+//                text = if (askRoom.unreadNum > 0) context.getString(R.string.un_read) else context.getString(R.string.have_read)
+//            }
+//            tvTime.text = dateTimeToString(askRoom.sendTime)
 
 
 //            if (chat.chatType == ChatType.IMAGE) {

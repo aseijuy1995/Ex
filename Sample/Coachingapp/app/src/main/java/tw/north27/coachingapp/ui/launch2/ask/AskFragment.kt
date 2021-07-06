@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yujie.utilmodule.base.BaseFragment
+import com.yujie.utilmodule.ext.clicksObserve
 import com.yujie.utilmodule.ext.observe
 import com.yujie.utilmodule.ext.visible
 import com.yujie.utilmodule.util.ViewState
@@ -16,10 +17,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphLaunch2Directions
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.AskListAdapter
-import tw.north27.coachingapp.consts.getAskListTest
 import tw.north27.coachingapp.databinding.FragmentAskBinding
-import tw.north27.coachingapp.model.AskRoom
-import tw.north27.coachingapp.model.AskType
 import tw.north27.coachingapp.viewModel.AskViewModel
 import tw.north27.coachingapp.viewModel.PublicViewModel
 import java.util.*
@@ -74,30 +72,32 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
 
         binding.srlView.setOnRefreshListener {
             val askId = adapter.getItemId(0)
-            viewModel.fetchAskList(askId = if (askId != -1L) askId else null)
+            viewModel.fetchAskRoomList(id = if (askId != -1L) askId else null)
         }
 
         binding.itemToolbarNormal.ivSend.clicksObserve(owner = viewLifecycleOwner) {
-            val askId = adapter.getItemId(0)
-            val ask = getAskListTest()[2].apply {
-                id = getAskListTest().maxOf(AskRoom::id) + 1
-                askType = AskType.TEXT
-                text = "測試${getAskListTest().maxOf(AskRoom::id) + 1}"
-                unreadNum = unreadNum + 1
-                sendTime = Date()
-                unitId = unitId
-                msg = "測試$id"
-            }
-            getAskListTest().apply {
-                removeAt(2)
-                add(0, ask)
-            }
-            viewModel.fetchAskList(askId = if (askId != -1L) askId else null)
+            val askId = adapter.getItemId(0)//取得為最新提問id，非房間id
+            //
+//            val ask = getAskListTest()[2].apply {
+//                id = getAskListTest().maxOf(AskRoom::id) + 1
+//                askType = AskType.TEXT
+//                text = "測試${getAskListTest().maxOf(AskRoom::id) + 1}"
+//                unreadNum = unreadNum + 1
+//                sendTime = Date()
+//                unitId = unitId
+//                msg = "測試$id"
+//            }
+//            //
+//            getAskListTest().apply {
+//                removeAt(2)
+//                add(0, ask)
+//            }
+            viewModel.fetchAskRoomList(id = if (askId != -1L) askId else null)
         }
 
         adapter.itemClickRelay.observe(viewLifecycleOwner) {
-            val userInfo = it.second
-            findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentAskRoom(userInfo.senderUserInfo.account, userInfo.id))
+            val askRoom = it.second
+            findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentAskRoom(askRoom))
         }
 
         binding.srlView.autoRefresh()

@@ -2,9 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph_launch2"
-    >
-<!--    app:startDestination="@id/fragment_coaching"-->
+    android:id="@+id/nav_graph_launch2">
+    <!--    app:startDestination="@id/fragment_coaching"-->
 
     <action
         android:id="@+id/action_to_fragment_ask_room"
@@ -15,13 +14,8 @@
         app:popExitAnim="@anim/slide_out_right">
 
         <argument
-            android:name="account"
-            app:argType="string"
-            app:nullable="false" />
-
-        <argument
-            android:name="roomId"
-            app:argType="long"
+            android:name="tw.north27.coachingapp.model.AskRoom"
+            app:argType="AskRoom"
             app:nullable="false" />
 
     </action>

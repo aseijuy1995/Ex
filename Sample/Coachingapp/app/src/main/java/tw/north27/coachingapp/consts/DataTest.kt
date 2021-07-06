@@ -199,7 +199,7 @@ val reflectListTest = listOf<Reflect>(
 fun getAskListTest() = mutableListOf(
     AskRoom(
         id = 0,
-        otherAct = teacherInfoListTest[0].account,
+        otherUserInfo = teacherInfoListTest[0],
         educationLevelId = 1,
         gradeId = 1,
         subjectId = 1,
@@ -219,7 +219,7 @@ fun getAskListTest() = mutableListOf(
     ),
     AskRoom(
         id = 1,
-        otherAct = teacherInfoListTest[1].account,
+        otherUserInfo = teacherInfoListTest[1],
         educationLevelId = 1,
         gradeId = 2,
         subjectId = 2,

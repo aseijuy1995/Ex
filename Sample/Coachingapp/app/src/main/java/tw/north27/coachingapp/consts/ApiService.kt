@@ -97,15 +97,15 @@ class ApiService(val cxt: Context) : IApiService {
         return education
     }
 
-    override suspend fun fetchAskList(@Body askRequest: AskRequest): List<AskRoom> {
+    override suspend fun fetchAskRoomList(@Body askRequest: AskRequest): List<AskRoom> {
         delay(1500)
         askRequest.account//撈取相關提問室參數
         val askRoomList = getAskListTest()
-        logI("fetchAskList = ${Gson().toJson(askRoomList)}")
+        logI("fetchAskRoomList = ${Gson().toJson(askRoomList)}")
         return askRoomList
     }
 
-    override suspend fun fetchAskRoomList(id: Long): AskInfos {
+    override suspend fun fetchAskList(id: Long): AskInfos {
         delay(3000L)
         return AskInfos(
             id = id,

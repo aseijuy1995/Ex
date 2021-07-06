@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.swipe.SwipeLayout
 import com.jakewharton.rxrelay3.PublishRelay
+import com.yujie.utilmodule.adapter.bindImg
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.consts.dateToString
 import tw.north27.coachingapp.databinding.ItemAskBinding
@@ -30,19 +31,19 @@ class AskListAdapter : ListAdapter<AskRoom, AskListAdapter.VH>(object : DiffUtil
 }
 ) {
 
+    val itemClickRelay = PublishRelay.create<Pair<View, AskRoom>>()
+
     val soundClickRelay = PublishRelay.create<Pair<View, AskRoom>>()
 
     val delClickRelay = PublishRelay.create<Pair<View, AskRoom>>()
 
-    val itemClickRelay = PublishRelay.create<Pair<View, AskRoom>>()
+    var educationLevelList: List<EducationLevel> = emptyList()
 
-    var educationLevelList: List<EducationLevel>? = null
+    var gradeList: List<Grade> = emptyList()
 
-    var gradeList: List<Grade>? = null
+    var subjectList: List<Subject> = emptyList()
 
-    var subjectList: List<Subject>? = null
-
-    var unitsList: List<Units>? = null
+    var unitsList: List<Units> = emptyList()
 
     inner class VH(val binding: ItemAskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(askRoom: AskRoom) = binding.apply {

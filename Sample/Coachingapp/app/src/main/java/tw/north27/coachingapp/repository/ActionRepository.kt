@@ -15,12 +15,12 @@ import tw.north27.coachingapp.model.response.ReflectResponse
 
 class ActionRepository(private val service: IApiService) : IActionRepository {
 
-    override suspend fun fetchAskList(askRequest: AskRequest): Results<List<AskRoom>> {
-        return safeApiResults { service.fetchAskList(askRequest = askRequest) }
+    override suspend fun fetchAskRoomList(askRequest: AskRequest): Results<List<AskRoom>> {
+        return safeApiResults { service.fetchAskRoomList(askRequest = askRequest) }
     }
 
-    override suspend fun fetchAskRoomList(id: Long): Results<AskInfos> {
-        return safeApiResults { service.fetchAskRoomList(id = id) }
+    override suspend fun fetchAskList(id: Long): Results<AskInfos> {
+        return safeApiResults { service.fetchAskList(id = id) }
     }
 
     override suspend fun fetchTeacherList(teacherRequest: TeacherRequest): Results<List<UserInfo>> {
