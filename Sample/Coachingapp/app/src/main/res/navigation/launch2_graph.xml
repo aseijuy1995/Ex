@@ -14,8 +14,8 @@
         app:popExitAnim="@anim/slide_out_right">
 
         <argument
-            android:name="tw.north27.coachingapp.model.AskRoom"
-            app:argType="AskRoom"
+            android:name="askRoom"
+            app:argType="tw.north27.coachingapp.model.AskRoom"
             app:nullable="false" />
 
     </action>

@@ -41,7 +41,7 @@ class AskRoomInfoListAdapter(
 
     override fun getItemViewType(position: Int): Int {
         val account = runBlocking { cxt.userPref.getAccount().first() }
-        return when (getItem(position).otherUserInfo) {
+        return when (getItem(position).otherUserInfo.account) {
             account -> Type.SELF.code
             else -> Type.OTHER.code
         }

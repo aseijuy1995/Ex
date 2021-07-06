@@ -1,8 +1,8 @@
 package tw.north27.coachingapp.consts
 
+import com.yujie.utilmodule.UserPref
 import tw.north27.coachingapp.consts.simulation.accountTest
 import tw.north27.coachingapp.consts.simulation.nameTest
-import tw.north27.coachingapp.consts.simulation.teacherInfoListTest
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.response.CommonProblem
 import tw.north27.coachingapp.model.response.Reflect
@@ -195,11 +195,15 @@ val reflectListTest = listOf<Reflect>(
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //
-
-fun getAskListTest() = mutableListOf(
+val askListTest = mutableListOf(
     AskRoom(
         id = 0,
-        otherUserInfo = teacherInfoListTest[0],
+        otherUserInfo = UserInfo(
+            account = "rebeccaAct",
+            auth = UserPref.Authority.TEACHER,
+            avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/732/757/normal/nlpknz.png?1623138408",
+            name = "Rebecca",
+        ),
         educationLevelId = 1,
         gradeId = 1,
         subjectId = 1,
@@ -208,7 +212,7 @@ fun getAskListTest() = mutableListOf(
         unreadNum = 0,
         askInfo = AskInfo(
             id = 1L,
-            senderAct = teacherInfoListTest[0].account,
+            senderAct = "rebeccaAct",
             receiverAct = accountTest,
             //
             askType = AskType.TEXT,
@@ -219,7 +223,12 @@ fun getAskListTest() = mutableListOf(
     ),
     AskRoom(
         id = 1,
-        otherUserInfo = teacherInfoListTest[1],
+        otherUserInfo = UserInfo(
+            account = "peiYuAct",
+            auth = UserPref.Authority.TEACHER,
+            avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/425/315/normal/acwdjm.png?1605207454",
+            name = "裴育",
+        ),
         educationLevelId = 1,
         gradeId = 2,
         subjectId = 2,
@@ -228,7 +237,7 @@ fun getAskListTest() = mutableListOf(
         unreadNum = 2,
         askInfo = AskInfo(
             id = 1L,
-            senderAct = teacherInfoListTest[1].account,
+            senderAct = "peiYuAct",
             receiverAct = accountTest,
             //
             askType = AskType.TEXT,

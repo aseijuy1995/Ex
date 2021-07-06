@@ -6,7 +6,6 @@
     android:layout_gravity="center">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_label"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
@@ -17,7 +16,7 @@
         app:srcCompat="@drawable/ic_baseline_label_24_yellow" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_label"
+        android:id="@+id/tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"

@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="askInfo"
+            name="askRoom"
             type="tw.north27.coachingapp.model.AskRoom" />
     </data>
 
@@ -20,7 +20,7 @@
         <include
             android:id="@+id/item_ask_swipe"
             layout="@layout/item_ask_swipe"
-            bind:askInfo="@{askInfo}" />
+            bind:askRoom="@{askRoom}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

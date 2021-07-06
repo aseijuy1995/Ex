@@ -21,12 +21,12 @@ class AskViewModel(
     private val actionRepo: IActionRepository
 ) : BaseAndroidViewModel(application) {
 
-    private val _askInfoListState = MutableLiveData<ViewState<List<AskRoom>>>(ViewState.Initial)
+    private val _askRoomListState = MutableLiveData<ViewState<List<AskRoom>>>(ViewState.Initial)
 
-    val askInfoListState = _askInfoListState.asLiveData()
+    val askRoomListState = _askRoomListState.asLiveData()
 
     fun fetchAskRoomList(id: Long? = null) = viewModelScope.launch(Dispatchers.IO) {
-        _askInfoListState.postValue(ViewState.load())
+        _askRoomListState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
         val results = actionRepo.fetchAskRoomList(
             AskRequest(
@@ -38,16 +38,16 @@ class AskViewModel(
             is Results.Successful<List<AskRoom>> -> {
                 val list = results.data
                 if (list.isNullOrEmpty())
-                    _askInfoListState.postValue(ViewState.empty())
+                    _askRoomListState.postValue(ViewState.empty())
                 else {
-                    _askInfoListState.postValue(ViewState.data(list))
+                    _askRoomListState.postValue(ViewState.data(list))
                 }
             }
             is Results.ClientErrors -> {
-                _askInfoListState.postValue(ViewState.error(results.e))
+                _askRoomListState.postValue(ViewState.error(results.e))
             }
             is Results.NetWorkError -> {
-                _askInfoListState.postValue(ViewState.network(results.e))
+                _askRoomListState.postValue(ViewState.network(results.e))
             }
         }
     }

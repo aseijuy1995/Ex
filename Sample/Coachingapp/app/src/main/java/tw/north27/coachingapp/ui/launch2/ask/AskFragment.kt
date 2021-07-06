@@ -1,5 +1,6 @@
 package tw.north27.coachingapp.ui.launch2.ask
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -17,7 +18,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphLaunch2Directions
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.AskListAdapter
+import tw.north27.coachingapp.consts.askListTest
 import tw.north27.coachingapp.databinding.FragmentAskBinding
+import tw.north27.coachingapp.model.AskInfo
+import tw.north27.coachingapp.model.AskType
 import tw.north27.coachingapp.viewModel.AskViewModel
 import tw.north27.coachingapp.viewModel.PublicViewModel
 import java.util.*
@@ -31,10 +35,11 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
 
     private val viewModel by viewModel<AskViewModel>()
 
-    private val adapter = AskListAdapter()
+    private lateinit var adapter: AskListAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        adapter = AskListAdapter(cxt = cxt)
         binding.apply {
             itemToolbarNormal.apply {
                 //
@@ -51,7 +56,7 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             }
         }
 
-        viewModel.askInfoListState.observe(viewLifecycleOwner) {
+        viewModel.askRoomListState.observe(viewLifecycleOwner) {
             binding.itemAskLoad.root.visible = (it is ViewState.Load)
             binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
             binding.rvAsk.isVisible = (it is ViewState.Data)
@@ -60,12 +65,13 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             if (it !is ViewState.Initial && it !is ViewState.Load) binding.srlView.finishRefresh()
             when (it) {
                 is ViewState.Data -> {
+                    val askRoomList = it.data
                     adapter.apply {
-                        this.educationLevelList = publicVM.educationLevelList.value
-                        this.gradeList = publicVM.gradeList.value
-                        this.subjectList = publicVM.subjectList.value
-                        this.unitsList = publicVM.unitList.value
-                    }.submitList(it.data.toList())
+                        this.educationLevelList = publicVM.educationLevelList.value ?: emptyList()
+                        this.gradeList = publicVM.gradeList.value ?: emptyList()
+                        this.subjectList = publicVM.subjectList.value ?: emptyList()
+                        this.unitsList = publicVM.unitList.value ?: emptyList()
+                    }.submitList(askRoomList)
                 }
             }
         }
@@ -78,20 +84,20 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
         binding.itemToolbarNormal.ivSend.clicksObserve(owner = viewLifecycleOwner) {
             val askId = adapter.getItemId(0)//取得為最新提問id，非房間id
             //
-//            val ask = getAskListTest()[2].apply {
-//                id = getAskListTest().maxOf(AskRoom::id) + 1
-//                askType = AskType.TEXT
-//                text = "測試${getAskListTest().maxOf(AskRoom::id) + 1}"
-//                unreadNum = unreadNum + 1
-//                sendTime = Date()
-//                unitId = unitId
-//                msg = "測試$id"
-//            }
-//            //
-//            getAskListTest().apply {
-//                removeAt(2)
-//                add(0, ask)
-//            }
+            val ask = askListTest[1].copy(
+                unreadNum = (askListTest[1].unreadNum + 1),
+                askInfo = AskInfo(
+                    id = id + 100L,
+                    senderAct = askListTest[1].askInfo.senderAct,
+                    receiverAct = askListTest[1].askInfo.receiverAct,
+                    askType = AskType.TEXT,
+                    text = "那數線模式或平衡模式的區別在哪呢?",
+                    isRead = false,
+                    sendTime = Date()
+                )
+            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) askListTest.removeIf { it.id == ask.id }
+            askListTest.add(0, ask)
             viewModel.fetchAskRoomList(id = if (askId != -1L) askId else null)
         }
 
@@ -99,7 +105,6 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             val askRoom = it.second
             findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentAskRoom(askRoom))
         }
-
         binding.srlView.autoRefresh()
     }
 }

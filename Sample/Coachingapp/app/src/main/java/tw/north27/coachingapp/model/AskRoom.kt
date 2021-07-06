@@ -6,17 +6,19 @@ import kotlinx.parcelize.Parcelize
 import java.util.*
 
 /**
- * 提問資訊
+ * 提問室資訊
  * @param id >> 提問室id
- * @param senderUserInfo >> 發送者資訊
- * @param receiverUserInfo >> 接收者資訊
- * @param educationLevelId >> 教育Id
+ * @param otherUserInfo >> 對方用戶資訊
+ * @param educationLevelId >> 教育程度Id
  * @param gradeId >> 年級Id
  * @param subjectId >> 科目Id
  * @param unitId >> 單元/類型Id
  * @param isSound >> 聲音開關
  * @param unreadNum >> 未讀數量
+ * @param askInfo >> 最新提問資訊
  * //
+ * @param senderUserInfo >> 發送者資訊
+ * @param receiverUserInfo >> 接收者資訊
  * @param askType >> 提問類型
  * @param text >> 文字
  * @param imgList >> 圖片
@@ -43,13 +45,11 @@ data class AskRoom(
  * @param id >> 提問id
  * @param senderAct >> 發送者帳號
  * @param receiverAct >> 接收者帳號
- * //
  * @param askType >> 提問類型
  * @param text >> 文字
- * @param imgList >> 圖片
- * @param audioList >> 音訊
- * @param videoList >> 影片
- * //
+ * @param imgList >> 圖片列表
+ * @param audioList >> 音訊列表
+ * @param videoList >> 影片列表
  * @param isRead >> 是否讀取
  * @param sendTime >> 發送時間
  * */
@@ -58,13 +58,11 @@ data class AskInfo(
     @SerializedName("id") var id: Long,
     @SerializedName("sender_account") var senderAct: String,
     @SerializedName("receiver_account") var receiverAct: String,
-    //
     @SerializedName("ask_type") var askType: AskType,
     @SerializedName("text") var text: String? = null,
     @SerializedName("img_list") var imgList: List<AskImage> = emptyList(),
     @SerializedName("audio_list") var audioList: List<AskAudio> = emptyList(),
     @SerializedName("video_list") var videoList: List<AskVideo> = emptyList(),
-    //
     @SerializedName("is_read") var isRead: Boolean,
     @SerializedName("send_time") var sendTime: Date,
 ) : Parcelable

@@ -123,6 +123,7 @@ class PublicViewModel(
     val defaultSubject = Subject(id = -1, name = cxt.getString(R.string.df))
 
     val defaultUnit = Units(id = -1, name = cxt.getString(R.string.df), educationLevelId = -1, gradeId = -1, subjectId = -1)
+
     //
     private val _personalBgRes: MutableLiveData<Int> by lazy {
         val list = listOf<Int>(
