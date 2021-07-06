@@ -35,6 +35,7 @@ data class AskRoom(
     @SerializedName("grade_id") var gradeId: Long,
     @SerializedName("subject_id") var subjectId: Long,
     @SerializedName("unit_id") var unitId: Long,
+    @SerializedName("is_push") var isPush: Boolean,
     @SerializedName("is_sound") var isSound: Boolean,
     @SerializedName("unread_num") var unreadNum: Int,
     @SerializedName("ask_info") var askInfo: AskInfo,

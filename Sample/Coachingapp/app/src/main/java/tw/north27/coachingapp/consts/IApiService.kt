@@ -6,9 +6,7 @@ package tw.north27.coachingapp.consts
 import retrofit2.http.*
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.request.*
-import tw.north27.coachingapp.model.response.Education
-import tw.north27.coachingapp.model.response.PublicDataResponse
-import tw.north27.coachingapp.model.response.ReflectResponse
+import tw.north27.coachingapp.model.response.*
 
 interface IApiService {
 
@@ -45,20 +43,34 @@ interface IApiService {
     /**
      * 獲取提問室列表
      * @header Bearer accessToken
-     * @param askRequest >> AskRequest::class.java
+     * @param askRoomRequest >> AskRoomRequest::class.java
      * */
     @POST
-    @FormUrlEncoded
-    suspend fun fetchAskRoomList(@Body askRequest: AskRequest): List<AskRoom>
+    suspend fun fetchAskRoomList(@Body askRoomRequest: AskRoomRequest): List<AskRoom>
 
     /**
-     * 獲取指定提問室列表
-     * @header accessToken
-     * @param id >> 房間id
+     * 更新提問室推播開關
+     * @header Bearer accessToken
+     * @param pushRequest >> PushRequest::class.java
+     * */
+    @PUT
+    suspend fun updateAskRoomPush(@Body pushRequest: PushRequest): PushResponse
+
+    /**
+     * 更新提問室推播聲音開關
+     * @header Bearer accessToken
+     * @param pushRequest >> PushRequest::class.java
+     * */
+    @PUT
+    suspend fun updateAskRoomSound(@Body soundRequest: SoundRequest): SoundResponse
+
+    /**
+     * 獲取房間提問列表
+     * @header Bearer accessToken
+     * @param askInfoRequest >> AskRoomInfoRequest::class.java
      * */
     @POST
-    @FormUrlEncoded
-    suspend fun fetchAskList(@Field("id") id: Long): AskInfos
+    suspend fun fetchAskInfoList(@Body askInfoRequest: AskInfoRequest): List<AskInfo>
     //
 
     /**
@@ -158,31 +170,6 @@ interface IApiService {
 
 //
 //
-//    /**
-//     * 聊天聲音開關
-//     * @param
-//     * chat.id / chat.isSound
-//     * @return
-//     * true - execute success
-//     * false - execute failed
-//     * */
-//    @POST
-//    suspend fun postSwitchChatSound(
-//        @Field("chat") chat: ChatInfo
-//    ): Boolean
-//
-//    /**
-//     * 刪除聊天室
-//     * @param
-//     * chat.id
-//     * @return
-//     * true - execute success
-//     * false - execute failed
-//     * */
-//    @DELETE
-//    suspend fun deleteChatRoom(
-//        @Field("chat") chat: ChatInfo
-//    ): Boolean
 //
 //
 //    /**

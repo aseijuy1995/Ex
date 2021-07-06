@@ -2,38 +2,38 @@
     android:id="@+id/sfl_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/white">
+    android:backgroundTint="@android:color/transparent">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <include layout="@layout/item_ask_shimmer" />
+        <include layout="@layout/item_ask_room_self_shimmer" />
 
-        <include layout="@layout/item_ask_other_shimmer" />
+        <include layout="@layout/item_ask_room_other_shimmer" />
 
-        <include layout="@layout/item_ask_other_shimmer" />
+        <include layout="@layout/item_ask_room_self_shimmer" />
 
-        <include layout="@layout/item_ask_shimmer" />
+        <include layout="@layout/item_ask_room_self_shimmer" />
 
-        <include layout="@layout/item_ask_other_shimmer" />
+        <include layout="@layout/item_ask_room_other_shimmer" />
 
-        <include layout="@layout/item_ask_shimmer" />
+        <include layout="@layout/item_ask_room_other_shimmer" />
 
-        <include layout="@layout/item_ask_shimmer" />
+        <include layout="@layout/item_ask_room_other_shimmer" />
 
-        <include layout="@layout/item_ask_other_shimmer" />
+        <include layout="@layout/item_ask_room_self_shimmer" />
 
-        <include layout="@layout/item_ask_shimmer" />
+        <include layout="@layout/item_ask_room_other_shimmer" />
 
-        <include layout="@layout/item_ask_other_shimmer" />
+        <include layout="@layout/item_ask_room_self_shimmer" />
 
-        <include layout="@layout/item_ask_other_shimmer" />
+        <include layout="@layout/item_ask_room_other_shimmer" />
 
-        <include layout="@layout/item_ask_shimmer" />
+        <include layout="@layout/item_ask_room_other_shimmer" />
 
-        <include layout="@layout/item_ask_shimmer" />
+        <include layout="@layout/item_ask_room_self_shimmer" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

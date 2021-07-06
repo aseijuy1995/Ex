@@ -18,9 +18,9 @@ import tw.north27.coachingapp.databinding.ItemAskRoomSelfBinding
 import tw.north27.coachingapp.model.AskRoom
 import kotlin.coroutines.CoroutineContext
 
-class AskRoomInfoListAdapter(
+class AskRoomListAdapter(
     private val cxt: Context
-) : ListAdapter<AskRoom, AskRoomInfoListAdapter.VH>(
+) : ListAdapter<AskRoom, AskRoomListAdapter.VH>(
 
     object : DiffUtil.ItemCallback<AskRoom>() {
         override fun areItemsTheSame(oldItem: AskRoom, newItem: AskRoom): Boolean {

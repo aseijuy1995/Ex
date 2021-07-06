@@ -3,24 +3,31 @@ package tw.north27.coachingapp.repository
 import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.http.safeApiResults
 import tw.north27.coachingapp.consts.IApiService
+import tw.north27.coachingapp.model.AskInfo
 import tw.north27.coachingapp.model.AskRoom
-import tw.north27.coachingapp.model.AskInfos
 import tw.north27.coachingapp.model.CommentInfo
 import tw.north27.coachingapp.model.UserInfo
-import tw.north27.coachingapp.model.request.AskRequest
-import tw.north27.coachingapp.model.request.CommentRequest
-import tw.north27.coachingapp.model.request.ReflectRequest
-import tw.north27.coachingapp.model.request.TeacherRequest
+import tw.north27.coachingapp.model.request.*
+import tw.north27.coachingapp.model.response.PushResponse
 import tw.north27.coachingapp.model.response.ReflectResponse
+import tw.north27.coachingapp.model.response.SoundResponse
 
 class ActionRepository(private val service: IApiService) : IActionRepository {
 
-    override suspend fun fetchAskRoomList(askRequest: AskRequest): Results<List<AskRoom>> {
-        return safeApiResults { service.fetchAskRoomList(askRequest = askRequest) }
+    override suspend fun fetchAskRoomList(askRoomRequest: AskRoomRequest): Results<List<AskRoom>> {
+        return safeApiResults { service.fetchAskRoomList(askRoomRequest = askRoomRequest) }
     }
 
-    override suspend fun fetchAskList(id: Long): Results<AskInfos> {
-        return safeApiResults { service.fetchAskList(id = id) }
+    override suspend fun updateAskRoomPush(pushRequest: PushRequest): Results<PushResponse> {
+        return safeApiResults { service.updateAskRoomPush(pushRequest = pushRequest) }
+    }
+
+    override suspend fun updateAskRoomSound(soundRequest: SoundRequest): Results<SoundResponse> {
+        return safeApiResults { service.updateAskRoomSound(soundRequest = soundRequest) }
+    }
+
+    override suspend fun fetchAskInfoList(askInfoRequest: AskInfoRequest): Results<List<AskInfo>> {
+        return safeApiResults { service.fetchAskInfoList(askInfoRequest = askInfoRequest) }
     }
 
     override suspend fun fetchTeacherList(teacherRequest: TeacherRequest): Results<List<UserInfo>> {

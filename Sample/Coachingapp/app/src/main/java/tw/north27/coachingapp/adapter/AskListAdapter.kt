@@ -51,7 +51,7 @@ class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>
 
     val soundClickRelay = PublishRelay.create<Pair<View, AskRoom>>()
 
-    val delClickRelay = PublishRelay.create<Pair<View, AskRoom>>()
+    val pushClickRelay = PublishRelay.create<Pair<View, AskRoom>>()
 
     var educationLevelList: List<EducationLevel> = emptyList()
 
@@ -88,8 +88,14 @@ class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>
                 text = if (askRoom.unreadNum > 100) "99+" else askRoom.unreadNum.toString()
             }
             itemAskSwipe.apply {
-                ivSound.setOnClickListener { soundClickRelay.accept(it to askRoom) }
-                ivDel.setOnClickListener { delClickRelay.accept(it to askRoom) }
+                ivPush.setOnClickListener {
+                    pushClickRelay.accept(it to askRoom)
+                    slLayout.close()
+                }
+                ivSound.setOnClickListener {
+                    soundClickRelay.accept(it to askRoom)
+                    slLayout.close()
+                }
             }
             itemView.setOnClickListener {
                 if (slLayout.openStatus == SwipeLayout.Status.Open)
@@ -112,20 +118,40 @@ class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>
         holder.bind(getItem(position))
     }
 
-//    override fun onBindViewHolder(holder: VH, position: Int, payloads: MutableList<Any>) {
-//        super.onBindViewHolder(holder, position, payloads)
-//        logD("onBindViewHolder:onBindViewHolder:${payloads.isEmpty()}")
-//        if (payloads.isEmpty())
-//            onBindViewHolder(holder, position)
-//        else {
-//            val askRoom = payloads[0] as AskRoom
-//            logD("onBindViewHolder:askRoom = $askRoom")
-//            holder.bind(askRoom)
-//        }
-//    }
-
     override fun submitList(list: List<AskRoom>?) {
         super.submitList(list?.let { ArrayList(it) })
     }
 
+    fun submitPushState(roomId: Long, state: Boolean) = submit(roomId = roomId, state = state, submitType = SubmitType.PUSH)
+
+    fun submitSoundState(roomId: Long, state: Boolean) = submit(roomId = roomId, state = state, submitType = SubmitType.SOUND)
+
+    /**
+     * @param PUSH >> 通知
+     * @param SOUND >> 聲音
+     * */
+    enum class SubmitType {
+        PUSH,
+        SOUND
+    }
+
+}
+
+/**
+ * 提交更新指定狀態
+ * */
+fun AskListAdapter.submit(roomId: Long, state: Boolean, submitType: AskListAdapter.SubmitType) {
+    val list = currentList.map {
+        when (it.id) {
+            roomId -> {
+                if (submitType == AskListAdapter.SubmitType.PUSH)
+                    it.copy(isPush = state)
+                else if (submitType == AskListAdapter.SubmitType.SOUND)
+                    it.copy(isSound = state)
+                else it
+            }
+            else -> it
+        }
+    }
+    submitList(list)
 }

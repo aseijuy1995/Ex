@@ -12,8 +12,9 @@ import com.yujie.utilmodule.ext.visible
 import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.adapter.AskRoomInfoListAdapter
+import tw.north27.coachingapp.adapter.AskRoomListAdapter
 import tw.north27.coachingapp.databinding.FragmentAskRoomBinding
+import tw.north27.coachingapp.model.AskRoom
 import tw.north27.coachingapp.viewModel.AskRoomViewModel
 
 class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_ask_room) {
@@ -23,36 +24,25 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 
     private val viewModel by viewModel<AskRoomViewModel>()
 
-    private val adapterInfo: AskRoomInfoListAdapter
-        get() = AskRoomInfoListAdapter(cxt)
+    private lateinit var adapter: AskRoomListAdapter
 
-    private val account: String
-        get() = arguments?.getString("account")!!
-
-    private val roomId: Long
-        get() = arguments?.getLong("roomId")!!
+    private val askRoom: AskRoom?
+        get() = arguments?.getParcelable<AskRoom>("askRoom") ?: kotlin.run {
+            Toast.makeText(cxt, getString(R.string.not_find_ask_room), Toast.LENGTH_SHORT).show()
+            findNavController().navigateUp()
+            null
+        }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.rvAsk.adapter = adapterInfo
-
-        viewModel.userInfoState.observe(viewLifecycleOwner) {
-            when (it) {
-                is ViewState.Empty -> {
-                    Toast.makeText(cxt, getString(R.string.not_find_this_user), Toast.LENGTH_SHORT).show()
-                    findNavController().navigateUp()
-                }
-                is ViewState.Data -> {
-                    val userInfo = it.data
-                    binding.itemToolbarAskRoom.apply {
-                        ivAvatar.apply {
-                            isVisible = userInfo.avatarUrl.isNotEmpty()
-                            bindImg(url = userInfo.avatarUrl, roundingRadius = 15)
-                        }
-                        tvName.text = userInfo.name
-                    }
-                }
+        adapter = AskRoomListAdapter(cxt)
+        val otherUser = askRoom?.otherUserInfo
+        binding.apply {
+            itemToolbarAskRoom.apply {
+                ivAvatar.bindImg(url = otherUser?.avatarUrl, roundingRadius = 30)
+                tvName.text = otherUser?.name
             }
+            rvAsk.adapter = adapter
         }
 
         viewModel.askRoomState.observe(viewLifecycleOwner) {
@@ -346,8 +336,8 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 //
 //        }
 
-        viewModel.fetchUser(account)
-        viewModel.fetchAskRoomList(roomId)
+//        viewModel.fetchUser(account)
+        viewModel.fetchAskRoomList(askRoom?.id!!)
     }
 
 }

@@ -123,15 +123,8 @@
     <string name="sent_img">傳送了圖片</string>
     <string name="sent_audio">傳送了音訊</string>
     <string name="sent_video">傳送了影片</string>
-
-
-    <!--    -->
-    <!--    -->
-    <!--    -->
-    <!--    -->
-    <!--    -->
     <!-- AskRoomFragment -->
-    <string name="not_find_this_user">找不到此用戶</string>
+    <string name="not_find_ask_room">找不到提問室</string>
     <!--    -->
     <string name="have_read">已讀</string>
     <string name="un_read">未讀</string>

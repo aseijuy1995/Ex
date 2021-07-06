@@ -12,9 +12,7 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.consts.simulation.*
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.request.*
-import tw.north27.coachingapp.model.response.Education
-import tw.north27.coachingapp.model.response.PublicDataResponse
-import tw.north27.coachingapp.model.response.ReflectResponse
+import tw.north27.coachingapp.model.response.*
 
 class ApiService(val cxt: Context) : IApiService {
 
@@ -97,25 +95,47 @@ class ApiService(val cxt: Context) : IApiService {
         return education
     }
 
-    override suspend fun fetchAskRoomList(@Body askRequest: AskRequest): List<AskRoom> {
+    override suspend fun fetchAskRoomList(@Body askRoomRequest: AskRoomRequest): List<AskRoom> {
         delay(1500)
-        askRequest.account//撈取相關提問室參數
+        askRoomRequest.account//撈取相關提問室參數
         val askRoomList = askListTest
         logI("fetchAskRoomList = ${Gson().toJson(askRoomList)}")
         return askRoomList
     }
 
-    override suspend fun fetchAskList(id: Long): AskInfos {
+    override suspend fun updateAskRoomPush(pushRequest: PushRequest): PushResponse {
+        delay(1500)
+        return PushResponse(
+            isSuccess = true,
+            roomId = pushRequest.roomId,
+            isState = !pushRequest.state,
+            msg = "更新成功"
+        )
+    }
+
+    override suspend fun updateAskRoomSound(soundRequest: SoundRequest): SoundResponse {
+        delay(1500)
+        return SoundResponse(
+            isSuccess = true,
+            roomId = soundRequest.roomId,
+            isState = !soundRequest.state,
+            msg = "更新成功"
+        )
+    }
+
+    override suspend fun fetchAskInfoList(@Body askInfoRequest: AskInfoRequest): List<AskInfo> {
         delay(3000L)
-        return AskInfos(
-            id = id,
-            selfAct = accountTest,
-            otherAct = teacherInfoListTest.find { it.account == accountTest }?.account!!,
-            educationLevelId = 1,
-            gradeId = 1,
-            subjectId = 1,
-            unitId = 1,
-            askInfoList = listOf()
+        return listOf(
+//            AskInfo(
+//                id = id,
+//                selfAct = accountTest,
+//                otherAct = teacherInfoListTest.find { it.account == accountTest }?.account!!,
+//                educationLevelId = 1,
+//                gradeId = 1,
+//                subjectId = 1,
+//                unitId = 1,
+//                askInfoList = listOf()
+//            )
         )
     }
 

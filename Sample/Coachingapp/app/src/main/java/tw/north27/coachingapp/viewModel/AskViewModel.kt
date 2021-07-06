@@ -13,7 +13,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.model.AskRoom
-import tw.north27.coachingapp.model.request.AskRequest
+import tw.north27.coachingapp.model.request.AskRoomRequest
+import tw.north27.coachingapp.model.request.PushRequest
+import tw.north27.coachingapp.model.request.SoundRequest
+import tw.north27.coachingapp.model.response.PushResponse
+import tw.north27.coachingapp.model.response.SoundResponse
 import tw.north27.coachingapp.repository.IActionRepository
 
 class AskViewModel(
@@ -29,7 +33,7 @@ class AskViewModel(
         _askRoomListState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
         val results = actionRepo.fetchAskRoomList(
-            AskRequest(
+            AskRoomRequest(
                 account = account,
                 topAskId = id
             )
@@ -52,62 +56,63 @@ class AskViewModel(
         }
     }
 
+    private val _pushState = MutableLiveData<ViewState<PushResponse>>(ViewState.Initial)
 
-//    private val _toast = MutableLiveData<Pair<ToastType, String>>()
-//
-//    val toast = _toast.asLiveData()
-//
-//    /**
-//     * 用於判定修改後提示參數
-//     * */
-//    var type: ChatReadIndex? = null
-//
-//    enum class ToastType {
-//        SWITCH_CHAT_SOUND, DELETE_CHAT_ROOM
-//    }
+    val pushState = _pushState.asLiveData()
 
-    //
-//    val message = chatRepo.message
-//
-//    /**
-//     * 發送socket訊息
-//     * */
-//    fun send(chat: ChatInfo) = chatRepo.send(chatRepo.webSocket!!, chat)
-//
-//    /**
-//     * 接收socket訊息
-//     * */
-//    fun receiveChatMessage(chat: ChatInfo) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            if (chatState.value is ViewState.Data) {
-//                chatList.removeAll { it.id == chat.id }
-//            }
-//            chatList.add(0, chat)
-//            _chatState.postValue(ViewState.data(chatList))
-//        }
-//    }
-//
-//    /**
-//     * 聊天列表置頂
-//     * */
-//    private val _listScrollToTop = MutableLiveData<Boolean>(false)
-//
-//    val listScrollToTop = _listScrollToTop.asLiveData()
-//
-//    fun listScrollToTop(isScrollToTop: Boolean) {
-//        _listScrollToTop.value = isScrollToTop
-//    }
-//
-//    private val _chatSoundState = MutableLiveData<ViewState<ChatInfo>>(ViewState.Initial)
-//
-//    val chatSoundState = _chatSoundState.asLiveData()
-//
-//    /**
-//     * 聲音刷新
-//     * result.data
-//     * true - change success
-//     * failed - change failed
-//     * */
+    fun updateAskRoomPush(id: Long, state: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+        _pushState.postValue(ViewState.load())
+        val account = cxt.userPref.getAccount().first()
+        val results = actionRepo.updateAskRoomPush(
+            PushRequest(
+                roomId = id,
+                account = account,
+                state = state
+            )
+        )
+        when (results) {
+            is Results.Successful<PushResponse> -> {
+                val pushResponse = results.data
+                _pushState.postValue(ViewState.data(pushResponse))
+            }
+            is Results.ClientErrors -> {
+                _pushState.postValue(ViewState.error(results.e))
+            }
+            is Results.NetWorkError -> {
+                _pushState.postValue(ViewState.network(results.e))
+            }
+        }
+    }
+
+    private val _soundState = MutableLiveData<ViewState<SoundResponse>>(ViewState.Initial)
+
+    val soundState = _soundState.asLiveData()
+
+    fun updateAskRoomSound(id: Long, state: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+        _soundState.postValue(ViewState.load())
+        val account = cxt.userPref.getAccount().first()
+        val results = actionRepo.updateAskRoomSound(
+            SoundRequest(
+                roomId = id,
+                account = account,
+                state = state
+            )
+        )
+        when (results) {
+            is Results.Successful<SoundResponse> -> {
+                val soundResponse = results.data
+                _soundState.postValue(ViewState.data(soundResponse))
+            }
+            is Results.ClientErrors -> {
+                _soundState.postValue(ViewState.error(results.e))
+            }
+            is Results.NetWorkError -> {
+                _soundState.postValue(ViewState.network(results.e))
+            }
+        }
+    }
+
+
 //    fun switchChatSound(type: ChatReadIndex, chat: ChatInfo) {
 //        viewModelScope.launch(Dispatchers.IO) {
 //            _chatSoundState.postValue(ViewState.load())
