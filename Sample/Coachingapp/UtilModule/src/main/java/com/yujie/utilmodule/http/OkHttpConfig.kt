@@ -17,5 +17,6 @@ data class OkHttpConfig(
     val isReConnect: Boolean = true,
     val logIntcp: Interceptor = logInterceptor,
     val authReqIntcp: Interceptor? = null,
-    val authRspIntcp: Authenticator? = null
+    val authRspIntcp: Authenticator? = null,
+    val intcpList: List<Interceptor> = emptyList<Interceptor>()
 )

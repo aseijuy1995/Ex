@@ -21,7 +21,12 @@ val utilModules = module {
                 authRspIntcp = AuthResponseInterceptor(cxt = androidContext(), refreshTokenCallback = {
                     val refreshToken = runBlocking { androidContext().userPref.getRefreshToken().first() }
                     (get() as IApiService).refreshToken(refreshToken)
-                })
+                }),
+                intcpList = listOf(
+                    ReAuthResponseInterceptor {
+                        
+                    }
+                )
             )
         )
     }

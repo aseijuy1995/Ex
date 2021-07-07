@@ -84,26 +84,19 @@ class AuthResponseInterceptor(
 
 }
 
-///**
-// * Auth驗證器
-// * */
-//class AuthResponseInterceptor(
-//    val cxt: Context,
-//    val refreshTokenCallback: () -> TokenResponse
-//) : Authenticator {
-//
-//    override fun authenticate(route: Route?, response: Response): Request {
-//        val tokenResponse = refreshTokenCallback.invoke()
-//        runBlocking {
-//            if (tokenResponse.accessToken.isNotEmpty())
-//                cxt.userPref.setAccessToken(tokenResponse.accessToken)
-//            if (tokenResponse.refreshToken.isNotEmpty())
-//                cxt.userPref.setRefreshToken(tokenResponse.refreshToken)
-//        }
-//
-//        return response.request.newBuilder()
-//            .header("Authorization", tokenResponse.accessToken)
-//            .build()
-//    }
-//
-//}
+/**
+ * refreshToken驗證器：410
+ * */
+class ReAuthResponseInterceptor(
+    val refreshTokenCallback: () -> Unit
+) : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val response = chain.proceed(request = chain.request())
+        when (response.code) {
+            410 -> {
+                refreshTokenCallback.invoke()
+            }
+        }
+        return response
+    }
+}
