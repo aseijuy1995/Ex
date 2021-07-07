@@ -8,8 +8,9 @@ import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import tw.north27.coachingapp.model.AskInfos
+import tw.north27.coachingapp.model.AskInfo
 import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.model.request.AskInfoRequest
 import tw.north27.coachingapp.repository.IActionRepository
 import tw.north27.coachingapp.repository.IUserRepository
 
@@ -39,28 +40,32 @@ class AskRoomViewModel(
         }
     }
 
-    private val _askRoomState = MutableLiveData<ViewState<AskInfos>>(ViewState.Initial)
+    private val _askRoomState = MutableLiveData<ViewState<AskInfo>>(ViewState.Initial)
 
     val askRoomState = _askRoomState.asLiveData()
 
     fun fetchAskRoomList(id: Long) = viewModelScope.launch(Dispatchers.IO) {
-        _askRoomState.postValue(ViewState.load())
-        val results = actionRepo.fetchAskInfoList(id)
-        when (results) {
-            is Results.Successful -> {
-                val askRoom = results.data
-                if (askRoom.askInfoList.isNullOrEmpty())
-                    _askRoomState.postValue(ViewState.empty())
-                else
-                    _askRoomState.postValue(ViewState.data(askRoom))
-            }
-            is Results.ClientErrors -> {
-                _askRoomState.postValue(ViewState.error(results.e))
-            }
-            is Results.NetWorkError -> {
-                _askRoomState.postValue(ViewState.network(results.e))
-            }
-        }
+//        _askRoomState.postValue(ViewState.load())
+//        val results = actionRepo.fetchAskInfoList(
+//            AskInfoRequest(
+//
+//            )
+//        )
+//        when (results) {
+//            is Results.Successful -> {
+//                val askRoom = results.data
+//                if (askRoom.askInfoList.isNullOrEmpty())
+//                    _askRoomState.postValue(ViewState.empty())
+//                else
+//                    _askRoomState.postValue(ViewState.data(askRoom))
+//            }
+//            is Results.ClientErrors -> {
+//                _askRoomState.postValue(ViewState.error(results.e))
+//            }
+//            is Results.NetWorkError -> {
+//                _askRoomState.postValue(ViewState.network(results.e))
+//            }
+//        }
     }
 
 

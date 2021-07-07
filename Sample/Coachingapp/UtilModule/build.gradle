@@ -56,15 +56,15 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-jackson:$retrofit"
     implementation "com.squareup.retrofit2:converter-jaxb:$retrofit"
     implementation "com.squareup.retrofit2:converter-moshi:$retrofit"
-    implementation "com.squareup.retrofit2:converter-protobuf:$retrofit"
-    implementation "com.squareup.retrofit2:converter-scalars:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-protobuf:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-scalars:$retrofit"
     implementation "com.squareup.retrofit2:converter-simplexml:$retrofit"
     implementation "com.squareup.retrofit2:converter-wire:$retrofit"
     implementation "com.squareup.retrofit2:adapter-guava:$retrofit"
     implementation "com.squareup.retrofit2:adapter-rxjava:$retrofit"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
     implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit"
-    implementation "com.squareup.retrofit2:adapter-scala:$retrofit"
+//    implementation "com.squareup.retrofit2:adapter-scala:$retrofit"
     implementation "com.squareup.retrofit2:retrofit-mock:$retrofit"
     //
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -141,7 +141,7 @@ dependencies {
      * Util
      * */
     //Protobuf
-    implementation 'com.google.protobuf:protobuf-javalite:3.10.0'
+    implementation "com.google.protobuf:protobuf-javalite:3.10.0"
     //Log
     implementation "com.jakewharton.timber:timber:4.7.1"
     implementation "com.orhanobut:logger:2.2.0"

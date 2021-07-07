@@ -3,13 +3,20 @@ package tw.north27.coachingapp.consts
 //https://www.jianshu.com/p/62ab11ddacc8
 //https://www.huaweicloud.com/articles/138c673c96294a6661b16960ff4db613.html
 
-import com.yujie.utilmodule.http.TokenResponse
+import com.yujie.utilmodule.http.RefreshTokenResponse
 import retrofit2.http.*
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.request.*
 import tw.north27.coachingapp.model.response.*
 
 interface IApiService {
+
+    /**
+     * 刷新token
+     * */
+    @POST
+    @FormUrlEncoded
+    fun refreshToken(@Field("refresh_token") refreshToken: String): RefreshTokenResponse
 
     /**
      * 獲取App初始設定
@@ -127,20 +134,6 @@ interface IApiService {
      * */
     @POST
     suspend fun fetchTeacherList(@Body teacherRequest: TeacherRequest): List<UserInfo>
-
-    //
-    //
-    //
-    //
-    //
-
-    /**
-     * 刷新token
-     * */
-    @POST
-    @FormUrlEncoded
-    fun refreshToken(@Field("refresh_token") refreshToken: String): TokenResponse
-
 
 //    /**
 //     * 取得未回覆列表(未加載) - 依據時間近至遠撈回，未指定則撈回全部

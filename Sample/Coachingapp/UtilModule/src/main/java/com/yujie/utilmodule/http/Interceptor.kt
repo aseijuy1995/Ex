@@ -22,81 +22,97 @@ var logInterceptor = HttpLoggingInterceptor { message -> logI(message) }.apply {
 /**
  * Auth攔截器
  * */
-class AuthRequestInterceptor(val cxt: Context) : Interceptor {
-
+class AuthRequestInterceptor(val cxt: Context, val refreshTokenCallback: () -> RefreshTokenResponse) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val builder = chain.request().newBuilder()
         val userPref = runBlocking { cxt.userPref.data.first() }
+
+        val currentTime = System.currentTimeMillis()
+        if (currentTime > userPref.expireTime) {
+            dealWithExpireToken(
+                cxt = cxt,
+                refreshTokenCallback = refreshTokenCallback
+            )
+        }
 
         val token = when (userPref.tokenType) {
             UserPref.TokenType.UNKNOWN -> ""
-            UserPref.TokenType.BASIC -> userPref.dealWithBasicToken()
+            UserPref.TokenType.BASIC -> "Basic ${userPref.dealWithBasicToken(cxt = cxt)}"
             UserPref.TokenType.BEARER -> "Bearer ${userPref.accessToken}"
             else -> ""
         }
 
-        if (token.isNotEmpty()) builder.addHeader("Authorization", token)
-
-        return chain.proceed(builder.build())
+        return chain.proceed(chain.request().newBuilder().apply {
+            if (token.isNotEmpty()) addHeader("Authorization", token)
+        }.build())
     }
-
-    /**
-     * 清空存取的password & 設置basic token
-     * */
-    private fun UserPref.dealWithBasicToken(): String {
-        return if (accessToken.isNotEmpty()) {
-            accessToken
-        } else {
-            val token = Credentials.basic(account, password)
-            runBlocking {
-                cxt.userPref.setPassword("")
-                cxt.userPref.setAccessToken(token)
-            }
-            token
-        }
-    }
-
 }
 
-
 /**
- * Auth驗證器
+ * Auth驗證器：code >> 401
  * */
-class AuthResponseInterceptor(
-    val cxt: Context,
-    val refreshTokenCallback: () -> TokenResponse
-) : Authenticator {
-
+class AuthResponseInterceptor(val cxt: Context, val refreshTokenCallback: () -> RefreshTokenResponse) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request {
-        val tokenResponse = refreshTokenCallback.invoke()
+        val userPref = runBlocking { cxt.userPref.data.first() }
 
-        runBlocking {
-            if (tokenResponse.accessToken.isNotEmpty())
-                cxt.userPref.setAccessToken(tokenResponse.accessToken)
-            if (tokenResponse.refreshToken.isNotEmpty())
-                cxt.userPref.setRefreshToken(tokenResponse.refreshToken)
+        dealWithExpireToken(
+            cxt = cxt,
+            refreshTokenCallback = refreshTokenCallback
+        )
+
+        val token = when (userPref.tokenType) {
+            UserPref.TokenType.UNKNOWN -> ""
+            UserPref.TokenType.BASIC -> "Basic ${userPref.dealWithBasicToken(cxt = cxt)}"
+            UserPref.TokenType.BEARER -> "Bearer ${userPref.accessToken}"
+            else -> ""
         }
 
         return response.request.newBuilder()
-            .header("Authorization", tokenResponse.accessToken)
+            .apply {
+                if (token.isNotEmpty()) addHeader("Authorization", token)
+            }
             .build()
     }
-
 }
 
 /**
- * refreshToken驗證器：410
+ * refreshToken驗證器：code >> 410
  * */
-class ReAuthResponseInterceptor(
-    val refreshTokenCallback: () -> Unit
-) : Interceptor {
+class ReAuthResponseInterceptor(val refreshTokenInvalidCallback: () -> Unit) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val response = chain.proceed(request = chain.request())
         when (response.code) {
-            410 -> {
-                refreshTokenCallback.invoke()
-            }
+            410 -> refreshTokenInvalidCallback.invoke()
         }
         return response
+    }
+}
+
+/**
+ * 取得accessToken & 處理UserPref狀態
+ * */
+private fun UserPref.dealWithBasicToken(cxt: Context): String {
+    return if (accessToken.isNotEmpty()) {
+        accessToken
+    } else {
+        val token = Credentials.basic(account, password).replaceFirst(oldValue = "Basic", newValue = "").trim()
+        runBlocking {
+            cxt.userPref.setPassword("")
+            cxt.userPref.setAccessToken(token)
+        }
+        token
+    }
+}
+
+/**
+ * 呼叫refreshToken Api & 處理UserPref狀態
+ * */
+private fun dealWithExpireToken(cxt: Context, refreshTokenCallback: () -> RefreshTokenResponse) {
+    val refreshTokenRsp = refreshTokenCallback.invoke()
+
+    runBlocking {
+        if (refreshTokenRsp.accessToken.isNotEmpty())
+            cxt.userPref.setAccessToken(refreshTokenRsp.accessToken)
+        if (refreshTokenRsp.refreshToken.isNotEmpty())
+            cxt.userPref.setRefreshToken(refreshTokenRsp.refreshToken)
     }
 }

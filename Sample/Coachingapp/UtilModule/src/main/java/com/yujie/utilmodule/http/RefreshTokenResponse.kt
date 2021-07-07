@@ -1,6 +1,6 @@
 package com.yujie.utilmodule.http
 
-data class TokenResponse(
+data class RefreshTokenResponse(
     val accessToken: String,
     val refreshToken: String = ""
 )

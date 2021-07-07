@@ -6,8 +6,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.jackson.JacksonConverterFactory
 import retrofit2.converter.jaxb.JaxbConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
-import retrofit2.converter.protobuf.ProtoConverterFactory
-import retrofit2.converter.scalars.ScalarsConverterFactory
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory
 import retrofit2.converter.wire.WireConverterFactory
 
@@ -17,8 +15,8 @@ enum class ConverterFactory(val factory: Converter.Factory) {
     JacksonFactory(JacksonConverterFactory.create()),
     JaxbFactory(JaxbConverterFactory.create()),
     MoshiFactory(MoshiConverterFactory.create()),
-    ProtobufFactory(ProtoConverterFactory.create()),
-    ScalarsFactory(ScalarsConverterFactory.create()),
+//    ProtobufFactory(ProtoConverterFactory.create()),
+//    ScalarsFactory(ScalarsConverterFactory.create()),
     SimplexmlFactory(SimpleXmlConverterFactory.create()),
     WireFactory(WireConverterFactory.create()),
 }
