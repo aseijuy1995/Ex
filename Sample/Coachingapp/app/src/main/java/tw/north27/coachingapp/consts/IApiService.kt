@@ -3,6 +3,7 @@ package tw.north27.coachingapp.consts
 //https://www.jianshu.com/p/62ab11ddacc8
 //https://www.huaweicloud.com/articles/138c673c96294a6661b16960ff4db613.html
 
+import com.yujie.utilmodule.http.TokenResponse
 import retrofit2.http.*
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.request.*
@@ -133,15 +134,12 @@ interface IApiService {
     //
     //
 
-//    /**
-//     * 刷新token
-//     * */
-//    @GET
-//    suspend fun refreshToken(
-////        @Query("account") account: String,
-////        @Query("access_token") accessToken: String,
-//        @Query("refresh_token") refreshToken: String
-//    ): TokenInfo
+    /**
+     * 刷新token
+     * */
+    @POST
+    @FormUrlEncoded
+    fun refreshToken(@Field("refresh_token") refreshToken: String): TokenResponse
 
 
 //    /**

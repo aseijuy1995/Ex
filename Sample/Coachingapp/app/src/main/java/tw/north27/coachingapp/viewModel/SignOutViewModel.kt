@@ -43,7 +43,7 @@ class SignOutViewModel(application: Application, val userRepo: IUserRepository) 
                             accessToken = "",
                             refreshToken = "",
                             isFirst = false,
-                            auth = UserPref.Authority.UNKNOWN,
+                            auth = UserPref.Authority.NONE,
                         )
                     }
                     SignInCode.SIGN_OUT_FAILED.code -> {

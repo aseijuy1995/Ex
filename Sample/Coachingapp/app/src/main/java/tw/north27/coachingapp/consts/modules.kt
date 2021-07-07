@@ -1,18 +1,42 @@
 package tw.north27.coachingapp.consts
 
+import com.yujie.utilmodule.http.*
+import com.yujie.utilmodule.pref.getRefreshToken
+import com.yujie.utilmodule.pref.userPref
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.repository.*
 import tw.north27.coachingapp.viewModel.*
 
-//val utilModules = module {
-//    single<OkHttpUtil> { OkHttpUtil(androidContext()) }
+val utilModules = module {
+    single<OkHttpUtil.Entity> {
+        OkHttpUtil.get(
+            OkHttpConfig(
+                authReqIntcp = AuthRequestInterceptor(cxt = androidContext()),
+                authRspIntcp = AuthResponseInterceptor(cxt = androidContext(), refreshTokenCallback = {
+                    val refreshToken = runBlocking { androidContext().userPref.getRefreshToken().first() }
+                    (get() as IApiService).refreshToken(refreshToken)
+                })
+            )
+        )
+    }
 //    single<RetrofitManager> { RetrofitManager.get(BuildConfig.BASE_URL, (get() as OkHttpUtil).client) }
-//
-//
-//
+    single<RetrofitManager.Entity> {
+        RetrofitManager.get(
+            RetrofitConfig(
+                baseUrl = BuildConfig.BASE_URL,
+                entity = (get() as OkHttpUtil.Entity),
+                converterFactory = ConverterFactory.GsonFactory
+            )
+        )
+    }
+
+
 //    single<IChatModule> { ChatModule(get()) }
 //    single<IMediaStoreModule>(named("image")) { ImageMediaStoreModule(androidContext()) }
 //    single<IMediaStoreModule>(named("video")) { VideoMediaStoreModule(androidContext()) }
@@ -20,12 +44,11 @@ import tw.north27.coachingapp.viewModel.*
 //    single<IAudioMediaCodecModule> { AudioMediaCodecModule(androidContext()) }
 //    single<IMediaRecorderModule> { MediaRecorderModule() }
 //    factory<IMediaExtractorModule> { MediaExtractorModule() }
-//
-//}
+}
 
 val modelModules = module {
-    single<IApiService> { ApiService(androidContext()) }
-//    single<IApiService> { (get() as RetrofitManager).create<IApiService>() }
+//    single<IApiService> { ApiService(androidContext()) }
+    single<IApiService> { (get() as RetrofitManager.Entity).create<IApiService>() }
 }
 
 val repoModules = module {

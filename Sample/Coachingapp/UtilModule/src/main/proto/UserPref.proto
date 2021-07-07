@@ -6,17 +6,27 @@ option java_multiple_files = true;
 message UserPref {
     string uuid = 1;// uuid
     string account = 2;// 帳號
-    fixed64 expireTime = 3;// accessToken過期時間
-    string accessToken = 4;// 訪問token
-    string refreshToken = 5;// 刷新token
-    bool isFirst = 6;// 第一次登入
-    string pushToken = 7;//推播token
+    string password = 3;// 帳號
+    enum TokenType {
+        UNKNOWN = 0;
+        BASIC = 1;
+        BEARER = 2;
+    }
+    TokenType tokenType = 4;// token類型
+
+
+    string accessToken = 5;// 訪問token
+    string refreshToken = 6;// 刷新token
+    fixed64 expireTime = 7;// accessToken過期時間
+
+    bool isFirst = 8;// 第一次登入
+    string pushToken = 9;//推播token
     //權限
     enum Authority {
-        UNKNOWN = 0;//None(空值)
+        NONE = 0;//None(空值)
         STUDENT = 1;//學生
         TEACHER = 2;//老師
     }
-    Authority auth = 8;
+    Authority auth = 10;
 }
 

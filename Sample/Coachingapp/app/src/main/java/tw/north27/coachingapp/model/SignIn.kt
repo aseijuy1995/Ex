@@ -74,7 +74,7 @@ data class SignInInfo(
 @Parcelize
 data class UserInfo(
     @SerializedName("account") val account: String,
-    @SerializedName("auth") val auth: UserPref.Authority = UserPref.Authority.UNKNOWN,
+    @SerializedName("auth") val auth: UserPref.Authority = UserPref.Authority.NONE,
     //
     @SerializedName("bg_url") val bgUrl: String = "",
     //

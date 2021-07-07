@@ -1,31 +1,34 @@
 package com.yujie.utilmodule.http
 
-import okhttp3.OkHttpClient
-import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitManager {
 
-		var retrofit: Retrofit? = null
+    private var retrofit: Retrofit? = null
 
-		fun get(
-				baseUrl: String,
-				client: OkHttpClient,
-				factory: Converter.Factory = GsonConverterFactory.create()
-		): RetrofitManager {
-				retrofit = Retrofit.Builder()
-						.baseUrl(baseUrl)
-						.addConverterFactory(factory)
-						.client(client)
-						.build()
-				return this
-		}
+    fun get(config: RetrofitConfig): Entity {
+        retrofit = Retrofit.Builder().configRetrofit(config = config)
+        return Entity(retrofit = retrofit!!)
+    }
 
-		inline fun <reified T> create(): T = retrofit!!.create(T::class.java)
+    fun reGet(config: RetrofitConfig): Entity {
+        val retrofit = retrofit?.newBuilder()?.configRetrofit(config = config)
+            ?: throw RuntimeException("Retrofit is not initialized")
+        return Entity(retrofit = retrofit)
+    }
 
-		fun changeBaseUrl(baseUrl: String): RetrofitManager {
-				retrofit = retrofit?.newBuilder()?.baseUrl(baseUrl)?.build()
-				return this
-		}
+    private fun Retrofit.Builder.configRetrofit(config: RetrofitConfig): Retrofit {
+        return baseUrl(config.baseUrl)
+            .client(config.entity.client)
+            .addConverterFactory(config.converterFactory.factory)
+            .addCallAdapterFactory(config.callAdapterFactory?.factory)
+            .build()
+    }
+
+    class Entity(val retrofit: Retrofit) {
+
+        inline fun <reified T> create(): T {
+            return retrofit.create(T::class.java) ?: throw RuntimeException("Retrofit is not initialized")
+        }
+    }
 }

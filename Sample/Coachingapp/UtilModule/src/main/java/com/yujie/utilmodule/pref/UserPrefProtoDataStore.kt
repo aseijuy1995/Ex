@@ -43,6 +43,10 @@ fun DataStore<UserPref>.getAccount(): Flow<String> = getDelegate(UserPref::getAc
 
 suspend fun DataStore<UserPref>.setAccount(account: String): UserPref = setUserPref(account = account)
 
+fun DataStore<UserPref>.getPassword(): Flow<String> = getDelegate(UserPref::getPassword)
+
+suspend fun DataStore<UserPref>.setPassword(password: String): UserPref = setUserPref(password = password)
+
 fun DataStore<UserPref>.getExpireTime(): Flow<Long> = getDelegate(UserPref::getExpireTime)
 
 suspend fun DataStore<UserPref>.setExpireTime(expireTime: Long): UserPref = setUserPref(expireTime = expireTime)
@@ -70,6 +74,8 @@ suspend fun DataStore<UserPref>.setAuth(auth: UserPref.Authority): UserPref = se
 suspend fun DataStore<UserPref>.setUserPref(
     uuid: String? = null,
     account: String? = null,
+    password: String? = null,
+
     expireTime: Long? = null,
     accessToken: String? = null,
     refreshToken: String? = null,
@@ -81,6 +87,7 @@ suspend fun DataStore<UserPref>.setUserPref(
         it.toBuilder().apply {
             uuid?.let { setUuid(it) }
             account?.let { setAccount(it) }
+            password?.let { setPassword(it) }
             expireTime?.let { setExpireTime(it) }
             accessToken?.let { setAccessToken(it) }
             refreshToken?.let { setRefreshToken(it) }
@@ -96,7 +103,7 @@ suspend fun DataStore<UserPref>.clear(): UserPref {
         it.toBuilder()
             .setUuid("")
             .setAccount("")
-            .setAuth(UserPref.Authority.UNKNOWN)
+            .setAuth(UserPref.Authority.NONE)
             .setAccessToken("")
             .setRefreshToken("")
             .setPushToken("")

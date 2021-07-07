@@ -93,7 +93,7 @@ class SignInViewModel(
                             refreshTokenNew = ""
                             isFirstNew = false
                             pushTokenNew = ""
-                            authNew = UserPref.Authority.UNKNOWN
+                            authNew = UserPref.Authority.NONE
                             cxt.userPref.setUserPref(
                                 account = accountNew,
                                 expireTime = expireTimeNew,
