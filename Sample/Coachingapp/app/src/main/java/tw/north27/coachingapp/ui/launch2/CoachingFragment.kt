@@ -96,7 +96,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
         }
 
         binding.itemToolbarNormal.ivFilter.clicksObserve(owner = viewLifecycleOwner) {
-            binding.drawerLayout.openDrawer(GravityCompat.END)
+            binding.dlLayout.openDrawer(GravityCompat.END)
         }
 
         binding.srlView.setOnRefreshListener {
@@ -172,7 +172,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
 
         binding.itemDrawerLayoutCoaching.btnFilter.clicksObserve(owner = viewLifecycleOwner) {
             binding.srlView.autoRefresh()
-            binding.drawerLayout.closeDrawer(GravityCompat.END)
+            binding.dlLayout.closeDrawer(GravityCompat.END)
         }
 
         binding.itemDrawerLayoutCoaching.btnClear.clicksObserve(owner = viewLifecycleOwner) {
@@ -180,7 +180,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
         }
 
         binding.itemDrawerLayoutCoaching.btnCancel.clicksObserve(owner = viewLifecycleOwner) {
-            binding.drawerLayout.closeDrawer(GravityCompat.END)
+            binding.dlLayout.closeDrawer(GravityCompat.END)
         }
 
         setDfSelection()

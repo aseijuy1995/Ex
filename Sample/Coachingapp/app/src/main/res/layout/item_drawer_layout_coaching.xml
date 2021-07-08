@@ -18,10 +18,10 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:text="@string/filter_teacher"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/iv_header"
         app:layout_constraintStart_toStartOf="@+id/iv_header" />
@@ -49,9 +49,8 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
+
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
             android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
             android:dropDownVerticalOffset="0dp"
             android:overlapAnchor="false"
@@ -61,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
             android:text="@string/grade"
             android:textColor="@color/black"
             android:textSize="14sp" />
@@ -72,7 +72,6 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
             android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
             android:dropDownVerticalOffset="0dp"
             android:overlapAnchor="false"
@@ -82,6 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
             android:text="@string/subject"
             android:textColor="@color/black"
             android:textSize="14sp" />
@@ -93,7 +93,6 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
             android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
             android:dropDownVerticalOffset="0dp"
             android:overlapAnchor="false"
@@ -103,6 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
             android:text="@string/unit"
             android:textColor="@color/black"
             android:textSize="14sp" />
@@ -132,7 +132,7 @@
                 android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
-                android:background="?attr/colorPrimary"
+                android:background="@drawable/shape_solid_green_corners_radius_5"
                 android:text="@string/clear"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
@@ -143,7 +143,7 @@
                 android:layout_height="30dp"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:background="?attr/colorPrimary"
+                android:background="@drawable/shape_solid_green_corners_radius_5"
                 android:text="@string/filter"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
@@ -156,7 +156,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:background="?attr/colorPrimary"
+            android:background="@drawable/shape_solid_green_corners_radius_5"
             android:text="@string/cancel"
             android:textColor="@color/white"
             android:textSize="12sp" />
@@ -166,12 +166,12 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_bottom"
         android:layout_width="0dp"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
         android:background="?attr/colorPrimary"
         android:gravity="center"
         android:text="@string/north27"
         android:textColor="@color/white"
-        android:textSize="12sp"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
