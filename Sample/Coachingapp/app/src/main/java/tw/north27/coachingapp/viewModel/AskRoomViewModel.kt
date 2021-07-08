@@ -1,71 +1,58 @@
 package tw.north27.coachingapp.viewModel
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.yujie.utilmodule.base.BaseViewModel
+import com.yujie.utilmodule.base.BaseAndroidViewModel
 import com.yujie.utilmodule.ext.asLiveData
 import com.yujie.utilmodule.http.Results
+import com.yujie.utilmodule.pref.getAccount
+import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.model.AskInfo
-import tw.north27.coachingapp.model.UserInfo
 import tw.north27.coachingapp.model.request.AskInfoRequest
 import tw.north27.coachingapp.repository.IActionRepository
 import tw.north27.coachingapp.repository.IUserRepository
 
 class AskRoomViewModel(
+    application: Application,
     val actionRepo: IActionRepository,
     val userRepo: IUserRepository
-) : BaseViewModel() {
+) : BaseAndroidViewModel(application) {
 
-    private val _userInfoState = MutableLiveData<ViewState<UserInfo>>(ViewState.Initial)
+    private val _askInfoListState = MutableLiveData<ViewState<List<AskInfo>>>(ViewState.Initial)
 
-    val userInfoState = _userInfoState.asLiveData()
+    val askInfoListState = _askInfoListState.asLiveData()
 
-    fun fetchUser(account: String) = viewModelScope.launch(Dispatchers.IO) {
-        _userInfoState.postValue(ViewState.load())
-        val results = userRepo.fetchUser(account = account)
+    fun fetchAskInfoList(roomId: Long) = viewModelScope.launch(Dispatchers.IO) {
+        _askInfoListState.postValue(ViewState.load())
+        val account = cxt.userPref.getAccount().first()
+        val results = actionRepo.fetchAskInfoList(
+            AskInfoRequest(
+                roomId = roomId,
+                account = account,
+                index = 0,
+                num = 0
+            )
+        )
         when (results) {
             is Results.Successful -> {
-                val userInfo = results.data
-                _userInfoState.postValue(ViewState.data(userInfo))
+                val askInfoList = results.data
+                if (askInfoList.isNullOrEmpty())
+                    _askInfoListState.postValue(ViewState.empty())
+                else
+                    _askInfoListState.postValue(ViewState.data(askInfoList))
             }
             is Results.ClientErrors -> {
-                _userInfoState.postValue(ViewState.error(results.e))
+                _askInfoListState.postValue(ViewState.error(results.e))
             }
             is Results.NetWorkError -> {
-                _userInfoState.postValue(ViewState.network(results.e))
+                _askInfoListState.postValue(ViewState.network(results.e))
             }
         }
-    }
-
-    private val _askRoomState = MutableLiveData<ViewState<AskInfo>>(ViewState.Initial)
-
-    val askRoomState = _askRoomState.asLiveData()
-
-    fun fetchAskRoomList(id: Long) = viewModelScope.launch(Dispatchers.IO) {
-//        _askRoomState.postValue(ViewState.load())
-//        val results = actionRepo.fetchAskInfoList(
-//            AskInfoRequest(
-//
-//            )
-//        )
-//        when (results) {
-//            is Results.Successful -> {
-//                val askRoom = results.data
-//                if (askRoom.askInfoList.isNullOrEmpty())
-//                    _askRoomState.postValue(ViewState.empty())
-//                else
-//                    _askRoomState.postValue(ViewState.data(askRoom))
-//            }
-//            is Results.ClientErrors -> {
-//                _askRoomState.postValue(ViewState.error(results.e))
-//            }
-//            is Results.NetWorkError -> {
-//                _askRoomState.postValue(ViewState.network(results.e))
-//            }
-//        }
     }
 
 

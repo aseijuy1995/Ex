@@ -14,13 +14,12 @@ import com.yujie.utilmodule.ext.clicksObserve
 import com.yujie.utilmodule.ext.observe
 import com.yujie.utilmodule.ext.visible
 import com.yujie.utilmodule.util.ViewState
-import com.yujie.utilmodule.util.logI
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphLaunch2Directions
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.AskListAdapter
-import tw.north27.coachingapp.consts.askListTest
+import tw.north27.coachingapp.consts.askRoomListTest
 import tw.north27.coachingapp.databinding.FragmentAskBinding
 import tw.north27.coachingapp.model.AskInfo
 import tw.north27.coachingapp.model.AskType
@@ -45,9 +44,7 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
         adapter = AskListAdapter(cxt = cxt)
         binding.apply {
             itemToolbarNormal.apply {
-                //
                 ivSend.isVisible = true
-                //
                 ivBack.isVisible = false
                 tvTitle.text = getString(R.string.ask_title)
             }
@@ -86,14 +83,12 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
 
         adapter.pushClickRelay.observe(viewLifecycleOwner) {
             val askRoom = it.second
-            logI("askRoom.isSound = ${askRoom.isPush}")
-            viewModel.updateAskRoomPush(id = askRoom.id, state = askRoom.isPush)
+            viewModel.updateAskRoomPush(id = askRoom.id, state = !askRoom.isPush)
         }
 
         adapter.soundClickRelay.observe(viewLifecycleOwner) {
             val askRoom = it.second
-            logI("askRoom.isSound = ${askRoom.isSound}")
-            viewModel.updateAskRoomSound(id = askRoom.id, state = askRoom.isSound)
+            viewModel.updateAskRoomSound(id = askRoom.id, state = !askRoom.isSound)
         }
 
         viewModel.pushState.observe(viewLifecycleOwner) {
@@ -125,22 +120,25 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             viewModel.fetchAskRoomList(id = if (askId != -1L) askId else null)
         }
 
+        /**
+         * 測試用
+         * */
         binding.itemToolbarNormal.ivSend.clicksObserve(owner = viewLifecycleOwner) {
             val askId = adapter.getItemId(0)//取得為最新提問id，非房間id
-            val ask = askListTest[1].copy(
-                unreadNum = (askListTest[1].unreadNum + 1),
+            val ask = askRoomListTest[1].copy(
+                unreadNum = (askRoomListTest[1].unreadNum + 1),
                 askInfo = AskInfo(
                     id = id + 100L,
-                    senderAct = askListTest[1].askInfo.senderAct,
-                    receiverAct = askListTest[1].askInfo.receiverAct,
+                    senderAct = askRoomListTest[1].askInfo.senderAct,
+                    receiverAct = askRoomListTest[1].askInfo.receiverAct,
                     askType = AskType.TEXT,
                     text = "那數線模式或平衡模式的區別在哪呢?",
                     isRead = false,
                     sendTime = Date()
                 )
             )
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) askListTest.removeIf { it.id == ask.id }
-            askListTest.add(0, ask)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) askRoomListTest.removeIf { it.id == ask.id }
+            askRoomListTest.add(0, ask)
             viewModel.fetchAskRoomList(id = if (askId != -1L) askId else null)
         }
 

@@ -106,8 +106,10 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun fetchAskRoomList(@Body askRoomRequest: AskRoomRequest): List<AskRoom> {
         delay(1500)
-        askRoomRequest.account//撈取相關提問室參數
-        val askRoomList = askListTest
+        val account = askRoomRequest.account//撈取相關提問室參數
+        val askId = askRoomRequest.topAskId
+        while (askRoomListTest.first().askInfo.id == askId) delay(1500)
+        val askRoomList: List<AskRoom> = askRoomListTest
         logI("fetchAskRoomList = ${Gson().toJson(askRoomList)}")
         return askRoomList
     }
@@ -117,7 +119,7 @@ class ApiService(val cxt: Context) : IApiService {
         return PushResponse(
             isSuccess = true,
             roomId = pushRequest.roomId,
-            isState = !pushRequest.state,
+            isState = pushRequest.isState,
             msg = "更新成功"
         )
     }
@@ -127,25 +129,15 @@ class ApiService(val cxt: Context) : IApiService {
         return SoundResponse(
             isSuccess = true,
             roomId = soundRequest.roomId,
-            isState = !soundRequest.state,
+            isState = soundRequest.isState,
             msg = "更新成功"
         )
     }
 
     override suspend fun fetchAskInfoList(@Body askInfoRequest: AskInfoRequest): List<AskInfo> {
-        delay(3000L)
-        return listOf(
-//            AskInfo(
-//                id = id,
-//                selfAct = accountTest,
-//                otherAct = teacherInfoListTest.find { it.account == accountTest }?.account!!,
-//                educationLevelId = 1,
-//                gradeId = 1,
-//                subjectId = 1,
-//                unitId = 1,
-//                askInfoList = listOf()
-//            )
-        )
+        delay(1500L)
+        val roomId = askInfoRequest.roomId
+        return askListTest(roomId = roomId)
     }
 
     override suspend fun signOut(@Body signOutRequest: SignOutRequest): SignIn {

@@ -48,6 +48,7 @@ interface IApiService {
     @GET
     suspend fun fetchEducation(): Education
 
+    //AskFragment
     /**
      * 獲取提問室列表
      * @header Bearer accessToken
@@ -67,7 +68,7 @@ interface IApiService {
     /**
      * 更新提問室推播聲音開關
      * @header Bearer accessToken
-     * @param pushRequest >> PushRequest::class.java
+     * @param soundRequest >> SoundRequest::class.java
      * */
     @PUT
     suspend fun updateAskRoomSound(@Body soundRequest: SoundRequest): SoundResponse

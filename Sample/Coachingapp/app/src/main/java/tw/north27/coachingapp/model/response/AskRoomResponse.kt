@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
  * 提問室推播開關
  * @param isSuccess >> 操作是否成功
  * @param roomId >> 房間id
- * @param isState >> 修改後狀態
+ * @param isState >> 修改後的狀態
  * @param msg >> 回傳訊息
  * */
 data class PushResponse(
@@ -20,7 +20,7 @@ data class PushResponse(
  * 提問室推播聲音開關
  * @param isSuccess >> 操作是否成功
  * @param roomId >> 房間id
- * @param isState >> 修改後狀態
+ * @param isState >> 修改後的狀態
  * @param msg >> 回傳訊息
  * */
 data class SoundResponse(

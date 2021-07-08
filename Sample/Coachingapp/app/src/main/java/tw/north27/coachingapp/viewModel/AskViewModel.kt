@@ -67,7 +67,7 @@ class AskViewModel(
             PushRequest(
                 roomId = id,
                 account = account,
-                state = state
+                isState = state
             )
         )
         when (results) {
@@ -95,7 +95,7 @@ class AskViewModel(
             SoundRequest(
                 roomId = id,
                 account = account,
-                state = state
+                isState = state
             )
         )
         when (results) {

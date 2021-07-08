@@ -39,13 +39,13 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
         val otherUser = askRoom?.otherUserInfo
         binding.apply {
             itemToolbarAskRoom.apply {
-                ivAvatar.bindImg(url = otherUser?.avatarUrl, roundingRadius = 30)
+                ivAvatar.bindImg(url = otherUser?.avatarUrl, roundingRadius = 15)
                 tvName.text = otherUser?.name
             }
             rvAsk.adapter = adapter
         }
 
-        viewModel.askRoomState.observe(viewLifecycleOwner) {
+        viewModel.askInfoListState.observe(viewLifecycleOwner) {
             binding.itemAskRoomLoad.root.visible = (it is ViewState.Load)
             binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
             binding.rvAsk.isVisible = (it is ViewState.Data)
@@ -337,7 +337,7 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 //        }
 
 //        viewModel.fetchUser(account)
-        viewModel.fetchAskRoomList(askRoom?.id!!)
+        viewModel.fetchAskInfoList(askRoom?.id!!)
     }
 
 }
