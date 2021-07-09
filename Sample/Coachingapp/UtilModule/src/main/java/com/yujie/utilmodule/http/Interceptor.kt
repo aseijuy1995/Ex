@@ -22,7 +22,7 @@ var logInterceptor = HttpLoggingInterceptor { message -> logI(message) }.apply {
 /**
  * Auth攔截器
  * */
-class AuthRequestInterceptor(val cxt: Context, val refreshTokenCallback: () -> RefreshTokenResponse) : Interceptor {
+class AuthRequestInterceptor(val cxt: Context, val tokenCallback: () -> TokenInfo) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val userPref = runBlocking { cxt.userPref.data.first() }
 
@@ -30,7 +30,7 @@ class AuthRequestInterceptor(val cxt: Context, val refreshTokenCallback: () -> R
         if (currentTime > userPref.expireTime) {
             dealWithExpireToken(
                 cxt = cxt,
-                refreshTokenCallback = refreshTokenCallback
+                tokenCallback = tokenCallback
             )
         }
 
@@ -50,13 +50,13 @@ class AuthRequestInterceptor(val cxt: Context, val refreshTokenCallback: () -> R
 /**
  * Auth驗證器：code >> 401
  * */
-class AuthResponseInterceptor(val cxt: Context, val refreshTokenCallback: () -> RefreshTokenResponse) : Authenticator {
+class AuthResponseInterceptor(val cxt: Context, val tokenCallback: () -> TokenInfo) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request {
         val userPref = runBlocking { cxt.userPref.data.first() }
 
         dealWithExpireToken(
             cxt = cxt,
-            refreshTokenCallback = refreshTokenCallback
+            tokenCallback = tokenCallback
         )
 
         val token = when (userPref.tokenType) {
@@ -106,8 +106,8 @@ private fun UserPref.dealWithBasicToken(cxt: Context): String {
 /**
  * 呼叫refreshToken Api & 處理UserPref狀態
  * */
-private fun dealWithExpireToken(cxt: Context, refreshTokenCallback: () -> RefreshTokenResponse) {
-    val refreshTokenRsp = refreshTokenCallback.invoke()
+private fun dealWithExpireToken(cxt: Context, tokenCallback: () -> TokenInfo) {
+    val refreshTokenRsp = tokenCallback.invoke()
 
     runBlocking {
         if (refreshTokenRsp.accessToken.isNotEmpty())

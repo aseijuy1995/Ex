@@ -3,7 +3,7 @@ package tw.north27.coachingapp.consts
 //https://www.jianshu.com/p/62ab11ddacc8
 //https://www.huaweicloud.com/articles/138c673c96294a6661b16960ff4db613.html
 
-import com.yujie.utilmodule.http.RefreshTokenResponse
+import com.yujie.utilmodule.http.TokenInfo
 import retrofit2.http.*
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.request.*
@@ -15,8 +15,7 @@ interface IApiService {
      * 刷新token
      * */
     @POST
-    @FormUrlEncoded
-    fun refreshToken(@Field("refresh_token") refreshToken: String): RefreshTokenResponse
+    fun refreshToken(@Body tokenRequest: TokenRequest): TokenInfo
 
     /**
      * 獲取App初始設定

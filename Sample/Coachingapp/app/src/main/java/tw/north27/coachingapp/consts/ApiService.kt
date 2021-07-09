@@ -2,7 +2,7 @@ package tw.north27.coachingapp.consts
 
 import android.content.Context
 import com.google.gson.Gson
-import com.yujie.utilmodule.http.RefreshTokenResponse
+import com.yujie.utilmodule.http.TokenInfo
 import com.yujie.utilmodule.util.UpdateApp
 import com.yujie.utilmodule.util.logD
 import com.yujie.utilmodule.util.logI
@@ -17,9 +17,9 @@ import tw.north27.coachingapp.model.response.*
 import java.lang.Thread.sleep
 
 class ApiService(val cxt: Context) : IApiService {
-    override fun refreshToken(refreshToken: String): RefreshTokenResponse {
+    override fun refreshToken(refreshToken: String): TokenInfo {
         sleep(1500)
-        return RefreshTokenResponse(
+        return TokenInfo(
             accessToken = accessTokenTest,
             refreshToken = refreshTokenTest
         )

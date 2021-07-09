@@ -19,9 +19,9 @@ val httpModules = module {
             OkHttpConfig(
                 authReqIntcp = AuthRequestInterceptor(
                     cxt = androidContext(),
-                    refreshTokenCallback = get()
+                    tokenCallback = get()
                 ),
-                authRspIntcp = AuthResponseInterceptor(cxt = androidContext(), refreshTokenCallback = {
+                authRspIntcp = AuthResponseInterceptor(cxt = androidContext(), tokenCallback = {
                     val refreshToken = runBlocking { androidContext().userPref.getRefreshToken().first() }
                     (get() as IApiService).refreshToken(refreshToken)
                 }),
