@@ -16,19 +16,19 @@ import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.Gender
-import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.model.ClientInfo
 import java.text.SimpleDateFormat
 import java.util.*
 
 /**
  * 設置性別UI
- * @param userInfo >> 用戶資訊
+ * @param clientInfo >> 用戶資訊
  * */
 @BindingAdapter("bind:gender")
-fun TextView.bindGender(userInfo: UserInfo?) {
+fun TextView.bindGender(clientInfo: ClientInfo?) {
     @DrawableRes val imgRes: Int
     @StringRes val strRes: Int
-    when (userInfo?.gender) {
+    when (clientInfo?.gender) {
         Gender.MALE -> {
             imgRes = R.drawable.shape_solid_blue_corners_radius_2
             strRes = R.string.male
@@ -48,20 +48,20 @@ fun TextView.bindGender(userInfo: UserInfo?) {
 
 /**
  * 設置評論UI
- * @param userInfo >> 用戶資訊
+ * @param clientInfo >> 用戶資訊
  * */
 //@BindingAdapter("bind:chartComment")
 fun PieChart.bindChartComment(
-    userInfo: UserInfo?,
+    clientInfo: ClientInfo?,
     valueTextSize: Float = 10f,
     isDrawEntryLabels: Boolean = false,
     holeRadius: Float = 60f,
     centerTextSize: Float = 14f,
     isLegend: Boolean = true
 ) {
-    isVisible = (userInfo?.teacherInfo?.commentScoreCountList != null) && userInfo.teacherInfo.commentScoreCountList.isNotEmpty()
+    isVisible = (clientInfo?.teacherInfo?.commentScoreCountList != null) && clientInfo.teacherInfo.commentScoreCountList.isNotEmpty()
     val pieEntryList = mutableListOf<PieEntry>()
-    userInfo?.teacherInfo?.commentScoreCountList?.forEach {
+    clientInfo?.teacherInfo?.commentScoreCountList?.forEach {
         pieEntryList.add(PieEntry(it.count.toFloat(), "${it.score} ${context.getString(R.string.star)}：${it.count}${context.getString(R.string.pen)}"))
     }
     val pieDataSet = PieDataSet(pieEntryList, null)
@@ -92,7 +92,7 @@ fun PieChart.bindChartComment(
     setEntryLabelColor(Color.WHITE)
     setEntryLabelTextSize(8f)
     this.holeRadius = holeRadius
-    centerText = "${context.getString(R.string.score)}\n${userInfo?.teacherInfo?.commentScoreAvg}"
+    centerText = "${context.getString(R.string.score)}\n${clientInfo?.teacherInfo?.commentScoreAvg}"
     setCenterTextSize(centerTextSize)
     legend.apply {
         isEnabled = isLegend
@@ -110,20 +110,20 @@ fun PieChart.bindChartComment(
 
 /**
  * 設置回覆率UI
- * @param userInfo >> 用戶資訊
+ * @param clientInfo >> 用戶資訊
  * */
 //@BindingAdapter("bind:chartReply")
 fun PieChart.bindChartReply(
-    userInfo: UserInfo?,
+    clientInfo: ClientInfo?,
     valueTextSize: Float = 10f,
     isDrawEntryLabels: Boolean = false,
     holeRadius: Float = 60f,
     centerTextSize: Float = 14f,
     isLegend: Boolean = true
 ) {
-    isVisible = (userInfo?.teacherInfo?.replyCountList != null) && userInfo.teacherInfo.replyCountList.isNotEmpty()
+    isVisible = (clientInfo?.teacherInfo?.replyCountList != null) && clientInfo.teacherInfo.replyCountList.isNotEmpty()
     val pieEntryList = mutableListOf<PieEntry>()
-    userInfo?.teacherInfo?.replyCountList?.forEach {
+    clientInfo?.teacherInfo?.replyCountList?.forEach {
         pieEntryList.add(PieEntry(it.count.toFloat(), "${it.reply}：${it.count}${context.getString(R.string.pen)}"))
     }
     val pieDataSet = PieDataSet(pieEntryList, null)
@@ -151,7 +151,7 @@ fun PieChart.bindChartReply(
     setEntryLabelColor(Color.WHITE)
     setEntryLabelTextSize(8f)
     this.holeRadius = holeRadius
-    centerText = "${context.getString(R.string.reply_rate)}\n${userInfo?.teacherInfo?.replyRate}%"
+    centerText = "${context.getString(R.string.reply_rate)}\n${clientInfo?.teacherInfo?.replyRate}%"
     setCenterTextSize(centerTextSize)
     legend.apply {
         isEnabled = isLegend

@@ -16,7 +16,7 @@ import tw.north27.coachingapp.model.CommentInfo
 import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.request.CommentRequest
 import tw.north27.coachingapp.model.request.ReflectRequest
-import tw.north27.coachingapp.model.request.UpdateUserRequest
+import tw.north27.coachingapp.model.request.UpdateClientRequest
 import tw.north27.coachingapp.model.response.ReflectResponse
 import tw.north27.coachingapp.repository.IActionRepository
 import tw.north27.coachingapp.repository.IUserRepository
@@ -34,7 +34,7 @@ class PersonalViewModel(
 
     fun fetchCommentList(
         score: Double? = null,
-        educationId: Long? = null,
+        educationLevelId: Long? = null,
         gradeId: Long? = null,
         subjectId: Long? = null,
         unitId: Long? = null,
@@ -44,7 +44,7 @@ class PersonalViewModel(
         _commentListState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
         val results = actionRepo.fetchCommentList(
-            CommentRequest(account = account, score = score, educationId = educationId, gradeId = gradeId, subjectId = subjectId, unitId = unitId, index = index, num = num)
+            CommentRequest(clientId = account, score = score, educationLevelId = educationLevelId, gradeId = gradeId, subjectId = subjectId, unitId = unitId, index = index, num = num)
         )
         when (results) {
             is Results.Successful<List<CommentInfo>> -> {
@@ -84,8 +84,8 @@ class PersonalViewModel(
         _updateUserState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
         val results = userRepo.updateUser(
-            UpdateUserRequest(
-                account = account,
+            UpdateClientRequest(
+                clientId = account,
                 bgUrl = bgUrl,
                 avatarUrl = avatarUrl,
                 name = name,

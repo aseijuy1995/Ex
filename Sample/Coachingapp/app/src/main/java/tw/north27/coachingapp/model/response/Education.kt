@@ -56,7 +56,6 @@ data class Subject(
     @SerializedName("name") val name: String,
 ) : Parcelable
 
-
 /**
  * 單元/類型
  * @param id >> 單元/類型id

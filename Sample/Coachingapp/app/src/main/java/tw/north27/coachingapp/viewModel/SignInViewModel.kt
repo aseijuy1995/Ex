@@ -17,8 +17,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.SignIn
-import tw.north27.coachingapp.model.SignInCode
+import tw.north27.coachingapp.model.SignInfo
+import tw.north27.coachingapp.model.SignCode
 import tw.north27.coachingapp.model.request.SignInRequest
 import tw.north27.coachingapp.repository.IUserRepository
 import java.util.*
@@ -28,7 +28,7 @@ class SignInViewModel(
     val userRepo: IUserRepository
 ) : BaseAndroidViewModel(application) {
 
-    private val _signInState = MutableLiveData<ViewState<SignIn>>(ViewState.initial())
+    private val _signInState = MutableLiveData<ViewState<SignInfo>>(ViewState.initial())
 
     val signInState = _signInState.asLiveData()
 
@@ -55,7 +55,7 @@ class SignInViewModel(
                 )
             )
             when (results) {
-                is Results.Successful<SignIn> -> {
+                is Results.Successful<SignInfo> -> {
                     val signIn = results.data
                     val uuidNew: String
                     val accountNew: String
@@ -65,12 +65,12 @@ class SignInViewModel(
                     val isFirstNew: Boolean
                     val pushTokenNew: String
                     val authNew: UserPref.Authority
-                    when (signIn.signInCode) {
-                        SignInCode.SIGN_IN_SUC.code -> {
+                    when (signIn.signCode) {
+                        SignCode.SIGN__SUC.code -> {
                             val signInInfo = signIn.signInInfo!!
-                            val userInfo = signInInfo.userInfo!!
+                            val userInfo = signInInfo.clientInfo!!
                             accountNew = userInfo.account
-                            expireTimeNew = signInInfo.expireTime
+                            expireTimeNew = signInInfo.expiresIn
                             accessTokenNew = signInInfo.accessToken
                             refreshTokenNew = signInInfo.refreshToken
                             isFirstNew = signInInfo.isFirst
@@ -86,7 +86,7 @@ class SignInViewModel(
                                 auth = authNew,
                             )
                         }
-                        SignInCode.SIGN_IN_FAIL.code -> {
+                        SignCode.SIGN__FAIL.code -> {
                             accountNew = ""
                             expireTimeNew = 0L
                             accessTokenNew = ""

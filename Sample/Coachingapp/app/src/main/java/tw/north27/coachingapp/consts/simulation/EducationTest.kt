@@ -5,24 +5,24 @@ import tw.north27.coachingapp.model.response.Grade
 import tw.north27.coachingapp.model.response.Subject
 import tw.north27.coachingapp.model.response.Units
 
-val educationListTest = listOf<EducationLevel>(
+val educationList_Test = listOf<EducationLevel>(
     EducationLevel(id = 1, name = "國小"),
     EducationLevel(id = 2, name = "國中")
 )
 
-val gradeListTest = listOf<Grade>(
+val gradeList_Test = listOf<Grade>(
     Grade(id = 1, name = "一年級", educationLevelId = 1, subjectIdList = listOf(1, 2, 3)),
     Grade(id = 2, name = "二年級", educationLevelId = 1, subjectIdList = listOf(1, 2)),
     Grade(id = 3, name = "七年級", educationLevelId = 2, subjectIdList = listOf(2, 4, 5))
 )
-val subjectListTest = listOf<Subject>(
+val subjectList_Test = listOf<Subject>(
     Subject(id = 1, name = "國語"),
     Subject(id = 2, name = "數學"),
     Subject(id = 3, name = "生活"),
     Subject(id = 4, name = "國文"),
     Subject(id = 5, name = "英文"),
 )
-val unitListTest = listOf<Units>(
+val unitList_Test = listOf<Units>(
     //國語
     Units(id = 1, name = "手拉手", educationLevelId = 1, gradeId = 1, subjectId = 1),
     Units(id = 2, name = "排一排", educationLevelId = 1, gradeId = 1, subjectId = 1),

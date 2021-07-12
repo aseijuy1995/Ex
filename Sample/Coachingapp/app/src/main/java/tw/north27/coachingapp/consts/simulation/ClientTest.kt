@@ -1,31 +1,56 @@
 package tw.north27.coachingapp.consts.simulation
 
 import com.yujie.utilmodule.UserPref
+import com.yujie.utilmodule.http.TokenInfo
 import tw.north27.coachingapp.consts.*
 import tw.north27.coachingapp.model.*
 
-//@SerializedName("user_info") val userInfo: UserInfo? = null,
-//@SerializedName("expire_time") val expireTime: Long,
-//@SerializedName("access_token") val accessToken: String,
-//@SerializedName("refresh_token") val refreshToken: String,
-//@SerializedName("is_first") val isFirst: Boolean = true,
-//@SerializedName("push_token") val pushToken: String = "",
-
-fun expireTimeTest(): Long {
-    return (System.currentTimeMillis() / 1000) + (60 * 15)
-}
-
-var accessTokenTest = "accessTokenTest"
-var refreshTokenTest = "refreshTokenTest"
-var isFirstTest = true
-var pushTokenTest = "pushTokenTest"
-
-
+val clientId_Test = "north27_id"
+var tokenType_Test = "Bearer"
+var accessToken_Test = "accessTokenTest"
+var refreshToken_Test = "refreshTokenTest"
+var expiresIn_Test = 900
 //
-var uuidTest = ""
-val accountTest = "north27"
-val passwordTest = "north27"
-val authorityStudentTest = UserPref.Authority.STUDENT
+var uuid_Test = ""
+val account_Test = "north27"
+val password_Test = "north27"
+var isFirst_Test = true
+var pushToken_Test = "pushTokenTest"
+
+val tokenInfo_Test = TokenInfo(
+    tokenType = tokenType_Test,
+    accessToken = accessToken_Test,
+    refreshToken = refreshToken_Test,
+    expiresIn = expiresIn_Test
+)
+
+val signSuc_Test = SignInfo(
+    signCode = SignCode.SIGN__SUC.code,
+    signInInfo = signInInfo_Test,
+    msg = "即將登入．．．"
+)
+
+val signInInfo_Test: SignInInfo
+    get() = SignInInfo(
+        clientInfo = ClientInfo(
+            id = clientId_Test,
+            account = account_Test,
+            auth = authorityStudent_Test,
+//            auth = authorityTeacherTest,
+        ),
+        tokenInfo = tokenInfo_Test,
+        isFirst = isFirst_Test,
+        pushToken = pushToken_Test,
+    )
+
+val signFail_Test = SignInfo(
+    signCode = SignCode.SIGN__FAIL.code,
+    msg = "帳號已被封鎖 or 帳密錯誤"
+)
+//
+//
+
+val authorityStudent_Test = UserPref.Authority.STUDENT
 val authorityTeacherTest = UserPref.Authority.TEACHER
 var bgUrlTest = "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
 var avatarUrlTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
@@ -42,43 +67,13 @@ var replyNoticeTest = false
 var msgNoticeTest = true
 
 //
-val signInSucTest = SignIn(
-    signInCode = SignInCode.SIGN_IN_SUC.code,
-    signInInfo = signInInfoSucTest
-)
-
-val signInFailTest = SignIn(
-    signInCode = SignInCode.SIGN_IN_FAIL.code,
-    signInInfo = signInInfoFailTest
-)
-
-val signInInfoSucTest: SignInInfo
-    get() = SignInInfo(
-        userInfo = UserInfo(
-            account = accountTest,
-            auth = authorityStudentTest,
-//            auth = authorityTeacherTest,
-        ),
-        expireTime = expireTimeTest(),
-        accessToken = accessTokenTest,
-        refreshToken = refreshTokenTest,
-        isFirst = isFirstTest,
-        pushToken = pushTokenTest,
-        msg = "即將登入．．．"
-    )
-
-val signInInfoFailTest: SignInInfo
-    get() = SignInInfo(
-        msg = "帳號已被封鎖 or 帳密錯誤"
-    )
-//
 /**
  * 用戶資訊
  * */
-val userInfoTest = UserInfo(
-    account = accountTest,
+val userInfoTest = ClientInfo(
+    account = account_Test,
     //
-    auth = authorityStudentTest,
+    auth = authorityStudent_Test,
 //    auth = authorityTeacherTest,
     //
     bgUrl = bgUrlTest,
@@ -99,7 +94,7 @@ val userInfoTest = UserInfo(
         commentScoreCountList = getCommentScoreCountList(),
         replyRate = getReplyRate(),
         replyCountList = replyCountListTest,
-        unitsList = unitListTest.filter { it.subjectId == 1L }
+        unitsList = unitList_Test.filter { it.subjectId == 1L }
     ),
     userConfig = UserConfig(
         replyNotice = replyNoticeTest,
@@ -107,8 +102,8 @@ val userInfoTest = UserInfo(
     ),
 )
 
-val teacherInfoListTest = listOf<UserInfo>(
-    UserInfo(
+val teacherInfoListTest = listOf<ClientInfo>(
+    ClientInfo(
         account = "rebeccaAct",
         auth = UserPref.Authority.TEACHER,
         //
@@ -161,7 +156,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         homePhone = "02-111-2222",
         email = "rebecca@gmail.com",
         teacherInfo = TeacherInfo(
-            unitsList = unitListTest.filter { it.educationLevelId == 1L && it.gradeId == 1L && it.subjectId == 1L },
+            unitsList = unitList_Test.filter { it.educationLevelId == 1L && it.gradeId == 1L && it.subjectId == 1L },
             //
             commentScoreAvg = getCommentScoreAvg(),
             commentScoreCountList = getCommentScoreCountList(),
@@ -169,7 +164,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             replyCountList = replyCountListTest,
         ),
     ),
-    UserInfo(
+    ClientInfo(
         account = "peiYuAct",
         auth = UserPref.Authority.TEACHER,
         //
@@ -244,7 +239,7 @@ val teacherInfoListTest = listOf<UserInfo>(
         homePhone = "02-444-5555",
         email = "peiYu@gmail.com",
         teacherInfo = TeacherInfo(
-            unitsList = unitListTest.filter { it.educationLevelId == 1L && (it.gradeId == 1L) or (it.gradeId == 2L) && it.subjectId == 2L },
+            unitsList = unitList_Test.filter { it.educationLevelId == 1L && (it.gradeId == 1L) or (it.gradeId == 2L) && it.subjectId == 2L },
             //
             commentScoreAvg = getCommentScoreAvg(),
             commentScoreCountList = getCommentScoreCountList(),
@@ -253,7 +248,7 @@ val teacherInfoListTest = listOf<UserInfo>(
 
         )
     ),
-    UserInfo(
+    ClientInfo(
         account = "mimiAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1624799993735-41a4ee092f7b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
@@ -328,10 +323,10 @@ val teacherInfoListTest = listOf<UserInfo>(
             commentScoreCountList = getCommentScoreCountList(),
             replyRate = getReplyRate(),
             replyCountList = replyCountListTest,
-            unitsList = unitListTest.filter { it.subjectId == 1L }
+            unitsList = unitList_Test.filter { it.subjectId == 1L }
         )
     ),
-    UserInfo(
+    ClientInfo(
         account = "yujunAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1584920956891-2fccb1c144ad?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
@@ -390,10 +385,10 @@ val teacherInfoListTest = listOf<UserInfo>(
             commentScoreCountList = getCommentScoreCountList(),
             replyRate = getReplyRate(),
             replyCountList = replyCountListTest,
-            unitsList = unitListTest.filter { it.subjectId == 1L }
+            unitsList = unitList_Test.filter { it.subjectId == 1L }
         )
     ),
-    UserInfo(
+    ClientInfo(
         account = "gingAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1593642532454-e138e28a63f4?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
@@ -480,10 +475,10 @@ val teacherInfoListTest = listOf<UserInfo>(
             commentScoreCountList = getCommentScoreCountList(),
             replyRate = getReplyRate(),
             replyCountList = replyCountListTest,
-            unitsList = unitListTest.filter { it.subjectId == 2L }
+            unitsList = unitList_Test.filter { it.subjectId == 2L }
         )
     ),
-    UserInfo(
+    ClientInfo(
         account = "akuanAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1624804269473-828dcc30a210?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=701&q=80",
@@ -529,10 +524,10 @@ val teacherInfoListTest = listOf<UserInfo>(
             commentScoreCountList = getCommentScoreCountList(),
             replyRate = getReplyRate(),
             replyCountList = replyCountListTest,
-            unitsList = unitListTest.filter { it.subjectId == 2L }
+            unitsList = unitList_Test.filter { it.subjectId == 2L }
         )
     ),
-    UserInfo(
+    ClientInfo(
         account = "allenAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1622495546876-3fccb94d3e2c?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
@@ -585,10 +580,10 @@ val teacherInfoListTest = listOf<UserInfo>(
             commentScoreCountList = getCommentScoreCountList(),
             replyRate = getReplyRate(),
             replyCountList = replyCountListTest,
-            unitsList = unitListTest.filter { it.subjectId == 13L }
+            unitsList = unitList_Test.filter { it.subjectId == 13L }
         )
     ),
-    UserInfo(
+    ClientInfo(
         account = "catfishAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1621569898825-ef12e7592f94?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
@@ -628,10 +623,10 @@ val teacherInfoListTest = listOf<UserInfo>(
             commentScoreCountList = getCommentScoreCountList(),
             replyRate = getReplyRate(),
             replyCountList = replyCountListTest,
-            unitsList = unitListTest.filter { it.subjectId == 13L }
+            unitsList = unitList_Test.filter { it.subjectId == 13L }
         )
     ),
-    UserInfo(
+    ClientInfo(
         account = "encoreAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1624602150320-041eb7374810?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
@@ -673,7 +668,7 @@ val teacherInfoListTest = listOf<UserInfo>(
             commentScoreCountList = getCommentScoreCountList(),
             replyRate = getReplyRate(),
             replyCountList = replyCountListTest,
-            unitsList = unitListTest.filter { it.subjectId == 13L }
+            unitsList = unitList_Test.filter { it.subjectId == 13L }
         )
     )
 )

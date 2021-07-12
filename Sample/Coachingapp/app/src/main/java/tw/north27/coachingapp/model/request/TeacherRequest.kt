@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName
 
 /**
  * 請求 - 老師列表
- * @param account >> 帳號
- * @param educationId >> 教育id
+ * @param clientId >> 用戶Id
+ * @param educationLevelId >> 教育id
  * @param gradeId >> 年級id
  * @param subjectId >> 科目id
  * @param unitId >> 單元id
@@ -13,8 +13,8 @@ import com.google.gson.annotations.SerializedName
  * @param num >> 筆數
  * */
 data class TeacherRequest(
-    @SerializedName("account") val account: String,
-    @SerializedName("education_id") val educationId: Long? = null,
+    @SerializedName("client_id") val clientId: String,
+    @SerializedName("education_level_id") val educationLevelId: Long? = null,
     @SerializedName("grade_id") val gradeId: Long? = null,
     @SerializedName("subject_id") val subjectId: Long? = null,
     @SerializedName("unit_id") val unitId: Long? = null,

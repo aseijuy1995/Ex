@@ -4,7 +4,10 @@ package tw.north27.coachingapp.consts
 //https://www.huaweicloud.com/articles/138c673c96294a6661b16960ff4db613.html
 
 import com.yujie.utilmodule.http.TokenInfo
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.PUT
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.request.*
 import tw.north27.coachingapp.model.response.*
@@ -13,32 +16,32 @@ interface IApiService {
 
     /**
      * 刷新token
+     * @param tokenRequest >> TokenRequest::class.java
      * */
     @POST
     fun refreshToken(@Body tokenRequest: TokenRequest): TokenInfo
 
     /**
      * 獲取App初始設定
-     *  @param deviceType >> 設備類型(android)
+     * @param appConfigRequest >> AppConfigRequest::class.java
      * */
-    @GET
-    @FormUrlEncoded
-    suspend fun fetchAppConfig(@Field("device_type") deviceType: String): AppConfig
+    @POST
+    suspend fun fetchAppConfig(@Body appConfigRequest: AppConfigRequest): AppConfig
 
     /**
      * 檢查登入
      * @header Bearer accessToken
+     * @param signRequest >> SignRequest::class.java
      * */
     @POST
-    @FormUrlEncoded
-    suspend fun checkSignIn(@Field("account") account: String): SignIn
+    suspend fun checkSign(@Body signRequest: SignRequest): SignInfo
 
     /**
      * 登入
      * @param signInRequest >> SignInRequest::class.java
      * */
     @POST
-    suspend fun signIn(@Body signInRequest: SignInRequest): SignIn
+    suspend fun signIn(@Body signInRequest: SignInRequest): SignInfo
 
     /**
      * 獲取教育參數
@@ -47,7 +50,21 @@ interface IApiService {
     @GET
     suspend fun fetchEducation(): Education
 
-    //AskFragment
+    /**
+     * 取得老師列表
+     * @param teacherRequest >> TeacherRequest::class.java
+     * */
+    @POST
+    suspend fun fetchTeacherList(@Body teacherRequest: TeacherRequest): List<ClientInfo>
+
+    /**
+     * 獲取房間提問列表
+     * @header Bearer accessToken
+     * @param askInfoRequest >> AskRoomInfoRequest::class.java
+     * */
+    @POST
+    suspend fun fetchAskInfoList(@Body askInfoRequest: AskInfoRequest): List<AskInfo>
+
     /**
      * 獲取提問室列表
      * @header Bearer accessToken
@@ -73,45 +90,33 @@ interface IApiService {
     suspend fun updateAskRoomSound(@Body soundRequest: SoundRequest): SoundResponse
 
     /**
-     * 獲取房間提問列表
-     * @header Bearer accessToken
-     * @param askInfoRequest >> AskRoomInfoRequest::class.java
-     * */
-    @POST
-    suspend fun fetchAskInfoList(@Body askInfoRequest: AskInfoRequest): List<AskInfo>
-    //
-
-    /**
      * 獲取用戶資訊
      * @header Bearer accessToken
-     * @param account >> 帳號
+     * @param clientRequest >> ClientRequest::class.java
      * */
     @POST
-    suspend fun fetchUser(@Field("account") account: String): UserInfo
-
-    /**
-     * 登出
-     * @header accessToken
-     * @param signOutRequest >> SignOutRequest::class.java
-     * */
-    @POST
-    suspend fun signOut(@Body signOutRequest: SignOutRequest): SignIn
+    suspend fun fetchClient(@Body clientRequest: ClientRequest): ClientInfo
 
     /**
      * 更新用戶資訊
-     * @header accessToken
-     * @param updateUserRequest >> UpdateUserRequest::class.java
+     * @header Bearer accessToken
+     * @param updateClientRequest >> UpdateClientRequest::class.java
      * */
-    @POST
-    suspend fun updateUser(@Body updateUserRequest: UpdateUserRequest): Boolean
+    @PUT
+    suspend fun updateClient(@Body updateClientRequest: UpdateClientRequest): UpdateClientResponse
 
     /**
      * 取得評論列表 - 預設無參數，依據index、num回傳數據
-     * @header accessToken
-     * @param commentRequest >> CommentBody::class.java
+     * @header Bearer accessToken
+     * @param commentRequest >> CommentRequest::class.java
      * */
     @POST
     suspend fun fetchCommentList(@Body commentRequest: CommentRequest): List<CommentInfo>
+
+
+//
+//
+//
 
     /**
      * 取得公有數據
@@ -127,13 +132,6 @@ interface IApiService {
     @POST
     suspend fun insertReflect(@Body reflectRequest: ReflectRequest): ReflectResponse
 
-
-    /**
-     * 取得老師列表
-     * @param teacherRequest >> TeacherRequest::class.java
-     * */
-    @POST
-    suspend fun fetchTeacherList(@Body teacherRequest: TeacherRequest): List<UserInfo>
 
 //    /**
 //     * 取得未回覆列表(未加載) - 依據時間近至遠撈回，未指定則撈回全部

@@ -4,14 +4,10 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.yujie.utilmodule.UserPref
-import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseFragment
-import com.yujie.utilmodule.ext.clicksObserve
-import com.yujie.utilmodule.ext.visible
 import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
@@ -20,7 +16,7 @@ import tw.north27.coachingapp.adapter.GradeAdapter
 import tw.north27.coachingapp.databinding.FragmentPersonalEditBinding
 import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.response.Grade
-import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.PersonalViewModel
 import java.text.SimpleDateFormat
@@ -177,40 +173,40 @@ class PersonalEditFragment : BaseFragment<FragmentPersonalEditBinding>(R.layout.
         }
     }
 
-    private fun setUiData(userInfo: UserInfo) {
+    private fun setUiData(clientInfo: ClientInfo) {
         binding.itemData.apply {
-            if (userInfo.bgUrl != null && userInfo.bgUrl.isNotEmpty())
-                ivBg.bindImg(url = userInfo.bgUrl)
+            if (clientInfo.bgUrl != null && clientInfo.bgUrl.isNotEmpty())
+                ivBg.bindImg(url = clientInfo.bgUrl)
             else
                 ivBg.bindImg(resId = launch2Act.publicVM.personalBgRes.value)
-            ivAvatar.bindImg(url = userInfo.avatarUrl, roundingRadius = 10)
+            ivAvatar.bindImg(url = clientInfo.avatarUrl, roundingRadius = 10)
             itemPersonalUserEdit.apply {
-                etName.setText(userInfo.name)
-                tvAccount.text = userInfo.account
-                tvAuth.text = when (userInfo.auth) {
+                etName.setText(clientInfo.name)
+                tvAccount.text = clientInfo.account
+                tvAuth.text = when (clientInfo.auth) {
                     UserPref.Authority.STUDENT -> getString(R.string.student)
                     UserPref.Authority.TEACHER -> getString(R.string.teacher)
                     else -> getString(R.string.unknown)
                 }
-                llSchool.isVisible = (userInfo.auth == UserPref.Authority.STUDENT)
-                etSchool.setText(userInfo.studentInfo?.school)
-                llGrade.isVisible = (userInfo.auth == UserPref.Authority.STUDENT)
+                llSchool.isVisible = (clientInfo.auth == UserPref.Authority.STUDENT)
+                etSchool.setText(clientInfo.studentInfo?.school)
+                llGrade.isVisible = (clientInfo.auth == UserPref.Authority.STUDENT)
             }
-            itemPersonalIntroEdit.etName.setText(userInfo.intro)
+            itemPersonalIntroEdit.etName.setText(clientInfo.intro)
             itemPersonalInfoEdit.apply {
-                btnBirthday.text = userInfo.birthday?.let { SimpleDateFormat("yyyy-MM-dd", Locale.TAIWAN).format(userInfo.birthday) } ?: getString(R.string.enter_birthday)
-                etHomePhone.setText(userInfo.homePhone)
-                etCellPhone.setText(userInfo.cellPhone)
-                etEmail.setText(userInfo.email)
+                btnBirthday.text = clientInfo.birthday?.let { SimpleDateFormat("yyyy-MM-dd", Locale.TAIWAN).format(clientInfo.birthday) } ?: getString(R.string.enter_birthday)
+                etHomePhone.setText(clientInfo.homePhone)
+                etCellPhone.setText(clientInfo.cellPhone)
+                etEmail.setText(clientInfo.email)
             }
         }
         val genderList = launch2Act.publicVM.genderList.value
         genderAdapter.submitData(genderList)
-        binding.itemData.itemPersonalUserEdit.spGender.setSelection(genderList?.indexOfFirst { it == userInfo.gender }!!)
-        if (userInfo.auth == UserPref.Authority.STUDENT) {
+        binding.itemData.itemPersonalUserEdit.spGender.setSelection(genderList?.indexOfFirst { it == clientInfo.gender }!!)
+        if (clientInfo.auth == UserPref.Authority.STUDENT) {
             val gradeList = launch2Act.publicVM.gradeList.value
             gradeAdapter.submitData(gradeList)
-            binding.itemData.itemPersonalUserEdit.spGrade.setSelection(gradeList?.indexOfFirst { it.id == userInfo.studentInfo?.gradeId }!!)
+            binding.itemData.itemPersonalUserEdit.spGrade.setSelection(gradeList?.indexOfFirst { it.id == clientInfo.studentInfo?.gradeId }!!)
         }
     }
 }

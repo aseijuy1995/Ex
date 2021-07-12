@@ -116,7 +116,7 @@ class PersonalCommentFragment : BaseFragment<FragmentPersonalCommentBinding>(R.l
             val unitId = (binding.itemDrawerLayoutComment.spUnit.selectedItem as Units).id
             viewModel.fetchCommentList(
                 score = if (score != -1.0) score else null,
-                educationId = if (educationId != -1L) educationId else null,
+                educationLevelId = if (educationId != -1L) educationId else null,
                 gradeId = if (gradeId != -1L) gradeId else null,
                 subjectId = if (subjectId != -1L) subjectId else null,
                 unitId = if (unitId != -1L) unitId else null,

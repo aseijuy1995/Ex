@@ -8,7 +8,6 @@ import com.yujie.utilmodule.util.logD
 import com.yujie.utilmodule.util.logI
 import kotlinx.coroutines.delay
 import retrofit2.http.Body
-import retrofit2.http.Field
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.consts.simulation.*
 import tw.north27.coachingapp.model.*
@@ -17,23 +16,24 @@ import tw.north27.coachingapp.model.response.*
 import java.lang.Thread.sleep
 
 class ApiService(val cxt: Context) : IApiService {
-    override fun refreshToken(refreshToken: String): TokenInfo {
+
+    override fun refreshToken(@Body tokenRequest: TokenRequest): TokenInfo {
         sleep(1500)
-        return TokenInfo(
-            accessToken = accessTokenTest,
-            refreshToken = refreshTokenTest
-        )
+        return tokenInfo_Test
     }
 
-    override suspend fun fetchAppConfig(@Field(value = "device_type") deviceType: String): AppConfig {
+    override suspend fun fetchAppConfig(@Body appConfigRequest: AppConfigRequest): AppConfig {
         delay(1500)
+        /**
+         * appConfigRequest.deviceType == DeviceType.ANDROID.type >> 設備類型
+         * */
         val appConfig: AppConfig
         appConfig = AppConfig(
             appCode = AppCode.MOTION.code,
             motionInfo = MotionInfo(
                 bgUrl = "https://image.flaticon.com/icons/png/512/178/178158.png",
                 title = cxt.getString(R.string.update_title),
-                versionNameMode = UpdateApp.VersionNameMode.DEFAULT,
+                versionNameMode = UpdateApp.VersionNameMode.DEFAULT.type,
                 versionName = "1.0.0",
                 url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
                 content = "1. 資料顯示錯誤\n" +
@@ -46,47 +46,45 @@ class ApiService(val cxt: Context) : IApiService {
                 isCompulsory = false
             )
         )
-//    appConfig = AppConfig(
-//        appCode = AppCode.DEFEND.code,
-//        defendInfo = DefendInfo(
-//            bgUrl = "https://image.flaticon.com/icons/png/512/178/178158.png",
-//            title = cxt.getString(R.string.defend_title),
-//            content = "1. 伺服器遭受攻擊。\n" +
-//                    "2. 增加監控、效能分析、執行網路維護。\n" +
-//                    "3. 描述統一規範化。\n" +
-//                    "4. 維護通知描述1\n" +
-//                    "5. 維護通知描述2\n" +
-//                    "6. 維護通知描述3",
-//            time = Date()
+//        appConfig = AppConfig(
+//            appCode = AppCode.DEFEND.code,
+//            defendInfo = DefendInfo(
+//                bgUrl = "https://image.flaticon.com/icons/png/512/178/178158.png",
+//                title = cxt.getString(R.string.defend_title),
+//                content = "1. 伺服器遭受攻擊。\n" +
+//                        "2. 增加監控、效能分析、執行網路維護。\n" +
+//                        "3. 描述統一規範化。\n" +
+//                        "4. 維護通知描述1\n" +
+//                        "5. 維護通知描述2\n" +
+//                        "6. 維護通知描述3",
+//                time = Date()
+//            )
 //        )
-//    )
         logI("fetchAppConfig = ${Gson().toJson(appConfig)}")
         return appConfig
     }
 
-    override suspend fun checkSignIn(@Field(value = "account") account: String): SignIn {
+    override suspend fun checkSign(signRequest: SignRequest): SignInfo {
         delay(1500)
-        val signIn: SignIn = if (account == accountTest) {
-            signInSucTest
-        } else {
-            signInFailTest
-        }
-        logI("checkSignIn = ${Gson().toJson(signIn)}")
-        return signIn
+        val signInfo: SignInfo
+        signInfo = signSuc_Test
+//        signInfo = signFail_Test
+        logI("checkSignIn = ${Gson().toJson(signInfo)}")
+        return signInfo
     }
 
-    override suspend fun signIn(@Body signInRequest: SignInRequest): SignIn {
+    override suspend fun signIn(@Body signInRequest: SignInRequest): SignInfo {
         delay(1500)
         val uuid = signInRequest.uuid
         val account = signInRequest.account
         val password = signInRequest.password
         val pushToken = signInRequest.pushToken
-        val signIn = if (account == accountTest && password == passwordTest) {
-            uuidTest = uuid
-            pushTokenTest = pushToken
-            signInSucTest
+        val signIn = if (account == account_Test && password == password_Test) {
+            uuid_Test = uuid
+            pushToken_Test = pushToken
+            signSuc_Test
         } else {
-            signInFailTest
+            signFail_Test
         }
         logI("signIn = ${Gson().toJson(signIn)}")
         return signIn
@@ -95,10 +93,10 @@ class ApiService(val cxt: Context) : IApiService {
     override suspend fun fetchEducation(): Education {
         delay(1500)
         val education = Education(
-            educationLevelList = educationListTest,
-            gradeList = gradeListTest,
-            subjectList = subjectListTest,
-            unitList = unitListTest
+            educationLevelList = educationList_Test,
+            gradeList = gradeList_Test,
+            subjectList = subjectList_Test,
+            unitList = unitList_Test
         )
         logI("fetchEducation = ${Gson().toJson(education)}")
         return education
@@ -106,8 +104,8 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun fetchAskRoomList(@Body askRoomRequest: AskRoomRequest): List<AskRoom> {
         delay(1500)
-        val account = askRoomRequest.account//撈取相關提問室參數
-        val askId = askRoomRequest.topAskId
+        val account = askRoomRequest.clientId//撈取相關提問室參數
+        val askId = askRoomRequest.askId
         while (askRoomListTest.first().askInfo.id == askId) delay(1500)
         val askRoomList: List<AskRoom> = askRoomListTest
         logI("fetchAskRoomList = ${Gson().toJson(askRoomList)}")
@@ -140,48 +138,29 @@ class ApiService(val cxt: Context) : IApiService {
         return askListTest(roomId = roomId)
     }
 
-    override suspend fun signOut(@Body signOutRequest: SignOutRequest): SignIn {
-        delay(1500)
-        if (uuidTest == signOutRequest.uuid) uuidTest = ""
-        return if (signOutRequest.account == accountTest)
-            SignIn(
-                signInCode = SignInCode.SIGN_OUT_SUCCESS.code,
-                signOutInfo = SignOutInfo(
-                    msg = "成功登出!"
-                )
-            )
-        else
-            SignIn(
-                signInCode = SignInCode.SIGN_OUT_FAILED.code,
-                signOutInfo = SignOutInfo(
-                    msg = "登出失敗，請刪除APP並重新下載!"
-                )
-            )
-    }
-
-    override suspend fun fetchUser(@Field("account") account: String): UserInfo {
+    override suspend fun fetchClient(@Body clientRequest: ClientRequest): ClientInfo {
         delay(1500)
         val userList = teacherInfoListTest.toMutableList().apply {
             add(userInfoTest)
         }
-        return userList.find { it.account == account }!!
+        return userList.find { it.account == clientRequest.clientId }!!
     }
 
-    override suspend fun updateUser(@Body updateUserRequest: UpdateUserRequest): Boolean {
+    override suspend fun updateClient(@Body updateClientRequest: UpdateClientRequest): UpdateClientResponse {
         delay(1500)
-        val account = updateUserRequest.account
-        val bgUrl = updateUserRequest.bgUrl
-        val avatarUrl = updateUserRequest.avatarUrl
-        val name = updateUserRequest.name
-        val gender = updateUserRequest.gender
-        val intro = updateUserRequest.intro
-        val birthday = updateUserRequest.birthday
-        val cellPhone = updateUserRequest.cellPhone
-        val homePhone = updateUserRequest.homePhone
-        val email = updateUserRequest.email
-        val school = updateUserRequest.school
-        val gradeId = updateUserRequest.gradeId
-        if (account == accountTest) {
+        val account = updateClientRequest.clientId
+        val bgUrl = updateClientRequest.bgUrl
+        val avatarUrl = updateClientRequest.avatarUrl
+        val name = updateClientRequest.name
+        val gender = updateClientRequest.gender
+        val intro = updateClientRequest.intro
+        val birthday = updateClientRequest.birthday
+        val cellPhone = updateClientRequest.cellPhone
+        val homePhone = updateClientRequest.homePhone
+        val email = updateClientRequest.email
+        val school = updateClientRequest.school
+        val gradeId = updateClientRequest.gradeId
+        if (account == account_Test) {
             bgUrl?.let { bgUrlTest = it }
             avatarUrl?.let { avatarUrlTest = it }
             nameTest = name
@@ -193,16 +172,22 @@ class ApiService(val cxt: Context) : IApiService {
             emailTest = email
             school?.let { schoolTest = it }
             gradeId?.let { gradeIdTest = it }
-            return true
+            return UpdateClientResponse(
+                isSuccess = true,
+                msg = "修改成功"
+            )
         }
-        return false
+        return UpdateClientResponse(
+            isSuccess = false,
+            msg = "修改失敗"
+        )
     }
 
     override suspend fun fetchCommentList(@Body commentRequest: CommentRequest): List<CommentInfo> {
         delay(1500)
-        val commentListTest = commentListTest.filter { it.receiveAccount == accountTest }
+        val commentListTest = commentListTest.filter { it.receiveAccount == account_Test }
         val score = commentRequest.score
-        val educationId = commentRequest.educationId
+        val educationId = commentRequest.educationLevelId
         val gradeId = commentRequest.gradeId
         val subjectId = commentRequest.subjectId
         val unitId = commentRequest.unitId
@@ -307,9 +292,9 @@ class ApiService(val cxt: Context) : IApiService {
 //        )
     }
 
-    override suspend fun fetchTeacherList(@Body teacherRequest: TeacherRequest): List<UserInfo> {
+    override suspend fun fetchTeacherList(@Body teacherRequest: TeacherRequest): List<ClientInfo> {
         delay(1500)
-        val educationId = teacherRequest.educationId
+        val educationId = teacherRequest.educationLevelId
         val gradeId = teacherRequest.gradeId
         val subjectId = teacherRequest.subjectId
         val unitId = teacherRequest.unitId

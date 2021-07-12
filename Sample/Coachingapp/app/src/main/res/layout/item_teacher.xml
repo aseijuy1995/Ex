@@ -6,7 +6,7 @@
 
         <variable
             name="userInfo"
-            type="tw.north27.coachingapp.model.UserInfo" />
+            type="tw.north27.coachingapp.model.ClientInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

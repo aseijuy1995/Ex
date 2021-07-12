@@ -33,7 +33,7 @@ class AskRoomViewModel(
         val results = actionRepo.fetchAskInfoList(
             AskInfoRequest(
                 roomId = roomId,
-                account = account,
+                clientId = account,
                 index = 0,
                 num = 0
             )

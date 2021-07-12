@@ -4,13 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.swipe.SwipeLayout
 import com.jakewharton.rxrelay3.PublishRelay
-import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.pref.getAccount
 import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.logD
@@ -64,7 +62,7 @@ class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>
     inner class VH(val binding: ItemAskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(askRoom: AskRoom) = binding.apply {
             this.askRoom = askRoom
-            val otherUser = askRoom.otherUserInfo
+            val otherUser = askRoom.otherClientInfo
             val askInfo = askRoom.askInfo
             ivAvatar.bindImg(url = otherUser.avatarUrl, roundingRadius = 30)
             tvName.text = otherUser.name

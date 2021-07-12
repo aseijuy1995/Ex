@@ -3,6 +3,14 @@ package tw.north27.coachingapp.model.request
 import com.google.gson.annotations.SerializedName
 
 /**
+ * 請求檢查
+ * @param clientId >> 用戶id
+ * */
+data class SignRequest(
+    @SerializedName("client_id") val clientId: String
+)
+
+/**
  * 請求登入
  * @param uuid >> 設備Id
  * @param account >> 帳號

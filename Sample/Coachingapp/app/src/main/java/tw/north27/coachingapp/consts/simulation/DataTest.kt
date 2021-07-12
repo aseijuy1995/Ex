@@ -1,7 +1,7 @@
 package tw.north27.coachingapp.consts
 
 import com.yujie.utilmodule.UserPref
-import tw.north27.coachingapp.consts.simulation.accountTest
+import tw.north27.coachingapp.consts.simulation.account_Test
 import tw.north27.coachingapp.consts.simulation.nameTest
 import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.response.CommonProblem
@@ -20,27 +20,27 @@ fun dateTimeToString(date: Date): String = SimpleDateFormat("yyyy/MM/dd HH:mm:ss
 
 
 val commentListTest = listOf(
-    CommentInfo(id = 0, sendAccount = "eliseLeeAccount", sendName = "Elise Lee", receiveAccount = accountTest, receiveName = nameTest, score = 5.0, content = "非常友善的老師，教學引導方式也很有趣，孩子非常有意願開始學習。", date = stringToDate("2021/06/17"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 1),
-    CommentInfo(id = 1, sendAccount = "cathychuAccount", sendName = "CATHY CHU", receiveAccount = accountTest, receiveName = nameTest, score = 4.0, content = "用心教學。", date = stringToDate("2021/06/12"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 1),
-    CommentInfo(id = 2, sendAccount = "harrisAccount", sendName = "Harris", receiveAccount = accountTest, receiveName = nameTest, score = 4.0, content = "老師很友善，也有豐富家教經驗~而老師本身也是教育系背景出身~懂得學生需求，國文和英文也都能細心教授~非常推薦喔!", date = stringToDate("2021/05/31"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 3),
-    CommentInfo(id = 3, sendAccount = "justinAccount", sendName = "Justin", receiveAccount = accountTest, receiveName = nameTest, score = 3.0, content = "Good", date = stringToDate("2021/01/23"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
-    CommentInfo(id = 4, sendAccount = "chenWenshanAccount", sendName = "陳文山", receiveAccount = accountTest, receiveName = nameTest, score = 5.0, content = "AT平台上難得的一位優質老師！。", date = stringToDate("2021/01/22"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 5),
-    CommentInfo(id = 5, sendAccount = "zachAccount", sendName = "Zach", receiveAccount = accountTest, receiveName = nameTest, score = 4.0, content = "老師的口條與ppt重點整理清晰，非常推薦各位被國文所苦的同學\uD83D\uDC4D\uD83C\uDFFB。", date = stringToDate("2021/01/16"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
-    CommentInfo(id = 6, sendAccount = "ranniehsieAccount", sendName = "rannie hsie", receiveAccount = accountTest, receiveName = nameTest, score = 5.0, content = "老師很有耐性引導孩子, 有自製教材", date = stringToDate("2021/01/15"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
-    CommentInfo(id = 7, sendAccount = "wangLiangyinAccount", sendName = "王亮尹", receiveAccount = accountTest, receiveName = nameTest, score = 3.0, content = "great", date = stringToDate("2021/01/11"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 4),
-    CommentInfo(id = 8, sendAccount = "zhaiQingfengAccount", sendName = "翟清峰", receiveAccount = accountTest, receiveName = nameTest, score = 4.0, content = "家裡的姐姐很喜歡上妳的課，平常對國文不怎麼有興趣的都活了起來了，哈", date = stringToDate("2020/12/29"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 3),
-    CommentInfo(id = 9, sendAccount = "wangZhengAccount", sendName = "王正", receiveAccount = accountTest, receiveName = nameTest, score = 5.0, content = "很棒的老師，課前會認真的訊問我的狀況，體驗課後給予適合的規劃與建議！", date = stringToDate("2020/12/27"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 4),
-    CommentInfo(id = 10, sendAccount = "michaelAccount", sendName = "Michael", receiveAccount = accountTest, receiveName = nameTest, score = 4.0, content = "Excellent lesson with interesting material and clear explanations!", date = stringToDate("2020/12/04"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
+    CommentInfo(id = 0, sendAccount = "eliseLeeAccount", sendName = "Elise Lee", receiveAccount = account_Test, receiveName = nameTest, score = 5.0, content = "非常友善的老師，教學引導方式也很有趣，孩子非常有意願開始學習。", date = stringToDate("2021/06/17"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 1),
+    CommentInfo(id = 1, sendAccount = "cathychuAccount", sendName = "CATHY CHU", receiveAccount = account_Test, receiveName = nameTest, score = 4.0, content = "用心教學。", date = stringToDate("2021/06/12"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 1),
+    CommentInfo(id = 2, sendAccount = "harrisAccount", sendName = "Harris", receiveAccount = account_Test, receiveName = nameTest, score = 4.0, content = "老師很友善，也有豐富家教經驗~而老師本身也是教育系背景出身~懂得學生需求，國文和英文也都能細心教授~非常推薦喔!", date = stringToDate("2021/05/31"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 3),
+    CommentInfo(id = 3, sendAccount = "justinAccount", sendName = "Justin", receiveAccount = account_Test, receiveName = nameTest, score = 3.0, content = "Good", date = stringToDate("2021/01/23"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
+    CommentInfo(id = 4, sendAccount = "chenWenshanAccount", sendName = "陳文山", receiveAccount = account_Test, receiveName = nameTest, score = 5.0, content = "AT平台上難得的一位優質老師！。", date = stringToDate("2021/01/22"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 5),
+    CommentInfo(id = 5, sendAccount = "zachAccount", sendName = "Zach", receiveAccount = account_Test, receiveName = nameTest, score = 4.0, content = "老師的口條與ppt重點整理清晰，非常推薦各位被國文所苦的同學\uD83D\uDC4D\uD83C\uDFFB。", date = stringToDate("2021/01/16"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
+    CommentInfo(id = 6, sendAccount = "ranniehsieAccount", sendName = "rannie hsie", receiveAccount = account_Test, receiveName = nameTest, score = 5.0, content = "老師很有耐性引導孩子, 有自製教材", date = stringToDate("2021/01/15"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
+    CommentInfo(id = 7, sendAccount = "wangLiangyinAccount", sendName = "王亮尹", receiveAccount = account_Test, receiveName = nameTest, score = 3.0, content = "great", date = stringToDate("2021/01/11"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 4),
+    CommentInfo(id = 8, sendAccount = "zhaiQingfengAccount", sendName = "翟清峰", receiveAccount = account_Test, receiveName = nameTest, score = 4.0, content = "家裡的姐姐很喜歡上妳的課，平常對國文不怎麼有興趣的都活了起來了，哈", date = stringToDate("2020/12/29"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 3),
+    CommentInfo(id = 9, sendAccount = "wangZhengAccount", sendName = "王正", receiveAccount = account_Test, receiveName = nameTest, score = 5.0, content = "很棒的老師，課前會認真的訊問我的狀況，體驗課後給予適合的規劃與建議！", date = stringToDate("2020/12/27"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 4),
+    CommentInfo(id = 10, sendAccount = "michaelAccount", sendName = "Michael", receiveAccount = account_Test, receiveName = nameTest, score = 4.0, content = "Excellent lesson with interesting material and clear explanations!", date = stringToDate("2020/12/04"), educationId = 1, gradeId = 1, subjectId = 1, unitId = 2),
 
-    CommentInfo(id = 11, sendAccount = "xieWantingAct", sendName = "謝宛庭", receiveAccount = accountTest, receiveName = nameTest, score = 1.0, content = "(數學)問題已經問一天了，你們的是不是覺得太難故意不答啊，服務品質真是好啊。明天就要段考了都不答是怎樣，我買你們產品有什麼用，需要的時候都是最沒用的，像裝飾品一樣，啊，不對，裝飾品比你們好用多了，至少它還能讓我心情變好，貴公司真的超優秀。你們最好給我在段考前回答。你們是不是要等到富○義○更新了才要回答我，我知道獵人很好看啦，但也不用這麼在乎它啦，只是它的更新速度和貴公司的回答問題速度一樣快，真的讓人很滿意，能有這麼棒的速度，一定有很多人想買吧，畢竟有優質的老師幫助我們學習，令人很高興呢!!", date = stringToDate("2020/12/02"), educationId = 1, gradeId = 1, subjectId = 2, unitId = 13),
-    CommentInfo(id = 12, sendAccount = "lowtideBearAct", sendName = "低潮熊LowtideBear", receiveAccount = accountTest, receiveName = nameTest, score = 2.0, content = "(數學)真心建議買這軟體不如去上補習班，業務嘴說的跟行動上不一樣，真的愛理不理的，客訴也不怕！現在花這爛軟體15萬還是要去補習！爛透了，早知道先看評論，負評滿滿！！！怒氣都快變超級賽亞人了！", date = stringToDate("2020/12/02"), educationId = 1, gradeId = 2, subjectId = 2, unitId = 16),
-    CommentInfo(id = 13, sendAccount = "zhaoZixingAct", sendName = "趙子興", receiveAccount = accountTest, receiveName = nameTest, score = 1.0, content = "(生活)只有爛可以形容..推銷一個網路教學我兒子國中是翰林版本的送來講義是108綱的,錢又不能退,送我平版的電腦又爛,書本根本放在那養蚊子,錢我打算不會繳也跟業務黃先生聯繫也都不太理,決定打去消基會問問。", date = stringToDate("2020/12/01"), educationId = 1, gradeId = 1, subjectId = 3, unitId = 37),
-    CommentInfo(id = 14, sendAccount = "suZongshunAct", sendName = "蘇宗瞬", receiveAccount = accountTest, receiveName = nameTest, score = 1.0, content = "(數學)真的爛 希望有負分系統 說真的看到這篇 請記住不要買他們的任何產品 老師教的差 解題老師根本是照著答案掰答案 學習顧問也是賺到了錢就已讀學生 自身有經驗 我相信那些說他們產品好的都是低學歷的人 要是有點知識 就會發現他們老師和解題老師教的都是錯的 ps他們產品是萬試通 真的是地雷", date = stringToDate("2020/11/27"), educationId = 1, gradeId = 4, subjectId = 2, unitId = 20),
-    CommentInfo(id = 15, sendAccount = "daiFengting", sendName = "戴峰庭", receiveAccount = accountTest, receiveName = nameTest, score = 2.0, content = "(自然)非常好用，問什麼問題，老師都會很快回答", date = stringToDate("2020/11/25"), educationId = 1, gradeId = 3, subjectId = 4, unitId = 42),
-    CommentInfo(id = 16, sendAccount = "kwakWoo-nyeongAct", sendName = "곽우녕", receiveAccount = accountTest, receiveName = nameTest, score = 1.0, content = "(數學)相同題目晚上6.傳一次，到了9.發現沒有被解答，然後又傳了一次，結果到了晚上11.也還是沒有被回………………", date = stringToDate("2020/11/25"), educationId = 1, gradeId = 4, subjectId = 2, unitId = 19),
-    CommentInfo(id = 17, sendAccount = "ruanKimHo", sendName = "阮金和", receiveAccount = accountTest, receiveName = nameTest, score = 1.0, content = "(生活)好用是沒錯，但為什麼有些傳了過不知道幾天才說，為什麼我有疑問奇怪了很急著要看結果結果沒回其他就有這個沒有很不爽可不可以改啊？", date = stringToDate("2020/11/23"), educationId = 1, gradeId = 2, subjectId = 3, unitId = 39),
-    CommentInfo(id = 18, sendAccount = "jACKFFAct", sendName = "JACK_ FF", receiveAccount = accountTest + "1", receiveName = nameTest, score = 2.0, content = "(自然)放了40分鐘沒人回", date = stringToDate("2020/11/21"), educationId = 1, gradeId = 6, subjectId = 4, unitId = 47),
-    CommentInfo(id = 19, sendAccount = "caiWanyu", sendName = "蔡宛育", receiveAccount = accountTest, receiveName = nameTest, score = 3.0, content = "(生活)手機壞掉，換手機，重新下載，用原本的帳密，但始終登不進去，打客服，很複雜難懂。", date = stringToDate("2020/11/05"), educationId = 1, gradeId = 1, subjectId = 3, unitId = 38),
+    CommentInfo(id = 11, sendAccount = "xieWantingAct", sendName = "謝宛庭", receiveAccount = account_Test, receiveName = nameTest, score = 1.0, content = "(數學)問題已經問一天了，你們的是不是覺得太難故意不答啊，服務品質真是好啊。明天就要段考了都不答是怎樣，我買你們產品有什麼用，需要的時候都是最沒用的，像裝飾品一樣，啊，不對，裝飾品比你們好用多了，至少它還能讓我心情變好，貴公司真的超優秀。你們最好給我在段考前回答。你們是不是要等到富○義○更新了才要回答我，我知道獵人很好看啦，但也不用這麼在乎它啦，只是它的更新速度和貴公司的回答問題速度一樣快，真的讓人很滿意，能有這麼棒的速度，一定有很多人想買吧，畢竟有優質的老師幫助我們學習，令人很高興呢!!", date = stringToDate("2020/12/02"), educationId = 1, gradeId = 1, subjectId = 2, unitId = 13),
+    CommentInfo(id = 12, sendAccount = "lowtideBearAct", sendName = "低潮熊LowtideBear", receiveAccount = account_Test, receiveName = nameTest, score = 2.0, content = "(數學)真心建議買這軟體不如去上補習班，業務嘴說的跟行動上不一樣，真的愛理不理的，客訴也不怕！現在花這爛軟體15萬還是要去補習！爛透了，早知道先看評論，負評滿滿！！！怒氣都快變超級賽亞人了！", date = stringToDate("2020/12/02"), educationId = 1, gradeId = 2, subjectId = 2, unitId = 16),
+    CommentInfo(id = 13, sendAccount = "zhaoZixingAct", sendName = "趙子興", receiveAccount = account_Test, receiveName = nameTest, score = 1.0, content = "(生活)只有爛可以形容..推銷一個網路教學我兒子國中是翰林版本的送來講義是108綱的,錢又不能退,送我平版的電腦又爛,書本根本放在那養蚊子,錢我打算不會繳也跟業務黃先生聯繫也都不太理,決定打去消基會問問。", date = stringToDate("2020/12/01"), educationId = 1, gradeId = 1, subjectId = 3, unitId = 37),
+    CommentInfo(id = 14, sendAccount = "suZongshunAct", sendName = "蘇宗瞬", receiveAccount = account_Test, receiveName = nameTest, score = 1.0, content = "(數學)真的爛 希望有負分系統 說真的看到這篇 請記住不要買他們的任何產品 老師教的差 解題老師根本是照著答案掰答案 學習顧問也是賺到了錢就已讀學生 自身有經驗 我相信那些說他們產品好的都是低學歷的人 要是有點知識 就會發現他們老師和解題老師教的都是錯的 ps他們產品是萬試通 真的是地雷", date = stringToDate("2020/11/27"), educationId = 1, gradeId = 4, subjectId = 2, unitId = 20),
+    CommentInfo(id = 15, sendAccount = "daiFengting", sendName = "戴峰庭", receiveAccount = account_Test, receiveName = nameTest, score = 2.0, content = "(自然)非常好用，問什麼問題，老師都會很快回答", date = stringToDate("2020/11/25"), educationId = 1, gradeId = 3, subjectId = 4, unitId = 42),
+    CommentInfo(id = 16, sendAccount = "kwakWoo-nyeongAct", sendName = "곽우녕", receiveAccount = account_Test, receiveName = nameTest, score = 1.0, content = "(數學)相同題目晚上6.傳一次，到了9.發現沒有被解答，然後又傳了一次，結果到了晚上11.也還是沒有被回………………", date = stringToDate("2020/11/25"), educationId = 1, gradeId = 4, subjectId = 2, unitId = 19),
+    CommentInfo(id = 17, sendAccount = "ruanKimHo", sendName = "阮金和", receiveAccount = account_Test, receiveName = nameTest, score = 1.0, content = "(生活)好用是沒錯，但為什麼有些傳了過不知道幾天才說，為什麼我有疑問奇怪了很急著要看結果結果沒回其他就有這個沒有很不爽可不可以改啊？", date = stringToDate("2020/11/23"), educationId = 1, gradeId = 2, subjectId = 3, unitId = 39),
+    CommentInfo(id = 18, sendAccount = "jACKFFAct", sendName = "JACK_ FF", receiveAccount = account_Test + "1", receiveName = nameTest, score = 2.0, content = "(自然)放了40分鐘沒人回", date = stringToDate("2020/11/21"), educationId = 1, gradeId = 6, subjectId = 4, unitId = 47),
+    CommentInfo(id = 19, sendAccount = "caiWanyu", sendName = "蔡宛育", receiveAccount = account_Test, receiveName = nameTest, score = 3.0, content = "(生活)手機壞掉，換手機，重新下載，用原本的帳密，但始終登不進去，打客服，很複雜難懂。", date = stringToDate("2020/11/05"), educationId = 1, gradeId = 1, subjectId = 3, unitId = 38),
 )
 
 /**
@@ -198,7 +198,7 @@ val reflectListTest = listOf<Reflect>(
 val askRoomListTest = mutableListOf(
     AskRoom(
         id = 0,
-        otherUserInfo = UserInfo(
+        otherClientInfo = ClientInfo(
             account = "rebeccaAct",
             auth = UserPref.Authority.TEACHER,
             avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/732/757/normal/nlpknz.png?1623138408",
@@ -214,7 +214,7 @@ val askRoomListTest = mutableListOf(
         askInfo = AskInfo(
             id = 1L,
             senderAct = "rebeccaAct",
-            receiverAct = accountTest,
+            receiverAct = account_Test,
             //
             askType = AskType.TEXT,
             text = "老師，我想詢問國語排一排的相關問題，請問現在是否方便嗎?",
@@ -224,7 +224,7 @@ val askRoomListTest = mutableListOf(
     ),
     AskRoom(
         id = 1,
-        otherUserInfo = UserInfo(
+        otherClientInfo = ClientInfo(
             account = "peiYuAct",
             auth = UserPref.Authority.TEACHER,
             avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/425/315/normal/acwdjm.png?1605207454",
@@ -240,7 +240,7 @@ val askRoomListTest = mutableListOf(
         askInfo = AskInfo(
             id = 1L,
             senderAct = "peiYuAct",
-            receiverAct = accountTest,
+            receiverAct = account_Test,
             //
             askType = AskType.TEXT,
             text = "數學的數線解法這樣你能了解嗎?",

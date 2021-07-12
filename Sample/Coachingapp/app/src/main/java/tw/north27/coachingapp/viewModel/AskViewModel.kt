@@ -34,8 +34,8 @@ class AskViewModel(
         val account = cxt.userPref.getAccount().first()
         val results = actionRepo.fetchAskRoomList(
             AskRoomRequest(
-                account = account,
-                topAskId = id
+                clientId = account,
+                askId = id
             )
         )
         when (results) {
@@ -66,7 +66,7 @@ class AskViewModel(
         val results = actionRepo.updateAskRoomPush(
             PushRequest(
                 roomId = id,
-                account = account,
+                clientId = account,
                 isState = state
             )
         )
@@ -94,7 +94,7 @@ class AskViewModel(
         val results = actionRepo.updateAskRoomSound(
             SoundRequest(
                 roomId = id,
-                account = account,
+                clientId = account,
                 isState = state
             )
         )

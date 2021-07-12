@@ -4,23 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.yujie.utilmodule.UserPref
-import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseFragment
-import com.yujie.utilmodule.ext.checkedChangesObserve
-import com.yujie.utilmodule.ext.clicksObserve
-import com.yujie.utilmodule.ext.visible
 import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.CommentListAdapter
-import tw.north27.coachingapp.adapter.bindChartComment
-import tw.north27.coachingapp.adapter.bindChartReply
-import tw.north27.coachingapp.adapter.bindGender
 import tw.north27.coachingapp.databinding.FragmentPersonalBinding
-import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.viewModel.PersonalViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -202,82 +194,82 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
         viewModel.fetchCommentList(index = 0, num = 3)
     }
 
-    private fun setUiData(userInfo: UserInfo) {
-        if (userInfo.bgUrl != null && userInfo.bgUrl.isNotEmpty())
-            binding.ivBg.bindImg(url = userInfo.bgUrl)
+    private fun setUiData(clientInfo: ClientInfo) {
+        if (clientInfo.bgUrl != null && clientInfo.bgUrl.isNotEmpty())
+            binding.ivBg.bindImg(url = clientInfo.bgUrl)
         else
             binding.ivBg.bindImg(resId = launch2Act.publicVM.personalBgRes.value)
         binding.itemData.apply {
             itemPersonalUser.apply {
                 ivAvatar.bindImg(
-                    url = userInfo.avatarUrl,
+                    url = clientInfo.avatarUrl,
                     placeRes = R.drawable.ic_baseline_account_box_24_gray,
                     roundingRadius = 10
                 )
-                tvGender.bindGender(userInfo)
-                tvName.text = userInfo.name
-                tvAccount.text = String.format("%s：%s", getString(R.string.account), userInfo.account)
+                tvGender.bindGender(clientInfo)
+                tvName.text = clientInfo.name
+                tvAccount.text = String.format("%s：%s", getString(R.string.account), clientInfo.account)
                 tvAuth.text = String.format(
                     "%s：%s",
                     getString(R.string.authority),
-                    when (userInfo.auth) {
+                    when (clientInfo.auth) {
                         UserPref.Authority.STUDENT -> getString(R.string.student)
                         UserPref.Authority.TEACHER -> getString(R.string.teacher)
                         else -> getString(R.string.unknown)
                     }
                 )
                 tvSchool.apply {
-                    isVisible = (userInfo.auth == UserPref.Authority.STUDENT) && (userInfo.studentInfo != null) && (userInfo.studentInfo.school != null) && userInfo.studentInfo.school.isNotEmpty()
-                    text = String.format("%s：%s", getString(R.string.school), userInfo.studentInfo?.school)
+                    isVisible = (clientInfo.auth == UserPref.Authority.STUDENT) && (clientInfo.studentInfo != null) && (clientInfo.studentInfo.school != null) && clientInfo.studentInfo.school.isNotEmpty()
+                    text = String.format("%s：%s", getString(R.string.school), clientInfo.studentInfo?.school)
                 }
                 tvGrade.apply {
-                    isVisible = (userInfo.auth == UserPref.Authority.STUDENT) && (userInfo.studentInfo != null) && (userInfo.studentInfo.gradeId != null)
-                    text = String.format("%s：%s", getString(R.string.grade), launch2Act.publicVM.gradeList.value?.find { it.id == userInfo.studentInfo?.gradeId }?.name)
+                    isVisible = (clientInfo.auth == UserPref.Authority.STUDENT) && (clientInfo.studentInfo != null) && (clientInfo.studentInfo.gradeId != null)
+                    text = String.format("%s：%s", getString(R.string.grade), launch2Act.publicVM.gradeList.value?.find { it.id == clientInfo.studentInfo?.gradeId }?.name)
                 }
             }
             itemPersonalIntro.apply {
-                root.isVisible = (userInfo.intro != null) && userInfo.intro.isNotEmpty()
+                root.isVisible = (clientInfo.intro != null) && clientInfo.intro.isNotEmpty()
                 tvIntroTitle.text = String.format("%s：", getString(R.string.intro))
-                tvIntro.text = userInfo.intro
+                tvIntro.text = clientInfo.intro
             }
             itemPersonalInfo.apply {
-                root.isVisible = (userInfo.birthday != null)
-                        || (userInfo.homePhone != null && userInfo.homePhone.isNotEmpty())
-                        || (userInfo.cellPhone != null && userInfo.cellPhone.isNotEmpty())
-                        || (userInfo.email != null && userInfo.email.isNotEmpty())
+                root.isVisible = (clientInfo.birthday != null)
+                        || (clientInfo.homePhone != null && clientInfo.homePhone.isNotEmpty())
+                        || (clientInfo.cellPhone != null && clientInfo.cellPhone.isNotEmpty())
+                        || (clientInfo.email != null && clientInfo.email.isNotEmpty())
                 itemBirthday.apply {
-                    root.isVisible = userInfo.birthday != null
+                    root.isVisible = clientInfo.birthday != null
                     ivIcon.bindImg(resId = R.drawable.ic_twotone_today_24_gray)
-                    userInfo.birthday?.let {
+                    clientInfo.birthday?.let {
                         tvText.text = String.format("%s：%s", getString(R.string.birthday), SimpleDateFormat("yyyy-MM-dd", Locale.TAIWAN).format(it))
                     }
                 }
                 itemHomePlone.apply {
-                    root.isVisible = (userInfo.homePhone != null) && userInfo.homePhone.isNotEmpty()
+                    root.isVisible = (clientInfo.homePhone != null) && clientInfo.homePhone.isNotEmpty()
                     ivIcon.bindImg(resId = R.drawable.ic_twotone_contact_phone_24_gray)
-                    tvText.text = String.format("%s：%s", getString(R.string.home_phone), userInfo.homePhone)
+                    tvText.text = String.format("%s：%s", getString(R.string.home_phone), clientInfo.homePhone)
                 }
                 itemCellPlone.apply {
-                    root.isVisible = (userInfo.cellPhone != null) && userInfo.cellPhone.isNotEmpty()
+                    root.isVisible = (clientInfo.cellPhone != null) && clientInfo.cellPhone.isNotEmpty()
                     ivIcon.bindImg(resId = R.drawable.ic_baseline_smartphone_24_gray)
-                    tvText.text = String.format("%s：%s", getString(R.string.cell_phone), userInfo.cellPhone)
+                    tvText.text = String.format("%s：%s", getString(R.string.cell_phone), clientInfo.cellPhone)
                 }
                 itemEmail.apply {
-                    root.isVisible = (userInfo.email != null) && userInfo.email.isNotEmpty()
+                    root.isVisible = (clientInfo.email != null) && clientInfo.email.isNotEmpty()
                     ivIcon.bindImg(resId = R.drawable.ic_twotone_email_24_gray)
-                    tvText.text = String.format("%s：%s", getString(R.string.email), userInfo.email)
+                    tvText.text = String.format("%s：%s", getString(R.string.email), clientInfo.email)
                 }
             }
             itemPersonalComment.apply {
-                root.isVisible = (userInfo.auth == UserPref.Authority.TEACHER)
-                if (userInfo.auth == UserPref.Authority.TEACHER) binding.itemData.itemPersonalComment.pcCommentScore.bindChartComment(userInfo)
+                root.isVisible = (clientInfo.auth == UserPref.Authority.TEACHER)
+                if (clientInfo.auth == UserPref.Authority.TEACHER) binding.itemData.itemPersonalComment.pcCommentScore.bindChartComment(clientInfo)
 
                 itemPersonalReply.apply {
-                    root.isVisible = (userInfo.auth == UserPref.Authority.TEACHER)
-                    if (userInfo.auth == UserPref.Authority.TEACHER) binding.itemData.itemPersonalReply.pcReplyRate.bindChartReply(userInfo)
+                    root.isVisible = (clientInfo.auth == UserPref.Authority.TEACHER)
+                    if (clientInfo.auth == UserPref.Authority.TEACHER) binding.itemData.itemPersonalReply.pcReplyRate.bindChartReply(clientInfo)
                 }
                 itemPersonalStudy.apply {
-                    root.isVisible = (userInfo.auth == UserPref.Authority.STUDENT)
+                    root.isVisible = (clientInfo.auth == UserPref.Authority.STUDENT)
                     itemCourse.apply {
                         ivIcon.bindImg(resId = R.drawable.ic_twotone_history_toggle_off_24_gray)
                         tvText.text = getString(R.string.course)
@@ -291,18 +283,18 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                 }
                 itemPersonalSetting.apply {
                     itemReplyRemind.apply {
-                        root.isVisible = (userInfo.userConfig != null) && (userInfo.userConfig.replyNotice != null)
+                        root.isVisible = (clientInfo.userConfig != null) && (clientInfo.userConfig.replyNotice != null)
                         ivIcon.bindImg(resId = R.drawable.ic_twotone_quickreply_24_gray)
                         tvText.text = getString(R.string.reply_remind)
                         scSwitch.isVisible = true
-                        scSwitch.isChecked = userInfo.userConfig?.replyNotice ?: true
+                        scSwitch.isChecked = clientInfo.userConfig?.replyNotice ?: true
                     }
                     itemMsgRemind.apply {
-                        root.isVisible = (userInfo.userConfig != null) && (userInfo.userConfig.msgNotice != null)
+                        root.isVisible = (clientInfo.userConfig != null) && (clientInfo.userConfig.msgNotice != null)
                         ivIcon.bindImg(resId = R.drawable.ic_twotone_message_24_gray)
                         tvText.text = getString(R.string.msg_remind)
                         scSwitch.isVisible = true
-                        scSwitch.isChecked = userInfo.userConfig?.msgNotice ?: true
+                        scSwitch.isChecked = clientInfo.userConfig?.msgNotice ?: true
                     }
                 }
             }

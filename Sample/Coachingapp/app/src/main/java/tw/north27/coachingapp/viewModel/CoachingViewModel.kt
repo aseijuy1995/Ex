@@ -12,7 +12,7 @@ import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.request.TeacherRequest
 import tw.north27.coachingapp.repository.IActionRepository
 
@@ -21,7 +21,7 @@ class CoachingViewModel(
     private val actionRepo: IActionRepository
 ) : BaseAndroidViewModel(application) {
 
-    private val _teacherListState = MutableLiveData<ViewState<List<UserInfo>>>(ViewState.initial())
+    private val _teacherListState = MutableLiveData<ViewState<List<ClientInfo>>>(ViewState.initial())
 
     val teacherListState = _teacherListState.asLiveData()
 
@@ -37,8 +37,8 @@ class CoachingViewModel(
         val account = cxt.userPref.getAccount().first()
         val results = actionRepo.fetchTeacherList(
             TeacherRequest(
-                account = account,
-                educationId = educationId,
+                clientId = account,
+                educationLevelId = educationId,
                 gradeId = gradeId,
                 subjectId = subjectId,
                 unitId = unitId,
@@ -47,7 +47,7 @@ class CoachingViewModel(
             )
         )
         when (results) {
-            is Results.Successful<List<UserInfo>> -> {
+            is Results.Successful<List<ClientInfo>> -> {
                 if (results.data.isEmpty())
                     _teacherListState.postValue(ViewState.empty())
                 else

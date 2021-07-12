@@ -11,7 +11,7 @@ fun askListTest(roomId: Long): List<AskInfo> {
                 AskInfo(
                     id = 1L,
                     senderAct = "rebeccaAct",
-                    receiverAct = accountTest,
+                    receiverAct = account_Test,
                     askType = AskType.TEXT,
                     text = "老師你好，國語排一排的是什麼意思呢?",
                     isRead = true,
@@ -19,7 +19,7 @@ fun askListTest(roomId: Long): List<AskInfo> {
                 ),
                 AskInfo(
                     id = 2L,
-                    senderAct = accountTest,
+                    senderAct = account_Test,
                     receiverAct = "rebeccaAct",
                     askType = AskType.TEXT,
                     text = "排隊的意思",
@@ -29,7 +29,7 @@ fun askListTest(roomId: Long): List<AskInfo> {
                 AskInfo(
                     id = 3L,
                     senderAct = "rebeccaAct",
-                    receiverAct = accountTest,
+                    receiverAct = account_Test,
                     askType = AskType.TEXT,
                     text = "謝謝老師!",
                     isRead = true,
@@ -43,7 +43,7 @@ fun askListTest(roomId: Long): List<AskInfo> {
                 AskInfo(
                     id = 1L,
                     senderAct = "rebeccaAct",
-                    receiverAct = accountTest,
+                    receiverAct = account_Test,
                     askType = AskType.TEXT,
                     text = "老師你好，數線解法有幾種?",
                     isRead = true,
@@ -51,7 +51,7 @@ fun askListTest(roomId: Long): List<AskInfo> {
                 ),
                 AskInfo(
                     id = 2L,
-                    senderAct = accountTest,
+                    senderAct = account_Test,
                     receiverAct = "rebeccaAct",
                     askType = AskType.TEXT,
                     text = "很多種",

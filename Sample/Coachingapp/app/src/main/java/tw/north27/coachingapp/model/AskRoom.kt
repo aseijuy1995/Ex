@@ -8,7 +8,7 @@ import java.util.*
 /**
  * 提問室資訊
  * @param id >> 提問室id
- * @param otherUserInfo >> 對方用戶資訊
+ * @param otherClientInfo >> 對方用戶資訊
  * @param educationLevelId >> 教育程度Id
  * @param gradeId >> 年級Id
  * @param subjectId >> 科目Id
@@ -30,7 +30,7 @@ import java.util.*
 @Parcelize
 data class AskRoom(
     @SerializedName("id") var id: Long,
-    @SerializedName("other_user_info") var otherUserInfo: UserInfo,
+    @SerializedName("other_user_info") var otherClientInfo: ClientInfo,
     @SerializedName("education_level_id") var educationLevelId: Long,
     @SerializedName("grade_id") var gradeId: Long,
     @SerializedName("subject_id") var subjectId: Long,

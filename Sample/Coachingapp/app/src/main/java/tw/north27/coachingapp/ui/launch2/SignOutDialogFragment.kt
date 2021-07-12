@@ -2,18 +2,16 @@ package tw.north27.coachingapp.ui.launch2
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.yujie.utilmodule.base.BaseDialogFragment
 import com.yujie.utilmodule.ext.clicksObserve
-import com.yujie.utilmodule.util.ViewState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentSignOutDialogBinding
-import tw.north27.coachingapp.model.SignInCode
 import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.SignOutViewModel
 
@@ -26,27 +24,15 @@ class SignOutDialogFragment : BaseDialogFragment<FragmentSignOutDialogBinding>(R
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.signOutState.observe(viewLifecycleOwner) {
-            if (it is ViewState.Load) LoadingDialogFragment.show(parentFragmentManager)
-            if (it !is ViewState.Initial && it !is ViewState.Load) LoadingDialogFragment.dismiss()
-            when (it) {
-                is ViewState.Data -> {
-                    val signIn = it.data
-                    Toast.makeText(cxt, signIn.signOutInfo?.msg, Toast.LENGTH_SHORT).show()
-                    when (signIn.signInCode) {
-                        SignInCode.SIGN_OUT_SUCCESS.code -> {
-                            lifecycleScope.launch {
-                                delay(200)
-                                act.finishAffinity()
-                            }
-                        }
-                        SignInCode.SIGN_OUT_FAILED.code -> {
-                        }
-                    }
+        viewModel.isSignOut.observe(viewLifecycleOwner) {
+            if (it) {
+                LoadingDialogFragment.dismiss()
+                lifecycleScope.launch(Dispatchers.IO) {
+                    delay(200)
+                    act.finishAffinity()
                 }
-                //FIXME　整合處理各頁面錯誤
-                is ViewState.Error, is ViewState.Network -> {
-                }
+            } else {
+                LoadingDialogFragment.show(parentFragmentManager)
             }
         }
 

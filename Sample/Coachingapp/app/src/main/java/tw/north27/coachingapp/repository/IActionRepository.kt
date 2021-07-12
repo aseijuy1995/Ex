@@ -4,7 +4,7 @@ import com.yujie.utilmodule.http.Results
 import tw.north27.coachingapp.model.AskInfo
 import tw.north27.coachingapp.model.AskRoom
 import tw.north27.coachingapp.model.CommentInfo
-import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.request.*
 import tw.north27.coachingapp.model.response.PushResponse
 import tw.north27.coachingapp.model.response.ReflectResponse
@@ -20,7 +20,7 @@ interface IActionRepository {
 
     suspend fun fetchAskInfoList(askInfoRequest: AskInfoRequest): Results<List<AskInfo>>
 
-    suspend fun fetchTeacherList(teacherRequest: TeacherRequest): Results<List<UserInfo>>
+    suspend fun fetchTeacherList(teacherRequest: TeacherRequest): Results<List<ClientInfo>>
 
     suspend fun fetchCommentList(commentRequest: CommentRequest): Results<List<CommentInfo>>
 

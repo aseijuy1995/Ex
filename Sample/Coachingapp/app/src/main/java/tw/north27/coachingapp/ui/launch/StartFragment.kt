@@ -22,7 +22,7 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentStartBinding
 import tw.north27.coachingapp.ext.updateApp
 import tw.north27.coachingapp.model.AppCode
-import tw.north27.coachingapp.model.SignInCode
+import tw.north27.coachingapp.model.SignCode
 import tw.north27.coachingapp.ui.launch2.Launch2Activity
 import tw.north27.coachingapp.viewModel.PublicViewModel
 import tw.north27.coachingapp.viewModel.StartViewModel
@@ -71,12 +71,12 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                     Toast.makeText(cxt, signIn.signInInfo?.msg, Toast.LENGTH_SHORT).show()
                     lifecycleScope.launch {
                         delay(200)
-                        when (signIn.signInCode) {
-                            SignInCode.SIGN_IN_SUC.code -> {
+                        when (signIn.signCode) {
+                            SignCode.SIGN__SUC.code -> {
                                 startActivity(Intent(act, Launch2Activity::class.java))
                                 act.finish()
                             }
-                            SignInCode.SIGN_IN_FAIL.code -> {
+                            SignCode.SIGN__FAIL.code -> {
                                 findNavController().navigate(NavGraphLaunchDirections.actionToFragmentSignIn())
                             }
                         }

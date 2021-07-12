@@ -16,7 +16,7 @@ import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.AppConfig
 import tw.north27.coachingapp.model.Gender
-import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.response.*
 import tw.north27.coachingapp.repository.IPublicRepository
 import tw.north27.coachingapp.repository.IUserRepository
@@ -142,7 +142,7 @@ class PublicViewModel(
 
     val personalBgRes = _personalBgRes.asLiveData()
 
-    private val _userState = MutableLiveData<ViewState<UserInfo>>(ViewState.initial())
+    private val _userState = MutableLiveData<ViewState<ClientInfo>>(ViewState.initial())
 
     val userState = _userState.asLiveData()
 
@@ -154,7 +154,7 @@ class PublicViewModel(
         } else {
             val results = userRepo.fetchUser(account = account)
             when (results) {
-                is Results.Successful<UserInfo> -> {
+                is Results.Successful<ClientInfo> -> {
                     val userInfo = results.data
                     _userState.postValue(ViewState.data(userInfo))
                 }

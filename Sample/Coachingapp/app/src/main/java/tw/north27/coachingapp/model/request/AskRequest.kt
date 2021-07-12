@@ -3,12 +3,12 @@ package tw.north27.coachingapp.model.request
 import com.google.gson.annotations.SerializedName
 
 /**
- * @param account >> 帳號
- * @param topAskId >> 最新提問條
+ * @param clientId >> 用戶Id
+ * @param askId >> 最新提問條Id
  * */
 data class AskRoomRequest(
-    @SerializedName("account") val account: String,
-    @SerializedName("ask_id") val topAskId: Long? = null,
+    @SerializedName("client_id") val clientId: String,
+    @SerializedName("ask_id") val askId: Long? = null,
 )
 
 /**

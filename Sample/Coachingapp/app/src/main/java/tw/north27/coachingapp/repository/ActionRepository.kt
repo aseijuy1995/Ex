@@ -6,7 +6,7 @@ import tw.north27.coachingapp.consts.IApiService
 import tw.north27.coachingapp.model.AskInfo
 import tw.north27.coachingapp.model.AskRoom
 import tw.north27.coachingapp.model.CommentInfo
-import tw.north27.coachingapp.model.UserInfo
+import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.request.*
 import tw.north27.coachingapp.model.response.PushResponse
 import tw.north27.coachingapp.model.response.ReflectResponse
@@ -30,7 +30,7 @@ class ActionRepository(private val service: IApiService) : IActionRepository {
         return safeApiResults { service.fetchAskInfoList(askInfoRequest = askInfoRequest) }
     }
 
-    override suspend fun fetchTeacherList(teacherRequest: TeacherRequest): Results<List<UserInfo>> {
+    override suspend fun fetchTeacherList(teacherRequest: TeacherRequest): Results<List<ClientInfo>> {
         return safeApiResults { service.fetchTeacherList(teacherRequest = teacherRequest) }
     }
 

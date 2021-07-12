@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentSignInBinding
-import tw.north27.coachingapp.model.SignInCode
+import tw.north27.coachingapp.model.SignCode
 import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.ui.launch2.Launch2Activity
 import tw.north27.coachingapp.viewModel.SignInViewModel
@@ -45,15 +45,15 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                 is ViewState.Data -> {
                     val signIn = it.data
                     Toast.makeText(cxt, signIn.signInInfo?.msg, Toast.LENGTH_SHORT).show()
-                    when (signIn.signInCode) {
-                        SignInCode.SIGN_IN_SUC.code -> {
+                    when (signIn.signCode) {
+                        SignCode.SIGN__SUC.code -> {
                             lifecycleScope.launch {
                                 delay(200)
                                 startActivity(Intent(act, Launch2Activity::class.java))
                                 act.finish()
                             }
                         }
-                        SignInCode.SIGN_IN_FAIL.code -> {
+                        SignCode.SIGN__FAIL.code -> {
                         }
                     }
                 }
