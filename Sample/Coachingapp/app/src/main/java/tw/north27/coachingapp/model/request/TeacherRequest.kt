@@ -3,7 +3,7 @@ package tw.north27.coachingapp.model.request
 import com.google.gson.annotations.SerializedName
 
 /**
- * 請求 - 老師列表
+ * 請求老師列表
  * @param clientId >> 用戶Id
  * @param educationLevelId >> 教育id
  * @param gradeId >> 年級id
