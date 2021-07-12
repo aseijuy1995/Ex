@@ -30,8 +30,8 @@ data class SignInfo(
  * @param SIGN_OUT_FAILED >> 登出失敗(2003)
  * */
 enum class SignCode(val code: Int) {
-    SIGN__SUC(2000),
-    SIGN__FAIL(2001),
+    SIGN_IN_SUC(2000),
+    SIGN_IN_FAIL(2001),
     SIGN_OUT_SUCCESS(2002),
     SIGN_OUT_FAILED(2003),
 }
@@ -53,7 +53,7 @@ data class SignInInfo(
 /**
  * 用戶資訊
  * @param id >> 用戶Id
- * @param account >> 帳號
+ * @param id >> 帳號
  * @param auth >> 權限，STUDENT、TEACHER
  * //
  * @param bgUrl >> 背景圖
@@ -72,12 +72,9 @@ data class SignInInfo(
 @Parcelize
 data class ClientInfo(
     @SerializedName("id") val id: String,
-    //
-    @SerializedName("account") val account: String,
     @SerializedName("auth") val auth: UserPref.Authority = UserPref.Authority.NONE,
     //
     @SerializedName("bg_url") val bgUrl: String = "",
-    //
     @SerializedName("avatar_url") val avatarUrl: String = "",
     @SerializedName("name") val name: String = "",
     //

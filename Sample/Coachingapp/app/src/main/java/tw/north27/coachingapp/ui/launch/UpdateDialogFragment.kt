@@ -15,7 +15,7 @@ import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentUpdateDialogBinding
-import tw.north27.coachingapp.model.AppCode
+import tw.north27.coachingapp.model.response.AppCode
 import tw.north27.coachingapp.viewModel.PublicViewModel
 
 class UpdateDialogFragment : BaseDialogFragment<FragmentUpdateDialogBinding>(R.layout.fragment_update_dialog) {

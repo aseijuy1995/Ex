@@ -19,21 +19,23 @@ class ApiService(val cxt: Context) : IApiService {
 
     override fun refreshToken(@Body tokenRequest: TokenRequest): TokenInfo {
         sleep(1500)
-        return tokenInfo_Test
+        val clientId = tokenRequest.clientId
+        val refreshToken = tokenRequest.refreshToken
+        val tokenInfo = tokenInfo_Test
+        logI("fetchAppConfig = ${Gson().toJson(tokenInfo)}")
+        return tokenInfo
     }
 
     override suspend fun fetchAppConfig(@Body appConfigRequest: AppConfigRequest): AppConfig {
         delay(1500)
-        /**
-         * appConfigRequest.deviceType == DeviceType.ANDROID.type >> 設備類型
-         * */
+        val deviceType = appConfigRequest.deviceType
         val appConfig: AppConfig
         appConfig = AppConfig(
             appCode = AppCode.MOTION.code,
             motionInfo = MotionInfo(
                 bgUrl = "https://image.flaticon.com/icons/png/512/178/178158.png",
                 title = cxt.getString(R.string.update_title),
-                versionNameMode = UpdateApp.VersionNameMode.DEFAULT.type,
+                versionNameMode = UpdateApp.VersionNameMode.DEFAULT,
                 versionName = "1.0.0",
                 url = "https://play.google.com/store/apps/details?id=ojisan.Droid&hl=zh_TW",
                 content = "1. 資料顯示錯誤\n" +
@@ -64,7 +66,7 @@ class ApiService(val cxt: Context) : IApiService {
         return appConfig
     }
 
-    override suspend fun checkSign(signRequest: SignRequest): SignInfo {
+    override suspend fun checkSign(@Body signRequest: SignRequest): SignInfo {
         delay(1500)
         val signInfo: SignInfo
         signInfo = signSuc_Test
@@ -102,50 +104,104 @@ class ApiService(val cxt: Context) : IApiService {
         return education
     }
 
-    override suspend fun fetchAskRoomList(@Body askRoomRequest: AskRoomRequest): List<AskRoom> {
+    override suspend fun fetchTeacherList(@Body teacherRequest: TeacherRequest): List<ClientInfo> {
         delay(1500)
-        val account = askRoomRequest.clientId//撈取相關提問室參數
+        val educationLevelId = teacherRequest.educationLevelId
+        val gradeId = teacherRequest.gradeId
+        val subjectId = teacherRequest.subjectId
+        val unitId = teacherRequest.unitId
+        val index = teacherRequest.index
+        val num = teacherRequest.num
+        var list =
+            if (educationLevelId == null && gradeId == null && subjectId == null && unitId == null)
+                teacherInfoListTest
+            else if (educationLevelId == null && gradeId == null && subjectId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.id == unitId } ?: false }
+            else if (educationLevelId == null && gradeId == null && unitId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.subjectId == subjectId } ?: false }
+            else if (educationLevelId == null && subjectId == null && unitId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId } ?: false }
+            else if (gradeId == null && subjectId == null && unitId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId } ?: false }
+            else if (educationLevelId == null && gradeId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.subjectId == subjectId || it.id == unitId } ?: false }
+            else if (educationLevelId == null && subjectId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId || it.id == unitId } ?: false }
+            else if (educationLevelId == null && unitId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId || it.subjectId == subjectId } ?: false }
+            else if (gradeId == null && subjectId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId || it.id == unitId } ?: false }
+            else if (gradeId == null && unitId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId || it.subjectId == subjectId } ?: false }
+            else if (subjectId == null && unitId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId || it.gradeId == gradeId } ?: false }
+            else if (educationLevelId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId || it.subjectId == subjectId || it.id == unitId } ?: false }
+            else if (gradeId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId || it.subjectId == subjectId || it.id == unitId } ?: false }
+            else if (subjectId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId || it.gradeId == gradeId || it.id == unitId } ?: false }
+            else if (unitId == null)
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId || it.gradeId == gradeId || it.subjectId == subjectId } ?: false }
+            else
+                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId || it.gradeId == gradeId || it.subjectId == subjectId || it.id == unitId } ?: false }
+
+        var last = index + num
+        if (last > list.size) last = list.size
+        list = list.subList(index, last)
+        logI("fetchAskRoomList = ${Gson().toJson(list)}")
+        return list
+    }
+
+    override suspend fun fetchAskRoomList(@Body askRoomRequest: AskRoomRequest): List<AskRoom> {
+        val clientId = askRoomRequest.clientId
         val askId = askRoomRequest.askId
-        while (askRoomListTest.first().askInfo.id == askId) delay(1500)
-        val askRoomList: List<AskRoom> = askRoomListTest
+        while (askRoomList_Test.first().askRoomInfo.id == askId) delay(3000)
+        val askRoomList: List<AskRoom> = askRoomList_Test
         logI("fetchAskRoomList = ${Gson().toJson(askRoomList)}")
         return askRoomList
     }
 
     override suspend fun updateAskRoomPush(pushRequest: PushRequest): PushResponse {
         delay(1500)
-        return PushResponse(
+        val pushResponse = PushResponse(
             isSuccess = true,
             roomId = pushRequest.roomId,
             isState = pushRequest.isState,
             msg = "更新成功"
         )
+        logI("updateAskRoomPush = ${Gson().toJson(pushResponse)}")
+        return pushResponse
     }
 
     override suspend fun updateAskRoomSound(soundRequest: SoundRequest): SoundResponse {
         delay(1500)
-        return SoundResponse(
+        val soundResponse = SoundResponse(
             isSuccess = true,
             roomId = soundRequest.roomId,
             isState = soundRequest.isState,
             msg = "更新成功"
         )
+        logI("updateAskRoomSound = ${Gson().toJson(soundResponse)}")
+        return soundResponse
     }
 
-    override suspend fun fetchAskInfoList(@Body askInfoRequest: AskInfoRequest): List<AskInfo> {
+    override suspend fun fetchAskRoomInfoList(@Body askRoomInfoRequest: AskRoomInfoRequest): List<AskRoomInfo> {
         delay(1500L)
-        val roomId = askInfoRequest.roomId
-        return askListTest(roomId = roomId)
+        val roomId = askRoomInfoRequest.roomId
+        val askRoomInfoList = askRoomInfoList_Test(roomId = roomId)
+        logI("fetchAskRoomInfoList = ${Gson().toJson(askRoomInfoList)}")
+        return askRoomInfoList
     }
 
     override suspend fun fetchClient(@Body clientRequest: ClientRequest): ClientInfo {
         delay(1500)
-        val userList = teacherInfoListTest.toMutableList().apply {
-            add(userInfoTest)
-        }
-        return userList.find { it.account == clientRequest.clientId }!!
+        val userList = teacherInfoListTest.toMutableList().apply { add(userInfoTest) }
+        val client = userList.find { it.id == clientRequest.clientId }!!
+        logI("fetchClient = ${Gson().toJson(client)}")
+        return client
     }
-
+    //
     override suspend fun updateClient(@Body updateClientRequest: UpdateClientRequest): UpdateClientResponse {
         delay(1500)
         val account = updateClientRequest.clientId
@@ -292,91 +348,6 @@ class ApiService(val cxt: Context) : IApiService {
 //        )
     }
 
-    override suspend fun fetchTeacherList(@Body teacherRequest: TeacherRequest): List<ClientInfo> {
-        delay(1500)
-        val educationId = teacherRequest.educationLevelId
-        val gradeId = teacherRequest.gradeId
-        val subjectId = teacherRequest.subjectId
-        val unitId = teacherRequest.unitId
-        val index = teacherRequest.index
-        val num = teacherRequest.num
-        //account判斷取得哪個帳號的評論
-        logD(
-            "educationId = $educationId\n" +
-                    "gradeId = $gradeId\n" +
-                    "subjectId = $subjectId\n" +
-                    "unitId = $unitId"
-        )
-        var list =
-            if (educationId == null && gradeId == null && subjectId == null && unitId == null)
-                teacherInfoListTest
-            else if (educationId == null && gradeId == null && subjectId == null)
-                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.id == unitId } ?: false }
-            else if (educationId == null && gradeId == null && unitId == null)
-                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.subjectId == subjectId } ?: false }
-//            else if (educationId == null && subjectId == null && unitId == null)
-//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId } ?: false }
-//            else if (gradeId == null && subjectId == null && unitId == null)
-//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationId == educationId } ?: false }
-//            else if (educationId == null && gradeId == null)
-            else if (educationId == null && gradeId == null)
-                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.subjectId == subjectId || it.id == unitId } ?: false }
-//            else if (educationId == null && subjectId == null)
-//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId || it.id == unitId } ?: false }
-//            else if (educationId == null && unitId == null)
-//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId || it.subjectId == subjectId } ?: false }
-//            else if (gradeId == null && subjectId == null)
-//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationId == educationId || it.id == unitId } ?: false }
-//            else if (gradeId == null && unitId == null)
-//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationId == educationId || it.subjectId == subjectId } ?: false }
-//            else if (subjectId == null && unitId == null)
-//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationId == educationId || it.gradeId == gradeId } ?: false }
-//            else if (educationId == null)
-//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId || it.subjectId == subjectId || it.id == unitId } ?: false }
-//            else if (gradeId == null)
-//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationId == educationId || it.subjectId == subjectId || it.id == unitId } ?: false }
-//            else if (subjectId == null)
-//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationId == educationId ||  it.gradeId == gradeId || it.id == unitId } ?: false }
-//            else if (unitId == null)
-//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any { it.educationId == educationId ||  it.gradeId == gradeId  || it.subjectId == subjectId } ?: false }
-//            else
-//                teacherInfoListTest.filter { it.teacherInfo?.unitsList?.any {  it.educationId == educationId || it.gradeId == gradeId || it.subjectId == subjectId || it.id == unitId } ?: false }
-            //
-            else
-                teacherInfoListTest
-        var last = index + num
-        if (last > list.size) last = list.size
-        return list.subList(index, last)
-    }
-
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-    //
-//    override suspend fun refreshToken(@Query(value = "account") account: String, @Query(value = "access_token") accessToken: String, @Query(value = "refresh_token") refreshToken: String): TokenInfo {
-//        delay(500)
-//        return TokenInfo(
-//            accessToken = "accessToken002",
-//            refreshToken = "refreshToken002"
-//        )
-//    }
-    //
-    //
-    //
-    //
-    //
-    //
-
-    //////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////
-    //////////////////////////////////////////////////////////////////////////////////////////////
-
-//
-//
 //        )
 
 //
@@ -384,623 +355,6 @@ class ApiService(val cxt: Context) : IApiService {
 //    var deleteNotify: NotifyInfo? = null
 //    var isReadAllNotify: Boolean? = null
 //
-
-
-    //    override suspend fun refreshToken(@Query(value = "refresh_token") refreshToken: String): TokenInfo {
-//        delay(500)
-//        return TokenInfo(
-//            accessToken = "accessToken002",
-//            refreshToken = "refreshToken002"
-//        )
-//    }
-//
-//
-
-//
-//    //
-//    //
-//    //
-//    //
-//
-//    override suspend fun getLoadChat(): List<ChatInfo> {
-//        delay(1500)
-////        return listOf()
-//        return listOf(
-//            ChatInfo(
-//                id = 0,
-//                sender = UserInfo(
-//                    id = 0,
-//                    account = "jason.89",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://cf.shopee.tw/file/7da238c4f922ccc81be94692d9449eec",
-//                    name = "jason.89"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "2/19",
-//                chatType = ChatType.TEXT,
-//                text = "不會哦",
-//                read = ChatRead.HAVE_READ,
-//                unReadCount = 0,
-//                isSound = true
-//            ),
-//            ChatInfo(
-//                id = 1,
-//                sender = UserInfo(
-//                    id = 1,
-//                    account = "yc86209",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://cf.shopee.tw/file/1a765f40612e142a1e308bd4c3cb07b9",
-//                    name = "yc86209"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "1/7",
-//                chatType = ChatType.TEXT,
-//                text = "好哦，感謝",
-//                read = ChatRead.UN_READ,
-//                unReadCount = 2,
-//                isSound = true
-//            ),
-//            ChatInfo(
-//                id = 2,
-//                sender = UserInfo(
-//                    id = 2,
-//                    account = "turboted",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
-//                    name = "turboted"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "1/3",
-//                chatType = ChatType.TEXT,
-//                text = "已下單有時間再看一下感恩",
-//                read = ChatRead.UN_READ,
-//                unReadCount = 5,
-//                isSound = false
-//            ),
-//            ChatInfo(
-//                id = 3,
-//                sender = UserInfo(
-//                    id = 3,
-//                    account = "ghr7v2c41o",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://cf.shopee.tw/file/da790bc3a58c6099ec5b759af0bda797",
-//                    name = "ghr7v2c41o"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "2020/12/28",
-//                chatType = ChatType.TEXT,
-//                text = "您的這個寄件編號一直產生不了 已經三天時間 蝦皮也沒辦法解決 您是否可以重新下訂試試",
-//                read = ChatRead.UN_READ,
-//                unReadCount = 3,
-//                isSound = true
-//            ),
-//            ChatInfo(
-//                id = 4,
-//                sender = UserInfo(
-//                    id = 4,
-//                    account = "iuea654321",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
-//                    name = "iuea654321"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "2020/12/17",
-//                chatType = ChatType.TEXT,
-//                text = "好哦感謝 待收到領貨 謝謝",
-//                read = ChatRead.UN_READ,
-//                unReadCount = 14,
-//                isSound = true
-//            ),
-//            ChatInfo(
-//                id = 5,
-//                sender = UserInfo(
-//                    id = 5,
-//                    account = "lbj7871",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://cf.shopee.tw/file/66f6a55ddd243f22b78c99847406b516",
-//                    name = "lbj7871"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "2020/12/17",
-//                chatType = ChatType.TEXT,
-//                text = "好",
-//                read = ChatRead.HAVE_READ,
-//                unReadCount = 0,
-//                isSound = true
-//            ),
-//            ChatInfo(
-//                id = 6,
-//                sender = UserInfo(
-//                    id = 6,
-//                    account = "jimmy_jbj",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://cf.shopee.tw/file/77f6988c95356ae95bf22ff65682c92c",
-//                    name = "jimmy_jbj"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "2020/12/16",
-//                chatType = ChatType.TEXT,
-//                text = "[貼圖]",
-//                read = ChatRead.UN_READ,
-//                unReadCount = 12,
-//                isSound = false
-//            ),
-//            ChatInfo(
-//                id = 7,
-//                sender = UserInfo(
-//                    id = 7,
-//                    account = "cg71124",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
-//                    name = "cg71124"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "2020/11/28",
-//                chatType = ChatType.TEXT,
-//                text = "你好對哦  一頭是usb 一頭是lighting",
-//                read = ChatRead.UN_READ,
-//                unReadCount = 5,
-//                isSound = false
-//            ),
-//            ChatInfo(
-//                id = 8,
-//                sender = UserInfo(
-//                    id = 8,
-//                    account = "shopee24h",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://cf.shopee.tw/file/589630be1b03af44d5c8ce0ddc73b4e4",
-//                    name = "shopee24h"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "2020/11/10",
-//                chatType = ChatType.TEXT,
-//                text = "\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3嗨，11.11 最強購物節就是明天！為您送上全平台折扣券優惠~一起剁手吧！\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3\uD83D\uDCE3\n" +
-//                        "\n" +
-//                        "\uD83C\uDF81\uD83C\uDF81\uD83C\uDF81",
-//                read = ChatRead.HAVE_READ,
-//                unReadCount = 0,
-//                isSound = true
-//            ),
-//            ChatInfo(
-//                id = 9,
-//                sender = UserInfo(
-//                    id = 9,
-//                    account = "itbook168",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
-//                    name = "itbook168"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "2020/8/19",
-//                chatType = ChatType.TEXT,
-//                text = "[貼圖]",
-//                read = ChatRead.HAVE_READ,
-//                unReadCount = 0,
-//                isSound = true
-//            ),
-//            ChatInfo(
-//                id = 10,
-//                sender = UserInfo(
-//                    id = 10,
-//                    account = "e4dcomic",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://cf.shopee.tw/file/60f61225f97535ce4a86695743e4d26c",
-//                    name = "e4dcomic"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "2020/5/8",
-//                chatType = ChatType.TEXT,
-//                text = "放到購物車會自動結算",
-//                read = ChatRead.HAVE_READ,
-//                unReadCount = 0,
-//                isSound = true
-//            ),
-//            ChatInfo(
-//                id = 11,
-//                sender = UserInfo(
-//                    id = 11,
-//                    account = "l91113001",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://cf.shopee.tw/file/8813359970cc66bca769e27b69701bd7",
-//                    name = "l91113001"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "2020/4/8",
-//                chatType = ChatType.TEXT,
-//                text = "[貼圖]",
-//                read = ChatRead.HAVE_READ,
-//                unReadCount = 0,
-//                isSound = true
-//            ),
-//            ChatInfo(
-//                id = 12,
-//                sender = UserInfo(
-//                    id = 12,
-//                    account = "zeloves.hz",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://www.actphoto.org.tw/themes/zh-tw/assets/images/default_member.jpg",
-//                    name = "zeloves.hz"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "2020/3/22",
-//                chatType = ChatType.TEXT,
-//                text = "拿到了謝謝",
-//                read = ChatRead.UN_READ,
-//                unReadCount = 99,
-//                isSound = true
-//            ),
-//            ChatInfo(
-//                id = 13,
-//                sender = UserInfo(
-//                    id = 13,
-//                    account = "xhkjdzsf",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://cf.shopee.tw/file/106f2613e695547c9be9a6d7edf21560",
-//                    name = "xhkjdzsf"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "2020/1/1",
-//                chatType = ChatType.TEXT,
-//                text = "[貼圖]",
-//                read = ChatRead.UN_READ,
-//                unReadCount = 50,
-//                isSound = true
-//            ),
-//            ChatInfo(
-//                id = 14,
-//                sender = UserInfo(
-//                    id = 14,
-//                    account = "dmf666",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://cf.shopee.tw/file/56022c505d88d5f690e9ab833e1c7593",
-//                    name = "dmf666"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "2019/11/17",
-//                chatType = ChatType.TEXT,
-//                text = "好哦 謝謝",
-//                read = ChatRead.UN_READ,
-//                unReadCount = 100,
-//                isSound = true
-//            )
-//        )
-//    }
-//
-//    override suspend fun postSwitchChatSound(chat: ChatInfo): Boolean {
-//        delay(500)
-//        return true
-//    }
-//
-//    override suspend fun deleteChatRoom(chat: ChatInfo): Boolean {
-//        delay(500)
-//        return true
-//    }
-//
-//    override suspend fun getChatList(@Field(value = "chat") chat: ChatInfo): List<ChatInfo> {
-//        delay(1500)
-//        return listOf(
-//            ChatInfo(
-//                id = 0,
-//                sender = UserInfo(
-//                    id = 100,
-//                    account = "jie110",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
-//                    name = "阿吉 - 測試號"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "15:23",
-//                chatType = ChatType.TEXT,
-//                text = "我曾經養了一隻可愛的兔子\n" +
-//                        "在夜市買的，一隻150，米白色，超可愛\uD83D\uDE03\n" +
-//                        "\n" +
-//                        "\n" +
-//                        "而某天，我在花園裡放兔子曬太陽\n" +
-//                        "\n" +
-//                        "我媽打開花園的門想要去倒垃圾的瞬間\n" +
-//                        "兔子蹦蹦跳跳，逃到外面的茶園\n" +
-//                        "開始享受自由\uD83D\uDE11",
-//                read = ChatRead.HAVE_READ,
-//                unReadCount = 0
-//            ),
-//            ChatInfo(
-//                id = 0,
-//                sender = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉",
-//                ),
-//                recipient = UserInfo(
-//                    id = 100,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
-//                    name = "阿吉 - 測試號",
-//                ),
-//                sendTime = "15:44",
-//                chatType = ChatType.TEXT,
-//                text = "當時的我開始緊張的追著跑，\n" +
-//                        "兔子開心的在這茶園裡跳來跳去\uD83D\uDE11\n" +
-//                        "\n" +
-//                        "追不到的我，在心急的狀態下\n" +
-//                        "開始邊跑邊哭邊喘\uD83D\uDE11\n" +
-//                        "\n" +
-//                        "「啊啊嗚嗚嗚，不要再跑了～～～」\n" +
-//                        "「嗚嗚嗚媽媽你幹嘛開門啦～～～」\n" +
-//                        "「嗚嗚嗚嗚，你們快點來抓啦～～～」\n" +
-//                        "\n" +
-//                        "我大姐打開二樓窗戶，指揮著我\n" +
-//                        "「在左邊！⋯往右！對！快追！！」\n" +
-//                        "\n" +
-//                        "我二姐打開另一個二樓窗戶，吃著吐司\n" +
-//                        "「哈哈哈哈哈哈哈哈！！」\n" +
-//                        "\n" +
-//                        "⋯幹，去死\uD83D\uDE11",
-//                read = ChatRead.HAVE_READ,
-//                unReadCount = 0
-//            ),
-//            ChatInfo(
-//                id = 0,
-//                sender = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                recipient = UserInfo(
-//                    id = 100,
-//                    account = "jie110",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
-//                    name = "阿吉 - 測試號"
-//                ),
-//                sendTime = "15:46",
-//                chatType = ChatType.TEXT,
-//                text = "我依舊邊大哭邊追\n" +
-//                        "真的是一直跑一直掉眼淚地大喊\n" +
-//                        "\n" +
-//                        "「不要再跑了！蛇會吃掉你啦！！」\n" +
-//                        "\n" +
-//                        "\n" +
-//                        "嗓門大的好處，在這時完美體現了\n" +
-//                        "我嚎啕大哭到鄰居們紛紛前來抓兔子\n" +
-//                        "至少有快10個人跟我一起在茶園奔跑\n" +
-//                        "只為了抓到那隻該死的兔子",
-//                read = ChatRead.HAVE_READ,
-//                unReadCount = 0
-//            ),
-//            ChatInfo(
-//                id = 0,
-//                sender = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                recipient = UserInfo(
-//                    id = 100,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
-//                    name = "阿吉 - 測試號"
-//                ),
-//                sendTime = "15:46",
-//                chatType = ChatType.TEXT,
-//                text = "⋯你們能想像那畫面有多好笑嗎\uD83D\uDE03",
-//                read = ChatRead.HAVE_READ,
-//                unReadCount = 0
-//            ),
-//            ChatInfo(
-//                id = 0,
-//                sender = UserInfo(
-//                    id = 100,
-//                    account = "jie110",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
-//                    name = "阿吉 - 測試號"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "16:01",
-//                chatType = ChatType.TEXT,
-//                text = "我爸拿著麻布袋跑來跑去\n" +
-//                        "我媽一直尖叫的用手指在導航著我們\n" +
-//                        "其它鄰居還拿掃把、耙子、捕鼠籠（？）\n" +
-//                        "一起在茶園裡抓一隻兔子",
-//                read = ChatRead.HAVE_READ,
-//                unReadCount = 0
-//            ),
-//            ChatInfo(
-//                id = 0,
-//                sender = UserInfo(
-//                    id = 100,
-//                    account = "jie110",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
-//                    name = "阿吉 - 測試號"
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉"
-//                ),
-//                sendTime = "16:19",
-//                chatType = ChatType.TEXT,
-//                text = "最終，花了很久的時間\n" +
-//                        "終於把兔子逼到角落\n" +
-//                        "我跑過去抱起兔子邊哭邊罵三字經\n" +
-//                        "\n" +
-//                        "但兔子在我懷裡，比我還喘⋯\uD83D\uDE11",
-//                read = ChatRead.HAVE_READ,
-//                unReadCount = 0
-//            ),
-//            ChatInfo(
-//                id = 0,
-//                sender = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉",
-//                ),
-//                recipient = UserInfo(
-//                    id = 100,
-//                    account = "jie110",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
-//                    name = "阿吉 - 測試號",
-//                ),
-//                sendTime = "16:20",
-//                chatType = ChatType.TEXT,
-//                text = "而最後我和爸媽一起跟鄰居們道謝\n" +
-//                        "還摘了一些自己種的木瓜當作小禮物送給鄰居\n" +
-//                        "\n" +
-//                        "這件事情才落幕。",
-//                read = ChatRead.HAVE_READ,
-//                unReadCount = 0
-//            ),
-//            ChatInfo(
-//                id = 0,
-//                sender = UserInfo(
-//                    id = 100,
-//                    account = "jie110",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://lh3.googleusercontent.com/proxy/J6HSb3iafP23kEvTrB4TVG7mqwLl_Jl-Y1h2GnHGzRit1Mv-RwT0gxp0PapQO5YWAlkBtMepmVjdmV3XseUlN1qR_mdzEoBvUuAW27Jd5znM_AZI7_qSeruT",
-//                    name = "阿吉 - 測試號",
-//                ),
-//                recipient = UserInfo(
-//                    id = -1,
-//                    account = "north27",
-//                    auth = UserPref.Authority.STUDENT,
-//                    avatarPath = "https://memes.tw/user-template-thumbnail/7c1c504fb55e5012dbc4e4c5a372cb4e.jpg",
-//                    name = "阿吉",
-//                ),
-//                sendTime = "18:30",
-//                chatType = ChatType.TEXT,
-//                text = "阿為什麼現在又想起這件事情？\n" +
-//                        "因為鄰居其中一個就是我同學\n" +
-//                        "剛剛聊天聊到這個\uD83E\uDD72\n" +
-//                        "事隔快10年了，還在嘲笑我當時哭很大聲\uD83E\uDD72\n" +
-//                        "\n" +
-//                        "\n" +
-//                        "所以真的不能有把柄在朋友手上，\n" +
-//                        "會被笑到過世為止\uD83E\uDD72\n" +
-//                        "\n" +
-//                        "可惡。",
-//                read = ChatRead.HAVE_READ,
-//                unReadCount = 0
-//            )
-//
-//        )
-//
-//    }
 //
 //    override suspend fun getLoadNotify(@Field(value = "page") page: Int): List<NotifyInfo> {
 //        var notifyList = mutableListOf<Pair<Int, MutableList<NotifyInfo>>>()

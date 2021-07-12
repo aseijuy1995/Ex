@@ -97,10 +97,10 @@ class UpdateApp<T> constructor(private val build: Builder<T>) {
      * MIDDLE >> 中段
      * DEFAULT >> 後段（預設）
      * */
-    enum class VersionNameMode(val type: String) {
-        FRONT("front"),
-        MIDDLE("middle"),
-        DEFAULT("default")
+    enum class VersionNameMode() {
+        FRONT,
+        MIDDLE,
+        DEFAULT;
     }
 
     data class Update(

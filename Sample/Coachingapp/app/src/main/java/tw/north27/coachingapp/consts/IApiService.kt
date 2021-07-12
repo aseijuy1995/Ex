@@ -21,6 +21,7 @@ interface IApiService {
     @POST
     fun refreshToken(@Body tokenRequest: TokenRequest): TokenInfo
 
+
     /**
      * 獲取App初始設定
      * @param appConfigRequest >> AppConfigRequest::class.java
@@ -58,14 +59,6 @@ interface IApiService {
     suspend fun fetchTeacherList(@Body teacherRequest: TeacherRequest): List<ClientInfo>
 
     /**
-     * 獲取房間提問列表
-     * @header Bearer accessToken
-     * @param askInfoRequest >> AskRoomInfoRequest::class.java
-     * */
-    @POST
-    suspend fun fetchAskInfoList(@Body askInfoRequest: AskInfoRequest): List<AskInfo>
-
-    /**
      * 獲取提問室列表
      * @header Bearer accessToken
      * @param askRoomRequest >> AskRoomRequest::class.java
@@ -89,6 +82,16 @@ interface IApiService {
     @PUT
     suspend fun updateAskRoomSound(@Body soundRequest: SoundRequest): SoundResponse
 
+
+    /**
+     * 獲取提問室的列表詳細資訊
+     * @header Bearer accessToken
+     * @param askRoomInfoRequest >> AskRoomInfoRequest::class.java
+     * */
+    @POST
+    suspend fun fetchAskRoomInfoList(@Body askRoomInfoRequest: AskRoomInfoRequest): List<AskRoomInfo>
+
+    //
     /**
      * 獲取用戶資訊
      * @header Bearer accessToken

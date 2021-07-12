@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.AppConfig
+import tw.north27.coachingapp.model.response.AppConfig
 import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.response.*

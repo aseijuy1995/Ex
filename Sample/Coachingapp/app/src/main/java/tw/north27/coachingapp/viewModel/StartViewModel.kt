@@ -47,10 +47,10 @@ class StartViewModel(
                     val pushTokenNew: String
                     val authNew: UserPref.Authority
                     when (signIn.signCode) {
-                        SignCode.SIGN__SUC.code -> {
+                        SignCode.SIGN_IN_SUC.code -> {
                             val signInInfo = signIn.signInInfo!!
                             val userInfo = signInInfo.clientInfo!!
-                            accountNew = userInfo.account
+                            accountNew = userInfo.id
                             expireTimeNew = signInInfo.expiresIn
                             accessTokenNew = signInInfo.accessToken
                             refreshTokenNew = signInInfo.refreshToken
@@ -67,7 +67,7 @@ class StartViewModel(
                                 auth = authNew,
                             )
                         }
-                        SignCode.SIGN__FAIL.code -> {
+                        SignCode.SIGN_IN_FAIL.code -> {
                             accountNew = ""
                             expireTimeNew = 0L
                             accessTokenNew = ""

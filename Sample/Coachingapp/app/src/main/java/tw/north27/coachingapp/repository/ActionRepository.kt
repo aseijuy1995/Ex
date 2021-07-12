@@ -3,7 +3,7 @@ package tw.north27.coachingapp.repository
 import com.yujie.utilmodule.http.Results
 import com.yujie.utilmodule.http.safeApiResults
 import tw.north27.coachingapp.consts.IApiService
-import tw.north27.coachingapp.model.AskInfo
+import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.AskRoom
 import tw.north27.coachingapp.model.CommentInfo
 import tw.north27.coachingapp.model.ClientInfo
@@ -26,8 +26,8 @@ class ActionRepository(private val service: IApiService) : IActionRepository {
         return safeApiResults { service.updateAskRoomSound(soundRequest = soundRequest) }
     }
 
-    override suspend fun fetchAskInfoList(askInfoRequest: AskInfoRequest): Results<List<AskInfo>> {
-        return safeApiResults { service.fetchAskInfoList(askInfoRequest = askInfoRequest) }
+    override suspend fun fetchAskInfoList(askRoomInfoRequest: AskRoomInfoRequest): Results<List<AskRoomInfo>> {
+        return safeApiResults { service.fetchAskRoomInfoList(askRoomInfoRequest = askRoomInfoRequest) }
     }
 
     override suspend fun fetchTeacherList(teacherRequest: TeacherRequest): Results<List<ClientInfo>> {

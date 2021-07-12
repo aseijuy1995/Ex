@@ -3,8 +3,12 @@ package tw.north27.coachingapp.ui.launch2.ask
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
+import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseFragment
+import com.yujie.utilmodule.ext.clicksObserve
+import com.yujie.utilmodule.ext.visible
 import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R

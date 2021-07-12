@@ -1,7 +1,7 @@
 package tw.north27.coachingapp.repository
 
 import com.yujie.utilmodule.http.Results
-import tw.north27.coachingapp.model.AskInfo
+import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.AskRoom
 import tw.north27.coachingapp.model.CommentInfo
 import tw.north27.coachingapp.model.ClientInfo
@@ -18,7 +18,7 @@ interface IActionRepository {
 
     suspend fun updateAskRoomSound(soundRequest: SoundRequest): Results<SoundResponse>
 
-    suspend fun fetchAskInfoList(askInfoRequest: AskInfoRequest): Results<List<AskInfo>>
+    suspend fun fetchAskInfoList(askRoomInfoRequest: AskRoomInfoRequest): Results<List<AskRoomInfo>>
 
     suspend fun fetchTeacherList(teacherRequest: TeacherRequest): Results<List<ClientInfo>>
 

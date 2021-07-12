@@ -1,29 +1,11 @@
-package tw.north27.coachingapp.model
+package tw.north27.coachingapp.model.response
 
 import com.google.gson.annotations.SerializedName
 import com.yujie.utilmodule.util.UpdateApp
 import java.util.*
 
 /**
- * @param deviceType >> 設備類型
- * */
-data class AppConfigRequest(
-    @SerializedName("device_type") val deviceType: String
-)
-
-/**
- * @param ANDROID >> Android
- * @param IOS >> ios
- * @param WEB >> web
- * */
-enum class DeviceType(val type: String) {
-    ANDROID("android"),
-    IOS("ios"),
-    WEB("web");
-}
-
-/**
- * App基礎設定
+ * App初始設定
  * @param appCode >> App狀態碼 運行(2000)、阻擋(2001)
  * @param motionInfo >> 運行資訊
  * @param defendInfo >> 阻擋資訊
@@ -58,7 +40,7 @@ enum class AppCode(val code: Int) {
 data class MotionInfo(
     @SerializedName("bg_url") val bgUrl: String = "",
     @SerializedName("title") val title: String = "",
-    @SerializedName("version_name_mode") val versionNameMode: String = UpdateApp.VersionNameMode.DEFAULT.type,
+    @SerializedName("version_name_mode") val versionNameMode: UpdateApp.VersionNameMode = UpdateApp.VersionNameMode.DEFAULT,
     @SerializedName("version_name") val versionName: String,
     @SerializedName("play_store_url") val url: String,
     @SerializedName("content") val content: String = "",

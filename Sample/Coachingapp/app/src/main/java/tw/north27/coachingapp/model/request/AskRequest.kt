@@ -2,18 +2,6 @@ package tw.north27.coachingapp.model.request
 
 import com.google.gson.annotations.SerializedName
 
-/**
- * @param roomId >> 房間id
- * @param clientId >> 用戶Id
- * @param index >> 索引
- * @param num >> 筆數
- * */
-data class AskInfoRequest(
-    @SerializedName("room_id") val roomId: Long,
-    @SerializedName("client_id") val clientId: String,
-    @SerializedName("index") val index: Int,
-    @SerializedName("num") val num: Int,
-)
 
 /**
  * @param clientId >> 用戶Id
@@ -22,6 +10,19 @@ data class AskInfoRequest(
 data class AskRoomRequest(
     @SerializedName("client_id") val clientId: String,
     @SerializedName("ask_id") val askId: Long? = null,
+)
+
+/**
+ * @param roomId >> 房間id
+ * @param clientId >> 用戶Id
+ * @param index >> 索引
+ * @param num >> 筆數
+ * */
+data class AskRoomInfoRequest(
+    @SerializedName("room_id") val roomId: Long,
+    @SerializedName("client_id") val clientId: String,
+    @SerializedName("index") val index: Int,
+    @SerializedName("num") val num: Int,
 )
 
 /**

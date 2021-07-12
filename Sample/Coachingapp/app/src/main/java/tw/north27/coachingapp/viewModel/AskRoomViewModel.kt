@@ -12,8 +12,8 @@ import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import tw.north27.coachingapp.model.AskInfo
-import tw.north27.coachingapp.model.request.AskInfoRequest
+import tw.north27.coachingapp.model.AskRoomInfo
+import tw.north27.coachingapp.model.request.AskRoomInfoRequest
 import tw.north27.coachingapp.repository.IActionRepository
 import tw.north27.coachingapp.repository.IUserRepository
 
@@ -23,7 +23,7 @@ class AskRoomViewModel(
     val userRepo: IUserRepository
 ) : BaseAndroidViewModel(application) {
 
-    private val _askInfoListState = MutableLiveData<ViewState<List<AskInfo>>>(ViewState.Initial)
+    private val _askInfoListState = MutableLiveData<ViewState<List<AskRoomInfo>>>(ViewState.Initial)
 
     val askInfoListState = _askInfoListState.asLiveData()
 
@@ -31,7 +31,7 @@ class AskRoomViewModel(
         _askInfoListState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
         val results = actionRepo.fetchAskInfoList(
-            AskInfoRequest(
+            AskRoomInfoRequest(
                 roomId = roomId,
                 clientId = account,
                 index = 0,

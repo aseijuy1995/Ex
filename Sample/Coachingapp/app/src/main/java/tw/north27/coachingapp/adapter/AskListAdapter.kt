@@ -30,13 +30,13 @@ class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>
     override fun areItemsTheSame(oldItem: AskRoom, newItem: AskRoom): Boolean {
         logD("areItemsTheSame = ${oldItem.id == newItem.id}")
         logD("areItemsTheSame = oldItem.id = ${oldItem.id} /  newItem.id = ${newItem.id}")
-        logD("areItemsTheSame = oldItem.text = ${oldItem.askInfo.text} /  newItem.text = ${newItem.askInfo.text}")
+        logD("areItemsTheSame = oldItem.text = ${oldItem.askRoomInfo.text} /  newItem.text = ${newItem.askRoomInfo.text}")
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: AskRoom, newItem: AskRoom): Boolean {
         logD("areContentsTheSame = ${oldItem.hashCode() == newItem.hashCode()}")
-        logD("areContentsTheSame = ${oldItem.askInfo.text}/${newItem.askInfo.text}")
+        logD("areContentsTheSame = ${oldItem.askRoomInfo.text}/${newItem.askRoomInfo.text}")
         return oldItem.hashCode() == newItem.hashCode()
     }
 }
@@ -63,7 +63,7 @@ class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>
         fun bind(askRoom: AskRoom) = binding.apply {
             this.askRoom = askRoom
             val otherUser = askRoom.otherClientInfo
-            val askInfo = askRoom.askInfo
+            val askInfo = askRoom.askRoomInfo
             ivAvatar.bindImg(url = otherUser.avatarUrl, roundingRadius = 30)
             tvName.text = otherUser.name
             ivNotice.bindImg(resId = if (askRoom.isSound) R.drawable.ic_baseline_volume_up_24_blue else R.drawable.ic_baseline_volume_off_24_red)

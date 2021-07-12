@@ -46,14 +46,14 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                     val signIn = it.data
                     Toast.makeText(cxt, signIn.signInInfo?.msg, Toast.LENGTH_SHORT).show()
                     when (signIn.signCode) {
-                        SignCode.SIGN__SUC.code -> {
+                        SignCode.SIGN_IN_SUC.code -> {
                             lifecycleScope.launch {
                                 delay(200)
                                 startActivity(Intent(act, Launch2Activity::class.java))
                                 act.finish()
                             }
                         }
-                        SignCode.SIGN__FAIL.code -> {
+                        SignCode.SIGN_IN_FAIL.code -> {
                         }
                     }
                 }

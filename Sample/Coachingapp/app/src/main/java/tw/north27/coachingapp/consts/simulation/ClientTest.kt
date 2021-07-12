@@ -10,6 +10,7 @@ var tokenType_Test = "Bearer"
 var accessToken_Test = "accessTokenTest"
 var refreshToken_Test = "refreshTokenTest"
 var expiresIn_Test = 900
+
 //
 var uuid_Test = ""
 val account_Test = "north27"
@@ -25,16 +26,15 @@ val tokenInfo_Test = TokenInfo(
 )
 
 val signSuc_Test = SignInfo(
-    signCode = SignCode.SIGN__SUC.code,
+    signCode = SignCode.SIGN_IN_SUC.code,
     signInInfo = signInInfo_Test,
-    msg = "即將登入．．．"
+    msg = "即將登入..."
 )
 
 val signInInfo_Test: SignInInfo
     get() = SignInInfo(
         clientInfo = ClientInfo(
             id = clientId_Test,
-            account = account_Test,
             auth = authorityStudent_Test,
 //            auth = authorityTeacherTest,
         ),
@@ -44,8 +44,8 @@ val signInInfo_Test: SignInInfo
     )
 
 val signFail_Test = SignInfo(
-    signCode = SignCode.SIGN__FAIL.code,
-    msg = "帳號已被封鎖 or 帳密錯誤"
+    signCode = SignCode.SIGN_IN_FAIL.code,
+    msg = "帳號已登入其他裝置，請重新登入..."
 )
 //
 //
@@ -71,7 +71,7 @@ var msgNoticeTest = true
  * 用戶資訊
  * */
 val userInfoTest = ClientInfo(
-    account = account_Test,
+    id = account_Test,
     //
     auth = authorityStudent_Test,
 //    auth = authorityTeacherTest,
@@ -104,7 +104,7 @@ val userInfoTest = ClientInfo(
 
 val teacherInfoListTest = listOf<ClientInfo>(
     ClientInfo(
-        account = "rebeccaAct",
+        id = "rebeccaAct",
         auth = UserPref.Authority.TEACHER,
         //
         bgUrl = "https://images.unsplash.com/photo-1622495807835-858ac1da986d?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
@@ -165,7 +165,7 @@ val teacherInfoListTest = listOf<ClientInfo>(
         ),
     ),
     ClientInfo(
-        account = "peiYuAct",
+        id = "peiYuAct",
         auth = UserPref.Authority.TEACHER,
         //
         bgUrl = "https://images.unsplash.com/photo-1621570070821-2e2b1358fae3?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
@@ -249,7 +249,7 @@ val teacherInfoListTest = listOf<ClientInfo>(
         )
     ),
     ClientInfo(
-        account = "mimiAct",
+        id = "mimiAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1624799993735-41a4ee092f7b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/142/217/normal/vovnbl.png?1621920493",
@@ -327,7 +327,7 @@ val teacherInfoListTest = listOf<ClientInfo>(
         )
     ),
     ClientInfo(
-        account = "yujunAct",
+        id = "yujunAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1584920956891-2fccb1c144ad?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/251/483/normal/vrvmsw.png?1624516244",
@@ -389,7 +389,7 @@ val teacherInfoListTest = listOf<ClientInfo>(
         )
     ),
     ClientInfo(
-        account = "gingAct",
+        id = "gingAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1593642532454-e138e28a63f4?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/464/931/normal/xdmhqp.png?1609914398",
@@ -479,7 +479,7 @@ val teacherInfoListTest = listOf<ClientInfo>(
         )
     ),
     ClientInfo(
-        account = "akuanAct",
+        id = "akuanAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1624804269473-828dcc30a210?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=701&q=80",
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/647/644/normal/dynmkn.png?1621697783",
@@ -528,7 +528,7 @@ val teacherInfoListTest = listOf<ClientInfo>(
         )
     ),
     ClientInfo(
-        account = "allenAct",
+        id = "allenAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1622495546876-3fccb94d3e2c?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/643/730/normal/nujeje.png?1624109127",
@@ -584,7 +584,7 @@ val teacherInfoListTest = listOf<ClientInfo>(
         )
     ),
     ClientInfo(
-        account = "catfishAct",
+        id = "catfishAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1621569898825-ef12e7592f94?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/431/253/normal/wymplr.png?1624816289",
@@ -627,7 +627,7 @@ val teacherInfoListTest = listOf<ClientInfo>(
         )
     ),
     ClientInfo(
-        account = "encoreAct",
+        id = "encoreAct",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1624602150320-041eb7374810?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/635/991/normal/bqvcbl.png?1620720822",

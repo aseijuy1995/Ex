@@ -21,7 +21,7 @@ import tw.north27.coachingapp.NavGraphLaunchDirections
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentStartBinding
 import tw.north27.coachingapp.ext.updateApp
-import tw.north27.coachingapp.model.AppCode
+import tw.north27.coachingapp.model.response.AppCode
 import tw.north27.coachingapp.model.SignCode
 import tw.north27.coachingapp.ui.launch2.Launch2Activity
 import tw.north27.coachingapp.viewModel.PublicViewModel
@@ -72,11 +72,11 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                     lifecycleScope.launch {
                         delay(200)
                         when (signIn.signCode) {
-                            SignCode.SIGN__SUC.code -> {
+                            SignCode.SIGN_IN_SUC.code -> {
                                 startActivity(Intent(act, Launch2Activity::class.java))
                                 act.finish()
                             }
-                            SignCode.SIGN__FAIL.code -> {
+                            SignCode.SIGN_IN_FAIL.code -> {
                                 findNavController().navigate(NavGraphLaunchDirections.actionToFragmentSignIn())
                             }
                         }

@@ -21,7 +21,7 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.AskListAdapter
 import tw.north27.coachingapp.consts.askRoomListTest
 import tw.north27.coachingapp.databinding.FragmentAskBinding
-import tw.north27.coachingapp.model.AskInfo
+import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.AskType
 import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.AskViewModel
@@ -127,10 +127,10 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             val askId = adapter.getItemId(0)//取得為最新提問id，非房間id
             val ask = askRoomListTest[1].copy(
                 unreadNum = (askRoomListTest[1].unreadNum + 1),
-                askInfo = AskInfo(
+                askRoomInfo = AskRoomInfo(
                     id = id + 100L,
-                    senderAct = askRoomListTest[1].askInfo.senderAct,
-                    receiverAct = askRoomListTest[1].askInfo.receiverAct,
+                    senderAct = askRoomListTest[1].askRoomInfo.senderAct,
+                    receiverAct = askRoomListTest[1].askRoomInfo.receiverAct,
                     askType = AskType.TEXT,
                     text = "那數線模式或平衡模式的區別在哪呢?",
                     isRead = false,

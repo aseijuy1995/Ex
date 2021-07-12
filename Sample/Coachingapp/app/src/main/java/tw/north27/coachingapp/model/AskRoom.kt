@@ -15,7 +15,7 @@ import java.util.*
  * @param unitId >> 單元/類型Id
  * @param isSound >> 聲音開關
  * @param unreadNum >> 未讀數量
- * @param askInfo >> 最新提問資訊
+ * @param askRoomInfo >> 最新提問資訊
  * //
  * @param senderUserInfo >> 發送者資訊
  * @param receiverUserInfo >> 接收者資訊
@@ -38,7 +38,7 @@ data class AskRoom(
     @SerializedName("is_push") var isPush: Boolean,
     @SerializedName("is_sound") var isSound: Boolean,
     @SerializedName("unread_num") var unreadNum: Int,
-    @SerializedName("ask_info") var askInfo: AskInfo,
+    @SerializedName("ask_info") var askRoomInfo: AskRoomInfo,
 ) : Parcelable
 
 /**
@@ -55,7 +55,7 @@ data class AskRoom(
  * @param sendTime >> 發送時間
  * */
 @Parcelize
-data class AskInfo(
+data class AskRoomInfo(
     @SerializedName("id") var id: Long,
     @SerializedName("sender_account") var senderAct: String,
     @SerializedName("receiver_account") var receiverAct: String,

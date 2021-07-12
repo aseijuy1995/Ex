@@ -16,7 +16,7 @@ import tw.north27.coachingapp.model.response.Units
 
 class TeacherListAdapter(private val act: AppCompatActivity) : ListAdapter<ClientInfo, TeacherListAdapter.VH>(object : DiffUtil.ItemCallback<ClientInfo>() {
     override fun areItemsTheSame(oldItem: ClientInfo, newItem: ClientInfo): Boolean {
-        return oldItem.account == newItem.account
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: ClientInfo, newItem: ClientInfo): Boolean {

@@ -182,7 +182,7 @@ class PersonalEditFragment : BaseFragment<FragmentPersonalEditBinding>(R.layout.
             ivAvatar.bindImg(url = clientInfo.avatarUrl, roundingRadius = 10)
             itemPersonalUserEdit.apply {
                 etName.setText(clientInfo.name)
-                tvAccount.text = clientInfo.account
+                tvAccount.text = clientInfo.id
                 tvAuth.text = when (clientInfo.auth) {
                     UserPref.Authority.STUDENT -> getString(R.string.student)
                     UserPref.Authority.TEACHER -> getString(R.string.teacher)

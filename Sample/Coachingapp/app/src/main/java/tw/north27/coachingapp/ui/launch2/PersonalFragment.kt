@@ -208,7 +208,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                 )
                 tvGender.bindGender(clientInfo)
                 tvName.text = clientInfo.name
-                tvAccount.text = String.format("%s：%s", getString(R.string.account), clientInfo.account)
+                tvAccount.text = String.format("%s：%s", getString(R.string.account), clientInfo.id)
                 tvAuth.text = String.format(
                     "%s：%s",
                     getString(R.string.authority),

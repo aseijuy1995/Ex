@@ -10,8 +10,8 @@ import com.google.gson.annotations.SerializedName
  * @param expiresIn >> 過期日期在幾秒後(s)
  * */
 data class TokenInfo(
-    @SerializedName("token_type") val tokenType: String,
-    @SerializedName("access_token") val accessToken: String,
-    @SerializedName("refresh_token") val refreshToken: String,
-    @SerializedName("expires_in") val expiresIn: Int,
+    @SerializedName("token_type") open val tokenType: String,
+    @SerializedName("access_token") open val accessToken: String,
+    @SerializedName("refresh_token") open val refreshToken: String,
+    @SerializedName("expires_in") open val expiresIn: Int,
 )
