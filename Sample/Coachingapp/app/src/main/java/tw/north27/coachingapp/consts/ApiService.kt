@@ -33,7 +33,7 @@ class ApiService(val cxt: Context) : IApiService {
         appConfig = AppConfig(
             appCode = AppCode.MOTION.code,
             motionInfo = MotionInfo(
-                bgUrl = "https://image.flaticon.com/icons/png/512/178/178158.png",
+                bgUrl = "https://images.unsplash.com/photo-1604754742629-3e5728249d73?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
                 title = cxt.getString(R.string.update_title),
                 versionNameMode = UpdateApp.VersionNameMode.DEFAULT,
                 versionName = "1.0.0",
@@ -51,7 +51,7 @@ class ApiService(val cxt: Context) : IApiService {
 //        appConfig = AppConfig(
 //            appCode = AppCode.DEFEND.code,
 //            defendInfo = DefendInfo(
-//                bgUrl = "https://image.flaticon.com/icons/png/512/178/178158.png",
+//                bgUrl = "https://images.unsplash.com/photo-1595330720945-992007315e47?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
 //                title = cxt.getString(R.string.defend_title),
 //                content = "1. 伺服器遭受攻擊。\n" +
 //                        "2. 增加監控、效能分析、執行網路維護。\n" +
@@ -71,18 +71,16 @@ class ApiService(val cxt: Context) : IApiService {
         val signInfo: SignInfo
         signInfo = signSuc_Test
 //        signInfo = signFail_Test
-        logI("checkSignIn = ${Gson().toJson(signInfo)}")
+        logI("checkSign = ${Gson().toJson(signInfo)}")
         return signInfo
     }
 
     override suspend fun signIn(@Body signInRequest: SignInRequest): SignInfo {
         delay(1500)
-        val uuid = signInRequest.uuid
         val account = signInRequest.account
         val password = signInRequest.password
         val pushToken = signInRequest.pushToken
         val signIn = if (account == account_Test && password == password_Test) {
-            uuid_Test = uuid
             pushToken_Test = pushToken
             signSuc_Test
         } else {
@@ -149,11 +147,12 @@ class ApiService(val cxt: Context) : IApiService {
         var last = index + num
         if (last > list.size) last = list.size
         list = list.subList(index, last)
-        logI("fetchAskRoomList = ${Gson().toJson(list)}")
+        logI("fetchTeacherList = ${Gson().toJson(list)}")
         return list
     }
 
     override suspend fun fetchAskRoomList(@Body askRoomRequest: AskRoomRequest): List<AskRoom> {
+        delay(1500)
         val clientId = askRoomRequest.clientId
         val askId = askRoomRequest.askId
         while (askRoomList_Test.first().askRoomInfo.id == askId) delay(3000)
@@ -164,6 +163,7 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun updateAskRoomPush(pushRequest: PushRequest): PushResponse {
         delay(1500)
+        val clientId = pushRequest.clientId
         val pushResponse = PushResponse(
             isSuccess = true,
             roomId = pushRequest.roomId,
@@ -176,6 +176,7 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun updateAskRoomSound(soundRequest: SoundRequest): SoundResponse {
         delay(1500)
+        val clientId = soundRequest.clientId
         val soundResponse = SoundResponse(
             isSuccess = true,
             roomId = soundRequest.roomId,
@@ -196,15 +197,15 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun fetchClient(@Body clientRequest: ClientRequest): ClientInfo {
         delay(1500)
-        val userList = teacherInfoListTest.toMutableList().apply { add(userInfoTest) }
+        val userList = teacherInfoListTest.toMutableList().apply { add(clientInfo_Test) }
         val client = userList.find { it.id == clientRequest.clientId }!!
         logI("fetchClient = ${Gson().toJson(client)}")
         return client
     }
-    //
+
     override suspend fun updateClient(@Body updateClientRequest: UpdateClientRequest): UpdateClientResponse {
         delay(1500)
-        val account = updateClientRequest.clientId
+        val clientId = updateClientRequest.clientId
         val bgUrl = updateClientRequest.bgUrl
         val avatarUrl = updateClientRequest.avatarUrl
         val name = updateClientRequest.name
@@ -216,18 +217,18 @@ class ApiService(val cxt: Context) : IApiService {
         val email = updateClientRequest.email
         val school = updateClientRequest.school
         val gradeId = updateClientRequest.gradeId
-        if (account == account_Test) {
-            bgUrl?.let { bgUrlTest = it }
-            avatarUrl?.let { avatarUrlTest = it }
-            nameTest = name
-            genderTest = gender
-            introTest = intro
-            birthday?.let { birthdayTest = it }
-            cellPhoneTest = cellPhone
-            homePhoneTest = homePhone
-            emailTest = email
-            school?.let { schoolTest = it }
-            gradeId?.let { gradeIdTest = it }
+        if (clientId == clientId_Test) {
+            bgUrl?.let { bgUrl_Test = it }
+            avatarUrl?.let { avatarUrl_Test = it }
+            name_Test = name
+            gender_Test = gender
+            intro_Test = intro
+            birthday?.let { birthday_Test = it }
+            cellPhone_Test = cellPhone
+            homePhone_Test = homePhone
+            email_Test = email
+            school?.let { school_Test = it }
+            gradeId?.let { gradeId_Test = it }
             return UpdateClientResponse(
                 isSuccess = true,
                 msg = "修改成功"
@@ -241,7 +242,7 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun fetchCommentList(@Body commentRequest: CommentRequest): List<CommentInfo> {
         delay(1500)
-        val commentListTest = commentListTest.filter { it.receiveAccount == account_Test }
+        val commentListTest = commentListTest.filter { it.receiveId == clientId_Test }
         val score = commentRequest.score
         val educationId = commentRequest.educationLevelId
         val gradeId = commentRequest.gradeId
@@ -339,7 +340,7 @@ class ApiService(val cxt: Context) : IApiService {
     override suspend fun insertReflect(reflectRequest: ReflectRequest): ReflectResponse {
         delay(1500)
         return ReflectResponse(
-            isState = true,
+            isSuccess = true,
             msg = "感謝您的來信，您的建議是我們前進的動力！"
         )
 //        return ReflectResponse(

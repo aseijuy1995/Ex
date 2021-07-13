@@ -1,20 +1,22 @@
 package tw.north27.coachingapp.repository
 
 import com.yujie.utilmodule.http.Results
-import tw.north27.coachingapp.model.SignInfo
+import com.yujie.utilmodule.http.TokenInfo
 import tw.north27.coachingapp.model.ClientInfo
-import tw.north27.coachingapp.model.request.SignInRequest
-import tw.north27.coachingapp.model.request.UpdateClientRequest
+import tw.north27.coachingapp.model.SignInfo
+import tw.north27.coachingapp.model.request.*
+import tw.north27.coachingapp.model.response.UpdateClientResponse
 
 interface IUserRepository {
 
-    suspend fun checkSignIn(account: String): Results<SignInfo>
+    fun refreshToken(tokenRequest: TokenRequest): TokenInfo
 
-    //
-    suspend fun fetchUser(account: String): Results<ClientInfo>
+    suspend fun checkSign(signRequest: SignRequest): Results<SignInfo>
 
     suspend fun signIn(signInRequest: SignInRequest): Results<SignInfo>
 
-    suspend fun updateUser(updateClientRequest: UpdateClientRequest): Results<Boolean>
+    suspend fun fetchClient(clientRequest: ClientRequest): Results<ClientInfo>
+
+    suspend fun updateClient(updateClientRequest: UpdateClientRequest): Results<UpdateClientResponse>
 
 }

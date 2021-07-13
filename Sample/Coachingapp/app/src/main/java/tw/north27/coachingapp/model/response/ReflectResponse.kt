@@ -3,11 +3,11 @@ package tw.north27.coachingapp.model.response
 import com.google.gson.annotations.SerializedName
 
 /**
- * 響應 - 反映結果
- * @param isState >> insert成功與否
- * @param msg >> 訊息
+ * 反映結果
+ * @param isSuccess >> 操作是否成功
+ * @param msg >> 回傳訊息
  * */
 data class ReflectResponse(
-    @SerializedName("is_state") val isState: Boolean,
+    @SerializedName("is_success") val isSuccess: Boolean,
     @SerializedName("msg") val msg: String,
 )

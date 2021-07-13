@@ -18,6 +18,7 @@ import tw.north27.coachingapp.model.request.CommentRequest
 import tw.north27.coachingapp.model.request.ReflectRequest
 import tw.north27.coachingapp.model.request.UpdateClientRequest
 import tw.north27.coachingapp.model.response.ReflectResponse
+import tw.north27.coachingapp.model.response.UpdateClientResponse
 import tw.north27.coachingapp.repository.IActionRepository
 import tw.north27.coachingapp.repository.IUserRepository
 import java.util.*
@@ -83,7 +84,7 @@ class PersonalViewModel(
     ) = viewModelScope.launch(Dispatchers.IO) {
         _updateUserState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
-        val results = userRepo.updateUser(
+        val results = userRepo.updateClient(
             UpdateClientRequest(
                 clientId = account,
                 bgUrl = bgUrl,
@@ -100,8 +101,9 @@ class PersonalViewModel(
             )
         )
         when (results) {
-            is Results.Successful<Boolean> -> {
-                _updateUserState.postValue(ViewState.data(results.data))
+            is Results.Successful<UpdateClientResponse> -> {
+                val updateClientResponse = results.data
+                _updateUserState.postValue(ViewState.data(updateClientResponse.isSuccess))
                 ViewState.data(results.data)
             }
             is Results.ClientErrors -> {

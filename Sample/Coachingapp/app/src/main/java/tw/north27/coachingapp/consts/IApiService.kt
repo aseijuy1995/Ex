@@ -91,7 +91,6 @@ interface IApiService {
     @POST
     suspend fun fetchAskRoomInfoList(@Body askRoomInfoRequest: AskRoomInfoRequest): List<AskRoomInfo>
 
-    //
     /**
      * 獲取用戶資訊
      * @header Bearer accessToken
@@ -115,11 +114,6 @@ interface IApiService {
      * */
     @POST
     suspend fun fetchCommentList(@Body commentRequest: CommentRequest): List<CommentInfo>
-
-
-//
-//
-//
 
     /**
      * 取得公有數據

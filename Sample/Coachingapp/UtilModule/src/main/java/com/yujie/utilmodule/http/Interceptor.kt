@@ -27,7 +27,7 @@ class AuthRequestInterceptor(val cxt: Context, val tokenCallback: () -> TokenInf
         val userPref = runBlocking { cxt.userPref.data.first() }
 
         val currentTime = System.currentTimeMillis()
-        if (currentTime > userPref.expireTime) {
+        if (currentTime > userPref.expiresTime) {
             dealWithExpireToken(
                 cxt = cxt,
                 tokenCallback = tokenCallback
@@ -35,9 +35,9 @@ class AuthRequestInterceptor(val cxt: Context, val tokenCallback: () -> TokenInf
         }
 
         val token = when (userPref.tokenType) {
-            UserPref.TokenType.UNKNOWN -> ""
-            UserPref.TokenType.BASIC -> "Basic ${userPref.dealWithBasicToken(cxt = cxt)}"
-            UserPref.TokenType.BEARER -> "Bearer ${userPref.accessToken}"
+            UserPref.TokenType.Unknown -> ""
+            UserPref.TokenType.Basic -> "Basic ${userPref.dealWithBasicToken(cxt = cxt)}"
+            UserPref.TokenType.Bearer -> "Bearer ${userPref.accessToken}"
             else -> ""
         }
 
@@ -60,9 +60,9 @@ class AuthResponseInterceptor(val cxt: Context, val tokenCallback: () -> TokenIn
         )
 
         val token = when (userPref.tokenType) {
-            UserPref.TokenType.UNKNOWN -> ""
-            UserPref.TokenType.BASIC -> "Basic ${userPref.dealWithBasicToken(cxt = cxt)}"
-            UserPref.TokenType.BEARER -> "Bearer ${userPref.accessToken}"
+            UserPref.TokenType.Unknown -> ""
+            UserPref.TokenType.Basic -> "Basic ${userPref.dealWithBasicToken(cxt = cxt)}"
+            UserPref.TokenType.Bearer -> "Bearer ${userPref.accessToken}"
             else -> ""
         }
 

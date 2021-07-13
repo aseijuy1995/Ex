@@ -18,7 +18,6 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ActivityLaunchBinding
 import tw.north27.coachingapp.viewModel.PublicViewModel
 
-
 class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaunchBinding::inflate) {
 
     val navFragment: NavHostFragment

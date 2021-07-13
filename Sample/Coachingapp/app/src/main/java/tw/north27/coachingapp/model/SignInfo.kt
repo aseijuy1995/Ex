@@ -159,9 +159,9 @@ data class ScoreCountInfo(
 /**
  * 評論資訊
  * @param id >> 評論id
- * @param sendAccount >> 發送者帳號
+ * @param senderId >> 發送者帳號
  * @param sendName >> 發送者名稱
- * @param receiveAccount >> 接收者帳號
+ * @param receiveId >> 接收者帳號
  * @param receiveName >> 接收者名稱
  * @param score >> 評分，1~5分
  * @param content >> 內容
@@ -174,9 +174,9 @@ data class ScoreCountInfo(
 @Parcelize
 data class CommentInfo(
     @SerializedName("id") val id: Long,
-    @SerializedName("send_account") val sendAccount: String,
-    @SerializedName("send_name") val sendName: String,
-    @SerializedName("receive_account") val receiveAccount: String,
+    @SerializedName("sender_id") val senderId: String,
+    @SerializedName("sender_name") val sendName: String,
+    @SerializedName("receive_id") val receiveId: String,
     @SerializedName("receive_name") val receiveName: String,
     @SerializedName("score") val score: Double,
     @SerializedName("content") val content: String,

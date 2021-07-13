@@ -37,7 +37,6 @@
             </intent-filter>
         </activity>
 
-<!--        -->
         <activity android:name=".ui.launch2.Launch2Activity" />
 
         <service

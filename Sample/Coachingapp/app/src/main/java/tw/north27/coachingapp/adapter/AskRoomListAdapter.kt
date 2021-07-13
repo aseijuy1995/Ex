@@ -3,35 +3,30 @@ package tw.north27.coachingapp.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
-import com.yujie.utilmodule.pref.getAccount
+import com.yujie.utilmodule.pref.getId
 import com.yujie.utilmodule.pref.userPref
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ItemAskRoomOtherBinding
 import tw.north27.coachingapp.databinding.ItemAskRoomSelfBinding
-import tw.north27.coachingapp.model.AskRoom
-import kotlin.coroutines.CoroutineContext
+import tw.north27.coachingapp.model.AskRoomInfo
 
 class AskRoomListAdapter(
     private val cxt: Context
-) : ListAdapter<AskRoom, AskRoomListAdapter.VH>(
+) : ListAdapter<AskRoomInfo, AskRoomListAdapter.VH>(
 
-    object : DiffUtil.ItemCallback<AskRoom>() {
-        override fun areItemsTheSame(oldItem: AskRoom, newItem: AskRoom): Boolean {
+    object : DiffUtil.ItemCallback<AskRoomInfo>() {
+        override fun areItemsTheSame(oldItem: AskRoomInfo, newItem: AskRoomInfo): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: AskRoom, newItem: AskRoom): Boolean {
+        override fun areContentsTheSame(oldItem: AskRoomInfo, newItem: AskRoomInfo): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
     }
-), CoroutineScope {
+) {
 
 //    val imageClickRelay = PublishRelay.create<Pair<View, ChatImage>>()
 //
@@ -39,63 +34,52 @@ class AskRoomListAdapter(
 //
 //    val itemRecordingClickRelay = PublishRelay.create<Pair<Boolean, ChatInfo>>()
 
-    override fun getItemViewType(position: Int): Int {
-        val account = runBlocking { cxt.userPref.getAccount().first() }
-        return when (getItem(position).otherClientInfo.id) {
-            account -> Type.SELF.code
-            else -> Type.OTHER.code
-        }
-    }
+
+    val clientId: String
+        get() = runBlocking { cxt.userPref.getId().first() }
 
     /**
      * @param SELF >> 自己
      * @param OTHER >> 對方
      * */
-    enum class Type(val code: Int) {
+    enum class AskSideType(val type: Int) {
         SELF(1),
-        OTHER(2)
+        OTHER(2);
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position).senderId) {
+            clientId -> AskSideType.SELF.type
+            else -> AskSideType.OTHER.type
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            Type.SELF.code -> {
-                val binding = DataBindingUtil.inflate<ItemAskRoomSelfBinding>(inflater, R.layout.item_ask_room_self, parent, false)
+            AskSideType.SELF.type -> {
+                val binding = ItemAskRoomSelfBinding.inflate(inflater, parent, false)
                 SelfVH(binding)
             }
             else -> {
-                val binding = DataBindingUtil.inflate<ItemAskRoomOtherBinding>(inflater, R.layout.item_ask_room_other, parent, false)
+                val binding = ItemAskRoomOtherBinding.inflate(inflater, parent, false)
                 OtherVH(binding)
             }
         }
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-//        val chat = getItem(position)
-//        holder.bind(chat)
+        val askRoomInfo = getItem(position)
+        holder.bind(askRoomInfo)
     }
 
     abstract inner class VH(binding: ViewBinding) : RecyclerView.ViewHolder(binding.root) {
-        abstract fun bind(askRoom: AskRoom): Any
+        abstract fun bind(askRoomInfo: AskRoomInfo): ViewBinding
     }
 
-    override val coroutineContext: CoroutineContext
-        get() = Job()
-
     inner class SelfVH(private val binding: ItemAskRoomSelfBinding) : VH(binding) {
-        override fun bind(askRoom: AskRoom) = binding.apply {
-//            this.askInfo = askRoom
-//            when (askRoom.askType) {
-//                AskType.TEXT -> {
-//                    tvText.text = askRoom.text
-//                }
-//                AskType.IMAGE -> {
-//                }
-//                AskType.AUDIO -> {
-//                }
-//                AskType.VIDEO -> {
-//                }
-//            }
+        override fun bind(askRoomInfo: AskRoomInfo) = binding.apply {
+            this.askRoomInfo = askRoomInfo
 //            tvRead.apply {
 //                isVisible = (askRoom.unreadNum > 0)
 //                text = if (askRoom.unreadNum > 0) context.getString(R.string.un_read) else context.getString(R.string.have_read)
@@ -171,8 +155,8 @@ class AskRoomListAdapter(
     }
 
     inner class OtherVH(val binding: ItemAskRoomOtherBinding) : VH(binding) {
-        override fun bind(askRoom: AskRoom) = binding.apply {
-            this.askInfo = askRoom
+        override fun bind(askRoomInfo: AskRoomInfo) = binding.apply {
+            this.askRoomInfo = askRoomInfo
 //            when (askRoom.askType) {
 //                AskType.TEXT -> {
 //                    tvText.text = askRoom.text
@@ -250,6 +234,10 @@ class AskRoomListAdapter(
             executePendingBindings()
         }
 
+    }
+
+    override fun submitList(list: List<AskRoomInfo>?) {
+        super.submitList(list?.let { ArrayList(it) })
     }
 
 //    private fun imageArrangementFormat(it: List<ChatImage>, position: Int) = when {

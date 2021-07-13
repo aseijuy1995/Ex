@@ -56,7 +56,7 @@ class ReflectDialogFragment : BaseDialogFragment<FragmentReflectDialogBinding>(R
                 is ViewState.Data -> {
                     val reflect = it.data
                     Toast.makeText(cxt, reflect.msg, Toast.LENGTH_SHORT).show()
-                    if (reflect.isState) findNavController().navigateUp()
+                    if (reflect.isSuccess) findNavController().navigateUp()
                 }
             }
         }

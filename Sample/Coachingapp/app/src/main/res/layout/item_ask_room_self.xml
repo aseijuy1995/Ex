@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="askInfo"
-            type="tw.north27.coachingapp.model.AskRoom" />
+            name="askRoomInfo"
+            type="tw.north27.coachingapp.model.AskRoomInfo" />
 
         <import type="tw.north27.coachingapp.model.AskType" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:text="已讀"
+            android:text="@{(askRoomInfo.read==true) ? @string/have_read : @string/un_read }"
             android:textColor="@color/gray_aaaaaa"
             android:textSize="10sp"
             app:layout_constraintBottom_toTopOf="@id/tv_time"
@@ -32,7 +32,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:text="22:11"
             android:textColor="@color/gray_aaaaaa"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@id/cl_layout"
@@ -49,21 +48,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-<!--            <androidx.appcompat.widget.AppCompatTextView-->
-            <!--                android:id="@+id/tv_text"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:background="@drawable/shape_solid_green_corners_radius_5"-->
-            <!--                android:maxWidth="250dp"-->
-            <!--                android:padding="5dp"-->
-            <!--                android:text="文字文字文字文字文字文字文字文字"-->
-            <!--                android:textColor="@color/white"-->
-            <!--                android:textSize="14sp"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                bind:isVisible="@{askInfo.askType == AskType.TEXT}" />-->
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_solid_green_corners_radius_5"
+                android:maxWidth="250dp"
+                android:padding="5dp"
+                android:text="@{askRoomInfo.text}"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                bind:isVisible="@{askRoomInfo.askType == AskType.TEXT}" />
 
             <!--            <androidx.recyclerview.widget.RecyclerView-->
             <!--                android:id="@+id/rv_img"-->

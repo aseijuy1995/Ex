@@ -19,7 +19,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphLaunch2Directions
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.AskListAdapter
-import tw.north27.coachingapp.consts.askRoomListTest
+import tw.north27.coachingapp.consts.simulation.askRoomList_Test
 import tw.north27.coachingapp.databinding.FragmentAskBinding
 import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.AskType
@@ -125,20 +125,20 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
          * */
         binding.itemToolbarNormal.ivSend.clicksObserve(owner = viewLifecycleOwner) {
             val askId = adapter.getItemId(0)//取得為最新提問id，非房間id
-            val ask = askRoomListTest[1].copy(
-                unreadNum = (askRoomListTest[1].unreadNum + 1),
+            val ask = askRoomList_Test[1].copy(
+                unreadNum = (askRoomList_Test[1].unreadNum + 1),
                 askRoomInfo = AskRoomInfo(
                     id = id + 100L,
-                    senderAct = askRoomListTest[1].askRoomInfo.senderAct,
-                    receiverAct = askRoomListTest[1].askRoomInfo.receiverAct,
+                    senderId = askRoomList_Test[1].askRoomInfo.senderId,
+                    receiverId = askRoomList_Test[1].askRoomInfo.receiverId,
                     askType = AskType.TEXT,
                     text = "那數線模式或平衡模式的區別在哪呢?",
                     isRead = false,
                     sendTime = Date()
                 )
             )
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) askRoomListTest.removeIf { it.id == ask.id }
-            askRoomListTest.add(0, ask)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) askRoomList_Test.removeIf { it.id == ask.id }
+            askRoomList_Test.add(0, ask)
             viewModel.fetchAskRoomList(id = if (askId != -1L) askId else null)
         }
 

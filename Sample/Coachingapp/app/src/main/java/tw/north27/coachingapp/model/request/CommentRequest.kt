@@ -3,7 +3,7 @@ package tw.north27.coachingapp.model.request
 import com.google.gson.annotations.SerializedName
 
 /**
- * 請求 - 評論列表請求
+ * 請求評論列表
  * @param clientId >> 用戶Id
  * @param score >> 評分
  * @param educationLevelId >> 教育id
@@ -16,7 +16,7 @@ import com.google.gson.annotations.SerializedName
 data class CommentRequest(
     @SerializedName("client_id") val clientId: String,
     @SerializedName("score") val score: Double? = null,
-    @SerializedName("education_id") val educationLevelId: Long? = null,
+    @SerializedName("education_level_id") val educationLevelId: Long? = null,
     @SerializedName("grade_id") val gradeId: Long? = null,
     @SerializedName("subject_id") val subjectId: Long? = null,
     @SerializedName("unit_id") val unitId: Long? = null,

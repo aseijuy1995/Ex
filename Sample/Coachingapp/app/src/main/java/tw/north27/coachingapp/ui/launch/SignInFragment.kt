@@ -44,7 +44,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                 }
                 is ViewState.Data -> {
                     val signIn = it.data
-                    Toast.makeText(cxt, signIn.signInInfo?.msg, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(cxt, signIn.msg, Toast.LENGTH_SHORT).show()
                     when (signIn.signCode) {
                         SignCode.SIGN_IN_SUC.code -> {
                             lifecycleScope.launch {

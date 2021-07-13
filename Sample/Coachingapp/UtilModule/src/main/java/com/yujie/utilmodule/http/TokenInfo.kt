@@ -1,6 +1,7 @@
 package com.yujie.utilmodule.http
 
 import com.google.gson.annotations.SerializedName
+import com.yujie.utilmodule.UserPref
 
 /**
  * Token資訊
@@ -10,8 +11,8 @@ import com.google.gson.annotations.SerializedName
  * @param expiresIn >> 過期日期在幾秒後(s)
  * */
 data class TokenInfo(
-    @SerializedName("token_type") open val tokenType: String,
+    @SerializedName("token_type") open val tokenType: UserPref.TokenType,
     @SerializedName("access_token") open val accessToken: String,
     @SerializedName("refresh_token") open val refreshToken: String,
-    @SerializedName("expires_in") open val expiresIn: Int,
+    @SerializedName("expires_in") open val expiresIn: Long,
 )

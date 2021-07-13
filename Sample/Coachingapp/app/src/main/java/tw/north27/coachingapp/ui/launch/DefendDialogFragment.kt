@@ -3,7 +3,6 @@ package tw.north27.coachingapp.ui.launch
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
-import com.yujie.utilmodule.adapter.SetType
 import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseDialogFragment
 import com.yujie.utilmodule.ext.clicksObserve
@@ -24,16 +23,16 @@ class DefendDialogFragment : BaseDialogFragment<FragmentDefendDialogBinding>(R.l
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         publicVM.appConfigState.observe(viewLifecycleOwner) {
             when (it) {
                 is ViewState.Data -> {
                     val appConfig = it.data
                     if (appConfig.appCode == AppCode.DEFEND.code) {
                         val defendInfo = appConfig.defendInfo!!
-                        if (defendInfo.bgUrl.isNotEmpty()) binding.ivBg.bindImg(url = defendInfo.bgUrl, setType = SetType.BACKGROUND)
+                        if (defendInfo.bgUrl.isNotEmpty()) binding.ivBg.bindImg(url = defendInfo.bgUrl)
                         if (defendInfo.title.isNotEmpty()) binding.tvTitle.text = defendInfo.title
                         if (defendInfo.content.isNotEmpty()) binding.tvContent.text = defendInfo.content
-
                         binding.apply {
                             tvTime.apply {
                                 isVisible = (defendInfo.time != null)

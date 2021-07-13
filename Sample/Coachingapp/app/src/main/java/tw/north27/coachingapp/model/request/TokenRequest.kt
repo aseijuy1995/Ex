@@ -8,6 +8,6 @@ import com.google.gson.annotations.SerializedName
  * @param refreshToken >> 刷新用token
  * */
 data class TokenRequest(
-    @SerializedName("client_id") val clientId: Long,
+    @SerializedName("client_id") val clientId: String,
     @SerializedName("refresh_token") val refreshToken: String
 )

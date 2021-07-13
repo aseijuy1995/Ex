@@ -21,8 +21,8 @@ import tw.north27.coachingapp.NavGraphLaunchDirections
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentStartBinding
 import tw.north27.coachingapp.ext.updateApp
-import tw.north27.coachingapp.model.response.AppCode
 import tw.north27.coachingapp.model.SignCode
+import tw.north27.coachingapp.model.response.AppCode
 import tw.north27.coachingapp.ui.launch2.Launch2Activity
 import tw.north27.coachingapp.viewModel.PublicViewModel
 import tw.north27.coachingapp.viewModel.StartViewModel
@@ -68,7 +68,7 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                 }
                 is ViewState.Data -> {
                     val signIn = it.data
-                    Toast.makeText(cxt, signIn.signInInfo?.msg, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(cxt, signIn.msg, Toast.LENGTH_SHORT).show()
                     lifecycleScope.launch {
                         delay(200)
                         when (signIn.signCode) {
@@ -99,7 +99,7 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
         GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(act)
             .addOnSuccessListener {
                 FirebaseMsg.getInstance(complete = {
-                    viewModel.checkSignIn()
+                    viewModel.checkSign()
                 })
             }.addOnFailureListener {
                 act.alertGoogleService()

@@ -14,9 +14,10 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.response.AppConfig
-import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.ClientInfo
+import tw.north27.coachingapp.model.Gender
+import tw.north27.coachingapp.model.request.AppConfigRequest
+import tw.north27.coachingapp.model.request.ClientRequest
 import tw.north27.coachingapp.model.response.*
 import tw.north27.coachingapp.repository.IPublicRepository
 import tw.north27.coachingapp.repository.IUserRepository
@@ -51,7 +52,11 @@ class PublicViewModel(
 
     fun fetchAppConfig() = viewModelScope.launch(Dispatchers.IO) {
         _appConfigState.postValue(ViewState.load())
-        val results = publicRepo.fetchAppConfig(BuildConfig.DEVICE_TYPE)
+        val results = publicRepo.fetchAppConfig(
+            appConfigRequest = AppConfigRequest(
+                deviceType = BuildConfig.DEVICE_TYPE
+            )
+        )
         when (results) {
             is Results.Successful<AppConfig> -> {
                 _appConfigState.postValue(ViewState.data(results.data))
@@ -152,7 +157,7 @@ class PublicViewModel(
         if (account.isEmpty()) {
             _userState.postValue(ViewState.empty())
         } else {
-            val results = userRepo.fetchUser(account = account)
+            val results = userRepo.fetchClient(clientRequest = ClientRequest(clientId = account))
             when (results) {
                 is Results.Successful<ClientInfo> -> {
                     val userInfo = results.data

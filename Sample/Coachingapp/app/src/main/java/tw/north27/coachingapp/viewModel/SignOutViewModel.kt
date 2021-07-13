@@ -21,7 +21,7 @@ class SignOutViewModel(application: Application, val userRepo: IUserRepository) 
     fun signOut() = viewModelScope.launch(Dispatchers.IO) {
         cxt.userPref.setUserPref(
             account = "",
-            expireTime = 0L,
+            expiresTime = 0L,
             accessToken = "",
             refreshToken = "",
             isFirst = false,

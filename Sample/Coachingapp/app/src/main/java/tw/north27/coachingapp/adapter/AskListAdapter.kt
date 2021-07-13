@@ -4,18 +4,19 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.swipe.SwipeLayout
 import com.jakewharton.rxrelay3.PublishRelay
-import com.yujie.utilmodule.pref.getAccount
+import com.yujie.utilmodule.adapter.bindImg
+import com.yujie.utilmodule.pref.getId
 import com.yujie.utilmodule.pref.userPref
-import com.yujie.utilmodule.util.logD
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.consts.dateToString
+import tw.north27.coachingapp.consts.simulation.dateToString
 import tw.north27.coachingapp.databinding.ItemAskBinding
 import tw.north27.coachingapp.model.AskRoom
 import tw.north27.coachingapp.model.AskType
@@ -28,22 +29,17 @@ import tw.north27.coachingapp.model.response.Units
 class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>(object : DiffUtil.ItemCallback<AskRoom>() {
 
     override fun areItemsTheSame(oldItem: AskRoom, newItem: AskRoom): Boolean {
-        logD("areItemsTheSame = ${oldItem.id == newItem.id}")
-        logD("areItemsTheSame = oldItem.id = ${oldItem.id} /  newItem.id = ${newItem.id}")
-        logD("areItemsTheSame = oldItem.text = ${oldItem.askRoomInfo.text} /  newItem.text = ${newItem.askRoomInfo.text}")
         return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: AskRoom, newItem: AskRoom): Boolean {
-        logD("areContentsTheSame = ${oldItem.hashCode() == newItem.hashCode()}")
-        logD("areContentsTheSame = ${oldItem.askRoomInfo.text}/${newItem.askRoomInfo.text}")
         return oldItem.hashCode() == newItem.hashCode()
     }
 }
 ) {
 
-    val account: String
-        get() = runBlocking { cxt.userPref.getAccount().first() }
+    val clientId: String
+        get() = runBlocking { cxt.userPref.getId().first() }
 
     val itemClickRelay = PublishRelay.create<Pair<View, AskRoom>>()
 
@@ -69,7 +65,7 @@ class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>
             ivNotice.bindImg(resId = if (askRoom.isSound) R.drawable.ic_baseline_volume_up_24_blue else R.drawable.ic_baseline_volume_off_24_red)
             tvTime.text = dateToString(askInfo.sendTime)
             //
-            val sb = StringBuffer(if (askInfo.senderAct == account) tvContent.context.getString(R.string.you) else otherUser.name)
+            val sb = StringBuffer(if (askInfo.senderId == clientId) tvContent.context.getString(R.string.you) else otherUser.name)
             tvContent.text = when (askInfo.askType) {
                 AskType.TEXT -> askInfo.text
                 AskType.IMAGE -> sb.append(tvContent.context.getString(R.string.sent_img))

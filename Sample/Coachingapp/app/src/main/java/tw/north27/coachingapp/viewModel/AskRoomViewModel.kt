@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.yujie.utilmodule.base.BaseAndroidViewModel
 import com.yujie.utilmodule.ext.asLiveData
 import com.yujie.utilmodule.http.Results
-import com.yujie.utilmodule.pref.getAccount
+import com.yujie.utilmodule.pref.getId
 import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
@@ -29,17 +29,17 @@ class AskRoomViewModel(
 
     fun fetchAskInfoList(roomId: Long) = viewModelScope.launch(Dispatchers.IO) {
         _askInfoListState.postValue(ViewState.load())
-        val account = cxt.userPref.getAccount().first()
-        val results = actionRepo.fetchAskInfoList(
+        val clientId = cxt.userPref.getId().first()
+        val results = actionRepo.fetchAskRoomInfoList(
             AskRoomInfoRequest(
                 roomId = roomId,
-                clientId = account,
+                clientId = clientId,
                 index = 0,
                 num = 0
             )
         )
         when (results) {
-            is Results.Successful -> {
+            is Results.Successful<List<AskRoomInfo>> -> {
                 val askInfoList = results.data
                 if (askInfoList.isNullOrEmpty())
                     _askInfoListState.postValue(ViewState.empty())

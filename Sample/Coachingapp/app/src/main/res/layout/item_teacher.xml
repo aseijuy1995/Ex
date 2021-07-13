@@ -5,7 +5,7 @@
     <data>
 
         <variable
-            name="userInfo"
+            name="clientInfo"
             type="tw.north27.coachingapp.model.ClientInfo" />
     </data>
 
@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    android:text="@{userInfo.name}"
+                    android:text="@{clientInfo.name}"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
@@ -78,7 +78,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="5dp"
-                    android:text="@{String.valueOf(userInfo.teacherInfo.commentScoreAvg)}"
+                    android:text="@{String.valueOf(clientInfo.teacherInfo.commentScoreAvg)}"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"

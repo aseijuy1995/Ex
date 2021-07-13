@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 
 /**
+ * 請求提問室列表
  * @param clientId >> 用戶Id
  * @param askId >> 最新提問條Id
  * */
@@ -13,6 +14,7 @@ data class AskRoomRequest(
 )
 
 /**
+ * 請求提問室列表詳細資訊
  * @param roomId >> 房間id
  * @param clientId >> 用戶Id
  * @param index >> 索引

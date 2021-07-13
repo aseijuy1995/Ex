@@ -13,7 +13,7 @@ data class ClientRequest(
 )
 
 /**
- * 請求 - 更新用戶資訊
+ * 請求更新用戶資訊
  * @param clientId >> 用戶id
  * @param bgUrl? >> 背景
  * @param avatarUrl? >> 頭貼

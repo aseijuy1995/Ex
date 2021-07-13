@@ -53,6 +53,8 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
             binding.itemNetwork.root.isVisible = (it is ViewState.Network)
             when (it) {
                 is ViewState.Data -> {
+                    val askRoomInfoList = it.data
+                    adapter.submitList(askRoomInfoList)
                 }
             }
         }

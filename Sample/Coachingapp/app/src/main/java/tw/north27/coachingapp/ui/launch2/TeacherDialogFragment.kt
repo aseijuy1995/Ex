@@ -4,9 +4,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseDialogFragment
+import com.yujie.utilmodule.ext.clicksObserve
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.SubjectLabelListAdapter
+import tw.north27.coachingapp.adapter.bindChartComment
+import tw.north27.coachingapp.adapter.bindChartReply
+import tw.north27.coachingapp.adapter.bindGender
 import tw.north27.coachingapp.databinding.FragmentTeacherDialogBinding
 import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.response.Units
@@ -22,7 +27,7 @@ class TeacherDialogFragment : BaseDialogFragment<FragmentTeacherDialogBinding>(R
     private val args by navArgs<TeacherDialogFragmentArgs>()
 
     private val clientInfo: ClientInfo
-        get() = args.userInfo
+        get() = args.clientInfo
 
     private lateinit var adapter: SubjectLabelListAdapter
 

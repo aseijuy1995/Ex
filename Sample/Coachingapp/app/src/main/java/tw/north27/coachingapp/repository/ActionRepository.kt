@@ -14,31 +14,24 @@ import tw.north27.coachingapp.model.response.SoundResponse
 
 class ActionRepository(private val service: IApiService) : IActionRepository {
 
-    override suspend fun fetchAskRoomList(askRoomRequest: AskRoomRequest): Results<List<AskRoom>> {
-        return safeApiResults { service.fetchAskRoomList(askRoomRequest = askRoomRequest) }
-    }
+    override suspend fun fetchTeacherList(teacherRequest: TeacherRequest): Results<List<ClientInfo>> =
+        safeApiResults { service.fetchTeacherList(teacherRequest = teacherRequest) }
 
-    override suspend fun updateAskRoomPush(pushRequest: PushRequest): Results<PushResponse> {
-        return safeApiResults { service.updateAskRoomPush(pushRequest = pushRequest) }
-    }
+    override suspend fun fetchAskRoomList(askRoomRequest: AskRoomRequest): Results<List<AskRoom>> =
+        safeApiResults { service.fetchAskRoomList(askRoomRequest = askRoomRequest) }
 
-    override suspend fun updateAskRoomSound(soundRequest: SoundRequest): Results<SoundResponse> {
-        return safeApiResults { service.updateAskRoomSound(soundRequest = soundRequest) }
-    }
+    override suspend fun updateAskRoomPush(pushRequest: PushRequest): Results<PushResponse> =
+        safeApiResults { service.updateAskRoomPush(pushRequest = pushRequest) }
 
-    override suspend fun fetchAskInfoList(askRoomInfoRequest: AskRoomInfoRequest): Results<List<AskRoomInfo>> {
-        return safeApiResults { service.fetchAskRoomInfoList(askRoomInfoRequest = askRoomInfoRequest) }
-    }
+    override suspend fun updateAskRoomSound(soundRequest: SoundRequest): Results<SoundResponse> =
+        safeApiResults { service.updateAskRoomSound(soundRequest = soundRequest) }
 
-    override suspend fun fetchTeacherList(teacherRequest: TeacherRequest): Results<List<ClientInfo>> {
-        return safeApiResults { service.fetchTeacherList(teacherRequest = teacherRequest) }
-    }
+    override suspend fun fetchAskRoomInfoList(askRoomInfoRequest: AskRoomInfoRequest): Results<List<AskRoomInfo>> =
+        safeApiResults { service.fetchAskRoomInfoList(askRoomInfoRequest = askRoomInfoRequest) }
 
-    override suspend fun fetchCommentList(commentRequest: CommentRequest): Results<List<CommentInfo>> {
-        return safeApiResults { service.fetchCommentList(commentRequest = commentRequest) }
-    }
+    override suspend fun fetchCommentList(commentRequest: CommentRequest): Results<List<CommentInfo>> =
+        safeApiResults { service.fetchCommentList(commentRequest = commentRequest) }
 
-    override suspend fun insertReflect(reflectRequest: ReflectRequest): Results<ReflectResponse> {
-        return safeApiResults { service.insertReflect(reflectRequest = reflectRequest) }
-    }
+    override suspend fun insertReflect(reflectRequest: ReflectRequest): Results<ReflectResponse> =
+        safeApiResults { service.insertReflect(reflectRequest = reflectRequest) }
 }

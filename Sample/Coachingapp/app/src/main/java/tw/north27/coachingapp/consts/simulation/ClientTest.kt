@@ -2,21 +2,19 @@ package tw.north27.coachingapp.consts.simulation
 
 import com.yujie.utilmodule.UserPref
 import com.yujie.utilmodule.http.TokenInfo
-import tw.north27.coachingapp.consts.*
 import tw.north27.coachingapp.model.*
 
 val clientId_Test = "north27_id"
-var tokenType_Test = "Bearer"
-var accessToken_Test = "accessTokenTest"
-var refreshToken_Test = "refreshTokenTest"
-var expiresIn_Test = 900
-
-//
-var uuid_Test = ""
 val account_Test = "north27"
 val password_Test = "north27"
+var tokenType_Test = UserPref.TokenType.Bearer
+var accessToken_Test = "accessTokenTest"
+var refreshToken_Test = "refreshTokenTest"
+var expiresIn_Test = 900L
 var isFirst_Test = true
 var pushToken_Test = "pushTokenTest"
+val authorityStudent_Test = UserPref.Authority.STUDENT
+val authorityTeacher_Test = UserPref.Authority.TEACHER
 
 val tokenInfo_Test = TokenInfo(
     tokenType = tokenType_Test,
@@ -36,7 +34,7 @@ val signInInfo_Test: SignInInfo
         clientInfo = ClientInfo(
             id = clientId_Test,
             auth = authorityStudent_Test,
-//            auth = authorityTeacherTest,
+//            auth = authorityTeacher_Test,
         ),
         tokenInfo = tokenInfo_Test,
         isFirst = isFirst_Test,
@@ -47,47 +45,41 @@ val signFail_Test = SignInfo(
     signCode = SignCode.SIGN_IN_FAIL.code,
     msg = "帳號已登入其他裝置，請重新登入..."
 )
-//
-//
 
-val authorityStudent_Test = UserPref.Authority.STUDENT
-val authorityTeacherTest = UserPref.Authority.TEACHER
-var bgUrlTest = "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
-var avatarUrlTest = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
-var nameTest = "北緯科技"
-var genderTest = Gender.MALE
-var introTest = "這是簡單的自我介紹！這是簡單的自我介紹2！這是簡單的自我介紹3！這是簡單的自我介紹4！這是簡單的自我介紹5！"
-var birthdayTest = stringToDate("2018/12/21")
-var cellPhoneTest = "0912-345-678"
-var homePhoneTest = "02-3456-7890"
-var emailTest = "north27@north27.tw"
-var schoolTest = "新北市板橋區板橋國小"
-var gradeIdTest = 8L
-var replyNoticeTest = false
-var msgNoticeTest = true
+var bgUrl_Test = "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+var avatarUrl_Test = "http://static.104.com.tw/b_profile/cust_picture/8063/130000000158063/logo.png?v=20210220092939"
+var name_Test = "北緯科技"
+var gender_Test = Gender.MALE
+var intro_Test = "這是簡單的自我介紹！這是簡單的自我介紹2！這是簡單的自我介紹3！這是簡單的自我介紹4！這是簡單的自我介紹5！"
+var birthday_Test = stringToDate("2018/12/21")
+var cellPhone_Test = "0912-345-678"
+var homePhone_Test = "02-3456-7890"
+var email_Test = "north27@north27.tw"
+var school_Test = "新北市板橋區板橋國小"
+var gradeId_Test = 8L
+var replyNotice_Test = false
+var msgNotice_Test = true
 
-//
 /**
  * 用戶資訊
  * */
-val userInfoTest = ClientInfo(
-    id = account_Test,
-    //
+val clientInfo_Test = ClientInfo(
+    id = clientId_Test,
     auth = authorityStudent_Test,
-//    auth = authorityTeacherTest,
+//    auth = authorityTeacher_Test,
     //
-    bgUrl = bgUrlTest,
-    avatarUrl = avatarUrlTest,
-    name = nameTest,
-    gender = genderTest,
-    intro = introTest,
-    birthday = birthdayTest,
-    cellPhone = cellPhoneTest,
-    homePhone = homePhoneTest,
-    email = emailTest,
+    bgUrl = bgUrl_Test,
+    avatarUrl = avatarUrl_Test,
+    name = name_Test,
+    gender = gender_Test,
+    intro = intro_Test,
+    birthday = birthday_Test,
+    cellPhone = cellPhone_Test,
+    homePhone = homePhone_Test,
+    email = email_Test,
     studentInfo = StudentInfo(
-        school = schoolTest,
-        gradeId = gradeIdTest,
+        school = school_Test,
+        gradeId = gradeId_Test,
     ),
     teacherInfo = TeacherInfo(
         commentScoreAvg = getCommentScoreAvg(),
@@ -97,14 +89,14 @@ val userInfoTest = ClientInfo(
         unitsList = unitList_Test.filter { it.subjectId == 1L }
     ),
     userConfig = UserConfig(
-        replyNotice = replyNoticeTest,
-        msgNotice = msgNoticeTest,
+        replyNotice = replyNotice_Test,
+        msgNotice = msgNotice_Test,
     ),
 )
 
 val teacherInfoListTest = listOf<ClientInfo>(
     ClientInfo(
-        id = "rebeccaAct",
+        id = "rebeccaId",
         auth = UserPref.Authority.TEACHER,
         //
         bgUrl = "https://images.unsplash.com/photo-1622495807835-858ac1da986d?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=967&q=80",
@@ -165,7 +157,7 @@ val teacherInfoListTest = listOf<ClientInfo>(
         ),
     ),
     ClientInfo(
-        id = "peiYuAct",
+        id = "peiYuId",
         auth = UserPref.Authority.TEACHER,
         //
         bgUrl = "https://images.unsplash.com/photo-1621570070821-2e2b1358fae3?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
@@ -174,7 +166,7 @@ val teacherInfoListTest = listOf<ClientInfo>(
         name = "裴育",
         //
         gender = Gender.MALE,
-        intro = "關於Pei Yu\n\n" +
+        intro = "關於裴育\n\n" +
                 "專攻\n\n" +
                 "國小 / 一年級 / 二年級 / 數學" +
                 "單元/類型\n\n" +
@@ -249,13 +241,21 @@ val teacherInfoListTest = listOf<ClientInfo>(
         )
     ),
     ClientInfo(
-        id = "mimiAct",
+        id = "mimiId",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1624799993735-41a4ee092f7b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/142/217/normal/vovnbl.png?1621920493",
         name = "米米老師",
         gender = Gender.FEMALE,
-        intro = "\uD83D\uDD25疫情期間鼓勵停課不停學「享有特別專案」\uD83D\uDD25\n" +
+        intro = "關於米米老師\n\n" +
+                "專攻\n\n" +
+                "國小 / 一年級 / 二年級 / 國語" +
+                "單元/類型\n\n" +
+                "\t\t手拉手\n" +
+                "\t\t排一排\n" +
+                "\t\t踩影子\n" +
+                "\t\t再玩一次\n\n" +
+                "\uD83D\uDD25疫情期間鼓勵停課不停學「享有特別專案」\uD83D\uDD25\n" +
                 "\uD83D\uDE4C加入老師Line ID：chen-yu-yu（優先享課程優惠與講義試閱）\n" +
                 "\uD83C\uDF1F任教於多所補習班、安親班、幼兒園\n" +
                 "\uD83C\uDF1F中文教學經驗逾十年\uD83C\uDF1F\n" +
@@ -319,21 +319,28 @@ val teacherInfoListTest = listOf<ClientInfo>(
         homePhone = "02-222-3333",
         email = "mimi@gmail.com",
         teacherInfo = TeacherInfo(
+            unitsList = unitList_Test.filter { it.educationLevelId == 1L && (it.gradeId == 1L || it.gradeId == 2L) && it.subjectId == 1L },
+            //
             commentScoreAvg = getCommentScoreAvg(),
             commentScoreCountList = getCommentScoreCountList(),
             replyRate = getReplyRate(),
             replyCountList = replyCountListTest,
-            unitsList = unitList_Test.filter { it.subjectId == 1L }
         )
     ),
     ClientInfo(
-        id = "yujunAct",
+        id = "yujunId",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1584920956891-2fccb1c144ad?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/251/483/normal/vrvmsw.png?1624516244",
         name = "昱君",
         gender = Gender.FEMALE,
-        intro = "\u200B\u200B✔️語文教育碩士、國文升學考補教多年經驗\n" +
+        intro = "關於昱君\n\n" +
+                "專攻\n\n" +
+                "國中 / 七年級 / 國文" +
+                "單元/類型\n\n" +
+                "\t\t夏夜 楊喚\n" +
+                "\t\t論語選\n\n" +
+                "\u200B\u200B✔️語文教育碩士、國文升學考補教多年經驗\n" +
                 "\u200B\u200B✔️作文寫作專業教法，學生從200字短文進步成800字長文\n" +
                 "\u200B\u200B✔️資深補教國小講師，讓國文奠定未來學習的基石\n" +
                 "✔️\u200B\u200B協助多位學生克服會考，國文科目穩居各科第一\n" +
@@ -381,15 +388,16 @@ val teacherInfoListTest = listOf<ClientInfo>(
         homePhone = "02-333-4444",
         email = "yujun@gmail.com",
         teacherInfo = TeacherInfo(
+            unitsList = unitList_Test.filter { it.educationLevelId == 2L && it.gradeId == 3L && it.subjectId == 4L },
+            //
             commentScoreAvg = getCommentScoreAvg(),
             commentScoreCountList = getCommentScoreCountList(),
             replyRate = getReplyRate(),
             replyCountList = replyCountListTest,
-            unitsList = unitList_Test.filter { it.subjectId == 1L }
         )
     ),
     ClientInfo(
-        id = "gingAct",
+        id = "gingId",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1593642532454-e138e28a63f4?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/464/931/normal/xdmhqp.png?1609914398",
@@ -479,7 +487,7 @@ val teacherInfoListTest = listOf<ClientInfo>(
         )
     ),
     ClientInfo(
-        id = "akuanAct",
+        id = "akuanId",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1624804269473-828dcc30a210?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=701&q=80",
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/647/644/normal/dynmkn.png?1621697783",
@@ -528,7 +536,7 @@ val teacherInfoListTest = listOf<ClientInfo>(
         )
     ),
     ClientInfo(
-        id = "allenAct",
+        id = "allenId",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1622495546876-3fccb94d3e2c?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/643/730/normal/nujeje.png?1624109127",
@@ -584,7 +592,7 @@ val teacherInfoListTest = listOf<ClientInfo>(
         )
     ),
     ClientInfo(
-        id = "catfishAct",
+        id = "catfishId",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1621569898825-ef12e7592f94?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=675&q=80",
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/431/253/normal/wymplr.png?1624816289",
@@ -627,7 +635,7 @@ val teacherInfoListTest = listOf<ClientInfo>(
         )
     ),
     ClientInfo(
-        id = "encoreAct",
+        id = "encoreId",
         auth = UserPref.Authority.TEACHER,
         bgUrl = "https://images.unsplash.com/photo-1624602150320-041eb7374810?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80",
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/635/991/normal/bqvcbl.png?1620720822",

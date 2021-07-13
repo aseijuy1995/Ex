@@ -3,7 +3,7 @@ package tw.north27.coachingapp.model.response
 import com.google.gson.annotations.SerializedName
 
 /**
- * 響應 - 公有數據
+ * 公有數據
  * @param shareLink >> 推廣連結
  * @param aboutCoaching >> 關於Coaching內容
  * @param commonProblemList >> 常見問題列表

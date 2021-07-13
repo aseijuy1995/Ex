@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.yujie.utilmodule.base.BaseAndroidViewModel
 import com.yujie.utilmodule.ext.asLiveData
 import com.yujie.utilmodule.http.Results
-import com.yujie.utilmodule.pref.getAccount
+import com.yujie.utilmodule.pref.getId
 import com.yujie.utilmodule.pref.userPref
 import com.yujie.utilmodule.util.ViewState
 import kotlinx.coroutines.Dispatchers
@@ -31,10 +31,10 @@ class AskViewModel(
 
     fun fetchAskRoomList(id: Long? = null) = viewModelScope.launch(Dispatchers.IO) {
         _askRoomListState.postValue(ViewState.load())
-        val account = cxt.userPref.getAccount().first()
+        val clientId = cxt.userPref.getId().first()
         val results = actionRepo.fetchAskRoomList(
             AskRoomRequest(
-                clientId = account,
+                clientId = clientId,
                 askId = id
             )
         )
@@ -62,11 +62,11 @@ class AskViewModel(
 
     fun updateAskRoomPush(id: Long, state: Boolean) = viewModelScope.launch(Dispatchers.IO) {
         _pushState.postValue(ViewState.load())
-        val account = cxt.userPref.getAccount().first()
+        val clientId = cxt.userPref.getId().first()
         val results = actionRepo.updateAskRoomPush(
             PushRequest(
                 roomId = id,
-                clientId = account,
+                clientId = clientId,
                 isState = state
             )
         )
@@ -90,11 +90,11 @@ class AskViewModel(
 
     fun updateAskRoomSound(id: Long, state: Boolean) = viewModelScope.launch(Dispatchers.IO) {
         _soundState.postValue(ViewState.load())
-        val account = cxt.userPref.getAccount().first()
+        val clientId = cxt.userPref.getId().first()
         val results = actionRepo.updateAskRoomSound(
             SoundRequest(
                 roomId = id,
-                clientId = account,
+                clientId = clientId,
                 isState = state
             )
         )

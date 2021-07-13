@@ -1,6 +1,7 @@
 package tw.north27.coachingapp.consts
 
 import com.yujie.utilmodule.http.*
+import com.yujie.utilmodule.pref.getId
 import com.yujie.utilmodule.pref.getRefreshToken
 import com.yujie.utilmodule.pref.userPref
 import kotlinx.coroutines.flow.first
@@ -10,6 +11,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import tw.north27.coachingapp.BuildConfig
+import tw.north27.coachingapp.model.request.TokenRequest
 import tw.north27.coachingapp.repository.*
 import tw.north27.coachingapp.viewModel.*
 
@@ -21,10 +23,17 @@ val httpModules = module {
                     cxt = androidContext(),
                     tokenCallback = get()
                 ),
-                authRspIntcp = AuthResponseInterceptor(cxt = androidContext(), tokenCallback = {
-                    val refreshToken = runBlocking { androidContext().userPref.getRefreshToken().first() }
-                    (get() as IApiService).refreshToken(refreshToken)
-                }),
+                authRspIntcp = AuthResponseInterceptor(cxt = androidContext(),
+                    tokenCallback = {
+                        val refreshToken = runBlocking { androidContext().userPref.getRefreshToken().first() }
+                        (get() as IUserRepository).refreshToken(
+                            tokenRequest = TokenRequest(
+                                clientId = runBlocking { androidContext().userPref.getId().first() },
+                                refreshToken = refreshToken,
+                            )
+                        )
+                    }
+                ),
                 refTokenRspIntcp = get()
             )
         )
