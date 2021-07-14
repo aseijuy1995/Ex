@@ -7,7 +7,6 @@ import com.yujie.utilmodule.base.BaseBottomSheetDialogFragment
 import com.yujie.utilmodule.ext.clicksObserve
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.adapter.AskRoomMediaListAdapter
 import tw.north27.coachingapp.databinding.FragmentAskRoomMediaDialogBinding
 import tw.north27.coachingapp.media.AskRoomMediaViewModel
 
@@ -24,7 +23,7 @@ class AskRoomMediaDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoom
             null
         }
 
-    private lateinit var adapter: AskRoomMediaListAdapter
+//    private lateinit var adapter: AskRoomMediaListAdapter
 
     companion object {
         val REQUEST_KEY_MEDIA = "REQUEST_KEY_MEDIA"
