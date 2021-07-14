@@ -125,28 +125,21 @@
     <string name="sent_video">傳送了影片</string>
     <!-- AskRoomFragment -->
     <string name="not_find_ask_room">找不到提問室</string>
-    <!--    -->
     <string name="have_read">已讀</string>
     <string name="un_read">未讀</string>
-
-
-    <string name="search">搜尋</string>
-    <string name="top">Top</string>
-    <string name="all">全部</string>
-    <string name="open_sound_notify">開啟聲音通知</string>
-    <string name="close_sound_notify">關閉聲音通知</string>
-    <string name="deleted">已刪除</string>
-
-    <string name="aa">Aa</string>
+    <!-- AskRoomModeDialogFragment -->
+    <string name="enter">請輸入...</string>
+    <string name="send_mode">發送模式</string>
     <string name="camera">拍攝照片</string>
     <string name="album">選取相片</string>
     <string name="recording">錄製音訊</string>
     <string name="audio">選取音訊</string>
     <string name="video">錄製影片</string>
-    <string name="movie">選取影片</string>
-    <string name="phone">撥打電話</string>
+    <string name="film">選取影片</string>
     <string name="permission_deny">權限已被拒絕</string>
+<!--    -->
     <string name="go_settings">前往設定</string>
+
     <!--    <string name="video_duration_format">%2d:%2d</string>-->
     <string name="choice_count">已選%s項</string>
     <string name="send">發送</string>

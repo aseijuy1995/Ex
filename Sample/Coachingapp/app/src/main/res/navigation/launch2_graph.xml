@@ -48,7 +48,13 @@
         android:id="@+id/fragment_ask_room"
         android:name="tw.north27.coachingapp.ui.launch2.ask.AskRoomFragment"
         android:label="fragment_ask_room"
-        tools:layout="@layout/fragment_ask_room" />
+        tools:layout="@layout/fragment_ask_room">
+
+        <action
+            android:id="@+id/action_fragment_ask_room_to_fragment_ask_room_mode_dialog"
+            app:destination="@id/fragment_ask_room_mode_dialog" />
+
+    </fragment>
 
     <action
         android:id="@+id/action_to_fragment_ask_room"
@@ -65,9 +71,11 @@
 
     </action>
 
-    <!--    <action-->
-    <!--        android:id="@+id/action_fragment_chat_room_to_fragment_chat_room_add_dialog"-->
-    <!--        app:destination="@id/fragment_chat_room_add_dialog" />-->
+    <dialog
+        android:id="@+id/fragment_ask_room_mode_dialog"
+        android:name="tw.north27.coachingapp.ui.launch2.ask.AskRoomModeDialogFragment"
+        android:label="fragment_ask_room_mode_dialog"
+        tools:layout="@layout/fragment_ask_room_mode_dialog" />
 
     <!--    <action-->
     <!--        android:id="@+id/action_fragment_chat_room_to_fragment_chat_room_media_dialog"-->

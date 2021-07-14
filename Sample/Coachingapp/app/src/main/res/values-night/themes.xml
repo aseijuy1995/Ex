@@ -28,12 +28,13 @@
         <item name="android:background">@color/blue_293c4f</item>
     </style>
 
-    <style name="BottomSheetDialogTheme" parent="Theme.MaterialComponents.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/BottomSheetModal</item>
+    <style name="BottomSheetTheme.TopRadius15" parent="Theme.Design.BottomSheetDialog">
         <item name="android:backgroundDimEnabled">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheetStyle.TopRadius15</item>
     </style>
 
-    <style name="BottomSheetModal" parent="Widget.Design.BottomSheet.Modal">
+    <style name="BottomSheetStyle.TopRadius15" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/shape_solid_white_corners_radius_top_lt_rt_15</item>
     </style>
+
 </resources>

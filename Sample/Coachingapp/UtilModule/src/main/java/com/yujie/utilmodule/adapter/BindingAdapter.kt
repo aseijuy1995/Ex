@@ -14,7 +14,6 @@ import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import com.yujie.utilmodule.R
 import jp.wasabeef.glide.transformations.BlurTransformation
-import java.text.SimpleDateFormat
 import java.util.*
 
 enum class SetType {
@@ -72,10 +71,14 @@ fun View.bindVisible(isVisible: Boolean = true) {
 
 /**
  * 日期轉換為提問表顯示時間
- * @param dateString >> 日期字串
+ * @param date >> 日期
  * */
-@BindingAdapter("bind:convDateToAskTime")
-fun TextView.bindConvDateToAskTime(date: Date?) {
-
-    val dateString = SimpleDateFormat("yyyy/MM/dd HH:mm").format(date)
+@BindingAdapter("bind:convDateToTime")
+fun TextView.bindConvDateToTime(date: Date?) {
+    val calendar = Calendar.getInstance()
+    calendar.time = date
+    val hour = calendar.get(Calendar.HOUR_OF_DAY)
+    val minute = calendar.get(Calendar.MINUTE)
+    val sf = String.format("%s:%s", if (hour < 10) "0$hour" else hour.toString(), if (minute < 10) "0$minute" else minute.toString())
+    text = sf
 }

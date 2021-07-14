@@ -124,15 +124,15 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--        <androidx.appcompat.widget.AppCompatTextView-->
-<!--            android:id="@+id/tv_read"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="5dp"-->
-<!--            android:textColor="@color/gray_aaaaaa"-->
-<!--            android:textSize="10sp"-->
-<!--            app:layout_constraintBottom_toTopOf="@id/tv_time"-->
-<!--            app:layout_constraintStart_toEndOf="@id/cl_layout" />-->
+        <!--        <androidx.appcompat.widget.AppCompatTextView-->
+        <!--            android:id="@+id/tv_read"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginStart="5dp"-->
+        <!--            android:textColor="@color/gray_aaaaaa"-->
+        <!--            android:textSize="10sp"-->
+        <!--            app:layout_constraintBottom_toTopOf="@id/tv_time"-->
+        <!--            app:layout_constraintStart_toEndOf="@id/cl_layout" />-->
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_time"
@@ -142,7 +142,8 @@
             android:textColor="@color/gray_aaaaaa"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@id/cl_layout"
-            app:layout_constraintStart_toEndOf="@id/cl_layout" />
+            app:layout_constraintStart_toEndOf="@id/cl_layout"
+            bind:convDateToTime="@{askRoomInfo.sendTime}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

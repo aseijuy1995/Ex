@@ -35,7 +35,8 @@
             android:textColor="@color/gray_aaaaaa"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@id/cl_layout"
-            app:layout_constraintEnd_toStartOf="@id/cl_layout" />
+            app:layout_constraintEnd_toStartOf="@id/cl_layout"
+            bind:convDateToTime="@{askRoomInfo.sendTime}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_layout"

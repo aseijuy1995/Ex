@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseFragment
@@ -64,6 +65,12 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
         }
 
 
+        binding.itemAskRoomEnter.ivAdd.clicksObserve(owner = viewLifecycleOwner) {
+            findNavController().navigate(AskRoomFragmentDirections.actionFragmentAskRoomToFragmentAskRoomModeDialog())
+        }
+        //
+
+
 //        binding.rvChat.apply {
 //            adapter = this@AskRoomFragment.adapter
 //            scrollStateChanges().observe(viewLifecycleOwner) {
@@ -121,10 +128,6 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 //        //接收通知滑動置頂
 //        binding.rvChat.adapter?.registerAdapterDataObserver(adapterDataObserver)
 //
-//        binding.ivBack.clicksObserve(owner = viewLifecycleOwner) {
-//            findNavController().navigateUp()
-//        }
-//
 //        binding.ivTask.clicksObserve(owner = viewLifecycleOwner) {
 //
 //        }
@@ -133,9 +136,6 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 //            viewModel.inputEmpty(TextUtils.isEmpty(it.trim()))
 //        }
 //
-//        binding.itemBottomChatRoom.ivAdd.clicksObserve(owner = viewLifecycleOwner) {
-////            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomAddDialog())
-//        }
 //
 //        binding.itemBottomChatRoom.ivSend.clicksObserve(owner = viewLifecycleOwner) {
 //            val text = binding.itemBottomChatRoom.etText.text.toString()
@@ -168,41 +168,29 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 //            act.hideKeyBoard()
 //        }
 //
-//        setFragmentResultListener(ChatRoomAddDialogFragment.REQUEST_KEY_CHAT_ROOM_ADD) { key, bundle ->
-//            val isPer: Boolean = bundle.getBoolean(ChatRoomAddDialogFragment.KEY_MEDIA_PERMISSION)
-//            val feature: ChatRoomAddViewModel.MediaFeature? = bundle.getParcelable<ChatRoomAddViewModel.MediaFeature>(ChatRoomAddDialogFragment.KEY_MEDIA_FEATURE)
-//            if (isPer) {
-//                /**
-//                 * FIXME 延遲以防止JetPack-Navigation觸發IllegalArgumentException
-//                 * */
-//                lifecycleScope.launch {
-//                    delay(500)
-//                    when (feature) {
-//                        ChatRoomAddViewModel.MediaFeature.CAMERA -> {
-////                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentCameraX())
-//                        }
-//                        ChatRoomAddViewModel.MediaFeature.PHOTO -> {
-////                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.IMAGE))
-//                        }
-//                        ChatRoomAddViewModel.MediaFeature.MIC -> {
-//
-//                        }
-//                        ChatRoomAddViewModel.MediaFeature.AUDIO -> {
-////                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.AUDIO))
-//                        }
-//                        ChatRoomAddViewModel.MediaFeature.VIDEO -> {
-//
-//                        }
-//                        ChatRoomAddViewModel.MediaFeature.MOVIE -> {
-////                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.VIDEO))
-//                        }
-//                    }
-//
-//                }
-//            } else {
-//                SnackbarUtil.showPermissionDeny(binding.root)
-//            }
-//        }
+        setFragmentResultListener(AskRoomModeDialogFragment.REQUEST_KEY_ASK_ROOM_MODE) { key, bundle ->
+            val mode: AskRoomModeDialogFragment.SendMode? = bundle.getParcelable<AskRoomModeDialogFragment.SendMode>(AskRoomModeDialogFragment.KEY_SEND_MODE)
+            when (mode) {
+                AskRoomModeDialogFragment.SendMode.CAMERA -> {
+//                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentCameraX())
+                }
+                AskRoomModeDialogFragment.SendMode.ALBUM -> {
+//                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.IMAGE))
+                }
+                AskRoomModeDialogFragment.SendMode.RECORDING -> {
+
+                }
+                AskRoomModeDialogFragment.SendMode.AUDIO -> {
+//                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.AUDIO))
+                }
+                AskRoomModeDialogFragment.SendMode.VIDEO -> {
+
+                }
+                AskRoomModeDialogFragment.SendMode.FILM -> {
+//                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.VIDEO))
+                }
+            }
+        }
 //
 //        setFragmentResultListener(ChatRoomMediaDialogFragment.REQUEST_KEY_MEDIA) { key, bundle ->
 //            lifecycleScope.launch(Dispatchers.IO) {
