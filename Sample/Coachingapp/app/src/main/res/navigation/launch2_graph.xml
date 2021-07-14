@@ -54,6 +54,17 @@
             android:id="@+id/action_fragment_ask_room_to_fragment_ask_room_mode_dialog"
             app:destination="@id/fragment_ask_room_mode_dialog" />
 
+        <action
+            android:id="@+id/action_fragment_ask_room_to_fragment_ask_room_media_dialog"
+            app:destination="@id/fragment_ask_room_media_dialog">
+
+            <argument
+                android:name="sendMode"
+                app:argType="tw.north27.coachingapp.ui.launch2.ask.AskRoomModeDialogFragment.SendMode"
+                app:nullable="false" />
+
+        </action>
+
     </fragment>
 
     <action
@@ -76,6 +87,12 @@
         android:name="tw.north27.coachingapp.ui.launch2.ask.AskRoomModeDialogFragment"
         android:label="fragment_ask_room_mode_dialog"
         tools:layout="@layout/fragment_ask_room_mode_dialog" />
+
+    <dialog
+        android:id="@+id/fragment_ask_room_media_dialog"
+        android:name="tw.north27.coachingapp.ui.launch2.ask.AskRoomMediaDialogFragment"
+        android:label="fragment_ask_room_media_dialog"
+        tools:layout="@layout/fragment_ask_room_media_dialog" />
 
     <!--    <action-->
     <!--        android:id="@+id/action_fragment_chat_room_to_fragment_chat_room_media_dialog"-->

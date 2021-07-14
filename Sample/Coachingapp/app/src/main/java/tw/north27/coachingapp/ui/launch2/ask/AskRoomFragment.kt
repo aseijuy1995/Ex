@@ -175,7 +175,7 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 //                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentCameraX())
                 }
                 AskRoomModeDialogFragment.SendMode.ALBUM -> {
-//                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.IMAGE))
+                    findNavController().navigate(AskRoomFragmentDirections.actionFragmentAskRoomToFragmentAskRoomMediaDialog(mode))
                 }
                 AskRoomModeDialogFragment.SendMode.RECORDING -> {
 

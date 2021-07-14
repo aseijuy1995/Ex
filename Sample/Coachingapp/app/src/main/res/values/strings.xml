@@ -137,7 +137,8 @@
     <string name="video">錄製影片</string>
     <string name="film">選取影片</string>
     <string name="permission_deny">權限已被拒絕</string>
-<!--    -->
+    <!--  AskRoomMediaDialogFragment  -->
+    <!--    -->
     <string name="go_settings">前往設定</string>
 
     <!--    <string name="video_duration_format">%2d:%2d</string>-->
