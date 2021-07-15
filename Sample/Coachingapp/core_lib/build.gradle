@@ -1,0 +1,171 @@
+plugins {
+    id "com.android.library"
+    id "kotlin-android"
+    id "kotlin-kapt"
+    id "com.google.protobuf"
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    /**
+     * Http
+     * */
+    //Square
+    def okhttp = "4.9.1"
+    implementation platform("com.squareup.okhttp3:okhttp-bom:$okhttp")
+    implementation "com.squareup.okhttp3:okhttp:$okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    implementation "com.squareup.okhttp3:mockwebserver:$okhttp"
+    def retrofit = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+    implementation "com.squareup.retrofit2:retrofit-mock:$retrofit"
+    //
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-guava:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-jackson:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-jaxb:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-moshi:$retrofit"
+////    implementation "com.squareup.retrofit2:converter-protobuf:3.10.0"
+//    implementation "com.squareup.retrofit2:converter-scalars:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-simplexml:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-wire:$retrofit"
+//    implementation "com.squareup.retrofit2:adapter-guava:$retrofit"
+//    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofit"
+//    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+//    implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit"
+//    implementation "com.squareup.retrofit2:adapter-scala:$retrofit"
+    //Glide
+    def glide = "4.11.0"
+    implementation "com.github.bumptech.glide:glide:$glide"
+    implementation "com.github.bumptech.glide:okhttp3-integration:$glide"
+    kapt "com.github.bumptech.glide:compiler:$glide"
+    //Glide - Transformations
+    implementation "jp.wasabeef:glide-transformations:4.3.0"
+    //Glide - GPU
+    implementation "jp.co.cyberagent.android:gpuimage:2.1.0"
+    /**
+     * JetPack
+     * */
+    def lifecycle = "2.3.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-service:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-process:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle"
+    //DataStore
+    def dataStore = "1.0.0-beta01"
+    implementation "androidx.datastore:datastore:$dataStore"
+    implementation "androidx.datastore:datastore-rxjava2:$dataStore"
+    implementation "androidx.datastore:datastore-rxjava3:$dataStore"
+    implementation "androidx.datastore:datastore-core:$dataStore"
+    //DataStore - Preferences
+    implementation "androidx.datastore:datastore-preferences:$dataStore"
+    implementation "androidx.datastore:datastore-preferences-rxjava2:$dataStore"
+    implementation "androidx.datastore:datastore-preferences-rxjava3:$dataStore"
+    implementation "androidx.datastore:datastore-preferences-core:$dataStore"
+    //Coroutines
+    def coroutines = "1.4.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
+    //AndroidX
+    implementation "androidx.fragment:fragment-ktx:1.3.5"
+    /**
+     * Rx
+     * */
+    //Reactivex
+    implementation "io.reactivex.rxjava3:rxjava:3.0.9"
+    implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
+    implementation "io.reactivex.rxjava3:rxkotlin:3.0.1"
+    //RxLifecycle
+    def rxlifecycle = "4.0.2"
+    implementation "com.trello.rxlifecycle4:rxlifecycle-kotlin:$rxlifecycle"
+    implementation "com.trello.rxlifecycle4:rxlifecycle-android-lifecycle-kotlin:$rxlifecycle"
+    //RxRelay
+    implementation "com.jakewharton.rxrelay3:rxrelay:3.0.0"
+    //RxBinding
+    def rxbinding = "4.0.0"
+    implementation "com.jakewharton.rxbinding4:rxbinding:$rxbinding"
+    implementation "com.jakewharton.rxbinding4:rxbinding-core:$rxbinding"
+    implementation "com.jakewharton.rxbinding4:rxbinding-recyclerview:$rxbinding"
+    //RxPermission
+    implementation "com.github.tbruyelle:rxpermissions:0.12"
+    /**
+     * Koin
+     * */
+    def koin = "3.0.2"
+    implementation "io.insert-koin:koin-core:$koin"
+    implementation "io.insert-koin:koin-android:$koin"
+    implementation "io.insert-koin:koin-android-ext:$koin"
+    implementation "io.insert-koin:koin-androidx-workmanager:$koin"
+    /**
+     * Util
+     * */
+    //Protobuf
+    implementation "com.google.protobuf:protobuf-javalite:3.10.0"
+    //Log
+    implementation "com.jakewharton.timber:timber:4.7.1"
+    implementation "com.orhanobut:logger:2.2.0"
+    //Alerter
+    implementation "com.github.tapadoo:alerter:7.1.0"
+    //Shimmer
+    implementation "com.facebook.shimmer:shimmer:0.5.0"
+    //MPAndroidChart
+    implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
+}
+
+protobuf {
+    protoc {
+        //從存儲庫下載可執行文件執行預編譯
+        artifact = "com.google.protobuf:protoc:3.10.0"
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option "lite"
+                }
+            }
+        }
+    }
+}

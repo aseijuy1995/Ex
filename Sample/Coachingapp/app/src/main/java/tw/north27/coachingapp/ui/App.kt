@@ -1,7 +1,7 @@
 package tw.north27.coachingapp.ui
 
-import com.yujie.utilmodule.base.BaseApplication
-import com.yujie.utilmodule.ext.startKoinModules
+import com.yujie.core_lib.base.BaseApplication
+import com.yujie.core_lib.ext.startKoinModules
 import tw.north27.coachingapp.consts.httpModules
 import tw.north27.coachingapp.consts.moduleModules
 import tw.north27.coachingapp.consts.repoModules

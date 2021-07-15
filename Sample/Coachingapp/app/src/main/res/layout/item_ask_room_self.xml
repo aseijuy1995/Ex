@@ -36,7 +36,8 @@
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@id/cl_layout"
             app:layout_constraintEnd_toStartOf="@id/cl_layout"
-            bind:convDateToTime="@{askRoomInfo.sendTime}" />
+             />
+<!--        bind:convDateToTime="@{askRoomInfo.sendTime}"-->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_layout"
@@ -63,7 +64,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                bind:isVisible="@{askRoomInfo.askType == AskType.TEXT}" />
+                />
+<!--            bind:isVisible="@{askRoomInfo.askType == AskType.TEXT}"-->
 
             <!--            <androidx.recyclerview.widget.RecyclerView-->
             <!--                android:id="@+id/rv_img"-->

@@ -7,11 +7,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.yujie.utilmodule.UserPref
-import com.yujie.utilmodule.base.BaseAppCompatActivity
-import com.yujie.utilmodule.pref.getAuth
-import com.yujie.utilmodule.pref.userPref
-import com.yujie.utilmodule.util.ViewState
+import com.yujie.core_lib.UserPref
+import com.yujie.core_lib.base.BaseAppCompatActivity
+import com.yujie.core_lib.pref.getAuth
+import com.yujie.core_lib.pref.userPref
+import com.yujie.core_lib.util.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch

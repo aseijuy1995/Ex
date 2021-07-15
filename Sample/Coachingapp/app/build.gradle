@@ -86,6 +86,7 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:${dataStore}"
     implementation "androidx.datastore:datastore-preferences-rxjava3:${dataStore}"
     implementation "androidx.datastore:datastore-preferences-core:${dataStore}"
+    //Protobuf
     def protobuf = "3.10.0"
     implementation "com.google.protobuf:protobuf-javalite:${protobuf}"
     //
@@ -233,7 +234,7 @@ dependencies {
     //MPAndroidChart
     implementation "com.github.PhilJay:MPAndroidChart:v3.1.0"
     //
-    implementation project(":UtilModule")
+    implementation project(":core_lib")
     implementation project(":PushModule")
 }
 

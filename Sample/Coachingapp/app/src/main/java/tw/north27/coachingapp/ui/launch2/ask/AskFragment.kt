@@ -9,11 +9,11 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.yujie.utilmodule.base.BaseFragment
-import com.yujie.utilmodule.ext.clicksObserve
-import com.yujie.utilmodule.ext.observe
-import com.yujie.utilmodule.ext.visible
-import com.yujie.utilmodule.util.ViewState
+import com.yujie.core_lib.base.BaseFragment
+import com.yujie.core_lib.ext.clicksObserve
+import com.yujie.core_lib.ext.observe
+import com.yujie.core_lib.ext.visible
+import com.yujie.core_lib.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphLaunch2Directions

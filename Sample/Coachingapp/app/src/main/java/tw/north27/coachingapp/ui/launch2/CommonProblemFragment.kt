@@ -3,8 +3,8 @@ package tw.north27.coachingapp.ui.launch2
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import com.yujie.utilmodule.base.BaseFragment
-import com.yujie.utilmodule.ext.clicksObserve
+import com.yujie.core_lib.base.BaseFragment
+import com.yujie.core_lib.ext.clicksObserve
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.CommonProblemListAdapter
 import tw.north27.coachingapp.databinding.FragmentCommonProblemBinding

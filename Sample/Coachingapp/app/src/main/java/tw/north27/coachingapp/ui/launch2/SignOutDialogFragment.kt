@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.yujie.utilmodule.base.BaseDialogFragment
-import com.yujie.utilmodule.ext.clicksObserve
+import com.yujie.core_lib.base.BaseDialogFragment
+import com.yujie.core_lib.ext.clicksObserve
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

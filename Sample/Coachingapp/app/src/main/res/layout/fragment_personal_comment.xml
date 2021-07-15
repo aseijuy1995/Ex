@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <com.yujie.utilmodule.view.DrawerContent
+    <com.yujie.core_lib.view.DrawerContent
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray_eeeeee"
@@ -74,7 +74,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.yujie.utilmodule.view.DrawerContent>
+    </com.yujie.core_lib.view.DrawerContent>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nv_view"

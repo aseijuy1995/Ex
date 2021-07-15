@@ -11,8 +11,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
-import com.yujie.utilmodule.adapter.bindImg
-import com.yujie.utilmodule.base.BaseAppCompatActivity
+import com.yujie.core_lib.adapter.bindImg
+import com.yujie.core_lib.base.BaseAppCompatActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ActivityLaunchBinding

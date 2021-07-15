@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.yujie.utilmodule.adapter.bindImg
-import com.yujie.utilmodule.view.AnimatedExpandableListView
+import com.yujie.core_lib.adapter.bindImg
+import com.yujie.core_lib.view.AnimatedExpandableListView
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.response.CommonProblem
 

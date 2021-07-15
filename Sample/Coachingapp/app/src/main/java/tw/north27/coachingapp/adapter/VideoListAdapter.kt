@@ -7,10 +7,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay3.PublishRelay
-import tw.north27.coachingapp.R
-import tw.north27.coachingapp.databinding.*
-import tw.north27.coachingapp.model.Media
-import tw.north27.coachingapp.model.MediaSetting
+import com.yujie.core_lib.model.Media
+import com.yujie.core_lib.model.MediaSetting
+import tw.north27.coachingapp.databinding.ItemAskRoomMediaVideoBinding
 
 class VideoListAdapter : ListAdapter<Media, VideoListAdapter.VH>(
 
@@ -51,31 +50,31 @@ class VideoListAdapter : ListAdapter<Media, VideoListAdapter.VH>(
 
     inner class VH(private val binding: ItemAskRoomMediaVideoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(media: Media): Any = binding.apply {
-            this.media = media
-            this.setting = this@VideoListAdapter.setting
-            binding.chkSelect.setOnCheckedChangeListener { view, isChoice ->
-                val isChoice = isChoice
-                if (isChoice) {
-                    val count = currentList.count(Media::isChoice)
-
-                    if (setting.isMultipleChoice) {
-                        if (count > setting.multipleChoiceMaxCount) {
-                            view.isChecked = !isChoice
-                            toastRelay.accept(view.context.getString(R.string.select_limit))
-                            return@setOnCheckedChangeListener
-                        }
-                    } else {
-                        if (count > 1) {
-                            view.isChecked = !isChoice
-                            toastRelay.accept(view.context.getString(R.string.select_limit))
-                            return@setOnCheckedChangeListener
-                        }
-                    }
-                }
-                media.isChoice = isChoice
-                itemSelectRelay.accept(view to media)
-            }
-            executePendingBindings()
+//            this.media = media
+//            this.setting = this@VideoListAdapter.setting
+//            binding.chkSelect.setOnCheckedChangeListener { view, isChoice ->
+//                val isChoice = isChoice
+//                if (isChoice) {
+//                    val count = currentList.count(Media::isChoice)
+//
+//                    if (setting.isMultipleChoice) {
+//                        if (count > setting.multipleChoiceMaxCount) {
+//                            view.isChecked = !isChoice
+//                            toastRelay.accept(view.context.getString(R.string.select_limit))
+//                            return@setOnCheckedChangeListener
+//                        }
+//                    } else {
+//                        if (count > 1) {
+//                            view.isChecked = !isChoice
+//                            toastRelay.accept(view.context.getString(R.string.select_limit))
+//                            return@setOnCheckedChangeListener
+//                        }
+//                    }
+//                }
+//                media.isChoice = isChoice
+//                itemSelectRelay.accept(view to media)
+//            }
+//            executePendingBindings()
         }
     }
 

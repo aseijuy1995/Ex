@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">My Application</string>
+
+    <string name="err_title">錯誤警報！</string>
+    <string name="err_text">請稍後在試!</string>
+
+    <string name="net_title">網路連線警報！</string>
+    <string name="net_text">請前往設定連接Wifi or 開啟行動網路</string>
+
+    <string name="play_service_title">Google Play Service警報！</string>
+    <string name="play_service_text">請前往Play Store下載Google Play 服務</string>
+
+    <string name="double_click_exit">再點選一次以退出!</string>
+</resources>

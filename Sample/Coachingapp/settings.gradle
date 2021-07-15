@@ -1,4 +1,4 @@
 include ':app'
 rootProject.name = "Coachingapp"
 include ':PushModule'
-include ':UtilModule'
+include ':core_lib'

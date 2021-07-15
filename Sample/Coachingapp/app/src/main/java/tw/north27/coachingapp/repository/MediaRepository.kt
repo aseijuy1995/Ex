@@ -1,8 +1,8 @@
 package tw.north27.coachingapp.repository
 
-import com.yujie.utilmodule.media.IMediaStoreModule
-import com.yujie.utilmodule.media.model.Media
-import com.yujie.utilmodule.media.model.MediaSetting
+import com.yujie.core_lib.model.IMediaStoreModule
+import com.yujie.core_lib.model.Media
+import com.yujie.core_lib.model.MediaSetting
 import kotlinx.coroutines.flow.Flow
 
 class MediaRepository(

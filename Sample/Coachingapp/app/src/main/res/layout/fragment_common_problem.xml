@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp" />
 
-    <com.yujie.utilmodule.view.AnimatedExpandableListView
+    <com.yujie.core_lib.view.AnimatedExpandableListView
         android:id="@+id/elv_view"
         android:layout_width="0dp"
         android:layout_height="0dp"

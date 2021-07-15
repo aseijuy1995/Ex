@@ -10,9 +10,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.GoogleApiAvailability
 import com.yujie.pushmodule.fcm.FirebaseMsg
-import com.yujie.utilmodule.base.BaseFragment
-import com.yujie.utilmodule.ext.alertGoogleService
-import com.yujie.utilmodule.util.ViewState
+import com.yujie.core_lib.base.BaseFragment
+import com.yujie.core_lib.ext.alertGoogleService
+import com.yujie.core_lib.util.ViewState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel

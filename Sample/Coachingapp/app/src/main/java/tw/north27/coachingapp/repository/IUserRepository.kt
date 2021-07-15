@@ -1,7 +1,7 @@
 package tw.north27.coachingapp.repository
 
-import com.yujie.utilmodule.http.Results
-import com.yujie.utilmodule.http.TokenInfo
+import com.yujie.core_lib.http.Results
+import com.yujie.core_lib.http.okhttp.TokenInfo
 import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.SignInfo
 import tw.north27.coachingapp.model.request.*

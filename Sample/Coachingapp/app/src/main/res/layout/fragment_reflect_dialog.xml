@@ -43,7 +43,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <com.yujie.utilmodule.view.RepeatSpinner
+                <com.yujie.core_lib.view.RepeatSpinner
                     android:id="@+id/sp_reflect"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"

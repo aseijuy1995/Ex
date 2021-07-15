@@ -7,11 +7,11 @@
 
         <variable
             name="media"
-            type="tw.north27.coachingapp.model.Media" />
+            type="com.yujie.core_lib.model.Media" />
 
         <variable
             name="setting"
-            type="tw.north27.coachingapp.model.MediaSetting" />
+            type="com.yujie.core_lib.model.MediaSetting" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,13 +35,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="@{media.title}"
             android:textColor="@color/gray_666666"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_icon"
             app:layout_constraintTop_toTopOf="parent" />
+        <!--        android:text="@{media.title}"-->
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_time"
@@ -54,7 +54,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/chk_select"
             app:layout_constraintTop_toTopOf="parent"
-            bind:mediaDuration="@{media}" />
+             />
+<!--        bind:mediaDuration="@{media}"-->
 
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/chk_select"
@@ -63,12 +64,12 @@
             android:layout_margin="10dp"
             android:background="@drawable/select_checkbox_checked_media"
             android:button="@null"
-            android:checked="@{media.choice}"
             android:padding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            bind:isVisibility="@{setting.multipleChoice}" />
+            app:layout_constraintTop_toTopOf="parent" />
+        <!--        bind:isVisibility="@{setting.multipleChoice}"-->
+        <!--        android:checked="@{media.choice}"-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

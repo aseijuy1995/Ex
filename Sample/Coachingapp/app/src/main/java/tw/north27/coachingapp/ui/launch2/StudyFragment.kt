@@ -2,7 +2,7 @@ package tw.north27.coachingapp.ui.launch2
 
 import android.os.Bundle
 import android.view.View
-import com.yujie.utilmodule.base.BaseFragment
+import com.yujie.core_lib.base.BaseFragment
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentStudyBinding
 

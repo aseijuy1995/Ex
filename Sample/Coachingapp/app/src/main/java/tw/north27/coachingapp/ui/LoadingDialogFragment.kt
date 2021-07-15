@@ -3,7 +3,7 @@ package tw.north27.coachingapp.ui
 import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import com.yujie.utilmodule.base.BaseDialogFragment
+import com.yujie.core_lib.base.BaseDialogFragment
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentLoadingDialogBinding
 

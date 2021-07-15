@@ -3,11 +3,11 @@ package tw.north27.coachingapp.viewModel
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.yujie.utilmodule.UserPref
-import com.yujie.utilmodule.base.BaseAndroidViewModel
-import com.yujie.utilmodule.ext.asLiveData
-import com.yujie.utilmodule.pref.setUserPref
-import com.yujie.utilmodule.pref.userPref
+import com.yujie.core_lib.UserPref
+import com.yujie.core_lib.base.BaseAndroidViewModel
+import com.yujie.core_lib.ext.asLiveData
+import com.yujie.core_lib.pref.setUserPref
+import com.yujie.core_lib.pref.userPref
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.repository.IUserRepository

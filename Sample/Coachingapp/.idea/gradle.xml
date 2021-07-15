@@ -13,8 +13,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/PushModule" />
-            <option value="$PROJECT_DIR$/UtilModule" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/core_lib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

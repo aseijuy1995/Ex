@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
-import com.yujie.utilmodule.pref.getId
-import com.yujie.utilmodule.pref.userPref
+import com.yujie.core_lib.pref.getId
+import com.yujie.core_lib.pref.userPref
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import tw.north27.coachingapp.databinding.ItemAskRoomOtherBinding

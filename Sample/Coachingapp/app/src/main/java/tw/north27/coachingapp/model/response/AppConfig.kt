@@ -1,7 +1,7 @@
 package tw.north27.coachingapp.model.response
 
 import com.google.gson.annotations.SerializedName
-import com.yujie.utilmodule.util.UpdateApp
+import com.yujie.core_lib.util.UpdateApp
 import java.util.*
 
 /**

@@ -2,8 +2,8 @@ package tw.north27.coachingapp.model
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.yujie.utilmodule.UserPref
-import com.yujie.utilmodule.http.TokenInfo
+import com.yujie.core_lib.UserPref
+import com.yujie.core_lib.http.okhttp.TokenInfo
 import kotlinx.parcelize.Parcelize
 import tw.north27.coachingapp.model.response.Units
 import java.util.*

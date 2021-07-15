@@ -2,10 +2,10 @@ package tw.north27.coachingapp.consts
 
 import android.content.Context
 import com.google.gson.Gson
-import com.yujie.utilmodule.http.TokenInfo
-import com.yujie.utilmodule.util.UpdateApp
-import com.yujie.utilmodule.util.logD
-import com.yujie.utilmodule.util.logI
+import com.yujie.core_lib.http.okhttp.TokenInfo
+import com.yujie.core_lib.util.UpdateApp
+import com.yujie.core_lib.util.logD
+import com.yujie.core_lib.util.logI
 import kotlinx.coroutines.delay
 import retrofit2.http.Body
 import tw.north27.coachingapp.R

@@ -1,7 +1,7 @@
 package tw.north27.coachingapp.ext
 
 import android.app.Activity
-import com.yujie.utilmodule.util.UpdateApp
+import com.yujie.core_lib.util.UpdateApp
 import versionCode
 import versionName
 

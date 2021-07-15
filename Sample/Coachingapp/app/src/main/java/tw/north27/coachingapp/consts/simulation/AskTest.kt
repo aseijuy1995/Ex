@@ -1,6 +1,6 @@
 package tw.north27.coachingapp.consts.simulation
 
-import com.yujie.utilmodule.UserPref
+import com.yujie.core_lib.UserPref
 import tw.north27.coachingapp.model.*
 import java.util.*
 

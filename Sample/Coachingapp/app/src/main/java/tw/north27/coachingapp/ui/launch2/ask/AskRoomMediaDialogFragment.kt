@@ -8,9 +8,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.yujie.utilmodule.base.BaseBottomSheetDialogFragment
-import com.yujie.utilmodule.ext.clicksObserve
-import com.yujie.utilmodule.util.ViewState
+import com.yujie.core_lib.base.BaseBottomSheetDialogFragment
+import com.yujie.core_lib.ext.clicksObserve
+import com.yujie.core_lib.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.AlbumListAdapter

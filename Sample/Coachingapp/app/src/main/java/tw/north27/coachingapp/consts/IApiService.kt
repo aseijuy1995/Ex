@@ -3,7 +3,8 @@ package tw.north27.coachingapp.consts
 //https://www.jianshu.com/p/62ab11ddacc8
 //https://www.huaweicloud.com/articles/138c673c96294a6661b16960ff4db613.html
 
-import com.yujie.utilmodule.http.TokenInfo
+
+import com.yujie.core_lib.http.okhttp.TokenInfo
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

@@ -10,9 +10,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.swipe.SwipeLayout
 import com.jakewharton.rxrelay3.PublishRelay
-import com.yujie.utilmodule.adapter.bindImg
-import com.yujie.utilmodule.pref.getId
-import com.yujie.utilmodule.pref.userPref
+import com.yujie.core_lib.adapter.bindImg
+import com.yujie.core_lib.pref.getId
+import com.yujie.core_lib.pref.userPref
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import tw.north27.coachingapp.R

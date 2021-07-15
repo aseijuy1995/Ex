@@ -44,7 +44,7 @@
             android:textColor="@color/black"
             android:textSize="14sp" />
 
-        <com.yujie.utilmodule.view.RepeatSpinner
+        <com.yujie.core_lib.view.RepeatSpinner
             android:id="@+id/sp_education"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -65,7 +65,7 @@
             android:textColor="@color/black"
             android:textSize="14sp" />
 
-        <com.yujie.utilmodule.view.RepeatSpinner
+        <com.yujie.core_lib.view.RepeatSpinner
             android:id="@+id/sp_grade"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -86,7 +86,7 @@
             android:textColor="@color/black"
             android:textSize="14sp" />
 
-        <com.yujie.utilmodule.view.RepeatSpinner
+        <com.yujie.core_lib.view.RepeatSpinner
             android:id="@+id/sp_subject"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -107,7 +107,7 @@
             android:textColor="@color/black"
             android:textSize="14sp" />
 
-        <com.yujie.utilmodule.view.RepeatSpinner
+        <com.yujie.core_lib.view.RepeatSpinner
             android:id="@+id/sp_unit"
             android:layout_width="match_parent"
             android:layout_height="30dp"

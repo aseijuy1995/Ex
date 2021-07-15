@@ -6,11 +6,11 @@ import android.widget.AdapterView
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
-import com.yujie.utilmodule.base.BaseFragment
-import com.yujie.utilmodule.ext.clicksObserve
-import com.yujie.utilmodule.ext.observe
-import com.yujie.utilmodule.ext.visible
-import com.yujie.utilmodule.util.ViewState
+import com.yujie.core_lib.base.BaseFragment
+import com.yujie.core_lib.ext.clicksObserve
+import com.yujie.core_lib.ext.observe
+import com.yujie.core_lib.ext.visible
+import com.yujie.core_lib.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*

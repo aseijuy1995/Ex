@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import com.yujie.utilmodule.base.BaseDialogFragment
-import com.yujie.utilmodule.ext.clicksObserve
-import com.yujie.utilmodule.util.ViewState
+import com.yujie.core_lib.base.BaseDialogFragment
+import com.yujie.core_lib.ext.clicksObserve
+import com.yujie.core_lib.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.ReflectAdapter

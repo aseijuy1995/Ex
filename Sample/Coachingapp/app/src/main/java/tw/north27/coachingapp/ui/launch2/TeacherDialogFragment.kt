@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.yujie.utilmodule.adapter.bindImg
-import com.yujie.utilmodule.base.BaseDialogFragment
-import com.yujie.utilmodule.ext.clicksObserve
+import com.yujie.core_lib.adapter.bindImg
+import com.yujie.core_lib.base.BaseDialogFragment
+import com.yujie.core_lib.ext.clicksObserve
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.SubjectLabelListAdapter
 import tw.north27.coachingapp.adapter.bindChartComment

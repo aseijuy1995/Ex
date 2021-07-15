@@ -9,9 +9,9 @@ import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.jakewharton.rxbinding4.view.clicks
 import com.tbruyelle.rxpermissions3.RxPermissions
-import com.yujie.utilmodule.adapter.bindImg
-import com.yujie.utilmodule.base.BaseBottomSheetDialogFragment
-import com.yujie.utilmodule.ext.observe
+import com.yujie.core_lib.adapter.bindImg
+import com.yujie.core_lib.base.BaseBottomSheetDialogFragment
+import com.yujie.core_lib.ext.observe
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentAskRoomModeDialogBinding
 import tw.north27.coachingapp.model.SendMode

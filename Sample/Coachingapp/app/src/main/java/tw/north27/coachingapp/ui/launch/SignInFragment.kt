@@ -9,11 +9,11 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.view.touches
-import com.yujie.utilmodule.base.BaseFragment
-import com.yujie.utilmodule.ext.clicksObserve
-import com.yujie.utilmodule.ext.hideKeyBoard
-import com.yujie.utilmodule.ext.observe
-import com.yujie.utilmodule.util.ViewState
+import com.yujie.core_lib.base.BaseFragment
+import com.yujie.core_lib.ext.clicksObserve
+import com.yujie.core_lib.ext.hideKeyBoard
+import com.yujie.core_lib.ext.observe
+import com.yujie.core_lib.util.ViewState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
