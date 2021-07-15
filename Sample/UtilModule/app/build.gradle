@@ -52,22 +52,23 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
     implementation "com.squareup.retrofit2:retrofit-mock:$retrofit"
-    //
-    implementation "com.squareup.retrofit2:adapter-guava:$retrofit"
-    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofit"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
-    implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit"
-    implementation "com.squareup.retrofit2:adapter-scala:$retrofit"
-    //
     implementation "com.squareup.retrofit2:converter-gson:$retrofit"
-    implementation "com.squareup.retrofit2:converter-guava:$retrofit"
-    implementation "com.squareup.retrofit2:converter-jackson:$retrofit"
-    implementation "com.squareup.retrofit2:converter-jaxb:$retrofit"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit"
-    implementation "com.squareup.retrofit2:converter-protobuf:$retrofit"
-    implementation "com.squareup.retrofit2:converter-scalars:$retrofit"
-    implementation "com.squareup.retrofit2:converter-simplexml:$retrofit"
-    implementation "com.squareup.retrofit2:converter-wire:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-guava:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-jackson:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-jaxb:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-moshi:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-protobuf:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-scalars:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-simplexml:$retrofit"
+//    implementation "com.squareup.retrofit2:converter-wire:$retrofit"
+    //
+//    implementation "com.squareup.retrofit2:adapter-guava:$retrofit"
+//    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofit"
+//    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
+//    implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit"
+//    implementation "com.squareup.retrofit2:adapter-scala:$retrofit"
+//    //
+
     //
     //Glide
     def glide = "4.11.0"

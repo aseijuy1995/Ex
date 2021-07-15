@@ -1,6 +1,5 @@
-package com.yujie.utilmodule.http.manager
+package com.yujie.utilmodule.http.okhttp
 
-import com.yujie.utilmodule.http.OkHttpConfig
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType.Companion.toMediaType

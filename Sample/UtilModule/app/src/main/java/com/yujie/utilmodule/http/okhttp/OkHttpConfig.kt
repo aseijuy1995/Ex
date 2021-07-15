@@ -1,5 +1,6 @@
-package com.yujie.utilmodule.http
+package com.yujie.utilmodule.http.okhttp
 
+import com.yujie.utilmodule.http.logInterceptor
 import okhttp3.Interceptor
 
 /**

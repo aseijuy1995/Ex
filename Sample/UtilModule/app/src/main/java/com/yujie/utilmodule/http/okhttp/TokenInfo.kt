@@ -1,4 +1,4 @@
-package com.yujie.utilmodule.http
+package com.yujie.utilmodule.http.okhttp
 
 import com.google.gson.annotations.SerializedName
 import com.yujie.utilmodule.UserPref
