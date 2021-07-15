@@ -1,45 +1,60 @@
-package tw.north27.coachingapp.media
+package tw.north27.coachingapp.viewModel
 
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.yujie.utilmodule.base.BaseViewModel
+import com.yujie.utilmodule.ext.asLiveData
+import com.yujie.utilmodule.media.model.Media
+import com.yujie.utilmodule.media.model.MediaSetting
+import com.yujie.utilmodule.media.model.MimeType
+import com.yujie.utilmodule.util.ViewState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import tw.north27.coachingapp.repository.IMediaRepository
 
 class AskRoomMediaViewModel(
-//    private val repo: IMediaRepository
+    private val repo: IMediaRepository
 ) : BaseViewModel() {
 
-//    fun getMediaAudio(): Observable<List<MediaAlbum>> {
-//        return repo.getMediaAudio(audioSetting)
-//    }
-//
-//    fun getMediaImage(): Observable<List<MediaAlbum>> {
-//        return repo.getMediaImage(imageSetting)
-//    }
-//
-//    fun getMediaVideo(): Observable<List<MediaAlbum>> {
-//        return repo.getMediaVideo(videoSetting)
-//    }
-//
-//    val audioSetting = MediaAlbumSetting(
-//        mimeType = MimeType.AUDIO,
+    private val _mediaImageListState = MutableLiveData<ViewState<List<Media>>>()
+
+    val mediaImageListState = _mediaImageListState.asLiveData()
+
+    val albumSetting = MediaSetting(
+        mimeType = MimeType.IMAGE,
 //        isMultipleChoice = true,
-//        maxCount = 2,
-//        audioMinDuration = 0,
-//        audioMaxDuration = 60000//1m
-//    )
-//
-//    val imageSetting = MediaAlbumSetting(
-//        mimeType = MimeType.IMAGE,
+//        multipleChoiceMaxCount = 6,
+    )
+
+    fun fetchMediaImage(setting: MediaSetting) = viewModelScope.launch(Dispatchers.IO) {
+        _mediaImageListState.postValue(ViewState.load())
+        repo.fetchMediaImage(setting).collect {
+            if (it.isEmpty()) {
+                _mediaImageListState.postValue(ViewState.empty())
+            } else {
+                _mediaImageListState.postValue(ViewState.data(it))
+            }
+
+        }
+    }
+
+    val audioSetting = MediaSetting(
+        mimeType = MimeType.AUDIO,
 //        isMultipleChoice = true,
-//        maxCount = 6
-//    )
-//
-//    val videoSetting = MediaAlbumSetting(
-//        mimeType = MimeType.VIDEO,
+//        multipleChoiceMaxCount = 3,
+        minSec = 0,
+        maxSec = 60
+    )
+
+    val videoSetting = MediaSetting(
+        mimeType = MimeType.VIDEO,
 //        isMultipleChoice = true,
-//        maxCount = 3,
-//        videoMinDuration = 0,//m
-//        videoMaxDuration = 1220000//1m
-//    )
-//
+//        multipleChoiceMaxCount = 3,
+        minSec = 0,
+        maxSec = 180
+    )
+
 //    /**
 //     * 全部媒體項目
 //     * */

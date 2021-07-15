@@ -3,7 +3,7 @@ package tw.north27.coachingapp.ui
 import com.yujie.utilmodule.base.BaseApplication
 import com.yujie.utilmodule.ext.startKoinModules
 import tw.north27.coachingapp.consts.httpModules
-import tw.north27.coachingapp.consts.modelModules
+import tw.north27.coachingapp.consts.moduleModules
 import tw.north27.coachingapp.consts.repoModules
 import tw.north27.coachingapp.consts.viewModelModules
 
@@ -16,7 +16,7 @@ class App : BaseApplication() {
             httpModules,
             viewModelModules,
             repoModules,
-            modelModules,
+            moduleModules,
             //
 //            utilModules,
 

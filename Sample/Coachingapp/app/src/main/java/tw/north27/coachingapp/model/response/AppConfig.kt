@@ -24,6 +24,8 @@ data class AppConfig(
 enum class AppCode(val code: Int) {
     MOTION(2000),
     DEFEND(2001);
+
+    override fun toString(): String = code.toString()
 }
 
 /**

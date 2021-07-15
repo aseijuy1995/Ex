@@ -13,18 +13,18 @@ import com.yujie.utilmodule.base.ext.viewBinding
 
 abstract class BaseBottomSheetDialogFragment<T : ViewBinding>(@LayoutRes private val layoutId: Int) : BottomSheetDialogFragment() {
 
-    abstract val viewBind: (View) -> T
+		abstract val viewBind: (View) -> T
 
-    protected val binding by viewBinding(viewBind)
+		protected val binding by viewBinding(viewBind)
 
-    protected val cxt: Context
-        get() = requireContext()
+		protected val cxt: Context
+				get() = requireContext()
 
-    protected val act: FragmentActivity
-        get() = requireActivity()
+		protected val act: FragmentActivity
+				get() = requireActivity()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(layoutId, container, false)
-    }
+		override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+				return inflater.inflate(layoutId, container, false)
+		}
 
 }

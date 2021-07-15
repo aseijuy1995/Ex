@@ -2,13 +2,23 @@ package tw.north27.coachingapp.ui.launch2.ask
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.yujie.utilmodule.base.BaseBottomSheetDialogFragment
 import com.yujie.utilmodule.ext.clicksObserve
+import com.yujie.utilmodule.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
+import tw.north27.coachingapp.adapter.AlbumListAdapter
+import tw.north27.coachingapp.adapter.AudioListAdapter
+import tw.north27.coachingapp.adapter.VideoListAdapter
 import tw.north27.coachingapp.databinding.FragmentAskRoomMediaDialogBinding
-import tw.north27.coachingapp.media.AskRoomMediaViewModel
+import tw.north27.coachingapp.model.SendMode
+import tw.north27.coachingapp.viewModel.AskRoomMediaViewModel
 
 class AskRoomMediaDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoomMediaDialogBinding>(R.layout.fragment_ask_room_media_dialog) {
 
@@ -17,16 +27,20 @@ class AskRoomMediaDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoom
 
     private val viewModel by viewModel<AskRoomMediaViewModel>()
 
-    private val sendMode: AskRoomModeDialogFragment.SendMode?
-        get() = arguments?.getParcelable<AskRoomModeDialogFragment.SendMode>("sendMode") ?: kotlin.run {
+    private val sendMode: SendMode?
+        get() = arguments?.getParcelable<SendMode>("sendMode") ?: kotlin.run {
             findNavController().navigateUp()
             null
         }
 
-//    private lateinit var adapter: AskRoomMediaListAdapter
+    private val albumListAdapter = AlbumListAdapter()
+
+    private val audioListAdapter = AudioListAdapter()
+
+    private val videoListAdapter = VideoListAdapter()
 
     companion object {
-        val REQUEST_KEY_MEDIA = "REQUEST_KEY_MEDIA"
+        val REQUEST_KEY_ASK_ROOM_MEDIA = "REQUEST_KEY_ASK_ROOM_MEDIA"
 
         val KEY_MIME_TYPE = "KEY_MIME_TYPE"
 
@@ -42,36 +56,24 @@ class AskRoomMediaDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoom
         binding.tvTitle.text = getString(R.string.choose_please)
 
         when (sendMode) {
-            AskRoomModeDialogFragment.SendMode.AUDIO -> {
-//                adapter = ChatRoomMediaListAdapter(args.mimeType, viewModel.audioSetting)
-//                binding.rvMedia.apply {
-//                    addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
-//                        setDrawable(ContextCompat.getDrawable(cxt, R.drawable.shape_size_height_1_solid_gray) ?: return)
-//                    })
-//                    layoutManager = LinearLayoutManager(cxt)
-//                    adapter = this@ChatRoomMediaDialogFragment.adapter
-//                }
-//                //audio
-//                viewModel.getMediaAudio().subscribeWithRxLife {
-//                    val mediaList = it.find { it.albumName == MEDIA_ALBUM_AUDIO }?.mediaList
-//                    viewModel.setMediaList(mediaList)
-//                }
-//                /**
-//                 * 播放音訊
-//                 * */
-//                adapter.itemClickRelay.subscribeWithRxLife {
-//
-//                }
-//                adapter.itemSelectRelay.subscribeWithRxLife {
-//                    viewModel.setChoiceOfMedia(it.third)
-//                }
-            }
-            AskRoomModeDialogFragment.SendMode.ALBUM -> {
-//                adapter = ChatRoomMediaListAdapter(args.mimeType, viewModel.imageSetting)
-//                binding.rvMedia.apply {
-//                    layoutManager = GridLayoutManager(cxt, 3)
-//                    adapter = this@ChatRoomMediaDialogFragment.adapter
-//                }
+            SendMode.ALBUM -> {
+                albumListAdapter.setting = viewModel.albumSetting
+                binding.rvMedia.apply {
+                    layoutManager = GridLayoutManager(cxt, 3)
+                    adapter = albumListAdapter
+                }
+                viewModel.fetchMediaImage(viewModel.albumSetting)
+
+                viewModel.mediaImageListState.observe(viewLifecycleOwner) {
+                    binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
+                    binding.rvMedia.isVisible = (it is ViewState.Data)
+                    when (it) {
+                        is ViewState.Data -> {
+                            val mediaList = it.data
+                            albumListAdapter.submitList(mediaList)
+                        }
+                    }
+                }
 //                //image
 //                viewModel.getMediaImage().subscribeWithRxLife {
 //                    val mediaList = it.find { it.albumName == MEDIA_ALBUM_IMAGE }?.mediaList
@@ -88,12 +90,37 @@ class AskRoomMediaDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoom
 //                    viewModel.setChoiceOfMedia(it.third)
 //                }
             }
-            AskRoomModeDialogFragment.SendMode.VIDEO -> {
-//                adapter = ChatRoomMediaListAdapter(args.mimeType, viewModel.videoSetting)
-//                binding.rvMedia.apply {
-//                    layoutManager = GridLayoutManager(cxt, 3)
-//                    adapter = this@ChatRoomMediaDialogFragment.adapter
+
+            SendMode.AUDIO -> {
+                audioListAdapter.setting = viewModel.audioSetting
+                binding.rvMedia.apply {
+                    layoutManager = LinearLayoutManager(cxt)
+                    addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
+                        setDrawable(ContextCompat.getDrawable(cxt, R.drawable.shape_size_height_2_solid_gray) ?: return)
+                    })
+                    adapter = albumListAdapter
+                }
+//                //audio
+//                viewModel.getMediaAudio().subscribeWithRxLife {
+//                    val mediaList = it.find { it.albumName == MEDIA_ALBUM_AUDIO }?.mediaList
+//                    viewModel.setMediaList(mediaList)
 //                }
+//                /**
+//                 * 播放音訊
+//                 * */
+//                adapter.itemClickRelay.subscribeWithRxLife {
+//
+//                }
+//                adapter.itemSelectRelay.subscribeWithRxLife {
+//                    viewModel.setChoiceOfMedia(it.third)
+//                }
+            }
+            SendMode.VIDEO -> {
+                videoListAdapter.setting = viewModel.videoSetting
+                binding.rvMedia.apply {
+                    layoutManager = GridLayoutManager(cxt, 3)
+                    adapter = videoListAdapter
+                }
 //                //video
 //                viewModel.getMediaVideo().subscribeWithRxLife {
 //                    val mediaList = it.find { it.albumName == MEDIA_ALBUM_VIDEO }?.mediaList

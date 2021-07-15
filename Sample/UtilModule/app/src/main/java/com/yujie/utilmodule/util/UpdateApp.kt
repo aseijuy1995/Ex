@@ -98,7 +98,9 @@ class UpdateApp<T> constructor(private val build: Builder<T>) {
 		 * DEFAULT >> 後段（預設）
 		 * */
 		enum class VersionNameMode {
-				FRONT, MIDDLE, DEFAULT
+				FRONT,
+				MIDDLE,
+				DEFAULT;
 		}
 
 		data class Update(
@@ -111,8 +113,3 @@ class UpdateApp<T> constructor(private val build: Builder<T>) {
 				val isMandatory: Boolean
 		)
 }
-
-
-
-
-

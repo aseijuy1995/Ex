@@ -33,7 +33,9 @@ enum class SignCode(val code: Int) {
     SIGN_IN_SUC(2000),
     SIGN_IN_FAIL(2001),
     SIGN_OUT_SUCCESS(2002),
-    SIGN_OUT_FAILED(2003),
+    SIGN_OUT_FAILED(2003);
+
+    override fun toString(): String = code.toString()
 }
 
 /**

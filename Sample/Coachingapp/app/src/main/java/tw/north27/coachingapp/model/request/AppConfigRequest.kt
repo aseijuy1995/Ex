@@ -20,4 +20,6 @@ enum class DeviceType(val type: String) {
     ANDROID("android"),
     IOS("ios"),
     WEB("web");
+
+    override fun toString(): String = type
 }

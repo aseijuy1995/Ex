@@ -138,6 +138,7 @@
     <string name="film">選取影片</string>
     <string name="permission_deny">權限已被拒絕</string>
     <!--  AskRoomMediaDialogFragment  -->
+    <string name="select_limit">選取已達上限</string>
     <!--    -->
     <string name="go_settings">前往設定</string>
 
@@ -145,7 +146,7 @@
     <string name="choice_count">已選%s項</string>
     <string name="send">發送</string>
     <string name="setting">設定</string>
-    <string name="limit_selection">選取已達上限</string>
+
     <!-- Notify -->
     <string name="not_read_yet_sure_to_delete_it">尚未讀取，確定要刪除嗎?</string>
 

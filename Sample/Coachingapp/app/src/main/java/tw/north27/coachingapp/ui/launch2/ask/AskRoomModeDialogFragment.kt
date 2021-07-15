@@ -2,7 +2,6 @@ package tw.north27.coachingapp.ui.launch2.ask
 
 import android.Manifest
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.View
 import android.widget.Toast
 import androidx.core.os.bundleOf
@@ -13,9 +12,9 @@ import com.tbruyelle.rxpermissions3.RxPermissions
 import com.yujie.utilmodule.adapter.bindImg
 import com.yujie.utilmodule.base.BaseBottomSheetDialogFragment
 import com.yujie.utilmodule.ext.observe
-import kotlinx.parcelize.Parcelize
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentAskRoomModeDialogBinding
+import tw.north27.coachingapp.model.SendMode
 import java.util.concurrent.TimeUnit
 
 class AskRoomModeDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoomModeDialogBinding>(R.layout.fragment_ask_room_mode_dialog) {
@@ -33,24 +32,6 @@ class AskRoomModeDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoomM
 
     override fun getTheme(): Int {
         return R.style.BottomSheetTheme_TopRadius15
-    }
-
-    /**
-     * @param CAMERA >> 拍照
-     * @param ALBUM >> 照片
-     * @param RECORDING >> 錄音
-     * @param AUDIO >> 音訊
-     * @param VIDEO >> 錄影
-     * @param FILM >> 影片
-     * */
-    @Parcelize
-    enum class SendMode: Parcelable {
-        CAMERA,
-        ALBUM,
-        RECORDING,
-        AUDIO,
-        VIDEO,
-        FILM
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -45,6 +45,8 @@ class AskRoomListAdapter(
     enum class AskSideType(val type: Int) {
         SELF(1),
         OTHER(2);
+
+        override fun toString(): String = type.toString()
     }
 
     override fun getItemViewType(position: Int): Int {

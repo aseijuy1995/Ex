@@ -26,4 +26,3 @@ message UserPref {
   }
   Authority auth = 10;
 }
-

@@ -35,9 +35,9 @@ object UserPrefSerializer : Serializer<UserPref> {
 		}
 }
 
-fun DataStore<UserPref>.getUuid(): Flow<String> = getDelegate(UserPref::getUuid)
+fun DataStore<UserPref>.getId(): Flow<String> = getDelegate(UserPref::getId)
 
-suspend fun DataStore<UserPref>.setUuid(uuid: String): UserPref = setUserPref(uuid = uuid)
+suspend fun DataStore<UserPref>.setId(id: String): UserPref = setUserPref(id = id)
 
 fun DataStore<UserPref>.getAccount(): Flow<String> = getDelegate(UserPref::getAccount)
 
@@ -47,9 +47,9 @@ fun DataStore<UserPref>.getPassword(): Flow<String> = getDelegate(UserPref::getP
 
 suspend fun DataStore<UserPref>.setPassword(password: String): UserPref = setUserPref(password = password)
 
-fun DataStore<UserPref>.getExpireTime(): Flow<Long> = getDelegate(UserPref::getExpireTime)
+fun DataStore<UserPref>.getTokenType(): Flow<UserPref.TokenType> = getDelegate(UserPref::getTokenType)
 
-suspend fun DataStore<UserPref>.setExpireTime(expireTime: Long): UserPref = setUserPref(expireTime = expireTime)
+suspend fun DataStore<UserPref>.setTokenType(tokenType: UserPref.TokenType): UserPref = setUserPref(tokenType = tokenType)
 
 fun DataStore<UserPref>.getAccessToken(): Flow<String> = getDelegate(UserPref::getAccessToken)
 
@@ -58,6 +58,10 @@ suspend fun DataStore<UserPref>.setAccessToken(accessToken: String): UserPref = 
 fun DataStore<UserPref>.getRefreshToken(): Flow<String> = getDelegate(UserPref::getRefreshToken)
 
 suspend fun DataStore<UserPref>.setRefreshToken(refreshToken: String): UserPref = setUserPref(refreshToken = refreshToken)
+
+fun DataStore<UserPref>.getExpiresTime(): Flow<Long> = getDelegate(UserPref::getExpiresTime)
+
+suspend fun DataStore<UserPref>.setExpiresTime(expireTime: Long): UserPref = setUserPref(expiresTime = expireTime)
 
 fun DataStore<UserPref>.getIsFirst(): Flow<Boolean> = getDelegate(UserPref::getIsFirst)
 
@@ -72,24 +76,26 @@ fun DataStore<UserPref>.getAuth(): Flow<UserPref.Authority> = getDelegate(UserPr
 suspend fun DataStore<UserPref>.setAuth(auth: UserPref.Authority): UserPref = setUserPref(auth = auth)
 
 suspend fun DataStore<UserPref>.setUserPref(
-		uuid: String? = null,
+		id: String? = null,
 		account: String? = null,
 		password: String? = null,
-		expireTime: Long? = null,
+		tokenType: UserPref.TokenType? = null,
 		accessToken: String? = null,
 		refreshToken: String? = null,
+		expiresTime: Long? = null,
 		isFirst: Boolean? = null,
 		pushToken: String? = null,
 		auth: UserPref.Authority? = null,
 ): UserPref {
 		return updateData {
 				it.toBuilder().apply {
-						uuid?.let { setUuid(it) }
+						id?.let { setId(it) }
 						account?.let { setAccount(it) }
 						password?.let { setPassword(it) }
-						expireTime?.let { setExpireTime(it) }
+						tokenType?.let { setTokenType(it) }
 						accessToken?.let { setAccessToken(it) }
 						refreshToken?.let { setRefreshToken(it) }
+						expiresTime?.let { setExpiresTime(it) }
 						isFirst?.let { setIsFirst(it) }
 						pushToken?.let { setPushToken(it) }
 						auth?.let { setAuth(it) }
@@ -100,14 +106,16 @@ suspend fun DataStore<UserPref>.setUserPref(
 suspend fun DataStore<UserPref>.clear(): UserPref {
 		return updateData {
 				it.toBuilder()
-						.setUuid("")
+						.setId("")
 						.setAccount("")
 						.setPassword("")
-						.setAuth(UserPref.Authority.UNKNOWN)
+						.setTokenType(UserPref.TokenType.Unknown)
 						.setAccessToken("")
 						.setRefreshToken("")
-						.setPushToken("")
+						.setExpiresTime(0L)
 						.setIsFirst(false)
+						.setPushToken("")
+						.setAuth(UserPref.Authority.NONE)
 						.build()
 		}
 }

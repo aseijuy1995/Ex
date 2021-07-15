@@ -10,24 +10,24 @@ import kotlinx.coroutines.flow.map
 val PREF_DEFAULT_NAME = "PREF_DEFAULT_NAME"
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(
-    name = PREF_DEFAULT_NAME,
-    /**
-     * SharedPreferences遷移至DataStore
-     * */
+		name = PREF_DEFAULT_NAME,
+		/**
+		 * SharedPreferences遷移至DataStore
+		 * */
 //		produceMigrations = { context -> listOf(SharedPreferencesMigration(context, PREF_DEFAULT_NAME)) }
 )
 
 fun <T> DataStore<Preferences>.getDelegate(prefKey: Preferences.Key<T>, defaultValue: T): Flow<T> {
-    return data.map {
-        it[prefKey]
-            ?: defaultValue
-    }
+		return data.map {
+				it[prefKey]
+						?: defaultValue
+		}
 }
 
 suspend fun <T> DataStore<Preferences>.setDelegate(prefKey: Preferences.Key<T>, value: T): Preferences {
-    return edit {
-        it[prefKey] = value
-    }
+		return edit {
+				it[prefKey] = value
+		}
 }
 
 fun DataStore<Preferences>.getInt(key: String, value: Int): Flow<Int> = getDelegate(intPreferencesKey(key), value)

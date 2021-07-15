@@ -21,4 +21,5 @@
     <style name="DialogTheme.Radius10" parent="Theme.MaterialComponents.Light.Dialog">
         <item name="dialogCornerRadius">10dp</item>
     </style>
+    
 </resources>

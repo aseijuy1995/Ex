@@ -16,6 +16,7 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.AskRoomListAdapter
 import tw.north27.coachingapp.databinding.FragmentAskRoomBinding
 import tw.north27.coachingapp.model.AskRoom
+import tw.north27.coachingapp.model.SendMode
 import tw.north27.coachingapp.viewModel.AskRoomViewModel
 
 class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_ask_room) {
@@ -169,33 +170,39 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 //        }
 //
         setFragmentResultListener(AskRoomModeDialogFragment.REQUEST_KEY_ASK_ROOM_MODE) { key, bundle ->
-            val mode: AskRoomModeDialogFragment.SendMode? = bundle.getParcelable<AskRoomModeDialogFragment.SendMode>(AskRoomModeDialogFragment.KEY_SEND_MODE)
-            when (mode) {
-                AskRoomModeDialogFragment.SendMode.CAMERA -> {
+            lifecycleScope.launch {
+                delay(500)
+                val mode: SendMode? = bundle.getParcelable<SendMode>(AskRoomModeDialogFragment.KEY_SEND_MODE)
+                when (mode) {
+                    SendMode.CAMERA -> {
 //                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentCameraX())
-                }
-                AskRoomModeDialogFragment.SendMode.ALBUM -> {
-                    findNavController().navigate(AskRoomFragmentDirections.actionFragmentAskRoomToFragmentAskRoomMediaDialog(mode))
-                }
-                AskRoomModeDialogFragment.SendMode.RECORDING -> {
+                    }
+                    SendMode.ALBUM -> {
+                        if (findNavController().currentDestination?.id == R.id.fragment_ask_room)
+                            findNavController().navigate(AskRoomFragmentDirections.actionFragmentAskRoomToFragmentAskRoomMediaDialog(mode))
+                    }
+                    SendMode.RECORDING -> {
 
-                }
-                AskRoomModeDialogFragment.SendMode.AUDIO -> {
-//                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.AUDIO))
-                }
-                AskRoomModeDialogFragment.SendMode.VIDEO -> {
+                    }
+                    SendMode.AUDIO -> {
+                        if (findNavController().currentDestination?.id == R.id.fragment_ask_room)
+                            findNavController().navigate(AskRoomFragmentDirections.actionFragmentAskRoomToFragmentAskRoomMediaDialog(mode))
+                    }
+                    SendMode.VIDEO -> {
 
-                }
-                AskRoomModeDialogFragment.SendMode.FILM -> {
-//                            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentChatRoomMediaDialog(MimeType.VIDEO))
+                    }
+                    SendMode.FILM -> {
+                        if (findNavController().currentDestination?.id == R.id.fragment_ask_room)
+                            findNavController().navigate(AskRoomFragmentDirections.actionFragmentAskRoomToFragmentAskRoomMediaDialog(mode))
+                    }
                 }
             }
         }
-//
-//        setFragmentResultListener(ChatRoomMediaDialogFragment.REQUEST_KEY_MEDIA) { key, bundle ->
+
+        setFragmentResultListener(AskRoomMediaDialogFragment.REQUEST_KEY_ASK_ROOM_MEDIA) { key, bundle ->
 //            lifecycleScope.launch(Dispatchers.IO) {
-//                val mimeType: MimeType? = bundle.getParcelable<MimeType>(ChatRoomMediaDialogFragment.KEY_MIME_TYPE)
-//                val mediaList: List<Media>? = bundle.getParcelableArrayList<Media>(ChatRoomMediaDialogFragment.KEY_MEDIA_LIST)
+//                val mimeType: MimeType? = bundle.getParcelable<MimeType>(AskRoomMediaDialogFragment.KEY_MIME_TYPE)
+//                val mediaList: List<Media>? = bundle.getParcelableArrayList<Media>(AskRoomMediaDialogFragment.KEY_MEDIA_LIST)
 //                if (!mediaList.isNullOrEmpty()) {
 //                    var chat: ChatInfo? = null
 //                    when (mimeType) {
@@ -316,7 +323,7 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 //                    chat?.let { viewModel.send(it) }
 //                }
 //            }
-//        }
+        }
 //
 //        adapter.imageClickRelay?.observe(viewLifecycleOwner) {
 ////            findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPhoto(it.second.url.toString()))

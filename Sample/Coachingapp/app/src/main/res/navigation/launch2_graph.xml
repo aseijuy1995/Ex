@@ -60,7 +60,7 @@
 
             <argument
                 android:name="sendMode"
-                app:argType="tw.north27.coachingapp.ui.launch2.ask.AskRoomModeDialogFragment.SendMode"
+                app:argType="tw.north27.coachingapp.model.SendMode"
                 app:nullable="false" />
 
         </action>
@@ -100,7 +100,7 @@
 
     <!--        <argument-->
     <!--            android:name="mimeType"-->
-    <!--            app:argType="tw.north27.coachingapp.media.mediaStore.MimeType"-->
+    <!--            app:argType="tw.north27.coachingapp.model.MimeType"-->
     <!--            app:nullable="false" />-->
     <!--    </action>-->
 

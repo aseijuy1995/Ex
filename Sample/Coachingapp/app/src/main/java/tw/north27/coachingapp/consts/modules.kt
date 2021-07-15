@@ -1,6 +1,8 @@
 package tw.north27.coachingapp.consts
 
 import com.yujie.utilmodule.http.*
+import com.yujie.utilmodule.media.IMediaStoreModule
+import com.yujie.utilmodule.media.ImageMediaStoreModule
 import com.yujie.utilmodule.pref.getId
 import com.yujie.utilmodule.pref.getRefreshToken
 import com.yujie.utilmodule.pref.userPref
@@ -9,6 +11,7 @@ import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.model.request.TokenRequest
@@ -59,9 +62,9 @@ val httpModules = module {
 //    single<IApiService> { (get() as RetrofitManager.Entity).create<IApiService>() }
 }
 
-val modelModules = module {
+val moduleModules = module {
 //    single<IChatModule> { ChatModule(get()) }
-//    single<IMediaStoreModule>(named("image")) { ImageMediaStoreModule(androidContext()) }
+    single<IMediaStoreModule>(named("image")) { ImageMediaStoreModule(androidContext()) }
 //    single<IMediaStoreModule>(named("video")) { VideoMediaStoreModule(androidContext()) }
 //    single<IMediaStoreModule>(named("audio")) { AudioMediaStoreModule(androidContext()) }
 //    single<IAudioMediaCodecModule> { AudioMediaCodecModule(androidContext()) }
@@ -76,15 +79,16 @@ val repoModules = module {
 
 //    single<INotifyRepository> { NotifyRepository(get()) }
 //    single<IChatRepository> { ChatRepository(get(), get()) }
-//    single<IMediaRepository> {
-//        MediaRepository(
-//            get<IMediaStoreModule>(named("image")),
+    single<IMediaRepository> {
+        MediaRepository(
+            get<IMediaStoreModule>(named("image")),
+            //
 //            get<IMediaStoreModule>(named("video")),
 //            get<IMediaStoreModule>(named("audio")),
 //            get<IAudioMediaCodecModule>(),
 //            get<IMediaRecorderModule>()
-//        )
-//    }
+        )
+    }
 
 }
 

@@ -1,6 +1,5 @@
 plugins {
     id "com.android.library"
-//    id "com.android.application"
     id "kotlin-android"
     id "kotlin-kapt"
     id "com.google.protobuf"
@@ -11,8 +10,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-//        applicationId "com.yujie.utilModule"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -41,31 +39,17 @@ android {
 }
 
 dependencies {
-    /**
-     * Http
-     * */
-    //Squareup
-    def okhttp = "4.9.1"
-    implementation "com.squareup.okhttp3:okhttp:$okhttp"
-    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
-    implementation "com.squareup.okhttp3:mockwebserver:$okhttp"
-    def retrofit = "2.9.0"
-    implementation "com.squareup.retrofit2:retrofit:$retrofit"
-    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
-    implementation "com.squareup.retrofit2:converter-guava:$retrofit"
-    implementation "com.squareup.retrofit2:converter-jackson:$retrofit"
-    implementation "com.squareup.retrofit2:converter-jaxb:$retrofit"
-    implementation "com.squareup.retrofit2:converter-moshi:$retrofit"
-//    implementation "com.squareup.retrofit2:converter-protobuf:$retrofit"
-//    implementation "com.squareup.retrofit2:converter-scalars:$retrofit"
-    implementation "com.squareup.retrofit2:converter-simplexml:$retrofit"
-    implementation "com.squareup.retrofit2:converter-wire:$retrofit"
-    implementation "com.squareup.retrofit2:adapter-guava:$retrofit"
-    implementation "com.squareup.retrofit2:adapter-rxjava:$retrofit"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit"
-    implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofit"
-//    implementation "com.squareup.retrofit2:adapter-scala:$retrofit"
-    implementation "com.squareup.retrofit2:retrofit-mock:$retrofit"
+    //Glide
+    def glide = "4.11.0"
+    implementation "com.github.bumptech.glide:glide:$glide"
+    implementation "com.github.bumptech.glide:okhttp3-integration:$glide"
+    kapt "com.github.bumptech.glide:compiler:$glide"
+    //Glide - Transformations
+    implementation "jp.wasabeef:glide-transformations:4.3.0"
+    //Glide - GPU
+    implementation "jp.co.cyberagent.android:gpuimage:2.1.0"
+    //
+    //
     //
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.core:core-ktx:1.5.0"
@@ -102,15 +86,18 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
     //AndroidX
     implementation "androidx.fragment:fragment-ktx:1.3.5"
-    //Glide
-    def glide = "4.11.0"
-    implementation "com.github.bumptech.glide:glide:$glide"
-    implementation "com.github.bumptech.glide:okhttp3-integration:$glide"
-    kapt "com.github.bumptech.glide:compiler:$glide"
-    //Glide - Transformations
-    implementation "jp.wasabeef:glide-transformations:4.3.0"
-    //Glide - GPU
-    implementation "jp.co.cyberagent.android:gpuimage:2.1.0"
+    /**
+     * Http
+     * */
+    //Squareup
+    def okhttp = "4.9.1"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
+    implementation "com.squareup.okhttp3:mockwebserver:$okhttp"
+    def retrofit = "2.9.0"
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+    implementation "com.squareup.retrofit2:retrofit-mock:$retrofit"
     /**
      * Rx
      * */
@@ -118,6 +105,8 @@ dependencies {
     implementation "io.reactivex.rxjava3:rxjava:3.0.9"
     implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
     implementation "io.reactivex.rxjava3:rxkotlin:3.0.1"
+    //RxRelay
+    implementation "com.jakewharton.rxrelay3:rxrelay:3.0.0"
     //RxBinding
     def rxbinding = "4.0.0"
     implementation "com.jakewharton.rxbinding4:rxbinding:$rxbinding"
@@ -141,7 +130,7 @@ dependencies {
      * Util
      * */
     //Protobuf
-    implementation "com.google.protobuf:protobuf-javalite:3.10.0"
+    implementation 'com.google.protobuf:protobuf-javalite:3.10.0'
     //Log
     implementation "com.jakewharton.timber:timber:4.7.1"
     implementation "com.orhanobut:logger:2.2.0"

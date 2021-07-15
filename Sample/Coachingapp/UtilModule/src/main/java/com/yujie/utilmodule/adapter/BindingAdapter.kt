@@ -17,7 +17,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation
 import java.util.*
 
 enum class SetType {
-    IMAGE, BACKGROUND
+		IMAGE, BACKGROUND
 }
 
 /**
@@ -30,34 +30,34 @@ enum class SetType {
  * @param roundingRadius >> 圓角
  * */
 fun ImageView.bindImg(
-    @DrawableRes resId: Int? = null,
-    url: String? = null,
-    @DrawableRes placeRes: Int = R.drawable.ic_baseline_photo_24_gray,
-    blurRadius: Int? = null,
-    blurSampling: Int? = null,
-    roundingRadius: Int? = null,
-    setType: SetType = SetType.IMAGE,
+		@DrawableRes resId: Int? = null,
+		url: String? = null,
+		@DrawableRes placeRes: Int = R.drawable.ic_baseline_photo_24_gray,
+		blurRadius: Int? = null,
+		blurSampling: Int? = null,
+		roundingRadius: Int? = null,
+		setType: SetType = SetType.IMAGE,
 ) {
-    Glide.with(this)
-        .load(
-            resId
-                ?: url
-                ?: ""
-        )
-        .placeholder(placeRes)
-        .apply {
-            if (blurRadius != null && blurSampling != null) apply(RequestOptions.bitmapTransform(BlurTransformation(blurRadius, blurSampling)))
-            if (roundingRadius != null) apply(RequestOptions.bitmapTransform(RoundedCorners(roundingRadius)))
-            if (setType == SetType.BACKGROUND) {
-                into(object : SimpleTarget<Drawable>() {
-                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
-                        background = resource
-                    }
-                })
-            } else {
-                into(this@bindImg)
-            }
-        }
+		Glide.with(this)
+				.load(
+						resId
+								?: url
+								?: ""
+				)
+				.placeholder(placeRes)
+				.apply {
+						if (blurRadius != null && blurSampling != null) apply(RequestOptions.bitmapTransform(BlurTransformation(blurRadius, blurSampling)))
+						if (roundingRadius != null) apply(RequestOptions.bitmapTransform(RoundedCorners(roundingRadius)))
+						if (setType == SetType.BACKGROUND) {
+								into(object : SimpleTarget<Drawable>() {
+										override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable>?) {
+												background = resource
+										}
+								})
+						} else {
+								into(this@bindImg)
+						}
+				}
 }
 
 /**
@@ -66,7 +66,7 @@ fun ImageView.bindImg(
  * */
 @BindingAdapter("bind:isVisible")
 fun View.bindVisible(isVisible: Boolean = true) {
-    this.isVisible = isVisible
+		this.isVisible = isVisible
 }
 
 /**
@@ -75,10 +75,10 @@ fun View.bindVisible(isVisible: Boolean = true) {
  * */
 @BindingAdapter("bind:convDateToTime")
 fun TextView.bindConvDateToTime(date: Date?) {
-    val calendar = Calendar.getInstance()
-    calendar.time = date
-    val hour = calendar.get(Calendar.HOUR_OF_DAY)
-    val minute = calendar.get(Calendar.MINUTE)
-    val sf = String.format("%s:%s", if (hour < 10) "0$hour" else hour.toString(), if (minute < 10) "0$minute" else minute.toString())
-    text = sf
+		val calendar = Calendar.getInstance()
+		calendar.time = date
+		val hour = calendar.get(Calendar.HOUR_OF_DAY)
+		val minute = calendar.get(Calendar.MINUTE)
+		val sf = String.format("%s:%s", if (hour < 10) "0$hour" else hour.toString(), if (minute < 10) "0$minute" else minute.toString())
+		text = sf
 }
