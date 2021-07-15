@@ -2,166 +2,141 @@ package com.yujie.utilmodule.media
 
 import android.content.Context
 import android.net.Uri
+import android.os.Build
 import android.os.CancellationSignal
-import android.provider.BaseColumns
 import android.provider.MediaStore
-import com.jakewharton.rxrelay3.PublishRelay
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import com.yujie.utilmodule.media.model.*
 import kotlinx.coroutines.*
-import java.io.File
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlin.coroutines.CoroutineContext
 
 class ImageMediaStoreModule(private val cxt: Context) : IMediaStoreModule, CoroutineScope {
 
-    val albumMap = mutableMapOf<String, MediaAlbum>()
+		private val folderMap = mutableMapOf<String, MediaFolder>()
 
-    val isAlbumEmpty: Boolean = albumMap.isEmpty()
+		val isMediaFolderEmpty: Boolean = folderMap.isEmpty()
 
-    val albumListRelay: PublishRelay<List<MediaAlbum>> = PublishRelay.create()
+		override fun fetchMediaFolderList(setting: MediaSetting): Flow<List<MediaFolder>> = flow {
+				folderMap.clear()
+				if (setting.mimeType == MimeType.IMAGE) {
+						val internalContentUri: Uri = MediaStore.Images.Media.INTERNAL_CONTENT_URI
+						val externalContentUri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+						runBlocking {
+								launch(Dispatchers.IO) { fetchMediaFolderImage(internalContentUri, setting) }
+								launch(Dispatchers.IO) { fetchMediaFolderImage(externalContentUri, setting) }
+						}
+						emit(folderMap.values.toList())
+				} else {
+						throw NotFindMediaException("MimeType is not the MimeType.IMAGE")
+				}
+		}
 
-    override fun fetchMedia(setting: MediaAlbumSetting): Completable = Completable.fromAction {
-        fetchMediaSync(setting)
-    }
+		private fun fetchMediaFolderImage(uri: Uri, setting: MediaSetting) {
+				val projection: Array<String> = arrayOf(
+						MediaStore.Images.Media._ID,
+						MediaStore.Images.Media.CONTENT_TYPE,
+						MediaStore.Images.Media.DEFAULT_SORT_ORDER,//MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
+						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) MediaStore.Images.Media.RELATIVE_PATH else "relative_path",
+						MediaStore.Images.Media.DISPLAY_NAME,
+						MediaStore.Images.Media.SIZE,
+						MediaStore.Images.Media.HEIGHT,
+						MediaStore.Images.Media.WIDTH,
+//						if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Images.Media.BUCKET_ID else "bucket_id",
+//						MediaStore.Images.Media.MIME_TYPE,
+				)
+				val selection = "${MediaStore.Images.Media.SIZE} > 0"
+				val selectionArgs: Array<String> = arrayOf<String>()
+				val sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
+				val cancellationSignal = CancellationSignal()
+				val cursor = cxt.contentResolver.query(
+						uri,
+						projection,
+						selection,
+						selectionArgs,
+						sortOrder,
+						cancellationSignal
+				)
+				if (cursor?.moveToFirst() == true) {
+						val idColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
+						val contentTypeColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.CONTENT_TYPE)
+						val defaultSortOrderColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DEFAULT_SORT_ORDER)
+						val relativePathColumnIndex = cursor.getColumnIndexOrThrow(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) MediaStore.Images.Media.RELATIVE_PATH else "relative_path")
+						val displayNameColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
+						val sizeColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)
+						val heightColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.HEIGHT)
+						val widthColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.WIDTH)
+						do {
+								val id = cursor.getInt(idColumnIndex)
+								val contentType = cursor.getString(contentTypeColumnIndex)
+								val defaultSortOrder = cursor.getString(defaultSortOrderColumnIndex)
+								val relativePath = cursor.getString(relativePathColumnIndex)
+								val displayName = cursor.getString(displayNameColumnIndex)
+								val size = cursor.getLong(sizeColumnIndex)
+								val height = cursor.getInt(heightColumnIndex)
+								val width = cursor.getInt(widthColumnIndex)
+								val media = Media(
+										id = id,
+										mimeType = contentType,
+										defaultSortOrder = defaultSortOrder,
+										relativePath = relativePath,
+										displayName = displayName,
+										size = size,
+										height = height,
+										width = width,
+								)
 
-    private fun fetchMediaSync(albumSetting: MediaAlbumSetting) {
-        albumMap.clear()
-        if (albumSetting.mimeType == MimeType.IMAGE) {
-            val internalUrl: Uri = MediaStore.Images.Media.INTERNAL_CONTENT_URI
-            val externalUri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            runBlocking {
-                launch(Dispatchers.IO) { fetchMediaImageSync(albumSetting, internalUrl) }
-                launch(Dispatchers.IO) { fetchMediaImageSync(albumSetting, externalUri) }
-            }
-            albumListRelay.accept(albumMap.values.toList())
-        }
-    }
+								if (setting.minSize != null && setting.minSize < size) continue
+								if (setting.maxSize != null && setting.maxSize > size) continue
+								//
+								if (isMediaFolderEmpty) addMediaFolder(MEDIA_ALBUM_IMAGE, relativePath)
+								addMedia(MEDIA_ALBUM_IMAGE, media)
+								//
+								addMediaFolder(defaultSortOrder, relativePath)
+								addMedia(defaultSortOrder, media)
+						} while (cursor.moveToNext())
+				}
+				cursor?.close()
+		}
 
-    private fun fetchMediaImageSync(albumSetting: MediaAlbumSetting, uri: Uri) {
-        val projection: Array<String> = arrayOf<String>(
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Images.Media.BUCKET_DISPLAY_NAME else "bucket_display_name",
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Images.Media.BUCKET_ID else "bucket_id",
-            MediaStore.Images.Media.DATA,
-            MediaStore.Images.Media.DATE_MODIFIED,
-            MediaStore.Images.Media.DISPLAY_NAME,
-            MediaStore.Images.Media.HEIGHT,
-            MediaStore.Images.Media.MIME_TYPE,
-            MediaStore.Images.Media.SIZE,
-            MediaStore.Images.Media.TITLE,
-            MediaStore.Images.Media.WIDTH,
-            BaseColumns._ID,
-        )
-        val selection: String = "${MediaStore.Images.Media.SIZE} > 0"
-        val selectionArgs: Array<String> = arrayOf<String>()
-        val sortOrder: String = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
-        val cancellationSignal: CancellationSignal = CancellationSignal()
-        val cursor = cxt.contentResolver.query(
-            uri,
-            projection,
-            selection,
-            selectionArgs,
-            sortOrder,
-            cancellationSignal
-        )
-        if (cursor?.moveToFirst() == true) {
-            val bucketDisplayNameIndex = cursor.getColumnIndexOrThrow(if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Images.Media.BUCKET_DISPLAY_NAME else "bucket_display_name")
-            val bucketIdIndex = cursor.getColumnIndexOrThrow(if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) MediaStore.Images.Media.BUCKET_ID else "bucket_id")
-            val dataIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            val dateModifiedIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_MODIFIED)
-            val displayNameIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
-            val heightIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.HEIGHT)
-            val mimeTypeIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.MIME_TYPE)
-            val sizeIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)
-            val titleIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.TITLE)
-            val widthIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.WIDTH)
-            val idIndex = cursor.getColumnIndexOrThrow(BaseColumns._ID)
-            do {
-                val bucketDisplayName = cursor.getString(bucketDisplayNameIndex)
-                val bucketId = cursor.getInt(bucketIdIndex)
-                val data = cursor.getString(dataIndex)
-                val dateModified = cursor.getLong(dateModifiedIndex)
-                val displayName = cursor.getString(displayNameIndex)
-                val height = cursor.getInt(heightIndex)
-                val mimeType = cursor.getString(mimeTypeIndex)
-                val size = cursor.getLong(sizeIndex)
-                val title = cursor.getString(titleIndex)
-                val width = cursor.getInt(widthIndex)
-                val id = cursor.getInt(idIndex)
-                //
-                val media = Media(
-                    bucketDisplayName = bucketDisplayName,
-                    bucketId = bucketId,
-                    data = data,
-                    dateModified = dateModified,
-                    displayName = displayName,
-                    height = height,
-                    mimeType = mimeType,
-                    size = size,
-                    title = title,
-                    width = width,
-                    id = id,
-                )
+		private fun addMediaFolder(name: String, filePath: String) {
+				folderMap[name]
+						?: MediaFolder(
+								name = name,
+								filePath = filePath
+						).apply {
+								folderMap[name] = this
+						}
+		}
 
-                if (albumSetting.imageMinSize != null && albumSetting.imageMinSize > size)
-                    continue
+		private fun addMedia(name: String, media: Media) {
+				folderMap[name]?.mediaList?.add(media)
+		}
 
-                if (albumSetting.imageMaxSize != null && albumSetting.imageMaxSize < size)
-                    continue
+		override fun fetchMediaList(setting: MediaSetting): Flow<List<Media>> {
+				if (isMediaFolderEmpty) fetchMediaFolderList(setting)
+				return flow {
+						emit(
+								folderMap[MEDIA_ALBUM_IMAGE]?.mediaList
+										?: emptyList()
+						)
+				}
+		}
 
-                //add media album
-                if (isAlbumEmpty) addAlbum(MEDIA_ALBUM_IMAGE, "", data)
-                //add media
-                addMedia(MEDIA_ALBUM_IMAGE, media)
+		override fun fetchMediaFolderFromName(folderName: String, setting: MediaSetting): Flow<MediaFolder?> {
+				if (isMediaFolderEmpty) fetchMediaFolderList(setting)
+				return flow {
+						emit(folderMap[folderName])
+				}
+		}
 
-                //add  media album in correspond
-                val folder = File(data).parentFile?.absolutePath ?: ""
-                addAlbum(bucketDisplayName, folder, data)
-                //add media in correspond
-                addMedia(bucketDisplayName, media)
-            } while (cursor.moveToNext())
-        }
-        cursor?.close()
-    }
+		override fun fetchMediaFromName(name: String, setting: MediaSetting): Flow<Media?> {
+				if (isMediaFolderEmpty) fetchMediaFolderList(setting)
+				return flow {
+						emit(folderMap[MEDIA_ALBUM_IMAGE]?.mediaList?.find { it.displayName == name })
+				}
+		}
 
-    private fun addMedia(albumName: String, media: Media) {
-        albumMap[albumName]!!.mediaList.add(media)
-    }
-
-    private fun addAlbum(albumName: String, folder: String, file: String) {
-        albumMap[albumName] ?: MediaAlbum(
-            albumName = albumName,
-            folder = folder,
-            file = file
-        ).apply { albumMap[albumName] = this }
-    }
-
-    override fun getMediaAlbum(setting: MediaAlbumSetting): PublishRelay<List<MediaAlbum>> {
-        if (isAlbumEmpty)
-            fetchMedia(setting)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
-        return albumListRelay
-    }
-
-    override fun getAlbumFromName(albumName: String, setting: MediaAlbumSetting): Observable<MediaAlbum?> {
-        if (isAlbumEmpty)
-            fetchMedia(setting)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
-        return albumListRelay.map { it.find { it.albumName == albumName } }
-    }
-
-    override fun getAlbumFromNameSync(albumName: String, setting: MediaAlbumSetting): MediaAlbum? {
-        if (isAlbumEmpty)
-            fetchMedia(setting)
-        return albumMap[albumName]
-    }
-
-    override val coroutineContext: CoroutineContext
-        get() = Job()
-
+		override val coroutineContext: CoroutineContext
+				get() = Job()
 }

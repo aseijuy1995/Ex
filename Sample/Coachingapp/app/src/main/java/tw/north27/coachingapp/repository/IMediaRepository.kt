@@ -1,32 +1,31 @@
 package tw.north27.coachingapp.repository
 
-import com.jakewharton.rxrelay3.PublishRelay
-import io.reactivex.rxjava3.core.Observable
-import tw.north27.coachingapp.model.MediaAlbum
-import tw.north27.coachingapp.model.MediaSetting
+import com.yujie.utilmodule.media.model.Media
+import com.yujie.utilmodule.media.model.MediaSetting
+import kotlinx.coroutines.flow.Flow
 
 interface IMediaRepository {
 
-    fun getMediaAlbum(setting: MediaSetting): Observable<List<MediaAlbum>>
+    fun fetchMediaImage(setting: MediaSetting): Flow<List<Media>>
 
-    fun getMediaAudio(setting: MediaSetting): Observable<List<MediaAlbum>>
-
-    fun getMediaVideo(setting: MediaSetting): Observable<List<MediaAlbum>>
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    suspend fun audioDecodeToPcm(filePath: String, pcmPath: String)
+//    fun getMediaAudio(setting: MediaSetting): Observable<List<MediaAlbum>>
+//
+//    fun getMediaVideo(setting: MediaSetting): Observable<List<MediaAlbum>>
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    val recordingTime: PublishRelay<Long>
 
-    fun prepareRecording(setting: RecorderSetting)
-
-    fun startRecording()
-
-    fun stopRecording()
-
-    fun releaseRecording()
+//    fun audioDecodeToPcm(filePath: String, pcmPath: String)
+//
+//    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//    val recordingTime: PublishRelay<Long>
+//
+//    fun prepareRecording(setting: RecorderSetting)
+//
+//    fun startRecording()
+//
+//    fun stopRecording()
+//
+//    fun releaseRecording()
 
 }

@@ -5,8 +5,8 @@ package com.yujie.utilmodule.media.model
  * @param mimeType >> 媒體類型
  * @param minSec >> (音訊/影片)最少秒數
  * @param maxSec >> (音訊/影片)最長秒數
- * @param minSize >> (音訊/影片)最小大小
- * @param maxSize >> (音訊/影片)最大大小
+ * @param minSize >> (照片)最小大小
+ * @param maxSize >> (照片)最大大小
  * */
 data class MediaSetting(
 		val mimeType: MimeType = MimeType.ALL,

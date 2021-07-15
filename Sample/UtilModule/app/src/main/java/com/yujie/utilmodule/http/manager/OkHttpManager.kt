@@ -1,5 +1,6 @@
-package com.yujie.utilmodule.http
+package com.yujie.utilmodule.http.manager
 
+import com.yujie.utilmodule.http.OkHttpConfig
 import okhttp3.*
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType.Companion.toMediaType
@@ -7,7 +8,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.IOException
 import java.util.concurrent.TimeUnit
 
-object OkHttpUtil {
+object OkHttpManager {
 
 		private var client: OkHttpClient? = null
 
@@ -17,9 +18,10 @@ object OkHttpUtil {
 		}
 
 		fun reGet(config: OkHttpConfig): Entity {
-				val client = client?.newBuilder()?.configOkHttpClient(config = config)
+				val client = client
 						?: throw RuntimeException("OkHttpClient is not initialized")
-				return Entity(client = client)
+				val newClient = client.newBuilder().configOkHttpClient(config = config)
+				return Entity(client = newClient)
 		}
 
 		private fun OkHttpClient.Builder.configOkHttpClient(config: OkHttpConfig): OkHttpClient {
@@ -31,7 +33,7 @@ object OkHttpUtil {
 						.addInterceptor(config.logIntcp)
 						.apply {
 								if (config.authReqIntcp != null) addInterceptor(config.authReqIntcp)
-								if (config.authRspIntcp != null) authenticator(config.authRspIntcp)
+								if (config.authRspIntcp != null) addInterceptor(config.authRspIntcp)
 						}
 						.build()
 				return client
