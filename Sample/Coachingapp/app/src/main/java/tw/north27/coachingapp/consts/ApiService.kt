@@ -166,8 +166,6 @@ class ApiService(val cxt: Context) : IApiService {
         val clientId = pushRequest.clientId
         val pushResponse = PushResponse(
             isSuccess = true,
-            roomId = pushRequest.roomId,
-            isState = pushRequest.isState,
             msg = "更新成功"
         )
         logI("updateAskRoomPush = ${Gson().toJson(pushResponse)}")

@@ -55,6 +55,19 @@
                 android:id="@+id/item_ask_load"
                 layout="@layout/fragment_ask_load" />
 
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/efab_pair"
+                android:layout_width="100dp"
+                android:layout_height="35dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/add_ask"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
         </FrameLayout>
 
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>

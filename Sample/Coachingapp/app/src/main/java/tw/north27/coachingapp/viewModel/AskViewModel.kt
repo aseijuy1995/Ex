@@ -29,29 +29,44 @@ class AskViewModel(
 
     val askRoomListState = _askRoomListState.asLiveData()
 
-    fun fetchAskRoomList(id: Long? = null) = viewModelScope.launch(Dispatchers.IO) {
+    val lastAskRoomListState = MutableLiveData<ViewState<List<AskRoom>>>(ViewState.Initial)
+
+    //啟用刷新視圖
+    private val _isRefreshView = MutableLiveData<Boolean>(true)
+
+    val isRefreshView = _isRefreshView.asLiveData()
+
+    fun setRefreshView(isRefreshView: Boolean) {
+        _isRefreshView.postValue(isRefreshView)
+    }
+
+    fun fetchAskRoomList(askId: Long) = viewModelScope.launch(Dispatchers.IO) {
         _askRoomListState.postValue(ViewState.load())
         val clientId = cxt.userPref.getId().first()
         val results = actionRepo.fetchAskRoomList(
             AskRoomRequest(
                 clientId = clientId,
-                askId = id
+                askId = if (askId == -1L) null else askId
             )
         )
         when (results) {
             is Results.Successful<List<AskRoom>> -> {
                 val list = results.data
-                if (list.isNullOrEmpty())
+                if (list.isNullOrEmpty()) {
                     _askRoomListState.postValue(ViewState.empty())
-                else {
+                    lastAskRoomListState.postValue(ViewState.empty())
+                } else {
                     _askRoomListState.postValue(ViewState.data(list))
+                    lastAskRoomListState.postValue(ViewState.data(list))
                 }
             }
             is Results.ClientErrors -> {
                 _askRoomListState.postValue(ViewState.error(results.e))
+                lastAskRoomListState.postValue(ViewState.error(results.e))
             }
             is Results.NetWorkError -> {
                 _askRoomListState.postValue(ViewState.network(results.e))
+                lastAskRoomListState.postValue(ViewState.network(results.e))
             }
         }
     }
@@ -60,19 +75,26 @@ class AskViewModel(
 
     val pushState = _pushState.asLiveData()
 
-    fun updateAskRoomPush(id: Long, state: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+    //roomId to state
+    private var pushPair: Pair<Long, Boolean>? = null
+
+    fun updateAskRoomPush(roomId: Long, state: Boolean) = viewModelScope.launch(Dispatchers.IO) {
         _pushState.postValue(ViewState.load())
         val clientId = cxt.userPref.getId().first()
+        pushPair = (roomId to state)
         val results = actionRepo.updateAskRoomPush(
             PushRequest(
-                roomId = id,
+                roomId = roomId,
                 clientId = clientId,
                 isState = state
             )
         )
         when (results) {
             is Results.Successful<PushResponse> -> {
-                val pushResponse = results.data
+                val pushResponse = results.data.apply {
+                    this.roomId = pushPair?.first
+                    this.isState = pushPair?.second
+                }
                 _pushState.postValue(ViewState.data(pushResponse))
             }
             is Results.ClientErrors -> {
@@ -82,25 +104,33 @@ class AskViewModel(
                 _pushState.postValue(ViewState.network(results.e))
             }
         }
+
     }
 
     private val _soundState = MutableLiveData<ViewState<SoundResponse>>(ViewState.Initial)
 
     val soundState = _soundState.asLiveData()
 
-    fun updateAskRoomSound(id: Long, state: Boolean) = viewModelScope.launch(Dispatchers.IO) {
+    //roomId to state
+    private var soundPair: Pair<Long, Boolean>? = null
+
+    fun updateAskRoomSound(roomId: Long, state: Boolean) = viewModelScope.launch(Dispatchers.IO) {
         _soundState.postValue(ViewState.load())
         val clientId = cxt.userPref.getId().first()
+        soundPair = (roomId to state)
         val results = actionRepo.updateAskRoomSound(
             SoundRequest(
-                roomId = id,
+                roomId = roomId,
                 clientId = clientId,
                 isState = state
             )
         )
         when (results) {
             is Results.Successful<SoundResponse> -> {
-                val soundResponse = results.data
+                val soundResponse = results.data.apply {
+                    this.roomId = soundPair?.first
+                    this.isState = soundPair?.second
+                }
                 _soundState.postValue(ViewState.data(soundResponse))
             }
             is Results.ClientErrors -> {
@@ -141,54 +171,6 @@ class AskViewModel(
 //                }
 //            }
 //        }
-//    }
-//
-//    private val _chatDeleteState = MutableLiveData<ViewState<ChatInfo>>(ViewState.Initial)
-//
-//    val chatDeleteState = _chatSoundState.asLiveData()
-//
-//    /**
-//     * 刪除聊天室
-//     * result.data
-//     * true - change success
-//     * failed - change failed
-//     * */
-//    fun deleteChatRoom(type: ChatReadIndex, chat: ChatInfo) {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            _chatDeleteState.postValue(ViewState.load())
-//            this@AskViewModel.type = type
-//            val results = chatRepo.deleteChatRoom(chat)
-//            when (results) {
-//                is Results.Successful<List<ChatInfo>> -> {
-//                    when (results.data) {
-//                        true -> {
-//                            if (chatState.value is ViewState.Data) {
-//                                val isRemove = chatList.removeAll { it.id == chat.id }
-//                                isRemove.let {
-//                                    if (it) {
-//                                        if (chatList.isEmpty()) {
-//                                            _chatState.postValue(ViewState.empty())
-//                                        } else {
-//                                            _chatDeleteState.postValue(ViewState.data(chat))
-//                                            _chatState.postValue(ViewState.data(chatList))
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        false -> {
-//                        }
-//                    }
-//                }
-//                is Results.ClientErrors -> {
-//                    _chatDeleteState.postValue(ViewState.error(results.e))
-//                }
-//                is Results.NetWorkError -> {
-//                    _chatDeleteState.postValue(ViewState.network(results.e))
-//                }
-//            }
-//        }
-//
 //    }
 
 

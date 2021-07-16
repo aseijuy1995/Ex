@@ -56,22 +56,43 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             }
         }
 
-        viewModel.askRoomListState.observe(viewLifecycleOwner) {
-            binding.itemAskLoad.root.visible = (it is ViewState.Load)
-            binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
-            binding.rvAsk.isVisible = (it is ViewState.Data)
-            binding.itemError.root.isVisible = (it is ViewState.Error)
-            binding.itemNetwork.root.isVisible = (it is ViewState.Network)
-            if (it !is ViewState.Initial && it !is ViewState.Load) binding.srlView.finishRefresh()
+        publicVM.educationState.observe(viewLifecycleOwner) {
             when (it) {
                 is ViewState.Data -> {
-                    val askRoomList = it.data
+                    val educationData = it.data
                     adapter.apply {
-                        this.educationLevelList = publicVM.educationLevelList.value ?: emptyList()
-                        this.gradeList = publicVM.gradeList.value ?: emptyList()
-                        this.subjectList = publicVM.subjectList.value ?: emptyList()
-                        this.unitsList = publicVM.unitList.value ?: emptyList()
-                    }.submitList(askRoomList)
+                        educationLevelList = educationData.educationLevelList
+                        gradeList = educationData.gradeList
+                        subjectList = educationData.subjectList
+                        unitsList = educationData.unitList
+                    }
+                    adapter.submitList(adapter.currentList)
+                }
+            }
+        }
+
+        viewModel.askRoomListState.observe(viewLifecycleOwner) {
+            if (viewModel.isRefreshView.value!!) {
+                binding.itemAskLoad.root.visible = (it is ViewState.Load)
+                binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
+                binding.rvAsk.isVisible = (it is ViewState.Data)
+                binding.itemError.root.isVisible = (it is ViewState.Error)
+                binding.itemNetwork.root.isVisible = (it is ViewState.Network)
+            } else {
+                binding.itemAskLoad.root.visible = false
+                binding.itemEmpty.root.isVisible = (it is ViewState.Empty) or (viewModel.lastAskRoomListState.value is ViewState.Empty)
+                binding.rvAsk.isVisible = (it is ViewState.Data) or (viewModel.lastAskRoomListState.value is ViewState.Data)
+                binding.itemError.root.isVisible = (it is ViewState.Error) or (viewModel.lastAskRoomListState.value is ViewState.Error)
+                binding.itemNetwork.root.isVisible = (it is ViewState.Network) or (viewModel.lastAskRoomListState.value is ViewState.Network)
+            }
+            if (it !is ViewState.Initial && it !is ViewState.Load) binding.srlView.finishRefresh()
+            when (it) {
+                is ViewState.Empty -> {
+                    adapter.submitList(emptyList())
+                }
+                is ViewState.Data -> {
+                    val askRoomList = it.data
+                    adapter.submitList(askRoomList)
                 }
             }
         }
@@ -83,12 +104,12 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
 
         adapter.pushClickRelay.observe(viewLifecycleOwner) {
             val askRoom = it.second
-            viewModel.updateAskRoomPush(id = askRoom.id, state = !askRoom.isPush)
+            viewModel.updateAskRoomPush(roomId = askRoom.id, state = !askRoom.isPush)
         }
 
         adapter.soundClickRelay.observe(viewLifecycleOwner) {
             val askRoom = it.second
-            viewModel.updateAskRoomSound(id = askRoom.id, state = !askRoom.isSound)
+            viewModel.updateAskRoomSound(roomId = askRoom.id, state = !askRoom.isSound)
         }
 
         viewModel.pushState.observe(viewLifecycleOwner) {
@@ -98,7 +119,7 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
                 is ViewState.Data -> {
                     val pushResponse = it.data
                     Toast.makeText(cxt, pushResponse.msg, Toast.LENGTH_SHORT).show()
-                    if (pushResponse.isSuccess) adapter.submitPushState(roomId = pushResponse.roomId, state = pushResponse.isState)
+                    if (pushResponse.isSuccess) adapter.submitPushState(roomId = pushResponse.roomId!!, state = pushResponse.isState!!)
                 }
             }
         }
@@ -110,20 +131,26 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
                 is ViewState.Data -> {
                     val soundResponse = it.data
                     Toast.makeText(cxt, soundResponse.msg, Toast.LENGTH_SHORT).show()
-                    if (soundResponse.isSuccess) adapter.submitSoundState(roomId = soundResponse.roomId, state = soundResponse.isState)
+                    if (soundResponse.isSuccess) adapter.submitSoundState(roomId = soundResponse.roomId!!, state = soundResponse.isState!!)
                 }
             }
         }
 
         binding.srlView.setOnRefreshListener {
+            viewModel.setRefreshView(true)
             val askId = adapter.getItemId(0)
-            viewModel.fetchAskRoomList(id = if (askId != -1L) askId else null)
+            viewModel.fetchAskRoomList(askId = askId)
+        }
+
+        binding.efabPair.clicksObserve(owner = viewLifecycleOwner) {
+            
         }
 
         /**
          * 測試用
          * */
         binding.itemToolbarNormal.ivSend.clicksObserve(owner = viewLifecycleOwner) {
+            viewModel.setRefreshView(false)
             val askId = adapter.getItemId(0)//取得為最新提問id，非房間id
             val ask = askRoomList_Test[1].copy(
                 unreadNum = (askRoomList_Test[1].unreadNum + 1),
@@ -139,7 +166,7 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             )
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) askRoomList_Test.removeIf { it.id == ask.id }
             askRoomList_Test.add(0, ask)
-            viewModel.fetchAskRoomList(id = if (askId != -1L) askId else null)
+            viewModel.fetchAskRoomList(askId = askId)
         }
 
         binding.srlView.autoRefresh()

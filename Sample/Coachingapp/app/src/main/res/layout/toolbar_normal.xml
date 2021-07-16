@@ -5,14 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:background="?attr/colorPrimary"
-    android:contentInsetStart="0dp"
-    android:minHeight="?attr/actionBarSize"
     android:theme="?attr/actionBarTheme"
-    app:contentInsetLeft="0dp"
-    app:contentInsetStart="0dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    app:contentInsetStart="0dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -49,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:src="@drawable/ic_baseline_notes_24_white"
+            android:src="@drawable/ic_twotone_notes_24_white"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -60,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
-            android:src="@drawable/ic_baseline_send_to_mobile_24_white"
+            android:src="@drawable/ic_twotone_send_to_mobile_24_white"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
