@@ -42,7 +42,19 @@
         android:id="@+id/fragment_ask"
         android:name="tw.north27.coachingapp.ui.launch2.ask.AskFragment"
         android:label="fragment_ask"
-        tools:layout="@layout/fragment_ask" />
+        tools:layout="@layout/fragment_ask">
+
+        <action
+            android:id="@+id/action_fragment_ask_to_fragment_education_selector_dialog"
+            app:destination="@id/fragment_education_selector_dialog" />
+
+    </fragment>
+
+    <dialog
+        android:id="@+id/fragment_education_selector_dialog"
+        android:name="tw.north27.coachingapp.ui.launch2.ask.EducationSelectorDialogFragment"
+        android:label="fragment_education_selector_dialog"
+        tools:layout="@layout/fragment_education_selector_dialog" />
 
     <fragment
         android:id="@+id/fragment_ask_room"

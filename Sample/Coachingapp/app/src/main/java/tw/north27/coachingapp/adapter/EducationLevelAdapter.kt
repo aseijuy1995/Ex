@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.response.EducationLevel
 
-class EducationAdapter : BaseAdapter() {
+class EducationLevelAdapter : BaseAdapter() {
+
     private var educationLevelList: List<EducationLevel>? = null
 
     fun submitData(educationLevelList: List<EducationLevel>) {

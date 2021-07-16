@@ -33,7 +33,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
 
     private val viewModel by viewModel<CoachingViewModel>()
 
-    private val educationAdapter = EducationAdapter()
+    private val educationLevelAdapter = EducationLevelAdapter()
 
     private val gradeAdapter = GradeAdapter()
 
@@ -53,7 +53,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
             }
             rvCoaching.adapter = adapter
             itemDrawerLayoutCoaching.apply {
-                spEducation.adapter = educationAdapter
+                spEducation.adapter = educationLevelAdapter
                 spGrade.adapter = gradeAdapter
                 spSubject.adapter = subjectAdapter
                 spUnit.adapter = unitAdapter
@@ -76,7 +76,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
         }
 
         launch2Act.publicVM.educationLevelList.observe(viewLifecycleOwner) {
-            educationAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultEducation).apply { addAll(it) })
+            educationLevelAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultEducation).apply { addAll(it) })
             binding.itemDrawerLayoutCoaching.spEducation.setSelection(0)
         }
 
@@ -189,7 +189,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
 
     //確認初始數據
     private fun setDfSelection() {
-        educationAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultEducation).apply { launch2Act.publicVM.educationLevelList.value?.let { addAll(it) } })
+        educationLevelAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultEducation).apply { launch2Act.publicVM.educationLevelList.value?.let { addAll(it) } })
         gradeAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultGradle).apply { launch2Act.publicVM.gradeList.value?.let { addAll(it) } })
         subjectAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultSubject).apply { launch2Act.publicVM.subjectList.value?.let { addAll(it) } })
         unitAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultUnit).apply { launch2Act.publicVM.unitList.value?.let { addAll(it) } })

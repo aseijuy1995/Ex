@@ -143,7 +143,7 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
         }
 
         binding.efabPair.clicksObserve(owner = viewLifecycleOwner) {
-            
+            findNavController().navigate(AskFragmentDirections.actionFragmentAskToFragmentEducationSelectorDialog())
         }
 
         /**

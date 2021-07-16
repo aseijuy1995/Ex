@@ -35,25 +35,25 @@ data class EducationLevel(
  * @param id >> 年級id
  * @param name >> 年級名稱
  * @param educationLevelId >> 教育程度id
- * @param subjectIdList >> 科目id列表
  * */
 @Parcelize
 data class Grade(
     @SerializedName("id") val id: Long,
     @SerializedName("name") val name: String,
     @SerializedName("education_level_id") val educationLevelId: Long,
-    @SerializedName("subject_id_list") val subjectIdList: List<Long>,
 ) : Parcelable
 
 /**
  * 科目
  * @param id >> 科目id
  * @param name >> 科目名稱
+ * @param gradeIdList >> 年級id列表
  * */
 @Parcelize
 data class Subject(
     @SerializedName("id") val id: Long,
     @SerializedName("name") val name: String,
+    @SerializedName("grade_id_list") val gradeIdList: List<Long>,
 ) : Parcelable
 
 /**

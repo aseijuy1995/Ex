@@ -117,9 +117,11 @@
     <string name="score">評分</string>
     <string name="reply_rate">回覆率</string>
     <string name="ready_to_ask">準備發問!</string>
+
     <!-- AskFragment -->
     <string name="ask_title">Q &amp; A</string>
     <string name="add_ask"> + 隨機配對</string>
+    <string name="pair">配對</string>
     <string name="you">你</string>
     <string name="sent_img">傳送了圖片</string>
     <string name="sent_audio">傳送了音訊</string>
