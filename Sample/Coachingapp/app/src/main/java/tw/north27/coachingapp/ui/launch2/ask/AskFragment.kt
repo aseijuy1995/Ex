@@ -28,6 +28,7 @@ import tw.north27.coachingapp.databinding.FragmentAskBinding
 import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.AskType
 import tw.north27.coachingapp.model.ClientInfo
+import tw.north27.coachingapp.model.From
 import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.ui.launch2.TeacherDetailDialogFragment
 import tw.north27.coachingapp.viewModel.AskViewModel
@@ -179,7 +180,7 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             lifecycleScope.launch {
                 delay(500)
                 val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(EducationSelectorDialogFragment.KEY_TEACHER_PAIR)!!
-                findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDialog(TeacherDetailDialogFragment.From.Pair, clientInfo))
+                findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDialog(From.Pair, clientInfo))
             }
         }
 

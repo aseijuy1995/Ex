@@ -16,6 +16,7 @@ import tw.north27.coachingapp.NavGraphLaunch2Directions
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.databinding.FragmentCoachingBinding
+import tw.north27.coachingapp.model.From
 import tw.north27.coachingapp.model.response.EducationLevel
 import tw.north27.coachingapp.model.response.Grade
 import tw.north27.coachingapp.model.response.Subject
@@ -117,7 +118,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
 
         adapter.itemClickRelay.observe(viewLifecycleOwner) {
             val clientInfo = it.second
-            findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDialog(TeacherDetailDialogFragment.From.Specify, clientInfo))
+            findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDialog(From.Specify, clientInfo))
         }
 
         binding.itemDrawerLayoutCoaching.spEducation.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {

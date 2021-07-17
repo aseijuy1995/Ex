@@ -59,7 +59,7 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
                     R.id.fragment_education_selector_dialog,
                         //
                     R.id.fragment_sign_out_dialog,
-                    R.id.fragment_teacher_dialog,
+                    R.id.fragment_teacher_detail_dialog,
                     R.id.fragment_about_coaching_dialog,
                     R.id.fragment_privacy_policy_dialog,
                     R.id.fragment_contact_us_dialog,

@@ -184,6 +184,7 @@ class ApiService(val cxt: Context) : IApiService {
     }
 
     override suspend fun fetchTeacherPair(pairRequest: PairRequest): ClientInfo? {
+        delay(1500)
         return teacherInfoList_Test.find {
             it.teacherInfo?.unitsList?.any {
                 it.id == pairRequest.unitId

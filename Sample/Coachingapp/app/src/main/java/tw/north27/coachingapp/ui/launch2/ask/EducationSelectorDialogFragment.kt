@@ -18,6 +18,7 @@ import tw.north27.coachingapp.adapter.GradeAdapter
 import tw.north27.coachingapp.adapter.SubjectAdapter
 import tw.north27.coachingapp.adapter.UnitAdapter
 import tw.north27.coachingapp.databinding.FragmentEducationSelectorDialogBinding
+import tw.north27.coachingapp.model.response.Education
 import tw.north27.coachingapp.model.response.Units
 import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.EducationSelectorViewModel
@@ -59,14 +60,7 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
             when (it) {
                 is ViewState.Data -> {
                     val educationData = it.data
-                    educationLevelAdapter.submitData(mutableListOf(publicVM.defaultEducation).apply { addAll(educationData.educationLevelList) })
-                    gradeAdapter.submitData(mutableListOf(publicVM.defaultGradle).apply { addAll(educationData.gradeList) })
-                    subjectAdapter.submitData(mutableListOf(publicVM.defaultSubject).apply { addAll(educationData.subjectList) })
-                    unitAdapter.submitData(mutableListOf(publicVM.defaultUnit).apply { addAll(educationData.unitList) })
-                    binding.rsEducationLevel.setSelection(0)
-                    binding.rsGrade.setSelection(0)
-                    binding.rsSubject.setSelection(0)
-                    binding.rsUnit.setSelection(0)
+                    setDfSelection(educationData)
                 }
             }
         }
@@ -151,6 +145,11 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
             findNavController().navigateUp()
         }
 
+        binding.btnClear.clicksObserve(owner = viewLifecycleOwner) {
+            val education = (publicVM.educationState.value as ViewState.Data<Education>).data
+            setDfSelection(education)
+        }
+
         binding.btnEnter.clicksObserve(owner = viewLifecycleOwner) {
             val unit = (binding.rsUnit.selectedItem as Units)
             if (unit.id == -1L) {
@@ -160,6 +159,18 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
             }
         }
 
+    }
+
+    //確認初始數據
+    private fun setDfSelection(educationData: Education) {
+        educationLevelAdapter.submitData(mutableListOf(publicVM.defaultEducation).apply { addAll(educationData.educationLevelList) })
+        gradeAdapter.submitData(mutableListOf(publicVM.defaultGradle).apply { addAll(educationData.gradeList) })
+        subjectAdapter.submitData(mutableListOf(publicVM.defaultSubject).apply { addAll(educationData.subjectList) })
+        unitAdapter.submitData(mutableListOf(publicVM.defaultUnit).apply { addAll(educationData.unitList) })
+        binding.rsEducationLevel.setSelection(0)
+        binding.rsGrade.setSelection(0)
+        binding.rsSubject.setSelection(0)
+        binding.rsUnit.setSelection(0)
     }
 
 }
