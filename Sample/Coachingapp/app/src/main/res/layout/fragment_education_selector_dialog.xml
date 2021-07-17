@@ -47,8 +47,9 @@
                     android:layout_gravity="start|bottom"
                     android:layout_margin="10dp"
                     android:text="@string/quick_pair"
-                    android:textColor="@color/gray_666666"
-                    android:textSize="18sp" />
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_clear"
@@ -128,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
-                android:text="@string/unit"
+                android:text="@string/unit_type"
                 android:textColor="@color/black"
                 android:textSize="12sp" />
 

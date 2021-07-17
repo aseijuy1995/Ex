@@ -125,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="@string/unit"
+            android:text="@string/unit_type"
             android:textColor="@color/black"
             android:textSize="14sp" />
 

@@ -64,7 +64,7 @@
                 android:backgroundTint="@color/orange_f09801"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="@string/quick_pair"
+                android:text="@string/plus_quick_pair"
                 android:textColor="@color/white"
                 android:textSize="12sp"
                 android:textStyle="bold" />

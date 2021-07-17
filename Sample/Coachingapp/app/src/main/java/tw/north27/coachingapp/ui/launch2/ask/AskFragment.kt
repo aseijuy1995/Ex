@@ -11,12 +11,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.yujie.core_lib.UserPref
 import com.yujie.core_lib.base.BaseFragment
 import com.yujie.core_lib.ext.clicksObserve
 import com.yujie.core_lib.ext.observe
 import com.yujie.core_lib.ext.visible
+import com.yujie.core_lib.pref.getAuth
+import com.yujie.core_lib.pref.userPref
 import com.yujie.core_lib.util.ViewState
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -61,6 +65,9 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
                     setDrawable(ContextCompat.getDrawable(cxt, R.drawable.shape_size_height_2_solid_gray) ?: return)
                 })
                 adapter = this@AskFragment.adapter
+            }
+            lifecycleScope.launch {
+                efabPair.isVisible = (cxt.userPref.getAuth().first() == UserPref.Authority.STUDENT)
             }
         }
 
