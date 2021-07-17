@@ -120,12 +120,16 @@
 
     <!-- AskFragment -->
     <string name="ask_title">Q &amp; A</string>
-    <string name="add_ask"> + 隨機配對</string>
-    <string name="pair">配對</string>
+    <string name="quick_pair"> + 快速配對</string>
     <string name="you">你</string>
     <string name="sent_img">傳送了圖片</string>
     <string name="sent_audio">傳送了音訊</string>
     <string name="sent_video">傳送了影片</string>
+    <!--  EducationSelectorDialogFragment  -->
+    <string name="pair">配對</string>
+    <string name="ask_desc">提問時必須指定單元/類型才可開始發問</string>
+    <string name="not_find_teacher">當前未有可以提問的老師</string>
+
     <!-- AskRoomFragment -->
     <string name="not_find_ask_room">找不到提問室</string>
     <string name="have_read">已讀</string>

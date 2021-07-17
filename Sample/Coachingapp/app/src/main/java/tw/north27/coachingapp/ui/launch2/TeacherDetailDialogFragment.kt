@@ -1,35 +1,47 @@
 package tw.north27.coachingapp.ui.launch2
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.yujie.core_lib.adapter.bindImg
 import com.yujie.core_lib.base.BaseDialogFragment
 import com.yujie.core_lib.ext.clicksObserve
+import kotlinx.android.parcel.Parcelize
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.SubjectLabelListAdapter
 import tw.north27.coachingapp.adapter.bindChartComment
 import tw.north27.coachingapp.adapter.bindChartReply
 import tw.north27.coachingapp.adapter.bindGender
-import tw.north27.coachingapp.databinding.FragmentTeacherDialogBinding
+import tw.north27.coachingapp.databinding.FragmentTeacherDetailDialogBinding
 import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.response.Units
 
-class TeacherDialogFragment : BaseDialogFragment<FragmentTeacherDialogBinding>(R.layout.fragment_teacher_dialog) {
+class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDialogBinding>(R.layout.fragment_teacher_detail_dialog) {
 
-    override val viewBind: (View) -> FragmentTeacherDialogBinding
-        get() = FragmentTeacherDialogBinding::bind
+    override val viewBind: (View) -> FragmentTeacherDetailDialogBinding
+        get() = FragmentTeacherDetailDialogBinding::bind
 
     private val launch2Act: Launch2Activity
         get() = act as Launch2Activity
 
-    private val args by navArgs<TeacherDialogFragmentArgs>()
+    private val from: From
+        get() = arguments?.getParcelable<From>("from")!!
 
     private val clientInfo: ClientInfo
-        get() = args.clientInfo
+        get() = arguments?.getParcelable<ClientInfo>("clientInfo")!!
 
     private lateinit var adapter: SubjectLabelListAdapter
+
+    /**
+     * @param Specify >> 指定
+     * @param Pair >> 配對
+     * */
+    @Parcelize
+    enum class From(val code: Int) : Parcelable {
+        Specify(1),
+        Pair(2)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,22 +57,25 @@ class TeacherDialogFragment : BaseDialogFragment<FragmentTeacherDialogBinding>(R
             tvName.text = clientInfo.name
             val subjectIdList = clientInfo.teacherInfo?.unitsList?.map(Units::subjectId)?.toSet()?.toList()
             adapter.submitData(subjectIdList)
-            binding.pcCommentScore.bindChartComment(
-                clientInfo = clientInfo,
-                valueTextSize = 8f,
-                isDrawEntryLabels = true,
-                holeRadius = 40f,
-                centerTextSize = 10f,
-                isLegend = false
-            )
-            binding.pcReplyRate.bindChartReply(
-                clientInfo = clientInfo,
-                valueTextSize = 8f,
-                isDrawEntryLabels = true,
-                holeRadius = 40f,
-                centerTextSize = 10f,
-                isLegend = false
-            )
+            binding.run {
+                adapter.submitData(subjectIdList)
+                pcCommentScore.bindChartComment(
+                        clientInfo = clientInfo,
+                        valueTextSize = 8f,
+                        isDrawEntryLabels = true,
+                        holeRadius = 40f,
+                        centerTextSize = 10f,
+                        isLegend = false
+                    )
+                pcReplyRate.bindChartReply(
+                        clientInfo = clientInfo,
+                        valueTextSize = 8f,
+                        isDrawEntryLabels = true,
+                        holeRadius = 40f,
+                        centerTextSize = 10f,
+                        isLegend = false
+                    )
+            }
             tvIntroTitle.text = String.format("%s%s：", getString(R.string.about), clientInfo.name)
             tvIntro.text = clientInfo.intro
         }

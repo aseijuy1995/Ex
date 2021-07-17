@@ -14,12 +14,16 @@ interface IActionRepository {
 
     suspend fun fetchTeacherList(teacherRequest: TeacherRequest): Results<List<ClientInfo>>
 
+    //
     suspend fun fetchAskRoomList(askRoomRequest: AskRoomRequest): Results<List<AskRoom>>
 
     suspend fun updateAskRoomPush(pushRequest: PushRequest): Results<PushResponse>
 
     suspend fun updateAskRoomSound(soundRequest: SoundRequest): Results<SoundResponse>
 
+    suspend fun fetchTeacherPair(pairRequest: PairRequest): Results<ClientInfo?>
+
+    //
     suspend fun fetchAskRoomInfoList(askRoomInfoRequest: AskRoomInfoRequest): Results<List<AskRoomInfo>>
 
     suspend fun fetchCommentList(commentRequest: CommentRequest): Results<List<CommentInfo>>

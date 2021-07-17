@@ -2,7 +2,7 @@ package tw.north27.coachingapp.ui.launch2
 
 import android.os.Bundle
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.view.isVisible
+import androidx.core.view.*
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -136,5 +136,30 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
     override fun onSupportNavigateUp(): Boolean {
         return super.onSupportNavigateUp() || navController.navigateUp()
     }
+
+//    override fun onWindowFocusChanged(hasFocus: Boolean) {
+//        super.onWindowFocusChanged(hasFocus)
+//        window.statusBarColor = Color.TRANSPARENT
+//        window.navigationBarColor = Color.TRANSPARENT
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//            WindowCompat.setDecorFitsSystemWindows(window, false)
+//            val control = ViewCompat.getWindowInsetsController(window.decorView)
+//            control?.apply {
+//                systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+//                show(WindowInsetsCompat.Type.systemBars())
+//                hide(WindowInsets.Type.navigationBars())
+//            }
+//        } else {
+//            window.apply {
+//                decorView.systemUiVisibility =
+//                    View.SYSTEM_UI_FLAG_FULLSCREEN or //隱藏狀態欄
+//                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or  //隱藏導航欄
+//                            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or //粘性沉浸模式
+//                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
+//                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or //內容顯示在狀態欄後面
+//                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION //內容顯示在導航欄後面
+//            }
+//        }
+//    }
 
 }

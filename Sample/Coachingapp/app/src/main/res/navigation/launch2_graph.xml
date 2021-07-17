@@ -9,33 +9,7 @@
         android:id="@+id/fragment_coaching"
         android:name="tw.north27.coachingapp.ui.launch2.CoachingFragment"
         android:label="fragment_coaching"
-        tools:layout="@layout/fragment_coaching">
-
-        <action
-            android:id="@+id/action_fragment_coaching_to_fragment_teacher_dialog"
-            app:destination="@id/fragment_teacher_dialog">
-
-            <argument
-                android:name="clientInfo"
-                app:argType="tw.north27.coachingapp.model.ClientInfo"
-                app:nullable="false" />
-
-        </action>
-
-    </fragment>
-
-    <dialog
-        android:id="@+id/fragment_teacher_dialog"
-        android:name="tw.north27.coachingapp.ui.launch2.TeacherDialogFragment"
-        android:label="fragment_teacher_dialog"
-        tools:layout="@layout/fragment_teacher_dialog">
-
-        <argument
-            android:name="clientInfo"
-            app:argType="tw.north27.coachingapp.model.ClientInfo"
-            app:nullable="false" />
-
-    </dialog>
+        tools:layout="@layout/fragment_coaching" />
 
     <!--  AskFragment  -->
     <fragment
@@ -55,6 +29,35 @@
         android:name="tw.north27.coachingapp.ui.launch2.ask.EducationSelectorDialogFragment"
         android:label="fragment_education_selector_dialog"
         tools:layout="@layout/fragment_education_selector_dialog" />
+
+    <dialog
+        android:id="@+id/fragment_teacher_detail_dialog"
+        android:name="tw.north27.coachingapp.ui.launch2.TeacherDetailDialogFragment"
+        android:label="fragment_teacher_detail_dialog"
+        tools:layout="@layout/fragment_teacher_detail_dialog">
+
+        <argument
+            android:name="clientInfo"
+            app:argType="tw.north27.coachingapp.model.ClientInfo"
+            app:nullable="false" />
+
+    </dialog>
+
+    <action
+        android:id="@+id/action_to_fragment_teacher_dialog"
+        app:destination="@id/fragment_teacher_detail_dialog">
+
+        <argument
+            android:name="from"
+            app:argType="tw.north27.coachingapp.ui.launch2.TeacherDetailDialogFragment.From"
+            app:nullable="false" />
+
+        <argument
+            android:name="clientInfo"
+            app:argType="tw.north27.coachingapp.model.ClientInfo"
+            app:nullable="false" />
+
+    </action>
 
     <fragment
         android:id="@+id/fragment_ask_room"

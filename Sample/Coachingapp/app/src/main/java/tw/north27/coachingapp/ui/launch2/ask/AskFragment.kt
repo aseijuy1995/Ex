@@ -6,6 +6,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +16,8 @@ import com.yujie.core_lib.ext.clicksObserve
 import com.yujie.core_lib.ext.observe
 import com.yujie.core_lib.ext.visible
 import com.yujie.core_lib.util.ViewState
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphLaunch2Directions
@@ -23,7 +27,9 @@ import tw.north27.coachingapp.consts.simulation.askRoomList_Test
 import tw.north27.coachingapp.databinding.FragmentAskBinding
 import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.AskType
+import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.ui.LoadingDialogFragment
+import tw.north27.coachingapp.ui.launch2.TeacherDetailDialogFragment
 import tw.north27.coachingapp.viewModel.AskViewModel
 import tw.north27.coachingapp.viewModel.PublicViewModel
 import java.util.*
@@ -168,6 +174,15 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             askRoomList_Test.add(0, ask)
             viewModel.fetchAskRoomList(askId = askId)
         }
+
+        setFragmentResultListener(EducationSelectorDialogFragment.REQUEST_KEY_PAIR) { key, bundle ->
+            lifecycleScope.launch {
+                delay(500)
+                val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(EducationSelectorDialogFragment.KEY_TEACHER_PAIR)!!
+                findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDialog(TeacherDetailDialogFragment.From.Pair, clientInfo))
+            }
+        }
+
 
         binding.srlView.autoRefresh()
     }

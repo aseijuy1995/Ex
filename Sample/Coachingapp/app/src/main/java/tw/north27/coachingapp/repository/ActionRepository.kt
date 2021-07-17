@@ -3,10 +3,10 @@ package tw.north27.coachingapp.repository
 import com.yujie.core_lib.http.Results
 import com.yujie.core_lib.http.safeApiResults
 import tw.north27.coachingapp.consts.IApiService
-import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.AskRoom
-import tw.north27.coachingapp.model.CommentInfo
+import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.ClientInfo
+import tw.north27.coachingapp.model.CommentInfo
 import tw.north27.coachingapp.model.request.*
 import tw.north27.coachingapp.model.response.PushResponse
 import tw.north27.coachingapp.model.response.ReflectResponse
@@ -25,6 +25,9 @@ class ActionRepository(private val service: IApiService) : IActionRepository {
 
     override suspend fun updateAskRoomSound(soundRequest: SoundRequest): Results<SoundResponse> =
         safeApiResults { service.updateAskRoomSound(soundRequest = soundRequest) }
+
+    override suspend fun fetchTeacherPair(pairRequest: PairRequest): Results<ClientInfo?> =
+        safeApiResults { service.fetchTeacherPair(pairRequest = pairRequest) }
 
     override suspend fun fetchAskRoomInfoList(askRoomInfoRequest: AskRoomInfoRequest): Results<List<AskRoomInfo>> =
         safeApiResults { service.fetchAskRoomInfoList(askRoomInfoRequest = askRoomInfoRequest) }

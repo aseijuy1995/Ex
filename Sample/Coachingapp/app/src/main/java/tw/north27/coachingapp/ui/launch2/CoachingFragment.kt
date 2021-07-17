@@ -12,6 +12,7 @@ import com.yujie.core_lib.ext.observe
 import com.yujie.core_lib.ext.visible
 import com.yujie.core_lib.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import tw.north27.coachingapp.NavGraphLaunch2Directions
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.databinding.FragmentCoachingBinding
@@ -115,7 +116,8 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
         }
 
         adapter.itemClickRelay.observe(viewLifecycleOwner) {
-            findNavController().navigate(CoachingFragmentDirections.actionFragmentCoachingToFragmentTeacherDialog(it.second))
+            val clientInfo = it.second
+            findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDialog(TeacherDetailDialogFragment.From.Specify, clientInfo))
         }
 
         binding.itemDrawerLayoutCoaching.spEducation.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {

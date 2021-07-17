@@ -7,32 +7,32 @@ import java.io.IOException
 
 sealed class Results<out T> {
 
-		companion object {
-				fun <T> successful(data: T): Results<T> = Successful<T>(data)
+    companion object {
+        fun <T> successful(data: T): Results<T> = Successful<T>(data)
 
-				fun <T> clientErrors(e: HttpException): Results<T> = ClientErrors(e)
+        fun <T> clientErrors(e: HttpException): Results<T> = ClientErrors(e)
 
-				fun <T> netWorkError(e: IOException): Results<T> = NetWorkError(e)
-		}
+        fun <T> netWorkError(e: IOException): Results<T> = NetWorkError(e)
+    }
 
-		//Success
-		data class Successful<out T>(val data: T) : Results<T>()
+    //Success
+    data class Successful<out T>(val data: T) : Results<T>()
 
-		//HttpException
-		data class ClientErrors(val e: HttpException) : Results<Nothing>()
+    //HttpException
+    data class ClientErrors(val e: HttpException) : Results<Nothing>()
 
-		//IOException
-		data class NetWorkError(val e: IOException) : Results<Nothing>()
+    //IOException
+    data class NetWorkError(val e: IOException) : Results<Nothing>()
 }
 
 suspend fun <T> safeApiResults(data: suspend () -> T): Results<T> {
-		return withContext(Dispatchers.IO) {
-				try {
-						Results.successful(data.invoke())
-				} catch (e: HttpException) {
-						Results.clientErrors(e)
-				} catch (e: IOException) {
-						Results.netWorkError(e)
-				}
-		}
+    return withContext(Dispatchers.IO) {
+        try {
+            Results.successful(data.invoke())
+        } catch (e: HttpException) {
+            Results.clientErrors(e)
+        } catch (e: IOException) {
+            Results.netWorkError(e)
+        }
+    }
 }

@@ -59,6 +59,7 @@ interface IApiService {
     @POST
     suspend fun fetchTeacherList(@Body teacherRequest: TeacherRequest): List<ClientInfo>
 
+    //AskFragment
     /**
      * 獲取提問室列表
      * @header Bearer accessToken
@@ -82,6 +83,12 @@ interface IApiService {
      * */
     @PUT
     suspend fun updateAskRoomSound(@Body soundRequest: SoundRequest): SoundResponse
+
+    /**
+     * 快速篩選可配合的老師
+     * */
+    @POST
+    suspend fun fetchTeacherPair(@Body pairRequest: PairRequest): ClientInfo?
 
 
     /**

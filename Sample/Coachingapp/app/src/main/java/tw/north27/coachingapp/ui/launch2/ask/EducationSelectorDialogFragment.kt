@@ -3,17 +3,24 @@ package tw.north27.coachingapp.ui.launch2.ask
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.yujie.core_lib.base.BaseDialogFragment
 import com.yujie.core_lib.ext.clicksObserve
 import com.yujie.core_lib.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.EducationLevelAdapter
 import tw.north27.coachingapp.adapter.GradeAdapter
 import tw.north27.coachingapp.adapter.SubjectAdapter
 import tw.north27.coachingapp.adapter.UnitAdapter
 import tw.north27.coachingapp.databinding.FragmentEducationSelectorDialogBinding
+import tw.north27.coachingapp.model.response.Units
+import tw.north27.coachingapp.ui.LoadingDialogFragment
+import tw.north27.coachingapp.viewModel.EducationSelectorViewModel
 import tw.north27.coachingapp.viewModel.PublicViewModel
 
 class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSelectorDialogBinding>(R.layout.fragment_education_selector_dialog) {
@@ -23,6 +30,8 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
 
     private val publicVM by sharedViewModel<PublicViewModel>()
 
+    private val viewModel by viewModel<EducationSelectorViewModel>()
+
     private val educationLevelAdapter = EducationLevelAdapter()
 
     private val gradeAdapter = GradeAdapter()
@@ -30,6 +39,12 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
     private val subjectAdapter = SubjectAdapter()
 
     private val unitAdapter = UnitAdapter()
+
+    companion object {
+        val REQUEST_KEY_PAIR = "REQUEST_KEY_PAIR"
+
+        val KEY_TEACHER_PAIR = "KEY_TEACHER_PAIR"
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,6 +67,23 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
                     binding.rsGrade.setSelection(0)
                     binding.rsSubject.setSelection(0)
                     binding.rsUnit.setSelection(0)
+                }
+            }
+        }
+
+        viewModel.teacherPairState.observe(viewLifecycleOwner) {
+            if (it is ViewState.Load) LoadingDialogFragment.show(parentFragmentManager)
+            if (it !is ViewState.Initial && it !is ViewState.Load) LoadingDialogFragment.dismiss()
+            when (it) {
+                is ViewState.Empty -> {
+                    Toast.makeText(cxt, getString(R.string.not_find_teacher), Toast.LENGTH_SHORT).show()
+                }
+                is ViewState.Data -> {
+                    setFragmentResult(
+                        REQUEST_KEY_PAIR,
+                        bundleOf(KEY_TEACHER_PAIR to it.data)
+                    )
+                    findNavController().navigateUp()
                 }
             }
         }
@@ -120,8 +152,14 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
         }
 
         binding.btnEnter.clicksObserve(owner = viewLifecycleOwner) {
-//            (binding.spUnit.selectedItem as Units?)
+            val unit = (binding.rsUnit.selectedItem as Units)
+            if (unit.id == -1L) {
+                Toast.makeText(cxt, getString(R.string.ask_desc), Toast.LENGTH_SHORT).show()
+            } else {
+                viewModel.fetchTeacherPair(unit.id)
+            }
         }
+
     }
 
 }

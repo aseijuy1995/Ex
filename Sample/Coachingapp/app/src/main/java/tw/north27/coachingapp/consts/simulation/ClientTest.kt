@@ -94,7 +94,7 @@ val clientInfo_Test = ClientInfo(
     ),
 )
 
-val teacherInfoListTest = listOf<ClientInfo>(
+val teacherInfoList_Test = listOf<ClientInfo>(
     ClientInfo(
         id = "rebeccaId",
         auth = UserPref.Authority.TEACHER,

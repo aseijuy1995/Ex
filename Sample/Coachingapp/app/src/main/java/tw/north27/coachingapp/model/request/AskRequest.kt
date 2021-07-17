@@ -50,3 +50,13 @@ data class SoundRequest(
     @SerializedName("client_id") val clientId: String,
     @SerializedName("is_state") val isState: Boolean,
 )
+
+/**
+ * 快速篩選可配合的老師
+ * @param clientId >> 用戶Id
+ * @param unitId >> 單元id
+ * */
+data class PairRequest(
+    @SerializedName("client_id") val clientId: String,
+    @SerializedName("unit_id") val unitId: Long,
+)
