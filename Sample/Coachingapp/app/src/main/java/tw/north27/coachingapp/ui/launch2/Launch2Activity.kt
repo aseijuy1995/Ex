@@ -23,23 +23,22 @@ import tw.north27.coachingapp.viewModel.PublicViewModel
 
 class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLaunch2Binding::inflate) {
 
-    val navFragment: NavHostFragment
+    private val navFragment: NavHostFragment
         get() = (supportFragmentManager.findFragmentById(R.id.fcv_launch2) as NavHostFragment)
 
-    val navController: NavController
+    private val navController: NavController
         get() = navFragment.navController
 
     val publicVM by viewModel<PublicViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding.bnvLaunch2.apply {
             itemIconTintList = null
             setupWithNavController(navController)
         }
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
             binding.bnvLaunch2.apply {
                 itemTextColor = when (destination.id) {
                     R.id.fragment_coaching -> AppCompatResources.getColorStateList(context, R.color.red_eb4537)
@@ -69,6 +68,7 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
                     else -> false
                 }
             }
+
         }
 
         lifecycleScope.launch(Dispatchers.IO) {
@@ -104,17 +104,17 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
         }
 
         publicVM.apply {
-            educationState.observe(this@Launch2Activity) {
-                when (it) {
-                    is ViewState.Data -> {
-                        val educationData = it.data
-                        publicVM.setEducationLevelList(educationData.educationLevelList)
-                        publicVM.setGradeList(educationData.gradeList)
-                        publicVM.setSubjectList(educationData.subjectList)
-                        publicVM.setUnitList(educationData.unitList)
-                    }
-                }
-            }
+//            educationState.observe(this@Launch2Activity) {
+//                when (it) {
+//                    is ViewState.Data -> {
+//                        val educationData = it.data
+//                        publicVM.setEducationLevelList(educationData.educationLevelList)
+//                        publicVM.setGradeList(educationData.gradeList)
+//                        publicVM.setSubjectList(educationData.subjectList)
+//                        publicVM.setUnitList(educationData.unitTypeList)
+//                    }
+//                }
+//            }
             aboutDataState.observe(this@Launch2Activity) {
                 when (it) {
                     is ViewState.Data -> {
@@ -132,35 +132,9 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
 
         publicVM.fetchEducation()
         publicVM.fetchPublicData()
+
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return super.onSupportNavigateUp() || navController.navigateUp()
-    }
-
-//    override fun onWindowFocusChanged(hasFocus: Boolean) {
-//        super.onWindowFocusChanged(hasFocus)
-//        window.statusBarColor = Color.TRANSPARENT
-//        window.navigationBarColor = Color.TRANSPARENT
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//            WindowCompat.setDecorFitsSystemWindows(window, false)
-//            val control = ViewCompat.getWindowInsetsController(window.decorView)
-//            control?.apply {
-//                systemBarsBehavior = WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-//                show(WindowInsetsCompat.Type.systemBars())
-//                hide(WindowInsets.Type.navigationBars())
-//            }
-//        } else {
-//            window.apply {
-//                decorView.systemUiVisibility =
-//                    View.SYSTEM_UI_FLAG_FULLSCREEN or //隱藏狀態欄
-//                            View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or  //隱藏導航欄
-//                            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or //粘性沉浸模式
-//                            View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or
-//                            View.SYSTEM_UI_FLAG_LAYOUT_STABLE or //內容顯示在狀態欄後面
-//                            View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION //內容顯示在導航欄後面
-//            }
-//        }
-//    }
+    override fun onSupportNavigateUp(): Boolean = super.onSupportNavigateUp() || navController.navigateUp()
 
 }

@@ -31,12 +31,18 @@
     <string name="enter_account">請輸入帳號</string>
     <string name="enter_password">請輸入密碼</string>
     <string name="sign_in">登入</string>
+    <!--    -->
+    <!--    -->
+    <!--    -->
     <!-- Launch2Activity -->
     <string name="coaching">Coaching</string>
-    <string name="question_answer">提問</string>
-    <string name="chrome_reader_mode">閱讀</string>
-    <string name="notifications">通知</string>
-    <string name="person">個人</string>
+    <string name="ask">提問</string>
+    <string name="study">閱讀</string>
+    <string name="notice">通知</string>
+    <string name="personal">個人</string>
+    <!--    -->
+    <!--    -->
+    <!--    -->
     <!-- PersonalFragment -->
     <string name="id">ID</string>
     <string name="account">帳號</string>

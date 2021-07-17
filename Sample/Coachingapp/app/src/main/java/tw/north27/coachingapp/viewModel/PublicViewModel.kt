@@ -82,7 +82,7 @@ class PublicViewModel(
                 if (educationData.educationLevelList.isNotEmpty()
                     && educationData.gradeList.isNotEmpty()
                     && educationData.subjectList.isNotEmpty()
-                    && educationData.unitList.isNotEmpty()
+                    && educationData.unitTypeList.isNotEmpty()
                 )
                     _educationState.postValue(ViewState.data(results.data))
                 else
@@ -115,11 +115,11 @@ class PublicViewModel(
 
     fun setSubjectList(subjectList: List<Subject>) = _subjectList.postValue(subjectList)
 
-    private val _unitList = MutableLiveData<List<Units>>()
+    private val _unitList = MutableLiveData<List<UnitType>>()
 
     val unitList = _unitList.asLiveData()
 
-    fun setUnitList(unitList: List<Units>) = _unitList.postValue(unitList)
+    fun setUnitList(unitList: List<UnitType>) = _unitList.postValue(unitList)
 
     val defaultEducation = EducationLevel(id = -1, name = cxt.getString(R.string.df))
 
@@ -127,7 +127,7 @@ class PublicViewModel(
 
     val defaultSubject = Subject(id = -1, name = cxt.getString(R.string.df), gradeIdList = emptyList())
 
-    val defaultUnit = Units(id = -1, name = cxt.getString(R.string.df), educationLevelId = -1, gradeId = -1, subjectId = -1)
+    val defaultUnit = UnitType(id = -1, name = cxt.getString(R.string.df), educationLevelId = -1, gradeId = -1, subjectId = -1)
 
     //
     private val _personalBgRes: MutableLiveData<Int> by lazy {

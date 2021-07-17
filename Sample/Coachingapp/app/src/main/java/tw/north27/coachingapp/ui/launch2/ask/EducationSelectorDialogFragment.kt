@@ -19,7 +19,7 @@ import tw.north27.coachingapp.adapter.SubjectAdapter
 import tw.north27.coachingapp.adapter.UnitAdapter
 import tw.north27.coachingapp.databinding.FragmentEducationSelectorDialogBinding
 import tw.north27.coachingapp.model.response.Education
-import tw.north27.coachingapp.model.response.Units
+import tw.north27.coachingapp.model.response.UnitType
 import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.EducationSelectorViewModel
 import tw.north27.coachingapp.viewModel.PublicViewModel
@@ -79,7 +79,7 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
                         REQUEST_KEY_PAIR,
                         bundleOf(
                             KEY_TEACHER_CLIENT_PAIR to it.data,
-                            KEY_TEACHER_UNIT_PAIR to (binding.rsUnit.selectedItem as Units)
+                            KEY_TEACHER_UNIT_PAIR to (binding.rsUnit.selectedItem as UnitType)
                         )
                     )
                     findNavController().navigateUp()
@@ -156,7 +156,7 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
         }
 
         binding.btnEnter.clicksObserve(owner = viewLifecycleOwner) {
-            val unit = (binding.rsUnit.selectedItem as Units)
+            val unit = (binding.rsUnit.selectedItem as UnitType)
             if (unit.id == -1L) {
                 Toast.makeText(cxt, getString(R.string.ask_desc), Toast.LENGTH_SHORT).show()
             } else {
@@ -171,7 +171,7 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
         educationLevelAdapter.submitData(mutableListOf(publicVM.defaultEducation).apply { addAll(educationData.educationLevelList) })
         gradeAdapter.submitData(mutableListOf(publicVM.defaultGradle).apply { addAll(educationData.gradeList) })
         subjectAdapter.submitData(mutableListOf(publicVM.defaultSubject).apply { addAll(educationData.subjectList) })
-        unitAdapter.submitData(mutableListOf(publicVM.defaultUnit).apply { addAll(educationData.unitList) })
+        unitAdapter.submitData(mutableListOf(publicVM.defaultUnit).apply { addAll(educationData.unitTypeList) })
         binding.rsEducationLevel.setSelection(0)
         binding.rsGrade.setSelection(0)
         binding.rsSubject.setSelection(0)

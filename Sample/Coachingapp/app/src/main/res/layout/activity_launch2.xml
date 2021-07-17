@@ -26,6 +26,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_launch2_bnv" />
+        app:menu="@menu/launch2_bnv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

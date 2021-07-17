@@ -96,7 +96,7 @@ class ApiService(val cxt: Context) : IApiService {
             educationLevelList = educationList_Test,
             gradeList = gradeList_Test,
             subjectList = subjectList_Test,
-            unitList = unitList_Test
+            unitTypeList = unitList_Test
         )
         logI("fetchEducation = ${Gson().toJson(education)}")
         return education
@@ -114,35 +114,35 @@ class ApiService(val cxt: Context) : IApiService {
             if (educationLevelId == null && gradeId == null && subjectId == null && unitId == null)
                 teacherInfoList_Test
             else if (educationLevelId == null && gradeId == null && subjectId == null)
-                teacherInfoList_Test.filter { it.teacherInfo?.unitsList?.any { it.id == unitId } ?: false }
+                teacherInfoList_Test.filter { it.teacherInfo?.unitTypeList?.any { it.id == unitId } ?: false }
             else if (educationLevelId == null && gradeId == null && unitId == null)
-                teacherInfoList_Test.filter { it.teacherInfo?.unitsList?.any { it.subjectId == subjectId } ?: false }
+                teacherInfoList_Test.filter { it.teacherInfo?.unitTypeList?.any { it.subjectId == subjectId } ?: false }
             else if (educationLevelId == null && subjectId == null && unitId == null)
-                teacherInfoList_Test.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId } ?: false }
+                teacherInfoList_Test.filter { it.teacherInfo?.unitTypeList?.any { it.gradeId == gradeId } ?: false }
             else if (gradeId == null && subjectId == null && unitId == null)
-                teacherInfoList_Test.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId } ?: false }
+                teacherInfoList_Test.filter { it.teacherInfo?.unitTypeList?.any { it.educationLevelId == educationLevelId } ?: false }
             else if (educationLevelId == null && gradeId == null)
-                teacherInfoList_Test.filter { it.teacherInfo?.unitsList?.any { it.subjectId == subjectId || it.id == unitId } ?: false }
+                teacherInfoList_Test.filter { it.teacherInfo?.unitTypeList?.any { it.subjectId == subjectId || it.id == unitId } ?: false }
             else if (educationLevelId == null && subjectId == null)
-                teacherInfoList_Test.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId || it.id == unitId } ?: false }
+                teacherInfoList_Test.filter { it.teacherInfo?.unitTypeList?.any { it.gradeId == gradeId || it.id == unitId } ?: false }
             else if (educationLevelId == null && unitId == null)
-                teacherInfoList_Test.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId || it.subjectId == subjectId } ?: false }
+                teacherInfoList_Test.filter { it.teacherInfo?.unitTypeList?.any { it.gradeId == gradeId || it.subjectId == subjectId } ?: false }
             else if (gradeId == null && subjectId == null)
-                teacherInfoList_Test.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId || it.id == unitId } ?: false }
+                teacherInfoList_Test.filter { it.teacherInfo?.unitTypeList?.any { it.educationLevelId == educationLevelId || it.id == unitId } ?: false }
             else if (gradeId == null && unitId == null)
-                teacherInfoList_Test.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId || it.subjectId == subjectId } ?: false }
+                teacherInfoList_Test.filter { it.teacherInfo?.unitTypeList?.any { it.educationLevelId == educationLevelId || it.subjectId == subjectId } ?: false }
             else if (subjectId == null && unitId == null)
-                teacherInfoList_Test.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId || it.gradeId == gradeId } ?: false }
+                teacherInfoList_Test.filter { it.teacherInfo?.unitTypeList?.any { it.educationLevelId == educationLevelId || it.gradeId == gradeId } ?: false }
             else if (educationLevelId == null)
-                teacherInfoList_Test.filter { it.teacherInfo?.unitsList?.any { it.gradeId == gradeId || it.subjectId == subjectId || it.id == unitId } ?: false }
+                teacherInfoList_Test.filter { it.teacherInfo?.unitTypeList?.any { it.gradeId == gradeId || it.subjectId == subjectId || it.id == unitId } ?: false }
             else if (gradeId == null)
-                teacherInfoList_Test.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId || it.subjectId == subjectId || it.id == unitId } ?: false }
+                teacherInfoList_Test.filter { it.teacherInfo?.unitTypeList?.any { it.educationLevelId == educationLevelId || it.subjectId == subjectId || it.id == unitId } ?: false }
             else if (subjectId == null)
-                teacherInfoList_Test.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId || it.gradeId == gradeId || it.id == unitId } ?: false }
+                teacherInfoList_Test.filter { it.teacherInfo?.unitTypeList?.any { it.educationLevelId == educationLevelId || it.gradeId == gradeId || it.id == unitId } ?: false }
             else if (unitId == null)
-                teacherInfoList_Test.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId || it.gradeId == gradeId || it.subjectId == subjectId } ?: false }
+                teacherInfoList_Test.filter { it.teacherInfo?.unitTypeList?.any { it.educationLevelId == educationLevelId || it.gradeId == gradeId || it.subjectId == subjectId } ?: false }
             else
-                teacherInfoList_Test.filter { it.teacherInfo?.unitsList?.any { it.educationLevelId == educationLevelId || it.gradeId == gradeId || it.subjectId == subjectId || it.id == unitId } ?: false }
+                teacherInfoList_Test.filter { it.teacherInfo?.unitTypeList?.any { it.educationLevelId == educationLevelId || it.gradeId == gradeId || it.subjectId == subjectId || it.id == unitId } ?: false }
 
         var last = index + num
         if (last > list.size) last = list.size
@@ -186,7 +186,7 @@ class ApiService(val cxt: Context) : IApiService {
     override suspend fun fetchTeacherPair(pairRequest: PairRequest): ClientInfo? {
         delay(1500)
         val clientInfo = teacherInfoList_Test.find {
-            it.teacherInfo?.unitsList?.any {
+            it.teacherInfo?.unitTypeList?.any {
                 it.id == pairRequest.unitId
             } ?: false
         }

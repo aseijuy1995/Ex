@@ -33,7 +33,7 @@ import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.AskType
 import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.From
-import tw.north27.coachingapp.model.response.Units
+import tw.north27.coachingapp.model.response.UnitType
 import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.ui.launch2.TeacherDetailDialogFragment
 import tw.north27.coachingapp.viewModel.AskViewModel
@@ -79,7 +79,7 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
                         educationLevelList = educationData.educationLevelList
                         gradeList = educationData.gradeList
                         subjectList = educationData.subjectList
-                        unitsList = educationData.unitList
+                        unitTypeList = educationData.unitTypeList
                     }
                     adapter.submitList(adapter.currentList)
                 }
@@ -189,7 +189,7 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             lifecycleScope.launch {
                 delay(500)
                 val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(EducationSelectorDialogFragment.KEY_TEACHER_CLIENT_PAIR)!!
-                val unit: Units = bundle.getParcelable<Units>(EducationSelectorDialogFragment.KEY_TEACHER_UNIT_PAIR)!!
+                val unit: UnitType = bundle.getParcelable<UnitType>(EducationSelectorDialogFragment.KEY_TEACHER_UNIT_PAIR)!!
                 findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDialog(From.Pair, clientInfo, unit))
             }
         }
@@ -199,13 +199,13 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             lifecycleScope.launch {
                 delay(500)
                 val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(TeacherDetailDialogFragment.KEY_TEACHER_CLIENT_EXIST)!!
-                val unit: Units = bundle.getParcelable<Units>(TeacherDetailDialogFragment.KEY_TEACHER_UNIT_EXIST)!!
+                val unit: UnitType = bundle.getParcelable<UnitType>(TeacherDetailDialogFragment.KEY_TEACHER_UNIT_EXIST)!!
                 val msg: String = bundle.getString(TeacherDetailDialogFragment.KEY_TEACHER_MSG_EXIST)!!
 
                 findNavController().navigate(
                     NavGraphLaunch2Directions.actionToFragmentSetupAskRoomDialog(
                         clientInfo = clientInfo,
-                        unit = unit,
+                        unitType = unit,
                         msg = msg
                     )
                 )

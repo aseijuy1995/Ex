@@ -130,7 +130,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
                             educationLevelList = launch2Act.publicVM.educationLevelList.value
                             gradeList = launch2Act.publicVM.gradeList.value
                             subjectList = launch2Act.publicVM.subjectList.value
-                            unitsList = launch2Act.publicVM.unitList.value
+                            unitTypeList = launch2Act.publicVM.unitList.value
                         }.submitList(commentList)
                     }
                 }

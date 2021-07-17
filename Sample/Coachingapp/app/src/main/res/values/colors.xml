@@ -24,7 +24,8 @@
 
 
     <!---->
-    <!---->
+    <color name="blue_a4d8f1">#A4D8F1</color>
+    <color name="blue_b5e1f3">#B5E1F3</color>
     <!---->
     <color name="red_eb4537">#EB4537</color>
     <color name="orange_f09801">#F09801</color>

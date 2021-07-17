@@ -10,7 +10,7 @@ import tw.north27.coachingapp.model.*
 import tw.north27.coachingapp.model.response.EducationLevel
 import tw.north27.coachingapp.model.response.Grade
 import tw.north27.coachingapp.model.response.Subject
-import tw.north27.coachingapp.model.response.Units
+import tw.north27.coachingapp.model.response.UnitType
 
 class CommentListAdapter : ListAdapter<CommentInfo, CommentListAdapter.VH>(object : DiffUtil.ItemCallback<CommentInfo>() {
     override fun areItemsTheSame(oldItem: CommentInfo, newItem: CommentInfo): Boolean {
@@ -29,7 +29,7 @@ class CommentListAdapter : ListAdapter<CommentInfo, CommentListAdapter.VH>(objec
 
     var subjectList: List<Subject>? = null
 
-    var unitsList: List<Units>? = null
+    var unitTypeList: List<UnitType>? = null
 
     inner class VH(val binding: ItemCommentBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(commentInfo: CommentInfo) = binding.apply {
@@ -37,7 +37,7 @@ class CommentListAdapter : ListAdapter<CommentInfo, CommentListAdapter.VH>(objec
             this.education = educationLevelList?.find { it.id == commentInfo.educationId }
             this.grade = gradeList?.find { it.id == commentInfo.gradeId }
             this.subject = subjectList?.find { it.id == commentInfo.subjectId }
-            this.unit = unitsList?.find { it.id == commentInfo.unitId }
+            this.unit = unitTypeList?.find { it.id == commentInfo.unitId }
             executePendingBindings()
         }
     }

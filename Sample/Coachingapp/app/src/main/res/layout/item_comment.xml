@@ -23,7 +23,7 @@
 
         <variable
             name="unit"
-            type="tw.north27.coachingapp.model.response.Units" />
+            type="tw.north27.coachingapp.model.response.UnitType" />
 
         <import
             alias="dateFormat"

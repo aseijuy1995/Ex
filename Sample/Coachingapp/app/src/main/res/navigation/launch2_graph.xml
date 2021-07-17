@@ -58,8 +58,8 @@
             app:nullable="false" />
 
         <argument
-            android:name="unit"
-            app:argType="tw.north27.coachingapp.model.response.Units"
+            android:name="unitType"
+            app:argType="tw.north27.coachingapp.model.response.UnitType"
             app:nullable="true" />
 
     </action>
@@ -80,8 +80,8 @@
             app:nullable="false" />
 
         <argument
-            android:name="unit"
-            app:argType="tw.north27.coachingapp.model.response.Units"
+            android:name="unitType"
+            app:argType="tw.north27.coachingapp.model.response.UnitType"
             app:nullable="false" />
 
         <argument

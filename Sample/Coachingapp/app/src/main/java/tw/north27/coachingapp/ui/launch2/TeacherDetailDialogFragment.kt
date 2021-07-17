@@ -21,7 +21,7 @@ import tw.north27.coachingapp.adapter.bindGender
 import tw.north27.coachingapp.databinding.FragmentTeacherDetailDialogBinding
 import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.From
-import tw.north27.coachingapp.model.response.Units
+import tw.north27.coachingapp.model.response.UnitType
 import tw.north27.coachingapp.model.treeNodeHolder.EducationLevelHolder
 import tw.north27.coachingapp.model.treeNodeHolder.GradeHolder
 import tw.north27.coachingapp.model.treeNodeHolder.SubjectHolder
@@ -45,8 +45,8 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
     private val clientInfo: ClientInfo
         get() = arguments?.getParcelable<ClientInfo>("clientInfo")!!
 
-    private val unit: Units?
-        get() = arguments?.getParcelable<Units>("unit")
+    private val unit: UnitType?
+        get() = arguments?.getParcelable<UnitType>("unitType")
 
     companion object {
         val REQUEST_KEY_EXIST = "REQUEST_KEY_EXIST"
@@ -140,19 +140,19 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
     private fun setField() {
         val educationList = (publicVM.educationState.value as ViewState.Data).data
 
-        val educationLevelList = clientInfo.teacherInfo?.unitsList?.map { unit ->
+        val educationLevelList = clientInfo.teacherInfo?.unitTypeList?.map { unit ->
             educationList.educationLevelList.find { it.id == unit.educationLevelId }
         }?.toSet()?.toList()
 
-        val gradeList = clientInfo.teacherInfo?.unitsList?.map { unit ->
+        val gradeList = clientInfo.teacherInfo?.unitTypeList?.map { unit ->
             educationList.gradeList.find { it.id == unit.gradeId }
         }?.toSet()?.toList()
 
-        val subjectList = clientInfo.teacherInfo?.unitsList?.map { unit ->
+        val subjectList = clientInfo.teacherInfo?.unitTypeList?.map { unit ->
             educationList.subjectList.find { it.id == unit.subjectId }
         }?.toSet()?.toList()
 
-        val unitList = clientInfo.teacherInfo?.unitsList
+        val unitList = clientInfo.teacherInfo?.unitTypeList
 
         val treeNode = TreeNode.root()
         educationLevelList?.forEach { educationLevel ->

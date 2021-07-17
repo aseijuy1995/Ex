@@ -7,26 +7,26 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.response.Units
+import tw.north27.coachingapp.model.response.UnitType
 
 class UnitAdapter : BaseAdapter() {
-    private var unitsList: List<Units>? = null
+    private var unitTypeList: List<UnitType>? = null
 
-    fun submitData(unitsList: List<Units>) {
-        this.unitsList = unitsList
+    fun submitData(unitTypeList: List<UnitType>) {
+        this.unitTypeList = unitTypeList
         notifyDataSetChanged()
     }
 
     override fun getCount(): Int {
-        return unitsList?.size ?: 0
+        return unitTypeList?.size ?: 0
     }
 
-    override fun getItem(position: Int): Units? {
-        return unitsList?.get(position)
+    override fun getItem(position: Int): UnitType? {
+        return unitTypeList?.get(position)
     }
 
     override fun getItemId(position: Int): Long {
-        return unitsList?.get(position)?.id ?: 0
+        return unitTypeList?.get(position)?.id ?: 0
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {

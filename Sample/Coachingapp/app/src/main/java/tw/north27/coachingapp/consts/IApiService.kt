@@ -45,6 +45,7 @@ interface IApiService {
     @POST
     suspend fun signIn(@Body signInRequest: SignInRequest): SignInfo
 
+    //Launch2Activity
     /**
      * 獲取教育參數
      * @header Bearer accessToken

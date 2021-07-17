@@ -12,7 +12,7 @@ import com.yujie.core_lib.adapter.bindImg
 import tw.north27.coachingapp.databinding.ItemTeacherBinding
 import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.response.Subject
-import tw.north27.coachingapp.model.response.Units
+import tw.north27.coachingapp.model.response.UnitType
 
 
 class TeacherListAdapter(private val act: AppCompatActivity) : ListAdapter<ClientInfo, TeacherListAdapter.VH>(object : DiffUtil.ItemCallback<ClientInfo>() {
@@ -39,7 +39,7 @@ class TeacherListAdapter(private val act: AppCompatActivity) : ListAdapter<Clien
         fun bind(clientInfo: ClientInfo) = binding.apply {
             this.clientInfo = clientInfo
             ivAvatar.bindImg(url = clientInfo.avatarUrl)
-            val subjectIdList = clientInfo.teacherInfo?.unitsList?.map(Units::subjectId)?.toSet()?.toList()
+            val subjectIdList = clientInfo.teacherInfo?.unitTypeList?.map(UnitType::subjectId)?.toSet()?.toList()
             if (subjectIdList != null && subjectIdList.isNotEmpty()) (rvSubject.adapter as SubjectLabelListAdapter).submitData(subjectIdList)
             itemView.setOnClickListener { itemClickRelay.accept(it to clientInfo) }
             executePendingBindings()

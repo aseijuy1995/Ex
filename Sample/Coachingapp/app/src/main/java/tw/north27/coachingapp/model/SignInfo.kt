@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import com.yujie.core_lib.UserPref
 import com.yujie.core_lib.http.okhttp.TokenInfo
 import kotlinx.parcelize.Parcelize
-import tw.north27.coachingapp.model.response.Units
+import tw.north27.coachingapp.model.response.UnitType
 import java.util.*
 
 /**
@@ -125,7 +125,7 @@ data class StudentInfo(
  * @param commentScoreCountList >> 1~5評分數量列表
  * @param replyRate >> 回覆率
  * @param replyCountList >> 已回覆、未回覆數量列表
- * @param unitsList >> 單元列表
+ * @param unitTypeList >> 單元列表
  * */
 @Parcelize
 data class TeacherInfo(
@@ -133,7 +133,7 @@ data class TeacherInfo(
     @SerializedName("comment_score_count_list") val commentScoreCountList: List<ScoreCountInfo>? = null,
     @SerializedName("reply_rate") val replyRate: Double = 100.0,
     @SerializedName("reply_count_list") val replyCountList: List<ReplyCountInfo>? = null,
-    @SerializedName("units_list") val unitsList: List<Units>? = null,
+    @SerializedName("units_list") val unitTypeList: List<UnitType>? = null,
 ) : Parcelable
 
 /**

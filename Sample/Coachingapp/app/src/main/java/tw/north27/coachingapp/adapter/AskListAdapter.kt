@@ -23,7 +23,7 @@ import tw.north27.coachingapp.model.AskType
 import tw.north27.coachingapp.model.response.EducationLevel
 import tw.north27.coachingapp.model.response.Grade
 import tw.north27.coachingapp.model.response.Subject
-import tw.north27.coachingapp.model.response.Units
+import tw.north27.coachingapp.model.response.UnitType
 
 
 class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>(object : DiffUtil.ItemCallback<AskRoom>() {
@@ -53,7 +53,7 @@ class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>
 
     var subjectList: List<Subject> = emptyList()
 
-    var unitsList: List<Units> = emptyList()
+    var unitTypeList: List<UnitType> = emptyList()
 
     inner class VH(val binding: ItemAskBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(askRoom: AskRoom) = binding.apply {
@@ -80,7 +80,7 @@ class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>
             itemEducationLevel.tvName.text = educationLevelList.find { it.id == askRoom.educationLevelId }?.name
             itemGrade.tvName.text = gradeList.find { it.id == askRoom.gradeId }?.name
             itemSubject.tvName.text = subjectList.find { it.id == askRoom.subjectId }?.name
-            itemUnit.tvName.text = unitsList.find { it.id == askRoom.unitId }?.name
+            itemUnit.tvName.text = unitTypeList.find { it.id == askRoom.unitId }?.name
             tvBadge.apply {
                 isVisible = (askRoom.unreadNum > 0)
                 text = if (askRoom.unreadNum > 100) "99+" else askRoom.unreadNum.toString()

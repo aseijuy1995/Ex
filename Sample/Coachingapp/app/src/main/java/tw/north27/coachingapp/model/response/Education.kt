@@ -9,14 +9,14 @@ import kotlinx.parcelize.Parcelize
  * @param educationLevelList >> 教育程度列表
  * @param gradeList >> 年級列表
  * @param subjectList >> 科目列表
- * @param unitList >> 單元/類型列表
+ * @param unitTypeList >> 單元/類型列表
  * */
 @Parcelize
 data class Education(
     @SerializedName("education_level_list") val educationLevelList: List<EducationLevel> = emptyList(),
     @SerializedName("grade_list") val gradeList: List<Grade> = emptyList(),
     @SerializedName("subject_list") val subjectList: List<Subject> = emptyList(),
-    @SerializedName("unit_list") val unitList: List<Units> = emptyList()
+    @SerializedName("unit_type_list") val unitTypeList: List<UnitType> = emptyList()
 ) : Parcelable
 
 /**
@@ -65,7 +65,7 @@ data class Subject(
  * @param subjectId >> 科目id
  * */
 @Parcelize
-data class Units(
+data class UnitType(
     @SerializedName("id") val id: Long,
     @SerializedName("name") val name: String,
     @SerializedName("education_level_id") val educationLevelId: Long,

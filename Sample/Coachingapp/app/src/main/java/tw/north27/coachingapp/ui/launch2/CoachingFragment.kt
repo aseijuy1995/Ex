@@ -20,7 +20,7 @@ import tw.north27.coachingapp.model.From
 import tw.north27.coachingapp.model.response.EducationLevel
 import tw.north27.coachingapp.model.response.Grade
 import tw.north27.coachingapp.model.response.Subject
-import tw.north27.coachingapp.model.response.Units
+import tw.north27.coachingapp.model.response.UnitType
 import tw.north27.coachingapp.viewModel.CoachingViewModel
 
 class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment_coaching) {
@@ -69,7 +69,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
             binding.itemError.root.isVisible = (it is ViewState.Error)
             binding.itemNetwork.root.isVisible = (it is ViewState.Network)
             if (it !is ViewState.Initial && it !is ViewState.Load)
-                binding.srlView.finishRefresh()
+                binding.srlLayout.finishRefresh()
             when (it) {
                 is ViewState.Data -> {
                     adapter.submitList(it.data)
@@ -105,7 +105,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
             val educationId = (binding.itemDrawerLayoutCoaching.spEducation.selectedItem as EducationLevel).id
             val gradeId = (binding.itemDrawerLayoutCoaching.spGrade.selectedItem as Grade).id
             val subjectId = (binding.itemDrawerLayoutCoaching.spSubject.selectedItem as Subject).id
-            val unitId = (binding.itemDrawerLayoutCoaching.spUnit.selectedItem as Units).id
+            val unitId = (binding.itemDrawerLayoutCoaching.spUnit.selectedItem as UnitType).id
             viewModel.fetchTeacherList(
                 educationId = if (educationId != -1L) educationId else null,
                 gradeId = if (gradeId != -1L) gradeId else null,

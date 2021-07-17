@@ -12,7 +12,7 @@ import tw.north27.coachingapp.NavGraphLaunch2Directions
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentSetupAskRoomDialogBinding
 import tw.north27.coachingapp.model.ClientInfo
-import tw.north27.coachingapp.model.response.Units
+import tw.north27.coachingapp.model.response.UnitType
 import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.SetupAskRoomViewModel
 
@@ -26,8 +26,8 @@ class SetupAskRoomDialogFragment : BaseDialogFragment<FragmentSetupAskRoomDialog
     private val clientInfo: ClientInfo
         get() = arguments?.getParcelable<ClientInfo>("clientInfo")!!
 
-    private val unit: Units
-        get() = arguments?.getParcelable<Units>("unit")!!
+    private val unit: UnitType
+        get() = arguments?.getParcelable<UnitType>("unitType")!!
 
     private val msg: String
         get() = arguments?.getString("msg")!!

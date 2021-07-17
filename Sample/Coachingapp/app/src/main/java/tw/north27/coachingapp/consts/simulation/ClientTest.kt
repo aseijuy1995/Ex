@@ -86,7 +86,7 @@ val clientInfo_Test = ClientInfo(
         commentScoreCountList = getCommentScoreCountList(),
         replyRate = getReplyRate(),
         replyCountList = replyCountListTest,
-        unitsList = unitList_Test.filter { it.subjectId == 1L }
+        unitTypeList = unitList_Test.filter { it.subjectId == 1L }
     ),
     userConfig = UserConfig(
         replyNotice = replyNotice_Test,
@@ -142,7 +142,7 @@ val teacherInfoList_Test = listOf<ClientInfo>(
         homePhone = "02-111-2222",
         email = "rebecca@gmail.com",
         teacherInfo = TeacherInfo(
-            unitsList = unitList_Test.filter { it.educationLevelId == 1L && it.gradeId == 1L && it.subjectId == 1L },
+            unitTypeList = unitList_Test.filter { it.educationLevelId == 1L && it.gradeId == 1L && it.subjectId == 1L },
             //
             commentScoreAvg = getCommentScoreAvg(),
             commentScoreCountList = getCommentScoreCountList(),
@@ -217,7 +217,7 @@ val teacherInfoList_Test = listOf<ClientInfo>(
         homePhone = "02-444-5555",
         email = "peiYu@gmail.com",
         teacherInfo = TeacherInfo(
-            unitsList = unitList_Test.filter { it.educationLevelId == 1L && (it.gradeId == 1L) or (it.gradeId == 2L) && it.subjectId == 2L },
+            unitTypeList = unitList_Test.filter { it.educationLevelId == 1L && (it.gradeId == 1L) or (it.gradeId == 2L) && it.subjectId == 2L },
             //
             commentScoreAvg = getCommentScoreAvg(),
             commentScoreCountList = getCommentScoreCountList(),
@@ -297,7 +297,7 @@ val teacherInfoList_Test = listOf<ClientInfo>(
         homePhone = "02-222-3333",
         email = "mimi@gmail.com",
         teacherInfo = TeacherInfo(
-            unitsList = unitList_Test.filter { it.educationLevelId == 1L && (it.gradeId == 1L || it.gradeId == 2L) && it.subjectId == 1L },
+            unitTypeList = unitList_Test.filter { it.educationLevelId == 1L && (it.gradeId == 1L || it.gradeId == 2L) && it.subjectId == 1L },
             //
             commentScoreAvg = getCommentScoreAvg(),
             commentScoreCountList = getCommentScoreCountList(),
@@ -360,7 +360,7 @@ val teacherInfoList_Test = listOf<ClientInfo>(
         homePhone = "02-333-4444",
         email = "yujun@gmail.com",
         teacherInfo = TeacherInfo(
-            unitsList = unitList_Test.filter { it.educationLevelId == 2L && it.gradeId == 3L && it.subjectId == 4L },
+            unitTypeList = unitList_Test.filter { it.educationLevelId == 2L && it.gradeId == 3L && it.subjectId == 4L },
             //
             commentScoreAvg = getCommentScoreAvg(),
             commentScoreCountList = getCommentScoreCountList(),
@@ -455,7 +455,7 @@ val teacherInfoList_Test = listOf<ClientInfo>(
             commentScoreCountList = getCommentScoreCountList(),
             replyRate = getReplyRate(),
             replyCountList = replyCountListTest,
-            unitsList = unitList_Test.filter { it.subjectId == 2L }
+            unitTypeList = unitList_Test.filter { it.subjectId == 2L }
         )
     ),
     ClientInfo(
@@ -504,7 +504,7 @@ val teacherInfoList_Test = listOf<ClientInfo>(
             commentScoreCountList = getCommentScoreCountList(),
             replyRate = getReplyRate(),
             replyCountList = replyCountListTest,
-            unitsList = unitList_Test.filter { it.subjectId == 2L }
+            unitTypeList = unitList_Test.filter { it.subjectId == 2L }
         )
     ),
     ClientInfo(
@@ -560,7 +560,7 @@ val teacherInfoList_Test = listOf<ClientInfo>(
             commentScoreCountList = getCommentScoreCountList(),
             replyRate = getReplyRate(),
             replyCountList = replyCountListTest,
-            unitsList = unitList_Test.filter { it.subjectId == 13L }
+            unitTypeList = unitList_Test.filter { it.subjectId == 13L }
         )
     ),
     ClientInfo(
@@ -603,7 +603,7 @@ val teacherInfoList_Test = listOf<ClientInfo>(
             commentScoreCountList = getCommentScoreCountList(),
             replyRate = getReplyRate(),
             replyCountList = replyCountListTest,
-            unitsList = unitList_Test.filter { it.subjectId == 13L }
+            unitTypeList = unitList_Test.filter { it.subjectId == 13L }
         )
     ),
     ClientInfo(
@@ -648,7 +648,7 @@ val teacherInfoList_Test = listOf<ClientInfo>(
             commentScoreCountList = getCommentScoreCountList(),
             replyRate = getReplyRate(),
             replyCountList = replyCountListTest,
-            unitsList = unitList_Test.filter { it.subjectId == 13L }
+            unitTypeList = unitList_Test.filter { it.subjectId == 13L }
         )
     )
 )
