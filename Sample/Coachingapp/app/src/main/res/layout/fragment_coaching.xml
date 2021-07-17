@@ -53,7 +53,7 @@
                     android:background="@color/gray_eeeeee">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_coaching"
+                        android:id="@+id/rv_view"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="5dp"

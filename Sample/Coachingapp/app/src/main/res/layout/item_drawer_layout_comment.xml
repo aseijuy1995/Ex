@@ -9,7 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
-        app:layout_constraintDimensionRatio="H,16:9"
+        app:layout_constraintDimensionRatio="H,4:3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -52,7 +52,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
+            android:background="@drawable/layer_shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5_bitmap_ic_down"
             android:dropDownVerticalOffset="0dp"
             android:overlapAnchor="false"
             android:spinnerMode="dropdown" />
@@ -74,7 +74,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
+            android:background="@drawable/layer_shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5_bitmap_ic_down"
             android:dropDownVerticalOffset="0dp"
             android:overlapAnchor="false"
             android:spinnerMode="dropdown" />
@@ -95,7 +95,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
+            android:background="@drawable/layer_shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5_bitmap_ic_down"
             android:dropDownVerticalOffset="0dp"
             android:overlapAnchor="false"
             android:spinnerMode="dropdown" />
@@ -116,7 +116,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
+            android:background="@drawable/layer_shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5_bitmap_ic_down"
             android:dropDownVerticalOffset="0dp"
             android:overlapAnchor="false"
             android:spinnerMode="dropdown" />
@@ -137,7 +137,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
+            android:background="@drawable/layer_shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5_bitmap_ic_down"
             android:dropDownVerticalOffset="0dp"
             android:overlapAnchor="false"
             android:spinnerMode="dropdown" />

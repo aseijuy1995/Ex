@@ -9,6 +9,7 @@
         app:motionInterpolator="linear" />
 
     <ConstraintSet android:id="@+id/start">
+
         <Constraint
             android:id="@id/cl_layout"
             android:layout_width="0dp"
@@ -19,9 +20,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent="1" />
+
     </ConstraintSet>
 
     <ConstraintSet android:id="@+id/end">
+
         <Constraint
             android:id="@id/cl_layout"
             android:layout_width="0dp"
@@ -34,6 +37,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_default="percent"
             app:layout_constraintWidth_percent="1" />
+
     </ConstraintSet>
 
 </MotionScene>

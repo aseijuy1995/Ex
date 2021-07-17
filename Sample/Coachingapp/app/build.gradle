@@ -193,6 +193,7 @@ dependencies {
     /**
      * Util
      * */
+    implementation "com.flaviofaria:kenburnsview:1.0.7"//
     implementation "com.github.bmelnychuk:atv:1.2.9"//下線圖
     //
     //

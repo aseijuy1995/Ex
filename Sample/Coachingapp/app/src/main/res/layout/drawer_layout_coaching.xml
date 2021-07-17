@@ -4,16 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_header"
+    <com.flaviofaria.kenburnsview.KenBurnsView
+        android:id="@+id/iv_bg"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
-        app:layout_constraintDimensionRatio="H,16:9"
+        android:src="@drawable/ic_coaching_drawer_layout_bg"
+        app:layout_constraintDimensionRatio="H,4:3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_coaching_drawer_layout_header" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
@@ -21,10 +21,10 @@
         android:layout_margin="5dp"
         android:text="@string/filter_teacher"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_header"
-        app:layout_constraintStart_toStartOf="@+id/iv_header" />
+        app:layout_constraintBottom_toBottomOf="@+id/iv_bg"
+        app:layout_constraintStart_toStartOf="@+id/iv_bg" />
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="0dp"
@@ -33,7 +33,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_header">
+        app:layout_constraintTop_toBottomOf="@id/iv_bg">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -42,16 +42,16 @@
             android:layout_marginTop="5dp"
             android:text="@string/education"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <com.yujie.core_lib.view.RepeatSpinner
-            android:id="@+id/sp_education"
+            android:id="@+id/rs_education_level"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
-
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
+            android:background="@drawable/layer_shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5_bitmap_ic_down"
             android:dropDownVerticalOffset="0dp"
             android:overlapAnchor="false"
             android:spinnerMode="dropdown" />
@@ -63,16 +63,16 @@
             android:layout_marginTop="5dp"
             android:text="@string/grade"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <com.yujie.core_lib.view.RepeatSpinner
-            android:id="@+id/sp_grade"
+            android:id="@+id/rs_grade"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
+            android:background="@drawable/layer_shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5_bitmap_ic_down"
             android:dropDownVerticalOffset="0dp"
             android:overlapAnchor="false"
             android:spinnerMode="dropdown" />
@@ -84,16 +84,16 @@
             android:layout_marginTop="5dp"
             android:text="@string/subject"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <com.yujie.core_lib.view.RepeatSpinner
-            android:id="@+id/sp_subject"
+            android:id="@+id/rs_subject"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
+            android:background="@drawable/layer_shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5_bitmap_ic_down"
             android:dropDownVerticalOffset="0dp"
             android:overlapAnchor="false"
             android:spinnerMode="dropdown" />
@@ -105,17 +105,17 @@
             android:layout_marginTop="5dp"
             android:text="@string/unit_type"
             android:textColor="@color/black"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
         <com.yujie.core_lib.view.RepeatSpinner
-            android:id="@+id/sp_unit"
+            android:id="@+id/rs_unit_type"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5"
+            android:background="@drawable/layer_shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5_bitmap_ic_down"
             android:dropDownVerticalOffset="0dp"
             android:overlapAnchor="false"
             android:spinnerMode="dropdown" />
@@ -123,7 +123,9 @@
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatButton
@@ -132,7 +134,7 @@
                 android:layout_height="30dp"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
-                android:background="@drawable/shape_solid_green_corners_radius_5"
+                android:background="@drawable/shape_solid_gray_corners_radius_5"
                 android:text="@string/clear"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
@@ -142,21 +144,20 @@
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_solid_green_corners_radius_5"
+                android:layout_weight="3"
+                android:background="@drawable/shape_solid_color_primary_corners_radius_5"
                 android:text="@string/filter"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_cancel"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/shape_solid_green_corners_radius_5"
+            android:layout_margin="10dp"
+            android:background="@drawable/shape_solid_color_primary_corners_radius_5"
             android:text="@string/cancel"
             android:textColor="@color/white"
             android:textSize="12sp" />

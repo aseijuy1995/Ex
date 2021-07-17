@@ -53,19 +53,19 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
                 ivFilter.isVisible = true
                 tvTitle.text = getString(R.string.coaching)
             }
-            rvCoaching.adapter = adapter
+            rvView.adapter = adapter
             itemDrawerLayoutCoaching.apply {
-                spEducation.adapter = educationLevelAdapter
-                spGrade.adapter = gradeAdapter
-                spSubject.adapter = subjectAdapter
-                spUnit.adapter = unitAdapter
+                rsEducationLevel.adapter = educationLevelAdapter
+                rsGrade.adapter = gradeAdapter
+                rsSubject.adapter = subjectAdapter
+                rsUnitType.adapter = unitAdapter
             }
         }
 
         viewModel.teacherListState.observe(viewLifecycleOwner) {
             binding.itemCoachingLoad.root.visible = (it is ViewState.Load)
             binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
-            binding.rvCoaching.isVisible = (it is ViewState.Data)
+            binding.rvView.isVisible = (it is ViewState.Data)
             binding.itemError.root.isVisible = (it is ViewState.Error)
             binding.itemNetwork.root.isVisible = (it is ViewState.Network)
             if (it !is ViewState.Initial && it !is ViewState.Load)
@@ -79,33 +79,33 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
 
         launch2Act.publicVM.educationLevelList.observe(viewLifecycleOwner) {
             educationLevelAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultEducation).apply { addAll(it) })
-            binding.itemDrawerLayoutCoaching.spEducation.setSelection(0)
+            binding.itemDrawerLayoutCoaching.rsEducationLevel.setSelection(0)
         }
 
         launch2Act.publicVM.gradeList.observe(viewLifecycleOwner) {
             gradeAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultGradle).apply { addAll(it) })
-            binding.itemDrawerLayoutCoaching.spGrade.setSelection(0)
+            binding.itemDrawerLayoutCoaching.rsGrade.setSelection(0)
         }
 
         launch2Act.publicVM.subjectList.observe(viewLifecycleOwner) {
             subjectAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultSubject).apply { addAll(it) })
-            binding.itemDrawerLayoutCoaching.spSubject.setSelection(0)
+            binding.itemDrawerLayoutCoaching.rsSubject.setSelection(0)
         }
 
         launch2Act.publicVM.unitList.observe(viewLifecycleOwner) {
             unitAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultUnit).apply { addAll(it) })
-            binding.itemDrawerLayoutCoaching.spUnit.setSelection(0)
+            binding.itemDrawerLayoutCoaching.rsUnitType.setSelection(0)
         }
 
         binding.itemToolbarNormal.ivFilter.clicksObserve(owner = viewLifecycleOwner) {
             binding.dlLayout.openDrawer(GravityCompat.END)
         }
 
-        binding.srlView.setOnRefreshListener {
-            val educationId = (binding.itemDrawerLayoutCoaching.spEducation.selectedItem as EducationLevel).id
-            val gradeId = (binding.itemDrawerLayoutCoaching.spGrade.selectedItem as Grade).id
-            val subjectId = (binding.itemDrawerLayoutCoaching.spSubject.selectedItem as Subject).id
-            val unitId = (binding.itemDrawerLayoutCoaching.spUnit.selectedItem as UnitType).id
+        binding.srlLayout.setOnRefreshListener {
+            val educationId = (binding.itemDrawerLayoutCoaching.rsEducationLevel.selectedItem as EducationLevel).id
+            val gradeId = (binding.itemDrawerLayoutCoaching.rsGrade.selectedItem as Grade).id
+            val subjectId = (binding.itemDrawerLayoutCoaching.rsSubject.selectedItem as Subject).id
+            val unitId = (binding.itemDrawerLayoutCoaching.rsUnitType.selectedItem as UnitType).id
             viewModel.fetchTeacherList(
                 educationId = if (educationId != -1L) educationId else null,
                 gradeId = if (gradeId != -1L) gradeId else null,
@@ -121,7 +121,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
             findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDialog(From.Specify, clientInfo, null))
         }
 
-        binding.itemDrawerLayoutCoaching.spEducation.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
+        binding.itemDrawerLayoutCoaching.rsEducationLevel.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 gradeAdapter.submitData(
                     mutableListOf(launch2Act.publicVM.defaultGradle).apply {
@@ -139,7 +139,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
             }
         }
 
-        binding.itemDrawerLayoutCoaching.spGrade.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
+        binding.itemDrawerLayoutCoaching.rsGrade.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             }
 
@@ -147,7 +147,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
             }
         }
 
-        binding.itemDrawerLayoutCoaching.spSubject.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
+        binding.itemDrawerLayoutCoaching.rsSubject.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 unitAdapter.submitData(
                     mutableListOf(launch2Act.publicVM.defaultUnit).apply {
@@ -165,7 +165,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
             }
         }
 
-        binding.itemDrawerLayoutCoaching.spUnit.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
+        binding.itemDrawerLayoutCoaching.rsUnitType.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             }
 
@@ -174,7 +174,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
         }
 
         binding.itemDrawerLayoutCoaching.btnFilter.clicksObserve(owner = viewLifecycleOwner) {
-            binding.srlView.autoRefresh()
+            binding.srlLayout.autoRefresh()
             binding.dlLayout.closeDrawer(GravityCompat.END)
         }
 
@@ -187,7 +187,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
         }
 
         setDfSelection()
-        binding.srlView.autoRefresh()
+        binding.srlLayout.autoRefresh()
     }
 
     //確認初始數據
@@ -196,10 +196,10 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
         gradeAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultGradle).apply { launch2Act.publicVM.gradeList.value?.let { addAll(it) } })
         subjectAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultSubject).apply { launch2Act.publicVM.subjectList.value?.let { addAll(it) } })
         unitAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultUnit).apply { launch2Act.publicVM.unitList.value?.let { addAll(it) } })
-        binding.itemDrawerLayoutCoaching.spEducation.setSelection(0)
-        binding.itemDrawerLayoutCoaching.spGrade.setSelection(0)
-        binding.itemDrawerLayoutCoaching.spSubject.setSelection(0)
-        binding.itemDrawerLayoutCoaching.spUnit.setSelection(0)
+        binding.itemDrawerLayoutCoaching.rsEducationLevel.setSelection(0)
+        binding.itemDrawerLayoutCoaching.rsGrade.setSelection(0)
+        binding.itemDrawerLayoutCoaching.rsSubject.setSelection(0)
+        binding.itemDrawerLayoutCoaching.rsUnitType.setSelection(0)
     }
 
 
