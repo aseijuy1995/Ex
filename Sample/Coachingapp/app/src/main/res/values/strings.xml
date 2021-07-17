@@ -112,12 +112,7 @@
     <!-- SignOutDialogFragment -->
     <string name="sign_out_title">即將登出</string>
     <string name="sign_out_text">你確定要登出嗎？</string>
-    <!--  TeacherDialogFragment  -->
-    <string name="field">領域</string>
-    <string name="score">評分</string>
-    <string name="reply_rate">回覆率</string>
-    <string name="ready_to_ask">準備發問!</string>
-
+    <!---->
     <!-- AskFragment -->
     <string name="ask_title">Q &amp; A</string>
     <string name="quick_pair"> + 快速配對</string>
@@ -129,6 +124,11 @@
     <string name="pair">配對</string>
     <string name="ask_desc">提問時必須指定單元/類型才可開始發問</string>
     <string name="not_find_teacher">當前未有可以提問的老師</string>
+    <!--  TeacherDetailDialogFragment  -->
+    <string name="field">領域</string>
+    <string name="score">評分</string>
+    <string name="reply_rate">回覆率</string>
+    <string name="ready_to_ask">準備提問</string>
 
     <!-- AskRoomFragment -->
     <string name="not_find_ask_room">找不到提問室</string>

@@ -105,13 +105,7 @@ val teacherInfoList_Test = listOf<ClientInfo>(
         name = "Rebecca",
         //
         gender = Gender.FEMALE,
-        intro = "關於Rebecca\n\n" +
-                "專攻\n\n" +
-                "國小 / 一年級 / 國語" +
-                "單元/類型\n\n" +
-                "\t\t手拉手\n" +
-                "\t\t排一排\n\n" +
-                "\uD83C\uDFC5補教老師，能敏銳掌握學生學習上的盲點，給予最合適的指導。\n" +
+        intro = "\uD83C\uDFC5補教老師，能敏銳掌握學生學習上的盲點，給予最合適的指導。\n" +
                 "\uD83C\uDFC5法律系畢業、中文輔系學程、高中學測國文滿級分、國語文競試-字音字形組第一、作文組第一。\n" +
                 "\uD83C\uDFC5三不政策：不死背、不填鴨、不責備。\n" +
                 "\n" +
@@ -166,15 +160,7 @@ val teacherInfoList_Test = listOf<ClientInfo>(
         name = "裴育",
         //
         gender = Gender.MALE,
-        intro = "關於裴育\n\n" +
-                "專攻\n\n" +
-                "國小 / 一年級 / 二年級 / 數學" +
-                "單元/類型\n\n" +
-                "\t\t加減\n" +
-                "\t\t乘除\n" +
-                "\t\t數與數線\n" +
-                "\t\t公因數&公倍數\n\n" +
-                "自己在百世資優數學任教，曾帶過前三志願、延平、薇閣班等私中小組班，也帶過學測班，熟悉學生對大考需求。\n" +
+        intro = "自己在百世資優數學任教，曾帶過前三志願、延平、薇閣班等私中小組班，也帶過學測班，熟悉學生對大考需求。\n" +
                 "高中（含）以下補習班經驗邁入第五學年，於2020年開始接觸線上教學授課，也在「閎數學」\n" +
                 "＜https://www.facebook.com/oicmath/＞幫忙錄製影片。\n" +
                 "\n" +
@@ -247,15 +233,7 @@ val teacherInfoList_Test = listOf<ClientInfo>(
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/142/217/normal/vovnbl.png?1621920493",
         name = "米米老師",
         gender = Gender.FEMALE,
-        intro = "關於米米老師\n\n" +
-                "專攻\n\n" +
-                "國小 / 一年級 / 二年級 / 國語" +
-                "單元/類型\n\n" +
-                "\t\t手拉手\n" +
-                "\t\t排一排\n" +
-                "\t\t踩影子\n" +
-                "\t\t再玩一次\n\n" +
-                "\uD83D\uDD25疫情期間鼓勵停課不停學「享有特別專案」\uD83D\uDD25\n" +
+        intro = "\uD83D\uDD25疫情期間鼓勵停課不停學「享有特別專案」\uD83D\uDD25\n" +
                 "\uD83D\uDE4C加入老師Line ID：chen-yu-yu（優先享課程優惠與講義試閱）\n" +
                 "\uD83C\uDF1F任教於多所補習班、安親班、幼兒園\n" +
                 "\uD83C\uDF1F中文教學經驗逾十年\uD83C\uDF1F\n" +
@@ -334,13 +312,7 @@ val teacherInfoList_Test = listOf<ClientInfo>(
         avatarUrl = "https://d1ebg4c3may5v9.cloudfront.net/users/images/000/251/483/normal/vrvmsw.png?1624516244",
         name = "昱君",
         gender = Gender.FEMALE,
-        intro = "關於昱君\n\n" +
-                "專攻\n\n" +
-                "國中 / 七年級 / 國文" +
-                "單元/類型\n\n" +
-                "\t\t夏夜 楊喚\n" +
-                "\t\t論語選\n\n" +
-                "\u200B\u200B✔️語文教育碩士、國文升學考補教多年經驗\n" +
+        intro = "\u200B\u200B✔️語文教育碩士、國文升學考補教多年經驗\n" +
                 "\u200B\u200B✔️作文寫作專業教法，學生從200字短文進步成800字長文\n" +
                 "\u200B\u200B✔️資深補教國小講師，讓國文奠定未來學習的基石\n" +
                 "✔️\u200B\u200B協助多位學生克服會考，國文科目穩居各科第一\n" +

@@ -193,6 +193,10 @@ dependencies {
     /**
      * Util
      * */
+    implementation "com.github.bmelnychuk:atv:1.2.9"
+    //
+    //
+    //
 
     //progress
     implementation "com.github.ybq:Android-SpinKit:1.4.0"
