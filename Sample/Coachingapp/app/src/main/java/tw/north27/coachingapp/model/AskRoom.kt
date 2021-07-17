@@ -29,7 +29,7 @@ data class AskRoom(
     @SerializedName("is_push") var isPush: Boolean,
     @SerializedName("is_sound") var isSound: Boolean,
     @SerializedName("unread_num") var unreadNum: Int,
-    @SerializedName("ask_info") var askRoomInfo: AskRoomInfo,
+    @SerializedName("ask_info") var askRoomInfo: AskRoomInfo? = null,
 ) : Parcelable
 
 /**

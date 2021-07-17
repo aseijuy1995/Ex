@@ -2,6 +2,8 @@ package tw.north27.coachingapp.ui.launch2
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.unnamed.b.atv.model.TreeNode
 import com.unnamed.b.atv.view.AndroidTreeView
@@ -10,6 +12,7 @@ import com.yujie.core_lib.base.BaseDialogFragment
 import com.yujie.core_lib.ext.clicksObserve
 import com.yujie.core_lib.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphLaunch2Directions
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.bindChartComment
@@ -18,11 +21,14 @@ import tw.north27.coachingapp.adapter.bindGender
 import tw.north27.coachingapp.databinding.FragmentTeacherDetailDialogBinding
 import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.From
+import tw.north27.coachingapp.model.response.Units
 import tw.north27.coachingapp.model.treeNodeHolder.EducationLevelHolder
 import tw.north27.coachingapp.model.treeNodeHolder.GradeHolder
 import tw.north27.coachingapp.model.treeNodeHolder.SubjectHolder
 import tw.north27.coachingapp.model.treeNodeHolder.UnitHolder
+import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.PublicViewModel
+import tw.north27.coachingapp.viewModel.TeacherDetailViewModel
 
 class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDialogBinding>(R.layout.fragment_teacher_detail_dialog) {
 
@@ -31,14 +37,26 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
 
     private val publicVM by sharedViewModel<PublicViewModel>()
 
-    private val launch2Act: Launch2Activity
-        get() = act as Launch2Activity
+    private val viewModel by viewModel<TeacherDetailViewModel>()
 
     private val from: From
         get() = arguments?.getParcelable<From>("from")!!
 
     private val clientInfo: ClientInfo
         get() = arguments?.getParcelable<ClientInfo>("clientInfo")!!
+
+    private val unit: Units?
+        get() = arguments?.getParcelable<Units>("unit")
+
+    companion object {
+        val REQUEST_KEY_EXIST = "REQUEST_KEY_EXIST"
+
+        val KEY_TEACHER_CLIENT_EXIST = "KEY_TEACHER_CLIENT_EXIST"
+
+        val KEY_TEACHER_UNIT_EXIST = "KEY_TEACHER_UNIT_EXIST"
+
+        val KEY_TEACHER_MSG_EXIST = "KEY_TEACHER_MSG_EXIST"
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,7 +69,6 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
             tvGender.bindGender(clientInfo)
             tvName.text = clientInfo.name
             setField()
-
             binding.run {
                 pcCommentScore.bindChartComment(
                     clientInfo = clientInfo,
@@ -74,6 +91,33 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
             tvIntro.text = clientInfo.intro
         }
 
+        viewModel.askRoomResponseState.observe(viewLifecycleOwner) {
+            if (it is ViewState.Load) LoadingDialogFragment.show(parentFragmentManager)
+            if (it !is ViewState.Initial && it !is ViewState.Load) LoadingDialogFragment.dismiss()
+            when (it) {
+                is ViewState.Data -> {
+                    val askRoomResponse = it.data
+                    when (askRoomResponse.isExist) {
+                        true -> {
+                            setFragmentResult(
+                                REQUEST_KEY_EXIST,
+                                bundleOf(
+                                    KEY_TEACHER_CLIENT_EXIST to clientInfo,
+                                    KEY_TEACHER_UNIT_EXIST to unit!!,
+                                    KEY_TEACHER_MSG_EXIST to askRoomResponse.msg
+                                )
+                            )
+                            findNavController().navigateUp()
+                        }
+                        false -> {
+                            findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentAskRoom(askRoomResponse.askRoom!!))
+                        }
+                    }
+                }
+            }
+        }
+
+
         binding.ivClear.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()
         }
@@ -83,6 +127,10 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
                 From.Specify -> {
                 }
                 From.Pair -> {
+                    viewModel.findAskRoom(
+                        otherClientId = clientInfo.id,
+                        unitId = unit?.id!!
+                    )
 //                    findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentAskRoom())
                 }
             }

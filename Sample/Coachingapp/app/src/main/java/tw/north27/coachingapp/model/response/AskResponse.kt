@@ -1,6 +1,7 @@
 package tw.north27.coachingapp.model.response
 
 import com.google.gson.annotations.SerializedName
+import tw.north27.coachingapp.model.AskRoom
 
 /**
  * 提問室推播開關
@@ -28,4 +29,16 @@ data class SoundResponse(
     @SerializedName("msg") val msg: String = "",
     @SerializedName("room_id") var roomId: Long? = null,
     @SerializedName("is_state") var isState: Boolean? = null,
+)
+
+/**
+ * 提問室推播聲音開關
+ * @param isExist >> 是否存在
+ * @param ask_room >> 房間資訊
+ * @param msg >> 回傳訊息
+ * */
+data class AskRoomResponse(
+    @SerializedName("is_exist") val isExist: Boolean,
+    @SerializedName("ask_room") var askRoom: AskRoom? = null,
+    @SerializedName("msg") val msg: String = "",
 )

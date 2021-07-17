@@ -155,7 +155,7 @@ class ApiService(val cxt: Context) : IApiService {
         delay(1500)
         val clientId = askRoomRequest.clientId
         val askId = askRoomRequest.askId
-        while (askRoomList_Test.first().askRoomInfo.id == askId) delay(3000)
+        while (askRoomList_Test.first().askRoomInfo?.id == askId) delay(3000)
         val askRoomList: List<AskRoom> = askRoomList_Test
         logI("fetchAskRoomList = ${Gson().toJson(askRoomList)}")
         return askRoomList
@@ -185,11 +185,42 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun fetchTeacherPair(pairRequest: PairRequest): ClientInfo? {
         delay(1500)
-        return teacherInfoList_Test.find {
+        val clientInfo = teacherInfoList_Test.find {
             it.teacherInfo?.unitsList?.any {
                 it.id == pairRequest.unitId
             } ?: false
         }
+        logI("fetchTeacherPair = ${Gson().toJson(clientInfo)}")
+        return clientInfo
+    }
+
+    override suspend fun findAskRoom(setupAskRoomRequest: SetupAskRoomRequest): AskRoomResponse {
+        delay(1500)
+        val clientId = setupAskRoomRequest.selfClientId
+        val otherClientId = setupAskRoomRequest.otherClientId
+        val unitId = setupAskRoomRequest.unitId
+        val askRoomResponse: AskRoomResponse
+        askRoomResponse = AskRoomResponse(
+            isExist = true,
+            msg = "相同提問室已存在，你確定要另開一間嗎?"
+        )
+//        askRoomResponse = AskRoomResponse(
+//            isExist = false,
+//            askRoom = askRoomList_Test[0],
+//            msg = ""
+//        )
+        logI("findAskRoom = ${Gson().toJson(askRoomResponse)}")
+        return askRoomResponse
+    }
+
+    override suspend fun setupAskRoom(setupAskRoomRequest: SetupAskRoomRequest): AskRoom {
+        delay(1500)
+        val clientId = setupAskRoomRequest.selfClientId
+        val otherClientId = setupAskRoomRequest.otherClientId
+        val unitId = setupAskRoomRequest.unitId
+        val askRoom = askRoomList_Test[0]
+        logI("setupAskRoom = ${Gson().toJson(askRoom)}")
+        return askRoom
     }
 
     override suspend fun fetchAskRoomInfoList(@Body askRoomInfoRequest: AskRoomInfoRequest): List<AskRoomInfo> {

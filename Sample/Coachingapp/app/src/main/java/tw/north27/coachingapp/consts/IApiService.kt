@@ -86,10 +86,28 @@ interface IApiService {
 
     /**
      * 快速篩選可配合的老師
+     * @header Bearer accessToken
+     * @param pairRequest >> PairRequest::class.java
      * */
     @POST
     suspend fun fetchTeacherPair(@Body pairRequest: PairRequest): ClientInfo?
 
+    /**
+     * 取得提問室資訊
+     * @header Bearer accessToken
+     * @param setupAskRoomRequest >> SetUpAskRoomRequest::class.java
+     * */
+    @POST
+    suspend fun findAskRoom(@Body setupAskRoomRequest: SetupAskRoomRequest): AskRoomResponse
+
+    /**
+     * 建立提問室資訊
+     * @header Bearer accessToken
+     * @param setupAskRoomRequest >> SetUpAskRoomRequest::class.java
+     * */
+    @POST
+    suspend fun setupAskRoom(@Body setupAskRoomRequest: SetupAskRoomRequest): AskRoom
+    //
 
     /**
      * 獲取提問室的列表詳細資訊

@@ -44,7 +44,9 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
     companion object {
         val REQUEST_KEY_PAIR = "REQUEST_KEY_PAIR"
 
-        val KEY_TEACHER_PAIR = "KEY_TEACHER_PAIR"
+        val KEY_TEACHER_CLIENT_PAIR = "KEY_TEACHER_CLIENT_PAIR"
+
+        val KEY_TEACHER_UNIT_PAIR = "KEY_TEACHER_UNIT_PAIR"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -75,7 +77,10 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
                 is ViewState.Data -> {
                     setFragmentResult(
                         REQUEST_KEY_PAIR,
-                        bundleOf(KEY_TEACHER_PAIR to it.data)
+                        bundleOf(
+                            KEY_TEACHER_CLIENT_PAIR to it.data,
+                            KEY_TEACHER_UNIT_PAIR to (binding.rsUnit.selectedItem as Units)
+                        )
                     )
                     findNavController().navigateUp()
                 }

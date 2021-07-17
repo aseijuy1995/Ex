@@ -60,3 +60,15 @@ data class PairRequest(
     @SerializedName("client_id") val clientId: String,
     @SerializedName("unit_id") val unitId: Long,
 )
+
+/**
+ * 提問室
+ * @param selfClientId >> 自己用戶Id
+ * @param otherClientId >> 對方用戶id
+ * @param unitId >> 單元id
+ * */
+data class SetupAskRoomRequest(
+    @SerializedName("self_client_id") val selfClientId: String,
+    @SerializedName("other_client_id") val otherClientId: String,
+    @SerializedName("unit_id") val unitId: Long,
+)

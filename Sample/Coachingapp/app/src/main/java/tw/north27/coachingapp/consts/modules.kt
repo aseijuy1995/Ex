@@ -109,6 +109,8 @@ val viewModelModules = module {
     //
     viewModel<AskViewModel> { AskViewModel(androidApplication(), get()) }
     viewModel<EducationSelectorViewModel> { EducationSelectorViewModel(androidApplication(), get()) }
+    viewModel<TeacherDetailViewModel> { TeacherDetailViewModel(androidApplication(), get()) }
+    viewModel<SetupAskRoomViewModel> { SetupAskRoomViewModel(androidApplication(), get()) }
     viewModel<AskRoomViewModel> { AskRoomViewModel(androidApplication(), get(), get()) }
     //
     viewModel<SignOutViewModel> { SignOutViewModel(androidApplication(), get()) }

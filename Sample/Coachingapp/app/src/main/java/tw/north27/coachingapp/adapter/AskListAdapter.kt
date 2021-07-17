@@ -63,15 +63,19 @@ class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>
             ivAvatar.bindImg(url = otherUser.avatarUrl, roundingRadius = 30)
             tvName.text = otherUser.name
             ivNotice.bindImg(resId = if (askRoom.isSound) R.drawable.ic_baseline_volume_up_24_blue else R.drawable.ic_baseline_volume_off_24_red)
-            tvTime.text = dateToString(askInfo.sendTime)
+            askInfo?.let {
+                tvTime.text = dateToString(askInfo.sendTime)
+            }
             //
-            val sb = StringBuffer(if (askInfo.senderId == clientId) tvContent.context.getString(R.string.you) else otherUser.name)
-            tvContent.text = when (askInfo.askType) {
-                AskType.TEXT -> askInfo.text
-                AskType.IMAGE -> sb.append(tvContent.context.getString(R.string.sent_img))
-                AskType.AUDIO -> sb.append(tvContent.context.getString(R.string.sent_audio))
-                AskType.VIDEO -> sb.append(tvContent.context.getString(R.string.sent_video))
-                else -> ""
+            askInfo?.let {
+                val sb = StringBuffer(if (askInfo.senderId == clientId) tvContent.context.getString(R.string.you) else otherUser.name)
+                tvContent.text = when (askInfo.askType) {
+                    AskType.TEXT -> askInfo.text
+                    AskType.IMAGE -> sb.append(tvContent.context.getString(R.string.sent_img))
+                    AskType.AUDIO -> sb.append(tvContent.context.getString(R.string.sent_audio))
+                    AskType.VIDEO -> sb.append(tvContent.context.getString(R.string.sent_video))
+                    else -> ""
+                }
             }
             itemEducationLevel.tvName.text = educationLevelList.find { it.id == askRoom.educationLevelId }?.name
             itemGrade.tvName.text = gradeList.find { it.id == askRoom.gradeId }?.name

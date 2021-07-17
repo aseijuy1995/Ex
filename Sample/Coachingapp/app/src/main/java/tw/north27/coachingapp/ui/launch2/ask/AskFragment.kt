@@ -29,6 +29,7 @@ import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.AskType
 import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.From
+import tw.north27.coachingapp.model.response.Units
 import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.ui.launch2.TeacherDetailDialogFragment
 import tw.north27.coachingapp.viewModel.AskViewModel
@@ -163,8 +164,8 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
                 unreadNum = (askRoomList_Test[1].unreadNum + 1),
                 askRoomInfo = AskRoomInfo(
                     id = id + 100L,
-                    senderId = askRoomList_Test[1].askRoomInfo.senderId,
-                    receiverId = askRoomList_Test[1].askRoomInfo.receiverId,
+                    senderId = askRoomList_Test[1].askRoomInfo?.senderId!!,
+                    receiverId = askRoomList_Test[1].askRoomInfo?.receiverId!!,
                     askType = AskType.TEXT,
                     text = "那數線模式或平衡模式的區別在哪呢?",
                     isRead = false,
@@ -176,14 +177,33 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             viewModel.fetchAskRoomList(askId = askId)
         }
 
+        //配對
         setFragmentResultListener(EducationSelectorDialogFragment.REQUEST_KEY_PAIR) { key, bundle ->
             lifecycleScope.launch {
                 delay(500)
-                val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(EducationSelectorDialogFragment.KEY_TEACHER_PAIR)!!
-                findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDialog(From.Pair, clientInfo))
+                val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(EducationSelectorDialogFragment.KEY_TEACHER_CLIENT_PAIR)!!
+                val unit: Units = bundle.getParcelable<Units>(EducationSelectorDialogFragment.KEY_TEACHER_UNIT_PAIR)!!
+                findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDialog(From.Pair, clientInfo, unit))
             }
         }
 
+        //提問是已存在
+        setFragmentResultListener(TeacherDetailDialogFragment.REQUEST_KEY_EXIST) { key, bundle ->
+            lifecycleScope.launch {
+                delay(500)
+                val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(TeacherDetailDialogFragment.KEY_TEACHER_CLIENT_EXIST)!!
+                val unit: Units = bundle.getParcelable<Units>(TeacherDetailDialogFragment.KEY_TEACHER_UNIT_EXIST)!!
+                val msg: String = bundle.getString(TeacherDetailDialogFragment.KEY_TEACHER_MSG_EXIST)!!
+
+                findNavController().navigate(
+                    NavGraphLaunch2Directions.actionToFragmentSetupAskRoomDialog(
+                        clientInfo = clientInfo,
+                        unit = unit,
+                        msg = msg
+                    )
+                )
+            }
+        }
 
         binding.srlView.autoRefresh()
     }

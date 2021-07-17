@@ -57,7 +57,39 @@
             app:argType="tw.north27.coachingapp.model.ClientInfo"
             app:nullable="false" />
 
+        <argument
+            android:name="unit"
+            app:argType="tw.north27.coachingapp.model.response.Units"
+            app:nullable="true" />
+
     </action>
+
+    <dialog
+        android:id="@+id/fragment_setup_ask_room_dialog"
+        android:name="tw.north27.coachingapp.ui.launch2.SetupAskRoomDialogFragment"
+        android:label="fragment_setup_ask_room_dialog"
+        tools:layout="@layout/fragment_setup_ask_room_dialog" />
+
+    <action
+        android:id="@+id/action_to_fragment_setup_ask_room_dialog"
+        app:destination="@id/fragment_setup_ask_room_dialog">
+
+        <argument
+            android:name="clientInfo"
+            app:argType="tw.north27.coachingapp.model.ClientInfo"
+            app:nullable="false" />
+
+        <argument
+            android:name="unit"
+            app:argType="tw.north27.coachingapp.model.response.Units"
+            app:nullable="false" />
+
+        <argument
+            android:name="msg"
+            app:argType="string" />
+
+    </action>
+
 
     <fragment
         android:id="@+id/fragment_ask_room"

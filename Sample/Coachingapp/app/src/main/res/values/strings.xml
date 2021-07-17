@@ -129,6 +129,8 @@
     <string name="score">評分</string>
     <string name="reply_rate">回覆率</string>
     <string name="ready_to_ask">準備提問</string>
+    <!--  AskRoomExistDialogFragment  -->
+    <string name="define">確定</string>
 
     <!-- AskRoomFragment -->
     <string name="not_find_ask_room">找不到提問室</string>

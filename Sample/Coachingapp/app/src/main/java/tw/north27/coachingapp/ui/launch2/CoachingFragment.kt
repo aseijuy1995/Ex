@@ -118,7 +118,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
 
         adapter.itemClickRelay.observe(viewLifecycleOwner) {
             val clientInfo = it.second
-            findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDialog(From.Specify, clientInfo))
+            findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDialog(From.Specify, clientInfo, null))
         }
 
         binding.itemDrawerLayoutCoaching.spEducation.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {

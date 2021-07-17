@@ -8,6 +8,7 @@ import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.CommentInfo
 import tw.north27.coachingapp.model.request.*
+import tw.north27.coachingapp.model.response.AskRoomResponse
 import tw.north27.coachingapp.model.response.PushResponse
 import tw.north27.coachingapp.model.response.ReflectResponse
 import tw.north27.coachingapp.model.response.SoundResponse
@@ -28,6 +29,12 @@ class ActionRepository(private val service: IApiService) : IActionRepository {
 
     override suspend fun fetchTeacherPair(pairRequest: PairRequest): Results<ClientInfo?> =
         safeApiResults { service.fetchTeacherPair(pairRequest = pairRequest) }
+
+    override suspend fun findAskRoom(setupAskRoomRequest: SetupAskRoomRequest): Results<AskRoomResponse> =
+        safeApiResults { service.findAskRoom(setupAskRoomRequest = setupAskRoomRequest) }
+
+    override suspend fun setupAskRoom(setupAskRoomRequest: SetupAskRoomRequest): Results<AskRoom> =
+        safeApiResults { service.setupAskRoom(setupAskRoomRequest = setupAskRoomRequest) }
 
     override suspend fun fetchAskRoomInfoList(askRoomInfoRequest: AskRoomInfoRequest): Results<List<AskRoomInfo>> =
         safeApiResults { service.fetchAskRoomInfoList(askRoomInfoRequest = askRoomInfoRequest) }
