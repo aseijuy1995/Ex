@@ -32,6 +32,8 @@
     <color name="yellow_fac230">#FAC230</color>
     <color name="green_55af7b">#55AF7B</color>
     <color name="blue_4286f3">#4286F3</color>
+    <color name="blue_082e81">#082E81</color>
+    <color name="purple_a672df">#A672DF</color>
     <!---->
     <color name="green_00ba9b">#00BA9B</color>
     <!---->
@@ -40,8 +42,7 @@
     <color name="gray_eeeeee">#EEEEEE</color>
     <color name="green_41d578">#41D578</color>
     <!---->
-    <color name="blue_082e81">#082E81</color>
-    <color name="purple_a672df">#A672DF</color>
+
     <!--    -->
     <color name="blue_eeeeff">#EEEEFF</color>
     <color name="purple_ffeeff">#FFEEFF</color>

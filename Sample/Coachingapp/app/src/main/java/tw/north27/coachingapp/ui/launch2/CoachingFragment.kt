@@ -22,7 +22,7 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.databinding.FragmentCoachingBinding
 import tw.north27.coachingapp.model.ClientInfo
-import tw.north27.coachingapp.model.SourceFrom
+import tw.north27.coachingapp.model.transfer.SourceFrom
 import tw.north27.coachingapp.model.response.*
 import tw.north27.coachingapp.ui.launch2.ask.EducationSelectorDialogFragment
 import tw.north27.coachingapp.viewModel.CoachingViewModel

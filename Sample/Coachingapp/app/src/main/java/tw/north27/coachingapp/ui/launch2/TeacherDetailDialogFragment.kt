@@ -20,8 +20,8 @@ import tw.north27.coachingapp.adapter.bindChartReply
 import tw.north27.coachingapp.adapter.bindGender
 import tw.north27.coachingapp.databinding.FragmentTeacherDetailDialogBinding
 import tw.north27.coachingapp.model.ClientInfo
-import tw.north27.coachingapp.model.SourceFrom
 import tw.north27.coachingapp.model.response.UnitType
+import tw.north27.coachingapp.model.transfer.SourceFrom
 import tw.north27.coachingapp.model.treeNodeHolder.EducationLevelHolder
 import tw.north27.coachingapp.model.treeNodeHolder.GradeHolder
 import tw.north27.coachingapp.model.treeNodeHolder.SubjectHolder
@@ -34,29 +34,14 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
 
     override val viewBind: (View) -> FragmentTeacherDetailDialogBinding
         get() = FragmentTeacherDetailDialogBinding::bind
-
     private val publicVM by sharedViewModel<PublicViewModel>()
-
     private val viewModel by viewModel<TeacherDetailViewModel>()
-
     private val sourceFrom: SourceFrom
         get() = arguments?.getParcelable<SourceFrom>("sourceFrom")!!
-
     private val clientInfo: ClientInfo
         get() = arguments?.getParcelable<ClientInfo>("clientInfo")!!
-
     private val unitType: UnitType?
         get() = arguments?.getParcelable<UnitType>("unitType")
-
-    companion object {
-        val REQUEST_KEY_TEACHER = "REQUEST_KEY_TEACHER"
-
-        val KEY_TEACHER_CLIENT = "KEY_TEACHER_CLIENT"
-
-        val KEY_TEACHER_UNITTYPE = "KEY_TEACHER_UNITTYPE"
-
-        val KEY_TEACHER_MSG = "KEY_TEACHER_MSG"
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,7 +49,7 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
             val bgUrl = clientInfo.bgUrl
             if (bgUrl.isNotEmpty()) ivBg.bindImg(url = clientInfo.bgUrl)
             val avatarUrl = clientInfo.avatarUrl
-            if (avatarUrl.isNotEmpty()) ivAvatar.bindImg(url = clientInfo.avatarUrl, placeRes = R.drawable.ic_baseline_account_box_24_gray, roundingRadius = 120)
+            if (avatarUrl.isNotEmpty()) ivAvatar.bindImg(url = clientInfo.avatarUrl, placeRes = R.drawable.ic_baseline_account_box_24_gray, roundingRadius = 10)
             tvGender.bindGender(clientInfo)
             tvName.text = clientInfo.name
             tvIntroTitle.text = String.format("%s%s", getString(R.string.about), clientInfo.name)
@@ -184,5 +169,15 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
         }
         binding.llField.addView(androidTreeView.view)
         androidTreeView.expandAll()
+    }
+
+    companion object {
+        val REQUEST_KEY_TEACHER = "REQUEST_KEY_TEACHER"
+
+        val KEY_TEACHER_CLIENT = "KEY_TEACHER_CLIENT"
+
+        val KEY_TEACHER_UNITTYPE = "KEY_TEACHER_UNITTYPE"
+
+        val KEY_TEACHER_MSG = "KEY_TEACHER_MSG"
     }
 }

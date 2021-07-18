@@ -18,11 +18,11 @@ import tw.north27.coachingapp.model.request.PushRequest
 import tw.north27.coachingapp.model.request.SoundRequest
 import tw.north27.coachingapp.model.response.PushResponse
 import tw.north27.coachingapp.model.response.SoundResponse
-import tw.north27.coachingapp.repository.IActionRepository
+import tw.north27.coachingapp.repository.IAskRoomRepository
 
 class AskViewModel(
     application: Application,
-    private val actionRepo: IActionRepository
+    private val askRoomRepo: IAskRoomRepository
 ) : BaseAndroidViewModel(application) {
 
     private val _askRoomListState = MutableLiveData<ViewState<List<AskRoom>>>(ViewState.Initial)
@@ -43,7 +43,7 @@ class AskViewModel(
     fun fetchAskRoomList(askId: Long) = viewModelScope.launch(Dispatchers.IO) {
         _askRoomListState.postValue(ViewState.load())
         val clientId = cxt.userPref.getId().first()
-        val results = actionRepo.fetchAskRoomList(
+        val results = askRoomRepo.fetchAskRoomList(
             AskRoomRequest(
                 clientId = clientId,
                 askId = if (askId == -1L) null else askId
@@ -82,7 +82,7 @@ class AskViewModel(
         _pushState.postValue(ViewState.load())
         val clientId = cxt.userPref.getId().first()
         pushPair = (roomId to state)
-        val results = actionRepo.updateAskRoomPush(
+        val results = askRoomRepo.updateAskRoomPush(
             PushRequest(
                 roomId = roomId,
                 clientId = clientId,
@@ -118,7 +118,7 @@ class AskViewModel(
         _soundState.postValue(ViewState.load())
         val clientId = cxt.userPref.getId().first()
         soundPair = (roomId to state)
-        val results = actionRepo.updateAskRoomSound(
+        val results = askRoomRepo.updateAskRoomSound(
             SoundRequest(
                 roomId = roomId,
                 clientId = clientId,

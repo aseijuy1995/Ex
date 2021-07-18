@@ -30,7 +30,7 @@
 
         <argument
             android:name="sourceFrom"
-            app:argType="tw.north27.coachingapp.model.SourceFrom"
+            app:argType="tw.north27.coachingapp.model.transfer.SourceFrom"
             app:nullable="false" />
 
         <argument
@@ -59,7 +59,7 @@
 
         <argument
             android:name="sourceFrom"
-            app:argType="tw.north27.coachingapp.model.SourceFrom"
+            app:argType="tw.north27.coachingapp.model.transfer.SourceFrom"
             app:nullable="false" />
 
         <argument
@@ -100,7 +100,6 @@
 
     </action>
 
-
     <fragment
         android:id="@+id/fragment_ask_room"
         android:name="tw.north27.coachingapp.ui.launch2.ask.AskRoomFragment"
@@ -117,7 +116,7 @@
 
             <argument
                 android:name="sendMode"
-                app:argType="tw.north27.coachingapp.model.SendMode"
+                app:argType="tw.north27.coachingapp.model.transfer.SendMode"
                 app:nullable="false" />
 
         </action>
@@ -152,14 +151,15 @@
         tools:layout="@layout/fragment_ask_room_media_dialog" />
 
     <!--    <action-->
-    <!--        android:id="@+id/action_fragment_chat_room_to_fragment_chat_room_media_dialog"-->
-    <!--        app:destination="@id/fragment_chat_room_media_dialog">-->
+    <!--        android:id="@+id/action_to_fragment_ask_room_media_dialog"-->
+    <!--        app:destination="@id/fragment_ask_room_media_dialog">-->
 
     <!--        <argument-->
     <!--            android:name="mimeType"-->
     <!--            app:argType="tw.north27.coachingapp.model.MimeType"-->
     <!--            app:nullable="false" />-->
     <!--    </action>-->
+
 
     <!--  StudyFragment  -->
     <fragment

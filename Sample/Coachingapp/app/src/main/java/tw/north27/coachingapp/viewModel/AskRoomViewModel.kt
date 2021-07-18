@@ -14,12 +14,12 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.request.AskRoomInfoRequest
-import tw.north27.coachingapp.repository.IActionRepository
+import tw.north27.coachingapp.repository.IAskRoomRepository
 import tw.north27.coachingapp.repository.IUserRepository
 
 class AskRoomViewModel(
     application: Application,
-    val actionRepo: IActionRepository,
+    val askRoomRepo: IAskRoomRepository,
     val userRepo: IUserRepository
 ) : BaseAndroidViewModel(application) {
 
@@ -30,7 +30,7 @@ class AskRoomViewModel(
     fun fetchAskInfoList(roomId: Long) = viewModelScope.launch(Dispatchers.IO) {
         _askInfoListState.postValue(ViewState.load())
         val clientId = cxt.userPref.getId().first()
-        val results = actionRepo.fetchAskRoomInfoList(
+        val results = askRoomRepo.fetchAskRoomInfoList(
             AskRoomInfoRequest(
                 roomId = roomId,
                 clientId = clientId,

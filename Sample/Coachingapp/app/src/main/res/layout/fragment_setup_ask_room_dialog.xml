@@ -24,17 +24,15 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_launch_bg1"
                 app:layout_constraintDimensionRatio="H,16:2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/shape_gradient_angle_270_color_tran_gray"
+                android:background="@drawable/shape_gradient_angle_270_color_tran_gray"
                 app:layout_constraintBottom_toBottomOf="@id/iv_bg"
                 app:layout_constraintEnd_toEndOf="@id/iv_bg"
                 app:layout_constraintStart_toStartOf="@id/iv_bg"
@@ -102,12 +100,12 @@
                     android:src="@drawable/ic_baseline_style_24_blue" />
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_unit"
+                    android:id="@+id/tv_unit_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="5dp"
-                    android:textColor="@color/gray_666666"
+                    android:textColor="@color/blue_4286f3"
                     android:textSize="10sp" />
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -117,12 +115,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/shape_solid_green_corners_radius_5"
+                android:background="@drawable/shape_solid_color_primary_corners_radius_5"
                 android:gravity="center"
                 android:minHeight="26dp"
                 android:text="@string/define"
                 android:textColor="@color/white"
                 android:textSize="12sp"
+                android:theme="@style/Theme.Coachingapp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 

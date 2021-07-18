@@ -84,9 +84,11 @@ val moduleModules = module {
 
 val repoModules = module {
     single<IClientRepository> { ClientRepository(get()) }
+    single<IAskRoomRepository> { AskRoomRepository(get()) }
+    //
     single<IPublicRepository> { PublicRepository(get()) }
     single<IUserRepository> { UserRepository(get()) }
-    single<IActionRepository> { ActionRepository(get()) }
+
 
 //    single<INotifyRepository> { NotifyRepository(get()) }
 //    single<IChatRepository> { ChatRepository(get(), get()) }
@@ -109,7 +111,7 @@ val viewModelModules = module {
     viewModel<SignInViewModel> { SignInViewModel(androidApplication(), get()) }
     //
     viewModel<AskViewModel> { AskViewModel(androidApplication(), get()) }
-    viewModel<EducationSelectorViewModel> { EducationSelectorViewModel(androidApplication(), get()) }
+    viewModel<EducationSelectorViewModel> { EducationSelectorViewModel(androidApplication(), get(), get()) }
     viewModel<TeacherDetailViewModel> { TeacherDetailViewModel(androidApplication(), get()) }
     viewModel<SetupAskRoomViewModel> { SetupAskRoomViewModel(androidApplication(), get()) }
     viewModel<AskRoomViewModel> { AskRoomViewModel(androidApplication(), get(), get()) }

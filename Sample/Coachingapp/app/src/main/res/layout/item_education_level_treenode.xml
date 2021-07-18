@@ -5,8 +5,8 @@
     android:orientation="horizontal">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:src="@drawable/ic_baseline_style_24_blue" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -16,7 +16,7 @@
         android:layout_gravity="center_vertical"
         android:ellipsize="end"
         android:maxLines="1"
-        android:textColor="@color/gray_666666"
+        android:textColor="@color/blue_4286f3"
         android:textSize="10sp" />
 
 </LinearLayout>

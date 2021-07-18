@@ -21,9 +21,9 @@ import tw.north27.coachingapp.adapter.SubjectAdapter
 import tw.north27.coachingapp.adapter.UnitTypeAdapter
 import tw.north27.coachingapp.databinding.FragmentEducationSelectorDialogBinding
 import tw.north27.coachingapp.model.ClientInfo
-import tw.north27.coachingapp.model.SourceFrom
 import tw.north27.coachingapp.model.response.Education
 import tw.north27.coachingapp.model.response.UnitType
+import tw.north27.coachingapp.model.transfer.SourceFrom
 import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.EducationSelectorViewModel
 import tw.north27.coachingapp.viewModel.PublicViewModel

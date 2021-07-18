@@ -9,6 +9,7 @@ import tw.north27.coachingapp.model.response.Education
 import tw.north27.coachingapp.model.response.PublicDataResponse
 
 class PublicRepository(val service: IApiService) : IPublicRepository {
+
     override suspend fun fetchAppConfig(appConfigRequest: AppConfigRequest): Results<AppConfig> =
         safeApiResults { service.fetchAppConfig(appConfigRequest = appConfigRequest) }
 

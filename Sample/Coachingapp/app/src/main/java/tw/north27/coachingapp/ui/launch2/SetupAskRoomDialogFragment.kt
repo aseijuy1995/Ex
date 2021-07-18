@@ -26,7 +26,7 @@ class SetupAskRoomDialogFragment : BaseDialogFragment<FragmentSetupAskRoomDialog
     private val clientInfo: ClientInfo
         get() = arguments?.getParcelable<ClientInfo>("clientInfo")!!
 
-    private val unit: UnitType
+    private val unitType: UnitType
         get() = arguments?.getParcelable<UnitType>("unitType")!!
 
     private val msg: String
@@ -34,7 +34,6 @@ class SetupAskRoomDialogFragment : BaseDialogFragment<FragmentSetupAskRoomDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.apply {
             val bgUrl = clientInfo.bgUrl
             if (bgUrl.isNotEmpty()) ivBg.bindImg(url = clientInfo.bgUrl)
@@ -42,7 +41,7 @@ class SetupAskRoomDialogFragment : BaseDialogFragment<FragmentSetupAskRoomDialog
             if (avatarUrl.isNotEmpty()) ivAvatar.bindImg(url = clientInfo.avatarUrl, placeRes = R.drawable.ic_baseline_account_box_24_gray, roundingRadius = 10)
             tvName.text = clientInfo.name
             tvText.text = msg
-            tvUnit.text = unit.name
+            tvUnitType.text = unitType.name
         }
 
         viewModel.askRoomState.observe(viewLifecycleOwner) {
@@ -63,7 +62,7 @@ class SetupAskRoomDialogFragment : BaseDialogFragment<FragmentSetupAskRoomDialog
         binding.btnEnter.clicksObserve(owner = viewLifecycleOwner) {
             viewModel.setupAskRoom(
                 otherClientId = clientInfo.id,
-                unitId = unit.id
+                unitId = unitType.id
             )
         }
     }

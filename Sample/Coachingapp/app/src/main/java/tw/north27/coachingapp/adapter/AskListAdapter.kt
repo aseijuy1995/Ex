@@ -11,12 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.swipe.SwipeLayout
 import com.jakewharton.rxrelay3.PublishRelay
 import com.yujie.core_lib.adapter.bindImg
+import com.yujie.core_lib.ext.calendar
+import com.yujie.core_lib.ext.isToday
 import com.yujie.core_lib.pref.getId
 import com.yujie.core_lib.pref.userPref
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.consts.simulation.dateToString
 import tw.north27.coachingapp.databinding.ItemAskBinding
 import tw.north27.coachingapp.model.AskRoom
 import tw.north27.coachingapp.model.AskType
@@ -24,7 +25,8 @@ import tw.north27.coachingapp.model.response.EducationLevel
 import tw.north27.coachingapp.model.response.Grade
 import tw.north27.coachingapp.model.response.Subject
 import tw.north27.coachingapp.model.response.UnitType
-
+import java.util.*
+import kotlin.collections.ArrayList
 
 class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>(object : DiffUtil.ItemCallback<AskRoom>() {
 
@@ -59,15 +61,28 @@ class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>
         fun bind(askRoom: AskRoom) = binding.apply {
             this.askRoom = askRoom
             val otherUser = askRoom.otherClientInfo
-            val askInfo = askRoom.askRoomInfo
-            ivAvatar.bindImg(url = otherUser.avatarUrl, roundingRadius = 30)
+            ivAvatar.bindImg(url = otherUser.avatarUrl, roundingRadius = 10)
             tvName.text = otherUser.name
             ivNotice.bindImg(resId = if (askRoom.isSound) R.drawable.ic_baseline_volume_up_24_blue else R.drawable.ic_baseline_volume_off_24_red)
+            itemEducationLevel.tvName.text = educationLevelList.find { it.id == askRoom.educationLevelId }?.name
+            itemGrade.tvName.text = gradeList.find { it.id == askRoom.gradeId }?.name
+            itemSubject.tvName.text = subjectList.find { it.id == askRoom.subjectId }?.name
+            itemUnitType.tvName.text = unitTypeList.find { it.id == askRoom.unitId }?.name
+
+            val askInfo = askRoom.askRoomInfo
             askInfo?.let {
-                tvTime.text = dateToString(askInfo.sendTime)
-            }
-            //
-            askInfo?.let {
+                val calendar = calendar
+                calendar.time = it.sendTime
+                val year = calendar.get(Calendar.YEAR)
+                val month = calendar.get(Calendar.MONTH) + 1
+                val day = calendar.get(Calendar.DAY_OF_MONTH)
+                val hour = calendar.get(Calendar.HOUR_OF_DAY)
+                val minute = calendar.get(Calendar.MINUTE)
+                val otherDay = String.format("%d/%d/%d", year, month, day)
+                val toDay = String.format("%d:%d", hour, minute)
+                val format = "yyyy/MM/dd HH:mm"
+                tvTime.text = if (it.sendTime.isToday(format)) toDay else otherDay
+                //
                 val sb = StringBuffer(if (askInfo.senderId == clientId) tvContent.context.getString(R.string.you) else otherUser.name)
                 tvContent.text = when (askInfo.askType) {
                     AskType.TEXT -> askInfo.text
@@ -77,10 +92,6 @@ class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>
                     else -> ""
                 }
             }
-            itemEducationLevel.tvName.text = educationLevelList.find { it.id == askRoom.educationLevelId }?.name
-            itemGrade.tvName.text = gradeList.find { it.id == askRoom.gradeId }?.name
-            itemSubject.tvName.text = subjectList.find { it.id == askRoom.subjectId }?.name
-            itemUnit.tvName.text = unitTypeList.find { it.id == askRoom.unitId }?.name
             tvBadge.apply {
                 isVisible = (askRoom.unreadNum > 0)
                 text = if (askRoom.unreadNum > 100) "99+" else askRoom.unreadNum.toString()
@@ -132,7 +143,6 @@ class AskListAdapter(val cxt: Context) : ListAdapter<AskRoom, AskListAdapter.VH>
         PUSH,
         SOUND
     }
-
 }
 
 /**

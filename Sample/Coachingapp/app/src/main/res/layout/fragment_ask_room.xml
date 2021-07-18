@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/yellow_fef5e0">
+    android:background="@color/gray_eeeeee">
 
     <include
         android:id="@+id/item_toolbar_ask_room"
@@ -18,7 +18,7 @@
         app:layout_constraintTop_toBottomOf="@id/item_toolbar_ask_room">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_ask"
+            android:id="@+id/rv_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -35,10 +35,6 @@
         <include
             android:id="@+id/item_network"
             layout="@layout/item_network" />
-
-        <include
-            android:id="@+id/item_ask_room_load"
-            layout="@layout/fragment_ask_room_load" />
 
     </FrameLayout>
 

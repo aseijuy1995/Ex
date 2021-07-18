@@ -12,7 +12,7 @@ class UnitHolder(cxt: Context) : TreeNode.BaseNodeViewHolder<UnitType>(cxt) {
 
     override fun createNodeView(node: TreeNode?, value: UnitType?): View? {
         val inflater = LayoutInflater.from(context)
-        val view = inflater.inflate(R.layout.item_unit_treenode, null, false)
+        val view = inflater.inflate(R.layout.item_unit_type_treenode, null, false)
         val tvText = view.findViewById<TextView>(R.id.tv_text)
         tvText.text = value?.name
         return view

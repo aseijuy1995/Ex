@@ -16,11 +16,13 @@ import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.request.PairRequest
 import tw.north27.coachingapp.model.request.SetupAskRoomRequest
 import tw.north27.coachingapp.model.response.AskRoomResponse
-import tw.north27.coachingapp.repository.IActionRepository
+import tw.north27.coachingapp.repository.IAskRoomRepository
+import tw.north27.coachingapp.repository.IClientRepository
 
 class EducationSelectorViewModel(
     application: Application,
-    private val actionRepo: IActionRepository
+    private val clientRepo: IClientRepository,
+    private val askRoomRepo: IAskRoomRepository
 ) : BaseAndroidViewModel(application) {
 
     private val _askRoomResponseState = MutableLiveData<ViewState<AskRoomResponse>>(ViewState.initial())
@@ -30,7 +32,7 @@ class EducationSelectorViewModel(
     fun findAskRoom(otherClientId: String, unitId: Long) = viewModelScope.launch(Dispatchers.IO) {
         _askRoomResponseState.postValue(ViewState.load())
         val clientId = cxt.userPref.getId().first()
-        val results = actionRepo.findAskRoom(
+        val results = askRoomRepo.findAskRoom(
             setupAskRoomRequest = SetupAskRoomRequest(
                 selfClientId = clientId,
                 otherClientId = otherClientId,
@@ -58,7 +60,7 @@ class EducationSelectorViewModel(
     fun fetchTeacherPair(unitId: Long) = viewModelScope.launch(Dispatchers.IO) {
         _teacherPairState.postValue(ViewState.load())
         val clientId = cxt.userPref.getId().first()
-        val results = actionRepo.fetchTeacherPair(
+        val results = clientRepo.fetchTeacherPair(
             pairRequest = PairRequest(
                 clientId = clientId,
                 unitId = unitId

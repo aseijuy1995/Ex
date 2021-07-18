@@ -14,7 +14,7 @@ import com.yujie.core_lib.base.BaseBottomSheetDialogFragment
 import com.yujie.core_lib.ext.observe
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentAskRoomModeDialogBinding
-import tw.north27.coachingapp.model.SendMode
+import tw.north27.coachingapp.model.transfer.SendMode
 import java.util.concurrent.TimeUnit
 
 class AskRoomModeDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoomModeDialogBinding>(R.layout.fragment_ask_room_mode_dialog) {
@@ -38,32 +38,32 @@ class AskRoomModeDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoomM
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
             itemCamera.apply {
-                ivIcon.bindImg(resId = R.drawable.ic_baseline_photo_camera_24_red)
+                ivIcon.bindImg(resId = R.drawable.ic_twotone_camera_alt_24_red)
                 tvText.text = getString(R.string.camera)
             }
 
             itemAlbum.apply {
-                ivIcon.bindImg(resId = R.drawable.ic_baseline_photo_24_orange)
+                ivIcon.bindImg(resId = R.drawable.ic_twotone_insert_photo_24_orange)
                 tvText.text = getString(R.string.album)
             }
 
             itemRecording.apply {
-                ivIcon.bindImg(resId = R.drawable.ic_baseline_mic_none_24_yellow)
+                ivIcon.bindImg(resId = R.drawable.ic_twotone_fiber_smart_record_24_yellow)
                 tvText.text = getString(R.string.recording)
             }
 
             itemAudio.apply {
-                ivIcon.bindImg(resId = R.drawable.ic_baseline_queue_music_24_green)
+                ivIcon.bindImg(resId = R.drawable.ic_twotone_audiotrack_24_green)
                 tvText.text = getString(R.string.audio)
             }
 
             itemVideo.apply {
-                ivIcon.bindImg(resId = R.drawable.ic_baseline_videocam_24_blue)
+                ivIcon.bindImg(resId = R.drawable.ic_twotone_videocam_24_blue)
                 tvText.text = getString(R.string.video)
             }
 
             itemFilm.apply {
-                ivIcon.bindImg(resId = R.drawable.ic_baseline_local_movies_24_blue)
+                ivIcon.bindImg(resId = R.drawable.ic_twotone_local_movies_24_blue)
                 tvText.text = getString(R.string.film)
             }
         }

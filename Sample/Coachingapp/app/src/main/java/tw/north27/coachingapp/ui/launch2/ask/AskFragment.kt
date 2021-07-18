@@ -32,8 +32,8 @@ import tw.north27.coachingapp.databinding.FragmentAskBinding
 import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.AskType
 import tw.north27.coachingapp.model.ClientInfo
-import tw.north27.coachingapp.model.SourceFrom
 import tw.north27.coachingapp.model.response.UnitType
+import tw.north27.coachingapp.model.transfer.SourceFrom
 import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.ui.launch2.TeacherDetailDialogFragment
 import tw.north27.coachingapp.viewModel.AskViewModel

@@ -97,7 +97,7 @@
         android:layout_width="26dp"
         android:layout_height="26dp"
         android:layout_margin="10dp"
-        android:background="@drawable/ic_baseline_circle_24_green"
+        android:background="@drawable/ic_baseline_circle_24_color_primary_variant"
         android:gravity="center"
         android:maxLength="3"
         android:textColor="@color/white"

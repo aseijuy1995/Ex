@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import com.yujie.core_lib.adapter.bindImg
 import com.yujie.core_lib.base.BaseFragment
 import com.yujie.core_lib.ext.clicksObserve
-import com.yujie.core_lib.ext.visible
 import com.yujie.core_lib.util.ViewState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -19,7 +18,7 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.AskRoomListAdapter
 import tw.north27.coachingapp.databinding.FragmentAskRoomBinding
 import tw.north27.coachingapp.model.AskRoom
-import tw.north27.coachingapp.model.SendMode
+import tw.north27.coachingapp.model.transfer.SendMode
 import tw.north27.coachingapp.viewModel.AskRoomViewModel
 
 class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_ask_room) {
@@ -55,16 +54,15 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
         val otherUser = askRoom?.otherClientInfo
         binding.apply {
             itemToolbarAskRoom.apply {
-                ivAvatar.bindImg(url = otherUser?.avatarUrl, roundingRadius = 15)
+                ivAvatar.bindImg(url = otherUser?.avatarUrl, roundingRadius = 10)
                 tvName.text = otherUser?.name
             }
-            rvAsk.adapter = adapter
+            rvView.adapter = adapter
         }
 
         viewModel.askInfoListState.observe(viewLifecycleOwner) {
-            binding.itemAskRoomLoad.root.visible = (it is ViewState.Load)
             binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
-            binding.rvAsk.isVisible = (it is ViewState.Data)
+            binding.rvView.isVisible = (it is ViewState.Data)
             binding.itemError.root.isVisible = (it is ViewState.Error)
             binding.itemNetwork.root.isVisible = (it is ViewState.Network)
             when (it) {
@@ -78,7 +76,6 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
         binding.itemToolbarAskRoom.ivBack.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()
         }
-
 
         binding.itemAskRoomEnter.ivAdd.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigate(AskRoomFragmentDirections.actionFragmentAskRoomToFragmentAskRoomModeDialog())
@@ -347,7 +344,6 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 //
 //        }
 
-//        viewModel.fetchUser(account)
         viewModel.fetchAskInfoList(askRoom?.id!!)
     }
 

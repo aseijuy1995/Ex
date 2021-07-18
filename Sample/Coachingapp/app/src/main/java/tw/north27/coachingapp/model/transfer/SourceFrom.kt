@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.model
+package tw.north27.coachingapp.model.transfer
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

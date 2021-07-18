@@ -10,25 +10,25 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_push"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
             android:background="@{(askRoom.push==true) ? @color/orange_f09801 : @color/green_55af7b}"
-            android:padding="30dp"
+            android:padding="25dp"
             android:src="@{(askRoom.push==true) ? @drawable/ic_baseline_notifications_off_24_white : @drawable/ic_baseline_notifications_active_24_white}" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_sound"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_gravity="center"
             android:background="@{(askRoom.sound==true) ? @color/red_eb4537 : @color/blue_4286f3}"
-            android:padding="30dp"
+            android:padding="25dp"
             android:src="@{(askRoom.sound==true) ? @drawable/ic_baseline_volume_off_24_white : @drawable/ic_baseline_volume_up_24_white}" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>

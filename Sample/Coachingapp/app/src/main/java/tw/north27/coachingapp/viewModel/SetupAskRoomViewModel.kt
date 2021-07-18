@@ -14,11 +14,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.model.AskRoom
 import tw.north27.coachingapp.model.request.SetupAskRoomRequest
-import tw.north27.coachingapp.repository.IActionRepository
+import tw.north27.coachingapp.repository.IAskRoomRepository
 
 class SetupAskRoomViewModel(
     application: Application,
-    private val actionRepo: IActionRepository
+    private val askRoomRepo: IAskRoomRepository
 ) : BaseAndroidViewModel(application) {
 
     private val _askRoomState = MutableLiveData<ViewState<AskRoom>>(ViewState.initial())
@@ -28,7 +28,7 @@ class SetupAskRoomViewModel(
     fun setupAskRoom(otherClientId: String, unitId: Long) = viewModelScope.launch(Dispatchers.IO) {
         _askRoomState.postValue(ViewState.load())
         val clientId = cxt.userPref.getId().first()
-        val results = actionRepo.setupAskRoom(
+        val results = askRoomRepo.setupAskRoom(
             setupAskRoomRequest = SetupAskRoomRequest(
                 selfClientId = clientId,
                 otherClientId = otherClientId,

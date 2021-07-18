@@ -11,17 +11,17 @@
         android:layout_height="15dp"
         android:layout_marginStart="5dp"
         android:scaleType="centerCrop"
-        app:srcCompat="@drawable/ic_baseline_style_24_green" />
+        app:srcCompat="@drawable/ic_baseline_style_24_orange" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"
-        android:layout_marginStart="2dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_marginStart="2dp"
         android:gravity="center"
         android:maxLines="1"
-        android:textColor="@color/green_55af7b"
+        android:textColor="@color/orange_f09801"
         android:textSize="10sp" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

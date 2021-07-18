@@ -19,14 +19,14 @@ import tw.north27.coachingapp.model.request.ReflectRequest
 import tw.north27.coachingapp.model.request.UpdateClientRequest
 import tw.north27.coachingapp.model.response.ReflectResponse
 import tw.north27.coachingapp.model.response.UpdateClientResponse
-import tw.north27.coachingapp.repository.IActionRepository
+import tw.north27.coachingapp.repository.IAskRoomRepository
 import tw.north27.coachingapp.repository.IUserRepository
 import java.util.*
 
 class PersonalViewModel(
     application: Application,
     private val userRepo: IUserRepository,
-    private val actionRepo: IActionRepository,
+    private val askRoomRepo: IAskRoomRepository,
 ) : BaseAndroidViewModel(application) {
 
     private val _commentListState = MutableLiveData<ViewState<List<CommentInfo>>>(ViewState.initial())
@@ -44,7 +44,7 @@ class PersonalViewModel(
     ) = viewModelScope.launch(Dispatchers.IO) {
         _commentListState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
-        val results = actionRepo.fetchCommentList(
+        val results = askRoomRepo.fetchCommentList(
             CommentRequest(clientId = account, score = score, educationLevelId = educationLevelId, gradeId = gradeId, subjectId = subjectId, unitId = unitId, index = index, num = num)
         )
         when (results) {
@@ -124,7 +124,7 @@ class PersonalViewModel(
     fun insertReflect(id: Long, content: String) = viewModelScope.launch(Dispatchers.IO) {
         _isReflectState.postValue(ViewState.load())
         val account = cxt.userPref.getAccount().first()
-        val results = actionRepo.insertReflect(
+        val results = askRoomRepo.insertReflect(
             reflectRequest = ReflectRequest(
                 account = account,
                 id = id,

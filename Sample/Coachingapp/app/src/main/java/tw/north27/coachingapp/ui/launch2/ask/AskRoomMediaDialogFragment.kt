@@ -17,7 +17,7 @@ import tw.north27.coachingapp.adapter.AlbumListAdapter
 import tw.north27.coachingapp.adapter.AudioListAdapter
 import tw.north27.coachingapp.adapter.VideoListAdapter
 import tw.north27.coachingapp.databinding.FragmentAskRoomMediaDialogBinding
-import tw.north27.coachingapp.model.SendMode
+import tw.north27.coachingapp.model.transfer.SendMode
 import tw.north27.coachingapp.viewModel.AskRoomMediaViewModel
 
 class AskRoomMediaDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoomMediaDialogBinding>(R.layout.fragment_ask_room_media_dialog) {
