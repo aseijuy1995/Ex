@@ -16,19 +16,29 @@
         android:id="@+id/fragment_ask"
         android:name="tw.north27.coachingapp.ui.launch2.ask.AskFragment"
         android:label="fragment_ask"
-        tools:layout="@layout/fragment_ask">
-
-        <action
-            android:id="@+id/action_fragment_ask_to_fragment_education_selector_dialog"
-            app:destination="@id/fragment_education_selector_dialog" />
-
-    </fragment>
+        tools:layout="@layout/fragment_ask" />
 
     <dialog
         android:id="@+id/fragment_education_selector_dialog"
         android:name="tw.north27.coachingapp.ui.launch2.ask.EducationSelectorDialogFragment"
         android:label="fragment_education_selector_dialog"
         tools:layout="@layout/fragment_education_selector_dialog" />
+
+    <action
+        android:id="@+id/action_to_fragment_education_selector_dialog"
+        app:destination="@id/fragment_education_selector_dialog">
+
+        <argument
+            android:name="sourceFrom"
+            app:argType="tw.north27.coachingapp.model.SourceFrom"
+            app:nullable="false" />
+
+        <argument
+            android:name="clientInfo"
+            app:argType="tw.north27.coachingapp.model.ClientInfo"
+            app:nullable="true" />
+
+    </action>
 
     <dialog
         android:id="@+id/fragment_teacher_detail_dialog"
@@ -44,12 +54,12 @@
     </dialog>
 
     <action
-        android:id="@+id/action_to_fragment_teacher_dialog"
+        android:id="@+id/action_to_fragment_teacher_detail_dialog"
         app:destination="@id/fragment_teacher_detail_dialog">
 
         <argument
-            android:name="from"
-            app:argType="tw.north27.coachingapp.model.From"
+            android:name="sourceFrom"
+            app:argType="tw.north27.coachingapp.model.SourceFrom"
             app:nullable="false" />
 
         <argument

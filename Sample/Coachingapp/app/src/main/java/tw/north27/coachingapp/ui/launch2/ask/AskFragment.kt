@@ -32,10 +32,9 @@ import tw.north27.coachingapp.databinding.FragmentAskBinding
 import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.AskType
 import tw.north27.coachingapp.model.ClientInfo
-import tw.north27.coachingapp.model.From
+import tw.north27.coachingapp.model.SourceFrom
 import tw.north27.coachingapp.model.response.UnitType
 import tw.north27.coachingapp.ui.LoadingDialogFragment
-import tw.north27.coachingapp.ui.launch2.TeacherDetailDialogFragment
 import tw.north27.coachingapp.viewModel.AskViewModel
 import tw.north27.coachingapp.viewModel.PublicViewModel
 import java.util.*
@@ -158,7 +157,12 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
         }
 
         binding.efabPair.clicksObserve(owner = viewLifecycleOwner) {
-            findNavController().navigate(AskFragmentDirections.actionFragmentAskToFragmentEducationSelectorDialog())
+            findNavController().navigate(
+                NavGraphLaunch2Directions.actionToFragmentEducationSelectorDialog(
+                    sourceFrom = SourceFrom.Pair,
+                    clientInfo = null
+                )
+            )
         }
 
         /**
@@ -184,23 +188,23 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             viewModel.fetchAskRoomList(askId = askId)
         }
 
-        //配對
-        setFragmentResultListener(EducationSelectorDialogFragment.REQUEST_KEY_PAIR) { key, bundle ->
+        //篩選器
+        setFragmentResultListener(EducationSelectorDialogFragment.REQUEST_KEY_SELECTOR) { key, bundle ->
             lifecycleScope.launch {
                 delay(500)
-                val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(EducationSelectorDialogFragment.KEY_TEACHER_CLIENT_PAIR)!!
-                val unit: UnitType = bundle.getParcelable<UnitType>(EducationSelectorDialogFragment.KEY_TEACHER_UNIT_PAIR)!!
-                findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDialog(From.Pair, clientInfo, unit))
+                val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(EducationSelectorDialogFragment.KEY_SELECTOR_CLIENT)!!
+                val unit: UnitType = bundle.getParcelable<UnitType>(EducationSelectorDialogFragment.KEY_SELECTOR_UNITTYPE)!!
+                findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDetailDialog(SourceFrom.Pair, clientInfo, unit))
             }
         }
 
         //提問是已存在
-        setFragmentResultListener(TeacherDetailDialogFragment.REQUEST_KEY_EXIST) { key, bundle ->
+        setFragmentResultListener(AskRoomFragment.REQUEST_KEY_SETUP) { key, bundle ->
             lifecycleScope.launch {
                 delay(500)
-                val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(TeacherDetailDialogFragment.KEY_TEACHER_CLIENT_EXIST)!!
-                val unit: UnitType = bundle.getParcelable<UnitType>(TeacherDetailDialogFragment.KEY_TEACHER_UNIT_EXIST)!!
-                val msg: String = bundle.getString(TeacherDetailDialogFragment.KEY_TEACHER_MSG_EXIST)!!
+                val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(AskRoomFragment.KEY_SETUP_CLIENT)!!
+                val unit: UnitType = bundle.getParcelable<UnitType>(AskRoomFragment.KEY_SETUP_UNITTYPE)!!
+                val msg: String = bundle.getString(AskRoomFragment.KEY_SETUP_MSG)!!
 
                 findNavController().navigate(
                     NavGraphLaunch2Directions.actionToFragmentSetupAskRoomDialog(

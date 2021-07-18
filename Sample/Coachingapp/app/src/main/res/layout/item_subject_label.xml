@@ -16,15 +16,15 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_label"
-            android:layout_width="28dp"
-            android:layout_height="21dp"
+            android:layout_width="22dp"
+            android:layout_height="15dp"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintDimensionRatio="H,4:3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_label_24_green2" />
+            app:srcCompat="@drawable/ic_baseline_label_24_blue" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_label"
@@ -32,14 +32,15 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="2dp"
             android:gravity="center"
-            android:text="@{text}"
+            android:text="國文"
             android:textColor="@color/white"
-            android:textSize="8sp"
+            android:textSize="6sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
+        <!--        android:text="@{text}"-->
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

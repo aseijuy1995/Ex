@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:text="@string/education"
+            android:text="@string/education_level"
             android:textColor="@color/black"
             android:textSize="12sp" />
 

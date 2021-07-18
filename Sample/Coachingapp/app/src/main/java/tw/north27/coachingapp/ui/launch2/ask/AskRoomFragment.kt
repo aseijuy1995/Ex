@@ -31,6 +31,17 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 
     private lateinit var adapter: AskRoomListAdapter
 
+    companion object {
+
+        val REQUEST_KEY_SETUP = "REQUEST_KEY_EXIST"
+
+        val KEY_SETUP_CLIENT = "KEY_TEACHER_CLIENT_EXIST"
+
+        val KEY_SETUP_UNITTYPE = "KEY_SETUP_UNITTYPE"
+
+        val KEY_SETUP_MSG = "KEY_SETUP_MSG"
+    }
+
     private val askRoom: AskRoom?
         get() = arguments?.getParcelable<AskRoom>("askRoom") ?: kotlin.run {
             Toast.makeText(cxt, getString(R.string.not_find_ask_room), Toast.LENGTH_SHORT).show()

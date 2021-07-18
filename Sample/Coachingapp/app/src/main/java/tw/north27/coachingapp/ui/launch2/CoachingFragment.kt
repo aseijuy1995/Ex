@@ -5,20 +5,26 @@ import android.view.View
 import android.widget.AdapterView
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.yujie.core_lib.base.BaseFragment
 import com.yujie.core_lib.ext.clicksObserve
 import com.yujie.core_lib.ext.observe
 import com.yujie.core_lib.ext.visible
 import com.yujie.core_lib.util.ViewState
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphLaunch2Directions
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.databinding.FragmentCoachingBinding
-import tw.north27.coachingapp.model.From
+import tw.north27.coachingapp.model.ClientInfo
+import tw.north27.coachingapp.model.SourceFrom
 import tw.north27.coachingapp.model.response.*
+import tw.north27.coachingapp.ui.launch2.ask.EducationSelectorDialogFragment
 import tw.north27.coachingapp.viewModel.CoachingViewModel
 import tw.north27.coachingapp.viewModel.PublicViewModel
 
@@ -105,7 +111,44 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
 
         adapter.itemClickRelay.observe(viewLifecycleOwner) {
             val clientInfo = it.second
-            findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDialog(From.Specify, clientInfo, null))
+            findNavController().navigate(
+                NavGraphLaunch2Directions.actionToFragmentTeacherDetailDialog(
+                    sourceFrom = SourceFrom.Specify,
+                    clientInfo = clientInfo,
+                    unitType = null
+                )
+            )
+        }
+
+        //老師詳細頁返回
+        setFragmentResultListener(TeacherDetailDialogFragment.REQUEST_KEY_TEACHER) { key, bundle ->
+            lifecycleScope.launch {
+                delay(500)
+                val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(TeacherDetailDialogFragment.KEY_TEACHER_CLIENT)!!
+                findNavController().navigate(
+                    NavGraphLaunch2Directions.actionToFragmentEducationSelectorDialog(
+                        sourceFrom = SourceFrom.Specify,
+                        clientInfo = clientInfo
+                    )
+                )
+            }
+        }
+
+        //篩選器頁返回
+        setFragmentResultListener(EducationSelectorDialogFragment.REQUEST_KEY_SELECTOR) { key, bundle ->
+            lifecycleScope.launch {
+                delay(500)
+                val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(EducationSelectorDialogFragment.KEY_SELECTOR_CLIENT)!!
+                val unitType: UnitType = bundle.getParcelable<UnitType>(EducationSelectorDialogFragment.KEY_SELECTOR_UNITTYPE)!!
+                val msg: String = bundle.getString(EducationSelectorDialogFragment.KEY_SELECTOR_MSG)!!
+                findNavController().navigate(
+                    NavGraphLaunch2Directions.actionToFragmentSetupAskRoomDialog(
+                        clientInfo = clientInfo,
+                        unitType = unitType,
+                        msg = msg
+                    )
+                )
+            }
         }
 
         binding.itemDrawerLayoutCoaching.rsEducationLevel.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
@@ -205,8 +248,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
             setDfSelection(education)
         }
 
-        binding.itemDrawerLayoutCoaching.btnCancel.clicksObserve(owner = viewLifecycleOwner)
-        {
+        binding.itemDrawerLayoutCoaching.btnCancel.clicksObserve(owner = viewLifecycleOwner) {
             binding.dlLayout.closeDrawer(GravityCompat.END)
         }
 
@@ -225,6 +267,5 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
             rsUnitType.setSelection(0)
         }
     }
-
 
 }

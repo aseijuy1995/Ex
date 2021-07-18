@@ -20,7 +20,7 @@ import tw.north27.coachingapp.adapter.bindChartReply
 import tw.north27.coachingapp.adapter.bindGender
 import tw.north27.coachingapp.databinding.FragmentTeacherDetailDialogBinding
 import tw.north27.coachingapp.model.ClientInfo
-import tw.north27.coachingapp.model.From
+import tw.north27.coachingapp.model.SourceFrom
 import tw.north27.coachingapp.model.response.UnitType
 import tw.north27.coachingapp.model.treeNodeHolder.EducationLevelHolder
 import tw.north27.coachingapp.model.treeNodeHolder.GradeHolder
@@ -39,28 +39,23 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
 
     private val viewModel by viewModel<TeacherDetailViewModel>()
 
-    private val from: From
-        get() = arguments?.getParcelable<From>("from")!!
+    private val sourceFrom: SourceFrom
+        get() = arguments?.getParcelable<SourceFrom>("sourceFrom")!!
 
     private val clientInfo: ClientInfo
         get() = arguments?.getParcelable<ClientInfo>("clientInfo")!!
 
-    private val unit: UnitType?
+    private val unitType: UnitType?
         get() = arguments?.getParcelable<UnitType>("unitType")
 
     companion object {
-        val REQUEST_KEY_EXIST = "REQUEST_KEY_EXIST"
+        val REQUEST_KEY_TEACHER = "REQUEST_KEY_TEACHER"
 
-        val KEY_TEACHER_CLIENT_EXIST = "KEY_TEACHER_CLIENT_EXIST"
-
-        val KEY_TEACHER_UNIT_EXIST = "KEY_TEACHER_UNIT_EXIST"
-
-        val KEY_TEACHER_MSG_EXIST = "KEY_TEACHER_MSG_EXIST"
+        val KEY_TEACHER_CLIENT = "KEY_TEACHER_CLIENT"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.apply {
             val bgUrl = clientInfo.bgUrl
             if (bgUrl.isNotEmpty()) ivBg.bindImg(url = clientInfo.bgUrl)
@@ -68,6 +63,8 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
             if (avatarUrl.isNotEmpty()) ivAvatar.bindImg(url = clientInfo.avatarUrl, placeRes = R.drawable.ic_baseline_account_box_24_gray, roundingRadius = 120)
             tvGender.bindGender(clientInfo)
             tvName.text = clientInfo.name
+            tvIntroTitle.text = String.format("%s%s", getString(R.string.about), clientInfo.name)
+            tvIntro.text = clientInfo.intro
             setField()
             binding.run {
                 pcCommentScore.bindChartComment(
@@ -87,8 +84,6 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
                     isLegend = false
                 )
             }
-            tvIntroTitle.text = String.format("%s%s：", getString(R.string.about), clientInfo.name)
-            tvIntro.text = clientInfo.intro
         }
 
         viewModel.askRoomResponseState.observe(viewLifecycleOwner) {
@@ -100,11 +95,9 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
                     when (askRoomResponse.isExist) {
                         true -> {
                             setFragmentResult(
-                                REQUEST_KEY_EXIST,
+                                REQUEST_KEY_TEACHER,
                                 bundleOf(
-                                    KEY_TEACHER_CLIENT_EXIST to clientInfo,
-                                    KEY_TEACHER_UNIT_EXIST to unit!!,
-                                    KEY_TEACHER_MSG_EXIST to askRoomResponse.msg
+                                    KEY_TEACHER_CLIENT to it.data
                                 )
                             )
                             findNavController().navigateUp()
@@ -123,13 +116,20 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
         }
 
         binding.btnEnter.clicksObserve(owner = viewLifecycleOwner) {
-            when (from) {
-                From.Specify -> {
+            when (sourceFrom) {
+                SourceFrom.Specify -> {
+                    setFragmentResult(
+                        REQUEST_KEY_TEACHER,
+                        bundleOf(
+                            KEY_TEACHER_CLIENT to clientInfo,
+                        )
+                    )
+                    findNavController().navigateUp()
                 }
-                From.Pair -> {
+                SourceFrom.Pair -> {
                     viewModel.findAskRoom(
                         otherClientId = clientInfo.id,
-                        unitId = unit?.id!!
+                        unitId = unitType?.id!!
                     )
 //                    findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentAskRoom())
                 }
@@ -157,24 +157,18 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
         val treeNode = TreeNode.root()
         educationLevelList?.forEach { educationLevel ->
             val educationLevelTreeNode = TreeNode(educationLevel).setViewHolder(EducationLevelHolder(cxt))
-            //
             gradeList?.filter { educationLevel?.id == it?.educationLevelId }?.forEach { grade ->
                 val gradeTreeNode = TreeNode(grade).setViewHolder(GradeHolder(cxt))
-                //
                 subjectList?.filter { it?.gradeIdList?.any { it == grade?.id } ?: false }?.forEach { subject ->
                     val subjectTreeNode = TreeNode(subject).setViewHolder(SubjectHolder(cxt))
-                    //
                     unitList?.filter { educationLevel?.id == it.educationLevelId && grade?.id == it.gradeId && subject?.id == it.subjectId }?.forEach { unit ->
                         val unitTreeNode = TreeNode(unit).setViewHolder(UnitHolder(cxt))
                         subjectTreeNode.addChild(unitTreeNode)
                     }
-                    //
                     gradeTreeNode.addChild(subjectTreeNode)
                 }
-                //
                 educationLevelTreeNode.addChild(gradeTreeNode)
             }
-            //
             treeNode.addChild(educationLevelTreeNode)
         }
         val androidTreeView = AndroidTreeView(cxt, treeNode)

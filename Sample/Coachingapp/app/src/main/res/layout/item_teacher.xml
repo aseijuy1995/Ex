@@ -50,17 +50,43 @@
                     app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
                     app:layout_constraintStart_toStartOf="@id/iv_avatar" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_subject"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_field"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="3dp"
                     android:layout_marginEnd="5dp"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_marginBottom="3dp"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/ll_start"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/iv_avatar" />
+                    app:layout_constraintTop_toBottomOf="@id/iv_avatar">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_field"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/field"
+                        android:textColor="@color/black"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toTopOf="@id/rv_subject"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/iv_avatar" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_subject"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/ll_start"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_field" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_start"
@@ -73,20 +99,20 @@
                     app:layout_constraintTop_toBottomOf="@id/iv_avatar">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/iv_start"
+                        android:id="@+id/iv_star"
                         android:layout_width="15dp"
                         android:layout_height="15dp"
                         android:src="@drawable/ic_twotone_star_24_yellow" />
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/tv_start"
+                        android:id="@+id/tv_star"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="2dp"
                         android:layout_marginEnd="10dp"
                         android:text="@{String.valueOf(clientInfo.teacherInfo.commentScoreAvg)}"
-                        android:textColor="@color/black"
+                        android:textColor="@color/gray_666666"
                         android:textSize="10sp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
@@ -115,7 +141,7 @@
                         android:layout_marginStart="2dp"
                         android:layout_marginEnd="10dp"
                         android:text="@{String.valueOf(clientInfo.teacherInfo.replyRate)}"
-                        android:textColor="@color/black"
+                        android:textColor="@color/gray_666666"
                         android:textSize="10sp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>

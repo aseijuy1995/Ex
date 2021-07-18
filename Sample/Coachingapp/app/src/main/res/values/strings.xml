@@ -25,12 +25,13 @@
     <string name="update_title">更新提醒</string>
     <string name="update_size">新版本大小</string>
     <string name="update_content">準備更新．．．</string>
-
     <!--  SignInFragment  -->
     <string name="enter_account_password">請輸入帳號、密碼</string>
     <string name="enter_account">請輸入帳號</string>
     <string name="enter_password">請輸入密碼</string>
     <string name="sign_in">登入</string>
+    <!--    -->
+    <!--    -->
     <!--    -->
     <!--    -->
     <!--    -->
@@ -40,6 +41,19 @@
     <string name="study">閱讀</string>
     <string name="notice">通知</string>
     <string name="personal">個人</string>
+    <!--  TeacherDetailDialogFragment  -->
+    <string name="about">關於</string>
+    <string name="field">領域</string>
+    <string name="appraisal">評比</string>
+    <string name="score">評分</string>
+    <string name="reply_rate">回覆率</string>
+    <string name="ready_to_ask">準備提問</string>
+    <!--    -->
+    <!--    -->
+    <!--    -->
+    <!--    -->
+    <!--    -->
+    <!--    -->
     <!--    -->
     <!--    -->
     <!--    -->
@@ -76,7 +90,6 @@
     <string name="msg_remind">訊息提醒</string>
     <string name="share">分享</string>
     <string name="promotion_link">推廣連結</string>
-    <string name="about">關於</string>
     <string name="about_coaching">關於 Coaching</string>
     <string name="common_problem">常見問題</string>
     <string name="privacy_policy">隱私政策</string>
@@ -103,7 +116,7 @@
     <string name="filter_teacher">篩選老師</string>
     <string name="clear">清空</string>
     <string name="cancel">取消</string>
-    <string name="education">教育</string>
+    <string name="education_level">教育程度</string>
     <string name="subject">科目</string>
     <string name="unit">單元</string>
     <string name="north27">© 北緯二十七度科技有限公司</string>
@@ -132,11 +145,6 @@
     <string name="pair">配對</string>
     <string name="ask_desc">提問時必須指定單元/類型才可開始發問</string>
     <string name="not_find_teacher">當前未有可以提問的老師</string>
-    <!--  TeacherDetailDialogFragment  -->
-    <string name="field">領域</string>
-    <string name="score">評分</string>
-    <string name="reply_rate">回覆率</string>
-    <string name="ready_to_ask">準備提問</string>
     <!--  AskRoomExistDialogFragment  -->
     <string name="define">確定</string>
 
