@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.yujie.core_lib.base.BaseAndroidViewModel
 import com.yujie.core_lib.ext.asLiveData
 import com.yujie.core_lib.http.Results
-import com.yujie.core_lib.pref.getAccount
+import com.yujie.core_lib.pref.getId
 import com.yujie.core_lib.pref.userPref
 import com.yujie.core_lib.util.ViewState
 import kotlinx.coroutines.Dispatchers
@@ -14,11 +14,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.request.TeacherRequest
-import tw.north27.coachingapp.repository.IActionRepository
+import tw.north27.coachingapp.repository.IClientRepository
 
 class CoachingViewModel(
     application: Application,
-    private val actionRepo: IActionRepository
+    private val clientRepo: IClientRepository
 ) : BaseAndroidViewModel(application) {
 
     private val _teacherListState = MutableLiveData<ViewState<List<ClientInfo>>>(ViewState.initial())
@@ -26,22 +26,22 @@ class CoachingViewModel(
     val teacherListState = _teacherListState.asLiveData()
 
     fun fetchTeacherList(
-        educationId: Long? = null,
+        educationLevelId: Long? = null,
         gradeId: Long? = null,
         subjectId: Long? = null,
-        unitId: Long? = null,
+        unitTypeId: Long? = null,
         index: Int,
         num: Int
     ) = viewModelScope.launch(Dispatchers.IO) {
         _teacherListState.postValue(ViewState.load())
-        val account = cxt.userPref.getAccount().first()
-        val results = actionRepo.fetchTeacherList(
+        val clientId = cxt.userPref.getId().first()
+        val results = clientRepo.fetchTeacherList(
             TeacherRequest(
-                clientId = account,
-                educationLevelId = educationId,
-                gradeId = gradeId,
-                subjectId = subjectId,
-                unitId = unitId,
+                clientId = clientId,
+                educationLevelId = if (educationLevelId != -1L) educationLevelId else null,
+                gradeId = if (gradeId != -1L) gradeId else null,
+                subjectId = if (subjectId != -1L) subjectId else null,
+                unitTypeId = if (unitTypeId != -1L) unitTypeId else null,
                 index = index,
                 num = num
             )

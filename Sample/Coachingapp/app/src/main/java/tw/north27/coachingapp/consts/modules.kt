@@ -83,6 +83,7 @@ val moduleModules = module {
 }
 
 val repoModules = module {
+    single<IClientRepository> { ClientRepository(get()) }
     single<IPublicRepository> { PublicRepository(get()) }
     single<IUserRepository> { UserRepository(get()) }
     single<IActionRepository> { ActionRepository(get()) }

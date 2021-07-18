@@ -40,7 +40,7 @@ class PersonalCommentFragment : BaseFragment<FragmentPersonalCommentBinding>(R.l
 
     private val subjectAdapter = SubjectAdapter()
 
-    private val unitAdapter = UnitAdapter()
+    private val unitAdapter = UnitTypeAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

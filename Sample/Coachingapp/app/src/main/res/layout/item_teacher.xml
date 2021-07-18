@@ -45,7 +45,7 @@
                     android:layout_margin="5dp"
                     android:text="@{clientInfo.name}"
                     android:textColor="@color/white"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@id/iv_avatar"
                     app:layout_constraintStart_toStartOf="@id/iv_avatar" />
@@ -58,34 +58,72 @@
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/iv_start"
+                    app:layout_constraintEnd_toStartOf="@id/ll_start"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/iv_avatar" />
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iv_start"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_start"
-                    app:layout_constraintEnd_toStartOf="@id/tv_start"
-                    app:layout_constraintTop_toTopOf="@id/tv_start"
-                    app:srcCompat="@drawable/ic_baseline_star_24_yellow" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tv_start"
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:text="@{String.valueOf(clientInfo.teacherInfo.commentScoreAvg)}"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toTopOf="@id/ll_reply"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/iv_avatar">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_start"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:src="@drawable/ic_twotone_star_24_yellow" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_start"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="@{String.valueOf(clientInfo.teacherInfo.commentScoreAvg)}"
+                        android:textColor="@color/black"
+                        android:textSize="10sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_reply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/iv_avatar" />
+                    app:layout_constraintTop_toBottomOf="@id/ll_start">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_reply"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        app:srcCompat="@drawable/ic_twotone_reply_all_24_orange" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_reply"
+                        android:layout_width="32dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="@{String.valueOf(clientInfo.teacherInfo.replyRate)}"
+                        android:textColor="@color/black"
+                        android:textSize="10sp" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

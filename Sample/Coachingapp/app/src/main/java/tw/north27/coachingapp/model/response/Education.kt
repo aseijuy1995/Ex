@@ -47,12 +47,14 @@ data class Grade(
  * 科目
  * @param id >> 科目id
  * @param name >> 科目名稱
+ * @param educationLevelIdList >> 教育程度id列表
  * @param gradeIdList >> 年級id列表
  * */
 @Parcelize
 data class Subject(
     @SerializedName("id") val id: Long,
     @SerializedName("name") val name: String,
+    @SerializedName("education_level_id_list") val educationLevelIdList: List<Long>,
     @SerializedName("grade_id_list") val gradeIdList: List<Long>,
 ) : Parcelable
 

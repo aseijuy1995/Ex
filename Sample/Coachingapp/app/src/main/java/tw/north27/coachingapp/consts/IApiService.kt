@@ -53,8 +53,9 @@ interface IApiService {
     @GET
     suspend fun fetchEducation(): Education
 
+    //CoachingFragment
     /**
-     * 取得老師列表
+     * 獲取老師列表
      * @param teacherRequest >> TeacherRequest::class.java
      * */
     @POST

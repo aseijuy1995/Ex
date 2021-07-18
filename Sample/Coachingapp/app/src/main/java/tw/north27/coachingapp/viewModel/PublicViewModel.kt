@@ -125,7 +125,7 @@ class PublicViewModel(
 
     val defaultGradle = Grade(id = -1, name = cxt.getString(R.string.df), educationLevelId = -1)
 
-    val defaultSubject = Subject(id = -1, name = cxt.getString(R.string.df), gradeIdList = emptyList())
+    val defaultSubject = Subject(id = -1, name = cxt.getString(R.string.df), educationLevelIdList = emptyList(), gradeIdList = emptyList())
 
     val defaultUnit = UnitType(id = -1, name = cxt.getString(R.string.df), educationLevelId = -1, gradeId = -1, subjectId = -1)
 

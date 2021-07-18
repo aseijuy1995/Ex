@@ -104,17 +104,6 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
         }
 
         publicVM.apply {
-//            educationState.observe(this@Launch2Activity) {
-//                when (it) {
-//                    is ViewState.Data -> {
-//                        val educationData = it.data
-//                        publicVM.setEducationLevelList(educationData.educationLevelList)
-//                        publicVM.setGradeList(educationData.gradeList)
-//                        publicVM.setSubjectList(educationData.subjectList)
-//                        publicVM.setUnitList(educationData.unitTypeList)
-//                    }
-//                }
-//            }
             aboutDataState.observe(this@Launch2Activity) {
                 when (it) {
                     is ViewState.Data -> {

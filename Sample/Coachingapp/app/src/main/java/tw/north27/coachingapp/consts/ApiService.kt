@@ -107,7 +107,7 @@ class ApiService(val cxt: Context) : IApiService {
         val educationLevelId = teacherRequest.educationLevelId
         val gradeId = teacherRequest.gradeId
         val subjectId = teacherRequest.subjectId
-        val unitId = teacherRequest.unitId
+        val unitId = teacherRequest.unitTypeId
         val index = teacherRequest.index
         val num = teacherRequest.num
         var list =

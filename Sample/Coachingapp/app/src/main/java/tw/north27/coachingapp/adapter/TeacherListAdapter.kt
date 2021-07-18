@@ -16,6 +16,7 @@ import tw.north27.coachingapp.model.response.UnitType
 
 
 class TeacherListAdapter(private val act: AppCompatActivity) : ListAdapter<ClientInfo, TeacherListAdapter.VH>(object : DiffUtil.ItemCallback<ClientInfo>() {
+
     override fun areItemsTheSame(oldItem: ClientInfo, newItem: ClientInfo): Boolean {
         return oldItem.id == newItem.id
     }
@@ -38,7 +39,7 @@ class TeacherListAdapter(private val act: AppCompatActivity) : ListAdapter<Clien
     inner class VH(val binding: ItemTeacherBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(clientInfo: ClientInfo) = binding.apply {
             this.clientInfo = clientInfo
-            ivAvatar.bindImg(url = clientInfo.avatarUrl)
+            ivAvatar.bindImg(url = clientInfo.avatarUrl, roundingRadius = 10)
             val subjectIdList = clientInfo.teacherInfo?.unitTypeList?.map(UnitType::subjectId)?.toSet()?.toList()
             if (subjectIdList != null && subjectIdList.isNotEmpty()) (rvSubject.adapter as SubjectLabelListAdapter).submitData(subjectIdList)
             itemView.setOnClickListener { itemClickRelay.accept(it to clientInfo) }
@@ -53,8 +54,8 @@ class TeacherListAdapter(private val act: AppCompatActivity) : ListAdapter<Clien
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        val userInfo = getItem(position)
-        holder.bind(userInfo)
+        val clientInfo = getItem(position)
+        holder.bind(clientInfo)
     }
 
 }

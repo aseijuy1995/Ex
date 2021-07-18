@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.response.UnitType
 
-class UnitAdapter : BaseAdapter() {
+class UnitTypeAdapter : BaseAdapter() {
     private var unitTypeList: List<UnitType>? = null
 
     fun submitData(unitTypeList: List<UnitType>) {

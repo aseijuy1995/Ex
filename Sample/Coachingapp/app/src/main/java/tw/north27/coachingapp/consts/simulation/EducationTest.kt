@@ -16,11 +16,11 @@ val gradeList_Test = listOf<Grade>(
     Grade(id = 3, name = "七年級", educationLevelId = 2)
 )
 val subjectList_Test = listOf<Subject>(
-    Subject(id = 1, name = "國語", gradeIdList = listOf(1, 2)),
-    Subject(id = 2, name = "數學", gradeIdList = listOf(1, 2, 3)),
-    Subject(id = 3, name = "生活", gradeIdList = listOf(1)),
-    Subject(id = 4, name = "國文", gradeIdList = listOf(3)),
-    Subject(id = 5, name = "英文", gradeIdList = listOf(3)),
+    Subject(id = 1, name = "國語", educationLevelIdList = listOf(1), gradeIdList = listOf(1, 2)),
+    Subject(id = 2, name = "數學", educationLevelIdList = listOf(1, 2), gradeIdList = listOf(1, 2, 3)),
+    Subject(id = 3, name = "生活", educationLevelIdList = listOf(1), gradeIdList = listOf(1)),
+    Subject(id = 4, name = "國文", educationLevelIdList = listOf(2), gradeIdList = listOf(3)),
+    Subject(id = 5, name = "英文", educationLevelIdList = listOf(2), gradeIdList = listOf(3)),
 )
 val unitList_Test = listOf<UnitType>(
     //國語

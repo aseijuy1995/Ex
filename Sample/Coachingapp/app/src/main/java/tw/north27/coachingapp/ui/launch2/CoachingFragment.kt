@@ -11,29 +11,30 @@ import com.yujie.core_lib.ext.clicksObserve
 import com.yujie.core_lib.ext.observe
 import com.yujie.core_lib.ext.visible
 import com.yujie.core_lib.util.ViewState
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphLaunch2Directions
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
 import tw.north27.coachingapp.databinding.FragmentCoachingBinding
 import tw.north27.coachingapp.model.From
-import tw.north27.coachingapp.model.response.EducationLevel
-import tw.north27.coachingapp.model.response.Grade
-import tw.north27.coachingapp.model.response.Subject
-import tw.north27.coachingapp.model.response.UnitType
+import tw.north27.coachingapp.model.response.*
 import tw.north27.coachingapp.viewModel.CoachingViewModel
+import tw.north27.coachingapp.viewModel.PublicViewModel
 
 class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment_coaching) {
 
     override val viewBind: (View) -> FragmentCoachingBinding
         get() = FragmentCoachingBinding::bind
 
+    private val publicVM by sharedViewModel<PublicViewModel>()
+
+    private val viewModel by viewModel<CoachingViewModel>()
+
     private val launch2Act: Launch2Activity
         get() = act as Launch2Activity
 
     private lateinit var adapter: TeacherListAdapter
-
-    private val viewModel by viewModel<CoachingViewModel>()
 
     private val educationLevelAdapter = EducationLevelAdapter()
 
@@ -41,7 +42,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
 
     private val subjectAdapter = SubjectAdapter()
 
-    private val unitAdapter = UnitAdapter()
+    private val unitTypeAdapter = UnitTypeAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -58,7 +59,17 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
                 rsEducationLevel.adapter = educationLevelAdapter
                 rsGrade.adapter = gradeAdapter
                 rsSubject.adapter = subjectAdapter
-                rsUnitType.adapter = unitAdapter
+                rsUnitType.adapter = unitTypeAdapter
+            }
+        }
+
+        publicVM.educationState.observe(viewLifecycleOwner) {
+            when (it) {
+                is ViewState.Data -> {
+                    val education = it.data
+                    setDfSelection(education)
+                    binding.srlLayout.autoRefresh()
+                }
             }
         }
 
@@ -77,42 +88,18 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
             }
         }
 
-        launch2Act.publicVM.educationLevelList.observe(viewLifecycleOwner) {
-            educationLevelAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultEducation).apply { addAll(it) })
-            binding.itemDrawerLayoutCoaching.rsEducationLevel.setSelection(0)
-        }
-
-        launch2Act.publicVM.gradeList.observe(viewLifecycleOwner) {
-            gradeAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultGradle).apply { addAll(it) })
-            binding.itemDrawerLayoutCoaching.rsGrade.setSelection(0)
-        }
-
-        launch2Act.publicVM.subjectList.observe(viewLifecycleOwner) {
-            subjectAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultSubject).apply { addAll(it) })
-            binding.itemDrawerLayoutCoaching.rsSubject.setSelection(0)
-        }
-
-        launch2Act.publicVM.unitList.observe(viewLifecycleOwner) {
-            unitAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultUnit).apply { addAll(it) })
-            binding.itemDrawerLayoutCoaching.rsUnitType.setSelection(0)
-        }
-
-        binding.itemToolbarNormal.ivFilter.clicksObserve(owner = viewLifecycleOwner) {
-            binding.dlLayout.openDrawer(GravityCompat.END)
-        }
-
         binding.srlLayout.setOnRefreshListener {
-            val educationId = (binding.itemDrawerLayoutCoaching.rsEducationLevel.selectedItem as EducationLevel).id
+            val educationLevelId = (binding.itemDrawerLayoutCoaching.rsEducationLevel.selectedItem as EducationLevel).id
             val gradeId = (binding.itemDrawerLayoutCoaching.rsGrade.selectedItem as Grade).id
             val subjectId = (binding.itemDrawerLayoutCoaching.rsSubject.selectedItem as Subject).id
-            val unitId = (binding.itemDrawerLayoutCoaching.rsUnitType.selectedItem as UnitType).id
+            val unitTypeId = (binding.itemDrawerLayoutCoaching.rsUnitType.selectedItem as UnitType).id
             viewModel.fetchTeacherList(
-                educationId = if (educationId != -1L) educationId else null,
-                gradeId = if (gradeId != -1L) gradeId else null,
-                subjectId = if (subjectId != -1L) subjectId else null,
-                unitId = if (unitId != -1L) unitId else null,
+                educationLevelId = educationLevelId,
+                gradeId = gradeId,
+                subjectId = subjectId,
+                unitTypeId = unitTypeId,
                 index = 0,
-                num = 20
+                num = 100
             )
         }
 
@@ -123,16 +110,18 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
 
         binding.itemDrawerLayoutCoaching.rsEducationLevel.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val education = (publicVM.educationState.value as ViewState.Data).data
                 gradeAdapter.submitData(
-                    mutableListOf(launch2Act.publicVM.defaultGradle).apply {
+                    mutableListOf(publicVM.defaultGradle).apply {
                         addAll(
                             if (id == -1L)
-                                launch2Act.publicVM.gradeList.value ?: emptyList()
+                                education.gradeList
                             else
-                                launch2Act.publicVM.gradeList.value?.filter { it.educationLevelId == id } ?: emptyList()
+                                education.gradeList.filter { it.educationLevelId == id }
                         )
                     }
                 )
+                binding.itemDrawerLayoutCoaching.rsGrade.setSelection(0)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -141,6 +130,25 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
 
         binding.itemDrawerLayoutCoaching.rsGrade.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val education = (publicVM.educationState.value as ViewState.Data).data
+                val educationLevelId = binding.itemDrawerLayoutCoaching.rsEducationLevel.selectedItemId
+                subjectAdapter.submitData(
+                    mutableListOf(publicVM.defaultSubject).apply {
+                        addAll(
+                            education.subjectList.filter {
+                                if (educationLevelId == -1L && id == -1L)
+                                    true
+                                else if (educationLevelId == -1L)
+                                    it.gradeIdList.any { it == id }
+                                else if (id == -1L)
+                                    it.educationLevelIdList.any { it == educationLevelId }
+                                else
+                                    it.educationLevelIdList.any { it == educationLevelId } && it.gradeIdList.any { it == id }
+                            }
+                        )
+                    }
+                )
+                binding.itemDrawerLayoutCoaching.rsSubject.setSelection(0)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -149,28 +157,42 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
 
         binding.itemDrawerLayoutCoaching.rsSubject.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                unitAdapter.submitData(
-                    mutableListOf(launch2Act.publicVM.defaultUnit).apply {
+                val education = (publicVM.educationState.value as ViewState.Data).data
+                val educationLevelId = binding.itemDrawerLayoutCoaching.rsEducationLevel.selectedItemId
+                val gradeId = binding.itemDrawerLayoutCoaching.rsGrade.selectedItemId
+                unitTypeAdapter.submitData(
+                    mutableListOf(publicVM.defaultUnit).apply {
                         addAll(
-                            if (id == -1L)
-                                launch2Act.publicVM.unitList.value ?: emptyList()
-                            else
-                                launch2Act.publicVM.unitList.value?.filter { it.subjectId == id } ?: emptyList()
+                            education.unitTypeList.filter {
+                                if (educationLevelId == -1L && gradeId == -1L && id == -1L)
+                                    true
+                                else if (educationLevelId == -1L && gradeId == -1L)
+                                    it.subjectId == id
+                                else if (educationLevelId == -1L && id == -1L)
+                                    it.gradeId == gradeId
+                                else if (gradeId == -1L && id == -1L)
+                                    it.educationLevelId == educationLevelId
+                                else if (educationLevelId == -1L)
+                                    it.gradeId == gradeId && it.subjectId == id
+                                else if (gradeId == -1L)
+                                    it.educationLevelId == educationLevelId && it.subjectId == id
+                                else if (id == -1L)
+                                    it.educationLevelId == educationLevelId && it.gradeId == gradeId
+                                else
+                                    it.educationLevelId == educationLevelId && it.gradeId == gradeId && it.subjectId == id
+                            }
                         )
                     }
                 )
+                binding.itemDrawerLayoutCoaching.rsUnitType.setSelection(0)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
         }
 
-        binding.itemDrawerLayoutCoaching.rsUnitType.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+        binding.itemToolbarNormal.ivFilter.clicksObserve(owner = viewLifecycleOwner) {
+            binding.dlLayout.openDrawer(GravityCompat.END)
         }
 
         binding.itemDrawerLayoutCoaching.btnFilter.clicksObserve(owner = viewLifecycleOwner) {
@@ -179,27 +201,29 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
         }
 
         binding.itemDrawerLayoutCoaching.btnClear.clicksObserve(owner = viewLifecycleOwner) {
-            setDfSelection()
+            val education = (publicVM.educationState.value as ViewState.Data).data
+            setDfSelection(education)
         }
 
-        binding.itemDrawerLayoutCoaching.btnCancel.clicksObserve(owner = viewLifecycleOwner) {
+        binding.itemDrawerLayoutCoaching.btnCancel.clicksObserve(owner = viewLifecycleOwner)
+        {
             binding.dlLayout.closeDrawer(GravityCompat.END)
         }
 
-        setDfSelection()
-        binding.srlLayout.autoRefresh()
     }
 
     //確認初始數據
-    private fun setDfSelection() {
-        educationLevelAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultEducation).apply { launch2Act.publicVM.educationLevelList.value?.let { addAll(it) } })
-        gradeAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultGradle).apply { launch2Act.publicVM.gradeList.value?.let { addAll(it) } })
-        subjectAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultSubject).apply { launch2Act.publicVM.subjectList.value?.let { addAll(it) } })
-        unitAdapter.submitData(mutableListOf(launch2Act.publicVM.defaultUnit).apply { launch2Act.publicVM.unitList.value?.let { addAll(it) } })
-        binding.itemDrawerLayoutCoaching.rsEducationLevel.setSelection(0)
-        binding.itemDrawerLayoutCoaching.rsGrade.setSelection(0)
-        binding.itemDrawerLayoutCoaching.rsSubject.setSelection(0)
-        binding.itemDrawerLayoutCoaching.rsUnitType.setSelection(0)
+    private fun setDfSelection(education: Education) {
+        educationLevelAdapter.submitData(mutableListOf(publicVM.defaultEducation).apply { addAll(education.educationLevelList) })
+        gradeAdapter.submitData(mutableListOf(publicVM.defaultGradle).apply { addAll(education.gradeList) })
+        subjectAdapter.submitData(mutableListOf(publicVM.defaultSubject).apply { addAll(education.subjectList) })
+        unitTypeAdapter.submitData(mutableListOf(publicVM.defaultUnit).apply { addAll(education.unitTypeList) })
+        binding.itemDrawerLayoutCoaching.apply {
+            rsEducationLevel.setSelection(0)
+            rsGrade.setSelection(0)
+            rsSubject.setSelection(0)
+            rsUnitType.setSelection(0)
+        }
     }
 
 

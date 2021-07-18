@@ -13,8 +13,6 @@ import tw.north27.coachingapp.model.response.SoundResponse
 
 interface IActionRepository {
 
-    suspend fun fetchTeacherList(teacherRequest: TeacherRequest): Results<List<ClientInfo>>
-
     //
     suspend fun fetchAskRoomList(askRoomRequest: AskRoomRequest): Results<List<AskRoom>>
 

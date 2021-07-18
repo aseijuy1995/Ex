@@ -15,9 +15,6 @@ import tw.north27.coachingapp.model.response.SoundResponse
 
 class ActionRepository(private val service: IApiService) : IActionRepository {
 
-    override suspend fun fetchTeacherList(teacherRequest: TeacherRequest): Results<List<ClientInfo>> =
-        safeApiResults { service.fetchTeacherList(teacherRequest = teacherRequest) }
-
     override suspend fun fetchAskRoomList(askRoomRequest: AskRoomRequest): Results<List<AskRoom>> =
         safeApiResults { service.fetchAskRoomList(askRoomRequest = askRoomRequest) }
 

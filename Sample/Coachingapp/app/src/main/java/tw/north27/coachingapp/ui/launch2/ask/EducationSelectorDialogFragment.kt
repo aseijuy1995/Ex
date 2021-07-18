@@ -16,7 +16,7 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.EducationLevelAdapter
 import tw.north27.coachingapp.adapter.GradeAdapter
 import tw.north27.coachingapp.adapter.SubjectAdapter
-import tw.north27.coachingapp.adapter.UnitAdapter
+import tw.north27.coachingapp.adapter.UnitTypeAdapter
 import tw.north27.coachingapp.databinding.FragmentEducationSelectorDialogBinding
 import tw.north27.coachingapp.model.response.Education
 import tw.north27.coachingapp.model.response.UnitType
@@ -39,7 +39,7 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
 
     private val subjectAdapter = SubjectAdapter()
 
-    private val unitAdapter = UnitAdapter()
+    private val unitAdapter = UnitTypeAdapter()
 
     companion object {
         val REQUEST_KEY_PAIR = "REQUEST_KEY_PAIR"
