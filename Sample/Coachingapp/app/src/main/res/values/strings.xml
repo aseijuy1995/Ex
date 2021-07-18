@@ -48,6 +48,13 @@
     <string name="score">評分</string>
     <string name="reply_rate">回覆率</string>
     <string name="ready_to_ask">準備提問</string>
+    <!--  EducationSelectorDialogFragment  -->
+    <string name="unit_type">單元/類型</string>
+    <string name="pair">配對</string>
+    <string name="ask_desc">提問時必須指定單元/類型才可開始發問</string>
+    <string name="not_find_teacher">當前未有可以提問的老師</string>
+    <!--  AskRoomExistDialogFragment  -->
+    <string name="define">確定</string>
     <!--    -->
     <!--    -->
     <!--    -->
@@ -140,13 +147,6 @@
     <string name="sent_img">傳送了圖片</string>
     <string name="sent_audio">傳送了音訊</string>
     <string name="sent_video">傳送了影片</string>
-    <!--  EducationSelectorDialogFragment  -->
-    <string name="unit_type">單元/類型</string>
-    <string name="pair">配對</string>
-    <string name="ask_desc">提問時必須指定單元/類型才可開始發問</string>
-    <string name="not_find_teacher">當前未有可以提問的老師</string>
-    <!--  AskRoomExistDialogFragment  -->
-    <string name="define">確定</string>
 
     <!-- AskRoomFragment -->
     <string name="not_find_ask_room">找不到提問室</string>

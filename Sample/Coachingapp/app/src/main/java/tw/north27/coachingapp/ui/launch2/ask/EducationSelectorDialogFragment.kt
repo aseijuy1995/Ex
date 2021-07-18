@@ -132,11 +132,13 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
                     Toast.makeText(cxt, getString(R.string.not_find_teacher), Toast.LENGTH_SHORT).show()
                 }
                 is ViewState.Data -> {
+                    val clientInfo = it.data
+                    val unitType = (binding.rsUnitType.selectedItem as UnitType)
                     setFragmentResult(
                         REQUEST_KEY_SELECTOR,
                         bundleOf(
-                            KEY_SELECTOR_CLIENT to it.data,
-                            KEY_SELECTOR_UNITTYPE to (binding.rsUnitType.selectedItem as UnitType)
+                            KEY_SELECTOR_CLIENT to clientInfo,
+                            KEY_SELECTOR_UNITTYPE to unitType
                         )
                     )
                     findNavController().navigateUp()

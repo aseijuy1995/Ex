@@ -52,6 +52,10 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
         val REQUEST_KEY_TEACHER = "REQUEST_KEY_TEACHER"
 
         val KEY_TEACHER_CLIENT = "KEY_TEACHER_CLIENT"
+
+        val KEY_TEACHER_UNITTYPE = "KEY_TEACHER_UNITTYPE"
+
+        val KEY_TEACHER_MSG = "KEY_TEACHER_MSG"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,7 +90,7 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
             }
         }
 
-        viewModel.askRoomResponseState.observe(viewLifecycleOwner) {
+        viewModel.findAskRoomState.observe(viewLifecycleOwner) {
             if (it is ViewState.Load) LoadingDialogFragment.show(parentFragmentManager)
             if (it !is ViewState.Initial && it !is ViewState.Load) LoadingDialogFragment.dismiss()
             when (it) {
@@ -97,7 +101,9 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
                             setFragmentResult(
                                 REQUEST_KEY_TEACHER,
                                 bundleOf(
-                                    KEY_TEACHER_CLIENT to it.data
+                                    KEY_TEACHER_CLIENT to clientInfo,
+                                    KEY_TEACHER_UNITTYPE to unitType!!,
+                                    KEY_TEACHER_MSG to askRoomResponse.msg
                                 )
                             )
                             findNavController().navigateUp()
@@ -131,7 +137,6 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
                         otherClientId = clientInfo.id,
                         unitId = unitType?.id!!
                     )
-//                    findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentAskRoom())
                 }
             }
         }

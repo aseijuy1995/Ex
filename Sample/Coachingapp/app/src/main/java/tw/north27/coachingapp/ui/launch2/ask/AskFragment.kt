@@ -35,6 +35,7 @@ import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.SourceFrom
 import tw.north27.coachingapp.model.response.UnitType
 import tw.north27.coachingapp.ui.LoadingDialogFragment
+import tw.north27.coachingapp.ui.launch2.TeacherDetailDialogFragment
 import tw.north27.coachingapp.viewModel.AskViewModel
 import tw.north27.coachingapp.viewModel.PublicViewModel
 import java.util.*
@@ -59,14 +60,14 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
                 ivBack.isVisible = false
                 tvTitle.text = getString(R.string.ask_title)
             }
-            rvAsk.apply {
+            rvView.apply {
                 addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
                     setDrawable(ContextCompat.getDrawable(cxt, R.drawable.shape_size_height_2_solid_gray) ?: return)
                 })
                 adapter = this@AskFragment.adapter
             }
             lifecycleScope.launch {
-                efabPair.isVisible = (cxt.userPref.getAuth().first() == UserPref.Authority.STUDENT)
+                efabBtnPair.isVisible = (cxt.userPref.getAuth().first() == UserPref.Authority.STUDENT)
             }
         }
 
@@ -89,17 +90,17 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             if (viewModel.isRefreshView.value!!) {
                 binding.itemAskLoad.root.visible = (it is ViewState.Load)
                 binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
-                binding.rvAsk.isVisible = (it is ViewState.Data)
+                binding.rvView.isVisible = (it is ViewState.Data)
                 binding.itemError.root.isVisible = (it is ViewState.Error)
                 binding.itemNetwork.root.isVisible = (it is ViewState.Network)
             } else {
                 binding.itemAskLoad.root.visible = false
                 binding.itemEmpty.root.isVisible = (it is ViewState.Empty) or (viewModel.lastAskRoomListState.value is ViewState.Empty)
-                binding.rvAsk.isVisible = (it is ViewState.Data) or (viewModel.lastAskRoomListState.value is ViewState.Data)
+                binding.rvView.isVisible = (it is ViewState.Data) or (viewModel.lastAskRoomListState.value is ViewState.Data)
                 binding.itemError.root.isVisible = (it is ViewState.Error) or (viewModel.lastAskRoomListState.value is ViewState.Error)
                 binding.itemNetwork.root.isVisible = (it is ViewState.Network) or (viewModel.lastAskRoomListState.value is ViewState.Network)
             }
-            if (it !is ViewState.Initial && it !is ViewState.Load) binding.srlView.finishRefresh()
+            if (it !is ViewState.Initial && it !is ViewState.Load) binding.srlLayout.finishRefresh()
             when (it) {
                 is ViewState.Empty -> {
                     adapter.submitList(emptyList())
@@ -150,13 +151,13 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             }
         }
 
-        binding.srlView.setOnRefreshListener {
+        binding.srlLayout.setOnRefreshListener {
             viewModel.setRefreshView(true)
             val askId = adapter.getItemId(0)
             viewModel.fetchAskRoomList(askId = askId)
         }
 
-        binding.efabPair.clicksObserve(owner = viewLifecycleOwner) {
+        binding.efabBtnPair.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigate(
                 NavGraphLaunch2Directions.actionToFragmentEducationSelectorDialog(
                     sourceFrom = SourceFrom.Pair,
@@ -188,34 +189,39 @@ class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
             viewModel.fetchAskRoomList(askId = askId)
         }
 
-        //篩選器
+        //篩選器頁返回
         setFragmentResultListener(EducationSelectorDialogFragment.REQUEST_KEY_SELECTOR) { key, bundle ->
             lifecycleScope.launch {
                 delay(500)
                 val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(EducationSelectorDialogFragment.KEY_SELECTOR_CLIENT)!!
                 val unit: UnitType = bundle.getParcelable<UnitType>(EducationSelectorDialogFragment.KEY_SELECTOR_UNITTYPE)!!
-                findNavController().navigate(NavGraphLaunch2Directions.actionToFragmentTeacherDetailDialog(SourceFrom.Pair, clientInfo, unit))
+                findNavController().navigate(
+                    NavGraphLaunch2Directions.actionToFragmentTeacherDetailDialog(
+                        sourceFrom = SourceFrom.Pair,
+                        clientInfo = clientInfo,
+                        unitType = unit
+                    )
+                )
             }
         }
 
-        //提問是已存在
-        setFragmentResultListener(AskRoomFragment.REQUEST_KEY_SETUP) { key, bundle ->
+        //老師詳細頁返回
+        setFragmentResultListener(TeacherDetailDialogFragment.REQUEST_KEY_TEACHER) { key, bundle ->
             lifecycleScope.launch {
                 delay(500)
-                val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(AskRoomFragment.KEY_SETUP_CLIENT)!!
-                val unit: UnitType = bundle.getParcelable<UnitType>(AskRoomFragment.KEY_SETUP_UNITTYPE)!!
-                val msg: String = bundle.getString(AskRoomFragment.KEY_SETUP_MSG)!!
-
+                val clientInfo: ClientInfo = bundle.getParcelable<ClientInfo>(TeacherDetailDialogFragment.KEY_TEACHER_CLIENT)!!
+                val unitType: UnitType = bundle.getParcelable<UnitType>(TeacherDetailDialogFragment.KEY_TEACHER_UNITTYPE)!!
+                val msg: String = bundle.getString(TeacherDetailDialogFragment.KEY_TEACHER_MSG)!!
                 findNavController().navigate(
                     NavGraphLaunch2Directions.actionToFragmentSetupAskRoomDialog(
                         clientInfo = clientInfo,
-                        unitType = unit,
+                        unitType = unitType,
                         msg = msg
                     )
                 )
             }
         }
 
-        binding.srlView.autoRefresh()
+        binding.srlLayout.autoRefresh()
     }
 }

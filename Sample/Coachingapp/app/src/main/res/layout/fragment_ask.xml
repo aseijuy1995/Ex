@@ -11,7 +11,7 @@
         android:layout_height="40dp" />
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/srl_view"
+        android:id="@+id/srl_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="?attr/colorPrimary"
@@ -40,7 +40,7 @@
             android:background="@color/gray_eeeeee">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_ask"
+                android:id="@+id/rv_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -63,7 +63,7 @@
                 layout="@layout/fragment_ask_load" />
 
             <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-                android:id="@+id/efab_pair"
+                android:id="@+id/efab_btn_pair"
                 android:layout_width="100dp"
                 android:layout_height="35dp"
                 android:layout_gravity="bottom|center_horizontal"

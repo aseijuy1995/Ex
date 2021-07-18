@@ -51,14 +51,12 @@ class EducationSelectorViewModel(
         }
     }
 
+    private val _teacherPairState = MutableLiveData<ViewState<ClientInfo>>(ViewState.initial())
 
-    //
-    //
-
-    val teacherPairState = MutableLiveData<ViewState<ClientInfo>>(ViewState.initial())
+    val teacherPairState = _teacherPairState.asLiveData()
 
     fun fetchTeacherPair(unitId: Long) = viewModelScope.launch(Dispatchers.IO) {
-        teacherPairState.postValue(ViewState.load())
+        _teacherPairState.postValue(ViewState.load())
         val clientId = cxt.userPref.getId().first()
         val results = actionRepo.fetchTeacherPair(
             pairRequest = PairRequest(
@@ -70,20 +68,18 @@ class EducationSelectorViewModel(
             is Results.Successful -> {
                 val clientInfo = results.data
                 if (clientInfo == null)
-                    teacherPairState.postValue(ViewState.empty())
+                    _teacherPairState.postValue(ViewState.empty())
                 else {
-                    teacherPairState.postValue(ViewState.data(clientInfo))
+                    _teacherPairState.postValue(ViewState.data(clientInfo))
                 }
             }
             is Results.ClientErrors -> {
-                teacherPairState.postValue(ViewState.error(results.e))
+                _teacherPairState.postValue(ViewState.error(results.e))
             }
             is Results.NetWorkError -> {
-                teacherPairState.postValue(ViewState.network(results.e))
+                _teacherPairState.postValue(ViewState.network(results.e))
             }
         }
-
-
     }
 
 }

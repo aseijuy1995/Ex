@@ -21,12 +21,12 @@ class TeacherDetailViewModel(
     private val actionRepo: IActionRepository
 ) : BaseAndroidViewModel(application) {
 
-    private val _askRoomResponseState = MutableLiveData<ViewState<AskRoomResponse>>(ViewState.initial())
+    private val _findAskRoomState = MutableLiveData<ViewState<AskRoomResponse>>(ViewState.initial())
 
-    val askRoomResponseState = _askRoomResponseState.asLiveData()
+    val findAskRoomState = _findAskRoomState.asLiveData()
 
     fun findAskRoom(otherClientId: String, unitId: Long) = viewModelScope.launch(Dispatchers.IO) {
-        _askRoomResponseState.postValue(ViewState.load())
+        _findAskRoomState.postValue(ViewState.load())
         val clientId = cxt.userPref.getId().first()
         val results = actionRepo.findAskRoom(
             setupAskRoomRequest = SetupAskRoomRequest(
@@ -38,13 +38,13 @@ class TeacherDetailViewModel(
         when (results) {
             is Results.Successful<AskRoomResponse> -> {
                 val askRoomResponse = results.data
-                _askRoomResponseState.postValue(ViewState.data(askRoomResponse))
+                _findAskRoomState.postValue(ViewState.data(askRoomResponse))
             }
             is Results.ClientErrors -> {
-                _askRoomResponseState.postValue(ViewState.error(results.e))
+                _findAskRoomState.postValue(ViewState.error(results.e))
             }
             is Results.NetWorkError -> {
-                _askRoomResponseState.postValue(ViewState.network(results.e))
+                _findAskRoomState.postValue(ViewState.network(results.e))
             }
         }
     }
