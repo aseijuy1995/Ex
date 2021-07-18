@@ -51,7 +51,7 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
     private val clientInfo: ClientInfo?
         get() = arguments?.getParcelable<ClientInfo>("clientInfo")
 
-    companion object{
+    companion object {
         val REQUEST_KEY_SELECTOR = "REQUEST_KEY_SELECTOR"
 
         val KEY_SELECTOR_CLIENT = "KEY_SELECTOR_CLIENT"
@@ -80,18 +80,18 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
                     }
                 }
             }
-
             rsEducationLevel.adapter = educationLevelAdapter
             rsGrade.adapter = gradeAdapter
             rsSubject.adapter = subjectAdapter
             rsUnitType.adapter = unitTypeAdapter
         }
 
+
         publicVM.educationState.observe(viewLifecycleOwner) {
             when (it) {
                 is ViewState.Data -> {
-                    val educationData = it.data
-                    setDfSelection(educationData)
+                    val education = it.data
+                    setSelection(education)
                 }
             }
         }
@@ -146,7 +146,10 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
 
         binding.rsEducationLevel.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val education = (publicVM.educationState.value as ViewState.Data).data
+                val education = getEducation(
+                    education = (publicVM.educationState.value as ViewState.Data).data,
+                    unitTypeList = clientInfo?.teacherInfo?.unitTypeList
+                )
                 gradeAdapter.submitData(
                     mutableListOf(publicVM.defaultGradle).apply {
                         addAll(
@@ -166,7 +169,10 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
 
         binding.rsGrade.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val education = (publicVM.educationState.value as ViewState.Data).data
+                val education = getEducation(
+                    education = (publicVM.educationState.value as ViewState.Data).data,
+                    unitTypeList = clientInfo?.teacherInfo?.unitTypeList
+                )
                 val educationLevelId = binding.rsEducationLevel.selectedItemId
                 subjectAdapter.submitData(
                     mutableListOf(publicVM.defaultSubject).apply {
@@ -193,7 +199,10 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
 
         binding.rsSubject.onItemSelectedEvenIfUnchangedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val education = (publicVM.educationState.value as ViewState.Data).data
+                val education = getEducation(
+                    education = (publicVM.educationState.value as ViewState.Data).data,
+                    unitTypeList = clientInfo?.teacherInfo?.unitTypeList
+                )
                 val educationLevelId = binding.rsEducationLevel.selectedItemId
                 val gradeId = binding.rsGrade.selectedItemId
                 unitTypeAdapter.submitData(
@@ -232,7 +241,10 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
         }
 
         binding.btnClear.clicksObserve(owner = viewLifecycleOwner) {
-            val education = (publicVM.educationState.value as ViewState.Data<Education>).data
+            val education = getEducation(
+                education = (publicVM.educationState.value as ViewState.Data).data,
+                unitTypeList = clientInfo?.teacherInfo?.unitTypeList
+            )
             setDfSelection(education)
         }
 
@@ -255,6 +267,40 @@ class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSele
             }
         }
 
+    }
+
+    private fun setSelection(education: Education) {
+        when (sourceFrom) {
+            SourceFrom.Specify -> {
+                setSpecifyDefSelection(education)
+            }
+            SourceFrom.Pair -> {
+                setDfSelection(education)
+            }
+        }
+    }
+
+    private fun setSpecifyDefSelection(education: Education) {
+        val unitTypeList = clientInfo?.teacherInfo?.unitTypeList!!
+        val education = getEducation(education, unitTypeList)
+        setDfSelection(education)
+    }
+
+    private fun getEducation(education: Education, unitTypeList: List<UnitType>?): Education {
+        when (sourceFrom) {
+            SourceFrom.Specify -> {
+                val education = education.copy(
+                    educationLevelList = education.educationLevelList.filter { educationLevel -> unitTypeList!!.any { educationLevel.id == it.educationLevelId } },
+                    gradeList = education.gradeList.filter { grade -> unitTypeList!!.any { grade.id == it.gradeId } },
+                    subjectList = education.subjectList.filter { subject -> unitTypeList!!.any { subject.id == it.subjectId } },
+                    unitTypeList = education.unitTypeList.filter { unitType -> unitTypeList!!.any { unitType.id == it.id } },
+                )
+                return education
+            }
+            SourceFrom.Pair -> {
+                return education
+            }
+        }
     }
 
     //確認初始數據
