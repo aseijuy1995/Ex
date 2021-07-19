@@ -54,6 +54,7 @@ val askRoomList_Test = mutableListOf(
             askType = AskType.VIDEO,
             videoList = listOf(
                 AskVideo(
+                    id = 1,
                     url = "https://www.youtube.com/watch?v=7keFPznK9so",
                     time = 120
                 )
@@ -85,6 +86,7 @@ val askRoomList_Test = mutableListOf(
             askType = AskType.IMAGE,
             imgList = listOf(
                 AskImage(
+                    id = 2,
                     url = "https://2.bp.blogspot.com/-n62RdDWGgDo/XwyKnpsMr8I/AAAAAAABEL4/tWPpDml1G4MRDLw_WJkOOEWJO2Y1kzkVgCLcBGAsYHQ/s1600/001.jpg"
                 )
             ),
@@ -111,13 +113,18 @@ val askRoomList_Test = mutableListOf(
             id = 4L,
             senderId = "yujunId",
             receiverId = clientId_Test,
-            //
-            askType = AskType.AUDIO,
-            audioList = listOf(
-                AskAudio(
-                    url = "https://4.bp.blogspot.com/-Su33bzfds0c/W3z7JStqIQI/AAAAAAAUExg/GhVunQSEmWMqRnKVFtzGawFAXjUplLimACHMYCw/s0/phpmpk5sq",
-                    time = 10
-                )
+            askType = AskType.VIDEO,
+            videoList = listOf(
+                AskVideo(
+                    id = 1,
+                    url = "http://demos.webmproject.org/exoplayer/glass.mp4",
+                    time = 135
+                ),
+                AskVideo(
+                    id = 2,
+                    url = "http://demos.webmproject.org/exoplayer/glass.mp4",
+                    time = 135
+                ),
             ),
             isRead = false,
             sendTime = Date("2021/07/03 14:58")
@@ -177,6 +184,7 @@ fun askRoomInfoList_Test(roomId: Long): List<AskRoomInfo> {
                     askType = AskType.IMAGE,
                     imgList = listOf(
                         AskImage(
+                            id = 4,
                             url = "https://www.youtube.com/watch?v=7keFPznK9so"
                         )
                     ),
@@ -221,6 +229,27 @@ fun askRoomInfoList_Test(roomId: Long): List<AskRoomInfo> {
                     askType = AskType.IMAGE,
                     imgList = listOf(
                         AskImage(
+                            id = 5,
+                            url = "https://2.bp.blogspot.com/-n62RdDWGgDo/XwyKnpsMr8I/AAAAAAABEL4/tWPpDml1G4MRDLw_WJkOOEWJO2Y1kzkVgCLcBGAsYHQ/s1600/001.jpg"
+                        ),
+                        AskImage(
+                            id = 50,
+                            url = "https://2.bp.blogspot.com/-n62RdDWGgDo/XwyKnpsMr8I/AAAAAAABEL4/tWPpDml1G4MRDLw_WJkOOEWJO2Y1kzkVgCLcBGAsYHQ/s1600/001.jpg"
+                        ),
+                        AskImage(
+                            id = 500,
+                            url = "https://2.bp.blogspot.com/-n62RdDWGgDo/XwyKnpsMr8I/AAAAAAABEL4/tWPpDml1G4MRDLw_WJkOOEWJO2Y1kzkVgCLcBGAsYHQ/s1600/001.jpg"
+                        ),
+                        AskImage(
+                            id = 51,
+                            url = "https://2.bp.blogspot.com/-n62RdDWGgDo/XwyKnpsMr8I/AAAAAAABEL4/tWPpDml1G4MRDLw_WJkOOEWJO2Y1kzkVgCLcBGAsYHQ/s1600/001.jpg"
+                        ),
+                        AskImage(
+                            id = 502,
+                            url = "https://2.bp.blogspot.com/-n62RdDWGgDo/XwyKnpsMr8I/AAAAAAABEL4/tWPpDml1G4MRDLw_WJkOOEWJO2Y1kzkVgCLcBGAsYHQ/s1600/001.jpg"
+                        ),
+                        AskImage(
+                            id = 5003,
                             url = "https://2.bp.blogspot.com/-n62RdDWGgDo/XwyKnpsMr8I/AAAAAAABEL4/tWPpDml1G4MRDLw_WJkOOEWJO2Y1kzkVgCLcBGAsYHQ/s1600/001.jpg"
                         )
                     ),
@@ -244,12 +273,18 @@ fun askRoomInfoList_Test(roomId: Long): List<AskRoomInfo> {
                     id = 11,
                     senderId = "yujunId",
                     receiverId = clientId_Test,
-                    askType = AskType.AUDIO,
-                    audioList = listOf(
-                        AskAudio(
-                            url = "https://4.bp.blogspot.com/-Su33bzfds0c/W3z7JStqIQI/AAAAAAAUExg/GhVunQSEmWMqRnKVFtzGawFAXjUplLimACHMYCw/s0/phpmpk5sq",
-                            time = 10
-                        )
+                    askType = AskType.VIDEO,
+                    videoList = listOf(
+                        AskVideo(
+                            id = 1,
+                            url = "http://demos.webmproject.org/exoplayer/glass.mp4",
+                            time = 135
+                        ),
+                        AskVideo(
+                            id = 2,
+                            url = "http://demos.webmproject.org/exoplayer/glass.mp4",
+                            time = 135
+                        ),
                     ),
                     isRead = false,
                     sendTime = Date("2021/06/28 10:47")

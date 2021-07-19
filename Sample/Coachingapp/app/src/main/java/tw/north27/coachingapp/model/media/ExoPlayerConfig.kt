@@ -1,15 +1,16 @@
-package tw.north27.coachingapp.media.exoplayer
+package tw.north27.coachingapp.model.media
 
 import android.content.Context
 import android.net.Uri
 import com.google.android.exoplayer2.BasePlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.source.ExtractorMediaSource
 import com.google.android.exoplayer2.source.dash.DashMediaSource
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource
 import com.google.android.exoplayer2.upstream.DataSource
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory
 
 data class ExoPlayerConfig(
@@ -63,8 +64,11 @@ data class ExoPlayerConfig(
          * Progressive
          * */
         fun createProgressivePlayer(cxt: Context, progressivePath: String?): BasePlayer {
-            val dataSourceFactory: DataSource.Factory = DefaultHttpDataSourceFactory()
-            val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(Uri.parse(progressivePath)))
+            val dataSourceFactory = DefaultDataSourceFactory(cxt, "com.example.exoplayerdemo")
+            val mediaSource = ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(Uri.parse(progressivePath))
+            //
+//            val dataSourceFactory: DataSource.Factory = DefaultHttpDataSourceFactory()
+//            val mediaSource = ProgressiveMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(Uri.parse(progressivePath)))
             val exoPlayer = SimpleExoPlayer.Builder(cxt).build()
             exoPlayer.setMediaSource(mediaSource)
             return exoPlayer

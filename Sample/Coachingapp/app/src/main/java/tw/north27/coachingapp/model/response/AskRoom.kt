@@ -79,6 +79,7 @@ enum class AskType {
  * */
 @Parcelize
 data class AskImage(
+    @SerializedName("id") val id: Long,
     @SerializedName("url") val url: String
 ) : Parcelable
 
@@ -89,6 +90,7 @@ data class AskImage(
  * */
 @Parcelize
 data class AskAudio(
+    @SerializedName("id") val id: Long,
     @SerializedName("url") val url: String,
     @SerializedName("time") val time: Long
 ) : Parcelable
@@ -100,6 +102,7 @@ data class AskAudio(
  * */
 @Parcelize
 data class AskVideo(
+    @SerializedName("id") val id: Long,
     @SerializedName("url") val url: String,
     @SerializedName("time") val time: Long
 ) : Parcelable

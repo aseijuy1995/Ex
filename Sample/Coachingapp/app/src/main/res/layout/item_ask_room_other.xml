@@ -42,84 +42,44 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!--            <androidx.recyclerview.widget.RecyclerView-->
-            <!--                android:id="@+id/rv_img"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:maxWidth="250dp"-->
-            <!--                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                app:spanCount="2"-->
-            <!--                bind:isVisibility="@{chat.chatType == ChatType.IMAGE}" />-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isVisible="@{askRoomInfo.askType == AskType.IMAGE}"
+                android:maxWidth="300dp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:spanCount="2" />
 
-            <!--            <androidx.recyclerview.widget.RecyclerView-->
-            <!--                android:id="@+id/rv_video"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:maxWidth="250dp"-->
-            <!--                android:orientation="vertical"-->
-            <!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                bind:isVisibility="@{chat.chatType == ChatType.VIDEO}" />-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_audio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isVisible="@{askRoomInfo.askType == AskType.AUDIO}"
+                android:maxWidth="150dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <!--            <androidx.recyclerview.widget.RecyclerView-->
-            <!--                android:id="@+id/rv_audio"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:maxWidth="150dp"-->
-            <!--                android:orientation="vertical"-->
-            <!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--        bind:isVisibility="@{chat.chatType == ChatType.AUDIO}" />-->
-
-
-            <!--                        <androidx.constraintlayout.widget.ConstraintLayout-->
-            <!--                android:id="@+id/view_recorder"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:background="@drawable/shape_solid_gray_555555_padding_top_btn_5_lt_rt_10"-->
-            <!--                android:maxWidth="200dp"-->
-            <!--                android:orientation="horizontal"-->
-            <!--                android:textColor="@color/white"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent"-->
-            <!--                bind:isVisible="@{chatItem.audioMsg!=null}">-->
-
-            <!--                <androidx.appcompat.widget.AppCompatImageView-->
-            <!--                    android:id="@+id/iv_recorder"-->
-            <!--                    android:layout_width="20dp"-->
-            <!--                    android:layout_height="20dp"-->
-            <!--                    android:src="@drawable/ic_baseline_play_circle_24_gray"-->
-            <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                    app:layout_constraintStart_toStartOf="parent"-->
-            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-            <!--                <androidx.appcompat.widget.AppCompatTextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginStart="5dp"-->
-            <!--                    android:layout_marginEnd="5dp"-->
-            <!--                    android:text="00:00"-->
-            <!--                    android:textColor="@color/white"-->
-            <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                    app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                    app:layout_constraintStart_toEndOf="@id/iv_recorder"-->
-            <!--                    app:layout_constraintTop_toTopOf="parent" />-->
-
-
-            <!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-            <!--            android:text="@{chatBean.msg}"-->
-            <!--            app:isVisible="@{chatBean.msg!=null}"-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isVisible="@{askRoomInfo.askType == AskType.VIDEO}"
+                android:maxWidth="300dp"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

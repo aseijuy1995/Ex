@@ -39,7 +39,7 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = AskRoomListAdapter(cxt)
+        adapter = AskRoomListAdapter(cxt, this)
         val otherUser = askRoom?.otherClientInfo
         binding.apply {
             itemToolbarAskRoom.apply {

@@ -9,23 +9,21 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_baseline_play_circle_24_white" />
+        android:src="@drawable/ic_twotone_play_circle_24_color_primary_variant" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@id/exo_pause"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_baseline_stop_circle_24_white" />
+        android:src="@drawable/ic_twotone_stop_circle_24_color_primary_variant" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@id/exo_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_margin="5dp"
         android:textColor="@color/white"
-        android:textSize="10sp"
-        android:textStyle="bold" />
+        android:textSize="12sp" />
 </FrameLayout>

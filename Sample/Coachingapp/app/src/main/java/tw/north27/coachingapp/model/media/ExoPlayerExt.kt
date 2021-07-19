@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.media.exoplayer
+package tw.north27.coachingapp.model.media
 
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner

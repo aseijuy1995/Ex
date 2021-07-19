@@ -3,18 +3,25 @@ package tw.north27.coachingapp.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.*
 import androidx.viewbinding.ViewBinding
+import com.bumptech.glide.Glide
 import com.yujie.core_lib.pref.getId
 import com.yujie.core_lib.pref.userPref
+import com.yujie.core_lib.util.logD
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import tw.north27.coachingapp.chat.AskRoomVideoListAdapter
 import tw.north27.coachingapp.databinding.ItemAskRoomOtherBinding
 import tw.north27.coachingapp.databinding.ItemAskRoomSelfBinding
+import tw.north27.coachingapp.model.AskImage
 import tw.north27.coachingapp.model.AskRoomInfo
+import tw.north27.coachingapp.model.AskType
 
 class AskRoomListAdapter(
-    private val cxt: Context
+    private val cxt: Context,
+    private val owner: LifecycleOwner
 ) : ListAdapter<AskRoomInfo, AskRoomListAdapter.VH>(
 
     object : DiffUtil.ItemCallback<AskRoomInfo>() {
@@ -83,40 +90,36 @@ class AskRoomListAdapter(
         override fun bind(askRoomInfo: AskRoomInfo) = binding.apply {
             this.askRoomInfo = askRoomInfo
 
-//            if (chat.chatType == ChatType.IMAGE) {
-//                chat.image?.let {
-//                    val adapter = ChatImageListAdapter()
-//                    val layoutManager = object : GridLayoutManager(cxt, 2, LinearLayoutManager.VERTICAL, false) {
-//                        override fun isLayoutRTL(): Boolean = true
-//                    }.apply {
-//                        spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-//                            override fun getSpanSize(position: Int): Int = imageArrangementFormat(it, position)
-//                        }
-//                    }
-//                    rvImg.apply {
-//                        this.layoutManager = layoutManager
-//                        this.adapter = adapter
-//                        addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//                            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//                                super.onScrollStateChanged(recyclerView, newState)
-//                                when (newState) {
-//                                    RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this@apply).resumeRequests()
-//                                    RecyclerView.SCROLL_STATE_DRAGGING -> Glide.with(this@apply).pauseRequests()
-//                                }
-//
-//                            }
-//                        })
-//                    }
-//                    adapter.submitList(it)
+            when (askRoomInfo.askType) {
+                AskType.IMAGE -> {
+                    val adapter = AskRoomImageListAdapter()
+                    rvImg.apply {
+                        this.adapter = adapter
+                        addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                                super.onScrollStateChanged(recyclerView, newState)
+                                when (newState) {
+                                    RecyclerView.SCROLL_STATE_IDLE -> Glide.with(this@apply).resumeRequests()
+                                    RecyclerView.SCROLL_STATE_DRAGGING -> Glide.with(this@apply).pauseRequests()
+                                }
+                            }
+                        })
+                    }
+                    adapter.submitList(askRoomInfo.imgList)
 //                    adapter.itemClickRelay.subscribeBy { imageClickRelay?.accept(it) }
-//                }
-//            } else if (chat.chatType == ChatType.VIDEO) {
-//                //video
-//                chat.videos?.let {
-//                    val adapter = ChatVideoListAdapter(cxt, owner).apply { submitList(it) }
-//                    rvVideo.adapter = adapter
+                }
+                AskType.AUDIO -> {
+                }
+                AskType.VIDEO -> {
+                    val adapter = AskRoomVideoListAdapter(cxt = cxt, owner = owner)
+                    rvVideo.adapter = adapter
+                    logD("askRoomInfo.videoList = ${askRoomInfo.videoList.size}")
+                    adapter.submitList(askRoomInfo.videoList)
 //                    adapter.itemClickRelay.subscribeBy { videoClickRelay?.accept(it) }
-//                }
+                }
+            }
+
+
 //            } else if (chat.chatType == ChatType.AUDIO) {
 //                //audio
 //                chat.audios?.let {
@@ -219,10 +222,10 @@ class AskRoomListAdapter(
     override fun submitList(list: List<AskRoomInfo>?) {
         super.submitList(list?.let { ArrayList(it) })
     }
+}
 
-//    private fun imageArrangementFormat(it: List<ChatImage>, position: Int) = when {
-//        it.size % 2 == 0 -> 1
-//        position == it.size - 1 -> 2
-//        else -> 1
-//    }
+fun List<AskImage>.arrangementFormat(position: Int) = when {
+    size % 2 == 0 -> 1
+    position == size - 1 -> 2
+    else -> 1
 }

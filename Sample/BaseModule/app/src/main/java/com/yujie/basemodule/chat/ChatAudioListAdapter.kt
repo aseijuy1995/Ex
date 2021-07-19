@@ -12,7 +12,6 @@ import com.jakewharton.rxrelay3.PublishRelay
 import org.koin.core.component.KoinComponent
 import tw.north27.coachingapp.databinding.ItemChatAudioBinding
 import tw.north27.coachingapp.media.exoplayer.ExoPlayerConfig
-import tw.north27.coachingapp.media.exoplayer.prepare
 import tw.north27.coachingapp.model.result.ChatAudio
 
 class ChatAudioListAdapter(
