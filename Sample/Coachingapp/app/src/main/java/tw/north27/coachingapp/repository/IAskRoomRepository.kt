@@ -12,7 +12,6 @@ import tw.north27.coachingapp.model.response.SoundResponse
 
 interface IAskRoomRepository {
 
-    //
     suspend fun fetchAskRoomList(askRoomRequest: AskRoomRequest): Results<List<AskRoom>>
 
     suspend fun updateAskRoomPush(pushRequest: PushRequest): Results<PushResponse>
@@ -22,7 +21,7 @@ interface IAskRoomRepository {
     suspend fun findAskRoom(setupAskRoomRequest: SetupAskRoomRequest): Results<AskRoomResponse>
 
     suspend fun setupAskRoom(setupAskRoomRequest: SetupAskRoomRequest): Results<AskRoom>
-    //
+
     suspend fun fetchAskRoomInfoList(askRoomInfoRequest: AskRoomInfoRequest): Results<List<AskRoomInfo>>
     //
 

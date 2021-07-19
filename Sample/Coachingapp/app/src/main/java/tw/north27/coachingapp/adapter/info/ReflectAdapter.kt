@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.adapter
+package tw.north27.coachingapp.adapter.info
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,25 +7,26 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
+import tw.north27.coachingapp.model.response.Reflect
 
-class ScoreAdapter : BaseAdapter() {
-    private var scoreList: List<Double>? = null
+class ReflectAdapter : BaseAdapter() {
+    private var reflectList: List<Reflect>? = null
 
-    fun submitData(scoreList: List<Double>?) {
-        this.scoreList = scoreList
+    fun submitData(reflectList: List<Reflect>) {
+        this.reflectList = reflectList
         notifyDataSetChanged()
     }
 
     override fun getCount(): Int {
-        return scoreList?.size ?: 0
+        return reflectList?.size ?: 0
     }
 
-    override fun getItem(position: Int): Double? {
-        return scoreList?.get(position)
+    override fun getItem(position: Int): Reflect? {
+        return reflectList?.get(position)
     }
 
     override fun getItemId(position: Int): Long {
-        return scoreList?.get(position)?.toLong() ?: 0
+        return reflectList?.get(position)?.id ?: -1
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -39,7 +40,7 @@ class ScoreAdapter : BaseAdapter() {
         } else {
             holder = view.tag as VH
         }
-        holder.tvText.text = if (getItem(position) == -1.0) view?.context?.getString(R.string.df) else getItem(position).toString()
+        holder.tvText.text = reflectList?.get(position)?.name
         return view!!
     }
 

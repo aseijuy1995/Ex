@@ -8,7 +8,7 @@ import com.unnamed.b.atv.model.TreeNode
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.response.UnitType
 
-class UnitHolder(cxt: Context) : TreeNode.BaseNodeViewHolder<UnitType>(cxt) {
+class UnitTypeHolder(cxt: Context) : TreeNode.BaseNodeViewHolder<UnitType>(cxt) {
 
     override fun createNodeView(node: TreeNode?, value: UnitType?): View? {
         val inflater = LayoutInflater.from(context)

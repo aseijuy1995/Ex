@@ -15,16 +15,16 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphLaunch2Directions
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.adapter.EducationLevelAdapter
-import tw.north27.coachingapp.adapter.GradeAdapter
-import tw.north27.coachingapp.adapter.SubjectAdapter
-import tw.north27.coachingapp.adapter.UnitTypeAdapter
+import tw.north27.coachingapp.adapter.education.EducationLevelAdapter
+import tw.north27.coachingapp.adapter.education.GradeAdapter
+import tw.north27.coachingapp.adapter.education.SubjectAdapter
+import tw.north27.coachingapp.adapter.education.UnitTypeAdapter
 import tw.north27.coachingapp.databinding.FragmentEducationSelectorDialogBinding
 import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.response.Education
 import tw.north27.coachingapp.model.response.UnitType
 import tw.north27.coachingapp.model.transfer.SourceFrom
-import tw.north27.coachingapp.ui.LoadingDialogFragment
+import tw.north27.coachingapp.ui.launch2.share.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.EducationSelectorViewModel
 import tw.north27.coachingapp.viewModel.PublicViewModel
 

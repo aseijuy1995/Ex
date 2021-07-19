@@ -1,20 +1,20 @@
-package tw.north27.coachingapp.adapter
+package tw.north27.coachingapp.adapter.info
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay3.PublishRelay
 import com.yujie.core_lib.adapter.bindImg
+import tw.north27.coachingapp.adapter.education.SubjectLabelListAdapter
 import tw.north27.coachingapp.databinding.ItemTeacherBinding
 import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.response.Subject
 import tw.north27.coachingapp.model.response.UnitType
 
-class TeacherListAdapter(private val act: AppCompatActivity) : ListAdapter<ClientInfo, TeacherListAdapter.VH>(object : DiffUtil.ItemCallback<ClientInfo>() {
+class TeacherListAdapter : ListAdapter<ClientInfo, TeacherListAdapter.VH>(object : DiffUtil.ItemCallback<ClientInfo>() {
 
     override fun areItemsTheSame(oldItem: ClientInfo, newItem: ClientInfo): Boolean {
         return oldItem.id == newItem.id
@@ -40,15 +40,18 @@ class TeacherListAdapter(private val act: AppCompatActivity) : ListAdapter<Clien
             this.clientInfo = clientInfo
             ivAvatar.bindImg(url = clientInfo.avatarUrl, roundingRadius = 10)
             val subjectIdList = clientInfo.teacherInfo?.unitTypeList?.map(UnitType::subjectId)?.toSet()?.toList()
-            if (subjectIdList != null && subjectIdList.isNotEmpty()) (rvSubject.adapter as SubjectLabelListAdapter).submitData(subjectIdList)
+            val adapter = SubjectLabelListAdapter()
+            adapter.subjectList = subjectList
+            adapter.submitData(subjectIdList)
+            rvSubject.adapter = adapter
             itemView.setOnClickListener { itemClickRelay.accept(it to clientInfo) }
             executePendingBindings()
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val binding = ItemTeacherBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        binding.rvSubject.adapter = SubjectLabelListAdapter(act)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemTeacherBinding.inflate(inflater, parent, false)
         return VH(binding)
     }
 

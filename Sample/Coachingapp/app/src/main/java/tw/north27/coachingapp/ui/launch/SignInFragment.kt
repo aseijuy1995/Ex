@@ -20,8 +20,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentSignInBinding
 import tw.north27.coachingapp.model.SignCode
-import tw.north27.coachingapp.ui.LoadingDialogFragment
-import tw.north27.coachingapp.ui.launch2.Launch2Activity
+import tw.north27.coachingapp.ui.launch2.basic.Launch2Activity
+import tw.north27.coachingapp.ui.launch2.share.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.SignInViewModel
 
 class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sign_in) {

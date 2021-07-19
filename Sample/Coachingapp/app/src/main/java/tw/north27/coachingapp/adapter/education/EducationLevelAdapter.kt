@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.adapter
+package tw.north27.coachingapp.adapter.education
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +10,6 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.response.EducationLevel
 
 class EducationLevelAdapter : BaseAdapter() {
-
     private var educationLevelList: List<EducationLevel>? = null
 
     fun submitData(educationLevelList: List<EducationLevel>) {

@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui.launch2
+package tw.north27.coachingapp.ui.launch2.basic
 
 import android.os.Bundle
 import androidx.appcompat.content.res.AppCompatResources

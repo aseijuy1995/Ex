@@ -7,14 +7,14 @@
     <!--  CoachingFragment  -->
     <fragment
         android:id="@+id/fragment_coaching"
-        android:name="tw.north27.coachingapp.ui.launch2.CoachingFragment"
+        android:name="tw.north27.coachingapp.ui.launch2.basic.CoachingFragment"
         android:label="fragment_coaching"
         tools:layout="@layout/fragment_coaching" />
 
     <!--  AskFragment  -->
     <fragment
         android:id="@+id/fragment_ask"
-        android:name="tw.north27.coachingapp.ui.launch2.ask.AskFragment"
+        android:name="tw.north27.coachingapp.ui.launch2.basic.AskFragment"
         android:label="fragment_ask"
         tools:layout="@layout/fragment_ask" />
 
@@ -42,7 +42,7 @@
 
     <dialog
         android:id="@+id/fragment_teacher_detail_dialog"
-        android:name="tw.north27.coachingapp.ui.launch2.TeacherDetailDialogFragment"
+        android:name="tw.north27.coachingapp.ui.launch2.share.TeacherDetailDialogFragment"
         android:label="fragment_teacher_detail_dialog"
         tools:layout="@layout/fragment_teacher_detail_dialog">
 
@@ -76,7 +76,7 @@
 
     <dialog
         android:id="@+id/fragment_setup_ask_room_dialog"
-        android:name="tw.north27.coachingapp.ui.launch2.SetupAskRoomDialogFragment"
+        android:name="tw.north27.coachingapp.ui.launch2.share.SetupAskRoomDialogFragment"
         android:label="fragment_setup_ask_room_dialog"
         tools:layout="@layout/fragment_setup_ask_room_dialog" />
 
@@ -164,21 +164,21 @@
     <!--  StudyFragment  -->
     <fragment
         android:id="@+id/fragment_study"
-        android:name="tw.north27.coachingapp.ui.launch2.StudyFragment"
+        android:name="tw.north27.coachingapp.ui.launch2.basic.StudyFragment"
         android:label="fragment_study"
         tools:layout="@layout/fragment_study" />
 
     <!--  NoticeFragment  -->
     <fragment
         android:id="@+id/fragment_notice"
-        android:name="tw.north27.coachingapp.ui.launch2.NoticeFragment"
+        android:name="tw.north27.coachingapp.ui.launch2.basic.NoticeFragment"
         android:label="fragment_notice"
         tools:layout="@layout/fragment_notice" />
 
     <!--  PersonalFragment  -->
     <fragment
         android:id="@+id/fragment_personal"
-        android:name="tw.north27.coachingapp.ui.launch2.PersonalFragment"
+        android:name="tw.north27.coachingapp.ui.launch2.basic.PersonalFragment"
         android:label="fragment_personal"
         tools:layout="@layout/fragment_personal">
 

@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.adapter
+package tw.north27.coachingapp.adapter.info
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,26 +7,25 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.Gender
 
-class GenderAdapter : BaseAdapter() {
-    private var genderList: List<Gender>? = null
+class ScoreAdapter : BaseAdapter() {
+    private var scoreList: List<Double>? = null
 
-    fun submitData(genderList: List<Gender>?) {
-        this.genderList = genderList
+    fun submitData(scoreList: List<Double>) {
+        this.scoreList = scoreList
         notifyDataSetChanged()
     }
 
     override fun getCount(): Int {
-        return genderList?.size ?: 0
+        return scoreList?.size ?: 0
     }
 
-    override fun getItem(position: Int): Gender? {
-        return genderList?.get(position)
+    override fun getItem(position: Int): Double? {
+        return scoreList?.get(position)
     }
 
     override fun getItemId(position: Int): Long {
-        return genderList?.get(position).hashCode().toLong()
+        return scoreList?.get(position)?.toLong() ?: 0
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -40,17 +39,7 @@ class GenderAdapter : BaseAdapter() {
         } else {
             holder = view.tag as VH
         }
-        holder.tvText.text = when (getItem(position)) {
-            Gender.MALE -> {
-                view?.context?.getString(R.string.male)
-            }
-            Gender.FEMALE -> {
-                view?.context?.getString(R.string.female)
-            }
-            else -> {
-                view?.context?.getString(R.string.not)
-            }
-        }
+        holder.tvText.text = if (getItem(position) == -1.0) view?.context?.getString(R.string.df) else getItem(position).toString()
         return view!!
     }
 

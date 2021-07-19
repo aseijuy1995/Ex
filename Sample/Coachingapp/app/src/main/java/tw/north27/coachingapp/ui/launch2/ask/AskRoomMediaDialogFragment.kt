@@ -15,9 +15,9 @@ import com.yujie.core_lib.ext.observe
 import com.yujie.core_lib.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.adapter.AlbumListAdapter
-import tw.north27.coachingapp.adapter.AudioListAdapter
-import tw.north27.coachingapp.adapter.VideoListAdapter
+import tw.north27.coachingapp.adapter.media.AlbumListAdapter
+import tw.north27.coachingapp.adapter.media.AudioListAdapter
+import tw.north27.coachingapp.adapter.media.VideoListAdapter
 import tw.north27.coachingapp.databinding.FragmentAskRoomMediaDialogBinding
 import tw.north27.coachingapp.model.transfer.SendMode
 import tw.north27.coachingapp.viewModel.AskRoomMediaViewModel

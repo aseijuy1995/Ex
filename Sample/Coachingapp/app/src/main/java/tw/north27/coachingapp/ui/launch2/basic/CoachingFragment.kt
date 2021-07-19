@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui.launch2
+package tw.north27.coachingapp.ui.launch2.basic
 
 import android.os.Bundle
 import android.view.View
@@ -19,12 +19,17 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphLaunch2Directions
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.adapter.*
+import tw.north27.coachingapp.adapter.education.EducationLevelAdapter
+import tw.north27.coachingapp.adapter.education.GradeAdapter
+import tw.north27.coachingapp.adapter.education.SubjectAdapter
+import tw.north27.coachingapp.adapter.education.UnitTypeAdapter
+import tw.north27.coachingapp.adapter.info.TeacherListAdapter
 import tw.north27.coachingapp.databinding.FragmentCoachingBinding
 import tw.north27.coachingapp.model.ClientInfo
-import tw.north27.coachingapp.model.transfer.SourceFrom
 import tw.north27.coachingapp.model.response.*
+import tw.north27.coachingapp.model.transfer.SourceFrom
 import tw.north27.coachingapp.ui.launch2.ask.EducationSelectorDialogFragment
+import tw.north27.coachingapp.ui.launch2.share.TeacherDetailDialogFragment
 import tw.north27.coachingapp.viewModel.CoachingViewModel
 import tw.north27.coachingapp.viewModel.PublicViewModel
 
@@ -53,7 +58,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         launch2Act.doubleClickToExit()
-        adapter = TeacherListAdapter(launch2Act)
+        adapter = TeacherListAdapter()
         binding.apply {
             itemToolbarNormal.apply {
                 ivBack.isVisible = false
@@ -73,6 +78,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
             when (it) {
                 is ViewState.Data -> {
                     val education = it.data
+                    adapter.submitData(education.subjectList)
                     setDfSelection(education)
                     binding.srlLayout.autoRefresh()
                 }

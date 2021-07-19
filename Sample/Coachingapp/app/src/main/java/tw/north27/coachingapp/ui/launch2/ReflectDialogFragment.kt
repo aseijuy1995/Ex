@@ -9,9 +9,10 @@ import com.yujie.core_lib.ext.clicksObserve
 import com.yujie.core_lib.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.adapter.ReflectAdapter
+import tw.north27.coachingapp.adapter.info.ReflectAdapter
 import tw.north27.coachingapp.databinding.FragmentReflectDialogBinding
-import tw.north27.coachingapp.ui.LoadingDialogFragment
+import tw.north27.coachingapp.ui.launch2.share.LoadingDialogFragment
+import tw.north27.coachingapp.ui.launch2.basic.Launch2Activity
 import tw.north27.coachingapp.viewModel.PersonalViewModel
 
 class ReflectDialogFragment : BaseDialogFragment<FragmentReflectDialogBinding>(R.layout.fragment_reflect_dialog) {

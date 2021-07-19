@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui
+package tw.north27.coachingapp.ui.launch2.share
 
 import android.view.View
 import androidx.fragment.app.DialogFragment

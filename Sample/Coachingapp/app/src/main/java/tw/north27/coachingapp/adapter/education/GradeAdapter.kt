@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.adapter
+package tw.north27.coachingapp.adapter.education
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,26 +7,26 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.response.Subject
+import tw.north27.coachingapp.model.response.Grade
 
-class SubjectAdapter : BaseAdapter() {
-    private var subjectList: List<Subject>? = null
+class GradeAdapter : BaseAdapter() {
+    private var gradeList: List<Grade>? = null
 
-    fun submitData(subjectList: List<Subject>) {
-        this.subjectList = subjectList
+    fun submitData(gradeList: List<Grade>) {
+        this.gradeList = gradeList
         notifyDataSetChanged()
     }
 
     override fun getCount(): Int {
-        return subjectList?.size ?: 0
+        return gradeList?.size ?: 0
     }
 
-    override fun getItem(position: Int): Subject? {
-        return subjectList?.get(position)
+    override fun getItem(position: Int): Grade? {
+        return gradeList?.get(position)
     }
 
     override fun getItemId(position: Int): Long {
-        return subjectList?.get(position)?.id ?: 0
+        return gradeList?.get(position)?.id ?: 0
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {

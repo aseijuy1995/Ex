@@ -34,7 +34,7 @@ val httpModules = module {
                     cxt = androidContext(),
                     expiredInCallback = {
                         val refreshToken = runBlocking { androidContext().userPref.getRefreshToken().first() }
-                        (get() as IUserRepository).refreshToken(
+                        (get() as IClientRepository).refreshToken(
                             tokenRequest = TokenRequest(
                                 clientId = runBlocking { androidContext().userPref.getId().first() },
                                 refreshToken = refreshToken,
@@ -45,7 +45,7 @@ val httpModules = module {
                 authRspIntcp = AuthResponseInterceptor(cxt = androidContext(),
                     callback401 = {
                         val refreshToken = runBlocking { androidContext().userPref.getRefreshToken().first() }
-                        (get() as IUserRepository).refreshToken(
+                        (get() as IClientRepository).refreshToken(
                             tokenRequest = TokenRequest(
                                 clientId = runBlocking { androidContext().userPref.getId().first() },
                                 refreshToken = refreshToken,
@@ -59,8 +59,6 @@ val httpModules = module {
             )
         )
     }
-
-
     single<RetrofitManager.Entity> {
         RetrofitManager.get(
             RetrofitConfig(

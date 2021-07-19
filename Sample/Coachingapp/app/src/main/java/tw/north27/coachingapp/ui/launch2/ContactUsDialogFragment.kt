@@ -7,6 +7,7 @@ import com.yujie.core_lib.base.BaseDialogFragment
 import com.yujie.core_lib.ext.clicksObserve
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentContactUsDialogBinding
+import tw.north27.coachingapp.ui.launch2.basic.Launch2Activity
 
 class ContactUsDialogFragment : BaseDialogFragment<FragmentContactUsDialogBinding>(R.layout.fragment_contact_us_dialog) {
 

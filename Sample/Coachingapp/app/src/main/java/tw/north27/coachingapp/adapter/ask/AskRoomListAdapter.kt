@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.adapter
+package tw.north27.coachingapp.adapter.ask
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -12,7 +12,6 @@ import com.yujie.core_lib.pref.userPref
 import com.yujie.core_lib.util.logD
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import tw.north27.coachingapp.chat.AskRoomVideoListAdapter
 import tw.north27.coachingapp.databinding.ItemAskRoomOtherBinding
 import tw.north27.coachingapp.databinding.ItemAskRoomSelfBinding
 import tw.north27.coachingapp.model.AskImage

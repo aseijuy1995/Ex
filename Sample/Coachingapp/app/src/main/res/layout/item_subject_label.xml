@@ -9,14 +9,14 @@
             type="String" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_label"
-            android:layout_width="22dp"
+            android:layout_width="15dp"
             android:layout_height="15dp"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -24,23 +24,22 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_label_24_blue" />
+            app:srcCompat="@drawable/ic_baseline_style_24_blue" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="2dp"
             android:layout_marginEnd="2dp"
-            android:gravity="center"
-            android:text="國文"
-            android:textColor="@color/white"
-            android:textSize="6sp"
+            android:text="@{text}"
+            android:textColor="@color/blue_4286f3"
+            android:textSize="8sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--        android:text="@{text}"-->
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </layout>

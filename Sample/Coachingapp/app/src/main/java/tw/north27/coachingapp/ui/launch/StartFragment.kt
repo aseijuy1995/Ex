@@ -9,10 +9,10 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.GoogleApiAvailability
-import com.yujie.pushmodule.fcm.FirebaseMsg
 import com.yujie.core_lib.base.BaseFragment
 import com.yujie.core_lib.ext.alertGoogleService
 import com.yujie.core_lib.util.ViewState
+import com.yujie.pushmodule.fcm.FirebaseMsg
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -23,7 +23,7 @@ import tw.north27.coachingapp.databinding.FragmentStartBinding
 import tw.north27.coachingapp.ext.updateApp
 import tw.north27.coachingapp.model.SignCode
 import tw.north27.coachingapp.model.response.AppCode
-import tw.north27.coachingapp.ui.launch2.Launch2Activity
+import tw.north27.coachingapp.ui.launch2.basic.Launch2Activity
 import tw.north27.coachingapp.viewModel.PublicViewModel
 import tw.north27.coachingapp.viewModel.StartViewModel
 

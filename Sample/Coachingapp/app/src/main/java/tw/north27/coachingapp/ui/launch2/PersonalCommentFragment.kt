@@ -13,11 +13,17 @@ import com.yujie.core_lib.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.*
+import tw.north27.coachingapp.adapter.education.EducationLevelAdapter
+import tw.north27.coachingapp.adapter.education.GradeAdapter
+import tw.north27.coachingapp.adapter.education.SubjectAdapter
+import tw.north27.coachingapp.adapter.education.UnitTypeAdapter
+import tw.north27.coachingapp.adapter.info.ScoreAdapter
 import tw.north27.coachingapp.databinding.FragmentPersonalCommentBinding
 import tw.north27.coachingapp.model.response.EducationLevel
 import tw.north27.coachingapp.model.response.Grade
 import tw.north27.coachingapp.model.response.Subject
 import tw.north27.coachingapp.model.response.UnitType
+import tw.north27.coachingapp.ui.launch2.basic.Launch2Activity
 import tw.north27.coachingapp.viewModel.PersonalViewModel
 
 class PersonalCommentFragment : BaseFragment<FragmentPersonalCommentBinding>(R.layout.fragment_personal_comment) {

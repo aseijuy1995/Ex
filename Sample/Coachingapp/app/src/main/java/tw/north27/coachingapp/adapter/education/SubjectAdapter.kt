@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.adapter
+package tw.north27.coachingapp.adapter.education
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,26 +7,26 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.response.Reflect
+import tw.north27.coachingapp.model.response.Subject
 
-class ReflectAdapter : BaseAdapter() {
-    private var reflectList: List<Reflect>? = null
+class SubjectAdapter : BaseAdapter() {
+    private var subjectList: List<Subject>? = null
 
-    fun submitData(reflectList: List<Reflect>?) {
-        this.reflectList = reflectList
+    fun submitData(subjectList: List<Subject>) {
+        this.subjectList = subjectList
         notifyDataSetChanged()
     }
 
     override fun getCount(): Int {
-        return reflectList?.size ?: 0
+        return subjectList?.size ?: 0
     }
 
-    override fun getItem(position: Int): Reflect? {
-        return reflectList?.get(position)
+    override fun getItem(position: Int): Subject? {
+        return subjectList?.get(position)
     }
 
     override fun getItemId(position: Int): Long {
-        return reflectList?.get(position)?.id ?: -1
+        return subjectList?.get(position)?.id ?: 0
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -40,7 +40,7 @@ class ReflectAdapter : BaseAdapter() {
         } else {
             holder = view.tag as VH
         }
-        holder.tvText.text = reflectList?.get(position)?.name
+        holder.tvText.text = getItem(position)?.name
         return view!!
     }
 

@@ -1,24 +1,22 @@
-package tw.north27.coachingapp.adapter
+package tw.north27.coachingapp.adapter.education
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.yujie.core_lib.util.ViewState
 import tw.north27.coachingapp.databinding.ItemSubjectLabelBinding
 import tw.north27.coachingapp.model.response.Subject
-import tw.north27.coachingapp.ui.launch2.Launch2Activity
 
-class SubjectLabelListAdapter(private val act: AppCompatActivity) : RecyclerView.Adapter<SubjectLabelListAdapter.VH>() {
-
+class SubjectLabelListAdapter : RecyclerView.Adapter<SubjectLabelListAdapter.VH>() {
     private var subjectIdList: List<Long>? = null
+
+    var subjectList: List<Subject>? = null
 
     fun submitData(subjectList: List<Long>?) {
         this.subjectIdList = subjectList
         notifyDataSetChanged()
     }
 
-    inner class VH(val binding: ItemSubjectLabelBinding, val subjectList: List<Subject>?) : RecyclerView.ViewHolder(binding.root) {
+    inner class VH(val binding: ItemSubjectLabelBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(subjectId: Long?) = binding.apply {
             this.text = subjectList?.find { it.id == subjectId }?.name
             executePendingBindings()
@@ -26,9 +24,9 @@ class SubjectLabelListAdapter(private val act: AppCompatActivity) : RecyclerView
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val binding = ItemSubjectLabelBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        val subjectList = ((act as Launch2Activity).publicVM.educationState.value as ViewState.Data).data.subjectList
-        return VH(binding, subjectList)
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = ItemSubjectLabelBinding.inflate(inflater, parent, false)
+        return VH(binding)
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {

@@ -22,14 +22,14 @@
             type="tw.north27.coachingapp.model.response.Subject" />
 
         <variable
-            name="unit"
+            name="unitType"
             type="tw.north27.coachingapp.model.response.UnitType" />
 
-        <import
-            alias="dateFormat"
-            type="java.text.SimpleDateFormat" />
+<!--        <import-->
+<!--            alias="dateFormat"-->
+<!--            type="java.text.SimpleDateFormat" />-->
 
-        <import type="java.util.Locale" />
+<!--        <import type="java.util.Locale" />-->
     </data>
 
     <androidx.cardview.widget.CardView
@@ -102,8 +102,8 @@
                 android:textColor="@color/gray_666666"
                 android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                bind:dateFormat="@{commentInfo.date}" />
+                app:layout_constraintTop_toTopOf="parent" />
+<!--            bind:dateFormat="@{commentInfo.date}"-->
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
@@ -166,7 +166,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text='@{String.format("%s：%s", @string/unit,unit.name)}'
+                        android:text='@{String.format("%s：%s", @string/unit,unitType.name)}'
                         android:textColor="@color/gray_666666"
                         android:textSize="10sp" />
 

@@ -8,6 +8,7 @@ import com.yujie.core_lib.ext.clicksObserve
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.CommonProblemListAdapter
 import tw.north27.coachingapp.databinding.FragmentCommonProblemBinding
+import tw.north27.coachingapp.ui.launch2.basic.Launch2Activity
 
 class CommonProblemFragment : BaseFragment<FragmentCommonProblemBinding>(R.layout.fragment_common_problem) {
 

@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.adapter
+package tw.north27.coachingapp.adapter.info
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,26 +7,26 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.response.UnitType
+import tw.north27.coachingapp.model.Gender
 
-class UnitTypeAdapter : BaseAdapter() {
-    private var unitTypeList: List<UnitType>? = null
+class GenderAdapter : BaseAdapter() {
+    private var genderList: List<Gender>? = null
 
-    fun submitData(unitTypeList: List<UnitType>) {
-        this.unitTypeList = unitTypeList
+    fun submitData(genderList: List<Gender>) {
+        this.genderList = genderList
         notifyDataSetChanged()
     }
 
     override fun getCount(): Int {
-        return unitTypeList?.size ?: 0
+        return genderList?.size ?: 0
     }
 
-    override fun getItem(position: Int): UnitType? {
-        return unitTypeList?.get(position)
+    override fun getItem(position: Int): Gender? {
+        return genderList?.get(position)
     }
 
     override fun getItemId(position: Int): Long {
-        return unitTypeList?.get(position)?.id ?: 0
+        return genderList?.get(position).hashCode().toLong()
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -40,7 +40,17 @@ class UnitTypeAdapter : BaseAdapter() {
         } else {
             holder = view.tag as VH
         }
-        holder.tvText.text = getItem(position)?.name
+        holder.tvText.text = when (getItem(position)) {
+            Gender.MALE -> {
+                view?.context?.getString(R.string.male)
+            }
+            Gender.FEMALE -> {
+                view?.context?.getString(R.string.female)
+            }
+            else -> {
+                view?.context?.getString(R.string.not)
+            }
+        }
         return view!!
     }
 

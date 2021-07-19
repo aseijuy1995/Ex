@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui.launch2
+package tw.north27.coachingapp.ui.launch2.share
 
 import android.os.Bundle
 import android.view.View
@@ -25,8 +25,7 @@ import tw.north27.coachingapp.model.transfer.SourceFrom
 import tw.north27.coachingapp.model.treeNodeHolder.EducationLevelHolder
 import tw.north27.coachingapp.model.treeNodeHolder.GradeHolder
 import tw.north27.coachingapp.model.treeNodeHolder.SubjectHolder
-import tw.north27.coachingapp.model.treeNodeHolder.UnitHolder
-import tw.north27.coachingapp.ui.LoadingDialogFragment
+import tw.north27.coachingapp.model.treeNodeHolder.UnitTypeHolder
 import tw.north27.coachingapp.viewModel.PublicViewModel
 import tw.north27.coachingapp.viewModel.TeacherDetailViewModel
 
@@ -152,7 +151,7 @@ class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDial
                 subjectList?.filter { it?.gradeIdList?.any { it == grade?.id } ?: false }?.forEach { subject ->
                     val subjectTreeNode = TreeNode(subject).setViewHolder(SubjectHolder(cxt))
                     unitList?.filter { educationLevel?.id == it.educationLevelId && grade?.id == it.gradeId && subject?.id == it.subjectId }?.forEach { unit ->
-                        val unitTreeNode = TreeNode(unit).setViewHolder(UnitHolder(cxt))
+                        val unitTreeNode = TreeNode(unit).setViewHolder(UnitTypeHolder(cxt))
                         subjectTreeNode.addChild(unitTreeNode)
                     }
                     gradeTreeNode.addChild(subjectTreeNode)

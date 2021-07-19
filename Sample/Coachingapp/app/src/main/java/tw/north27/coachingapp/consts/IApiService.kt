@@ -15,6 +15,7 @@ import tw.north27.coachingapp.model.response.*
 
 interface IApiService {
 
+    //LaunchActivity
     /**
      * 刷新token
      * @param tokenRequest >> TokenRequest::class.java
@@ -156,7 +157,6 @@ interface IApiService {
      * */
     @POST
     suspend fun insertReflect(@Body reflectRequest: ReflectRequest): ReflectResponse
-
 
 //    /**
 //     * 取得未回覆列表(未加載) - 依據時間近至遠撈回，未指定則撈回全部

@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.yujie.core_lib.base.BaseAndroidViewModel
 import com.yujie.core_lib.ext.asLiveData
 import com.yujie.core_lib.http.Results
-import com.yujie.core_lib.pref.getAccount
+import com.yujie.core_lib.pref.getId
 import com.yujie.core_lib.pref.userPref
 import com.yujie.core_lib.util.ViewState
 import kotlinx.coroutines.Dispatchers
@@ -19,13 +19,13 @@ import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.request.AppConfigRequest
 import tw.north27.coachingapp.model.request.ClientRequest
 import tw.north27.coachingapp.model.response.*
+import tw.north27.coachingapp.repository.IClientRepository
 import tw.north27.coachingapp.repository.IPublicRepository
-import tw.north27.coachingapp.repository.IUserRepository
 
 class PublicViewModel(
     application: Application,
     private val publicRepo: IPublicRepository,
-    private val userRepo: IUserRepository,
+    private val clientRepo: IClientRepository,
 ) : BaseAndroidViewModel(application) {
 
     private val _bgRes: MutableLiveData<Int> by lazy {
@@ -153,11 +153,11 @@ class PublicViewModel(
 
     fun fetchUser() = viewModelScope.launch(Dispatchers.IO) {
         _userState.postValue(ViewState.load())
-        val account = cxt.userPref.getAccount().first()
-        if (account.isEmpty()) {
+        val clientId = cxt.userPref.getId().first()
+        if (clientId.isEmpty()) {
             _userState.postValue(ViewState.empty())
         } else {
-            val results = userRepo.fetchClient(clientRequest = ClientRequest(clientId = account))
+            val results = clientRepo.fetchClient(clientRequest = ClientRequest(clientId = clientId))
             when (results) {
                 is Results.Successful<ClientInfo> -> {
                     val userInfo = results.data

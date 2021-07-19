@@ -15,7 +15,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.adapter.AskRoomListAdapter
+import tw.north27.coachingapp.adapter.ask.AskRoomListAdapter
 import tw.north27.coachingapp.databinding.FragmentAskRoomBinding
 import tw.north27.coachingapp.model.AskRoom
 import tw.north27.coachingapp.model.transfer.SendMode

@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.ui.launch2
+package tw.north27.coachingapp.ui.launch2.share
 
 import android.os.Bundle
 import android.view.View
@@ -13,7 +13,6 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentSetupAskRoomDialogBinding
 import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.response.UnitType
-import tw.north27.coachingapp.ui.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.SetupAskRoomViewModel
 
 class SetupAskRoomDialogFragment : BaseDialogFragment<FragmentSetupAskRoomDialogBinding>(R.layout.fragment_setup_ask_room_dialog) {

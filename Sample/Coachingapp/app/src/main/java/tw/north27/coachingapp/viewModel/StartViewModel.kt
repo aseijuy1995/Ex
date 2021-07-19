@@ -16,11 +16,12 @@ import kotlinx.coroutines.launch
 import tw.north27.coachingapp.model.SignCode
 import tw.north27.coachingapp.model.SignInfo
 import tw.north27.coachingapp.model.request.SignRequest
+import tw.north27.coachingapp.repository.IClientRepository
 import tw.north27.coachingapp.repository.IUserRepository
 
 class StartViewModel(
     application: Application,
-    private val userRepo: IUserRepository
+    private val clientRepo: IClientRepository
 ) : BaseAndroidViewModel(application) {
 
     private val _signInState = MutableLiveData<ViewState<SignInfo>>(ViewState.initial())
@@ -34,7 +35,7 @@ class StartViewModel(
         if (id.isEmpty() || userPref.accessToken.isEmpty() || userPref.refreshToken.isEmpty()) {
             _signInState.postValue(ViewState.empty())
         } else {
-            val results = userRepo.checkSign(
+            val results = clientRepo.checkSign(
                 signRequest = SignRequest(
                     clientId = id
                 )

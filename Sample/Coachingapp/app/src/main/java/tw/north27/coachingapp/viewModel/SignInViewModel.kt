@@ -17,11 +17,12 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.model.SignCode
 import tw.north27.coachingapp.model.SignInfo
 import tw.north27.coachingapp.model.request.SignInRequest
+import tw.north27.coachingapp.repository.IClientRepository
 import tw.north27.coachingapp.repository.IUserRepository
 
 class SignInViewModel(
     application: Application,
-    val userRepo: IUserRepository
+    val clientRepo: IClientRepository
 ) : BaseAndroidViewModel(application) {
 
     private val _signInState = MutableLiveData<ViewState<SignInfo>>(ViewState.initial())
@@ -37,7 +38,7 @@ class SignInViewModel(
         } else if (password.isNullOrEmpty()) {
             _signInState.postValue(ViewState.empty(cxt.getString(R.string.enter_password)))
         } else {
-            val results = userRepo.signIn(
+            val results = clientRepo.signIn(
                 signInRequest = SignInRequest(
                     account = account,
                     password = password,

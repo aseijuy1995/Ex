@@ -1,4 +1,4 @@
-package tw.north27.coachingapp.adapter
+package tw.north27.coachingapp.adapter.ask
 
 import android.view.LayoutInflater
 import android.view.View

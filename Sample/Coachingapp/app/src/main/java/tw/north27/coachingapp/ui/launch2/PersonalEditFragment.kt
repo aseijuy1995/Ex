@@ -15,13 +15,14 @@ import com.yujie.core_lib.ext.visible
 import com.yujie.core_lib.util.ViewState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.adapter.GenderAdapter
-import tw.north27.coachingapp.adapter.GradeAdapter
+import tw.north27.coachingapp.adapter.education.GradeAdapter
+import tw.north27.coachingapp.adapter.info.GenderAdapter
 import tw.north27.coachingapp.databinding.FragmentPersonalEditBinding
 import tw.north27.coachingapp.model.ClientInfo
 import tw.north27.coachingapp.model.Gender
 import tw.north27.coachingapp.model.response.Grade
-import tw.north27.coachingapp.ui.LoadingDialogFragment
+import tw.north27.coachingapp.ui.launch2.share.LoadingDialogFragment
+import tw.north27.coachingapp.ui.launch2.basic.Launch2Activity
 import tw.north27.coachingapp.viewModel.PersonalViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -205,11 +206,11 @@ class PersonalEditFragment : BaseFragment<FragmentPersonalEditBinding>(R.layout.
             }
         }
         val genderList = launch2Act.publicVM.genderList.value
-        genderAdapter.submitData(genderList)
+        genderAdapter.submitData(genderList ?: emptyList())
         binding.itemData.itemPersonalUserEdit.spGender.setSelection(genderList?.indexOfFirst { it == clientInfo.gender }!!)
         if (clientInfo.auth == UserPref.Authority.STUDENT) {
             val gradeList = launch2Act.publicVM.gradeList.value
-            gradeAdapter.submitData(gradeList)
+            gradeAdapter.submitData(gradeList ?: emptyList())
             binding.itemData.itemPersonalUserEdit.spGrade.setSelection(gradeList?.indexOfFirst { it.id == clientInfo.studentInfo?.gradeId }!!)
         }
     }
