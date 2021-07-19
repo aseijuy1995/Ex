@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
-            name="media"
-            type="com.yujie.core_lib.model.Media" />
+            name="mediaData"
+            type="tw.north27.coachingapp.model.media.MediaData" />
 
         <variable
-            name="setting"
-            type="com.yujie.core_lib.model.MediaSetting" />
+            name="config"
+            type="tw.north27.coachingapp.model.media.MediaConfig" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,36 +31,36 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_photo_24_gray" />
 
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/ic_twotone_ondemand_video_24_white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.appcompat.widget.AppCompatCheckBox
             android:id="@+id/chk_select"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="10dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_margin="5dp"
             android:background="@drawable/select_checkbox_checked_media"
             android:button="@null"
+            android:isVisible="@{config.multipleChoice}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-<!--        bind:isVisibility="@{setting.multipleChoice}"-->
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_video"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_margin="5dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_videocam_24_white" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tv_time"
+            android:id="@+id/tv_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:textColor="@color/white"
-            android:textSize="12sp"
-            android:textStyle="bold"
+            android:textSize="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

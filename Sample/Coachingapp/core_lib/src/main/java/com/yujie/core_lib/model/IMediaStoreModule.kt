@@ -8,9 +8,6 @@ interface IMediaStoreModule {
 //    val MEDIA_ALBUM_AUDIO: String
 //        get() = "MEDIA_ALBUM_AUDIO"
 //
-//    //video
-//    val MEDIA_ALBUM_VIDEO: String
-//        get() = MEDIA_ALBUM_VIDEO
 
     /**
      * 獲取媒體文件夾列表

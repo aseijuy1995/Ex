@@ -7,8 +7,10 @@ import com.yujie.core_lib.http.okhttp.OkHttpConfig
 import com.yujie.core_lib.http.okhttp.OkHttpManager
 import com.yujie.core_lib.http.retrofit.RetrofitConfig
 import com.yujie.core_lib.http.retrofit.RetrofitManager
+import com.yujie.core_lib.model.AudioMediaStoreModule
 import com.yujie.core_lib.model.IMediaStoreModule
 import com.yujie.core_lib.model.ImageMediaStoreModule
+import com.yujie.core_lib.model.VideoMediaStoreModule
 import com.yujie.core_lib.pref.getId
 import com.yujie.core_lib.pref.getRefreshToken
 import com.yujie.core_lib.pref.userPref
@@ -17,6 +19,7 @@ import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.model.request.TokenRequest
@@ -73,11 +76,11 @@ val httpModules = module {
 }
 
 val moduleModules = module {
-    single<IMediaStoreModule> { ImageMediaStoreModule(androidContext()) }
+    single<IMediaStoreModule>(named("image")) { ImageMediaStoreModule(androidContext()) }
+    single<IMediaStoreModule>(named("video")) { VideoMediaStoreModule(androidContext()) }
+    single<IMediaStoreModule>(named("audio")) { AudioMediaStoreModule(androidContext()) }
+
 //    single<IChatModule> { ChatModule(get()) }
-//    single<IMediaStoreModule>(named("image")) { ImageMediaStoreModule(androidContext()) }
-//    single<IMediaStoreModule>(named("video")) { VideoMediaStoreModule(androidContext()) }
-//    single<IMediaStoreModule>(named("audio")) { AudioMediaStoreModule(androidContext()) }
 //    single<IAudioMediaCodecModule> { AudioMediaCodecModule(androidContext()) }
 //    single<IMediaRecorderModule> { MediaRecorderModule() }
 //    factory<IMediaExtractorModule> { MediaExtractorModule() }
@@ -95,10 +98,9 @@ val repoModules = module {
 //    single<IChatRepository> { ChatRepository(get(), get()) }
     single<IMediaRepository> {
         MediaRepository(
-            get(),
-            //
-//            get<IMediaStoreModule>(named("video")),
-//            get<IMediaStoreModule>(named("audio")),
+            get<IMediaStoreModule>(named("image")),
+            get<IMediaStoreModule>(named("video")),
+            get<IMediaStoreModule>(named("audio")),
 //            get<IAudioMediaCodecModule>(),
 //            get<IMediaRecorderModule>()
         )

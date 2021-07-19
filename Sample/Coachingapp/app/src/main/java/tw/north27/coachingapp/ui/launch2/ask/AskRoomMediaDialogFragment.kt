@@ -13,7 +13,6 @@ import com.yujie.core_lib.base.BaseBottomSheetDialogFragment
 import com.yujie.core_lib.ext.clicksObserve
 import com.yujie.core_lib.ext.observe
 import com.yujie.core_lib.util.ViewState
-import com.yujie.core_lib.util.logD
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.AlbumListAdapter
@@ -72,7 +71,6 @@ class AskRoomMediaDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoom
                     when (it) {
                         is ViewState.Data -> {
                             val mediaList = it.data
-                            logD("mediaList = $mediaList")
                             albumListAdapter.submitList(mediaList)
                         }
                     }
@@ -99,48 +97,85 @@ class AskRoomMediaDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoom
             }
 
             SendMode.AUDIO -> {
-                audioListAdapter.setting = viewModel.audioSetting
                 binding.rvMedia.apply {
                     layoutManager = LinearLayoutManager(cxt)
                     addItemDecoration(DividerItemDecoration(cxt, LinearLayoutManager.VERTICAL).apply {
                         setDrawable(ContextCompat.getDrawable(cxt, R.drawable.shape_size_height_2_solid_gray) ?: return)
                     })
-                    adapter = albumListAdapter
+                    adapter = audioListAdapter
                 }
-//                //audio
-//                viewModel.getMediaAudio().subscribeWithRxLife {
-//                    val mediaList = it.find { it.albumName == MEDIA_ALBUM_AUDIO }?.mediaList
-//                    viewModel.setMediaList(mediaList)
-//                }
-//                /**
-//                 * 播放音訊
-//                 * */
-//                adapter.itemClickRelay.subscribeWithRxLife {
-//
-//                }
-//                adapter.itemSelectRelay.subscribeWithRxLife {
-//                    viewModel.setChoiceOfMedia(it.third)
-//                }
+                audioListAdapter.config = viewModel.audioConfig
+                viewModel.mediaAudioListState.observe(viewLifecycleOwner) {
+                    binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
+                    binding.rvMedia.isVisible = (it is ViewState.Data)
+                    when (it) {
+                        is ViewState.Data -> {
+                            val mediaList = it.data
+                            audioListAdapter.submitList(mediaList)
+                        }
+                    }
+                }
+                audioListAdapter.toastRelay.observe(viewLifecycleOwner) {
+                    Toast.makeText(cxt, it, Toast.LENGTH_SHORT).show()
+                }
+                audioListAdapter.itemSelectRelay.observe(viewLifecycleOwner) {
+                    if (audioListAdapter.selectMediaDataList.isNotEmpty()) {
+                        binding.tvTitle.text = String.format(getString(R.string.select_count), audioListAdapter.selectMediaDataList.size)
+                        binding.ivSend.isEnabled = true
+                    } else {
+                        binding.tvTitle.text = getString(R.string.choose_please)
+                        binding.ivSend.isEnabled = false
+                    }
+                }
+                audioListAdapter.itemClickRelay.observe(viewLifecycleOwner) {
+//                    lifecycleScope.launch {
+//                        delay(500)
+////                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPhoto(it.second.data))
+//                    }
+                }
+                viewModel.fetchMediaAudio()
             }
-            SendMode.VIDEO -> {
-                videoListAdapter.setting = viewModel.videoSetting
+            SendMode.FILM -> {
                 binding.rvMedia.apply {
                     layoutManager = GridLayoutManager(cxt, 3)
                     adapter = videoListAdapter
                 }
-//                //video
-//                viewModel.getMediaVideo().subscribeWithRxLife {
-//                    val mediaList = it.find { it.albumName == MEDIA_ALBUM_VIDEO }?.mediaList
-//                    viewModel.setMediaList(mediaList)
-//                }
+                videoListAdapter.config = viewModel.videoConfig
+                viewModel.mediaVideoListState.observe(viewLifecycleOwner) {
+                    binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
+                    binding.rvMedia.isVisible = (it is ViewState.Data)
+                    when (it) {
+                        is ViewState.Data -> {
+                            val mediaList = it.data
+                            videoListAdapter.submitList(mediaList)
+                        }
+                    }
+                }
+                videoListAdapter.toastRelay.observe(viewLifecycleOwner) {
+                    Toast.makeText(cxt, it, Toast.LENGTH_SHORT).show()
+                }
+                videoListAdapter.itemSelectRelay.observe(viewLifecycleOwner) {
+                    if (videoListAdapter.selectMediaDataList.isNotEmpty()) {
+                        binding.tvTitle.text = String.format(getString(R.string.select_count), videoListAdapter.selectMediaDataList.size)
+                        binding.ivSend.isEnabled = true
+                    } else {
+                        binding.tvTitle.text = getString(R.string.choose_please)
+                        binding.ivSend.isEnabled = false
+                    }
+                }
+                videoListAdapter.itemClickRelay.observe(viewLifecycleOwner) {
+//                    lifecycleScope.launch {
+//                        delay(500)
+////                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPhoto(it.second.data))
+//                    }
+                }
+                viewModel.fetchMediaVideo()
+
 //                /**
 //                 * 放大播放影片
 //                 * */
 //                adapter.itemClickRelay.subscribeWithRxLife {
 ////                    findNavController().navigate(MediaListDialogFragmentDirections.actionFragmentMediaListDialogToFragmentMediaPreview(it, From.MEDIA_LIST))
-//                }
-//                adapter.itemSelectRelay.subscribeWithRxLife {
-//                    viewModel.setChoiceOfMedia(it.third)
 //                }
             }
         }

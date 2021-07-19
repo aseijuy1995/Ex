@@ -10,6 +10,7 @@ package com.yujie.core_lib.model
  * @param size >> 大小
  * @param height >> 高
  * @param width >> 寬
+ * @param duration >> 持續時間
  * */
 open class Media(
     open val id: Int,
@@ -18,6 +19,7 @@ open class Media(
     open val path: String,
     open val displayName: String,
     open val size: Long,
-    open val height: Int,
-    open val width: Int,
+    open val height: Int = 0,
+    open val width: Int = 0,
+    open val duration: Long = 0
 )

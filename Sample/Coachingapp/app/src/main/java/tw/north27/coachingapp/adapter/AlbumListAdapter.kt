@@ -58,7 +58,7 @@ class AlbumListAdapter : ListAdapter<MediaData, AlbumListAdapter.VH>(
         fun bind(mediaData: MediaData): Any = binding.apply {
             this.mediaData = mediaData
             this.config = this@AlbumListAdapter.config
-            logD("mediaData.path = {mediaData.path}")
+            logD("mediaData.path = ${mediaData.path}")
             binding.ivImg.bindImg(url = mediaData.path)
             binding.tvWh.text = String.format("%d x %d", mediaData.width, mediaData.height)
             binding.chkSelect.setOnCheckedChangeListener { view, isChoice ->

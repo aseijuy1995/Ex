@@ -12,46 +12,47 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
-class ImageMediaStoreModule(private val cxt: Context) : IMediaStoreModule {
+class VideoMediaStoreModule(private val cxt: Context) : IMediaStoreModule {
 
     private val folderMap = mutableMapOf<String, MediaFolder>()
 
     val isMediaFolderEmpty: Boolean
         get() = folderMap.isEmpty()
 
-    //image
-    val MEDIA_ALBUM_IMAGE: String
-        get() = "MEDIA_ALBUM_IMAGE"
+    //video
+    val MEDIA_ALBUM_VIDEO: String
+        get() = "MEDIA_ALBUM_VIDEO"
 
     override suspend fun fetchMediaFolderList(setting: MediaSetting): Flow<List<MediaFolder>> = flow {
         folderMap.clear()
-        if (setting.mimeType == MimeType.IMAGE) {
-            val internalContentUri: Uri = MediaStore.Images.Media.INTERNAL_CONTENT_URI
-            val externalContentUri: Uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        if (setting.mimeType == MimeType.VIDEO) {
+            val internalContentUri: Uri = MediaStore.Video.Media.INTERNAL_CONTENT_URI
+            val externalContentUri: Uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
             runBlocking {
-                launch(Dispatchers.IO) { fetchMediaFolderImage(internalContentUri, setting) }
-                launch(Dispatchers.IO) { fetchMediaFolderImage(externalContentUri, setting) }
+                launch(Dispatchers.IO) { fetchMediaFolderVideo(internalContentUri, setting) }
+                launch(Dispatchers.IO) { fetchMediaFolderVideo(externalContentUri, setting) }
             }
             emit(folderMap.values.toList())
         } else {
-            throw NotFindMediaException("MimeType is not the MimeType.IMAGE")
+            throw NotFindMediaException("MimeType is not the MimeType.Video")
         }
     }
 
-    private fun fetchMediaFolderImage(uri: Uri, setting: MediaSetting) {
+    private fun fetchMediaFolderVideo(uri: Uri, setting: MediaSetting) {
         val projection: Array<String> = arrayOf(
-            MediaStore.Images.Media._ID,
-            MediaStore.Images.Media.MIME_TYPE,
-            MediaStore.Images.Media.DEFAULT_SORT_ORDER,//MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) MediaStore.Images.Media.RELATIVE_PATH else MediaStore.Images.Media.DATA,
-            MediaStore.Images.Media.DISPLAY_NAME,
-            MediaStore.Images.Media.SIZE,
-            MediaStore.Images.Media.HEIGHT,
-            MediaStore.Images.Media.WIDTH,
+            MediaStore.Video.Media._ID,
+            MediaStore.Video.Media.MIME_TYPE,
+            MediaStore.Video.Media.DEFAULT_SORT_ORDER,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) MediaStore.Video.Media.RELATIVE_PATH else MediaStore.Video.Media.DATA,
+            MediaStore.Video.Media.DISPLAY_NAME,
+            MediaStore.Video.Media.SIZE,
+            MediaStore.Video.Media.HEIGHT,
+            MediaStore.Video.Media.WIDTH,
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) MediaStore.Video.Media.DURATION else "duration",
         )
-        val selection = "${MediaStore.Images.Media.SIZE} > 0"
+        val selection = "${MediaStore.Video.Media.SIZE} > 0"
         val selectionArgs: Array<String> = arrayOf<String>()
-        val sortOrder = "${MediaStore.Images.Media.DATE_MODIFIED} DESC"
+        val sortOrder = "${MediaStore.Video.Media.DATE_MODIFIED} DESC"
         val cancellationSignal = CancellationSignal()
         val cursor = cxt.contentResolver.query(
             uri,
@@ -62,14 +63,15 @@ class ImageMediaStoreModule(private val cxt: Context) : IMediaStoreModule {
             cancellationSignal
         )
         if (cursor?.moveToFirst() == true) {
-            val idColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media._ID)
-            val mimeTypeColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.MIME_TYPE)
-            val defaultSortOrderColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DEFAULT_SORT_ORDER)
-            val pathColumnIndex = cursor.getColumnIndexOrThrow(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) MediaStore.Images.Media.RELATIVE_PATH else MediaStore.Images.Media.DATA)
-            val displayNameColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DISPLAY_NAME)
-            val sizeColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.SIZE)
-            val heightColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.HEIGHT)
-            val widthColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.WIDTH)
+            val idColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
+            val mimeTypeColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.MIME_TYPE)
+            val defaultSortOrderColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DEFAULT_SORT_ORDER)
+            val pathColumnIndex = cursor.getColumnIndexOrThrow(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) MediaStore.Video.Media.RELATIVE_PATH else MediaStore.Video.Media.DATA)
+            val displayNameColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME)
+            val sizeColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.SIZE)
+            val heightColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.HEIGHT)
+            val widthColumnIndex = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.WIDTH)
+            val durationColumnIndex = cursor.getColumnIndexOrThrow(if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) MediaStore.Video.Media.DURATION else "duration")
             do {
                 val id = cursor.getInt(idColumnIndex)
                 val mimeType = cursor.getString(mimeTypeColumnIndex)
@@ -79,6 +81,7 @@ class ImageMediaStoreModule(private val cxt: Context) : IMediaStoreModule {
                 val size = cursor.getLong(sizeColumnIndex)
                 val height = cursor.getInt(heightColumnIndex)
                 val width = cursor.getInt(widthColumnIndex)
+                val duration = cursor.getLong(durationColumnIndex)
                 val media = Media(
                     id = id,
                     mimeType = mimeType,
@@ -88,13 +91,13 @@ class ImageMediaStoreModule(private val cxt: Context) : IMediaStoreModule {
                     size = size,
                     height = height,
                     width = width,
+                    duration = duration
                 )
-
-                if (setting.minSize != null && setting.minSize < size) continue
-                if (setting.maxSize != null && setting.maxSize > size) continue
+                if (setting.minSec != null && setting.minSec > (duration / 1000)) continue
+                if (setting.maxSec != null && setting.maxSec < (duration / 1000)) continue
                 //
-                if (isMediaFolderEmpty) addMediaFolder(MEDIA_ALBUM_IMAGE, path)
-                addMedia(MEDIA_ALBUM_IMAGE, media)
+                if (isMediaFolderEmpty) addMediaFolder(MEDIA_ALBUM_VIDEO, path)
+                addMedia(MEDIA_ALBUM_VIDEO, media)
                 //
                 addMediaFolder(defaultSortOrder, path)
                 addMedia(defaultSortOrder, media)
@@ -119,7 +122,7 @@ class ImageMediaStoreModule(private val cxt: Context) : IMediaStoreModule {
 
     override suspend fun fetchMediaList(setting: MediaSetting): Flow<List<Media>> {
         if (isMediaFolderEmpty) fetchMediaFolderList(setting).collect()
-        val mediaList = folderMap[MEDIA_ALBUM_IMAGE]?.mediaList ?: emptyList()
+        val mediaList = folderMap[MEDIA_ALBUM_VIDEO]?.mediaList ?: emptyList()
         return flow { emit(mediaList) }
     }
 
@@ -131,7 +134,7 @@ class ImageMediaStoreModule(private val cxt: Context) : IMediaStoreModule {
 
     override suspend fun fetchMediaFromName(name: String, setting: MediaSetting): Flow<Media?> {
         if (isMediaFolderEmpty) fetchMediaFolderList(setting).collect()
-        val media = folderMap[MEDIA_ALBUM_IMAGE]?.mediaList?.find { it.displayName == name }
+        val media = folderMap[MEDIA_ALBUM_VIDEO]?.mediaList?.find { it.displayName == name }
         return flow { emit(media) }
     }
 }

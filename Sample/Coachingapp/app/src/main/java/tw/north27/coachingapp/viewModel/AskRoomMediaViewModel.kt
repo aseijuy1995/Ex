@@ -53,25 +53,92 @@ class AskRoomMediaViewModel(
                 }
                 _mediaImageListState.postValue(ViewState.data(mediaDataList))
             }
-
         }
     }
 
-    val audioSetting = MediaSetting(
-        mimeType = MimeType.AUDIO,
-//        isMultipleChoice = true,
-//        multipleChoiceMaxCount = 3,
-        minSec = 0,
-        maxSec = 60
+    private val _mediaVideoListState = MutableLiveData<ViewState<List<MediaData>>>()
+
+    val mediaVideoListState = _mediaVideoListState.asLiveData()
+
+    val videoConfig = MediaConfig(
+        mimeType = MimeType.VIDEO,
+        isMultipleChoice = true,
+        multipleChoiceMaxCount = 3,
     )
 
-    val videoSetting = MediaSetting(
-        mimeType = MimeType.VIDEO,
-//        isMultipleChoice = true,
-//        multipleChoiceMaxCount = 3,
-        minSec = 0,
-        maxSec = 180
+    fun fetchMediaVideo() = viewModelScope.launch(Dispatchers.IO) {
+        _mediaVideoListState.postValue(ViewState.load())
+        repo.fetchMediaVideo(
+            MediaSetting(
+                mimeType = MimeType.VIDEO,
+                minSize = 0,
+                maxSec = 180
+            )
+        ).collect {
+            if (it.isEmpty()) {
+                _mediaVideoListState.postValue(ViewState.empty())
+            } else {
+                val mediaDataList = mutableListOf<MediaData>()
+                it.forEach {
+                    mediaDataList.add(
+                        MediaData(
+                            id = it.id,
+                            mimeType = it.mimeType,
+                            defaultSortOrder = it.defaultSortOrder,
+                            path = it.path,
+                            displayName = it.displayName,
+                            size = it.size,
+                            height = it.height,
+                            width = it.width,
+                            duration = it.duration
+                        )
+                    )
+                }
+                _mediaVideoListState.postValue(ViewState.data(mediaDataList))
+            }
+        }
+    }
+
+    private val _mediaAudioListState = MutableLiveData<ViewState<List<MediaData>>>()
+
+    val mediaAudioListState = _mediaAudioListState.asLiveData()
+
+    val audioConfig = MediaConfig(
+        mimeType = MimeType.AUDIO,
+        isMultipleChoice = true,
+        multipleChoiceMaxCount = 3,
     )
+
+    fun fetchMediaAudio() = viewModelScope.launch(Dispatchers.IO) {
+        _mediaAudioListState.postValue(ViewState.load())
+        repo.fetchMediaAudio(
+            MediaSetting(
+                mimeType = MimeType.AUDIO,
+                minSize = 0,
+                maxSec = 180
+            )
+        ).collect {
+            if (it.isEmpty()) {
+                _mediaAudioListState.postValue(ViewState.empty())
+            } else {
+                val mediaDataList = mutableListOf<MediaData>()
+                it.forEach {
+                    mediaDataList.add(
+                        MediaData(
+                            id = it.id,
+                            mimeType = it.mimeType,
+                            defaultSortOrder = it.defaultSortOrder,
+                            path = it.path,
+                            displayName = it.displayName,
+                            size = it.size,
+                            duration = it.duration
+                        )
+                    )
+                }
+                _mediaAudioListState.postValue(ViewState.data(mediaDataList))
+            }
+        }
+    }
 
 //    /**
 //     * 全部媒體項目

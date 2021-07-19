@@ -188,21 +188,13 @@ class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_a
                     SendMode.CAMERA -> {
 //                        if (it) findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentCameraX())
                     }
-                    SendMode.ALBUM -> {
-                        if (findNavController().currentDestination?.id == R.id.fragment_ask_room)
-                            findNavController().navigate(AskRoomFragmentDirections.actionFragmentAskRoomToFragmentAskRoomMediaDialog(mode))
-                    }
                     SendMode.RECORDING -> {
 
-                    }
-                    SendMode.AUDIO -> {
-                        if (findNavController().currentDestination?.id == R.id.fragment_ask_room)
-                            findNavController().navigate(AskRoomFragmentDirections.actionFragmentAskRoomToFragmentAskRoomMediaDialog(mode))
                     }
                     SendMode.VIDEO -> {
 
                     }
-                    SendMode.FILM -> {
+                    SendMode.ALBUM, SendMode.AUDIO, SendMode.FILM -> {
                         if (findNavController().currentDestination?.id == R.id.fragment_ask_room)
                             findNavController().navigate(AskRoomFragmentDirections.actionFragmentAskRoomToFragmentAskRoomMediaDialog(mode))
                     }

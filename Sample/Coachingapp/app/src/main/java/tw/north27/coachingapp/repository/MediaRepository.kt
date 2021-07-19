@@ -7,13 +7,17 @@ import kotlinx.coroutines.flow.Flow
 
 class MediaRepository(
     private val imageStoreModule: IMediaStoreModule,
-//    private val videoStoreModule: IMediaStoreModule,
-//    private val audioStoreModule: IMediaStoreModule,
+    private val videoStoreModule: IMediaStoreModule,
+    private val audioStoreModule: IMediaStoreModule,
 //    private val codecModule: IAudioMediaCodecModule,
 //    private val recorderModule: IMediaRecorderModule
 ) : IMediaRepository {
 
     override suspend fun fetchMediaImage(setting: MediaSetting): Flow<List<Media>> = imageStoreModule.fetchMediaList(setting)
+
+    override suspend fun fetchMediaVideo(setting: MediaSetting): Flow<List<Media>> = videoStoreModule.fetchMediaList(setting)
+
+    override suspend fun fetchMediaAudio(setting: MediaSetting): Flow<List<Media>> = audioStoreModule.fetchMediaList(setting)
 
 //    override fun getMediaAudio(setting: MediaSetting): Observable<List<MediaAlbum>> =
 //        audioStoreModule.getMediaAlbum(setting)

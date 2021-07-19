@@ -8,6 +8,10 @@ interface IMediaRepository {
 
     suspend fun fetchMediaImage(setting: MediaSetting): Flow<List<Media>>
 
+    suspend fun fetchMediaVideo(setting: MediaSetting): Flow<List<Media>>
+
+    suspend fun fetchMediaAudio(setting: MediaSetting): Flow<List<Media>>
+
 //    fun getMediaAudio(setting: MediaSetting): Observable<List<MediaAlbum>>
 //
 //    fun getMediaVideo(setting: MediaSetting): Observable<List<MediaAlbum>>

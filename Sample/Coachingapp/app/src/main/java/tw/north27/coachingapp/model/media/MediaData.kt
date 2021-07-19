@@ -13,6 +13,7 @@ import com.yujie.core_lib.model.Media
  * @param height >> 高
  * @param width >> 寬
  * @param isSelect >> 是否選取
+ * @param duration >> 持續時間
  * */
 
 data class MediaData(
@@ -22,8 +23,9 @@ data class MediaData(
     override val path: String,
     override val displayName: String,
     override val size: Long,
-    override val height: Int,
-    override val width: Int,
+    override val height: Int = 0,
+    override val width: Int = 0,
+    override val duration: Long = 0L,
     var isSelect: Boolean = false
 ) : Media(
     id = id,
@@ -33,5 +35,6 @@ data class MediaData(
     displayName = displayName,
     size = size,
     height = height,
-    width = width
+    width = width,
+    duration = duration
 )
