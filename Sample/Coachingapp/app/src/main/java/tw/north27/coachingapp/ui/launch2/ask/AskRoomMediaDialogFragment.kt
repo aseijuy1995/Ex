@@ -2,6 +2,7 @@ package tw.north27.coachingapp.ui.launch2.ask
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
@@ -10,7 +11,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yujie.core_lib.base.BaseBottomSheetDialogFragment
 import com.yujie.core_lib.ext.clicksObserve
+import com.yujie.core_lib.ext.observe
 import com.yujie.core_lib.util.ViewState
+import com.yujie.core_lib.util.logD
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.AlbumListAdapter
@@ -54,6 +57,7 @@ class AskRoomMediaDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoom
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.tvTitle.text = getString(R.string.choose_please)
+        binding.ivSend.isEnabled = false
 
         when (sendMode) {
             SendMode.ALBUM -> {
@@ -61,34 +65,37 @@ class AskRoomMediaDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoom
                     layoutManager = GridLayoutManager(cxt, 3)
                     adapter = albumListAdapter
                 }
-                albumListAdapter.setting = viewModel.albumSetting
-                viewModel.fetchMediaImage(viewModel.albumSetting)
-
+                albumListAdapter.config = viewModel.albumConfig
                 viewModel.mediaImageListState.observe(viewLifecycleOwner) {
                     binding.itemEmpty.root.isVisible = (it is ViewState.Empty)
                     binding.rvMedia.isVisible = (it is ViewState.Data)
                     when (it) {
                         is ViewState.Data -> {
                             val mediaList = it.data
+                            logD("mediaList = $mediaList")
                             albumListAdapter.submitList(mediaList)
                         }
                     }
                 }
-//                //image
-//                viewModel.getMediaImage().subscribeWithRxLife {
-//                    val mediaList = it.find { it.albumName == MEDIA_ALBUM_IMAGE }?.mediaList
-//                    viewModel.setMediaList(mediaList)
-//                }
-//                adapter.itemClickRelay.throttleFirst(500, TimeUnit.MILLISECONDS).subscribeWithRxLife {
+                albumListAdapter.toastRelay.observe(viewLifecycleOwner) {
+                    Toast.makeText(cxt, it, Toast.LENGTH_SHORT).show()
+                }
+                albumListAdapter.itemSelectRelay.observe(viewLifecycleOwner) {
+                    if (albumListAdapter.selectMediaDataList.isNotEmpty()) {
+                        binding.tvTitle.text = String.format(getString(R.string.select_count), albumListAdapter.selectMediaDataList.size)
+                        binding.ivSend.isEnabled = true
+                    } else {
+                        binding.tvTitle.text = getString(R.string.choose_please)
+                        binding.ivSend.isEnabled = false
+                    }
+                }
+                albumListAdapter.itemClickRelay.observe(viewLifecycleOwner) {
 //                    lifecycleScope.launch {
 //                        delay(500)
 ////                        findNavController().navigate(ChatRoomFragmentDirections.actionFragmentChatRoomToFragmentMediaPhoto(it.second.data))
 //                    }
-//
-//                }
-//                adapter.itemSelectRelay.subscribeWithRxLife {
-//                    viewModel.setChoiceOfMedia(it.third)
-//                }
+                }
+                viewModel.fetchMediaImage()
             }
 
             SendMode.AUDIO -> {
@@ -138,10 +145,6 @@ class AskRoomMediaDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoom
             }
         }
 
-//        adapter.toastRelay.subscribeWithRxLife {
-//            Toast.makeText(cxt, it, Toast.LENGTH_SHORT).show()
-//        }
-//
         binding.ivBack.clicksObserve(owner = viewLifecycleOwner) {
             findNavController().navigateUp()
         }

@@ -4,36 +4,54 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.yujie.core_lib.base.BaseViewModel
 import com.yujie.core_lib.ext.asLiveData
-import com.yujie.core_lib.model.Media
 import com.yujie.core_lib.model.MediaSetting
 import com.yujie.core_lib.model.MimeType
 import com.yujie.core_lib.util.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import tw.north27.coachingapp.model.media.MediaConfig
+import tw.north27.coachingapp.model.media.MediaData
 import tw.north27.coachingapp.repository.IMediaRepository
 
 class AskRoomMediaViewModel(
     private val repo: IMediaRepository
 ) : BaseViewModel() {
 
-    private val _mediaImageListState = MutableLiveData<ViewState<List<Media>>>()
+    private val _mediaImageListState = MutableLiveData<ViewState<List<MediaData>>>()
 
     val mediaImageListState = _mediaImageListState.asLiveData()
 
-    val albumSetting = MediaSetting(
+    val albumConfig = MediaConfig(
         mimeType = MimeType.IMAGE,
-//        isMultipleChoice = true,
-//        multipleChoiceMaxCount = 6,
+        isMultipleChoice = true,
+        multipleChoiceMaxCount = 6,
     )
 
-    fun fetchMediaImage(setting: MediaSetting) = viewModelScope.launch(Dispatchers.IO) {
+    fun fetchMediaImage() = viewModelScope.launch(Dispatchers.IO) {
         _mediaImageListState.postValue(ViewState.load())
-        repo.fetchMediaImage(setting).collect {
+        repo.fetchMediaImage(
+            MediaSetting(mimeType = MimeType.IMAGE)
+        ).collect {
             if (it.isEmpty()) {
                 _mediaImageListState.postValue(ViewState.empty())
             } else {
-                _mediaImageListState.postValue(ViewState.data(it))
+                val mediaDataList = mutableListOf<MediaData>()
+                it.forEach {
+                    mediaDataList.add(
+                        MediaData(
+                            id = it.id,
+                            mimeType = it.mimeType,
+                            defaultSortOrder = it.defaultSortOrder,
+                            path = it.path,
+                            displayName = it.displayName,
+                            size = it.size,
+                            height = it.height,
+                            width = it.width,
+                        )
+                    )
+                }
+                _mediaImageListState.postValue(ViewState.data(mediaDataList))
             }
 
         }

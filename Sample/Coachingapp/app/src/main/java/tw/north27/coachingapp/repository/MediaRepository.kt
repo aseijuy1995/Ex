@@ -13,7 +13,7 @@ class MediaRepository(
 //    private val recorderModule: IMediaRecorderModule
 ) : IMediaRepository {
 
-    override fun fetchMediaImage(setting: MediaSetting): Flow<List<Media>> = imageStoreModule.fetchMediaList(setting)
+    override suspend fun fetchMediaImage(setting: MediaSetting): Flow<List<Media>> = imageStoreModule.fetchMediaList(setting)
 
 //    override fun getMediaAudio(setting: MediaSetting): Observable<List<MediaAlbum>> =
 //        audioStoreModule.getMediaAlbum(setting)

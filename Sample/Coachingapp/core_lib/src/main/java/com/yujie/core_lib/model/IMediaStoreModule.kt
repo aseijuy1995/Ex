@@ -15,20 +15,20 @@ interface IMediaStoreModule {
     /**
      * 獲取媒體文件夾列表
      * */
-    fun fetchMediaFolderList(setting: MediaSetting): Flow<List<MediaFolder>>
+    suspend fun fetchMediaFolderList(setting: MediaSetting): Flow<List<MediaFolder>>
 
     /**
      * 獲取媒體列表
      * */
-    fun fetchMediaList(setting: MediaSetting): Flow<List<Media>>
+    suspend fun fetchMediaList(setting: MediaSetting): Flow<List<Media>>
 
     /**
      * 獲取指定媒體文件夾列表
      * */
-    fun fetchMediaFolderFromName(folderName: String, setting: MediaSetting): Flow<MediaFolder?>
+    suspend fun fetchMediaFolderFromName(folderName: String, setting: MediaSetting): Flow<MediaFolder?>
 
     /**
      * 獲取指定媒體列表
      * */
-    fun fetchMediaFromName(name: String, setting: MediaSetting): Flow<Media?>
+    suspend fun fetchMediaFromName(name: String, setting: MediaSetting): Flow<Media?>
 }

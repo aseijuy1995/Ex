@@ -168,7 +168,7 @@
     <string name="go_settings">前往設定</string>
 
     <!--    <string name="video_duration_format">%2d:%2d</string>-->
-    <string name="choice_count">已選%s項</string>
+    <string name="select_count">已選%d項</string>
     <string name="send">發送</string>
     <string name="setting">設定</string>
 

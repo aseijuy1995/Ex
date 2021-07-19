@@ -7,31 +7,36 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.jakewharton.rxrelay3.PublishRelay
-import com.yujie.core_lib.model.Media
-import com.yujie.core_lib.model.MediaSetting
+import com.yujie.core_lib.adapter.bindImg
+import com.yujie.core_lib.util.logD
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ItemAskRoomMediaAlbumBinding
+import tw.north27.coachingapp.model.media.MediaConfig
+import tw.north27.coachingapp.model.media.MediaData
 
-class AlbumListAdapter : ListAdapter<Media, AlbumListAdapter.VH>(
+class AlbumListAdapter : ListAdapter<MediaData, AlbumListAdapter.VH>(
 
-    object : DiffUtil.ItemCallback<Media>() {
-        override fun areItemsTheSame(oldItem: Media, newItem: Media): Boolean {
+    object : DiffUtil.ItemCallback<MediaData>() {
+        override fun areItemsTheSame(oldItem: MediaData, newItem: MediaData): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
 
-        override fun areContentsTheSame(oldItem: Media, newItem: Media): Boolean {
+        override fun areContentsTheSame(oldItem: MediaData, newItem: MediaData): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
     }
 ) {
 
-    val itemClickRelay = PublishRelay.create<Pair<View, Media>>()
+    val itemClickRelay = PublishRelay.create<Pair<View, MediaData>>()
 
-    val itemSelectRelay = PublishRelay.create<Pair<View, Media>>()
+    val itemSelectRelay = PublishRelay.create<Pair<View, MediaData>>()
 
     val toastRelay = PublishRelay.create<String>()
 
-    var setting: MediaSetting? = null
+    var config: MediaConfig? = null
+
+    val selectMediaDataList: List<MediaData>
+        get() = currentList.filter(MediaData::isSelect)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val inflater = LayoutInflater.from(parent.context)
@@ -50,32 +55,33 @@ class AlbumListAdapter : ListAdapter<Media, AlbumListAdapter.VH>(
     }
 
     inner class VH(private val binding: ItemAskRoomMediaAlbumBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(media: Media): Any = binding.apply {
-//            this.media = media
-//            this.setting = this@AlbumListAdapter.setting
-//            binding.chkSelect.setOnCheckedChangeListener { view, isChoice ->
-//                val isChoice = isChoice
-//                if (isChoice) {
-//                    val count = currentList.count(Media::isChoice)
-//
-//                    if (setting.isMultipleChoice) {
-//                        if (count > setting.multipleChoiceMaxCount) {
-//                            view.isChecked = !isChoice
-//                            toastRelay.accept(view.context.getString(R.string.select_limit))
-//                            return@setOnCheckedChangeListener
-//                        }
-//                    } else {
-//                        if (count > 1) {
-//                            view.isChecked = !isChoice
-//                            toastRelay.accept(view.context.getString(R.string.select_limit))
-//                            return@setOnCheckedChangeListener
-//                        }
-//                    }
-//                }
-//                media.isChoice = isChoice
-//                itemSelectRelay.accept(view to media)
-//            }
-//            executePendingBindings()
+        fun bind(mediaData: MediaData): Any = binding.apply {
+            this.mediaData = mediaData
+            this.config = this@AlbumListAdapter.config
+            logD("mediaData.path = {mediaData.path}")
+            binding.ivImg.bindImg(url = mediaData.path)
+            binding.tvWh.text = String.format("%d x %d", mediaData.width, mediaData.height)
+            binding.chkSelect.setOnCheckedChangeListener { view, isChoice ->
+                if (isChoice) {
+                    val count = currentList.count(MediaData::isSelect)
+                    if (config?.isMultipleChoice == true) {
+                        if (count >= config?.multipleChoiceMaxCount ?: 1) {
+                            view.isChecked = !isChoice
+                            toastRelay.accept(view.context.getString(R.string.select_limit))
+                            return@setOnCheckedChangeListener
+                        }
+                    } else {
+                        if (count > 1) {
+                            view.isChecked = !isChoice
+                            toastRelay.accept(view.context.getString(R.string.select_limit))
+                            return@setOnCheckedChangeListener
+                        }
+                    }
+                }
+                mediaData.isSelect = isChoice
+                itemSelectRelay.accept(view to mediaData)
+            }
+            executePendingBindings()
         }
     }
 

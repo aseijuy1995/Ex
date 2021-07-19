@@ -1,25 +1,23 @@
 package com.yujie.core_lib.model
 
-////image
-//const val MEDIA_ALBUM_IMAGE = "MEDIA_ALBUM_IMAGE"
-//
-////audio
-//const val MEDIA_ALBUM_AUDIO = "MEDIA_ALBUM_AUDIO"
-//
-////video
-//const val MEDIA_ALBUM_VIDEO = "MEDIA_ALBUM_VIDEO"
-
 /**
  * 媒體資訊
- * @param
+ * @param id >> 媒體id
+ * @param mimeType >> 媒體類型
+ * @param defaultSortOrder >> 媒體來源
+ * @param path >> 文件路徑
+ * @param displayName >> 文件名
+ * @param size >> 大小
+ * @param height >> 高
+ * @param width >> 寬
  * */
-data class Media(
-    val id: Int,
-    val mimeType: String,
-    val defaultSortOrder: String,
-    val relativePath: String,
-    val displayName: String,
-    val size: Long,
-    val height: Int,
-    val width: Int,
+open class Media(
+    open val id: Int,
+    open val mimeType: String,
+    open val defaultSortOrder: String,
+    open val path: String,
+    open val displayName: String,
+    open val size: Long,
+    open val height: Int,
+    open val width: Int,
 )
