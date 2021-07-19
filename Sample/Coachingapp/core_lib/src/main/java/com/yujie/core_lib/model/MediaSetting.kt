@@ -9,9 +9,9 @@ package com.yujie.core_lib.model
  * @param maxSize >> (照片)最大大小
  * */
 data class MediaSetting(
-		val mimeType: MimeType = MimeType.ALL,
-		val minSec: Int? = null,
-		val maxSec: Int? = null,
-		val minSize: Long? = null,
-		val maxSize: Long? = null,
+    val mimeType: MimeType = MimeType.ALL,
+    val minSec: Int? = null,
+    val maxSec: Int? = null,
+    val minSize: Long? = null,
+    val maxSize: Long? = null,
 )

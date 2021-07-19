@@ -13,10 +13,11 @@ class App : BaseApplication() {
 //        if (BuildConfig.DEBUG) startStrictMode()
         super.onCreate()
         startKoinModules(
+            moduleModules,
             httpModules,
             viewModelModules,
             repoModules,
-            moduleModules,
+
             //
 //            utilModules,
 

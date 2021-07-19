@@ -57,11 +57,11 @@ class AskRoomMediaDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoom
 
         when (sendMode) {
             SendMode.ALBUM -> {
-                albumListAdapter.setting = viewModel.albumSetting
                 binding.rvMedia.apply {
                     layoutManager = GridLayoutManager(cxt, 3)
                     adapter = albumListAdapter
                 }
+                albumListAdapter.setting = viewModel.albumSetting
                 viewModel.fetchMediaImage(viewModel.albumSetting)
 
                 viewModel.mediaImageListState.observe(viewLifecycleOwner) {

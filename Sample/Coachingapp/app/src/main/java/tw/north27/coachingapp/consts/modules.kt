@@ -8,6 +8,7 @@ import com.yujie.core_lib.http.okhttp.OkHttpManager
 import com.yujie.core_lib.http.retrofit.RetrofitConfig
 import com.yujie.core_lib.http.retrofit.RetrofitManager
 import com.yujie.core_lib.model.IMediaStoreModule
+import com.yujie.core_lib.model.ImageMediaStoreModule
 import com.yujie.core_lib.pref.getId
 import com.yujie.core_lib.pref.getRefreshToken
 import com.yujie.core_lib.pref.userPref
@@ -72,8 +73,8 @@ val httpModules = module {
 }
 
 val moduleModules = module {
+    single<IMediaStoreModule> { ImageMediaStoreModule(androidContext()) }
 //    single<IChatModule> { ChatModule(get()) }
-//    single<IMediaStoreModule> { ImageMediaStoreModule(androidContext()) }
 //    single<IMediaStoreModule>(named("image")) { ImageMediaStoreModule(androidContext()) }
 //    single<IMediaStoreModule>(named("video")) { VideoMediaStoreModule(androidContext()) }
 //    single<IMediaStoreModule>(named("audio")) { AudioMediaStoreModule(androidContext()) }
@@ -94,7 +95,7 @@ val repoModules = module {
 //    single<IChatRepository> { ChatRepository(get(), get()) }
     single<IMediaRepository> {
         MediaRepository(
-            get<IMediaStoreModule>(),
+            get(),
             //
 //            get<IMediaStoreModule>(named("video")),
 //            get<IMediaStoreModule>(named("audio")),
@@ -115,6 +116,7 @@ val viewModelModules = module {
     viewModel<TeacherDetailViewModel> { TeacherDetailViewModel(androidApplication(), get()) }
     viewModel<SetupAskRoomViewModel> { SetupAskRoomViewModel(androidApplication(), get()) }
     viewModel<AskRoomViewModel> { AskRoomViewModel(androidApplication(), get(), get()) }
+    viewModel<AskRoomMediaViewModel> { AskRoomMediaViewModel(get()) }
     //
     viewModel<SignOutViewModel> { SignOutViewModel(androidApplication(), get()) }
     viewModel<CoachingViewModel> { CoachingViewModel(androidApplication(), get()) }
