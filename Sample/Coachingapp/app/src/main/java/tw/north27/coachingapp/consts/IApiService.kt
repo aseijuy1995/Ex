@@ -109,7 +109,6 @@ interface IApiService {
      * */
     @POST
     suspend fun setupAskRoom(@Body setupAskRoomRequest: SetupAskRoomRequest): AskRoom
-    //
 
     /**
      * 獲取提問室的列表詳細資訊
@@ -118,6 +117,7 @@ interface IApiService {
      * */
     @POST
     suspend fun fetchAskRoomInfoList(@Body askRoomInfoRequest: AskRoomInfoRequest): List<AskRoomInfo>
+    //
 
     /**
      * 獲取用戶資訊

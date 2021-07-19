@@ -82,11 +82,6 @@ class AskRoomListAdapter(
     inner class SelfVH(private val binding: ItemAskRoomSelfBinding) : VH(binding) {
         override fun bind(askRoomInfo: AskRoomInfo) = binding.apply {
             this.askRoomInfo = askRoomInfo
-//            tvRead.apply {
-//                isVisible = (askRoom.unreadNum > 0)
-//                text = if (askRoom.unreadNum > 0) context.getString(R.string.un_read) else context.getString(R.string.have_read)
-//            }
-//            tvTime.text = dateTimeToString(askRoom.sendTime)
 
 //            if (chat.chatType == ChatType.IMAGE) {
 //                chat.image?.let {
@@ -159,23 +154,6 @@ class AskRoomListAdapter(
     inner class OtherVH(val binding: ItemAskRoomOtherBinding) : VH(binding) {
         override fun bind(askRoomInfo: AskRoomInfo) = binding.apply {
             this.askRoomInfo = askRoomInfo
-//            when (askRoom.askType) {
-//                AskType.TEXT -> {
-//                    tvText.text = askRoom.text
-//                }
-//                AskType.IMAGE -> {
-//                }
-//                AskType.AUDIO -> {
-//                }
-//                AskType.VIDEO -> {
-//                }
-//            }
-//            tvRead.apply {
-//                isVisible = (askRoom.unreadNum > 0)
-//                text = if (askRoom.unreadNum > 0) context.getString(R.string.un_read) else context.getString(R.string.have_read)
-//            }
-//            tvTime.text = dateTimeToString(askRoom.sendTime)
-
 
 //            if (chat.chatType == ChatType.IMAGE) {
 //                chat.image?.let {

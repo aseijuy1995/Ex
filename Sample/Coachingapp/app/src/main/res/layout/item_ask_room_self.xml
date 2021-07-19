@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:bind="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -32,12 +31,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
+            android:convDateToTime="@{askRoomInfo.sendTime}"
             android:textColor="@color/gray_aaaaaa"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@id/cl_layout"
-            app:layout_constraintEnd_toStartOf="@id/cl_layout"
-             />
-<!--        bind:convDateToTime="@{askRoomInfo.sendTime}"-->
+            app:layout_constraintEnd_toStartOf="@id/cl_layout" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_layout"
@@ -54,7 +52,8 @@
                 android:id="@+id/tv_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_solid_green_corners_radius_5"
+                android:background="@drawable/shape_solid_orange_corners_radius_5"
+                android:isVisible="@{askRoomInfo.askType == AskType.TEXT}"
                 android:maxWidth="250dp"
                 android:padding="5dp"
                 android:text="@{askRoomInfo.text}"
@@ -63,9 +62,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-<!--            bind:isVisible="@{askRoomInfo.askType == AskType.TEXT}"-->
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!--            <androidx.recyclerview.widget.RecyclerView-->
             <!--                android:id="@+id/rv_img"-->

@@ -27,7 +27,7 @@ class AskRoomViewModel(
 
     val askInfoListState = _askInfoListState.asLiveData()
 
-    fun fetchAskInfoList(roomId: Long) = viewModelScope.launch(Dispatchers.IO) {
+    fun fetchAskRoomInfoList(roomId: Long) = viewModelScope.launch(Dispatchers.IO) {
         _askInfoListState.postValue(ViewState.load())
         val clientId = cxt.userPref.getId().first()
         val results = askRoomRepo.fetchAskRoomInfoList(

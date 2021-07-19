@@ -30,7 +30,8 @@
                 android:id="@+id/tv_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_solid_blue_corners_radius_5"
+                android:background="@drawable/shape_solid_yellow_corners_radius_5"
+                android:isVisible="@{askRoomInfo.askType == AskType.TEXT}"
                 android:maxWidth="250dp"
                 android:padding="5dp"
                 android:text="@{askRoomInfo.text}"
@@ -39,9 +40,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-<!--            bind:isVisible="@{askRoomInfo.askType == AskType.TEXT}"-->
+                app:layout_constraintTop_toTopOf="parent" />
 
             <!--            <androidx.recyclerview.widget.RecyclerView-->
             <!--                android:id="@+id/rv_img"-->
@@ -139,12 +138,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:convDateToTime="@{askRoomInfo.sendTime}"
             android:textColor="@color/gray_aaaaaa"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@id/cl_layout"
-            app:layout_constraintStart_toEndOf="@id/cl_layout"
-            />
-<!--        bind:convDateToTime="@{askRoomInfo.sendTime}"-->
+            app:layout_constraintStart_toEndOf="@id/cl_layout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
