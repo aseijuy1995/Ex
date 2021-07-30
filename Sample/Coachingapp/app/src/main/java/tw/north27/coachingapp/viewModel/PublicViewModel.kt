@@ -54,7 +54,7 @@ class PublicViewModel(
         _appConfigState.postValue(ViewState.load())
         val results = publicRepo.fetchAppConfig(
             appConfigRequest = AppConfigRequest(
-                deviceType = BuildConfig.DEVICE_TYPE
+                deviceType = "android"
             )
         )
         when (results) {
