@@ -3,7 +3,7 @@ package tw.north27.coachingapp.repository
 import com.yujie.core_lib.http.Results
 import tw.north27.coachingapp.model.AskRoom
 import tw.north27.coachingapp.model.AskRoomInfo
-import tw.north27.coachingapp.model.CommentInfo
+import tw.north27.coachingapp.model.response.CommentInfo
 import tw.north27.coachingapp.model.request.*
 import tw.north27.coachingapp.model.response.AskRoomResponse
 import tw.north27.coachingapp.model.response.PushResponse

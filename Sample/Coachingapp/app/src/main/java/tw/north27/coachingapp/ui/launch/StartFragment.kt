@@ -21,7 +21,7 @@ import tw.north27.coachingapp.NavGraphLaunchDirections
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentStartBinding
 import tw.north27.coachingapp.ext.updateApp
-import tw.north27.coachingapp.model.SignCode
+import tw.north27.coachingapp.model.response.SignCode
 import tw.north27.coachingapp.model.response.AppCode
 import tw.north27.coachingapp.ui.launch2.basic.Launch2Activity
 import tw.north27.coachingapp.viewModel.PublicViewModel
@@ -46,13 +46,14 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                     val appConfig = it.data
                     when (appConfig.appCode) {
                         AppCode.MOTION.code -> {
-                            val motionInfo = appConfig.motionInfo!!
-                            act.updateApp(motionInfo.versionName).builder { versionNameMode = motionInfo.versionNameMode }.execute(
-                                newVersion = { _, _ ->
-                                    findNavController().navigate(NavGraphLaunchDirections.actionToFragmentUpdateDialog())
-                                },
-                                noNewVersion = { checkGoogleServiceAndSignIn() }
-                            )
+                            appConfig.motionInfo?.let { motionInfo ->
+                                act.updateApp(motionInfo.versionName).builder { versionNameMode = motionInfo.versionNameMode }.execute(
+                                    newVersion = { _, _ ->
+                                        findNavController().navigate(NavGraphLaunchDirections.actionToFragmentUpdateDialog())
+                                    },
+                                    noNewVersion = { checkGoogleServiceAndSignIn() }
+                                )
+                            }
                         }
                         AppCode.DEFEND.code -> findNavController().navigate(NavGraphLaunchDirections.actionToFragmentDefendDialog())
                     }
@@ -80,14 +81,13 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                                 findNavController().navigate(NavGraphLaunchDirections.actionToFragmentSignIn())
                             }
                         }
-
                     }
                 }
             }
         }
 
-        setFragmentResultListener(UpdateDialogFragment.REQUEST_KEY_UPDATE_CLOSE) { _, bundle ->
-            bundle.getBoolean(UpdateDialogFragment.KEY_UPDATE_CLOSE).takeIf { it }?.let {
+        setFragmentResultListener(UpdateDialogFragment.REQUEST_KEY_UPDATE) { _, bundle ->
+            bundle.getBoolean(UpdateDialogFragment.KEY_UPDATE).takeIf { it }?.let {
                 checkGoogleServiceAndSignIn()
             }
         }

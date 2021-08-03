@@ -15,8 +15,8 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.Gender
-import tw.north27.coachingapp.model.ClientInfo
+import tw.north27.coachingapp.model.response.Gender
+import tw.north27.coachingapp.model.response.ClientInfo
 import java.text.SimpleDateFormat
 import java.util.*
 

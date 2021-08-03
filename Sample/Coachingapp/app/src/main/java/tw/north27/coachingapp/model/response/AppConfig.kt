@@ -5,6 +5,26 @@ import com.yujie.core_lib.util.UpdateApp
 import java.util.*
 
 /**
+ * 請求獲取App初始設定
+ * @param deviceType >> 設備類型
+ * */
+data class AppConfigRequest(
+    @SerializedName("device_type") val deviceType: String
+)
+
+/**
+ * 設備類型
+ * @param ANDROID >> Android
+ * @param IOS >> ios
+ * */
+enum class DeviceType(val type: String) {
+    ANDROID("android"),
+    IOS("ios");
+
+    override fun toString(): String = type
+}
+
+/**
  * App初始設定
  * @param appCode >> App狀態碼 運行(2000)、阻擋(2001)
  * @param motionInfo >> 運行資訊
@@ -44,7 +64,7 @@ data class MotionInfo(
     @SerializedName("title") val title: String = "",
     @SerializedName("version_name_mode") val versionNameMode: UpdateApp.VersionNameMode = UpdateApp.VersionNameMode.DEFAULT,
     @SerializedName("version_name") val versionName: String,
-    @SerializedName("play_store_url") val url: String,
+    @SerializedName("url") val url: String,
     @SerializedName("content") val content: String = "",
     @SerializedName("size") val size: String = "",
     @SerializedName("is_compulsory") val isCompulsory: Boolean = true

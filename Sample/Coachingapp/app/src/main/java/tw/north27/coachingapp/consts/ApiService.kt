@@ -10,7 +10,8 @@ import kotlinx.coroutines.delay
 import retrofit2.http.Body
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.consts.simulation.*
-import tw.north27.coachingapp.model.*
+import tw.north27.coachingapp.model.AskRoom
+import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.request.*
 import tw.north27.coachingapp.model.response.*
 import java.lang.Thread.sleep
@@ -28,7 +29,9 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun fetchAppConfig(@Body appConfigRequest: AppConfigRequest): AppConfig {
         delay(1500)
+        logI("appConfigRequest = ${Gson().toJson(appConfigRequest)}")
         val deviceType = appConfigRequest.deviceType
+//        deviceType == "android"
         val appConfig: AppConfig
         appConfig = AppConfig(
             appCode = AppCode.MOTION.code,
@@ -59,7 +62,7 @@ class ApiService(val cxt: Context) : IApiService {
 //                        "4. 維護通知描述1\n" +
 //                        "5. 維護通知描述2\n" +
 //                        "6. 維護通知描述3",
-//                time = Date()
+//                time = Date("2021/01/01 15:30")
 //            )
 //        )
         logI("fetchAppConfig = ${Gson().toJson(appConfig)}")
@@ -68,6 +71,7 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun checkSign(@Body signRequest: SignRequest): SignInfo {
         delay(1500)
+        logI("signRequest = ${Gson().toJson(signRequest)}")
         val signInfo: SignInfo
         signInfo = signSuc_Test
 //        signInfo = signFail_Test
@@ -77,6 +81,7 @@ class ApiService(val cxt: Context) : IApiService {
 
     override suspend fun signIn(@Body signInRequest: SignInRequest): SignInfo {
         delay(1500)
+        logI("signInRequest = ${Gson().toJson(signInRequest)}")
         val account = signInRequest.account
         val password = signInRequest.password
         val pushToken = signInRequest.pushToken

@@ -10,7 +10,7 @@ import com.jakewharton.rxrelay3.PublishRelay
 import com.yujie.core_lib.adapter.bindImg
 import tw.north27.coachingapp.adapter.education.SubjectLabelListAdapter
 import tw.north27.coachingapp.databinding.ItemTeacherBinding
-import tw.north27.coachingapp.model.ClientInfo
+import tw.north27.coachingapp.model.response.ClientInfo
 import tw.north27.coachingapp.model.response.Subject
 import tw.north27.coachingapp.model.response.UnitType
 

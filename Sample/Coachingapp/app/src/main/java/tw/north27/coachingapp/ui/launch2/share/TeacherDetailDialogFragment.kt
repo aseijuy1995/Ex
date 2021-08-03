@@ -19,7 +19,7 @@ import tw.north27.coachingapp.adapter.bindChartComment
 import tw.north27.coachingapp.adapter.bindChartReply
 import tw.north27.coachingapp.adapter.bindGender
 import tw.north27.coachingapp.databinding.FragmentTeacherDetailDialogBinding
-import tw.north27.coachingapp.model.ClientInfo
+import tw.north27.coachingapp.model.response.ClientInfo
 import tw.north27.coachingapp.model.response.UnitType
 import tw.north27.coachingapp.model.transfer.SourceFrom
 import tw.north27.coachingapp.model.treeNodeHolder.EducationLevelHolder

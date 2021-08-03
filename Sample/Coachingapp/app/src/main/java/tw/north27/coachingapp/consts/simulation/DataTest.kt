@@ -1,8 +1,8 @@
 package tw.north27.coachingapp.consts.simulation
 
-import tw.north27.coachingapp.model.CommentInfo
-import tw.north27.coachingapp.model.ReplyCountInfo
-import tw.north27.coachingapp.model.ScoreCountInfo
+import tw.north27.coachingapp.model.response.CommentInfo
+import tw.north27.coachingapp.model.response.ReplyCountInfo
+import tw.north27.coachingapp.model.response.ScoreCountInfo
 import tw.north27.coachingapp.model.response.CommonProblem
 import tw.north27.coachingapp.model.response.Reflect
 import java.text.DecimalFormat

@@ -7,7 +7,7 @@
 
         <variable
             name="commentInfo"
-            type="tw.north27.coachingapp.model.CommentInfo" />
+            type="tw.north27.coachingapp.model.response.CommentInfo" />
 
         <variable
             name="education"

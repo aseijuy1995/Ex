@@ -31,11 +31,11 @@ import tw.north27.coachingapp.consts.simulation.askRoomList_Test
 import tw.north27.coachingapp.databinding.FragmentAskBinding
 import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.AskType
-import tw.north27.coachingapp.model.ClientInfo
+import tw.north27.coachingapp.model.response.ClientInfo
 import tw.north27.coachingapp.model.response.UnitType
 import tw.north27.coachingapp.model.transfer.SourceFrom
-import tw.north27.coachingapp.ui.launch2.share.LoadingDialogFragment
 import tw.north27.coachingapp.ui.launch2.ask.EducationSelectorDialogFragment
+import tw.north27.coachingapp.ui.launch2.share.LoadingDialogFragment
 import tw.north27.coachingapp.ui.launch2.share.TeacherDetailDialogFragment
 import tw.north27.coachingapp.viewModel.AskViewModel
 import tw.north27.coachingapp.viewModel.PublicViewModel

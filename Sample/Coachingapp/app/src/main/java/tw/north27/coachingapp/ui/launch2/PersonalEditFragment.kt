@@ -18,11 +18,11 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.adapter.education.GradeAdapter
 import tw.north27.coachingapp.adapter.info.GenderAdapter
 import tw.north27.coachingapp.databinding.FragmentPersonalEditBinding
-import tw.north27.coachingapp.model.ClientInfo
-import tw.north27.coachingapp.model.Gender
+import tw.north27.coachingapp.model.response.ClientInfo
+import tw.north27.coachingapp.model.response.Gender
 import tw.north27.coachingapp.model.response.Grade
-import tw.north27.coachingapp.ui.launch2.share.LoadingDialogFragment
 import tw.north27.coachingapp.ui.launch2.basic.Launch2Activity
+import tw.north27.coachingapp.ui.launch2.share.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.PersonalViewModel
 import java.text.SimpleDateFormat
 import java.util.*

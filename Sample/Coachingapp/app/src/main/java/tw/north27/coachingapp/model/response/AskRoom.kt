@@ -3,6 +3,7 @@ package tw.north27.coachingapp.model
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import tw.north27.coachingapp.model.response.ClientInfo
 import java.util.*
 
 /**

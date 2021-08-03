@@ -11,7 +11,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import tw.north27.coachingapp.NavGraphLaunch2Directions
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentSetupAskRoomDialogBinding
-import tw.north27.coachingapp.model.ClientInfo
+import tw.north27.coachingapp.model.response.ClientInfo
 import tw.north27.coachingapp.model.response.UnitType
 import tw.north27.coachingapp.viewModel.SetupAskRoomViewModel
 

@@ -7,7 +7,7 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.Gender
+import tw.north27.coachingapp.model.response.Gender
 
 class GenderAdapter : BaseAdapter() {
     private var genderList: List<Gender>? = null

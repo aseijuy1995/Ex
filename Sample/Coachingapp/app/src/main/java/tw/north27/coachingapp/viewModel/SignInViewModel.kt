@@ -14,11 +14,10 @@ import com.yujie.core_lib.util.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.SignCode
-import tw.north27.coachingapp.model.SignInfo
-import tw.north27.coachingapp.model.request.SignInRequest
+import tw.north27.coachingapp.model.response.SignCode
+import tw.north27.coachingapp.model.response.SignInRequest
+import tw.north27.coachingapp.model.response.SignInfo
 import tw.north27.coachingapp.repository.IClientRepository
-import tw.north27.coachingapp.repository.IUserRepository
 
 class SignInViewModel(
     application: Application,

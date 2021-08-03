@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import tw.north27.coachingapp.databinding.ItemCommentBinding
-import tw.north27.coachingapp.model.CommentInfo
+import tw.north27.coachingapp.model.response.CommentInfo
 import tw.north27.coachingapp.model.response.EducationLevel
 import tw.north27.coachingapp.model.response.Grade
 import tw.north27.coachingapp.model.response.Subject

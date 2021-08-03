@@ -25,7 +25,7 @@ import tw.north27.coachingapp.adapter.education.SubjectAdapter
 import tw.north27.coachingapp.adapter.education.UnitTypeAdapter
 import tw.north27.coachingapp.adapter.info.TeacherListAdapter
 import tw.north27.coachingapp.databinding.FragmentCoachingBinding
-import tw.north27.coachingapp.model.ClientInfo
+import tw.north27.coachingapp.model.response.ClientInfo
 import tw.north27.coachingapp.model.response.*
 import tw.north27.coachingapp.model.transfer.SourceFrom
 import tw.north27.coachingapp.ui.launch2.ask.EducationSelectorDialogFragment

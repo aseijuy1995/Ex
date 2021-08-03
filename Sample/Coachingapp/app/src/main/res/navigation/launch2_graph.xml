@@ -35,7 +35,7 @@
 
         <argument
             android:name="clientInfo"
-            app:argType="tw.north27.coachingapp.model.ClientInfo"
+            app:argType="tw.north27.coachingapp.model.response.ClientInfo"
             app:nullable="true" />
 
     </action>
@@ -48,7 +48,7 @@
 
         <argument
             android:name="clientInfo"
-            app:argType="tw.north27.coachingapp.model.ClientInfo"
+            app:argType="tw.north27.coachingapp.model.response.ClientInfo"
             app:nullable="false" />
 
     </dialog>
@@ -64,7 +64,7 @@
 
         <argument
             android:name="clientInfo"
-            app:argType="tw.north27.coachingapp.model.ClientInfo"
+            app:argType="tw.north27.coachingapp.model.response.ClientInfo"
             app:nullable="false" />
 
         <argument
@@ -86,7 +86,7 @@
 
         <argument
             android:name="clientInfo"
-            app:argType="tw.north27.coachingapp.model.ClientInfo"
+            app:argType="tw.north27.coachingapp.model.response.ClientInfo"
             app:nullable="false" />
 
         <argument

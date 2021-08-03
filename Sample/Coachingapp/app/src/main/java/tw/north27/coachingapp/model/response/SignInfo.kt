@@ -1,24 +1,41 @@
-package tw.north27.coachingapp.model
+package tw.north27.coachingapp.model.response
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.yujie.core_lib.UserPref
 import com.yujie.core_lib.http.okhttp.TokenInfo
 import kotlinx.parcelize.Parcelize
-import tw.north27.coachingapp.model.response.UnitType
 import java.util.*
+
+/**
+ * 請求登入檢查
+ * @param clientId >> 用戶id
+ * */
+data class SignRequest(
+    @SerializedName("client_id") val clientId: String
+)
+
+/**
+ * 請求登入
+ * @param account >> 帳號
+ * @param password >> 密碼
+ * @param pushToken >> 推播token
+ * */
+data class SignInRequest(
+    @SerializedName("account") val account: String,
+    @SerializedName("password") val password: String,
+    @SerializedName("push_token") val pushToken: String,
+)
 
 /**
  * 可用於登入&登出
  * @param signCode >> 登入狀態碼
  * @param signInInfo >> 登入資訊
- * @param signOutInfo >> 登出資訊
  * @param msg >> 訊息
  * */
 data class SignInfo(
     @SerializedName("code") val signCode: Int,
     @SerializedName("sign_in_info") val signInInfo: SignInInfo? = null,
-    @SerializedName("sign_out_info") val signOutInfo: SignOutInfo? = null,
     @SerializedName("msg") val msg: String? = null,
 )
 
@@ -26,14 +43,10 @@ data class SignInfo(
  * 登入、登出狀態碼
  * @param SIGN_IN_SUCCESS >> 登入成功(2000)
  * @param SIGN_IN_FAILED >> 登入失敗(2001)
- * @param SIGN_OUT_SUCCESS >> 登出成功(2002)
- * @param SIGN_OUT_FAILED >> 登出失敗(2003)
  * */
 enum class SignCode(val code: Int) {
     SIGN_IN_SUC(2000),
-    SIGN_IN_FAIL(2001),
-    SIGN_OUT_SUCCESS(2002),
-    SIGN_OUT_FAILED(2003);
+    SIGN_IN_FAIL(2001);
 
     override fun toString(): String = code.toString()
 }
@@ -90,14 +103,6 @@ data class ClientInfo(
     @SerializedName("teacher_info") val teacherInfo: TeacherInfo? = null,
     @SerializedName("user_config") val userConfig: UserConfig? = null,
 ) : Parcelable
-
-/**
- * 登出資訊
- * @param msg >> 登出成功 / 失敗訊息
- * */
-data class SignOutInfo(
-    @SerializedName("msg") val msg: String = "",
-)
 
 /**
  * 性別

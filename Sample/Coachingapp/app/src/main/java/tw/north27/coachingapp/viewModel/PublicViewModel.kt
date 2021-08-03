@@ -12,11 +12,9 @@ import com.yujie.core_lib.util.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import tw.north27.coachingapp.BuildConfig
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.ClientInfo
-import tw.north27.coachingapp.model.Gender
-import tw.north27.coachingapp.model.request.AppConfigRequest
+import tw.north27.coachingapp.model.response.ClientInfo
+import tw.north27.coachingapp.model.response.Gender
 import tw.north27.coachingapp.model.request.ClientRequest
 import tw.north27.coachingapp.model.response.*
 import tw.north27.coachingapp.repository.IClientRepository
@@ -50,11 +48,13 @@ class PublicViewModel(
 
     val appConfigState = _appConfigState.asLiveData()
 
+    private val deviceType = "android"
+
     fun fetchAppConfig() = viewModelScope.launch(Dispatchers.IO) {
         _appConfigState.postValue(ViewState.load())
         val results = publicRepo.fetchAppConfig(
             appConfigRequest = AppConfigRequest(
-                deviceType = "android"
+                deviceType = deviceType
             )
         )
         when (results) {

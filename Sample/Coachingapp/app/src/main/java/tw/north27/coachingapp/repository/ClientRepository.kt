@@ -4,9 +4,14 @@ import com.yujie.core_lib.http.Results
 import com.yujie.core_lib.http.okhttp.TokenInfo
 import com.yujie.core_lib.http.safeApiResults
 import tw.north27.coachingapp.consts.IApiService
-import tw.north27.coachingapp.model.ClientInfo
-import tw.north27.coachingapp.model.SignInfo
-import tw.north27.coachingapp.model.request.*
+import tw.north27.coachingapp.model.request.ClientRequest
+import tw.north27.coachingapp.model.request.PairRequest
+import tw.north27.coachingapp.model.request.TeacherRequest
+import tw.north27.coachingapp.model.request.TokenRequest
+import tw.north27.coachingapp.model.response.ClientInfo
+import tw.north27.coachingapp.model.response.SignInRequest
+import tw.north27.coachingapp.model.response.SignInfo
+import tw.north27.coachingapp.model.response.SignRequest
 
 class ClientRepository(private val service: IApiService) : IClientRepository {
 

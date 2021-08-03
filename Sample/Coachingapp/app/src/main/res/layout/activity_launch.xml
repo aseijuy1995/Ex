@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.launch.LaunchActivity">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.flaviofaria.kenburnsview.KenBurnsView
         android:id="@+id/iv_bg"
         android:layout_width="0dp"
         android:layout_height="0dp"

@@ -20,7 +20,7 @@ import tw.north27.coachingapp.adapter.bindChartComment
 import tw.north27.coachingapp.adapter.bindChartReply
 import tw.north27.coachingapp.adapter.bindGender
 import tw.north27.coachingapp.databinding.FragmentPersonalBinding
-import tw.north27.coachingapp.model.ClientInfo
+import tw.north27.coachingapp.model.response.ClientInfo
 import tw.north27.coachingapp.viewModel.PersonalViewModel
 import java.text.SimpleDateFormat
 import java.util.*

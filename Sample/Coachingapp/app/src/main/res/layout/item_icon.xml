@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv_view"
     android:layout_width="100dp"
     android:layout_height="100dp"
     android:layout_gravity="center"
-    android:id="@+id/cv_view"
-    android:backgroundTint="@color/yellow_fef5e0"
+    android:backgroundTint="?attr/colorPrimary"
     android:elevation="15dp"
     app:cardCornerRadius="10dp"
     app:layout_constraintBottom_toBottomOf="parent"
@@ -19,10 +19,12 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_icon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center"
-            app:srcCompat="@mipmap/ic_pencil_logo" />
+            android:backgroundTint="@drawable/select_gradient_yellow_white"
+            android:rotation="-45"
+            app:srcCompat="@drawable/ic_baseline_tips_and_updates_24_white" />
 
         <com.github.ybq.android.spinkit.SpinKitView
             android:id="@+id/svk_view"
@@ -30,7 +32,8 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            app:SpinKit_Color="@color/yellow_fef5e0" />
+            android:visibility="gone"
+            app:SpinKit_Color="?attr/colorPrimary" />
 
     </FrameLayout>
 

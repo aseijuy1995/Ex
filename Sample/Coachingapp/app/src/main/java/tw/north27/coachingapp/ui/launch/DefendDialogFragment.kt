@@ -29,15 +29,16 @@ class DefendDialogFragment : BaseDialogFragment<FragmentDefendDialogBinding>(R.l
                 is ViewState.Data -> {
                     val appConfig = it.data
                     if (appConfig.appCode == AppCode.DEFEND.code) {
-                        val defendInfo = appConfig.defendInfo!!
-                        if (defendInfo.bgUrl.isNotEmpty()) binding.ivBg.bindImg(url = defendInfo.bgUrl)
-                        if (defendInfo.title.isNotEmpty()) binding.tvTitle.text = defendInfo.title
-                        if (defendInfo.content.isNotEmpty()) binding.tvContent.text = defendInfo.content
-                        binding.apply {
-                            tvTime.apply {
-                                isVisible = (defendInfo.time != null)
-                                defendInfo.time?.let {
-                                    text = SimpleDateFormat("yyyy/MM/dd HH:mm").format(defendInfo.time)
+                        appConfig.defendInfo?.let { defendInfo ->
+                            if (defendInfo.bgUrl.isNotEmpty()) binding.ivBg.bindImg(url = defendInfo.bgUrl)
+                            if (defendInfo.title.isNotEmpty()) binding.tvTitle.text = defendInfo.title
+                            if (defendInfo.content.isNotEmpty()) binding.tvContent.text = defendInfo.content
+                            binding.apply {
+                                tvTime.apply {
+                                    isVisible = (defendInfo.time != null)
+                                    defendInfo.time?.let {
+                                        text = SimpleDateFormat("yyyy/MM/dd HH:mm").format(defendInfo.time)
+                                    }
                                 }
                             }
                         }

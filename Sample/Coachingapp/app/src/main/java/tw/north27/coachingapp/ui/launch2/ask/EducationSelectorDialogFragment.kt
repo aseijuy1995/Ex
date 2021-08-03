@@ -20,7 +20,7 @@ import tw.north27.coachingapp.adapter.education.GradeAdapter
 import tw.north27.coachingapp.adapter.education.SubjectAdapter
 import tw.north27.coachingapp.adapter.education.UnitTypeAdapter
 import tw.north27.coachingapp.databinding.FragmentEducationSelectorDialogBinding
-import tw.north27.coachingapp.model.ClientInfo
+import tw.north27.coachingapp.model.response.ClientInfo
 import tw.north27.coachingapp.model.response.Education
 import tw.north27.coachingapp.model.response.UnitType
 import tw.north27.coachingapp.model.transfer.SourceFrom

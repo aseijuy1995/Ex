@@ -12,7 +12,7 @@ import com.yujie.core_lib.util.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import tw.north27.coachingapp.model.ClientInfo
+import tw.north27.coachingapp.model.response.ClientInfo
 import tw.north27.coachingapp.model.request.TeacherRequest
 import tw.north27.coachingapp.repository.IClientRepository
 

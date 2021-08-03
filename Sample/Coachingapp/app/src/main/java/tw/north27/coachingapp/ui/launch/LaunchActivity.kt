@@ -20,10 +20,10 @@ import tw.north27.coachingapp.viewModel.PublicViewModel
 
 class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaunchBinding::inflate) {
 
-    val navFragment: NavHostFragment
+    private val navFragment: NavHostFragment
         get() = (supportFragmentManager.findFragmentById(R.id.fcv_launch) as NavHostFragment)
 
-    val navController: NavController
+    private val navController: NavController
         get() = navFragment.navController
 
     private val publicVM by viewModel<PublicViewModel>()
@@ -34,8 +34,6 @@ class LaunchActivity : BaseAppCompatActivity<ActivityLaunchBinding>(ActivityLaun
             binding.ivBg.bindImg(
                 resId = it,
                 placeRes = it,
-                blurRadius = 10,
-                blurSampling = 3
             )
         }
     }

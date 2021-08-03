@@ -1,7 +1,7 @@
 package tw.north27.coachingapp.model.request
 
 import com.google.gson.annotations.SerializedName
-import tw.north27.coachingapp.model.Gender
+import tw.north27.coachingapp.model.response.Gender
 import java.util.*
 
 /**

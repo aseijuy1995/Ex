@@ -2,7 +2,7 @@ package tw.north27.coachingapp.consts.simulation
 
 import com.yujie.core_lib.UserPref
 import com.yujie.core_lib.http.okhttp.TokenInfo
-import tw.north27.coachingapp.model.*
+import tw.north27.coachingapp.model.response.*
 
 val clientId_Test = "north27_id"
 val account_Test = "north27"

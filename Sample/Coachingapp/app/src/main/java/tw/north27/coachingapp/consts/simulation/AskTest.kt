@@ -2,6 +2,7 @@ package tw.north27.coachingapp.consts.simulation
 
 import com.yujie.core_lib.UserPref
 import tw.north27.coachingapp.model.*
+import tw.north27.coachingapp.model.response.ClientInfo
 import java.util.*
 
 val askRoomList_Test = mutableListOf(

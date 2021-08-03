@@ -12,8 +12,8 @@ import com.yujie.core_lib.util.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import tw.north27.coachingapp.model.CommentInfo
-import tw.north27.coachingapp.model.Gender
+import tw.north27.coachingapp.model.response.CommentInfo
+import tw.north27.coachingapp.model.response.Gender
 import tw.north27.coachingapp.model.request.CommentRequest
 import tw.north27.coachingapp.model.request.ReflectRequest
 import tw.north27.coachingapp.model.request.UpdateClientRequest

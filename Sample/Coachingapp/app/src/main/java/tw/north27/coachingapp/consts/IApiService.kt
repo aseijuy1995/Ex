@@ -9,7 +9,8 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
-import tw.north27.coachingapp.model.*
+import tw.north27.coachingapp.model.AskRoom
+import tw.north27.coachingapp.model.AskRoomInfo
 import tw.north27.coachingapp.model.request.*
 import tw.north27.coachingapp.model.response.*
 
@@ -22,7 +23,6 @@ interface IApiService {
      * */
     @POST
     fun refreshToken(@Body tokenRequest: TokenRequest): TokenInfo
-
 
     /**
      * 獲取App初始設定

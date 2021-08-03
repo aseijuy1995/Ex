@@ -5,8 +5,7 @@ import com.yujie.core_lib.http.safeApiResults
 import tw.north27.coachingapp.consts.IApiService
 import tw.north27.coachingapp.model.AskRoom
 import tw.north27.coachingapp.model.AskRoomInfo
-import tw.north27.coachingapp.model.ClientInfo
-import tw.north27.coachingapp.model.CommentInfo
+import tw.north27.coachingapp.model.response.CommentInfo
 import tw.north27.coachingapp.model.request.*
 import tw.north27.coachingapp.model.response.AskRoomResponse
 import tw.north27.coachingapp.model.response.PushResponse

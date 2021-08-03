@@ -26,9 +26,9 @@ class UpdateDialogFragment : BaseDialogFragment<FragmentUpdateDialogBinding>(R.l
     private val publicVM by sharedViewModel<PublicViewModel>()
 
     companion object {
-        const val REQUEST_KEY_UPDATE_CLOSE = "REQUEST_KEY_UPDATE_CLOSE"
+        const val REQUEST_KEY_UPDATE = "REQUEST_KEY_UPDATE"
 
-        const val KEY_UPDATE_CLOSE = "KEY_UPDATE_CLOSE"
+        const val KEY_UPDATE = "KEY_UPDATE"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,36 +38,38 @@ class UpdateDialogFragment : BaseDialogFragment<FragmentUpdateDialogBinding>(R.l
                 is ViewState.Data -> {
                     val appConfig = it.data
                     if (appConfig.appCode == AppCode.MOTION.code) {
-                        val updateInfo = appConfig.motionInfo!!
-                        if (updateInfo.bgUrl.isNotEmpty()) binding.ivBg.bindImg(url = updateInfo.bgUrl)
-                        if (updateInfo.title.isNotEmpty()) binding.tvTitle.text = updateInfo.title
-                        if (updateInfo.content.isNotEmpty()) binding.tvContent.text = updateInfo.content
+                        appConfig.motionInfo?.let { updateInfo ->
+                            if (updateInfo.bgUrl.isNotEmpty()) binding.ivBg.bindImg(url = updateInfo.bgUrl)
+                            if (updateInfo.title.isNotEmpty()) binding.tvTitle.text = updateInfo.title
+                            if (updateInfo.content.isNotEmpty()) binding.tvContent.text = updateInfo.content
 
-                        binding.apply {
-                            tvTitle.append("\t(${updateInfo.versionName})")
-                            tvSize.apply {
-                                isVisible = updateInfo.size.isNotEmpty()
-                                text = String.format("%s: %s", getString(R.string.update_size), updateInfo.size)
-                            }
-
-                            btnUpdate.clicksObserve(owner = viewLifecycleOwner) {
-                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(updateInfo.url)).apply {
-                                    flags = Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+                            binding.apply {
+                                tvTitle.append("\t(${updateInfo.versionName})")
+                                tvSize.apply {
+                                    isVisible = updateInfo.size.isNotEmpty()
+                                    text = String.format("%s: %s", getString(R.string.update_size), updateInfo.size)
                                 }
-                                cxt.startActivity(intent)
-                            }
 
-                            llcClose.apply {
-                                isVisible = !updateInfo.isCompulsory
-                                clicksObserve(owner = viewLifecycleOwner) {
-                                    setFragmentResult(
-                                        REQUEST_KEY_UPDATE_CLOSE,
-                                        bundleOf(KEY_UPDATE_CLOSE to true)
-                                    )
-                                    findNavController().navigateUp()
+                                btnUpdate.clicksObserve(owner = viewLifecycleOwner) {
+                                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(updateInfo.url)).apply {
+                                        flags = Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_NEW_DOCUMENT or Intent.FLAG_ACTIVITY_MULTIPLE_TASK
+                                    }
+                                    cxt.startActivity(intent)
+                                }
+
+                                llcClose.apply {
+                                    isVisible = !updateInfo.isCompulsory
+                                    clicksObserve(owner = viewLifecycleOwner) {
+                                        setFragmentResult(
+                                            REQUEST_KEY_UPDATE,
+                                            bundleOf(KEY_UPDATE to true)
+                                        )
+                                        findNavController().navigateUp()
+                                    }
                                 }
                             }
                         }
+
                     }
                 }
             }

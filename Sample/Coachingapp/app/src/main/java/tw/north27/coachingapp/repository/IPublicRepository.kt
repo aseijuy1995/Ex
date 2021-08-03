@@ -1,8 +1,8 @@
 package tw.north27.coachingapp.repository
 
 import com.yujie.core_lib.http.Results
-import tw.north27.coachingapp.model.request.AppConfigRequest
 import tw.north27.coachingapp.model.response.AppConfig
+import tw.north27.coachingapp.model.response.AppConfigRequest
 import tw.north27.coachingapp.model.response.Education
 import tw.north27.coachingapp.model.response.PublicDataResponse
 
