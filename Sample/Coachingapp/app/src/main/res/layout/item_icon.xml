@@ -22,15 +22,15 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:backgroundTint="@drawable/select_gradient_yellow_white"
             android:rotation="-45"
-            app:srcCompat="@drawable/ic_baseline_tips_and_updates_24_white" />
+            app:srcCompat="@drawable/ic_baseline_tips_and_updates_24_gradient_white_yellow" />
 
         <com.github.ybq.android.spinkit.SpinKitView
             android:id="@+id/svk_view"
             style="@style/SpinKitView.Large.CubeGrid"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="40dp"
+            android:rotation="-45"
+            android:layout_height="40dp"
             android:layout_gravity="center"
             android:visibility="gone"
             app:SpinKit_Color="?attr/colorPrimary" />

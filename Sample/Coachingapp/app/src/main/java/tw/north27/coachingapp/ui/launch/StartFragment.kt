@@ -71,7 +71,7 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
                     val signIn = it.data
                     Toast.makeText(cxt, signIn.msg, Toast.LENGTH_SHORT).show()
                     lifecycleScope.launch {
-                        delay(200)
+                        delay(500)
                         when (signIn.signCode) {
                             SignCode.SIGN_IN_SUC.code -> {
                                 startActivity(Intent(act, Launch2Activity::class.java))

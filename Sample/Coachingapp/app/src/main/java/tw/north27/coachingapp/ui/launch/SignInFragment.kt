@@ -48,7 +48,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                     when (signIn.signCode) {
                         SignCode.SIGN_IN_SUC.code -> {
                             lifecycleScope.launch {
-                                delay(200)
+                                delay(500)
                                 startActivity(Intent(act, Launch2Activity::class.java))
                                 act.finish()
                             }
