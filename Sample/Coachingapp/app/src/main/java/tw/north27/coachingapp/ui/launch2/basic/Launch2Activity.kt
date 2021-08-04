@@ -5,6 +5,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.*
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.yujie.core_lib.UserPref
@@ -12,11 +13,13 @@ import com.yujie.core_lib.base.BaseAppCompatActivity
 import com.yujie.core_lib.pref.getAuth
 import com.yujie.core_lib.pref.userPref
 import com.yujie.core_lib.util.ViewState
+import com.yujie.core_lib.util.logD
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import tw.north27.coachingapp.NavGraphLaunch2Directions
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ActivityLaunch2Binding
 import tw.north27.coachingapp.viewModel.PublicViewModel
@@ -68,7 +71,6 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
                     else -> false
                 }
             }
-
         }
 
         lifecycleScope.launch(Dispatchers.IO) {
@@ -103,6 +105,15 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
             }
         }
 
+        //
+        publicVM.isFirstState.observe(this) {
+            logD("isFirstState = $it")
+            if (it) {
+                findNavController(R.id.fcv_launch2).navigate(NavGraphLaunch2Directions.actionToFragmentExplain())
+            }
+        }
+        //
+
         publicVM.apply {
             aboutDataState.observe(this@Launch2Activity) {
                 when (it) {
@@ -121,6 +132,8 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
 
         publicVM.fetchEducation()
         publicVM.fetchPublicData()
+
+        publicVM.checkIsFirst()
 
     }
 

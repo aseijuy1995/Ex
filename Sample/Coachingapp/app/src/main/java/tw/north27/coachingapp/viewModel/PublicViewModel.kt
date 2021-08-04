@@ -7,14 +7,14 @@ import com.yujie.core_lib.base.BaseAndroidViewModel
 import com.yujie.core_lib.ext.asLiveData
 import com.yujie.core_lib.http.Results
 import com.yujie.core_lib.pref.getId
+import com.yujie.core_lib.pref.getIsFirst
+import com.yujie.core_lib.pref.setIsFirst
 import com.yujie.core_lib.pref.userPref
 import com.yujie.core_lib.util.ViewState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import tw.north27.coachingapp.R
-import tw.north27.coachingapp.model.response.ClientInfo
-import tw.north27.coachingapp.model.response.Gender
 import tw.north27.coachingapp.model.request.ClientRequest
 import tw.north27.coachingapp.model.response.*
 import tw.north27.coachingapp.repository.IClientRepository
@@ -70,6 +70,19 @@ class PublicViewModel(
         }
     }
 
+    private val _isFirstState = MutableLiveData<Boolean>(false)
+
+    val isFirstState = _isFirstState.asLiveData()
+
+    fun checkIsFirst() = viewModelScope.launch {
+        val isFirst = cxt.userPref.getIsFirst().first()
+        _isFirstState.postValue(isFirst)
+        if (isFirst) {
+            cxt.userPref.setIsFirst(false)
+        }
+    }
+
+    //
     private val _educationState = MutableLiveData<ViewState<Education>>(ViewState.initial())
 
     val educationState = _educationState.asLiveData()

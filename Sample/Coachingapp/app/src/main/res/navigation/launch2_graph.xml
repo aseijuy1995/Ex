@@ -4,6 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_launch2">
 
+    <!--  ExplainFragment  -->
+    <fragment
+        android:id="@+id/fragment_explain"
+        android:name="tw.north27.coachingapp.ui.launch2.info.ExplainFragment"
+        android:label="fragment_explain"
+        tools:layout="@layout/fragment_explain" />
+
+    <action
+        android:id="@+id/action_to_fragment_explain"
+        app:destination="@id/fragment_explain" />
+
     <!--  CoachingFragment  -->
     <fragment
         android:id="@+id/fragment_coaching"

@@ -25,12 +25,6 @@ class UpdateDialogFragment : BaseDialogFragment<FragmentUpdateDialogBinding>(R.l
 
     private val publicVM by sharedViewModel<PublicViewModel>()
 
-    companion object {
-        const val REQUEST_KEY_UPDATE = "REQUEST_KEY_UPDATE"
-
-        const val KEY_UPDATE = "KEY_UPDATE"
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         publicVM.appConfigState.observe(viewLifecycleOwner) {
@@ -74,5 +68,11 @@ class UpdateDialogFragment : BaseDialogFragment<FragmentUpdateDialogBinding>(R.l
                 }
             }
         }
+    }
+
+    companion object {
+        const val REQUEST_KEY_UPDATE = "REQUEST_KEY_UPDATE"
+
+        const val KEY_UPDATE = "KEY_UPDATE"
     }
 }
