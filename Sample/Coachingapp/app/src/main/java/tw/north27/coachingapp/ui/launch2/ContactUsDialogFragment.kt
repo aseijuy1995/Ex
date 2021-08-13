@@ -11,7 +11,7 @@ import tw.north27.coachingapp.ui.launch2.basic.Launch2Activity
 
 class ContactUsDialogFragment : BaseDialogFragment<FragmentContactUsDialogBinding>(R.layout.fragment_contact_us_dialog) {
 
-    override val viewBind: (View) -> FragmentContactUsDialogBinding
+    override val bind: (View) -> FragmentContactUsDialogBinding
         get() = FragmentContactUsDialogBinding::bind
 
     private val launch2Act: Launch2Activity

@@ -30,7 +30,7 @@ import tw.north27.coachingapp.viewModel.PublicViewModel
 
 class EducationSelectorDialogFragment : BaseDialogFragment<FragmentEducationSelectorDialogBinding>(R.layout.fragment_education_selector_dialog) {
 
-    override val viewBind: (View) -> FragmentEducationSelectorDialogBinding
+    override val bind: (View) -> FragmentEducationSelectorDialogBinding
         get() = FragmentEducationSelectorDialogBinding::bind
 
     private val publicVM by sharedViewModel<PublicViewModel>()

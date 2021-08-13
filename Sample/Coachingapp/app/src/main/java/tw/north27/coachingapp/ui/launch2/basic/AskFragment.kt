@@ -43,7 +43,7 @@ import java.util.*
 
 class AskFragment : BaseFragment<FragmentAskBinding>(R.layout.fragment_ask) {
 
-    override val viewBind: (View) -> FragmentAskBinding
+    override val bind: (View) -> FragmentAskBinding
         get() = FragmentAskBinding::bind
 
     private val publicVM by sharedViewModel<PublicViewModel>()

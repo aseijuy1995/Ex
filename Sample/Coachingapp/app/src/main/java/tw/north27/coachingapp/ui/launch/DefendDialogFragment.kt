@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat
 
 class DefendDialogFragment : BaseDialogFragment<FragmentDefendDialogBinding>(R.layout.fragment_defend_dialog) {
 
-    override val viewBind: (View) -> FragmentDefendDialogBinding
+    override val bind: (View) -> FragmentDefendDialogBinding
         get() = FragmentDefendDialogBinding::bind
 
     private val publicVM by sharedViewModel<PublicViewModel>()

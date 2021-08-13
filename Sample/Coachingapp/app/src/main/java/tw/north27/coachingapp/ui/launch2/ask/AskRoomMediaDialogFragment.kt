@@ -24,7 +24,7 @@ import tw.north27.coachingapp.viewModel.AskRoomMediaViewModel
 
 class AskRoomMediaDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoomMediaDialogBinding>(R.layout.fragment_ask_room_media_dialog) {
 
-    override val viewBind: (View) -> FragmentAskRoomMediaDialogBinding
+    override val bind: (View) -> FragmentAskRoomMediaDialogBinding
         get() = FragmentAskRoomMediaDialogBinding::bind
 
     private val viewModel by viewModel<AskRoomMediaViewModel>()

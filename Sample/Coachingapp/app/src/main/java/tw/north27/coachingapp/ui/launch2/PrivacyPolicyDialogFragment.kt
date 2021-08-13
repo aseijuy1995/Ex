@@ -11,7 +11,7 @@ import tw.north27.coachingapp.ui.launch2.basic.Launch2Activity
 
 class PrivacyPolicyDialogFragment : BaseDialogFragment<FragmentPrivacyPolicyDialogBinding>(R.layout.fragment_privacy_policy_dialog) {
 
-    override val viewBind: (View) -> FragmentPrivacyPolicyDialogBinding
+    override val bind: (View) -> FragmentPrivacyPolicyDialogBinding
         get() = FragmentPrivacyPolicyDialogBinding::bind
 
     private val launch2Act: Launch2Activity

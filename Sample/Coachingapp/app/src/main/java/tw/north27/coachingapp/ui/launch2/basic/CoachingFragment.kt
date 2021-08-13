@@ -35,7 +35,7 @@ import tw.north27.coachingapp.viewModel.PublicViewModel
 
 class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment_coaching) {
 
-    override val viewBind: (View) -> FragmentCoachingBinding
+    override val bind: (View) -> FragmentCoachingBinding
         get() = FragmentCoachingBinding::bind
 
     private val publicVM by sharedViewModel<PublicViewModel>()
@@ -57,7 +57,7 @@ class CoachingFragment : BaseFragment<FragmentCoachingBinding>(R.layout.fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        launch2Act.doubleClickToExit()
+//        launch2Act.doubleClickToExit()
         adapter = TeacherListAdapter()
         binding.apply {
             itemToolbarNormal.apply {

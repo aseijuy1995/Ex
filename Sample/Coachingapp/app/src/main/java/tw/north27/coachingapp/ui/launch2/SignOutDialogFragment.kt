@@ -17,7 +17,7 @@ import tw.north27.coachingapp.viewModel.SignOutViewModel
 
 class SignOutDialogFragment : BaseDialogFragment<FragmentSignOutDialogBinding>(R.layout.fragment_sign_out_dialog) {
 
-    override val viewBind: (View) -> FragmentSignOutDialogBinding
+    override val bind: (View) -> FragmentSignOutDialogBinding
         get() = FragmentSignOutDialogBinding::bind
 
     private val viewModel by viewModel<SignOutViewModel>()

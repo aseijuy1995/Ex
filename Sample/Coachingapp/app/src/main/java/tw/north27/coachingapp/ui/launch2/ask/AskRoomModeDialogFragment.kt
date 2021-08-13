@@ -27,7 +27,7 @@ class AskRoomModeDialogFragment : BaseBottomSheetDialogFragment<FragmentAskRoomM
         val KEY_SEND_MODE = "KEY_SEND_MODE"
     }
 
-    override val viewBind: (View) -> FragmentAskRoomModeDialogBinding
+    override val bind: (View) -> FragmentAskRoomModeDialogBinding
         get() = FragmentAskRoomModeDialogBinding::bind
 
     override fun getTheme(): Int {

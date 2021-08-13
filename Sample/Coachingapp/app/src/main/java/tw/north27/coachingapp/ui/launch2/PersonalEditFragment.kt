@@ -29,7 +29,7 @@ import java.util.*
 
 class PersonalEditFragment : BaseFragment<FragmentPersonalEditBinding>(R.layout.fragment_personal_edit) {
 
-    override val viewBind: (View) -> FragmentPersonalEditBinding
+    override val bind: (View) -> FragmentPersonalEditBinding
         get() = FragmentPersonalEditBinding::bind
 
     private val launch2Act: Launch2Activity

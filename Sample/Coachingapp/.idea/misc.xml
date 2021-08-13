@@ -3,24 +3,40 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/ic_baseline_label_24_color_primary_variant.xml" value="0.3692708333333333" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/ic_baseline_tips_and_updates_24_gradient_white_yellow.xml" value="0.1" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/ic_baseline_tips_and_updates_24_white.xml" value="0.2791666666666667" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/ic_launcher_background_release.xml" value="0.3692708333333333" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/ic_twotone_chrome_reader_mode_24_yellow.xml" value="0.3692708333333333" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/ic_twotone_notifications_24_green.xml" value="0.3692708333333333" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/ic_twotone_person_24_blue.xml" value="0.3692708333333333" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/ic_twotone_question_answer_24_orange.xml" value="0.3692708333333333" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/ic_twotone_school_24_red.xml" value="0.3692708333333333" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/layer_shape_size_height_5_solid_gray_lt_rt_20.xml" value="0.2791666666666667" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/layer_shape_solid_white_corners_radius_10_icon.xml" value="0.2791666666666667" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/layer_shape_solid_white_stroke_width_1_color_gray_corners_radius_5_padding_top_btn_2_lt_rt_5_bitmap_ic_down.xml" value="0.2791666666666667" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/select_gradient_yellow_white.xml" value="0.2765625" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/shape_gradient_angle_270_color_blue.xml" value="0.38229166666666664" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/shape_gradient_angle_270_color_tran_gray.xml" value="0.3692708333333333" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/shape_solid_color_primary_color_primary_variant.xml" value="0.3692708333333333" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/shape_solid_color_primary_corners_radius_5.xml" value="0.2765625" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/shape_solid_color_primary_corners_variant_radius_5.xml" value="0.3692708333333333" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/shape_solid_red_corners_radius_5.xml" value="0.2791666666666667" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/shape_solid_tran_stroke_width_2_color_white_corners_radius_10.xml" value="0.3692708333333333" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/drawable/shape_solid_tran_stroke_width_5_color_yellow_corners_radius_5.xml" value="0.3692708333333333" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/layout/activity_launch.xml" value="0.353125" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/layout/activity_launch2.xml" value="0.353125" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/layout/drawer_layout_coaching.xml" value="0.353125" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/layout/fragment_coaching.xml" value="0.353125" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/layout/fragment_defend_dialog.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/layout/fragment_explain.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/layout/fragment_explain_detail.xml" value="0.22" />
-        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/layout/fragment_sign_in.xml" value="0.22" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/layout/fragment_loading_dialog.xml" value="0.353125" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/layout/fragment_sign_in.xml" value="0.25" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/layout/fragment_start.xml" value="0.1" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/layout/fragment_update_dialog.xml" value="0.33" />
-        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/layout/item_icon.xml" value="0.75" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/layout/item_icon.xml" value="0.33" />
+        <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/layout/item_mark.xml" value="0.33" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/app/src/main/res/menu/launch2_bnv.xml" value="0.353125" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/core_lib/src/main/res/drawable/ic_launcher_foreground.xml" value="0.3592592592592593" />
         <entry key="..\:/Users/user/Desktop/Android/Ex/Sample/Coachingapp/core_lib/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />

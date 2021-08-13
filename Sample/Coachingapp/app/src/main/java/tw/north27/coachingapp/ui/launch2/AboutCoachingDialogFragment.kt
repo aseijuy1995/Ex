@@ -11,7 +11,7 @@ import tw.north27.coachingapp.ui.launch2.basic.Launch2Activity
 
 class AboutCoachingDialogFragment : BaseDialogFragment<FragmentAboutCoachingDialogBinding>(R.layout.fragment_about_coaching_dialog) {
 
-    override val viewBind: (View) -> FragmentAboutCoachingDialogBinding
+    override val bind: (View) -> FragmentAboutCoachingDialogBinding
         get() = FragmentAboutCoachingDialogBinding::bind
 
     private val launch2Act: Launch2Activity

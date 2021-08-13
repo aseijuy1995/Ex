@@ -11,7 +11,7 @@ import tw.north27.coachingapp.databinding.FragmentNoticeBinding
 
 class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_notice) {
 
-    override val viewBind: (View) -> FragmentNoticeBinding
+    override val bind: (View) -> FragmentNoticeBinding
         get() = FragmentNoticeBinding::bind
 
     private val launch2Act: Launch2Activity
@@ -25,7 +25,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(R.layout.fragment_not
 //
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        launch2Act.doubleClickToExit()
+//        launch2Act.doubleClickToExit()
 //        binding.apply {
 //            lifecycleOwner = viewLifecycleOwner
 //            viewModel = this@NoticeFragment.viewModel

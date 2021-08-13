@@ -1,6 +1,7 @@
 package tw.north27.coachingapp.ui.launch2.basic
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.*
 import androidx.lifecycle.lifecycleScope
@@ -24,7 +25,7 @@ import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.ActivityLaunch2Binding
 import tw.north27.coachingapp.viewModel.PublicViewModel
 
-class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLaunch2Binding::inflate) {
+class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>() {
 
     private val navFragment: NavHostFragment
         get() = (supportFragmentManager.findFragmentById(R.id.fcv_launch2) as NavHostFragment)
@@ -138,5 +139,8 @@ class Launch2Activity : BaseAppCompatActivity<ActivityLaunch2Binding>(ActivityLa
     }
 
     override fun onSupportNavigateUp(): Boolean = super.onSupportNavigateUp() || navController.navigateUp()
+
+    override val inflate: (LayoutInflater) -> ActivityLaunch2Binding
+        get() = ActivityLaunch2Binding::inflate
 
 }

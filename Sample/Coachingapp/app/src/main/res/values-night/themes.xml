@@ -1,14 +1,14 @@
 <resources>
     <!-- Base application theme. -->
     <style name="Theme.Coachingapp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/blue_a4d8f1</item>
+        <item name="colorPrimary">@color/blue_025196</item>
         <item name="colorPrimaryDark">?attr/colorPrimary</item>>
-        <item name="colorPrimaryVariant">@color/blue_b5e1f3</item>
-        <item name="colorOnPrimary">@color/blue_b5e1f3</item>>
+        <item name="colorPrimaryVariant">@color/yellow_fdb338</item>
+        <item name="colorOnPrimary">?attr/colorPrimaryVariant</item>>
         <!-- Second -->
-        <item name="colorSecondary">@color/blue_a4d8f1</item>
-        <item name="colorSecondaryVariant">@color/blue_b5e1f3</item>
-        <item name="colorOnSecondary">@color/blue_b5e1f3</item>
+        <item name="colorSecondary">@color/blue_025196</item>
+        <item name="colorSecondaryVariant">@color/yellow_fdb338</item>
+        <item name="colorOnSecondary">?attr/colorSecondaryVariant</item>
     </style>
 
     <!-- Global -->

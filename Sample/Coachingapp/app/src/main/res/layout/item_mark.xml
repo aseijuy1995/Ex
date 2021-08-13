@@ -6,12 +6,12 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="20sp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="20sp"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
@@ -23,7 +23,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="20sp"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
@@ -35,7 +35,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="20sp"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
@@ -47,7 +47,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="20sp"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
@@ -59,7 +59,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="20sp"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
@@ -71,7 +71,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="20sp"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
@@ -83,7 +83,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="20sp"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
@@ -95,7 +95,7 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="20sp"
             android:layout_weight="1"
             android:fontFamily="cursive"
             android:gravity="center"
@@ -109,36 +109,36 @@
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
-        android:layout_height="16sp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="16sp"
             android:layout_weight="1"
             android:src="@drawable/ic_twotone_school_24_red" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="16sp"
             android:layout_weight="1"
             android:src="@drawable/ic_twotone_question_answer_24_orange" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="16sp"
             android:layout_weight="1"
             android:src="@drawable/ic_twotone_chrome_reader_mode_24_yellow" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="16sp"
             android:layout_weight="1"
             android:src="@drawable/ic_twotone_notifications_24_green" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="16sp"
             android:layout_weight="1"
             android:src="@drawable/ic_twotone_person_24_blue" />
 

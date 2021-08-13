@@ -7,23 +7,22 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
 import com.yujie.core_lib.R
-import com.yujie.core_lib.base.ext.viewBinding
 
 abstract class BaseDialogFragment<T : ViewBinding>(layoutId: Int) : DialogFragment(layoutId) {
 
-		abstract val viewBind: (View) -> T
+    abstract val bind: (View) -> T
 
-		protected val binding by viewBinding(viewBind)
+    protected val binding by viewBinding { bind.invoke(it) }
 
-		protected val cxt: Context
-				get() = requireContext()
+    protected val cxt: Context
+        get() = requireContext()
 
-		protected val act: FragmentActivity
-				get() = requireActivity()
+    protected val act: FragmentActivity
+        get() = requireActivity()
 
-		override fun onCreate(savedInstanceState: Bundle?) {
-				super.onCreate(savedInstanceState)
-				setStyle(STYLE_NORMAL, R.style.DialogTheme_Transparent)
-				isCancelable = false
-		}
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.DialogTheme_Transparent)
+        isCancelable = false
+    }
 }

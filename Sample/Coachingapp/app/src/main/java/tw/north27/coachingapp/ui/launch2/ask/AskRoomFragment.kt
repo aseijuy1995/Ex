@@ -23,7 +23,7 @@ import tw.north27.coachingapp.viewModel.AskRoomViewModel
 
 class AskRoomFragment : BaseFragment<FragmentAskRoomBinding>(R.layout.fragment_ask_room) {
 
-    override val viewBind: (View) -> FragmentAskRoomBinding
+    override val bind: (View) -> FragmentAskRoomBinding
         get() = FragmentAskRoomBinding::bind
 
     private val viewModel by viewModel<AskRoomViewModel>()

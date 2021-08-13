@@ -27,7 +27,7 @@ import java.util.*
 
 class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment_personal) {
 
-    override val viewBind: (View) -> FragmentPersonalBinding
+    override val bind: (View) -> FragmentPersonalBinding
         get() = FragmentPersonalBinding::bind
 
     private val launch2Act: Launch2Activity
@@ -39,7 +39,7 @@ class PersonalFragment : BaseFragment<FragmentPersonalBinding>(R.layout.fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        launch2Act.doubleClickToExit()
+//        launch2Act.doubleClickToExit()
         binding.apply {
             ctlLayout.apply {
                 setCollapsedTitleTextColor(AppCompatResources.getColorStateList(cxt, R.color.white))

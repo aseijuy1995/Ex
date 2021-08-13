@@ -21,15 +21,15 @@ import tw.north27.coachingapp.NavGraphLaunchDirections
 import tw.north27.coachingapp.R
 import tw.north27.coachingapp.databinding.FragmentStartBinding
 import tw.north27.coachingapp.ext.updateApp
-import tw.north27.coachingapp.model.response.SignCode
 import tw.north27.coachingapp.model.response.AppCode
+import tw.north27.coachingapp.model.response.SignCode
 import tw.north27.coachingapp.ui.launch2.basic.Launch2Activity
 import tw.north27.coachingapp.viewModel.PublicViewModel
 import tw.north27.coachingapp.viewModel.StartViewModel
 
 class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start) {
 
-    override val viewBind: (View) -> FragmentStartBinding
+    override val bind: (View) -> FragmentStartBinding
         get() = FragmentStartBinding::bind
 
     private val publicVM by sharedViewModel<PublicViewModel>()
@@ -38,7 +38,6 @@ class StartFragment : BaseFragment<FragmentStartBinding>(R.layout.fragment_start
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         publicVM.appConfigState.observe(viewLifecycleOwner) {
             binding.itemIcon.svkView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
             when (it) {

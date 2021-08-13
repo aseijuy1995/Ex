@@ -12,7 +12,7 @@ import tw.north27.coachingapp.ui.launch2.basic.Launch2Activity
 
 class CommonProblemFragment : BaseFragment<FragmentCommonProblemBinding>(R.layout.fragment_common_problem) {
 
-    override val viewBind: (View) -> FragmentCommonProblemBinding
+    override val bind: (View) -> FragmentCommonProblemBinding
         get() = FragmentCommonProblemBinding::bind
 
     private val launch2Act: Launch2Activity

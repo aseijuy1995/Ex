@@ -31,7 +31,7 @@ import tw.north27.coachingapp.viewModel.TeacherDetailViewModel
 
 class TeacherDetailDialogFragment : BaseDialogFragment<FragmentTeacherDetailDialogBinding>(R.layout.fragment_teacher_detail_dialog) {
 
-    override val viewBind: (View) -> FragmentTeacherDetailDialogBinding
+    override val bind: (View) -> FragmentTeacherDetailDialogBinding
         get() = FragmentTeacherDetailDialogBinding::bind
     private val publicVM by sharedViewModel<PublicViewModel>()
     private val viewModel by viewModel<TeacherDetailViewModel>()

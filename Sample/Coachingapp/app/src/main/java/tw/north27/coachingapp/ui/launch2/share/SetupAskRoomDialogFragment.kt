@@ -17,7 +17,7 @@ import tw.north27.coachingapp.viewModel.SetupAskRoomViewModel
 
 class SetupAskRoomDialogFragment : BaseDialogFragment<FragmentSetupAskRoomDialogBinding>(R.layout.fragment_setup_ask_room_dialog) {
 
-    override val viewBind: (View) -> FragmentSetupAskRoomDialogBinding
+    override val bind: (View) -> FragmentSetupAskRoomDialogBinding
         get() = FragmentSetupAskRoomDialogBinding::bind
 
     private val viewModel by viewModel<SetupAskRoomViewModel>()

@@ -10,7 +10,7 @@ import tw.north27.coachingapp.databinding.FragmentExplainDetailBinding
 
 class ExplainDetailFragment : BaseFragment<FragmentExplainDetailBinding>(R.layout.fragment_explain_detail) {
 
-    override val viewBind: (View) -> FragmentExplainDetailBinding
+    override val bind: (View) -> FragmentExplainDetailBinding
         get() = FragmentExplainDetailBinding::bind
 
     private val type: Int

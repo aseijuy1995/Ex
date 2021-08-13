@@ -17,8 +17,45 @@
                 <item
                     android:color="#FFFFFF"
                     android:offset="0.0" />
+
                 <item
-                    android:color="#FAC230"
+                    android:color="#FFFFFF"
+                    android:offset="0.1" />
+
+                <item
+                    android:color="#FFFFFF"
+                    android:offset="0.2" />
+
+                <item
+                    android:color="#FFFFFF"
+                    android:offset="0.3" />
+
+                <item
+                    android:color="#FECA73"
+                    android:offset="0.4" />
+
+                <item
+                    android:color="#FECA73"
+                    android:offset="0.5" />
+
+                <item
+                    android:color="#FDBA4C"
+                    android:offset="0.6" />
+
+                <item
+                    android:color="#FDBA4C"
+                    android:offset="0.7" />
+
+                <item
+                    android:color="#FDAD2B"
+                    android:offset="0.8" />
+
+                <item
+                    android:color="#FD9F07"
+                    android:offset="0.9" />
+
+                <item
+                    android:color="#E08B02"
                     android:offset="1.0" />
 
             </gradient>

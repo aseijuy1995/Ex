@@ -17,7 +17,7 @@ import tw.north27.coachingapp.viewModel.PersonalViewModel
 
 class ReflectDialogFragment : BaseDialogFragment<FragmentReflectDialogBinding>(R.layout.fragment_reflect_dialog) {
 
-    override val viewBind: (View) -> FragmentReflectDialogBinding
+    override val bind: (View) -> FragmentReflectDialogBinding
         get() = FragmentReflectDialogBinding::bind
 
     private val viewModel by viewModel<PersonalViewModel>()

@@ -1,6 +1,7 @@
 package tw.north27.coachingapp.viewModel
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.yujie.core_lib.base.BaseAndroidViewModel
@@ -26,23 +27,30 @@ class PublicViewModel(
     private val clientRepo: IClientRepository,
 ) : BaseAndroidViewModel(application) {
 
-    private val _bgRes: MutableLiveData<Int> by lazy {
-        val list = listOf<Int>(
-            R.drawable.ic_launch_bg1,
-            R.drawable.ic_launch_bg2,
-            R.drawable.ic_launch_bg3,
-            R.drawable.ic_launch_bg4,
-            R.drawable.ic_launch_bg5,
-            R.drawable.ic_launch_bg6,
-            R.drawable.ic_launch_bg7,
-            R.drawable.ic_launch_bg8,
-            R.drawable.ic_launch_bg9,
-            R.drawable.ic_launch_bg10,
-        )
-        MutableLiveData<Int>(list[list.indices.random()])
-    }
+    private val _bgRes: MutableLiveData<Int>
+        get() {
+            val list = listOf<Int>(
+//                R.drawable.ic_launch_bg1,
+//                R.drawable.ic_launch_bg2,
+//                R.drawable.ic_launch_bg3,
+//                R.drawable.ic_launch_bg4,
+//                R.drawable.ic_launch_bg5,
+//                R.drawable.ic_launch_bg6,
+//                R.drawable.ic_launch_bg7,
+//                R.drawable.ic_launch_bg8,
+//                R.drawable.ic_launch_bg9,
+//                R.drawable.ic_launch_bg10,
+                R.drawable.ic_launch_bg11,
+                R.drawable.ic_launch_bg12,
+                R.drawable.ic_launch_bg13,
+                R.drawable.ic_launch_bg14,
+                R.drawable.ic_launch_bg15,
+            )
+            return MutableLiveData(list[list.indices.random()])
+        }
 
-    val bgRes = _bgRes.asLiveData()
+    val bgRes: LiveData<Int>
+        get() = _bgRes.asLiveData()
 
     private val _appConfigState = MutableLiveData<ViewState<AppConfig>>(ViewState.initial())
 

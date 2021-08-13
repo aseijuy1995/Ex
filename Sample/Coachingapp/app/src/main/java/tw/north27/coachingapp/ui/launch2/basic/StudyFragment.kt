@@ -8,7 +8,7 @@ import tw.north27.coachingapp.databinding.FragmentStudyBinding
 
 class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study) {
 
-    override val viewBind: (View) -> FragmentStudyBinding
+    override val bind: (View) -> FragmentStudyBinding
         get() = FragmentStudyBinding::bind
 
     private val launch2Act: Launch2Activity
@@ -16,7 +16,7 @@ class StudyFragment : BaseFragment<FragmentStudyBinding>(R.layout.fragment_study
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        launch2Act.doubleClickToExit()
+//        launch2Act.doubleClickToExit()
     }
 
 

@@ -5,17 +5,16 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewbinding.ViewBinding
-import com.yujie.core_lib.base.ext.viewBinding
 
 abstract class BaseFragment<T : ViewBinding>(layoutId: Int) : Fragment(layoutId) {
 
-		abstract val viewBind: (View) -> T
+    abstract val bind: (View) -> T
 
-		protected val binding by viewBinding(viewBind)
+    protected val binding by viewBinding { bind.invoke(it) }
 
-		protected val cxt: Context
-				get() = requireContext()
+    protected val cxt: Context
+        get() = requireContext()
 
-		protected val act: FragmentActivity
-				get() = requireActivity()
+    protected val act: FragmentActivity
+        get() = requireActivity()
 }

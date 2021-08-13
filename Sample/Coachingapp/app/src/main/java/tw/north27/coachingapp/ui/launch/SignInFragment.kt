@@ -24,16 +24,17 @@ import tw.north27.coachingapp.ui.launch2.basic.Launch2Activity
 import tw.north27.coachingapp.ui.launch2.share.LoadingDialogFragment
 import tw.north27.coachingapp.viewModel.SignInViewModel
 
+
 class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sign_in) {
 
-    override val viewBind: (View) -> FragmentSignInBinding
+    override val bind: (View) -> FragmentSignInBinding
         get() = FragmentSignInBinding::bind
 
     private val viewModel by viewModel<SignInViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        //
         viewModel.signInState.observe(viewLifecycleOwner) {
             binding.itemIcon.svkView.isVisible = (it !is ViewState.Initial) and (it is ViewState.Load)
             if (it is ViewState.Load) LoadingDialogFragment.show(parentFragmentManager)

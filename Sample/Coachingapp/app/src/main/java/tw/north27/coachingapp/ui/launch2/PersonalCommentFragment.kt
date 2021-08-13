@@ -28,7 +28,7 @@ import tw.north27.coachingapp.viewModel.PersonalViewModel
 
 class PersonalCommentFragment : BaseFragment<FragmentPersonalCommentBinding>(R.layout.fragment_personal_comment) {
 
-    override val viewBind: (View) -> FragmentPersonalCommentBinding
+    override val bind: (View) -> FragmentPersonalCommentBinding
         get() = FragmentPersonalCommentBinding::bind
 
     private val launch2Act: Launch2Activity
